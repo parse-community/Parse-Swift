@@ -14,13 +14,14 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct Installation: ParseInstallation {
-    //: These are required for `ParseObject`.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
-    //: These are required for `ParseInstallation`.
+    //: These are required by `ParseInstallation`.
     var installationId: String?
     var deviceType: String?
     var deviceToken: String?
@@ -35,19 +36,30 @@ struct Installation: ParseInstallation {
 
     //: Your custom keys
     var customKey: String?
+
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
+            updated.customKey = object.customKey
+        }
+        return updated
+    }
 }
 
 /*: Save your first `customKey` value to your `ParseInstallation`.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue.
+    returns to main queue. Note that this may be the first time you
+    are saving your Installation.
  */
-Installation.current?.customKey = "myCustomInstallationKey2"
-Installation.current?.save { results in
+let currentInstallation = Installation.current
+currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):
-        print("Successfully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
+        print("Successfully saved Installation to ParseServer: \(updatedInstallation)")
     case .failure(let error):
         print("Failed to update installation: \(error)")
     }
@@ -58,8 +70,9 @@ Installation.current?.save { results in
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
  */
-Installation.current?.customKey = "updatedValue"
-Installation.current?.save { results in
+var installationToUpdate = Installation.current?.mergeable
+installationToUpdate?.customKey = "myCustomInstallationKey2"
+installationToUpdate?.save { results in
 
     switch results {
     case .success(let updatedInstallation):

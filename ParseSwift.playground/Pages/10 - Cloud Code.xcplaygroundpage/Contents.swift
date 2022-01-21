@@ -14,13 +14,28 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed `ParseCloud` type.
-struct Cloud: ParseCloud {
+struct Hello: ParseCloud {
 
     //: Return type of your Cloud Function
     typealias ReturnType = String
 
-    //: These are required for Object
-    var functionJobName: String
+    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: to use.
+    var functionJobName: String = "hello"
+
+    //: If your cloud function takes arguments, they can be passed by creating properties:
+    //var argument1: [String: Int] = ["test": 5]
+}
+
+//: Create another `ParseCloud` type.
+struct TestCloudCode: ParseCloud {
+
+    //: Return type of your Cloud Function
+    typealias ReturnType = String
+
+    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: to use.
+    var functionJobName: String = "testCloudCode"
 
     //: If your cloud function takes arguments, they can be passed by creating properties:
     //var argument1: [String: Int] = ["test": 5]
@@ -32,9 +47,9 @@ struct Cloud: ParseCloud {
        return 'Hello world!';
      });
  */
-let cloud = Cloud(functionJobName: "hello")
+let hello = Hello()
 
-cloud.runFunction { result in
+hello.runFunction { result in
     switch result {
     case .success(let response):
         print("Response from cloud function: \(response)")
@@ -50,9 +65,9 @@ cloud.runFunction { result in
         throw new Parse.Error(3000, "cloud has an error on purpose.");
      });
  */
-let cloudError = Cloud(functionJobName: "testCloudCode")
+let testCloudCode = TestCloudCode()
 
-cloudError.runFunction { result in
+testCloudCode.runFunction { result in
     switch result {
     case .success:
         assertionFailure("Should have thrown a custom error")
@@ -86,18 +101,33 @@ cloudError.runFunction { result in
 //: Saving objects with context for beforeSave, afterSave, etc.
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -106,7 +136,7 @@ struct GameScore: ParseObject {
 }
 
 //: Define a GameScore.
-let score = GameScore(score: 10)
+let score = GameScore(points: 10)
 
 //: Save asynchronously (preferred way) with the context option.
 score.save(options: [.context(["hello": "world"])]) { result in

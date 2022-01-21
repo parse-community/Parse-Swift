@@ -10,9 +10,9 @@
 import Foundation
 import Combine
 
-// MARK: Convenience Implementations - Combine
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseAuthentication {
+
+    // MARK: Convenience Implementations - Combine
 
     func unlinkPublisher(_ user: AuthenticatedUser,
                          options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
@@ -30,7 +30,6 @@ public extension ParseAuthentication {
     }
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseUser {
 
     // MARK: 3rd Party Authentication - Login Combine
@@ -91,7 +90,6 @@ public extension ParseUser {
                       completion: promise)
         }
     }
-
 }
 
 #endif

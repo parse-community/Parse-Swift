@@ -25,12 +25,11 @@ public protocol ParseRole: ParseObject {
      and cannot be set once the role has been saved.
      - warning: A role's name can only contain alphanumeric characters, `_`, `-`, and spaces.
      */
-    var name: String { get set }
+    var name: String? { get set }
 
     /**
      Create a `ParseRole`. It's best to use the provided initializers, `init(name: String)`
-     or `init(name: String, acl: ParseACL)`. The provided initializers will overwrite
-     whatever name is specified here, so you can use `self.name = ""`
+     or `init(name: String, acl: ParseACL)`. 
      */
     init()
 }
@@ -44,11 +43,12 @@ public extension ParseRole {
     /**
      Create a `ParseRole` with a name. The `ParseACL` will still need to be initialized before saving.
      - parameter name: The name of the Role to create.
-     - throws: `ParseError` if the name has invalid characters.
+     - throws: An error of type `ParseError`. if the name has invalid characters.
      */
     init(name: String) throws {
         try Self.checkName(name)
         self.init()
+        self.name = name
     }
 
     /**
@@ -56,7 +56,7 @@ public extension ParseRole {
      - parameter name: The name of the Role to create.
      - parameter acl: The `ParseACL` for this role. Roles must have an ACL.
      A `ParseRole` is a local representation of a role persisted to the Parse Server.
-     - throws: `ParseError` if the name has invalid characters.
+     - throws: An error of type `ParseError`. if the name has invalid characters.
      */
     init(name: String, acl: ParseACL) throws {
         try Self.checkName(name)

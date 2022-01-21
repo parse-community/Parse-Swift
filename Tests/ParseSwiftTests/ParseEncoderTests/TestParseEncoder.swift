@@ -62,14 +62,12 @@ class TestParseEncoder: XCTestCase {
     _testRoundTrip(of: address)
   }
 
-    #if !os(Linux) && !os(Android)
   func testEncodingTopLevelStructuredClass() {
     // Person is a class with multiple fields.
-    let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
+    let expectedJSON = "{\"email\":\"appleseed@apple.com\",\"name\":\"Johnny Appleseed\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }
-    #endif
 
   func testEncodingTopLevelStructuredSingleStruct() {
     // Numbers is a struct which encodes as an array through a single value container.
@@ -102,7 +100,7 @@ class TestParseEncoder: XCTestCase {
     _testRoundTrip(of: EnhancedBool.fileNotFound, expectedJSON: "null".data(using: .utf8)!)
   }
 
-    #if !os(Linux) && !os(Android)
+#if !os(Linux) && !os(Android) && !os(Windows)
   func testEncodingMultipleNestedContainersWithTheSameTopLevelKey() {
     struct Model: Codable, Equatable {
       let first: String
@@ -159,7 +157,6 @@ class TestParseEncoder: XCTestCase {
     }
   }
     #endif
-
     /*
   func testEncodingConflictedTypeNestedContainersWithTheSameTopLevelKey() throws {
     struct Model: Encodable, Equatable {
@@ -202,13 +199,11 @@ class TestParseEncoder: XCTestCase {
   }*/
 
   // MARK: - Output Formatting Tests
-    #if !os(Linux) && !os(Android)
   func testEncodingOutputFormattingDefault() {
-    let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
+    let expectedJSON = "{\"email\":\"appleseed@apple.com\",\"name\":\"Johnny Appleseed\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }
-    #endif
 /*
   func testEncodingOutputFormattingPrettyPrinted() {
     let expectedJSON = "{\n  \"name\" : \"Johnny Appleseed\",\n  \"email\" : \"appleseed@apple.com\"\n}".data(using: .utf8)!
@@ -233,7 +228,7 @@ class TestParseEncoder: XCTestCase {
   }*/
 
   // MARK: - Date Strategy Tests
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
   // Disabled for now till we resolve rdar://52618414
   func x_testEncodingDate() throws {
 
@@ -858,7 +853,6 @@ class TestParseEncoder: XCTestCase {
   }
 /*
   func testInterceptURLWithoutEscapingOption() {
-    if #available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *) {
       // Want to make sure JSONEncoder writes out single-value URLs, not the keyed encoding.
       let expectedJSON = "\"http://swift.org\"".data(using: .utf8)!
       let url = URL(string: "http://swift.org")!
@@ -866,7 +860,6 @@ class TestParseEncoder: XCTestCase {
 
       // Optional URLs should encode the same way.
       _testRoundTrip(of: Optional(url), expectedJSON: expectedJSON, outputFormatting: [.withoutEscapingSlashes])
-    }
   }*/
 
   // MARK: - Type coercion
@@ -897,6 +890,7 @@ class TestParseEncoder: XCTestCase {
     _testRoundTripTypeCoercionFailure(of: [0.0, 1.0] as [Double], as: [Bool].self)
   }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
   func testDecodingConcreteTypeParameter() {
       let encoder = ParseEncoder()
       guard let json = try? encoder.encode(Employee.testValue) else {
@@ -911,6 +905,7 @@ class TestParseEncoder: XCTestCase {
       }
     XCTAssertTrue(type(of: decoded) == Employee.self, "Expected decoded value to be of type Employee; got \(type(of: decoded)) instead.")
   }
+    #endif
 
   // MARK: - Encoder State
   // SR-6078
@@ -1079,7 +1074,6 @@ func XCTAssertEqualPaths(_ lhs: [CodingKey], _ rhs: [CodingKey], _ prefix: Strin
 }
 
 // MARK: - Test Types
-/* FIXME: Import from %S/Inputs/Coding/SharedTypes.swift somehow. */
 
 // MARK: - Empty Types
 private struct EmptyStruct: Codable, Equatable {

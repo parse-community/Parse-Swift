@@ -14,16 +14,37 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed `ParseObject`.
-struct Book: ParseObject {
-    //: Those are required for Object
+struct Book: ParseObject, ParseQueryScorable {
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-    var relatedBook: Pointer<Book>?
+    var score: Double?
+    var originalData: Data?
 
     //: Your own properties.
     var title: String?
+    var relatedBook: Pointer<Book>?
+
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.title,
+                                     original: object) {
+            updated.title = object.title
+        }
+        if updated.shouldRestoreKey(\.relatedBook,
+                                     original: object) {
+            updated.relatedBook = object.relatedBook
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension Book {
 
     init(title: String) {
         self.title = title
@@ -31,17 +52,40 @@ struct Book: ParseObject {
 }
 
 struct Author: ParseObject {
-    //: Those are required for Object.
+    //: These are required by ParseObject.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var name: String
-    var book: Book
+    var name: String?
+    var book: Book?
     var otherBooks: [Book]?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        if updated.shouldRestoreKey(\.book,
+                                     original: object) {
+            updated.book = object.book
+        }
+        if updated.shouldRestoreKey(\.otherBooks,
+                                     original: object) {
+            updated.otherBooks = object.otherBooks
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension Author {
     init(name: String, book: Book) {
         self.name = name
         self.book = book
@@ -57,7 +101,6 @@ author.save { result in
         assert(savedAuthorAndBook.objectId != nil)
         assert(savedAuthorAndBook.createdAt != nil)
         assert(savedAuthorAndBook.updatedAt != nil)
-        assert(savedAuthorAndBook.ACL == nil)
 
         print("Saved \(savedAuthorAndBook)")
     case .failure(let error):
@@ -76,7 +119,6 @@ author2.save { result in
         assert(savedAuthorAndBook.objectId != nil)
         assert(savedAuthorAndBook.createdAt != nil)
         assert(savedAuthorAndBook.updatedAt != nil)
-        assert(savedAuthorAndBook.ACL == nil)
         assert(savedAuthorAndBook.otherBooks?.count == 2)
 
         //: Notice the pointer objects haven't been updated on the client.
@@ -118,7 +160,9 @@ query2.first { results in
     switch results {
     case .success(let author):
         //: Save the book to use later
-        newBook = author.book
+        if let book = author.book {
+            newBook = book
+        }
 
         print("Found author and included \"book\": \(author)")
 
@@ -163,7 +207,7 @@ do {
     print("\(error)")
 }
 
-//: Here's an example of saving Pointers as properties
+//: Here's an example of saving Pointers as properties.
 do {
     //: First we query
     let query5 = try Author.query("book" == newBook)
@@ -172,17 +216,17 @@ do {
     query5.first { results in
         switch results {
         case .success(let author):
-            print("Found author and included all: \(author)")
+            print("Found author and included \"book\": \(author)")
             //: Setup related books.
-            newBook.relatedBook = try? author.otherBooks?.first?.toPointer()
+            var modifiedNewBook = newBook.mergeable
+            modifiedNewBook.relatedBook = try? author.otherBooks?.first?.toPointer()
 
-            newBook.save { result in
+            modifiedNewBook.save { result in
                 switch result {
                 case .success(let updatedBook):
                     assert(updatedBook.objectId != nil)
                     assert(updatedBook.createdAt != nil)
                     assert(updatedBook.updatedAt != nil)
-                    assert(updatedBook.ACL == nil)
                     assert(updatedBook.relatedBook != nil)
 
                     print("Saved \(updatedBook)")
@@ -190,6 +234,26 @@ do {
                     assertionFailure("Error saving: \(error)")
                 }
             }
+        case .failure(let error):
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+} catch {
+    print("\(error)")
+}
+
+//: Here's an example of querying using matchesText.
+do {
+    let query6 = try Book.query(matchesText(key: "title",
+                                            text: "like",
+                                            options: [:]))
+        .include(["*"])
+        .sortByTextScore()
+
+    query6.find { results in
+        switch results {
+        case .success(let books):
+            print("Found books and included all: \(books)")
         case .failure(let error):
             assertionFailure("Error querying: \(error)")
         }

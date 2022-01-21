@@ -14,13 +14,14 @@ class ParseAnonymousTests: XCTestCase {
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -35,8 +36,9 @@ class ParseAnonymousTests: XCTestCase {
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -81,7 +83,7 @@ class ParseAnonymousTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -306,9 +308,10 @@ class ParseAnonymousTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.current?.username = "hello"
-        User.current?.password = "world"
-        User.current?.signup { result in
+        var current = User.current
+        current?.username = "hello"
+        current?.password = "world"
+        current?.signup { result in
             switch result {
 
             case .success(let user):
@@ -441,6 +444,46 @@ class ParseAnonymousTests: XCTestCase {
         XCTAssertFalse(signedInUser.anonymous.isLinked)
     }
 
+    func testCantReplaceAnonymousWithDifferentUser() throws {
+        try testLogin()
+        guard let user = User.current else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
+        XCTAssertTrue(user.anonymous.isLinked)
+
+        let expectation1 = XCTestExpectation(description: "SignUp")
+        var differentUser = User()
+        differentUser.objectId = "nope"
+        differentUser.username = "shouldnot"
+        differentUser.password = "work"
+        differentUser.signup { result in
+            if case let .failure(error) = result {
+                XCTAssertEqual(error.code, .unknownError)
+                XCTAssertTrue(error.message.contains("different"))
+            } else {
+                XCTFail("Should have returned error")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testCantReplaceAnonymousWithDifferentUserSync() throws {
+        try testLogin()
+        guard let user = User.current else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
+        XCTAssertTrue(user.anonymous.isLinked)
+
+        var differentUser = User()
+        differentUser.objectId = "nope"
+        differentUser.username = "shouldnot"
+        differentUser.password = "work"
+        XCTAssertThrowsError(try differentUser.signup())
+    }
+
     func testReplaceAnonymousWithBecome() throws { // swiftlint:disable:this function_body_length
         XCTAssertNil(User.current?.objectId)
         try testLogin()
@@ -499,7 +542,7 @@ class ParseAnonymousTests: XCTestCase {
                 XCTAssertEqual(User.current?.updatedAt, becomeUpdatedAt)
                 XCTAssertFalse(User.anonymous.isLinked)
 
-                #if !os(Linux) && !os(Android)
+                #if !os(Linux) && !os(Android) && !os(Windows)
                 //Should be updated in Keychain
                 guard let keychainUser: CurrentUserContainer<BaseParseUser>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {

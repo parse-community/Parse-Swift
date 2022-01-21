@@ -29,7 +29,7 @@ class ParseGeoPointTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -53,6 +53,27 @@ class ParseGeoPointTests: XCTestCase {
         XCTAssertEqual(geoPoint.latitude, location.coordinate.latitude)
         XCTAssertEqual(geoPoint.longitude, location.coordinate.longitude)
     }
+
+    func testGeoPointFromLocationCoordinate2D() throws {
+        let location = CLLocationCoordinate2D(latitude: 10.0, longitude: 20.0)
+        let geoPoint = try ParseGeoPoint(coordinate: location)
+        XCTAssertEqual(geoPoint.latitude, location.latitude)
+        XCTAssertEqual(geoPoint.longitude, location.longitude)
+    }
+
+    func testToCLLocation() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let location = point.toCLLocation()
+        XCTAssertEqual(point.latitude, location.coordinate.latitude)
+        XCTAssertEqual(point.longitude, location.coordinate.longitude)
+    }
+
+    func testToCLLocationCoordinate2D() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let location = point.toCLLocationCoordinate2D()
+        XCTAssertEqual(point.latitude, location.latitude)
+        XCTAssertEqual(point.longitude, location.longitude)
+    }
     #endif
 
     func testGeoPointEncoding() throws {
@@ -67,19 +88,17 @@ class ParseGeoPointTests: XCTestCase {
         }
     }
 
-    #if !os(Linux) && !os(Android)
     func testDebugString() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"longitude\":20,\"latitude\":10})"
+        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
         XCTAssertEqual(point.debugDescription, expected)
     }
 
     func testDescription() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"longitude\":20,\"latitude\":10})"
+        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
         XCTAssertEqual(point.description, expected)
     }
-    #endif
 
     // swiftlint:disable:next function_body_length
     func testGeoUtilityDistance() throws {
@@ -215,4 +234,5 @@ class ParseGeoPointTests: XCTestCase {
         XCTAssertTrue(point.debugDescription.contains("10"))
         XCTAssertTrue(point.debugDescription.contains("20"))
     }
+
 }

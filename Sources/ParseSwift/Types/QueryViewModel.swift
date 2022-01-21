@@ -11,9 +11,10 @@ import Foundation
 
 /**
  A default implementation of the `QueryObservable` protocol. Suitable for `ObjectObserved`
- and can be used as a SwiftUI view model.
+ and can be used as a SwiftUI view model. Also can be used as a Combine publisher. See Apple's
+ [documentation](https://developer.apple.com/documentation/combine/observableobject)
+ for more details.
  */
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 open class QueryViewModel<T: ParseObject>: QueryObservable {
 
     public var query: Query<T>
@@ -23,7 +24,9 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     open var results = [Object]() {
         willSet {
             count = newValue.count
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
 
@@ -32,7 +35,9 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
         willSet {
             error = nil
             if newValue != results.count {
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }
@@ -43,7 +48,9 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
             if newValue != nil {
                 results.removeAll()
                 count = results.count
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }
@@ -113,7 +120,6 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
 }
 
 // MARK: QueryViewModel
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
 
     /**

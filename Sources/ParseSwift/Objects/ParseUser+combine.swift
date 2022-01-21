@@ -10,10 +10,9 @@
 import Foundation
 import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseUser {
 
-    // MARK: Signing Up - Combine
+    // MARK: Combine
     /**
      Signs up the user *asynchronously* and publishes value.
 
@@ -52,7 +51,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Logging In - Combine
     /**
      Makes an *asynchronous* request to log in a user with specified credentials.
      Publishes an instance of the successfully logged in `ParseUser`.
@@ -90,7 +88,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Logging Out - Combine
     /**
      Logs out the currently logged in user *asynchronously*. Publishes when complete.
 
@@ -105,7 +102,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Password Reset - Combine
     /**
      Requests *asynchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely reset their password on the web.
@@ -121,7 +117,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Verification Email Request - Combine
     /**
      Requests *asynchronously* a verification email be sent to the specified email address
      associated with the user account. Publishes when complete.
@@ -136,7 +131,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Fetchable - Combine
     /**
      Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.
@@ -146,6 +140,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetchPublisher(includeKeys: [String]? = nil,
                         options: API.Options = []) -> Future<Self, ParseError> {
@@ -156,36 +152,75 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Savable - Combine
     /**
      Saves the `ParseUser` *asynchronously* and publishes when complete.
 
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoringCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func savePublisher(options: API.Options = [],
-                       isIgnoreCustomObjectIdConfig: Bool = false) -> Future<Self, ParseError> {
+                       ignoringCustomObjectIdConfig: Bool = false) -> Future<Self, ParseError> {
         Future { promise in
-            self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+            self.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                       options: options,
                       completion: promise)
         }
     }
 
-    // MARK: Deletable - Combine
+    /**
+     Creates the `ParseUser` *asynchronously* and publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func createPublisher(options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            self.create(options: options,
+                        completion: promise)
+        }
+    }
+
+    /**
+     Replaces the `ParseUser` *asynchronously* and publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - important: If an object replaced has the same objectId as current, it will automatically replace the current.
+    */
+    func replacePublisher(options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            self.replace(options: options,
+                         completion: promise)
+        }
+    }
+
+    /**
+     Updates the `ParseUser` *asynchronously* and publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - important: If an object updated has the same objectId as current, it will automatically update the current.
+    */
+    internal func updatePublisher(options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            self.update(options: options,
+                        completion: promise)
+        }
+    }
+
     /**
      Deletes the `ParseUser` *asynchronously* and publishes when complete.
 
@@ -200,8 +235,6 @@ public extension ParseUser {
     }
 }
 
-// MARK: Batch Support - Combine
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets
@@ -210,7 +243,8 @@ public extension Sequence where Element: ParseUser {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a fetch was
+     successful or a `ParseError` if it failed.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetchAllPublisher(includeKeys: [String]? = nil,
@@ -229,35 +263,115 @@ public extension Sequence where Element: ParseUser {
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a save was
+     successful or a `ParseError` if it failed.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoringCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
-                          transaction: Bool = false,
-                          isIgnoreCustomObjectIdConfig: Bool = false,
+                          transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                          ignoringCustomObjectIdConfig: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
-                         isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                         ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                          options: options,
                          completion: promise)
+        }
+    }
+
+    /**
+     Creates a collection of users *asynchronously* and publishes when complete.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a save was
+     successful or a `ParseError` if it failed.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+    */
+    func createAllPublisher(batchLimit limit: Int? = nil,
+                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                            options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
+        Future { promise in
+            self.createAll(batchLimit: limit,
+                           transaction: transaction,
+                           options: options,
+                           completion: promise)
+        }
+    }
+
+    /**
+     Replaces a collection of users *asynchronously* and publishes when complete.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a save was
+     successful or a `ParseError` if it failed.
+     - important: If an object replaced has the same objectId as current, it will automatically replace the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+    */
+    func replaceAllPublisher(batchLimit limit: Int? = nil,
+                             transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                             options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)],
+                                                                    ParseError> {
+        Future { promise in
+            self.replaceAll(batchLimit: limit,
+                           transaction: transaction,
+                           options: options,
+                           completion: promise)
+        }
+    }
+
+    /**
+     Updates a collection of users *asynchronously* and publishes when complete.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a save was
+     successful or a `ParseError` if it failed.
+     - important: If an object updated has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+    */
+    internal func updateAllPublisher(batchLimit limit: Int? = nil,
+                                     transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                     options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)],
+                                                                            ParseError> {
+        Future { promise in
+            self.updateAll(batchLimit: limit,
+                           transaction: transaction,
+                           options: options,
+                           completion: promise)
         }
     }
 
@@ -269,14 +383,15 @@ public extension Sequence where Element: ParseUser {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: A publisher that eventually produces an an array of Result enums with `nil` if a delete was
+     successful or a `ParseError` if it failed.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
     func deleteAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = false,
+                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                             options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
             self.deleteAll(batchLimit: limit,

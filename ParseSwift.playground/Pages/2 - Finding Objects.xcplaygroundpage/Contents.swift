@@ -18,16 +18,41 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int?
+    var points: Int?
     var timeStamp: Date? = Date()
     var oldScore: Int?
+    var isHighest: Bool?
+
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.timeStamp,
+                                     original: object) {
+            updated.timeStamp = object.timeStamp
+        }
+        if updated.shouldRestoreKey(\.oldScore,
+                                     original: object) {
+            updated.oldScore = object.oldScore
+        }
+        if updated.shouldRestoreKey(\.isHighest,
+                                     original: object) {
+            updated.isHighest = object.isHighest
+        }
+        return updated
+    }
 }
 
 var score = GameScore()
-score.score = 200
+score.points = 200
 score.oldScore = 10
+score.isHighest = true
 do {
     try score.save()
 } catch {
@@ -35,9 +60,9 @@ do {
 }
 
 let afterDate = Date().addingTimeInterval(-300)
-var query = GameScore.query("score" > 50,
+var query = GameScore.query("points" > 50,
                             "createdAt" > afterDate)
-    .order([.descending("score")])
+    .order([.descending("points")])
 
 //: Query asynchronously (preferred way) - Performs work on background
 //: queue and returns to specified callbackQueue.
@@ -47,21 +72,25 @@ query.limit(2).find(callbackQueue: .main) { results in
     case .success(let scores):
 
         assert(scores.count >= 1)
-        scores.forEach { (score) in
+        scores.forEach { score in
             guard let createdAt = score.createdAt else { fatalError() }
             assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
             print("Found score: \(score)")
         }
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if error.equalsTo(.objectNotFound) {
+            assertionFailure("Object not found for this query")
+        } else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 
 //: Query synchronously (not preferred - all operations on main queue).
 let results = try query.find()
 assert(results.count >= 1)
-results.forEach { (score) in
+results.forEach { score in
     guard let createdAt = score.createdAt else { fatalError() }
     assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
     print("Found score: \(score)")
@@ -80,12 +109,33 @@ query.first { results in
         print("Found score: \(score)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if error.containedIn([.objectNotFound, .invalidQuery]) {
+            assertionFailure("The query is invalid or the object is not found.")
+        } else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 
-//: Query based on relative time. Have to be using mongoDB.
-/*let queryRelative = GameScore.query(relative("createdAt" < "10 minutes ago"))
+//: Query first asynchronously (preferred way) - Performs work on background
+//: queue and returns to specified callbackQueue.
+//: If no callbackQueue is specified it returns to main queue.
+query.withCount { results in
+    switch results {
+    case .success(let (score, count)):
+        print("Found scores: \(score) total amount: \(count)")
+
+    case .failure(let error):
+        if error.containedIn([.objectNotFound, .invalidQuery]) {
+            assertionFailure("The query is invalid or the object is not found.")
+        } else {
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+}
+
+//: Query based on relative time.
+let queryRelative = GameScore.query(relative("createdAt" < "in 10 minutes"))
 queryRelative.find { results in
     switch results {
     case .success(let scores):
@@ -93,12 +143,11 @@ queryRelative.find { results in
         print("Found scores using relative time: \(scores)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        print("Error querying: \(error)")
     }
 }
-*/
 
-let querySelect = query.select("score")
+let querySelect = query.select("points")
 querySelect.first { results in
     switch results {
     case .success(let score):
@@ -109,11 +158,15 @@ querySelect.first { results in
         print("Found score using select: \(score)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if let parseError = error.equalsTo(.objectNotFound) {
+            assertionFailure("Object not found: \(parseError)")
+        } else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 
-let queryExclude = query.exclude("score")
+let queryExclude = query.exclude("points")
 queryExclude.first { results in
     switch results {
     case .success(let score):
@@ -124,7 +177,11 @@ queryExclude.first { results in
         print("Found score using exclude: \(score)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if let parseError = error.containedIn(.objectNotFound, .invalidQuery) {
+            assertionFailure("Matching error found: \(parseError)")
+        } else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 

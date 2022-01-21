@@ -12,7 +12,7 @@ import Foundation
 public struct ParseFileManager {
 
     private var defaultDirectoryAttributes: [FileAttributeKey: Any]? {
-        #if os(macOS) || os(Linux) || os(Android)
+        #if os(macOS) || os(Linux) || os(Android) || os(Windows)
         return nil
         #else
         return [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication]
@@ -21,14 +21,14 @@ public struct ParseFileManager {
 
     private var defaultDataWritingOptions: Data.WritingOptions {
         var options = Data.WritingOptions.atomic
-        #if !os(macOS) && !os(Linux) && !os(Android)
+        #if !os(macOS) && !os(Linux) && !os(Android) && !os(Windows)
             options.insert(.completeFileProtectionUntilFirstUserAuthentication)
         #endif
         return options
     }
 
     private var localSandBoxDataDirectoryPath: URL? {
-        #if os(macOS) || os(Linux) || os(Android)
+        #if os(macOS) || os(Linux) || os(Android) || os(Windows)
         return self.defaultDataDirectoryPath
         #else
         // swiftlint:disable:next line_length
@@ -51,7 +51,7 @@ public struct ParseFileManager {
 
     /// The default directory for storing Parse files.
     public var defaultDataDirectoryPath: URL? {
-        #if os(macOS) || os(Linux) || os(Android)
+        #if os(macOS) || os(Linux) || os(Android) || os(Windows)
         var directoryPath: String!
         let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
         guard let directory = paths.first else {
@@ -87,9 +87,9 @@ public struct ParseFileManager {
     /// Creates an instance of `ParseFileManager`.
     /// - returns: If an instance can't be created, nil is returned.
     public init?() {
-        #if os(Linux) || os(Android)
+        #if os(Linux) || os(Android) || os(Windows)
         let applicationId = ParseSwift.configuration.applicationId
-        applicationIdentifier = "com.parse.ParseSwift.\(applicationId)"
+        applicationIdentifier = "\(ParseConstants.bundlePrefix).\(applicationId)"
         #else
         if let identifier = Bundle.main.bundleIdentifier {
             applicationIdentifier = identifier
@@ -148,11 +148,15 @@ public struct ParseFileManager {
 
     func moveItem(_ fromPath: URL, toPath: URL, completion: @escaping(Error?) -> Void) {
         synchronizationQueue.async {
-            do {
-                try FileManager.default.moveItem(at: fromPath, to: toPath)
+            if fromPath != toPath {
+                do {
+                    try FileManager.default.moveItem(at: fromPath, to: toPath)
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            } else {
                 completion(nil)
-            } catch {
-                completion(error)
             }
         }
     }

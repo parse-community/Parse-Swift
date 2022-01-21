@@ -26,7 +26,7 @@ class ParseBytesTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -39,7 +39,6 @@ class ParseBytesTests: XCTestCase {
         XCTAssertEqual(decoded, bytes)
     }
 
-    #if !os(Linux) && !os(Android)
     func testDebugString() {
         let bytes = ParseBytes(base64: "ZnJveW8=")
         let expected = "ParseBytes ({\"__type\":\"Bytes\",\"base64\":\"ZnJveW8=\"})"
@@ -63,5 +62,4 @@ class ParseBytesTests: XCTestCase {
         let bytes2 = ParseBytes(data: data)
         XCTAssertEqual(bytes2.description, expected)
     }
-    #endif
 }

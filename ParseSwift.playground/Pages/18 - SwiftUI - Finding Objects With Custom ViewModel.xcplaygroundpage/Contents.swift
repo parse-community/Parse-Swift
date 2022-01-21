@@ -19,31 +19,46 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed ParseObject.
-struct GameScore: ParseObject, Identifiable {
+struct GameScore: ParseObject {
 
-    //: Conform to Identifiable for iOS13+
-    var id: String { // swiftlint:disable:this identifier_name
-        guard let objectId = self.objectId else {
-            return UUID().uuidString
-        }
-        return objectId
-    }
-
-    //: These are required for any Object.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int?
     var location: ParseGeoPoint?
     var name: String?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        if updated.shouldRestoreKey(\.location,
+                                     original: object) {
+            updated.location = object.location
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
     }
 }
 
@@ -61,8 +76,8 @@ class ViewModel: ObservableObject {
     }
 
     func fetchScores() {
-        let query = GameScore.query("score" > 2)
-            .order([.descending("score")])
+        let query = GameScore.query("points" > 2)
+            .order([.descending("points")])
         let publisher = query
             .findPublisher()
             .sink(receiveCompletion: { result in
@@ -97,7 +112,7 @@ struct ContentView: View {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
                 List(viewModel.objects, id: \.id) { object in
                     VStack(alignment: .leading) {
-                        Text("Score: \(object.score)")
+                        Text("Points: \(String(describing: object.points))")
                             .font(.headline)
                         if let createdAt = object.createdAt {
                             Text("\(createdAt.description)")

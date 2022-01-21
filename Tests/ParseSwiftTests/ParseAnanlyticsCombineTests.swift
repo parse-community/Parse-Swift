@@ -13,7 +13,6 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseAnanlyticsCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     override func setUpWithError() throws {
@@ -32,7 +31,7 @@ class ParseAnanlyticsCombineTests: XCTestCase { // swiftlint:disable:this type_b
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()

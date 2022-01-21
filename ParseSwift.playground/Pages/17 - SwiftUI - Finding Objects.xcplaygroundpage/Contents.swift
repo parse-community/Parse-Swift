@@ -18,32 +18,51 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed ParseObject.
-struct GameScore: ParseObject, Identifiable {
+struct GameScore: ParseObject {
 
-    //: Conform to Identifiable for iOS13+
-    var id: String { // swiftlint:disable:this identifier_name
-        guard let objectId = self.objectId else {
-            return UUID().uuidString
-        }
-        return objectId
-    }
-
-    //: These are required for any Object.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int?
     var location: ParseGeoPoint?
     var name: String?
     var myFiles: [ParseFile]?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        if updated.shouldRestoreKey(\.myFiles,
+                                     original: object) {
+            updated.myFiles = object.myFiles
+        }
+        if updated.shouldRestoreKey(\.location,
+                                     original: object) {
+            updated.location = object.location
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
     }
 }
 
@@ -53,11 +72,11 @@ struct GameScore: ParseObject, Identifiable {
 struct ContentView: View {
 
     //: A view model in SwiftUI
-    @ObservedObject var viewModel = GameScore.query("score" > 2)
-        .order([.descending("score")])
+    @ObservedObject var viewModel = GameScore.query("points" > 2)
+        .order([.descending("points")])
         .viewModel
     @State var name = ""
-    @State var score = ""
+    @State var points = ""
     @State var isShowingAction = false
     @State var savedLabel = ""
 
@@ -65,14 +84,14 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 TextField("Name", text: $name)
-                TextField("Score", text: $score)
+                TextField("Points", text: $points)
                 Button(action: {
-                    guard let scoreValue = Int(score),
+                    guard let pointsValue = Int(points),
                           let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg") else {
                         return
                     }
                     var score = GameScore(name: name,
-                                          score: scoreValue)
+                                          points: pointsValue)
                     //: Create new `ParseFile` for saving.
                     let file1 = ParseFile(name: "file1.svg",
                                           cloudURL: linkToFile)
@@ -99,7 +118,7 @@ struct ContentView: View {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
                 List(viewModel.results, id: \.id) { result in
                     VStack(alignment: .leading) {
-                        Text("Score: \(result.score)")
+                        Text("Points: \(String(describing: result.points))")
                             .font(.headline)
                         if let createdAt = result.createdAt {
                             Text("\(createdAt.description)")

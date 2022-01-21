@@ -15,23 +15,39 @@ initializeParse()
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object.
+    //: These are required by ParseObject.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
     var location: ParseGeoPoint?
-    //: Your own properties
-    var score: Int?
+    var originalData: Data?
 
-    //: A custom initializer.
-    init(score: Int) {
-        self.score = score
+    //: Your own properties
+    var points: Int?
+
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
+    //: Custom initializer.
+    init(points: Int) {
+        self.points = points
     }
 }
 
 //: Define initial GameScore.
-var score = GameScore(score: 10)
+var score = GameScore(points: 10)
 do {
     try score.location = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
 }
@@ -46,8 +62,7 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.ACL == nil)
-        assert(savedScore.score == 10)
+        assert(savedScore.points == 10)
         assert(savedScore.location != nil)
 
         guard let location = savedScore.location else {
@@ -79,7 +94,7 @@ do {
             scores.forEach { (score) in
                 print("""
                     Someone with objectId \"\(score.objectId!)\"
-                    has a score of \"\(String(describing: score.score))\" near me
+                    has a points value of \"\(String(describing: score.points))\" near me
                 """)
             }
 
@@ -89,11 +104,11 @@ do {
     }
 }
 
-/*: If you only want to query for scores in descending order, use the order enum.
+/*: If you only want to query for points in descending order, use the order enum.
 Notice the "var", the query has to be mutable since it's a value type.
 */
 var querySorted = query
-querySorted.order([.descending("score")])
+querySorted.order([.descending("points")])
 querySorted.find { results in
     switch results {
     case .success(let scores):
@@ -102,7 +117,7 @@ querySorted.find { results in
         scores.forEach { (score) in
             print("""
                 Someone with objectId \"\(score.objectId!)\"
-                has a score of \"\(String(describing: score.score))\" near me
+                has a points value of \"\(String(describing: score.points))\" near me
             """)
         }
 
@@ -111,8 +126,8 @@ querySorted.find { results in
     }
 }
 
-//: If you only want to query for scores > 50, you can add more constraints.
-constraints.append("score" > 9)
+//: If you only want to query for points > 50, you can add more constraints.
+constraints.append("points" > 9)
 var query2 = GameScore.query(constraints)
 query2.find { results in
     switch results {
@@ -122,7 +137,7 @@ query2.find { results in
         scores.forEach { (score) in
             print("""
                 Someone with objectId \"\(score.objectId!)\" has a
-                score of \"\(String(describing: score.score))\" near me which is greater than 9
+                points value of \"\(String(describing: score.points))\" near me which is greater than 9
             """)
         }
 
@@ -131,15 +146,15 @@ query2.find { results in
     }
 }
 
-//: If you want to query for scores > 50 and don't have a `ParseGeoPoint`.
-var query3 = GameScore.query("score" > 50, doesNotExist(key: "location"))
+//: If you want to query for points > 50 and whose location is undefined.
+var query3 = GameScore.query("points" > 50, doesNotExist(key: "location"))
 query3.find { results in
     switch results {
     case .success(let scores):
 
         scores.forEach { (score) in
             print("""
-                Someone has a score of \"\(String(describing: score.score))\"
+                Someone has a points value of \"\(String(describing: score.points))\"
                 with no geopoint \(String(describing: score.location))
             """)
         }
@@ -149,8 +164,26 @@ query3.find { results in
     }
 }
 
-//: If you want to query for scores > 9 and have a `ParseGeoPoint`.
-var query4 = GameScore.query("score" > 9, exists(key: "location"))
+//: If you want to query for points > 50 and whose location is null or undefined.
+var anotherQuery3 = GameScore.query("points" > 50, isNull(key: "location"))
+anotherQuery3.find { results in
+    switch results {
+    case .success(let scores):
+
+        scores.forEach { (score) in
+            print("""
+                Someone has a points value of \"\(String(describing: score.points))\"
+                with no geopoint \(String(describing: score.location))
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+//: If you want to query for points > 9 and whose location is not undefined.
+var query4 = GameScore.query("points" > 9, exists(key: "location"))
 query4.find { results in
     switch results {
     case .success(let scores):
@@ -158,7 +191,7 @@ query4.find { results in
         assert(scores.count >= 1)
         scores.forEach { (score) in
             print("""
-                Someone has a score of \"\(String(describing: score.score))\"
+                Someone has a points of \"\(String(describing: score.points))\"
                 with geopoint \(String(describing: score.location))
             """)
         }
@@ -168,8 +201,27 @@ query4.find { results in
     }
 }
 
-let query5 = GameScore.query("score" == 50)
-let query6 = GameScore.query("score" == 200)
+//: If you want to query for points > 9 and whose location is not null or undefined.
+var anotherQuery4 = GameScore.query("points" > 9, isNotNull(key: "location"))
+anotherQuery4.find { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("""
+                Someone has a points of \"\(String(describing: score.points))\"
+                with geopoint \(String(describing: score.location))
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+let query5 = GameScore.query("points" == 50)
+let query6 = GameScore.query("points" == 200)
 
 var query7 = GameScore.query(or(queries: [query5, query6]))
 query7.find { results in
@@ -178,7 +230,7 @@ query7.find { results in
 
         scores.forEach { (score) in
             print("""
-                Someone has a score of \"\(String(describing: score.score))\"
+                Someone has a points value of \"\(String(describing: score.points))\"
                 with geopoint using OR \(String(describing: score.location))
             """)
         }

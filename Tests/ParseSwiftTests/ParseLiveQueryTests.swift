@@ -5,26 +5,28 @@
 //  Created by Corey Baker on 1/3/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-#if !os(Linux) && !os(Android)
+#if !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseLiveQueryTests: XCTestCase {
     struct GameScore: ParseObject {
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
-        var score: Int = 0
+        var points: Int = 0
 
         //custom initializer
-        init(score: Int) {
-            self.score = score
+        init() {}
+
+        init(points: Int) {
+            self.points = points
         }
 
         init(objectId: String?) {
@@ -64,7 +66,7 @@ class ParseLiveQueryTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -194,7 +196,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         // swiftlint:disable:next line_length
-        let expected = "{\"op\":\"connect\",\"applicationId\":\"applicationId\",\"clientKey\":\"clientKey\",\"masterKey\":\"masterKey\",\"installationId\":\"\(installationId)\"}"
+        let expected = "{\"applicationId\":\"applicationId\",\"clientKey\":\"clientKey\",\"installationId\":\"\(installationId)\",\"masterKey\":\"masterKey\",\"op\":\"connect\"}"
         let message = StandardMessage(operation: .connect, additionalProperties: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -204,9 +206,9 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testSubscribeMessageEncoding() throws {
         // swiftlint:disable:next line_length
-        let expected = "{\"op\":\"subscribe\",\"requestId\":1,\"query\":{\"className\":\"GameScore\",\"where\":{\"score\":{\"$gt\":9}},\"fields\":[\"score\"]}}"
-        let query = GameScore.query("score" > 9)
-            .fields(["score"])
+        let expected = "{\"op\":\"subscribe\",\"query\":{\"className\":\"GameScore\",\"fields\":[\"points\"],\"where\":{\"points\":{\"$gt\":9}}},\"requestId\":1}"
+        let query = GameScore.query("points" > 9)
+            .fields(["points"])
         let message = SubscribeMessage(operation: .subscribe,
                                        requestId: RequestId(value: 1),
                                        query: query,
@@ -257,7 +259,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testConnectionResponseDecoding() throws {
-        let expected = "{\"op\":\"connected\",\"clientId\":\"yolo\",\"installationId\":\"naw\"}"
+        let expected = "{\"clientId\":\"yolo\",\"installationId\":\"naw\",\"op\":\"connected\"}"
         let message = ConnectionResponse(op: .connected, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -266,7 +268,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testUnsubscribeResponseDecoding() throws {
-        let expected = "{\"op\":\"connected\",\"clientId\":\"yolo\",\"requestId\":1,\"installationId\":\"naw\"}"
+        let expected = "{\"clientId\":\"yolo\",\"installationId\":\"naw\",\"op\":\"connected\",\"requestId\":1}"
         let message = UnsubscribedResponse(op: .connected, requestId: 1, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -276,8 +278,8 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testEventResponseDecoding() throws {
         // swiftlint:disable:next line_length
-        let expected = "{\"op\":\"connected\",\"object\":{\"score\":10},\"requestId\":1,\"clientId\":\"yolo\",\"installationId\":\"naw\"}"
-        let score = GameScore(score: 10)
+        let expected = "{\"clientId\":\"yolo\",\"installationId\":\"naw\",\"object\":{\"points\":10},\"op\":\"connected\",\"requestId\":1}"
+        let score = GameScore(points: 10)
         let message = EventResponse(op: .connected,
                                     requestId: 1,
                                     object: score,
@@ -290,7 +292,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testErrorResponseDecoding() throws {
-        let expected = "{\"code\":1,\"op\":\"error\",\"error\":\"message\",\"reconnect\":true}"
+        let expected = "{\"code\":1,\"error\":\"message\",\"op\":\"error\",\"reconnect\":true}"
         let message = ErrorResponse(op: .error, code: 1, message: "message", reconnect: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -299,7 +301,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testPreliminaryResponseDecoding() throws {
-        let expected = "{\"op\":\"subscribed\",\"clientId\":\"message\",\"requestId\":1,\"installationId\":\"naw\"}"
+        let expected = "{\"clientId\":\"message\",\"installationId\":\"naw\",\"op\":\"subscribed\",\"requestId\":1}"
         let message = PreliminaryMessageResponse(op: .subscribed,
                                                  requestId: 1,
                                                  clientId: "message",
@@ -592,19 +594,6 @@ class ParseLiveQueryTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testReconnectInterval() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
-            XCTFail("Should be able to get client")
-            return
-        }
-        for index in 0 ..< 50 {
-            let time = client.reconnectInterval
-            XCTAssertLessThan(time, 30)
-            XCTAssertGreaterThan(time, -1)
-            client.attempts += index
-        }
-    }
-
     func testRandomIdGenerator() throws {
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")
@@ -617,7 +606,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSubscribeNotConnected() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -649,7 +638,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSubscribeConnected() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -729,7 +718,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSubscribeCallbackConnected() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
 
@@ -793,7 +782,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSubscribeCloseSubscribe() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         var subscription = try Query<GameScore>.subscribe(handler)
 
@@ -955,7 +944,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventEnter() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -966,7 +955,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             guard let event = subscription.event else {
@@ -1007,7 +996,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventLeave() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -1018,7 +1007,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             guard let event = subscription.event else {
@@ -1059,7 +1048,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventCreate() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -1070,7 +1059,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             guard let event = subscription.event else {
@@ -1111,7 +1100,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventUpdate() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -1124,7 +1113,7 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertNil(subscription.subscribed)
         XCTAssertNil(subscription.unsubscribed)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             guard let event = subscription.event else {
@@ -1163,7 +1152,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventDelete() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -1174,7 +1163,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             guard let event = subscription.event else {
@@ -1215,7 +1204,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSubscriptionUpdate() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -1303,7 +1292,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testResubscribing() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         guard let subscription = query.subscribe else {
             XCTFail("Should create subscription")
             return
@@ -1391,7 +1380,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventEnterSubscriptionCallback() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
@@ -1400,7 +1389,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         subscription.handleEvent { subscribedQuery, event in
             XCTAssertEqual(query, subscribedQuery)
@@ -1434,7 +1423,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventLeaveSubscriptioinCallback() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
@@ -1443,7 +1432,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         subscription.handleEvent { subscribedQuery, event in
             XCTAssertEqual(query, subscribedQuery)
@@ -1460,9 +1449,9 @@ class ParseLiveQueryTests: XCTestCase {
 
         try pretendToBeConnected()
         let response = PreliminaryMessageResponse(op: .subscribed,
-                                                           requestId: 1,
-                                                           clientId: "yolo",
-                                                           installationId: "naw")
+                                                  requestId: 1,
+                                                  clientId: "yolo",
+                                                  installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder().encode(response)
         client.received(encoded)
 
@@ -1477,7 +1466,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventCreateSubscriptionCallback() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
@@ -1486,7 +1475,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         subscription.handleEvent { subscribedQuery, event in
             XCTAssertEqual(query, subscribedQuery)
@@ -1520,7 +1509,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventUpdateSubscriptionCallback() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
@@ -1529,7 +1518,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         subscription.handleEvent { subscribedQuery, event in
             XCTAssertEqual(query, subscribedQuery)
@@ -1563,7 +1552,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testEventDeleteSubscriptionCallback() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
@@ -1572,7 +1561,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertEqual(subscription.query, query)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         subscription.handleEvent { subscribedQuery, event in
             XCTAssertEqual(query, subscribedQuery)
@@ -1606,7 +1595,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSubscriptionUpdateSubscriptionCallback() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
@@ -1676,7 +1665,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testResubscribingSubscriptionCallback() throws {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {

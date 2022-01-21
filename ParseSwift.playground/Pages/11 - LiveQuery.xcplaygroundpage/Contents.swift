@@ -11,21 +11,44 @@ initializeParse()
 
 //: Create your own value typed ParseObject.
 struct GameScore: ParseObject {
-    //: These are required for any Object.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int?
     var location: ParseGeoPoint?
     var name: String?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.location,
+                                     original: object) {
+            updated.location = object.location
+        }
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
     }
 }
 
@@ -50,7 +73,7 @@ if let socket = ParseLiveQuery.getDefault() {
 }
 
 //: Create a query just as you normally would.
-var query = GameScore.query("score" < 11)
+var query = GameScore.query("points" < 11)
 
 //: This is how you subscribe to your created query using callbacks.
 let subscription = query.subscribeCallback!
@@ -122,10 +145,10 @@ ParseLiveQuery.client?.sendPing { error in
 }
 
 //: Create a new query.
-var query2 = GameScore.query("score" > 50)
+var query2 = GameScore.query("points" > 50)
 
 //: Select the fields you are interested in receiving.
-query2.fields("score")
+query2.fields("points")
 
 //: Subscribe to your new query.
 let subscription2 = query2.subscribeCallback!

@@ -13,22 +13,25 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParsePointerCombineTests: XCTestCase {
 
     struct GameScore: ParseObject {
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
-        var score: Int
+        var points: Int
 
         //: a custom initializer
-        init(score: Int) {
-            self.score = score
+        init() {
+            self.points = 5
+        }
+        init(points: Int) {
+            self.points = points
         }
     }
 
@@ -47,14 +50,14 @@ class ParsePointerCombineTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
     }
 
     func testFetch() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let pointer = try score.toPointer()

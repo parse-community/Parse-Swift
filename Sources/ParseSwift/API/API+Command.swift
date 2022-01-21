@@ -72,16 +72,22 @@ internal extension API {
         }
 
         func execute(options: API.Options,
-                     callbackQueue: DispatchQueue,
+                     notificationQueue: DispatchQueue? = nil,
                      childObjects: [String: PointerType]? = nil,
                      childFiles: [UUID: ParseFile]? = nil,
                      uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> U {
             var responseResult: Result<U, ParseError>?
+            let synchronizationQueue = DispatchQueue(label: "com.parse.Command.sync.\(UUID().uuidString)",
+                                                     qos: .default,
+                                                     attributes: .concurrent,
+                                                     autoreleaseFrequency: .inherit,
+                                                     target: nil)
             let group = DispatchGroup()
             group.enter()
             self.executeAsync(options: options,
-                              callbackQueue: callbackQueue,
+                              callbackQueue: synchronizationQueue,
+                              notificationQueue: notificationQueue,
                               childObjects: childObjects,
                               childFiles: childFiles,
                               uploadProgress: uploadProgress,
@@ -102,32 +108,44 @@ internal extension API {
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options,
                           callbackQueue: DispatchQueue,
+                          notificationQueue: DispatchQueue? = nil,
                           childObjects: [String: PointerType]? = nil,
                           childFiles: [UUID: ParseFile]? = nil,
                           uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
-
+            let currentNotificationQueue: DispatchQueue!
+            if let notificationQueue = notificationQueue {
+                currentNotificationQueue = notificationQueue
+            } else {
+                currentNotificationQueue = callbackQueue
+            }
             if !path.urlComponent.contains("/files/") {
-                //All ParseObjects use the shared URLSession
+                // All ParseObjects use the shared URLSession
                 switch self.prepareURLRequest(options: options,
                                               childObjects: childObjects,
                                               childFiles: childFiles) {
                 case .success(let urlRequest):
-                    URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
-                        switch result {
+                    URLSession.parse.dataTask(with: urlRequest,
+                                              callbackQueue: callbackQueue,
+                                              mapper: mapper) { result in
+                        callbackQueue.async {
+                            switch result {
 
-                        case .success(let decoded):
-                            completion(.success(decoded))
-                        case .failure(let error):
-                            completion(.failure(error))
+                            case .success(let decoded):
+                                completion(.success(decoded))
+                            case .failure(let error):
+                                completion(.failure(error))
+                            }
                         }
                     }
                 case .failure(let error):
-                    completion(.failure(error))
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
                 }
             } else {
-                //ParseFiles are handled with a dedicated URLSession
+                // ParseFiles are handled with a dedicated URLSession
                 if method == .POST || method == .PUT || method == .PATCH {
                     switch self.prepareURLRequest(options: options,
                                                   childObjects: childObjects,
@@ -137,22 +155,26 @@ internal extension API {
 
                         URLSession
                             .parse
-                            .uploadTask(callbackQueue: callbackQueue,
+                            .uploadTask(notificationQueue: currentNotificationQueue,
                                         with: urlRequest,
                                         from: uploadData,
                                         from: uploadFile,
                                         progress: uploadProgress,
                                         mapper: mapper) { result in
-                            switch result {
+                                callbackQueue.async {
+                                    switch result {
 
-                            case .success(let decoded):
-                                completion(.success(decoded))
-                            case .failure(let error):
-                                completion(.failure(error))
+                                    case .success(let decoded):
+                                        completion(.success(decoded))
+                                    case .failure(let error):
+                                        completion(.failure(error))
+                                    }
+                                }
                             }
-                        }
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                     }
                 } else if method == .DELETE {
 
@@ -160,17 +182,23 @@ internal extension API {
                                                   childObjects: childObjects,
                                                   childFiles: childFiles) {
                     case .success(let urlRequest):
-                        URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
-                            switch result {
+                        URLSession.parse.dataTask(with: urlRequest,
+                                                  callbackQueue: callbackQueue,
+                                                  mapper: mapper) { result in
+                            callbackQueue.async {
+                                switch result {
 
-                            case .success(let decoded):
-                                completion(.success(decoded))
-                            case .failure(let error):
-                                completion(.failure(error))
+                                case .success(let decoded):
+                                    completion(.success(decoded))
+                                case .failure(let error):
+                                    completion(.failure(error))
+                                }
                             }
                         }
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                     }
 
                 } else {
@@ -183,10 +211,31 @@ internal extension API {
                         case .success(let urlRequest):
                             URLSession
                                 .parse
-                                .downloadTask(callbackQueue: callbackQueue,
+                                .downloadTask(notificationQueue: currentNotificationQueue,
                                               with: urlRequest,
                                               progress: downloadProgress,
                                               mapper: mapper) { result in
+                                    callbackQueue.async {
+                                        switch result {
+
+                                        case .success(let decoded):
+                                            completion(.success(decoded))
+                                        case .failure(let error):
+                                            completion(.failure(error))
+                                        }
+                                    }
+                                }
+                        case .failure(let error):
+                            callbackQueue.async {
+                                completion(.failure(error))
+                            }
+                        }
+                    } else if let otherURL = self.otherURL {
+                        //Non-parse servers don't receive any parse dedicated request info
+                        var request = URLRequest(url: otherURL)
+                        request.cachePolicy = requestCachePolicy(options: options)
+                        URLSession.parse.downloadTask(with: request, mapper: mapper) { result in
+                            callbackQueue.async {
                                 switch result {
 
                                 case .success(let decoded):
@@ -195,25 +244,13 @@ internal extension API {
                                     completion(.failure(error))
                                 }
                             }
-                        case .failure(let error):
-                            completion(.failure(error))
-                        }
-                    } else if let otherURL = self.otherURL {
-                        //Non-parse servers don't receive any parse dedicated request info
-                        var request = URLRequest(url: otherURL)
-                        request.cachePolicy = requestCachePolicy(options: options)
-                        URLSession.parse.downloadTask(with: request, mapper: mapper) { result in
-                            switch result {
-
-                            case .success(let decoded):
-                                completion(.success(decoded))
-                            case .failure(let error):
-                                completion(.failure(error))
-                            }
                         }
                     } else {
-                        completion(.failure(ParseError(code: .unknownError,
-                                                       message: "Can't download the file without specifying the url")))
+                        callbackQueue.async {
+                            completion(.failure(ParseError(code: .unknownError,
+                                                           // swiftlint:disable:next line_length
+                                                           message: "Can't download the file without specifying the url")))
+                        }
                     }
                 }
             }
@@ -225,7 +262,7 @@ internal extension API {
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             var headers = API.getHeaders(options: options)
-            if !(method == .POST) && !(method == .PUT) && !(method == .PATCH) {
+            if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = parseURL == nil ?
@@ -321,8 +358,10 @@ internal extension API.Command {
                 .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
             let fileLocation = downloadDirectoryPath.appendingPathComponent(object.name)
-            try? FileManager.default.removeItem(at: fileLocation) //Remove file if it's already present
-            try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
+            if tempFileLocation != fileLocation {
+                try? FileManager.default.removeItem(at: fileLocation) //Remove file if it's already present
+                try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
+            }
             var object = object
             object.localURL = fileLocation
             return object
@@ -346,20 +385,27 @@ internal extension API.Command {
 
     // MARK: Saving ParseObjects
     static func save<T>(_ object: T,
-                        isIgnoreCustomObjectIdConfig: Bool) throws -> API.Command<T, T> where T: ParseObject {
-        if ParseSwift.configuration.allowCustomObjectId && object.objectId == nil && !isIgnoreCustomObjectIdConfig {
+                        original data: Data?,
+                        ignoringCustomObjectIdConfig: Bool) throws -> API.Command<T, T> where T: ParseObject {
+        if ParseSwift.configuration.isAllowingCustomObjectIds
+            && object.objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
-            return update(object)
+            // MARK: Should be switched to "update" when server supports PATCH.
+            return try replace(object, original: data)
         }
         return create(object)
     }
 
-    // MARK: Saving ParseObjects - private
-    private static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+        var object = object
+        if object.ACL == nil,
+            let acl = try? ParseACL.defaultACL() {
+            object.ACL = acl
+        }
         let mapper = { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder().decode(CreateResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint(.POST),
@@ -367,9 +413,25 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    private static func update<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
-        let mapper = { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
+    static func replace<T>(_ object: T, original data: Data?) throws -> API.Command<T, T> where T: ParseObject {
+        guard object.objectId != nil else {
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
+        }
+        let mapper = { (mapperData: Data) -> T in
+            var updatedObject = object
+            updatedObject.originalData = nil
+            let object = try ParseCoding
+                .jsonDecoder()
+                .decode(ReplaceResponse.self, from: mapperData)
+                .apply(to: updatedObject)
+            guard let originalData = data,
+                  let original = try? ParseCoding.jsonDecoder().decode(T.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(with: original)
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -377,10 +439,37 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    // MARK: Fetching
+    static func update<T>(_ object: T, original data: Data?) throws -> API.Command<T, T> where T: ParseObject {
+        guard object.objectId != nil else {
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
+        }
+        let mapper = { (mapperData: Data) -> T in
+            var updatedObject = object
+            updatedObject.originalData = nil
+            let object = try ParseCoding
+                .jsonDecoder()
+                .decode(UpdateResponse.self, from: mapperData)
+                .apply(to: updatedObject)
+            guard let originalData = data,
+                  let original = try? ParseCoding.jsonDecoder().decode(T.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(with: original)
+        }
+        return API.Command<T, T>(method: .PATCH,
+                                 path: object.endpoint,
+                                 body: object,
+                                 mapper: mapper)
+    }
+
+    // MARK: Fetching ParseObjects
     static func fetch<T>(_ object: T, include: [String]?) throws -> API.Command<T, T> where T: ParseObject {
         guard object.objectId != nil else {
-            throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
         }
 
         var params: [String: String]?
@@ -400,7 +489,7 @@ internal extension API.Command {
 
 internal extension API.Command where T: ParseObject {
 
-    // MARK: Batch - Saving, Fetching
+    // MARK: Batch - Saving, Fetching ParseObjects
     static func batch(commands: [API.Command<T, T>],
                       transaction: Bool) -> RESTBatchCommandType<T> {
         let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in
@@ -414,14 +503,24 @@ internal extension API.Command where T: ParseObject {
 
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
 
-            let decodingType = [BatchResponseItem<WriteResponse>].self
+            let decodingType = [BatchResponseItem<BatchResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
                 return commands.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.offset]
                     if let success = response.success,
                        let body = object.element.body {
-                        return .success(success.apply(to: body, method: object.element.method))
+                        do {
+                            let updatedObject = try success.apply(to: body,
+                                                                  method: object.element.method)
+                            return .success(updatedObject)
+                        } catch {
+                            guard let parseError = error as? ParseError else {
+                                return .failure(ParseError(code: .unknownError,
+                                                           message: error.localizedDescription))
+                            }
+                            return .failure(parseError)
+                        }
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))
@@ -442,7 +541,7 @@ internal extension API.Command where T: ParseObject {
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 
-    // MARK: Batch - Deleting
+    // MARK: Batch - Deleting ParseObjects
     static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>],
                       transaction: Bool) -> RESTBatchCommandNoBodyType<NoBody> {
         let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in

@@ -11,21 +11,22 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseQueryViewModelTests: XCTestCase {
     struct GameScore: ParseObject {
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
-        var score: Int = 0
+        var points: Int = 0
 
         //custom initializer
-        init(score: Int) {
-            self.score = score
+        init() {}
+        init(points: Int) {
+            self.points = points
         }
 
         init(objectId: String?) {
@@ -54,7 +55,7 @@ class ParseQueryViewModelTests: XCTestCase {
     }
 
     func testFind() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -102,7 +103,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
-        viewModel.results = [GameScore(score: 10)]
+        viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
         viewModel.find()
         let expectation = XCTestExpectation(description: "Find objects")
@@ -117,7 +118,7 @@ class ParseQueryViewModelTests: XCTestCase {
     }
 
     func testViewModelStatic() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -153,7 +154,7 @@ class ParseQueryViewModelTests: XCTestCase {
     }
 
     func testFindAll() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -201,7 +202,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
-        viewModel.results = [GameScore(score: 10)]
+        viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
         viewModel.findAll()
         let expectation = XCTestExpectation(description: "Find objects")
@@ -216,7 +217,7 @@ class ParseQueryViewModelTests: XCTestCase {
     }
 
     func testFirst() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -264,7 +265,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
-        viewModel.results = [GameScore(score: 10)]
+        viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
         viewModel.first()
         let expectation = XCTestExpectation(description: "Find objects")
@@ -279,7 +280,7 @@ class ParseQueryViewModelTests: XCTestCase {
     }
 
     func testCount() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -296,7 +297,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
-        viewModel.results = [GameScore(score: 10), GameScore(score: 12)]
+        viewModel.results = [GameScore(points: 10), GameScore(points: 12)]
         viewModel.count()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -322,7 +323,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
-        viewModel.results = [GameScore(score: 10)]
+        viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
         viewModel.count()
         let expectation = XCTestExpectation(description: "Find objects")
@@ -337,7 +338,7 @@ class ParseQueryViewModelTests: XCTestCase {
     }
 
     func testAggregate() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -385,7 +386,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
-        viewModel.results = [GameScore(score: 10)]
+        viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
         viewModel.aggregate([["hello": "world"]])
         let expectation = XCTestExpectation(description: "Find objects")

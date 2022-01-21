@@ -10,16 +10,16 @@
 import Foundation
 import Combine
 
-// MARK: Combine
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseConfig {
 
-    // MARK: Fetchable - Combine
+    // MARK: Combine
 
     /**
      Fetch the Config *asynchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -27,8 +27,6 @@ public extension ParseConfig {
                        completion: promise)
         }
     }
-
-    // MARK: Savable - Combine
 
     /**
      Update the Config *asynchronously*.

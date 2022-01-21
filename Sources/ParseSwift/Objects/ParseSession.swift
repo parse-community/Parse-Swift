@@ -51,7 +51,6 @@ extension ParseSession {
         if let objectId = objectId {
             return .session(objectId: objectId)
         }
-
         return .sessions
     }
 }

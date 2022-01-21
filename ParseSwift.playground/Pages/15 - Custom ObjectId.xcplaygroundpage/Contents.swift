@@ -22,19 +22,34 @@ initializeParseCustomObjectId()
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
-    init(objectId: String, score: Int) {
+    init(objectId: String, points: Int) {
         self.objectId = objectId
-        self.score = score
+        self.points = points
     }
 
     init(objectId: String) {
@@ -44,7 +59,7 @@ struct GameScore: ParseObject {
 
 //: Define initial GameScore this time with custom `objectId`.
 //: customObjectId has to be enabled on the server for this to work.
-var score = GameScore(objectId: "myObjectId", score: 10)
+var score = GameScore(objectId: "myObjectId", points: 10)
 
 /*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to specified callbackQueue.
@@ -56,22 +71,23 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.ACL == nil)
-        assert(savedScore.score == 10)
+        assert(savedScore.points == 10)
 
         //: Now that this object has a `createdAt`, it's properly saved to the server.
         //: Any changes to `createdAt` and `objectId` will not be saved to the server.
         print("Saved score: \(savedScore)")
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable.
+            was initialized as immutable. Using `.mergeable`
+            allows you to only send the updated keys to the
+            parse server as opposed to the whole object.
         */
-        var changedScore = savedScore
-        changedScore.score = 200
+        var changedScore = savedScore.mergeable
+        changedScore.points = 200
         changedScore.save { result in
             switch result {
             case .success(let savedChangedScore):
-                assert(savedChangedScore.score == 200)
+                assert(savedChangedScore.points == 200)
                 assert(savedScore.objectId == savedChangedScore.objectId)
                 print("Updated score: \(savedChangedScore)")
 
@@ -114,7 +130,7 @@ scoreToFetch.fetch { result in
     case .success(let fetchedScore):
         print("Successfully fetched: \(fetchedScore)")
     case .failure(let error):
-        assertionFailure("Error fetching: \(error)")
+        assertionFailure("Error fetching on purpose: \(error)")
     }
 }
 

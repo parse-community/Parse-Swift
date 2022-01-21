@@ -31,18 +31,33 @@ do {
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int?
 
-    //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
+
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -51,17 +66,37 @@ struct GameScore: ParseObject {
 }
 
 struct GameData: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
     var polygon: ParsePolygon?
     //: `ParseBytes` needs to be a part of the original schema
     //: or else you will need your masterKey to force an upgrade.
     var bytes: ParseBytes?
+
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if shouldRestoreKey(\.polygon,
+                             original: object) {
+            updated.polygon = object.polygon
+        }
+        if shouldRestoreKey(\.bytes,
+                             original: object) {
+            updated.bytes = object.bytes
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameData {
 
     init (bytes: ParseBytes?, polygon: ParsePolygon) {
         self.bytes = bytes
@@ -70,8 +105,8 @@ struct GameData: ParseObject {
 }
 
 //: Define initial GameScores.
-let score = GameScore(score: 10)
-let score2 = GameScore(score: 3)
+let score = GameScore(points: 10)
+let score2 = GameScore(points: 3)
 
 /*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to specified callbackQueue.
@@ -83,24 +118,20 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.ACL == nil)
-        assert(savedScore.score == 10)
+        assert(savedScore.points == 10)
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable.
+            was initialized as immutable. Using `mutable`
+            allows you to only send the updated keys to the
+            parse server as opposed to the whole object.
         */
-        var changedScore = savedScore
-        changedScore.score = 200
+        var changedScore = savedScore.mergeable
+        changedScore.points = 200
         changedScore.save { result in
             switch result {
-            case .success(var savedChangedScore):
-                assert(savedChangedScore.score == 200)
+            case .success(let savedChangedScore):
+                assert(savedChangedScore.points == 200)
                 assert(savedScore.objectId == savedChangedScore.objectId)
-
-                /*: Note that savedChangedScore is mutable since it's
-                    a var after success.
-                */
-                savedChangedScore.score = 500
 
             case .failure(let error):
                 assertionFailure("Error saving: \(error)")
@@ -122,7 +153,10 @@ var score2ForFetchedLater: GameScore?
         otherResults.forEach { otherResult in
             switch otherResult {
             case .success(let savedScore):
-                print("Saved \"\(savedScore.className)\" with score \(savedScore.score) successfully")
+                print("""
+                    Saved \"\(savedScore.className)\" with
+                    points \(String(describing: savedScore.points)) successfully
+                """)
                 if index == 1 {
                     score2ForFetchedLater = savedScore
                 }
@@ -138,7 +172,7 @@ var score2ForFetchedLater: GameScore?
 }
 
 //: Saving multiple GameScores at once using a transaction.
-//: Currently doesn't work on mongo
+//: May not work on MongoDB depending on your configuration.
 /*[score, score2].saveAll(transaction: true) { results in
     switch results {
     case .success(let otherResults):
@@ -146,7 +180,7 @@ var score2ForFetchedLater: GameScore?
         otherResults.forEach { otherResult in
             switch otherResult {
             case .success(let savedScore):
-                print("Saved \"\(savedScore.className)\" with score \(savedScore.score) successfully")
+                print("Saved \"\(savedScore.className)\" with points \(savedScore.points) successfully")
                 if index == 1 {
                     score2ForFetchedLater = savedScore
                 }
@@ -174,26 +208,29 @@ assert(savedScore != nil)
 assert(savedScore?.objectId != nil)
 assert(savedScore?.createdAt != nil)
 assert(savedScore?.updatedAt != nil)
-assert(savedScore?.score == 10)
+assert(savedScore?.points == 10)
 
 /*:  To modify, need to make it a var as the value type
-    was initialized as immutable.
+    was initialized as immutable. Using `mutable`
+    allows you to only send the updated keys to the
+    parse server as opposed to the whole object.
 */
-guard var changedScore = savedScore else {
-    fatalError()
+guard var changedScore = savedScore?.mergeable else {
+    fatalError("Should have produced mutable changedScore")
 }
-changedScore.score = 200
+changedScore.points = 200
 
 let savedChangedScore: GameScore?
 do {
     savedChangedScore = try changedScore.save()
+    print("Updated score: \(String(describing: savedChangedScore))")
 } catch {
     savedChangedScore = nil
     fatalError("Error saving: \(error)")
 }
 
 assert(savedChangedScore != nil)
-assert(savedChangedScore!.score == 200)
+assert(savedChangedScore!.points == 200)
 assert(savedScore!.objectId == savedChangedScore!.objectId)
 
 let otherResults: [(Result<GameScore, ParseError>)]?
@@ -208,14 +245,14 @@ assert(otherResults != nil)
 otherResults!.forEach { result in
     switch result {
     case .success(let savedScore):
-        print("Saved \"\(savedScore.className)\" with score \(savedScore.score) successfully")
+        print("Saved \"\(savedScore.className)\" with points \(String(describing: savedScore.points)) successfully")
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
 }
 
 //: Now we will create another object and delete it.
-let score3 = GameScore(score: 30)
+let score3 = GameScore(points: 30)
 
 //: Save the score and store it in "scoreToDelete".
 var scoreToDelete: GameScore!
@@ -335,6 +372,7 @@ let points = [
     try ParseGeoPoint(latitude: 1, longitude: 0),
     try ParseGeoPoint(latitude: 0, longitude: 0)
 ]
+
 do {
     let polygon = try ParsePolygon(points)
     let bytes = ParseBytes(data: "hello world".data(using: .utf8)!)

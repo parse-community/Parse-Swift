@@ -9,22 +9,25 @@
 #if canImport(Combine)
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 import Combine
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseAuthenticationCombineTests: XCTestCase {
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -39,8 +42,9 @@ class ParseAuthenticationCombineTests: XCTestCase {
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -84,7 +88,6 @@ class ParseAuthenticationCombineTests: XCTestCase {
         }
 
         #if canImport(Combine)
-        @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
         func loginPublisher(authData: [String: String],
                             options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
@@ -93,13 +96,24 @@ class ParseAuthenticationCombineTests: XCTestCase {
             }
         }
 
-        @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
         func linkPublisher(authData: [String: String],
                            options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
             return Future { promise in
                 promise(.failure(error))
             }
+        }
+        #endif
+
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        func login(authData: [String: String],
+                   options: API.Options) async throws -> AuthenticatedUser {
+            throw ParseError(code: .unknownError, message: "Not implemented")
+        }
+
+        func link(authData: [String: String],
+                  options: API.Options) async throws -> AuthenticatedUser {
+            throw ParseError(code: .unknownError, message: "Not implemented")
         }
         #endif
     }
@@ -121,7 +135,7 @@ class ParseAuthenticationCombineTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -230,7 +244,7 @@ class ParseAuthenticationCombineTests: XCTestCase {
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
         })
         publisher.store(in: &subscriptions)

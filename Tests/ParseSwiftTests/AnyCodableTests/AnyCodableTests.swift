@@ -40,7 +40,7 @@ class AnyCodableTests: XCTestCase {
     }
 
     //Test has objective-c
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testJSONEncoding() {
         let dictionary: [String: AnyCodable] = [
             "boolean": true,

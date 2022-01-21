@@ -27,6 +27,7 @@ class InitializeSDKTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
         var customKey: String?
     }
 
@@ -41,15 +42,106 @@ class InitializeSDKTests: XCTestCase {
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         if let identifier = Bundle.main.bundleIdentifier {
             try KeychainStore(service: "\(identifier).com.parse.sdk").deleteAll()
         }
+        URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
         #endif
         try ParseStorage.shared.deleteAll()
     }
+
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    func addCachedResponse() {
+        if URLSession.parse.configuration.urlCache == nil {
+            URLSession.parse.configuration.urlCache = .init()
+        }
+        guard let server = URL(string: "http://parse.com"),
+              let data = "Test".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        let response = URLResponse(url: server, mimeType: nil,
+                                   expectedContentLength: data.count,
+                                   textEncodingName: nil)
+        URLSession.parse.configuration.urlCache?
+            .storeCachedResponse(.init(response: response,
+                                       data: data),
+                                 for: .init(url: server))
+        guard let currentCache = URLSession.parse.configuration.urlCache else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(currentCache.currentMemoryUsage > 0)
+    }
+/*
+    func testDeleteKeychainOnFirstRun() throws {
+        let memory = InMemoryKeyValueStore()
+        ParseStorage.shared.use(memory)
+        guard let server = URL(string: "http://parse.com") else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        ParseSwift.configuration = ParseConfiguration(applicationId: "yo",
+                                                      serverURL: server,
+                                                      isDeletingKeychainIfNeeded: false)
+        let key = "Hello"
+        let value = "World"
+        try KeychainStore.shared.set(value, for: key)
+        addCachedResponse()
+
+        // Keychain should contain value on first run
+        ParseSwift.deleteKeychainIfNeeded()
+
+        do {
+            let storedValue: String? = try KeychainStore.shared.get(valueFor: key)
+            XCTAssertEqual(storedValue, value)
+            guard let firstRun = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssertEqual(firstRun, ParseConstants.bundlePrefix)
+
+            // Keychain should remain unchanged on 2+ runs
+            ParseSwift.configuration.isDeletingKeychainIfNeeded = true
+            ParseSwift.deleteKeychainIfNeeded()
+            let storedValue2: String? = try KeychainStore.shared.get(valueFor: key)
+            XCTAssertEqual(storedValue2, value)
+            guard let firstRun2 = UserDefaults.standard
+                    .object(forKey: ParseConstants.bundlePrefix) as? String else {
+                        XCTFail("Should have unwrapped")
+                        return
+                    }
+            XCTAssertEqual(firstRun2, ParseConstants.bundlePrefix)
+
+            // Keychain should delete on first run
+            UserDefaults.standard.removeObject(forKey: ParseConstants.bundlePrefix)
+            UserDefaults.standard.synchronize()
+            let firstRun3 = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String
+            XCTAssertNil(firstRun3)
+            addCachedResponse()
+            ParseSwift.deleteKeychainIfNeeded()
+            let storedValue3: String? = try KeychainStore.shared.get(valueFor: key)
+            XCTAssertNil(storedValue3)
+            guard let firstRun4 = UserDefaults.standard
+                    .object(forKey: ParseConstants.bundlePrefix) as? String else {
+                        XCTFail("Should have unwrapped")
+                        return
+                    }
+            XCTAssertEqual(firstRun4, ParseConstants.bundlePrefix)
+
+            guard let currentCache = URLSession.parse.configuration.urlCache else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssertTrue(currentCache.currentMemoryUsage == 0)
+        } catch {
+            XCTFail("\(error)")
+        }
+    }*/
+    #endif
 
     func testCreateParseInstallationOnInit() {
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -77,7 +169,7 @@ class InitializeSDKTests: XCTestCase {
         }
         XCTAssertEqual(memoryInstallation.currentInstallation, currentInstallation)
 
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         // Should be in Keychain
         guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
@@ -88,7 +180,7 @@ class InitializeSDKTests: XCTestCase {
         #endif
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testFetchMissingCurrentInstallation() {
         let memory = InMemoryKeyValueStore()
         ParseStorage.shared.use(memory)
@@ -99,25 +191,27 @@ class InitializeSDKTests: XCTestCase {
         Installation.saveCurrentContainerToKeychain()
         ParseVersion.current = ParseConstants.version
 
+        var foundInstallation = Installation()
+        foundInstallation.updateAutomaticInfo()
+        foundInstallation.objectId = "yarr"
+        foundInstallation.installationId = installationId
+
+        let results = QueryResponse<Installation>(results: [foundInstallation], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
         let expectation1 = XCTestExpectation(description: "Wait")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            var foundInstallation = Installation()
-            foundInstallation.updateAutomaticInfo()
-            foundInstallation.objectId = "yarr"
-            foundInstallation.installationId = installationId
-
-            let results = QueryResponse<Installation>(results: [foundInstallation], count: 1)
-            MockURLProtocol.mockRequests { _ in
-                do {
-                    let encoded = try ParseCoding.jsonEncoder().encode(results)
-                    return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-                } catch {
-                    return nil
-                }
-            }
 
             guard let url = URL(string: "http://localhost:1337/1") else {
                 XCTFail("Should create valid URL")
+                expectation1.fulfill()
                 return
             }
 
@@ -134,7 +228,7 @@ class InitializeSDKTests: XCTestCase {
                 return
             }
 
-            XCTAssertEqual(currentInstallation, foundInstallation)
+            XCTAssertEqual(currentInstallation.installationId, installationId)
 
             // Should be in Keychain
             guard let memoryInstallation: CurrentInstallationContainer<Installation>
@@ -145,15 +239,15 @@ class InitializeSDKTests: XCTestCase {
             }
             XCTAssertEqual(memoryInstallation.currentInstallation, currentInstallation)
 
-            #if !os(Linux) && !os(Android)
             // Should be in Keychain
             guard let keychainInstallation: CurrentInstallationContainer<Installation>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
                     XCTFail("Should get object from Keychain")
+                    expectation1.fulfill()
                 return
             }
             XCTAssertEqual(keychainInstallation.currentInstallation, currentInstallation)
-            #endif
+            MockURLProtocol.removeAll()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -177,7 +271,7 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNil(ParseSwift.sessionDelegate.authentication)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDontOverwriteMigratedInstallation() throws {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
@@ -355,7 +449,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migrateFromObjcSDK: true)
+                              migratingFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -363,7 +457,7 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNotNil(installation.installationId)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testMigrateOldKeychainToNew() throws {
         var user = BaseParseUser()
         user.objectId = "wow"
@@ -436,7 +530,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migrateFromObjcSDK: true)
+                              migratingFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -495,7 +589,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migrateFromObjcSDK: true)
+                              migratingFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return

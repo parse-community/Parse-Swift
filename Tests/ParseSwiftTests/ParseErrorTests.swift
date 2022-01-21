@@ -28,7 +28,7 @@ class ParseErrorTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -46,6 +46,7 @@ class ParseErrorTests: XCTestCase {
         XCTAssertEqual(decoded.message, message)
         XCTAssertEqual(decoded.debugDescription, "ParseError code=\(code) error=\(message)")
         XCTAssertEqual(decoded.description, "ParseError code=\(code) error=\(message)")
+        XCTAssertEqual(decoded.errorDescription, "ParseError code=\(code) error=\(message)")
     }
 
     func testEncodeOther() throws {
@@ -61,5 +62,35 @@ class ParseErrorTests: XCTestCase {
         XCTAssertEqual(decoded.debugDescription,
                        "ParseError code=\(ParseError.Code.other.rawValue) error=\(message) otherCode=\(code)")
         XCTAssertEqual(decoded.otherCode, code)
+    }
+
+    func testCompare() throws {
+        let code = ParseError.Code.objectNotFound.rawValue
+        let message = "testing ParseError"
+        guard let encoded = "{\"error\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
+
+        let error: Error = decoded
+
+        XCTAssertTrue(error.equalsTo(.objectNotFound))
+        XCTAssertFalse(error.equalsTo(.invalidQuery))
+
+        XCTAssertTrue(error.containedIn(.objectNotFound, .invalidQuery))
+        XCTAssertFalse(error.containedIn(.operationForbidden, .invalidQuery))
+
+        XCTAssertTrue(error.containedIn([.objectNotFound, .invalidQuery]))
+        XCTAssertFalse(error.containedIn([.operationForbidden, .invalidQuery]))
+
+        XCTAssertNotNil(error.equalsTo(.objectNotFound))
+        XCTAssertNil(error.equalsTo(.invalidQuery))
+
+        XCTAssertNotNil(error.containedIn(.objectNotFound, .invalidQuery))
+        XCTAssertNil(error.containedIn(.operationForbidden, .invalidQuery))
+
+        XCTAssertNotNil(error.containedIn([.objectNotFound, .invalidQuery]))
+        XCTAssertNil(error.containedIn([.operationForbidden, .invalidQuery]))
     }
 }

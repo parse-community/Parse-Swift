@@ -33,9 +33,15 @@ internal extension API {
 
         func execute(options: API.Options) throws -> U {
             var responseResult: Result<U, ParseError>?
+            let synchronizationQueue = DispatchQueue(label: "com.parse.NonParseBodyCommand.sync.\(UUID().uuidString)",
+                                                     qos: .default,
+                                                     attributes: .concurrent,
+                                                     autoreleaseFrequency: .inherit,
+                                                     target: nil)
             let group = DispatchGroup()
             group.enter()
-            self.executeAsync(options: options) { result in
+            self.executeAsync(options: options,
+                              callbackQueue: synchronizationQueue) { result in
                 responseResult = result
                 group.leave()
             }
@@ -50,28 +56,35 @@ internal extension API {
 
         // MARK: Asynchronous Execution
         func executeAsync(options: API.Options,
+                          callbackQueue: DispatchQueue,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
             switch self.prepareURLRequest(options: options) {
             case .success(let urlRequest):
-                URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
-                    switch result {
+                URLSession.parse.dataTask(with: urlRequest,
+                                          callbackQueue: callbackQueue,
+                                          mapper: mapper) { result in
+                    callbackQueue.async {
+                        switch result {
 
-                    case .success(let decoded):
-                        completion(.success(decoded))
-                    case .failure(let error):
-                        completion(.failure(error))
+                        case .success(let decoded):
+                            completion(.success(decoded))
+                        case .failure(let error):
+                            completion(.failure(error))
+                        }
                     }
                 }
             case .failure(let error):
-                completion(.failure(error))
+                callbackQueue.async {
+                    completion(.failure(error))
+                }
             }
         }
 
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options) -> Result<URLRequest, ParseError> {
             var headers = API.getHeaders(options: options)
-            if !(method == .POST) && !(method == .PUT) && !(method == .PATCH) {
+            if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent)

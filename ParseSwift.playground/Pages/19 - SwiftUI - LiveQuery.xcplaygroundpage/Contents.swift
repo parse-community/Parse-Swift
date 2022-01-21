@@ -19,28 +19,51 @@ initializeParse()
 
 //: Create your own value typed ParseObject.
 struct GameScore: ParseObject {
-    //: These are required for any Object.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int? = 0
     var location: ParseGeoPoint?
     var name: String?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        if updated.shouldRestoreKey(\.location,
+                                     original: object) {
+            updated.location = object.location
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
     }
 }
 
 //: Be sure you have LiveQuery enabled on your server.
 
 //: Create a query just as you normally would.
-var query = GameScore.query("score" < 11)
+var query = GameScore.query("points" < 11)
 
 //: To use subscriptions inside of SwiftUI
 struct ContentView: View {
@@ -61,23 +84,21 @@ struct ContentView: View {
                 switch event.event {
 
                 case .entered(let object):
-                    Text("Entered with score: \(object.score)")
+                    Text("Entered with points: \(String(describing: object.points))")
                 case .left(let object):
-                    Text("Left with score: \(object.score)")
+                    Text("Left with points: \(String(describing: object.points))")
                 case .created(let object):
-                    Text("Created with score: \(object.score)")
+                    Text("Created with points: \(String(describing: object.points))")
                 case .updated(let object):
-                    Text("Updated with score: \(object.score)")
+                    Text("Updated with points: \(String(describing: object.points))")
                 case .deleted(let object):
-                    Text("Deleted with score: \(object.score)")
+                    Text("Deleted with points: \(String(describing: object.points))")
                 }
             } else {
                 Text("Not subscribed to a query")
             }
 
-            Spacer()
-
-            Text("Update GameScore in Parse Dashboard to see changes here")
+            Text("Update GameScore in Parse Dashboard to see changes here:")
 
             Button(action: {
                 try? query.unsubscribe()
@@ -88,8 +109,8 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .padding()
                     .cornerRadius(20.0)
-                    .frame(width: 300, height: 50)
             })
+            Spacer()
         }
     }
 }

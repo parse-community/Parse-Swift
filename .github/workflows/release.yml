@@ -4,7 +4,7 @@ on:
     types: [published]
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_BETA_VER: '/Applications/Xcode_13.0.app/Contents/Developer'
+  CI_XCODE_13: '/Applications/Xcode_13.2.1.app/Contents/Developer'
 
 jobs:
   cocoapods:
@@ -13,16 +13,17 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+#      - name: Use multiple cores
+#        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Update Framework Version
         run: ./Scripts/update_build
         env:
           BUILD_VERSION: ${{ env.TAG }}
-      - name: CocoaPods
-        run: set -o pipefail && env NSUnbufferedIO=YES pod lib lint --allow-warnings --verbose
       - name: Deploy CocoaPods
         run: set -o pipefail && env NSUnbufferedIO=YES pod trunk push ParseSwift.podspec --allow-warnings --verbose
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   docs:
     runs-on: macos-11
@@ -30,17 +31,16 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-      - name: Build
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
+      #- name: Build
+      #  run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
+ #     - name: Use multiple cores
+ #       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+      - name: Create Jazzy Docs
+        run: ./Scripts/jazzy.sh
         env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
           BUILD_VERSION: ${{ env.TAG }}
-      - name: Copy files
-        run: |
-          DOCDIR=$(find DerivedData -type d -name '*.doccarchive')
-          mkdir -p docs/api
-          cp -rf "${DOCDIR}/" docs/api
-      - name: Deploy Docs
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+      - name: Deploy Jazzy Docs
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

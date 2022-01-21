@@ -13,7 +13,6 @@ import Foundation
  This protocol describes the interface for creating a view model for a `Query`.
  You can use this protocol on any custom class of yours, instead of `QueryViewModel`, if it fits your use case better.
  */
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol QueryObservable: ObservableObject {
 
     /// The `ParseObject` associated with this view model.
@@ -37,7 +36,7 @@ public protocol QueryObservable: ObservableObject {
 
     /**
      Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query
-     and updates the view model when complete..
+     and updates the view model when complete.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - warning: The items are processed in an unspecified order. The query may not have any sort

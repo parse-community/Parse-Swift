@@ -10,7 +10,6 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Level: ParseObject {
         var objectId: String?
@@ -21,41 +20,37 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var ACL: ParseACL?
 
+        var originalData: Data?
+
         var name = "First"
     }
 
-    struct GameScore: ParseObject, Identifiable {
+    struct GameScore: ParseObject {
 
-        // Comform to Identifiable
-        var id: String { // swiftlint:disable:this identifier_name
-            guard let objectId = self.objectId else {
-                return UUID().uuidString
-            }
-            return objectId
-        }
-
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
-        var score: Int?
+        var points: Int?
         var player: String?
         var level: Level?
         var levels: [Level]?
 
         //custom initializers
+        init() {}
         init (objectId: String?) {
             self.objectId = objectId
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
             self.player = "Jen"
         }
-        init(score: Int, name: String) {
-            self.score = score
+        init(points: Int, name: String) {
+            self.points = points
             self.player = name
         }
     }
@@ -76,7 +71,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -95,9 +90,8 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android)
     func testSaveCommand() throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let className = score.className
 
         let command = try score.saveCommand()
@@ -106,13 +100,13 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
 
-        let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
+        let expected = "GameScore ({\"player\":\"Jen\",\"points\":10})"
         let decoded = score.debugDescription
         XCTAssertEqual(decoded, expected)
     }
 
     func testUpdateCommand() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
@@ -130,7 +124,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
-        let expected = "{\"score\":10,\"player\":\"Jen\"}"
+        let expected = "{\"player\":\"Jen\",\"points\":10}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -138,5 +132,4 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 }

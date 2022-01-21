@@ -37,7 +37,7 @@ extension ParseCloud {
         - throws: An error of type `ParseError`.
     */
     public func runFunction(options: API.Options = []) throws -> ReturnType {
-        try runFunctionCommand().execute(options: options, callbackQueue: .main)
+        try runFunctionCommand().execute(options: options)
     }
 
     /**
@@ -52,9 +52,7 @@ extension ParseCloud {
                             completion: @escaping (Result<ReturnType, ParseError>) -> Void) {
         runFunctionCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 
@@ -77,7 +75,7 @@ extension ParseCloud {
           - returns: Returns a `Decodable` type.
     */
     public func startJob(options: API.Options = []) throws -> ReturnType {
-        try startJobCommand().execute(options: options, callbackQueue: .main)
+        try startJobCommand().execute(options: options)
     }
 
     /**
@@ -92,9 +90,7 @@ extension ParseCloud {
                          completion: @escaping (Result<ReturnType, ParseError>) -> Void) {
         startJobCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 

@@ -39,7 +39,7 @@ class ParsePolygonTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -115,7 +115,6 @@ class ParsePolygonTests: XCTestCase {
         }
     }
 
-    #if !os(Linux) && !os(Android)
     func testDebugString() throws {
         let polygon = try ParsePolygon(points)
         let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[[0,0],[0,1],[1,1],[1,0],[0,0]]})"
@@ -127,5 +126,4 @@ class ParsePolygonTests: XCTestCase {
         let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[[0,0],[0,1],[1,1],[1,0],[0,0]]})"
         XCTAssertEqual(polygon.description, expected)
     }
-    #endif
 }

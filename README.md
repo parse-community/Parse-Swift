@@ -1,35 +1,48 @@
-<p align="center">
-  <a href="https://parseplatform.org"><img alt="Parse Platform" src="https://user-images.githubusercontent.com/8621344/99892392-6f32dc80-2c42-11eb-8c32-db0fa4a66a81.png" width="200"></a>
-</p>
+![parse-repository-header-sdk-swift](https://user-images.githubusercontent.com/5673677/138289926-a26ca0bd-1713-4c30-b69a-acd840ccead0.png)
 
-<h2 align="center">ParseSwift</h2>
+<h3 align="center">iOS · macOS · watchOS · tvOS · Linux · Android · Windows</h3>
 
-<p align="center">
-    A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
-</p>
+---
 
-<p align="center">
-    <a href="https://twitter.com/intent/follow?screen_name=parseplatform"><img alt="Follow on Twitter" src="https://img.shields.io/twitter/follow/parseplatform?style=social&label=Follow"></a>
-    <a href=" https://github.com/parse-community/Parse-Swift/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey.svg"></a>
-    <a href="#backers"><img alt="Backers on Open Collective" src="https://opencollective.com/parse-server/backers/badge.svg" /></a>
-  <a href="#sponsors"><img alt="Sponsors on Open Collective" src="https://opencollective.com/parse-server/sponsors/badge.svg" /></a>
-</p>
+[![Build Status CI](https://github.com/parse-community/Parse-Swift/workflows/ci/badge.svg?branch=main)](https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Aci+branch%3Amain)
+[![Build Status Release](https://github.com/parse-community/Parse-Swift/workflows/release/badge.svg)](https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Arelease)
+[![Vulnerabilities](https://snyk.io/test/github/parse-community/Parse-Swift/badge.svg)](https://snyk.io/test/github/parse-community/Parse-Swift)
+[![Coverage](https://codecov.io/gh/parse-community/Parse-Swift/branch/main/graph/badge.svg)](https://codecov.io/gh/parse-community/Parse-Swift/branches)
+[![Documentation](https://github.com/parse-community/Parse-Swift/blob/gh-pages/api/badge.svg)](http://parseplatform.org/Parse-Swift/api)
 
-<p align="center">
-<a href="https://swiftpackageindex.com/parse-community/Parse-Swift"><img alt="Swift 5.0" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dswift-versions"></a>
-<a href="https://swiftpackageindex.com/parse-community/Parse-Swift"><img alt="Platforms" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dplatforms"></a>
-    <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Aci+branch%3Amain"><img alt="CI status" src="https://github.com/parse-community/Parse-Swift/workflows/ci/badge.svg?branch=main"></a>
-    <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Arelease"><img alt="Release status" src="https://github.com/parse-community/Parse-Swift/workflows/release/badge.svg"></a>
-    <a href="https://codecov.io/gh/parse-community/Parse-Swift/branches"><img alt="Code coverage" src="https://codecov.io/gh/parse-community/Parse-Swift/branch/main/graph/badge.svg"></a>
-    <a href="https://github.com/parse-community/Parse-Swift"><img alt="Dependencies" src="https://img.shields.io/badge/dependencies-0-yellowgreen.svg"></a>
-    <a href="https://community.parseplatform.org/"><img alt="Join the conversation" src="https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg"></a>
-    <a href="https://cocoapods.org/pods/ParseSwift"><img alt="Cocoapods" src="https://img.shields.io/cocoapods/v/ParseSwift.svg"></a>
-</p>
-<br>
+[![Swift Versions](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/parse-community/Parse-Swift)
+[![Platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/parse-community/Parse-Swift)
+[![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/carthage/carthage)
 
-For more information about the Parse Platform and its features, see the public [documentation][docs]. The ParseSwift SDK is not a port of the [Parse-SDK-iOS-OSX SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX) and though some of it may feel familiar, it is not backwards compatible and is designed with a new philosophy. For more details visit the [api documentation](http://parseplatform.org/Parse-Swift/api/).
+[![Pod](https://img.shields.io/cocoapods/v/ParseSwift.svg)](https://cocoapods.org/pods/ParseSwift)
 
-To learn how to use or experiment with ParseSwift, you can run and edit the [ParseSwift.playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground/Pages). You can use the parse-server in [this repo](https://github.com/netreconlab/parse-hipaa/tree/parse-swift) which has docker compose files (`docker-compose up` gives you a working server) configured to connect with the playground files, has [Parse Dashboard](https://github.com/parse-community/parse-dashboard), and can be used with mongoDB or PostgreSQL.
+[![Backers on Open Collective](https://opencollective.com/parse-server/backers/badge.svg)][open-collective-link]
+[![Sponsors on Open Collective](https://opencollective.com/parse-server/sponsors/badge.svg)][open-collective-link]
+[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)][license-link]
+[![Forum](https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg)](https://community.parseplatform.org/c/client-sdks/parseswift-sdk)
+[![Twitter](https://img.shields.io/twitter/follow/ParsePlatform.svg?label=Follow&style=social)](https://twitter.com/intent/follow?screen_name=ParsePlatform)
+
+---
+
+A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
+
+For more information about the Parse Platform and its features, see the public [documentation][docs]. The ParseSwift SDK is not a port of the [Parse-SDK-iOS-OSX SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX) and though some of it may feel familiar, it is not backwards compatible and is designed using [protocol oriented programming (POP) and value types](https://www.pluralsight.com/guides/protocol-oriented-programming-in-swift) instead of OOP and reference types. You can learn more about POP by watching [Protocol-Oriented Programming in Swift](https://developer.apple.com/videos/play/wwdc2015/408/) or [Protocol and Value Oriented Programming in UIKit Apps](https://developer.apple.com/videos/play/wwdc2016/419/) videos from previous WWDC's. For more details about ParseSwift, visit the [api documentation](http://parseplatform.org/Parse-Swift/api/).
+
+To learn how to use or experiment with ParseSwift, you can run and edit the [ParseSwift.playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground/Pages). You can use the parse-server in [this repo](https://github.com/netreconlab/parse-hipaa/tree/parse-swift) which has docker compose files (`docker-compose up` gives you a working server) configured to connect with the playground files, has [Parse Dashboard](https://github.com/parse-community/parse-dashboard), and can be used with MongoDB or PostgreSQL. You can also configure the Swift Playgrounds to work with your own Parse Server by editing the configuation in [Common.swift](https://github.com/parse-community/Parse-Swift/blob/e9ba846c399257100b285d25d2bd055628b13b4b/ParseSwift.playground/Sources/Common.swift#L4-L19). To learn more, check out [CONTRIBUTING.md](https://github.com/parse-community/Parse-Swift/blob/main/CONTRIBUTING.md#swift-playgrounds).
+
+---
+
+- [Installation](#installation)
+  - [Swift Package Manager](#swift-package-manager)
+  - [CocoaPods](#cocoapods)
+  - [Carthage](#carthage)
+- [Usage Guide](#usage-guide)
+- [LiveQuery](#livequery)
+  - [Setup Server](#setup-server)
+  - [Use Client](#use-client)
+    - [SwiftUI View Models Using Combine](#swiftui-view-models-using-combine)
+    - [Traditional Callbacks](#traditional-callbacks)
+  - [Advanced Usage](#advanced-usage)
 
 ## Installation
 
@@ -44,14 +57,14 @@ import PackageDescription
 let package = Package(
     name: "YOUR_PROJECT_NAME",
     dependencies: [
-        .package(url: "https://github.com/parse-community/Parse-Swift", from: "1.9.10"),
+        .package(url: "https://github.com/parse-community/Parse-Swift", from: "3.1.2"),
     ]
 )
 ```
 Then run `swift build`. 
 
 You can also install using SPM in your Xcode project by going to 
-"Project->NameOfYourProject->Swift Packages" and placing "https://github.com/parse-community/Parse-Swift.git" in the 
+"Project->NameOfYourProject->Swift Packages" and placing `https://github.com/parse-community/Parse-Swift.git` in the 
 search field.
 
 ### [CocoaPods](https://cocoapods.org)
@@ -82,8 +95,6 @@ Please checkout the [Swift Playground](https://github.com/parse-community/Parse-
 
 ## LiveQuery
 
-**Requires: iOS 13.0+, macOS 10.15+, macCatalyst 13.0+, tvOS 13.0+, watchOS 6.0+**
-
 `Query` is one of the key concepts on the Parse Platform. It allows you to retrieve `ParseObject`s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, `Query` is based on a pull model, which is not suitable for apps that need real-time support.
 
 Suppose you are building an app that allows multiple users to edit the same file at the same time. `Query` would not be an ideal tool since you can not know when to query from the server to get the updates.
@@ -104,7 +115,7 @@ The easiest way to setup the LiveQuery server is to make it run with the [Open S
 The LiveQuery client interface is based around the concept of `Subscription`s. You can register any `Query` for live updates from the associated live query server and use the query as a view model for a SwiftUI view by simply using the `subscribe` property of a query:
 
 ```swift
-let myQuery = GameScore.query("score" > 9)
+let myQuery = GameScore.query("points" > 9)
 
 struct ContentView: View {
 
@@ -124,15 +135,15 @@ struct ContentView: View {
                 switch event.event {
 
                 case .entered(let object):
-                    Text("Entered with score: \(object.score)")
+                    Text("Entered with points: \(object.points)")
                 case .left(let object):
-                    Text("Left with score: \(object.score)")
+                    Text("Left with points: \(object.points)")
                 case .created(let object):
-                    Text("Created with score: \(object.score)")
+                    Text("Created with points: \(object.points)")
                 case .updated(let object):
-                    Text("Updated with score: \(object.score)")
+                    Text("Updated with points: \(object.points)")
                 case .deleted(let object):
-                    Text("Deleted with score: \(object.score)")
+                    Text("Deleted with points: \(object.points)")
                 }
             } else {
                 Text("Not subscribed to a query")
@@ -231,3 +242,5 @@ Handling errors is and other events is similar, take a look at the `Subscription
 You are not limited to a single Live Query Client - you can create multiple instances of `ParseLiveQuery`, use certificate authentication and pinning, receive metrics about each client connection, connect to individual server URLs, and more.
 
 [docs]: https://docs.parseplatform.org
+[license-link]: LICENSE
+[open-collective-link]: https://opencollective.com/parse-server

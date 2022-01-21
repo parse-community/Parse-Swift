@@ -44,7 +44,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
         URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -159,10 +159,10 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             throw ParseError(code: .unknownError, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
-        let localId = parseFile.localId
+        let localId = parseFile.id
         XCTAssertNotNil(localId)
         XCTAssertEqual(localId,
-                       parseFile.localId,
+                       parseFile.id,
                        "localId should remain the same no matter how many times the getter is called")
     }
 
@@ -188,12 +188,11 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         parseFile2.url = nil
         XCTAssertNotEqual(parseFile1, parseFile2, "no urls, but localIds shoud be different")
         let uuid = UUID()
-        parseFile1.localId = uuid
-        parseFile2.localId = uuid
+        parseFile1.id = uuid
+        parseFile2.id = uuid
         XCTAssertEqual(parseFile1, parseFile2, "no urls, but localIds shoud be the same")
     }
 
-    #if !os(Linux) && !os(Android)
     func testDebugString() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
             throw ParseError(code: .unknownError, message: "Should have converted to data")
@@ -203,11 +202,10 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
                                   metadata: ["Testing": "123"],
                                   tags: ["Hey": "now"])
         XCTAssertEqual(parseFile.debugDescription,
-                       "ParseFile ({\"name\":\"sampleData.txt\",\"__type\":\"File\"})")
+                       "ParseFile ({\"__type\":\"File\",\"name\":\"sampleData.txt\"})")
         XCTAssertEqual(parseFile.description,
-                       "ParseFile ({\"name\":\"sampleData.txt\",\"__type\":\"File\"})")
+                       "ParseFile ({\"__type\":\"File\",\"name\":\"sampleData.txt\"})")
     }
-    #endif
 
     func testSave() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
@@ -682,7 +680,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
 
     //URL Mocker is not able to mock this in linux and tests fail, so don't run.
     func testFetchFileCancelAsync() throws {
@@ -959,7 +957,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile.url, response.url)
         XCTAssertNotNil(fetchedFile.localURL)
 
-        #if !os(tvOS)
         // Remove URL so we can check cache
         MockURLProtocol.removeAll()
 
@@ -970,9 +967,9 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // More cache tests
         guard let currentMemoryUsage = URLSession.parse.configuration.urlCache?.currentMemoryUsage,
-              let currentDiskUsage = URLSession.parse.configuration.urlCache?.currentDiskUsage else {
-            XCTFail("Should have unwrapped")
-            return
+                let currentDiskUsage = URLSession.parse.configuration.urlCache?.currentDiskUsage else {
+                    XCTFail("Should have unwrapped")
+                    return
         }
         XCTAssertGreaterThan(currentMemoryUsage, 0)
         XCTAssertGreaterThan(currentDiskUsage, 0)
@@ -982,7 +979,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
         XCTAssertLessThan(updatedMemoryUsage, currentMemoryUsage)
-        #endif
     }
 
     func testFetchFileProgress() throws {

@@ -18,7 +18,7 @@ public struct ParseVersion: Encodable {
         get {
             guard let versionInMemory: String =
                 try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentVersion) else {
-                #if !os(Linux) && !os(Android)
+                #if !os(Linux) && !os(Android) && !os(Windows)
                     guard let versionFromKeyChain: String =
                         try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentVersion)
                          else {
@@ -39,7 +39,7 @@ public struct ParseVersion: Encodable {
         }
         set {
             try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentVersion)
-            #if !os(Linux) && !os(Android)
+            #if !os(Linux) && !os(Android) && !os(Windows)
             try? KeychainStore.shared.set(newValue, for: ParseStorage.Keys.currentVersion)
             #endif
         }

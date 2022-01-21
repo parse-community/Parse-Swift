@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double ParseVersionNumber;
 FOUNDATION_EXPORT const unsigned char ParseVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <Parse/PublicHeader.h>
-
-

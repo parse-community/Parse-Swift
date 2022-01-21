@@ -13,13 +13,14 @@ import XCTest
 class ParseAppleTests: XCTestCase {
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -34,8 +35,9 @@ class ParseAppleTests: XCTestCase {
         var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -75,7 +77,7 @@ class ParseAppleTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -420,7 +422,7 @@ class ParseAppleTests: XCTestCase {
             case .success(let user):
                 XCTAssertEqual(user, User.current)
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-                XCTAssertEqual(user.username, "parse")
+                XCTAssertEqual(user.username, "hello10")
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.apple.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
@@ -473,7 +475,7 @@ class ParseAppleTests: XCTestCase {
             case .success(let user):
                 XCTAssertEqual(user, User.current)
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-                XCTAssertEqual(user.username, "parse")
+                XCTAssertEqual(user.username, "hello10")
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.apple.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
@@ -544,7 +546,7 @@ class ParseAppleTests: XCTestCase {
             case .success(let user):
                 XCTAssertEqual(user, User.current)
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-                XCTAssertEqual(user.username, "parse")
+                XCTAssertEqual(user.username, "hello10")
                 XCTAssertNil(user.password)
                 XCTAssertFalse(user.apple.isLinked)
             case .failure(let error):

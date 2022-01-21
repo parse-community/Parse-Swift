@@ -22,6 +22,8 @@ class APICommandTests: XCTestCase {
         var ACL: ParseACL?
 
         var name = "First"
+
+        var originalData: Data?
     }
 
     override func setUpWithError() throws {
@@ -40,7 +42,7 @@ class APICommandTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -48,13 +50,14 @@ class APICommandTests: XCTestCase {
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -72,8 +75,9 @@ class APICommandTests: XCTestCase {
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -115,6 +119,16 @@ class APICommandTests: XCTestCase {
         } catch {
             XCTFail("Should login")
         }
+    }
+
+    func testOptionCacheHasher() throws {
+        var options = API.Options()
+        options.insert(.cachePolicy(.returnCacheDataDontLoad))
+        XCTAssertFalse(options.contains(.useMasterKey))
+        XCTAssertTrue(options.contains(.cachePolicy(.returnCacheDataDontLoad)))
+        XCTAssertTrue(options.contains(.cachePolicy(.reloadRevalidatingCacheData)))
+        options.insert(.useMasterKey)
+        XCTAssertTrue(options.contains(.useMasterKey))
     }
 
     func testExecuteCorrectly() {
@@ -172,7 +186,7 @@ class APICommandTests: XCTestCase {
     }
 
     //This is how errors HTTP errors should typically come in
-    func testErrorHTTPJSON() {
+    func testErrorHTTP400JSON() {
         let parseError = ParseError(code: .connectionFailed, message: "Connection failed")
         let errorKey = "error"
         let errorValue = "yarr"
@@ -211,11 +225,74 @@ class APICommandTests: XCTestCase {
         }
     }
 
-    //This is less common as the HTTP won't be able to produce ParseErrors directly, but used for testing
-    func testErrorHTTPReturnsParseError1() {
+    //This is how errors HTTP errors should typically come in
+    func testErrorHTTP500JSON() {
+        let parseError = ParseError(code: .connectionFailed, message: "Connection failed")
+        let errorKey = "error"
+        let errorValue = "yarr"
+        let codeKey = "code"
+        let codeValue = 100
+        let responseDictionary: [String: Any] = [
+            errorKey: errorValue,
+            codeKey: codeValue
+        ]
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let json = try JSONSerialization.data(withJSONObject: responseDictionary, options: [])
+                return MockURLResponse(data: json, statusCode: 500, delay: 0.0)
+            } catch {
+                XCTFail(error.localizedDescription)
+                return nil
+            }
+        }
+
+        do {
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
+                throw parseError
+            }).execute(options: [])
+
+            XCTFail("Should have thrown an error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("should be able unwrap final error to ParseError")
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+        }
+    }
+
+    func testErrorHTTPReturns400NoDataFromServer() {
         let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
         MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(error: originalError)
+            return MockURLResponse(error: originalError) // Status code defaults to 400
+        }
+        do {
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
+                throw originalError
+            }).execute(options: [])
+            XCTFail("Should have thrown an error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("should be able unwrap final error to ParseError")
+                return
+            }
+            XCTAssertEqual(originalError.code, error.code)
+        }
+    }
+
+    func testErrorHTTPReturns500NoDataFromServer() {
+        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
+        MockURLProtocol.mockRequests { _ in
+            var response = MockURLResponse(error: originalError)
+            response.statusCode = 500
+            return response
         }
         do {
             _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
@@ -559,6 +636,19 @@ class APICommandTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
 
+        let patch = API.Command<Level, NoBody?>(method: .PATCH, path: .login) { _ in
+            return nil
+        }
+        switch patch.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
         let delete = API.Command<Level, NoBody?>(method: .DELETE, path: .login) { _ in
             return nil
         }
@@ -607,6 +697,19 @@ class APICommandTests: XCTestCase {
             return nil
         }
         switch put.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let patch = API.NonParseBodyCommand<NoBody, NoBody?>(method: .PATCH, path: .login) { _ in
+            return nil
+        }
+        switch patch.prepareURLRequest(options: []) {
 
         case .success(let request):
             if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {

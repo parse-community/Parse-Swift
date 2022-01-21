@@ -68,7 +68,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static public func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
                                       at date: Date? = nil,
@@ -100,14 +102,13 @@ public struct ParseAnalytics: ParseType, Hashable {
         let appOppened = ParseAnalytics(name: "AppOpened",
                                         dimensions: userInfo,
                                         at: date)
-        appOppened.saveCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+        appOppened.saveCommand().executeAsync(options: options,
+                                              callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
@@ -123,7 +124,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static public func trackAppOpened(dimensions: [String: String]? = nil,
                                       at date: Date? = nil,
@@ -151,14 +154,13 @@ public struct ParseAnalytics: ParseType, Hashable {
         let appOppened = ParseAnalytics(name: "AppOpened",
                                         dimensions: dimensions,
                                         at: date)
-        appOppened.saveCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+        appOppened.saveCommand().executeAsync(options: options,
+                                              callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
@@ -169,7 +171,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func track(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
@@ -192,14 +196,13 @@ public struct ParseAnalytics: ParseType, Hashable {
             }
         }
         #endif
-        self.saveCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+        self.saveCommand().executeAsync(options: options,
+                                        callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
@@ -214,7 +217,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public mutating func track(dimensions: [String: String]?,
                                at date: Date? = nil,
@@ -241,14 +246,13 @@ public struct ParseAnalytics: ParseType, Hashable {
         #endif
         self.dimensions = dimensions
         self.at = date
-        self.saveCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+        self.saveCommand().executeAsync(options: options,
+                                        callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }

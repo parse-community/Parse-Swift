@@ -15,13 +15,14 @@ class ParseSessionTests: XCTestCase {
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -37,6 +38,7 @@ class ParseSessionTests: XCTestCase {
         var createdWith: [String: String]
         var installationId: String
         var expiresAt: Date
+        var originalData: Data?
 
         var objectId: String?
         var createdAt: Date?
@@ -70,7 +72,7 @@ class ParseSessionTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -78,6 +80,7 @@ class ParseSessionTests: XCTestCase {
 
     func testFetchCommand() throws {
         var session = Session<User>()
+        XCTAssertThrowsError(try session.fetchCommand(include: nil))
         session.objectId = "me"
         do {
             let command = try session.fetchCommand(include: nil)
@@ -94,21 +97,8 @@ class ParseSessionTests: XCTestCase {
 
     func testEndPoint() throws {
         var session = Session<User>()
+        XCTAssertEqual(session.endpoint.urlComponent, "/sessions")
         session.objectId = "me"
-        //This endpoint is at the ParseSession level
         XCTAssertEqual(session.endpoint.urlComponent, "/sessions/me")
     }
-
-#if !os(Linux) && !os(Android)
-    func testURLSession() throws {
-        let session = URLSession.parse
-        XCTAssertNotNil(session.configuration.urlCache)
-        XCTAssertEqual(session.configuration.requestCachePolicy, ParseSwift.configuration.requestCachePolicy)
-        guard let headers = session.configuration.httpAdditionalHeaders as? [String: String]? else {
-            XCTFail("Should have casted")
-            return
-        }
-        XCTAssertEqual(headers, ParseSwift.configuration.httpAdditionalHeaders)
-    }
-#endif
 }
