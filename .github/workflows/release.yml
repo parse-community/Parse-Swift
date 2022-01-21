@@ -26,7 +26,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   docs:
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Cache Gems
