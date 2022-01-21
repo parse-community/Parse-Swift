@@ -214,6 +214,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      #- name: Build
+      #  run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
       - name: Cache Gems
         id: cache-gems
         uses: actions/cache@v2

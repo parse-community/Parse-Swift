@@ -43,6 +43,8 @@ jobs:
           bundle install
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+      #- name: Build
+      #  run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
  #     - name: Use multiple cores
  #       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Create Jazzy Docs
