@@ -16,6 +16,7 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "ParseSwiftTests",
-            dependencies: ["ParseSwift"])
+            dependencies: ["ParseSwift"],
+            exclude: ["Info.plist"])
     ]
 )
