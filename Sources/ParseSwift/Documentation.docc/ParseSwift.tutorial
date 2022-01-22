@@ -5,7 +5,7 @@
     
     @Chapter(name: "Your first Object") {
         
-        @Image(source: parse.png, alt: "Parse image")
+        @Image(source: parse-swift.png, alt: "Parse image")
         
         @TutorialReference(tutorial: "doc:Your-First-Object")
     }
