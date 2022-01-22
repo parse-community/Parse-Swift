@@ -9,6 +9,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...4.0.0)
 
 __New features__
+- (Breaking Change) Bump the SPM toolchain from 5.1 to 5.5. This is done to take advantage of features in the latest toolchain. For developers using < Xcode 13 and depending on the Swift SDK through SPM, this will cause a break. You can either upgrade your Xcode or use Cocoapods or Carthage to depend on ParseSwift ([#326](https://github.com/parse-community/Parse-Swift/pull/326)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the 
     .mergeable property. To do this, developers need to add an implementation of merge() to 
     respective ParseObject's. The compiler will recommend the new originalData property be added to
@@ -17,11 +18,11 @@ __New features__
     needs to have a default initilizer of init(). See the Playgrounds for recommendations on how to 
     define a ParseObject. Look at the PR for 
     details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add DocC for SDK documentation ([#209](https://github.com/parse-community/Parse-Swift/pull/214)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Change the following method parameter names: isUsingTransactions -> usingTransactions, isAllowingCustomObjectIds -> allowingCustomObjectIds, isUsingEqualQueryConstraint -> usingEqualQueryConstraint, isMigratingFromObjcSDK -> migratingFromObjcSDK, isDeletingKeychainIfNeeded -> deletingKeychainIfNeeded ([#323](https://github.com/parse-community/Parse-Swift/pull/323)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Add DocC for SDK documentation ([#209](https://github.com/parse-community/Parse-Swift/pull/214)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.1.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...3.1.2)
