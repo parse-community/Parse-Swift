@@ -151,14 +151,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Create and set the default keychain
-      run: |
-        security create-keychain -p "" temporary
-        security default-keychain -s temporary
-        security unlock-keychain -p "" temporary
-        security set-keychain-settings -lut 7200 temporary
-    - name: Build and Test
-      run: swift test --enable-code-coverage -v
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11 -derivedDataPath DerivedData clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
@@ -166,12 +159,12 @@ jobs:
       id: coverage-files
       with:
         format: lcov
-        search-paths: ./.build
+        search-paths: ./DerivedData
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
-        env_vars: SPM5_2
+        env_vars: IOS5_2
         fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
