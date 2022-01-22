@@ -51,7 +51,7 @@ To learn how to use or experiment with ParseSwift, you can run and edit the [Par
 You can use The Swift Package Manager (SPM) to install ParseSwift by adding the following description to your `Package.swift` file:
 
 ```swift
-// swift-tools-version:5.1
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
