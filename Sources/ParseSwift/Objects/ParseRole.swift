@@ -19,6 +19,8 @@ import Foundation
  */
 public protocol ParseRole: ParseObject {
 
+    associatedtype RoleUser: ParseUser
+
     /**
      Gets or sets the name for a role.
      This value must be set before the role has been saved to the server,
@@ -28,10 +30,42 @@ public protocol ParseRole: ParseObject {
     var name: String? { get set }
 
     /**
+     Gets the `ParseRelation` for the `ParseUser` objects that are direct children of this role.
+     These users are granted any privileges that this role has been granted
+     (e.g. read or write access through `ParseACL`s). You can add or remove users from
+     the role through this relation.
+     */
+    var users: ParseRelation<Self>? { get }
+
+    /**
+     Gets the `ParseRelation` for the `ParseRole` objects that are direct children of this role.
+     These roles' users are granted any privileges that this role has been granted
+     (e.g. read or write access through `ParseACL`s). You can add or remove child roles
+     from this role through this relation.
+     */
+    var roles: ParseRelation<Self>? { get }
+
+    /**
      Create a `ParseRole`. It's best to use the provided initializers, `init(name: String)`
      or `init(name: String, acl: ParseACL)`. 
      */
     init()
+
+    /**
+     Create a `ParseRole` with a name. The `ParseACL` will still need to be initialized before saving.
+     - parameter name: The name of the Role to create.
+     - throws: An error of type `ParseError` if the name has invalid characters.
+     */
+    init(name: String) throws
+
+    /**
+     Create a `ParseRole` with a name.
+     - parameter name: The name of the Role to create.
+     - parameter acl: The `ParseACL` for this role. Roles must have an ACL.
+     A `ParseRole` is a local representation of a role persisted to the Parse Server.
+     - throws: An error of type `ParseError` if the name has invalid characters.
+     */
+    init(name: String, acl: ParseACL) throws
 }
 
 // MARK: Default Implementations
@@ -40,24 +74,20 @@ public extension ParseRole {
         "_Role"
     }
 
-    /**
-     Create a `ParseRole` with a name. The `ParseACL` will still need to be initialized before saving.
-     - parameter name: The name of the Role to create.
-     - throws: An error of type `ParseError`. if the name has invalid characters.
-     */
+    var users: ParseRelation<Self>? {
+        try? ParseRelation(parent: self, key: "users", className: RoleUser.className)
+    }
+
+    var roles: ParseRelation<Self>? {
+        try? ParseRelation(parent: self, key: "roles", className: Self.className)
+    }
+
     init(name: String) throws {
         try Self.checkName(name)
         self.init()
         self.name = name
     }
 
-    /**
-     Create a `ParseRole` with a name.
-     - parameter name: The name of the Role to create.
-     - parameter acl: The `ParseACL` for this role. Roles must have an ACL.
-     A `ParseRole` is a local representation of a role persisted to the Parse Server.
-     - throws: An error of type `ParseError`. if the name has invalid characters.
-     */
     init(name: String, acl: ParseACL) throws {
         try Self.checkName(name)
         self.init()
@@ -66,11 +96,11 @@ public extension ParseRole {
     }
 
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.name == rhs.name
+        lhs.name == rhs.name && lhs.className == rhs.className
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(self.name)
+        hasher.combine("\(self.className)_\(String(describing: self.name))")
     }
 }
 
@@ -97,40 +127,32 @@ extension ParseRole {
 public extension ParseRole {
 
     /**
-     Gets the `ParseRelation` for the `ParseUser` objects that are direct children of this role.
+     Query the `ParseRelation` for the `ParseRole`'s that are direct children of this role.
      These users are granted any privileges that this role has been granted
-     (e.g. read or write access through `ParseACL`s). You can add or remove users from
-     the role through this relation.
+     (e.g. read or write access through `ParseACL`s).
+     - throws: An error of type `ParseError`.
+     - returns: An instance of query for easy chaining.
      */
-    var users: ParseRelation<Self> {
-        ParseRelation(parent: self, key: "users", className: "_User")
-    }
-
-    /**
-     Gets the `ParseRelation` for the `ParseRole` objects that are direct children of this role.
-     These roles' users are granted any privileges that this role has been granted
-     (e.g. read or write access through `ParseACL`s). You can add or remove child roles
-     from this role through this relation.
-     */
-    var roles: ParseRelation<Self> {
-        ParseRelation(parent: self, key: "roles", className: "_Role")
+    func queryRoles() throws -> Query<Self> {
+        guard let roles = roles else {
+            throw ParseError(code: .unknownError,
+                             message: "Could not create \"users\" relation ")
+        }
+        return try roles.query()
     }
 
     /**
      Query the `ParseRelation` for the `ParseUser`'s that are direct children of this role.
      These users are granted any privileges that this role has been granted
      (e.g. read or write access through `ParseACL`s).
+     - throws: An error of type `ParseError`.
+     - returns: An instance of query for easy chaining.
      */
-    func queryUsers<T>(_ user: T) throws -> Query<T> where T: ParseUser {
-        try users.query(user)
-    }
-
-    /**
-     Query the `ParseRelation` for the `ParseRole`'s that are direct children of this role.
-     These users are granted any privileges that this role has been granted
-     (e.g. read or write access through `ParseACL`s).
-     */
-    var queryRoles: Query<Self>? {
-        try? roles.query(self)
+    func queryUsers() throws -> Query<RoleUser> {
+        guard let users = users else {
+            throw ParseError(code: .unknownError,
+                             message: "Could not create \"users\" relation ")
+        }
+        return try users.query()
     }
 }

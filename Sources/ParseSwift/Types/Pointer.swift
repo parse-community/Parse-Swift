@@ -33,18 +33,19 @@ public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hasha
     internal let __type: String = "Pointer" // swiftlint:disable:this identifier_name
 
     /**
-    The id of the object.
+     The id of the object.
     */
     public var objectId: String
 
     /**
-    The class name of the object.
+     The class name of the object.
     */
     public var className: String
 
     /**
      Create a Pointer type.
      - parameter target: Object to point to.
+     - throws: An error of type `ParseError`.
      */
     public init(_ target: T) throws {
         self.objectId = try getObjectId(target: target)
@@ -58,6 +59,16 @@ public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hasha
     public init(objectId: String) {
         self.className = T.className
         self.objectId = objectId
+    }
+
+    /**
+     Convert a Pointer to its respective `ParseObject`.
+     - returns: A `ParseObject` created from this Pointer.
+     */
+    public func toObject() -> T {
+        var object = T()
+        object.objectId = self.objectId
+        return object
     }
 
     private enum CodingKeys: String, CodingKey {
