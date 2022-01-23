@@ -171,6 +171,7 @@ class ParseRoleTests: XCTestCase {
         acl.publicRead = true
 
         var role = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertNil(role.users) // Shouldn't produce a relation without an objectId.
         role.objectId = "yolo"
         guard let userRoles = role.users else {
             XCTFail("Should have unwrapped")
@@ -353,6 +354,7 @@ class ParseRoleTests: XCTestCase {
         acl.publicRead = true
 
         var role = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertNil(role.roles) // Shouldn't produce a relation without an objectId.
         role.objectId = "yolo"
         guard let roles = role.roles else {
             XCTFail("Should have unwrapped")

@@ -33,6 +33,28 @@ class ParseRelationTests: XCTestCase {
         }
     }
 
+    struct GameScore2: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var points: Int
+        var members = [String]()
+        var levels: ParseRelation<Self>?
+
+        //custom initializers
+        init() {
+            self.points = 5
+        }
+        init(points: Int) {
+            self.points = points
+        }
+    }
+
     struct Level: ParseObject {
         //: These are required by ParseObject
         var objectId: String?
@@ -104,12 +126,14 @@ class ParseRelationTests: XCTestCase {
 
     func testParseObjectRelation() throws {
         var score = GameScore(points: 10)
-        let objectId = "hello"
-        score.objectId = objectId
-
         var level = Level(level: 1)
         level.objectId = "nice"
 
+        // Shouldn't produce a relation without an objectId.
+        XCTAssertThrowsError(try score.relation("yolo", child: level))
+
+        let objectId = "hello"
+        score.objectId = objectId
         var relation = try score.relation("yolo", child: level)
 
         let expected = "{\"__type\":\"Relation\",\"className\":\"Level\"}"
@@ -205,6 +229,23 @@ class ParseRelationTests: XCTestCase {
         let encoded = try ParseCoding.jsonEncoder().encode(operation)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
+    }
+
+    func testAddOpperationNoObjectId() throws {
+        var score = GameScore(points: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+
+        var relation = try ParseRelation(parent: score, key: "yolo")
+        relation.parent = nil // This will happen with decoded ParseRelations
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        // Shouldn't produce a relation without an objectId.
+        XCTAssertThrowsError(try relation.add([level]))
+        XCTAssertThrowsError(try relation.add("yolo", objects: [level]))
     }
 
     func testAddOperationsNoKey() throws {
@@ -307,6 +348,23 @@ class ParseRelationTests: XCTestCase {
         let encoded = try ParseCoding.jsonEncoder().encode(operation)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
+    }
+
+    func testRemoveOpperationNoObjectId() throws {
+        var score = GameScore(points: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+
+        var relation = try ParseRelation(parent: score, key: "yolo")
+        relation.parent = nil // This will happen with decoded ParseRelations
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        // Shouldn't produce a relation without an objectId.
+        XCTAssertThrowsError(try relation.remove([level]))
+        XCTAssertThrowsError(try relation.remove("yolo", objects: [level]))
     }
 
     func testRemoveOperationsNoKey() throws {
@@ -413,6 +471,87 @@ class ParseRelationTests: XCTestCase {
             let encoded3 = try ParseCoding.jsonEncoder().encode(query3)
             let decoded3 = try XCTUnwrap(String(data: encoded3, encoding: .utf8))
             XCTAssertEqual(decoded3, expected3)
+        } catch {
+            XCTFail("Should not have thrown error")
+        }
+    }
+
+    func testQueryNoObjectId() throws {
+        var score = GameScore(points: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+
+        var relation = try ParseRelation(parent: score, key: "yolo")
+        relation.parent = nil // This will happen with decoded ParseRelations
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        // Shouldn't produce a relation without an objectId.
+        do {
+            let _: Query<Level> = try relation.query()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.containedIn([.unknownError]))
+        }
+        do {
+            let _: Query<Level> = try relation.query("yolo")
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.containedIn([.unknownError]))
+        }
+    }
+
+    func testQueryStoredRelationParentSelf() throws {
+        var score = GameScore(points: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+
+        var relation = try ParseRelation(parent: score)
+        relation.parent = nil // This will happen with decoded ParseRelations
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        do {
+            let usableStoredRelation = try score.relation(relation, key: "levels")
+            let query: Query<Level> = try usableStoredRelation.query()
+            // swiftlint:disable:next line_length
+            let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"$relatedTo\":{\"key\":\"levels\",\"object\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
+            let encoded = try ParseCoding.jsonEncoder().encode(query)
+            let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+            XCTAssertEqual(decoded, expected)
+        } catch {
+            XCTFail("Should not have thrown error")
+        }
+    }
+
+    func testQueryStoredRelation() throws {
+        var score = GameScore(points: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+
+        var score2 = GameScore2(points: 15)
+        let objectId2 = "yolo"
+        score2.objectId = objectId2
+
+        var relation = try ParseRelation(parent: score2)
+        relation.parent = nil // This will happen with decoded ParseRelations
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        do {
+            let usableStoredRelation = try score.relation(relation, key: "levels", with: score2)
+            let query: Query<Level> = try usableStoredRelation.query()
+            // swiftlint:disable:next line_length
+            let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"$relatedTo\":{\"key\":\"levels\",\"object\":{\"__type\":\"Pointer\",\"className\":\"GameScore2\",\"objectId\":\"yolo\"}}}}"
+            let encoded = try ParseCoding.jsonEncoder().encode(query)
+            let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+            XCTAssertEqual(decoded, expected)
         } catch {
             XCTFail("Should not have thrown error")
         }

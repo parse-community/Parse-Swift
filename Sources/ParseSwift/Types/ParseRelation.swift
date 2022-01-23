@@ -391,22 +391,22 @@ public extension ParseObject {
     }
 
     /**
-     Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
+     Returns a `Query` for child objects that is limited to objects for a specific `key` and `parent` in this relation.
      - parameter key: The key for the relation.
      - parameter parent: The parent object for the relation.
      - throws: An error of type `ParseError`.
-     - returns: A relation query.
+     - returns: A relation query for child objects related to a `parent` object with a specific `key`.
     */
     static func queryRelations<U: ParseObject>(_ key: String, parent: U) throws -> Query<Self> {
         try ParseRelation<Self>.query(key, parent: parent)
     }
 
     /**
-     Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
+     Returns a `Query` for child objects that is limited to objects for a specific `key` and `parent` in this relation.
      - parameter key: The key for the relation.
      - parameter parent: The parent pointer object for the relation.
      - throws: An error of type `ParseError`.
-     - returns: A relation query.
+     - returns: A relation query for child objects related to a `parent` object with a specific `key`.
     */
     static func queryRelations<U: ParseObject>(_ key: String, parent: Pointer<U>) -> Query<Self> {
         ParseRelation<Self>.query(key, parent: parent)
@@ -447,19 +447,6 @@ public extension ParseObject {
      Establish a relation based on a stored relation.
      - parameter relation: The stored relation property.
      - parameter key: The key for the relation.
-     - parameter with: The parent `ParseObject` of the `ParseRelation`.
-     - returns: A usable `ParseRelation` based on the stored relation property.
-     */
-    func relation<T: ParseObject>(_ relation: ParseRelation<T>?,
-                                  key: String,
-                                  with parent: T) throws -> ParseRelation<T> {
-        try Self.relation(relation, key: key, with: parent)
-    }
-
-    /**
-     Establish a relation based on a stored relation.
-     - parameter relation: The stored relation property.
-     - parameter key: The key for the relation.
      - parameter with: The parent `ParseObject` Pointer of the `ParseRelation`.
      - returns: A usable `ParseRelation` based on the stored relation property.
      */
@@ -467,6 +454,19 @@ public extension ParseObject {
                                   key: String,
                                   with parent: Pointer<T>) throws -> ParseRelation<T> {
         try Self.relation(relation, key: key, with: parent)
+    }
+
+    /**
+     Establish a relation based on a stored relation.
+     - parameter relation: The stored relation property.
+     - parameter key: The key for the relation.
+     - parameter with: The parent `ParseObject` of the `ParseRelation`.
+     - returns: A usable `ParseRelation` based on the stored relation property.
+     */
+    func relation<T: ParseObject>(_ relation: ParseRelation<T>?,
+                                  key: String,
+                                  with parent: T) throws -> ParseRelation<T> {
+        try self.relation(relation, key: key, with: try parent.toPointer())
     }
 }
 
