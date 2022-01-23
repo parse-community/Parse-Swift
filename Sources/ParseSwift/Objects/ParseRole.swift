@@ -46,8 +46,10 @@ public protocol ParseRole: ParseObject {
     var roles: ParseRelation<Self>? { get }
 
     /**
-     Create a `ParseRole`. It's best to use the provided initializers, `init(name: String)`
-     or `init(name: String, acl: ParseACL)`. 
+     Create a an empty `ParseRole`.
+     - warning: It's best to use the provided initializers, `init(name: String)`
+     or `init(name: String, acl: ParseACL)` instead of `init()` as they ensure the
+     `ParseRole` is setup properly.
      */
     init()
 

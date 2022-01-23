@@ -66,9 +66,11 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
             return true
         }
     }
+
     public static var __type: String { // swiftlint:disable:this identifier_name
         "twitter"
     }
+
     public init() { }
 }
 

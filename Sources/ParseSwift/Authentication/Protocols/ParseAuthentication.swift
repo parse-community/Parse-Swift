@@ -21,13 +21,15 @@ import Combine
  */
 public protocol ParseAuthentication: Codable {
     associatedtype AuthenticatedUser: ParseUser
-    init()
 
     /// The type of authentication.
     static var __type: String { get } // swiftlint:disable:this identifier_name
 
     /// Returns `true` if the *current* user is linked to the respective authentication type.
     var isLinked: Bool { get }
+
+    /// The default initializer for this authentication type.
+    init()
 
     /**
      Login a `ParseUser` *asynchronously* using the respective authentication type.
