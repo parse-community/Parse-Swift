@@ -118,6 +118,22 @@ public extension ParseUser {
     }
 
     /**
+     Verifies *asynchronously* whether the specified password associated with the user account is valid.
+     Publishes when complete.
+        - parameter password: The password to be verified.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    static func verifyPasswordPublisher(password: String,
+                                        options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            Self.verifyPassword(password: password,
+                                options: options,
+                                completion: promise)
+        }
+    }
+
+    /**
      Requests *asynchronously* a verification email be sent to the specified email address
      associated with the user account. Publishes when complete.
         - parameter email: The email address associated with the user.

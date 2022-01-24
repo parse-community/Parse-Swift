@@ -488,6 +488,70 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     }
 
     @MainActor
+    func testVerifyPasswordLoggedIn() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        let serverResponse = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        _ = try await User.verifyPassword(password: "world")
+    }
+
+    @MainActor
+    func testVerifyPasswordNotLoggedIn() async throws {
+        let serverResponse = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        _ = try await User.verifyPassword(password: "world")
+    }
+
+    @MainActor
+    func testVerifyPasswordLoggedInError() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        let parseError = ParseError(code: .userWithEmailNotFound,
+                                    message: "User email is not verified.")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            _ = try await User.verifyPassword(password: "blue")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+        }
+    }
+
+    @MainActor
     func testVerificationEmail() async throws {
         let serverResponse = NoBody()
 

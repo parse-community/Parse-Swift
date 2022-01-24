@@ -1857,6 +1857,17 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.passwordResetAsyncError(parseError: parseError, callbackQueue: .main)
     }
 
+    func testVerifyPasswordCommand() throws {
+        let username = "hello"
+        let password = "world"
+        let command = User.verifyPasswordCommand(username: username, password: password)
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/verifyPassword")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertEqual(command.body?.username, username)
+        XCTAssertEqual(command.body?.password, password)
+    }
+
     func testVerificationEmailRequestCommand() throws {
         let body = EmailBody(email: "hello@parse.org")
         let command = User.verificationEmailCommand(email: body.email)

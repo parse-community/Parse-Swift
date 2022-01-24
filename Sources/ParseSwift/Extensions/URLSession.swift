@@ -40,10 +40,12 @@ internal extension URLSession {
                        responseError: Error?,
                        mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
+            print("****1: \(responseError)")
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
                                            message: "Unable to connect with parse-server: \(responseError)"))
             }
+            print("****2: \(parseError)")
             return .failure(parseError)
         }
         guard let response = urlResponse else {
@@ -54,17 +56,20 @@ internal extension URLSession {
             return .failure(parseError)
         }
         if let responseData = responseData {
+            print("****3: \(String(data: responseData, encoding: .utf8))")
+            if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
+                return .failure(error)
+            }
+            if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
+                                                          data: responseData),
+                                                    for: request)
+            }
             do {
-                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                    URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
-                                                              data: responseData),
-                                                        for: request)
-                }
+                print("**** 4")
                 return try .success(mapper(responseData))
             } catch {
-                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
-                    return .failure(error)
-                }
+                print("**** 6")
                 guard let parseError = error as? ParseError else {
                     guard JSONSerialization.isValidJSONObject(responseData),
                           let json = try? JSONSerialization
@@ -83,6 +88,7 @@ internal extension URLSession {
                                                // swiftlint:disable:next line_length
                                                message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
                 }
+                print("**** 7: \(parseError)")
                 return .failure(parseError)
             }
         }

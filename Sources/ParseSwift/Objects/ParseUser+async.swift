@@ -121,6 +121,19 @@ public extension ParseUser {
     }
 
     /**
+     Verifies *asynchronously* whether the specified password associated with the user account is valid.
+        - parameter password: The password to be verified.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - throws: An error of type `ParseError`.
+    */
+    static func verifyPassword(password: String,
+                               options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
+            Self.verifyPassword(password: password, options: options, completion: continuation.resume)
+        }
+    }
+
+    /**
      Requests *asynchronously* a verification email be sent to the specified email address
      associated with the user account.
         - parameter email: The email address associated with the user.
