@@ -1352,6 +1352,24 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testUserSignUpNoToken() {
+        var loginResponse = LoginSignupResponse()
+        loginResponse.sessionToken = nil
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            _ = try User.signup(username: loginUserName, password: loginPassword)
+        } catch {
+            XCTAssertTrue((error as? ParseError)?.code == ParseError.Code.invalidSessionToken)
+        }
+    }
+
     func testUserSignUpNoBody() {
         var loginResponse = LoginSignupResponse()
         loginResponse.email = nil
