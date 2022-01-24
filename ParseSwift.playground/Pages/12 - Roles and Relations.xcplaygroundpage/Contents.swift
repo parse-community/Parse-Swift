@@ -30,6 +30,7 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
+    var scores: ParseRelation<Self>?
 
     //: Implement your own version of merge
     func merge(with object: Self) throws -> Self {
@@ -144,7 +145,7 @@ if savedRole != nil {
 do {
     //: `ParseRoles` have `ParseRelations` that relate them either `ParseUser` and `ParseRole` objects.
     //: The `ParseUser` relations can be accessed using `users`. We can then add `ParseUser`'s to the relation.
-    try savedRole!.users.add([User.current!]).save { result in
+    try savedRole!.users?.add([User.current!]).save { result in
         switch result {
         case .success(let saved):
             print("The role saved successfully: \(saved)")
@@ -160,9 +161,9 @@ do {
 }
 
 //: To retrieve the users who are all Administrators, we need to query the relation.
-let templateUser = User()
 do {
-    try savedRole!.users.query(templateUser).find { result in
+    let query: Query<User>? = try savedRole!.users?.query()
+    query?.find { result in
         switch result {
         case .success(let relatedUsers):
             print("""
@@ -180,7 +181,7 @@ do {
 
 //: Of course, you can remove users from the roles as well.
 do {
-    try savedRole!.users.remove([User.current!]).save { result in
+    try savedRole!.users?.remove([User.current!]).save { result in
         switch result {
         case .success(let saved):
             print("The role removed successfully: \(saved)")
@@ -233,7 +234,7 @@ if savedRoleModerator != nil {
 do {
     //: `ParseRoles` have `ParseRelations` that relate them either `ParseUser` and `ParseRole` objects.
     //: The `ParseUser` relations can be accessed using `users`. We can then add `ParseUser`'s to the relation.
-    try savedRole!.roles.add([savedRoleModerator!]).save { result in
+    try savedRole!.roles?.add([savedRoleModerator!]).save { result in
         switch result {
         case .success(let saved):
             print("The role saved successfully: \(saved)")
@@ -249,22 +250,26 @@ do {
 
 //: To retrieve the users who are all Administrators, we need to query the relation.
 //: This time we will use a helper query from `ParseRole`.
-savedRole!.queryRoles?.find { result in
-    switch result {
-    case .success(let relatedRoles):
-        print("""
-            The following roles are part of the
-            \"\(String(describing: savedRole!.name)) role: \(relatedRoles)
-        """)
+do {
+    try savedRole!.queryRoles().find { result in
+        switch result {
+        case .success(let relatedRoles):
+            print("""
+                The following roles are part of the
+                \"\(String(describing: savedRole!.name)) role: \(relatedRoles)
+            """)
 
-    case .failure(let error):
-        print("Error saving role: \(error)")
+        case .failure(let error):
+            print("Error saving role: \(error)")
+        }
     }
+} catch {
+    print("Error: \(error)")
 }
 
 //: Of course, you can remove users from the roles as well.
 do {
-    try savedRole!.roles.remove([savedRoleModerator!]).save { result in
+    try savedRole!.roles?.remove([savedRoleModerator!]).save { result in
         switch result {
         case .success(let saved):
             print("The role removed successfully: \(saved)")
@@ -293,7 +298,10 @@ let score2 = GameScore(points: 57)
         //: Make an array of all scores that were properly saved.
         let scores = savedScores.compactMap { try? $0.get() }
         do {
-            let newRelations = try relation.add("scores", objects: scores)
+            guard let newRelations = try relation?.add("scores", objects: scores) else {
+                print("Error: should have unwrapped relation")
+                return
+            }
             newRelations.save { result in
                 switch result {
                 case .success(let saved):
@@ -312,11 +320,11 @@ let score2 = GameScore(points: 57)
     }
 }
 
-let specificRelation = User.current!.relation("scores", child: score1)
 //: You can also do
 // let specificRelation = User.current!.relation("scores", className: "GameScore")
 do {
-    try specificRelation.query(score1).find { result in
+    let specificRelation = try User.current!.relation("scores", child: score1)
+    try (specificRelation.query() as Query<GameScore>).find { result in
         switch result {
         case .success(let scores):
             print("Found related scores: \(scores)")
@@ -326,23 +334,49 @@ do {
     }
 } catch {
     print(error)
+}
+
+//: In addition, you can leverage the child to find scores related to the parent.
+do {
+    try GameScore.queryRelations("scores", parent: User.current!).find { result in
+        switch result {
+        case .success(let scores):
+            print("Found related scores from child: \(scores)")
+        case .failure(let error):
+            print("Error finding scores from child: \(error)")
+        }
+    }
+} catch {
+    print(error)
+}
+
+//: Now we will see how to use the stored `ParseRelation on` property in User to create query
+//: all of the relations to `scores`.
+var currentUser: User?
+do {
+    //: Fetch the updated user since the previous relations were created on the server.
+    currentUser = try User.current?.fetch()
+    print("Updated current user with relation: \(String(describing: currentUser))")
+} catch {
+    print("\(error.localizedDescription)")
 }
 
 do {
-    //: You can also leverage the child to find scores related to the parent.
-    try score1.relation.query("scores", parent: User.current!).find { result in
-        switch result {
-        case .success(let scores):
-            print("Found related scores: \(scores)")
-        case .failure(let error):
-            print("Error finding scores: \(error)")
+    if let usableStoredRelation = try currentUser?.relation(currentUser?.scores, key: "scores") {
+        try (usableStoredRelation.query() as Query<GameScore>).find { result in
+            switch result {
+            case .success(let scores):
+                print("Found related scores from stored ParseRelation: \(scores)")
+            case .failure(let error):
+                print("Error finding scores from stored ParseRelation: \(error)")
+            }
         }
+    } else {
+        print("Error: should unwrapped relation")
     }
 } catch {
-    print(error)
+    print("\(error.localizedDescription)")
 }
-
-//: Example: try relation.remove(<#T##key: String##String#>, objects: <#T##[ParseObject]#>)
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

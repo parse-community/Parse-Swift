@@ -41,7 +41,8 @@ public struct ParseACL: ParseType,
         }
     }
 
-    public init() {}
+    /// The default initializer.
+    public init() { }
 
     /**
      Controls whether the public is allowed to read this object.

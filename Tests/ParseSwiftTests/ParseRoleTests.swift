@@ -136,8 +136,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var level = Level(level: 1)
         level.objectId = "nice"
@@ -149,8 +153,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var user = User()
         user.objectId = "heel"
@@ -162,8 +170,13 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertNil(role.users) // Shouldn't produce a relation without an objectId.
+        role.objectId = "yolo"
+        guard let userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         let expected = "{\"__type\":\"Relation\",\"className\":\"_User\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(userRoles)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -186,8 +199,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        var userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard var userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         userRoles.key = nil
         let expected = "{\"__type\":\"Relation\",\"className\":\"_User\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(userRoles)
@@ -211,8 +228,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var level = Level(level: 1)
         level.objectId = "nice"
@@ -224,8 +245,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var user = User()
         user.objectId = "heel"
@@ -237,8 +262,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         let expected = "{\"__type\":\"Relation\",\"className\":\"_User\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(userRoles)
         let decoded = String(data: encoded, encoding: .utf8)
@@ -261,8 +290,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        var userRoles = role.users
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard var userRoles = role.users else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         userRoles.key = nil
         let expected = "{\"__type\":\"Relation\",\"className\":\"_User\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(userRoles)
@@ -286,8 +319,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var level = Level(level: 1)
         level.objectId = "nice"
@@ -299,8 +336,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var newRole = try Role<User>(name: "Moderator", acl: acl)
         newRole.objectId = "heel"
@@ -312,8 +353,13 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertNil(role.roles) // Shouldn't produce a relation without an objectId.
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         let expected = "{\"__type\":\"Relation\",\"className\":\"_Role\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(roles)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -336,8 +382,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        var roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard var roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         roles.key = nil
         let expected = "{\"__type\":\"Relation\",\"className\":\"_Role\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(roles)
@@ -361,8 +411,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var level = Level(level: 1)
         level.objectId = "nice"
@@ -374,8 +428,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
 
         var user = User()
         user.objectId = "heel"
@@ -387,8 +445,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        let roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         let expected = "{\"__type\":\"Relation\",\"className\":\"_Role\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(roles)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -411,8 +473,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        let role = try Role<User>(name: "Administrator", acl: acl)
-        var roles = role.roles
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+        guard var roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
         roles.key = nil
         let expected = "{\"__type\":\"Relation\",\"className\":\"_Role\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(roles)
@@ -440,8 +506,9 @@ class ParseRoleTests: XCTestCase {
         user.objectId = "heel"
 
         var userRoles = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertThrowsError(try userRoles.queryUsers())
         userRoles.objectId = "yolo"
-        let query = try userRoles.queryUsers(user)
+        let query = try userRoles.queryUsers()
 
         // swiftlint:disable:next line_length
         let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"$relatedTo\":{\"key\":\"users\",\"object\":{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"yolo\"}}}}"
@@ -456,14 +523,12 @@ class ParseRoleTests: XCTestCase {
         acl.publicRead = true
 
         var role = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertThrowsError(try role.queryRoles())
         role.objectId = "yolo"
 
         var newRole = try Role<User>(name: "Moderator", acl: acl)
         newRole.objectId = "heel"
-        guard let query = role.queryRoles else {
-            XCTFail("Should unwrap, if it doesn't it an error occurred when creating query.")
-            return
-        }
+        let query: Query<Role> = try role.queryRoles()
 
         // swiftlint:disable:next line_length
         let expected2 = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"$relatedTo\":{\"key\":\"roles\",\"object\":{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"yolo\"}}}}"

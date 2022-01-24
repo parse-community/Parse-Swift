@@ -48,9 +48,11 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
             return true
         }
     }
+
     public static var __type: String { // swiftlint:disable:this identifier_name
         "apple"
     }
+
     public init() { }
 }
 

@@ -8,6 +8,8 @@
 
 import Foundation
 
+// swiftlint:disable line_length
+
 /**
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
  This is the main protocol that is used to interact with objects in your app.
@@ -25,8 +27,8 @@ import Foundation
  - important: It is required that all added properties be optional properties so they can eventually be used as
  Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
  create methods to check the respective properties on the client-side before saving objects. See
- [here](https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025)
- for more information.
+ [here](https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003)
+ for more information on the reasons why. See the [Playgrounds](https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66) for an example.
  - important: To take advantage of `mergeable`, the developer should implement the `merge` method in every
  `ParseObject`.
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
@@ -64,6 +66,20 @@ public protocol ParseObject: Objectable,
      the developer should have implemented added all of their properties to `merge`.
     */
     var mergeable: Self { get }
+
+    /**
+     The default initializer to ensure all `ParseObject`'s can be encoded/decoded properly.
+     - important: The compiler will give you this initialzer for free
+     ([memberwise initializer](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html))
+     as long as you declare all properties as **optional** (see **Warning** section) and you declare all other initializers in
+     an **extension**. See the [Playgrounds](https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66) for an example.
+     - warning: It is required that all added properties be optional properties so they can eventually be used as
+     Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
+     create methods to check the respective properties on the client-side before saving objects. See
+     [here](https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003)
+     for more information.
+     */
+    init()
 
     /**
      Determines if a `KeyPath` of the current `ParseObject` should be restored
@@ -125,8 +141,6 @@ public protocol ParseObject: Objectable,
      use `shouldRestoreKey` to compare key modifications between objects.
     */
     func merge(with object: Self) throws -> Self
-
-    init()
 }
 
 // MARK: Default Implementations
