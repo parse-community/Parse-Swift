@@ -23,7 +23,7 @@ __Improvements__
     ParseRelations "usable". ParseObjects can now contain properties of ParseRelation<Self>.
     In addition, ParseRelations can now be made from ParseObject pointers. For ParseRole, the 
     computed properties: users and roles, are now optional. The queryRoles property has been
-    changed to queryRoles() to improve the handeling of thrown errors 
+    changed to queryRoles() to improve the handling of thrown errors 
     ([#328](https://github.com/parse-community/Parse-Swift/pull/328)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Change the following method parameter names: isUsingTransactions -> usingTransactions, isAllowingCustomObjectIds -> allowingCustomObjectIds, isUsingEqualQueryConstraint -> usingEqualQueryConstraint, isMigratingFromObjcSDK -> migratingFromObjcSDK, isDeletingKeychainIfNeeded -> deletingKeychainIfNeeded ([#323](https://github.com/parse-community/Parse-Swift/pull/323)), thanks to [Corey Baker](https://github.com/cbaker6).

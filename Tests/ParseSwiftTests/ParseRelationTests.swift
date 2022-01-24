@@ -180,6 +180,10 @@ class ParseRelationTests: XCTestCase {
         let encoded2 = try ParseCoding.jsonEncoder().encode(relation)
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
+
+        _ = try ParseRelation<GameScore>(parent: score,
+                                         key: "yolo",
+                                         child: try level.toPointer())
     }
 
     func testAddIncorrectClassError() throws {
@@ -543,6 +547,8 @@ class ParseRelationTests: XCTestCase {
         var level = Level(level: 1)
         level.objectId = "nice"
         relation.className = level.className
+
+        XCTAssertThrowsError(try score.relation(nil, key: "levels", with: score2))
 
         do {
             let usableStoredRelation = try score.relation(relation, key: "levels", with: score2)

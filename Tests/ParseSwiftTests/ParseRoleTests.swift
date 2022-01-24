@@ -506,6 +506,7 @@ class ParseRoleTests: XCTestCase {
         user.objectId = "heel"
 
         var userRoles = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertThrowsError(try userRoles.queryUsers())
         userRoles.objectId = "yolo"
         let query = try userRoles.queryUsers()
 
@@ -522,6 +523,7 @@ class ParseRoleTests: XCTestCase {
         acl.publicRead = true
 
         var role = try Role<User>(name: "Administrator", acl: acl)
+        XCTAssertThrowsError(try role.queryRoles())
         role.objectId = "yolo"
 
         var newRole = try Role<User>(name: "Moderator", acl: acl)
