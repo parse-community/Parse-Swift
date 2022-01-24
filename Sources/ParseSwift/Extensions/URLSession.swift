@@ -58,9 +58,10 @@ internal extension URLSession {
                 return .failure(error)
             }
             if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
-                                                          data: responseData),
-                                                    for: request)
+                URLSession.parse.configuration.urlCache?
+                    .storeCachedResponse(.init(response: response,
+                                               data: responseData),
+                                         for: request)
             }
             do {
                 return try .success(mapper(responseData))
@@ -255,7 +256,8 @@ internal extension URLSession {
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
         downloadTask(with: request) { (location, urlResponse, responseError) in
-            completion(self.makeResult(request: request, location: location,
+            completion(self.makeResult(request: request,
+                                       location: location,
                                        urlResponse: urlResponse,
                                        responseError: responseError,
                                        mapper: mapper))
