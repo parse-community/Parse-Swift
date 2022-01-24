@@ -54,17 +54,17 @@ internal extension URLSession {
             return .failure(parseError)
         }
         if let responseData = responseData {
+            if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
+                return .failure(error)
+            }
+            if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
+                                                          data: responseData),
+                                                    for: request)
+            }
             do {
-                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                    URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
-                                                              data: responseData),
-                                                        for: request)
-                }
                 return try .success(mapper(responseData))
             } catch {
-                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
-                    return .failure(error)
-                }
                 guard let parseError = error as? ParseError else {
                     guard JSONSerialization.isValidJSONObject(responseData),
                           let json = try? JSONSerialization
