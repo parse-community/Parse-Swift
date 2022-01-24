@@ -245,7 +245,10 @@ extension ParseUser {
         return API.Command<SignupLoginBody, Self>(method: .POST,
                                                   path: .login,
                                                   body: body) { (data) -> Self in
-            let sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
+            guard let sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
+            else {
+                throw ParseError(code: .invalidSessionToken, message:"no session token provided by the server")
+            }
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
             Self.currentContainer = .init(
@@ -699,8 +702,11 @@ extension ParseUser {
                     path: .users,
                     body: body) { (data) -> Self in
 
-            let sessionToken = try ParseCoding.jsonDecoder()
-                .decode(LoginSignupResponse.self, from: data).sessionToken
+            guard let sessionToken = try ParseCoding.jsonDecoder()
+                    .decode(LoginSignupResponse.self, from: data).sessionToken
+            else {
+                throw ParseError(code: .invalidSessionToken, message:"no session token provided by the server")
+            }
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
             if user.username == nil {

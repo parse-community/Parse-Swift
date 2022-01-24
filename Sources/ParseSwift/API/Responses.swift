@@ -121,7 +121,7 @@ internal struct QueryResponse<T>: Codable where T: ParseObject {
 internal struct LoginSignupResponse: Codable {
     let createdAt: Date
     let objectId: String
-    let sessionToken: String
+    let sessionToken: String?
     var updatedAt: Date?
     let username: String?
 
