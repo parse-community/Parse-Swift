@@ -138,7 +138,7 @@ public extension ParseRole {
     func queryRoles() throws -> Query<Self> {
         guard let roles = roles else {
             throw ParseError(code: .unknownError,
-                             message: "Could not create \"users\" relation ")
+                             message: "Could not create \"roles\" relation ")
         }
         return try roles.query()
     }
