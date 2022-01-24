@@ -245,9 +245,11 @@ extension ParseUser {
         return API.Command<SignupLoginBody, Self>(method: .POST,
                                                   path: .login,
                                                   body: body) { (data) -> Self in
-            guard let sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
+            guard
+                let sessionToken = try ParseCoding.jsonDecoder()
+                    .decode(LoginSignupResponse.self, from: data).sessionToken
             else {
-                throw ParseError(code: .invalidSessionToken, message:"no session token provided by the server")
+                throw ParseError(code: .invalidSessionToken, message: "no session token provided by the server")
             }
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
@@ -270,7 +272,10 @@ extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    public func become(sessionToken: String, options: API.Options = []) throws -> Self {
+    public func become(sessionToken: String?, options: API.Options = []) throws -> Self {
+        guard let sessionToken = sessionToken else {
+            throw ParseError(code: .invalidSessionToken, message: "no session token provided")
+        }
         var newUser = self
         newUser.objectId = "me"
         var options = options
@@ -293,10 +298,13 @@ extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    public func become(sessionToken: String,
+    public func become(sessionToken: String?,
                        options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
+        guard let sessionToken = sessionToken else {
+            return completion(.failure(ParseError(code: .invalidSessionToken, message: "no session token provided")))
+        }
         var newUser = self
         newUser.objectId = "me"
         var options = options
@@ -705,7 +713,7 @@ extension ParseUser {
             guard let sessionToken = try ParseCoding.jsonDecoder()
                     .decode(LoginSignupResponse.self, from: data).sessionToken
             else {
-                throw ParseError(code: .invalidSessionToken, message:"no session token provided by the server")
+                throw ParseError(code: .invalidSessionToken, message: "no session token provided by the server")
             }
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 

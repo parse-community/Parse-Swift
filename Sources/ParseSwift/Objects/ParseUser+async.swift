@@ -85,7 +85,7 @@ public extension ParseUser {
      - returns: Returns the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
     */
-    func become(sessionToken: String,
+    func become(sessionToken: String?,
                 options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.become(sessionToken: sessionToken, options: options, completion: continuation.resume)

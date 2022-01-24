@@ -15,58 +15,6 @@ import Combine
 
 class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct User: ParseUser {
-
-        //: These are required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-    }
-
-    struct LoginSignupResponse: ParseUser {
-
-        var objectId: String?
-        var createdAt: Date?
-        var sessionToken: String
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-
-        init() {
-            let date = Date()
-            self.createdAt = date
-            self.updatedAt = date
-            self.objectId = "yarr"
-            self.ACL = nil
-            self.customKey = "blah"
-            self.sessionToken = "myToken"
-            self.username = "hello10"
-            self.email = "hello@parse.com"
-        }
-    }
-
     let loginUserName = "hello10"
     let loginPassword = "world"
 
@@ -329,6 +277,48 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
             XCTAssertNil(userFromKeychain.ACL)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testBecomeWithNilSessionToken() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.createdAt = User.current?.createdAt
+        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        serverResponse.sessionToken = nil
+        serverResponse.username = "stop"
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Become user1")
+        let publisher = user.becomePublisher(sessionToken: serverResponse.sessionToken)
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTAssertTrue(error.code == .invalidSessionToken)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+            XCTFail("Should have failed with code 209")
         })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)

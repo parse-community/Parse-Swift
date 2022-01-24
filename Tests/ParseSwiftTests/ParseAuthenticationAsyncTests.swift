@@ -18,54 +18,6 @@ import Combine
 #endif
 
 class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
-    struct User: ParseUser {
-
-        //: These are required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-    }
-
-    struct LoginSignupResponse: ParseUser {
-
-        var objectId: String?
-        var createdAt: Date?
-        var sessionToken: String?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-
-        init() {
-            let date = Date()
-            self.createdAt = date
-            self.updatedAt = date
-            self.objectId = "yarr"
-            self.ACL = nil
-            self.customKey = "blah"
-            self.sessionToken = "myToken"
-            self.username = "hello10"
-            self.email = "hello@parse.com"
-        }
-    }
 
     struct TestAuth<AuthenticatedUser: ParseUser>: ParseAuthentication {
         static var __type: String { // swiftlint:disable:this identifier_name

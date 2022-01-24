@@ -48,62 +48,14 @@ class APICommandTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    struct User: ParseUser {
-
-        //: These are required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-    }
-
-    struct LoginSignupResponse: ParseUser {
-
-        var objectId: String?
-        var createdAt: Date?
-        var sessionToken: String
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-
-        init() {
-            let date = Date()
-            self.createdAt = date
-            self.updatedAt = date
-            self.objectId = "yarr"
-            self.ACL = nil
-            self.customKey = "blah"
-            self.sessionToken = "myToken"
-            self.username = "hello10"
-            self.email = "hello@parse.com"
-        }
-    }
-
-    func userLogin() {
-        let loginResponse = LoginSignupResponse()
+    func userLogin(testSessionFailure: Bool = false) {
+        var loginResponse = LoginSignupResponse()
         let loginUserName = "hello10"
         let loginPassword = "world"
+
+        if testSessionFailure {
+            loginResponse.sessionToken = nil
+        }
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -117,7 +69,11 @@ class APICommandTests: XCTestCase {
             _ = try User.login(username: loginUserName, password: loginPassword)
             MockURLProtocol.removeAll()
         } catch {
-            XCTFail("Should login")
+            if testSessionFailure, let parseError = error as? ParseError {
+                XCTAssertTrue(parseError.code == .invalidSessionToken)
+            } else {
+                XCTFail("Should login")
+            }
         }
     }
 
@@ -378,6 +334,27 @@ class APICommandTests: XCTestCase {
         guard let sessionToken = BaseParseUser.currentContainer?.sessionToken else {
             throw ParseError(code: .unknownError, message: "Parse current user should have session token")
         }
+
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["X-Parse-Session-Token"], sessionToken)
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Session-Token"],
+                           sessionToken)
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testMissingSessionTokenHeader() throws {
+        userLogin(testSessionFailure: true)
+        let sessionToken = BaseParseUser.currentContainer?.sessionToken
 
         let headers = API.getHeaders(options: [])
         XCTAssertEqual(headers["X-Parse-Session-Token"], sessionToken)

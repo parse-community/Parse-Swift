@@ -46,7 +46,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String
+        var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
         var originalData: Data?
@@ -2665,6 +2665,39 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         } catch {
             XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testBecomeWithNilToken() { // swiftlint:disable:this function_body_length
+        testLogin()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        serverResponse.sessionToken = nil
+        serverResponse.username = "stop"
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            _ = try user.become(sessionToken: nil)
+        } catch {
+            XCTAssertTrue((error as? ParseError)?.code == ParseError.Code.invalidSessionToken)
         }
     }
 
