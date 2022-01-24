@@ -136,7 +136,7 @@ public struct ParseRelation<T>: Codable, Hashable where T: ParseObject {
     }
 
     func isSameClass<U>(_ objects: [U]) -> Bool where U: ParseObject {
-        isSameClass(objects.map(\.className))
+        isSameClass(objects.map { $0.className })
     }
 
     // MARK: Intents
