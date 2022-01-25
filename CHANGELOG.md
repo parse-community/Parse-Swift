@@ -2,7 +2,7 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 ### 4.0.0
