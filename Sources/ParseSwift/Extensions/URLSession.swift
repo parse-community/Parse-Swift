@@ -40,12 +40,10 @@ internal extension URLSession {
                        responseError: Error?,
                        mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
-            print("****1: \(responseError)")
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
                                            message: "Unable to connect with parse-server: \(responseError)"))
             }
-            print("****2: \(parseError)")
             return .failure(parseError)
         }
         guard let response = urlResponse else {
@@ -86,7 +84,6 @@ internal extension URLSession {
                                                // swiftlint:disable:next line_length
                                                message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
                 }
-                print("**** 7: \(parseError)")
                 return .failure(parseError)
             }
         }
