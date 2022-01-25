@@ -521,7 +521,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testVerifyPassword() {
-        let serverResponse = NoBody()
+        let serverResponse = LoginSignupResponse()
 
         var subscriptions = Set<AnyCancellable>()
         MockURLProtocol.mockRequests { _ in
@@ -542,8 +542,32 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                 }
                 expectation1.fulfill()
 
-        }, receiveValue: { _ in
+        }, receiveValue: { currentUser in
 
+            XCTAssertNotNil(currentUser)
+            XCTAssertNotNil(currentUser.createdAt)
+            XCTAssertNotNil(currentUser.updatedAt)
+            XCTAssertNotNil(currentUser.email)
+            XCTAssertNotNil(currentUser.username)
+            XCTAssertNil(currentUser.password)
+            XCTAssertNotNil(currentUser.objectId)
+            XCTAssertNotNil(currentUser.sessionToken)
+            XCTAssertNotNil(currentUser.customKey)
+            XCTAssertNil(currentUser.ACL)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.ACL)
         })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)

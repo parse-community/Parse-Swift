@@ -9,6 +9,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...4.0.0)
 
 __New features__
+- Add the verifyPassword to ParseUser. This method defaults to using POST though POST is not available on the current Parse Server. Change userPost == false to use GET on older Parse Servers ([#333](https://github.com/parse-community/Parse-Swift/pull/333)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Bump the SPM toolchain from 5.1 to 5.5. This is done to take advantage of features in the latest toolchain. For developers using < Xcode 13 and depending on the Swift SDK through SPM, this will cause a break. You can either upgrade your Xcode or use Cocoapods or Carthage to depend on ParseSwift ([#326](https://github.com/parse-community/Parse-Swift/pull/326)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the 
     .mergeable property. To do this, developers need to add an implementation of merge() to 
@@ -29,6 +30,9 @@ __Improvements__
     ([#328](https://github.com/parse-community/Parse-Swift/pull/328)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Change the following method parameter names: isUsingTransactions -> usingTransactions, isAllowingCustomObjectIds -> allowingCustomObjectIds, isUsingEqualQueryConstraint -> usingEqualQueryConstraint, isMigratingFromObjcSDK -> migratingFromObjcSDK, isDeletingKeychainIfNeeded -> deletingKeychainIfNeeded ([#323](https://github.com/parse-community/Parse-Swift/pull/323)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Always check for ParseError first when decoding responses from the server. Before this fix, this could cause issues depending on how calls are made from the Swift SDK ([#332](https://github.com/parse-community/Parse-Swift/pull/332)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.1.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...3.1.2)

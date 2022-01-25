@@ -482,7 +482,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             try await User.passwordReset(email: "hello@parse.org")
-            XCTFail("Should have thrown error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")
@@ -640,7 +639,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             _ = try await User.verifyPassword(password: "blue")
-            XCTFail("Should have thrown error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")
@@ -680,7 +678,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             _ = try await User.verificationEmail(email: "hello@parse.org")
-            //XCTFail("Should have thrown error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")
