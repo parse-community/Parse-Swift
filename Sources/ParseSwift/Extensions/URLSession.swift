@@ -56,20 +56,18 @@ internal extension URLSession {
             return .failure(parseError)
         }
         if let responseData = responseData {
-            print("****3: \(String(data: responseData, encoding: .utf8))")
             if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
                 return .failure(error)
             }
             if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
-                                                          data: responseData),
-                                                    for: request)
+                URLSession.parse.configuration.urlCache?
+                    .storeCachedResponse(.init(response: response,
+                                               data: responseData),
+                                         for: request)
             }
             do {
-                print("**** 4")
                 return try .success(mapper(responseData))
             } catch {
-                print("**** 6")
                 guard let parseError = error as? ParseError else {
                     guard JSONSerialization.isValidJSONObject(responseData),
                           let json = try? JSONSerialization
@@ -261,7 +259,8 @@ internal extension URLSession {
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
         downloadTask(with: request) { (location, urlResponse, responseError) in
-            completion(self.makeResult(request: request, location: location,
+            completion(self.makeResult(request: request,
+                                       location: location,
                                        urlResponse: urlResponse,
                                        responseError: responseError,
                                        mapper: mapper))
