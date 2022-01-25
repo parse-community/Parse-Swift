@@ -67,7 +67,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String
+        var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
         var originalData: Data?
@@ -320,7 +320,11 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             }
         }
 
-        let signedUp = try await user.become(sessionToken: serverResponse.sessionToken)
+        guard let sessionToken = serverResponse.sessionToken else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let signedUp = try await user.become(sessionToken: sessionToken)
         XCTAssertNotNil(signedUp)
         XCTAssertNotNil(signedUp.updatedAt)
         XCTAssertNotNil(signedUp.email)
@@ -478,6 +482,163 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             try await User.passwordReset(email: "hello@parse.org")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+        }
+    }
+
+    @MainActor
+    func testVerifyPasswordLoggedIn() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.sessionToken = nil
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let currentUser = try await User.verifyPassword(password: "world", usingPost: true)
+        XCTAssertNotNil(currentUser)
+        XCTAssertNotNil(currentUser.createdAt)
+        XCTAssertNotNil(currentUser.updatedAt)
+        XCTAssertNotNil(currentUser.email)
+        XCTAssertNotNil(currentUser.username)
+        XCTAssertNil(currentUser.password)
+        XCTAssertNotNil(currentUser.objectId)
+        XCTAssertNotNil(currentUser.sessionToken)
+        XCTAssertNotNil(currentUser.customKey)
+        XCTAssertNil(currentUser.ACL)
+
+        guard let userFromKeychain = BaseParseUser.current else {
+            XCTFail("Couldn't get CurrentUser from Keychain")
+            return
+        }
+
+        XCTAssertNotNil(userFromKeychain.createdAt)
+        XCTAssertNotNil(userFromKeychain.updatedAt)
+        XCTAssertNotNil(userFromKeychain.email)
+        XCTAssertNotNil(userFromKeychain.username)
+        XCTAssertNil(userFromKeychain.password)
+        XCTAssertNotNil(userFromKeychain.objectId)
+        XCTAssertNotNil(userFromKeychain.sessionToken)
+        XCTAssertNil(userFromKeychain.ACL)
+    }
+
+    func testVerifyPasswordLoggedInGET() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.sessionToken = nil
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let currentUser = try await User.verifyPassword(password: "world", usingPost: false)
+        XCTAssertNotNil(currentUser)
+        XCTAssertNotNil(currentUser.createdAt)
+        XCTAssertNotNil(currentUser.updatedAt)
+        XCTAssertNotNil(currentUser.email)
+        XCTAssertNotNil(currentUser.username)
+        XCTAssertNil(currentUser.password)
+        XCTAssertNotNil(currentUser.objectId)
+        XCTAssertNotNil(currentUser.sessionToken)
+        XCTAssertNotNil(currentUser.customKey)
+        XCTAssertNil(currentUser.ACL)
+
+        guard let userFromKeychain = BaseParseUser.current else {
+            XCTFail("Couldn't get CurrentUser from Keychain")
+            return
+        }
+
+        XCTAssertNotNil(userFromKeychain.createdAt)
+        XCTAssertNotNil(userFromKeychain.updatedAt)
+        XCTAssertNotNil(userFromKeychain.email)
+        XCTAssertNotNil(userFromKeychain.username)
+        XCTAssertNil(userFromKeychain.password)
+        XCTAssertNotNil(userFromKeychain.objectId)
+        XCTAssertNotNil(userFromKeychain.sessionToken)
+        XCTAssertNil(userFromKeychain.ACL)
+    }
+
+    @MainActor
+    func testVerifyPasswordNotLoggedIn() async throws {
+        let serverResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let currentUser = try await User.verifyPassword(password: "world")
+        XCTAssertNotNil(currentUser)
+        XCTAssertNotNil(currentUser.createdAt)
+        XCTAssertNotNil(currentUser.updatedAt)
+        XCTAssertNotNil(currentUser.email)
+        XCTAssertNotNil(currentUser.username)
+        XCTAssertNil(currentUser.password)
+        XCTAssertNotNil(currentUser.objectId)
+        XCTAssertNotNil(currentUser.sessionToken)
+        XCTAssertNotNil(currentUser.customKey)
+        XCTAssertNil(currentUser.ACL)
+
+        guard let userFromKeychain = BaseParseUser.current else {
+            XCTFail("Couldn't get CurrentUser from Keychain")
+            return
+        }
+
+        XCTAssertNotNil(userFromKeychain.createdAt)
+        XCTAssertNotNil(userFromKeychain.updatedAt)
+        XCTAssertNotNil(userFromKeychain.email)
+        XCTAssertNotNil(userFromKeychain.username)
+        XCTAssertNil(userFromKeychain.password)
+        XCTAssertNotNil(userFromKeychain.objectId)
+        XCTAssertNotNil(userFromKeychain.sessionToken)
+        XCTAssertNil(userFromKeychain.ACL)
+    }
+
+    @MainActor
+    func testVerifyPasswordLoggedInError() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        let parseError = ParseError(code: .userWithEmailNotFound,
+                                    message: "User email is not verified.")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            _ = try await User.verifyPassword(password: "blue")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")

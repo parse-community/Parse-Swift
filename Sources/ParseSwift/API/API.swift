@@ -37,6 +37,7 @@ public struct API {
         case logout
         case file(fileName: String)
         case passwordReset
+        case verifyPassword
         case verificationEmail
         case functions(name: String)
         case jobs(name: String)
@@ -81,6 +82,8 @@ public struct API {
                 return "/files/\(fileName)"
             case .passwordReset:
                 return "/requestPasswordReset"
+            case .verifyPassword:
+                return "/verifyPassword"
             case .verificationEmail:
                 return "/verificationEmailRequest"
             case .functions(name: let name):

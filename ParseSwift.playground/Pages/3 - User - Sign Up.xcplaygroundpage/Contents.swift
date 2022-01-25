@@ -67,5 +67,30 @@ User.signup(username: "hello", password: "world") { results in
     }
 }
 
+//: You can verify the password of the user.
+//: Note that usingPost should be set to **true** on newer servers.
+User.verifyPassword(password: "world", usingPost: false) { results in
+
+    switch results {
+    case .success(let user):
+        print(user)
+
+    case .failure(let error):
+        print("Error verifying password \(error)")
+    }
+}
+
+//: Check a bad password
+User.verifyPassword(password: "bad", usingPost: false) { results in
+
+    switch results {
+    case .success(let user):
+        print(user)
+
+    case .failure(let error):
+        print("Error verifying password \(error)")
+    }
+}
+
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

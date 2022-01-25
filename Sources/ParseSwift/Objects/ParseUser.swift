@@ -323,7 +323,7 @@ extension ParseUser {
     internal func meCommand(sessionToken: String) throws -> API.Command<Self, Self> {
 
         return API.Command(method: .GET,
-                    path: endpoint) { (data) -> Self in
+                           path: endpoint) { (data) -> Self in
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
             if let current = Self.current {
@@ -467,6 +467,84 @@ extension ParseUser {
         return API.Command(method: .POST,
                            path: .passwordReset, body: emailBody) { (data) -> ParseError? in
             try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        }
+    }
+}
+
+// MARK: Verify Password
+extension ParseUser {
+
+    /**
+     Verifies *asynchronously* whether the specified password associated with the user account is valid.
+        - parameter password: The password to be verified.
+        - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
+        otherwise. Defaults to **true**.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+        - parameter completion: A block that will be called when the verification request completes or fails.
+        - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+        desires a different policy, it should be inserted in `options`.
+        - warning: `usePost == true`requires Parse Server > 5.0.0. Othewise you should set
+        `userPost = false`.
+    */
+    public static func verifyPassword(password: String,
+                                      usingPost: Bool = true,
+                                      options: API.Options = [],
+                                      callbackQueue: DispatchQueue = .main,
+                                      completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        let username: String!
+        if let current = BaseParseUser.current,
+           let currentUsername = current.username {
+            username = currentUsername
+        } else {
+            username = ""
+        }
+        var method: API.Method = .POST
+        if !usingPost {
+            method = .GET
+        }
+        verifyPasswordCommand(username: username,
+                              password: password,
+                              method: method)
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
+    }
+
+    internal static func verifyPasswordCommand(username: String,
+                                               password: String,
+                                               method: API.Method) -> API.Command<SignupLoginBody, Self> {
+        let loginBody: SignupLoginBody?
+        let params: [String: String]?
+
+        switch method {
+        case .GET:
+            loginBody = nil
+            params = ["username": username, "password": password ]
+        default:
+            loginBody = SignupLoginBody(username: username, password: password)
+            params = nil
+        }
+
+        return API.Command(method: method,
+                           path: .verifyPassword,
+                           params: params,
+                           body: loginBody) { (data) -> Self in
+            var sessionToken = ""
+            if let currentSessionToken = BaseParseUser.current?.sessionToken {
+                sessionToken = currentSessionToken
+            }
+            if let decodedSessionToken = try? ParseCoding.jsonDecoder()
+                .decode(LoginSignupResponse.self, from: data).sessionToken {
+                sessionToken = decodedSessionToken
+            }
+            let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+            Self.currentContainer = .init(currentUser: user,
+                                          sessionToken: sessionToken)
+            Self.saveCurrentContainerToKeychain()
+            return user
         }
     }
 }

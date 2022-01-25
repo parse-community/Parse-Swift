@@ -520,6 +520,89 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testVerifyPassword() {
+        let serverResponse = LoginSignupResponse()
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Verify password user1")
+        let publisher = User.verifyPasswordPublisher(password: "world")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { currentUser in
+
+            XCTAssertNotNil(currentUser)
+            XCTAssertNotNil(currentUser.createdAt)
+            XCTAssertNotNil(currentUser.updatedAt)
+            XCTAssertNotNil(currentUser.email)
+            XCTAssertNotNil(currentUser.username)
+            XCTAssertNil(currentUser.password)
+            XCTAssertNotNil(currentUser.objectId)
+            XCTAssertNotNil(currentUser.sessionToken)
+            XCTAssertNotNil(currentUser.customKey)
+            XCTAssertNil(currentUser.ACL)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.ACL)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testVerifyPasswordError() {
+        let parseError = ParseError(code: .userWithEmailNotFound,
+                                    message: "User email is not verified.")
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Verify password user1")
+        let publisher = User.verifyPasswordPublisher(password: "world")
+            .sink(receiveCompletion: { result in
+
+                if case .finished = result {
+                    XCTFail("Should have thrown ParseError")
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown ParseError")
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testVerificationEmail() {
         let serverResponse = NoBody()
 
