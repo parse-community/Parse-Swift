@@ -42,31 +42,6 @@ struct User: ParseUser {
     }
 }
 
-//: You can verify the password of the user.
-
-User.verifyPassword(password: "world") { results in
-
-    switch results {
-    case .success(let user):
-        print(user)
-
-    case .failure(let error):
-        print("Error verifying password \(error)")
-    }
-}
-
-//: Check a bad password
-User.verifyPassword(password: "bad") { results in
-
-    switch results {
-    case .success(let user):
-        print(user)
-
-    case .failure(let error):
-        print("Error verifying password \(error)")
-    }
-}
-
 /*: Sign up user asynchronously - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
@@ -93,27 +68,27 @@ User.signup(username: "hello", password: "world") { results in
 }
 
 //: You can verify the password of the user.
-
-User.verifyPassword(password: "world") { results in
+//: Note that usingPost should be set to **true** on newer servers.
+User.verifyPassword(password: "world", usingPost: false) { results in
 
     switch results {
     case .success(let user):
         print(user)
 
     case .failure(let error):
-        assertionFailure("Error verifying password \(error)")
+        print("Error verifying password \(error)")
     }
 }
 
 //: Check a bad password
-User.verifyPassword(password: "bad") { results in
+User.verifyPassword(password: "bad", usingPost: false) { results in
 
     switch results {
     case .success(let user):
         print(user)
 
     case .failure(let error):
-        assertionFailure("Error verifying password \(error)")
+        print("Error verifying password \(error)")
     }
 }
 

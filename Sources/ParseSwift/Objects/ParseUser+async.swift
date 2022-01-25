@@ -123,13 +123,18 @@ public extension ParseUser {
     /**
      Verifies *asynchronously* whether the specified password associated with the user account is valid.
         - parameter password: The password to be verified.
+        - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
+        otherwise. Defaults to **true**.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - throws: An error of type `ParseError`.
     */
     static func verifyPassword(password: String,
-                               options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
-            Self.verifyPassword(password: password, options: options, completion: continuation.resume)
+                               usingPost: Bool = true,
+                               options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            Self.verifyPassword(password: password,
+                                usingPost: usingPost,
+                                options: options, completion: continuation.resume)
         }
     }
 

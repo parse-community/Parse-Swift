@@ -477,13 +477,18 @@ extension ParseUser {
     /**
      Verifies *asynchronously* whether the specified password associated with the user account is valid.
         - parameter password: The password to be verified.
+        - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
+        otherwise. Defaults to **true**.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when the verification request completes or fails.
         - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
         desires a different policy, it should be inserted in `options`.
+        - warning: `usePost == true`requires Parse Server > 5.0.0. Othewise you should set
+        `userPost = false`.
     */
     public static func verifyPassword(password: String,
+                                      usingPost: Bool = true,
                                       options: API.Options = [],
                                       callbackQueue: DispatchQueue = .main,
                                       completion: @escaping (Result<Self, ParseError>) -> Void) {
@@ -496,19 +501,37 @@ extension ParseUser {
         } else {
             username = ""
         }
-        verifyPasswordCommand(username: username, password: password)
+        var method: API.Method = .POST
+        if !usingPost {
+            method = .GET
+        }
+        verifyPasswordCommand(username: username,
+                              password: password,
+                              method: method)
             .executeAsync(options: options,
                           callbackQueue: callbackQueue,
                           completion: completion)
     }
 
     internal static func verifyPasswordCommand(username: String,
-                                               password: String) -> API.Command<SignupLoginBody, Self> {
-        // let loginBody = SignupLoginBody(username: username, password: password)
-        let params = ["username": username, "password": password ]
-        return API.Command(method: .GET,
+                                               password: String,
+                                               method: API.Method) -> API.Command<SignupLoginBody, Self> {
+        let loginBody: SignupLoginBody?
+        let params: [String: String]?
+
+        switch method {
+        case .GET:
+            loginBody = nil
+            params = ["username": username, "password": password ]
+        default:
+            loginBody = SignupLoginBody(username: username, password: password)
+            params = nil
+        }
+
+        return API.Command(method: method,
                            path: .verifyPassword,
-                           params: params) { (data) -> Self in
+                           params: params,
+                           body: loginBody) { (data) -> Self in
             var sessionToken = ""
             if let currentSessionToken = BaseParseUser.current?.sessionToken {
                 sessionToken = currentSessionToken
