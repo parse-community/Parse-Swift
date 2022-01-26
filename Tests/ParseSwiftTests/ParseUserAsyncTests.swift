@@ -1105,6 +1105,41 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     }
 
     @MainActor
+    func testDeleteError() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        let serverResponse = ParseError(code: .objectNotFound, message: "Not found")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await user.delete()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+        XCTAssertNotNil(BaseParseUser.current)
+    }
+
+    @MainActor
     func testFetchAll() async throws {
         login()
         MockURLProtocol.removeAll()
