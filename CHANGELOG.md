@@ -32,6 +32,7 @@ __Improvements__
 - (Breaking Change) Change the following method parameter names: isUsingTransactions -> usingTransactions, isAllowingCustomObjectIds -> allowingCustomObjectIds, isUsingEqualQueryConstraint -> usingEqualQueryConstraint, isMigratingFromObjcSDK -> migratingFromObjcSDK, isDeletingKeychainIfNeeded -> deletingKeychainIfNeeded ([#323](https://github.com/parse-community/Parse-Swift/pull/323)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
+- Async/await methods that return void would no throw errors received from server ([#334](https://github.com/parse-community/Parse-Swift/pull/334)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Always check for ParseError first when decoding responses from the server. Before this fix, this could cause issues depending on how calls are made from the Swift SDK ([#332](https://github.com/parse-community/Parse-Swift/pull/332)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.1.2
