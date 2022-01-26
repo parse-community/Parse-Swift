@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 3.1.2 Docs
+          ParseSwift 4.0.0 Docs
         </a>
-         (96% documented)
+         (97% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -162,10 +162,10 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
@@ -279,9 +279,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseObject.html">ParseObject</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/ParseObjectMutable.html">ParseObjectMutable</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseQueryScorable.html">ParseQueryScorable</a>
@@ -519,9 +516,9 @@ an error if one occurs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -551,9 +548,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -573,7 +570,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-             <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
@@ -612,7 +609,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -1020,9 +1017,9 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/saveAllPublisher(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF">saveAllPublisher(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28ignoringCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/saveAllPublisher(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28ignoringCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF">saveAllPublisher(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1045,9 +1042,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -1067,7 +1064,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                       <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-                      <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                      <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -1106,7 +1103,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -1422,9 +1419,9 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1451,9 +1448,9 @@ the transactions can fail.</p>
     <p class="aside-title">Warning</p>
     <p>If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -1473,7 +1470,7 @@ desires a different policy, it should be inserted in <code>options</code>.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this function_body_length</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-             <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
@@ -1499,7 +1496,7 @@ Defaults to 50.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -1548,9 +1545,9 @@ prevents the transaction from completing, then none of the objects are committed
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1573,9 +1570,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -1596,7 +1593,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
     <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-    <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
@@ -1638,7 +1635,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -2437,9 +2434,9 @@ an error if one occurs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014isIgnoreCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014isIgnoreCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014ignoringCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014ignoringCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2465,9 +2462,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -2487,7 +2484,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-             <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
@@ -2526,7 +2523,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -2921,9 +2918,9 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE16saveAllPublisher10batchLimit11transaction014isIgnoreCustomC8IdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/saveAllPublisher(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE16saveAllPublisher10batchLimit11transaction014isIgnoreCustomC8IdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF">saveAllPublisher(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE16saveAllPublisher10batchLimit11transaction014ignoringCustomC8IdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/saveAllPublisher(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE16saveAllPublisher10batchLimit11transaction014ignoringCustomC8IdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF">saveAllPublisher(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2942,9 +2939,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -2959,7 +2956,7 @@ client-side checks are disabled. Developers are responsible for handling such ca
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                       <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-                      <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                      <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -2998,7 +2995,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -3296,9 +3293,9 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014isIgnoreCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014isIgnoreCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014ignoringCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014ignoringCustomC8IdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3321,9 +3318,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -3343,7 +3340,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this function_body_length</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-             <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
@@ -3382,7 +3379,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -3419,9 +3416,9 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014isIgnoreCustomC8IdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014isIgnoreCustomC8IdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014ignoringCustomC8IdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE7saveAll10batchLimit11transaction014ignoringCustomC8IdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3440,9 +3437,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -3463,7 +3460,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
     <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-    <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
@@ -3505,7 +3502,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -4289,9 +4286,9 @@ an error if one occurs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtYaKF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -4321,9 +4318,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -4343,7 +4340,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-             <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
@@ -4382,7 +4379,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -4790,9 +4787,9 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/saveAllPublisher(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF">saveAllPublisher(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28ignoringCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/saveAllPublisher(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE16saveAllPublisher10batchLimit11transaction28ignoringCustomObjectIdConfig7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAPGSiSg_S2bShyAA3APIV6OptionOGtF">saveAllPublisher(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4815,9 +4812,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -4832,7 +4829,7 @@ client-side checks are disabled. Developers are responsible for handling such ca
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                       <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-                      <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                      <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -4871,7 +4868,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -5178,9 +5175,9 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_S2bShyAA3APIV6OptionOGtKF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5207,9 +5204,9 @@ the transactions can fail.</p>
     <p class="aside-title">Warning</p>
     <p>If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -5229,7 +5226,7 @@ desires a different policy, it should be inserted in <code>options</code>.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this function_body_length</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-             <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
@@ -5268,7 +5265,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -5304,9 +5301,9 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF"></a>
-                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:isIgnoreCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF">saveAll(batchLimit:<wbr>transaction:<wbr>isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF"></a>
+                    <a name="//apple_ref/swift/Method/saveAll(batchLimit:transaction:ignoringCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE7saveAll10batchLimit11transaction28ignoringCustomObjectIdConfig7options13callbackQueue10completionySiSg_S2bShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayAUyAdA0A5ErrorVGGAWGctF">saveAll(batchLimit:<wbr>transaction:<wbr>ignoringCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5329,9 +5326,9 @@ the transactions can fail.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -5352,7 +5349,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
     <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingTransactions</span><span class="p">,</span>
-    <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
@@ -5394,7 +5391,7 @@ prevents the transaction from completing, then none of the objects are committed
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -6110,7 +6107,7 @@ Each element in the array is <code>nil</code> if the delete successful or a <cod
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-17)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-26)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

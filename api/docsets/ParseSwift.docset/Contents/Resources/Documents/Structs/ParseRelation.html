@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 3.1.2 Docs
+          ParseSwift 4.0.0 Docs
         </a>
-         (96% documented)
+         (97% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -162,10 +162,10 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
@@ -279,9 +279,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseObject.html">ParseObject</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/ParseObjectMutable.html">ParseObjectMutable</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseQueryScorable.html">ParseQueryScorable</a>
@@ -414,7 +411,7 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseRelation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">Hashable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseRelation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Hashable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ParseRelation</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ParseRelation</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
@@ -436,9 +433,9 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A8RelationV6parentxvp"></a>
+                    <a name="/s:10ParseSwift0A8RelationV6parentAA7PointerVyxGSgvp"></a>
                     <a name="//apple_ref/swift/Property/parent" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parentxvp">parent</a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parentAA7PointerVyxGSgvp">parent</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -453,7 +450,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -490,9 +487,9 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A8RelationV6parent3keyACyxGx_SSSgtcfc"></a>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3keyACyxGAA7PointerVyxG_SSSgtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(parent:key:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3keyACyxGx_SSSgtcfc">init(parent:<wbr>key:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3keyACyxGAA7PointerVyxG_SSSgtcfc">init(parent:<wbr>key:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -507,7 +504,275 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>parent</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Pointer.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3key9classNameACyxGAA7PointerVyxG_SSSgSStcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(parent:key:className:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key9classNameACyxGAA7PointerVyxG_SSSgSStcfc">init(parent:<wbr>key:<wbr>className:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a <code>ParseRelation</code> with a specific parent, key, and className.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>parent</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Pointer.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>className</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the child class for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3key5childACyxGAA7PointerVyxG_SSSgqd__tcAA0A6ObjectRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(parent:key:child:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key5childACyxGAA7PointerVyxG_SSSgqd__tcAA0A6ObjectRd__lufc">init(parent:<wbr>key:<wbr>child:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a <code>ParseRelation</code> with a specific parent, key, and child object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>parent</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Pointer.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>child</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The child <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3key5childACyxGAA7PointerVyxG_SSSgAIyqd__GtcAA0A6ObjectRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(parent:key:child:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key5childACyxGAA7PointerVyxG_SSSgAIyqd__GtcAA0A6ObjectRd__lufc">init(parent:<wbr>key:<wbr>child:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a <code>ParseRelation</code> with a specific parent, key, and child object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>parent</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Pointer.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>child</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The child <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Pointer.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3keyACyxGx_SSSgtKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(parent:key:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3keyACyxGx_SSSgtKcfc">init(parent:<wbr>key:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a <code>ParseRelation</code> with a specific parent and key.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -548,9 +813,9 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A8RelationV6parent3key9classNameACyxGx_SSSgSStcfc"></a>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3key9classNameACyxGx_SSSgSStKcfc"></a>
                     <a name="//apple_ref/swift/Method/init(parent:key:className:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key9classNameACyxGx_SSSgSStcfc">init(parent:<wbr>key:<wbr>className:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key9classNameACyxGx_SSSgSStKcfc">init(parent:<wbr>key:<wbr>className:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -565,7 +830,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -618,9 +883,9 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A8RelationV6parent3key5childACyxGx_SSSgqd__tcAA0A6ObjectRd__lufc"></a>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3key5childACyxGx_SSSgqd__tKcAA0A6ObjectRd__lufc"></a>
                     <a name="//apple_ref/swift/Method/init(parent:key:child:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key5childACyxGx_SSSgqd__tcAA0A6ObjectRd__lufc">init(parent:<wbr>key:<wbr>child:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key5childACyxGx_SSSgqd__tKcAA0A6ObjectRd__lufc">init(parent:<wbr>key:<wbr>child:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -635,7 +900,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -685,6 +950,89 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8RelationV6parent3key5childACyxGx_SSSgAA7PointerVyqd__GtKcAA0A6ObjectRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(parent:key:child:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV6parent3key5childACyxGx_SSSgAA7PointerVyqd__GtKcAA0A6ObjectRd__lufc">init(parent:<wbr>key:<wbr>child:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a <code>ParseRelation</code> with a specific parent, key, and child object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>parent</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>child</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The child <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Pointer.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Intents"></a>
+                <a name="//apple_ref/swift/Section/Intents" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Intents"></a>
+                  <h3 class="section-name"><span>Intents</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
@@ -926,7 +1274,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentxvp">parent</a></code> in this relation.</p>
+                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentAA7PointerVyxGSgvp">parent</a></code> in this relation.</p>
 
                       </div>
                       <div class="declaration">
@@ -988,7 +1336,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentxvp">parent</a></code> in this relation.</p>
+                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentAA7PointerVyxGSgvp">parent</a></code> in this relation.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
@@ -1055,7 +1403,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentxvp">parent</a></code> in this relation.</p>
+                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentAA7PointerVyxGSgvp">parent</a></code> in this relation.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
@@ -1122,7 +1470,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentxvp">parent</a></code> in this relation.</p>
+                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code><a href="../Structs/ParseRelation.html#/s:10ParseSwift0A8RelationV6parentAA7PointerVyxGSgvp">parent</a></code> in this relation.</p>
 
                       </div>
                       <div class="declaration">
@@ -1174,9 +1522,9 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A8RelationV5queryyAA5QueryVyqd__Gqd__KAA0A6ObjectRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/query(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A8RelationV5queryyAA5QueryVyqd__Gqd__KAA0A6ObjectRd__lF">query(_:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A8RelationV5queryAA5QueryVyqd__GyKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/query()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV5queryAA5QueryVyqd__GyKAA0A6ObjectRd__lF">query()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1196,28 +1544,9 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">query</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">query</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>child</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The child object for the relation.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -1229,9 +1558,9 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A8RelationV5query_5childAA5QueryVyqd__GSS_qd__tKAA0A6ObjectRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/query(_:child:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A8RelationV5query_5childAA5QueryVyqd__GSS_qd__tKAA0A6ObjectRd__lF">query(_:<wbr>child:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A8RelationV5queryyAA5QueryVyqd__GSSKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/query(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8RelationV5queryyAA5QueryVyqd__GSSKAA0A6ObjectRd__lF">query(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1251,7 +1580,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">query</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">query</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1268,18 +1597,6 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
                               <td>
                                 <div>
                                   <p>The key for the relation.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>child</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The child object for the relation.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1596,7 +1913,7 @@ indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseO
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-17)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-26)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

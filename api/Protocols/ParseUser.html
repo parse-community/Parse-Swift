@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 3.1.2 Docs
+          ParseSwift 4.0.0 Docs
         </a>
-         (96% documented)
+         (97% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -162,10 +162,10 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
@@ -279,9 +279,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseObject.html">ParseObject</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/ParseObjectMutable.html">ParseObjectMutable</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseQueryScorable.html">ParseQueryScorable</a>
@@ -2733,6 +2730,87 @@ associated with the user account. This email allows the user to securely reset t
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE14verifyPassword8password9usingPost7optionsxSS_SbShyAA3APIV6OptionOGtYaKFZ"></a>
+                    <a name="//apple_ref/swift/Method/verifyPassword(password:usingPost:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE14verifyPassword8password9usingPost7optionsxSS_SbShyAA3APIV6OptionOGtYaKFZ">verifyPassword(password:<wbr>usingPost:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method, asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Verifies <em>asynchronously</em> whether the specified password associated with the user account is valid.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">verifyPassword</span><span class="p">(</span><span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                           <span class="nv">usingPost</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The password to be verified.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>usingPost</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> to use <strong>POST</strong> for sending. Will use <strong>GET</strong>
+otherwise. Defaults to <strong>true</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift0A4UserPAAE17verificationEmail5email7optionsySS_ShyAA3APIV6OptionOGtYaKFZ"></a>
                     <a name="//apple_ref/swift/Method/verificationEmail(email:options:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A4UserPAAE17verificationEmail5email7optionsySS_ShyAA3APIV6OptionOGtYaKFZ">verificationEmail(email:<wbr>options:<wbr>)</a>
@@ -2883,9 +2961,9 @@ desires a different policy, it should be inserted in <code>options</code>.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE4save28isIgnoreCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF"></a>
-                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE4save28isIgnoreCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE4save28ignoringCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/save(ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE4save28ignoringCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF">save(ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method, asynchronous
@@ -2909,9 +2987,9 @@ desires a different policy, it should be inserted in <code>options</code>.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -2929,7 +3007,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
@@ -2941,7 +3019,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -3588,6 +3666,87 @@ Publishes when complete.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE23verifyPasswordPublisher8password9usingPost7options7Combine6FutureCyxAA0A5ErrorVGSS_SbShyAA3APIV6OptionOGtFZ"></a>
+                    <a name="//apple_ref/swift/Method/verifyPasswordPublisher(password:usingPost:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE23verifyPasswordPublisher8password9usingPost7options7Combine6FutureCyxAA0A5ErrorVGSS_SbShyAA3APIV6OptionOGtFZ">verifyPasswordPublisher(password:<wbr>usingPost:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Verifies <em>asynchronously</em> whether the specified password associated with the user account is valid.
+Publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">verifyPasswordPublisher</span><span class="p">(</span><span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                    <span class="nv">usingPost</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The password to be verified.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>usingPost</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> to use <strong>POST</strong> for sending. Will use <strong>GET</strong>
+otherwise. Defaults to <strong>true</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift0A4UserPAAE26verificationEmailPublisher5email7options7Combine6FutureCyytAA0A5ErrorVGSS_ShyAA3APIV6OptionOGtFZ"></a>
                     <a name="//apple_ref/swift/Method/verificationEmailPublisher(email:options:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A4UserPAAE26verificationEmailPublisher5email7options7Combine6FutureCyytAA0A5ErrorVGSS_ShyAA3APIV6OptionOGtFZ">verificationEmailPublisher(email:<wbr>options:<wbr>)</a>
@@ -3734,9 +3893,9 @@ desires a different policy, it should be inserted in <code>options</code>.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE13savePublisher7options28isIgnoreCustomObjectIdConfig7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_SbtF"></a>
-                    <a name="//apple_ref/swift/Method/savePublisher(options:isIgnoreCustomObjectIdConfig:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE13savePublisher7options28isIgnoreCustomObjectIdConfig7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_SbtF">savePublisher(options:<wbr>isIgnoreCustomObjectIdConfig:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE13savePublisher7options28ignoringCustomObjectIdConfig7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_SbtF"></a>
+                    <a name="//apple_ref/swift/Method/savePublisher(options:ignoringCustomObjectIdConfig:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE13savePublisher7options28ignoringCustomObjectIdConfig7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_SbtF">savePublisher(options:<wbr>ignoringCustomObjectIdConfig:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -3756,9 +3915,9 @@ desires a different policy, it should be inserted in <code>options</code>.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -3772,7 +3931,7 @@ client-side checks are disabled. Developers are responsible for handling such ca
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">savePublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-                   <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+                   <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -3783,7 +3942,7 @@ client-side checks are disabled. Developers are responsible for handling such ca
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -4021,6 +4180,64 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectP05mergeA04withxx_tKF"></a>
+                    <a name="//apple_ref/swift/Method/mergeParse(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectP05mergeA04withxx_tKF">mergeParse(with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">mergeParse</span><span class="p">(</span><span class="n">with</span> <span class="nv">object</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectP5merge4withxx_tKF"></a>
+                    <a name="//apple_ref/swift/Method/merge(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectP5merge4withxx_tKF">merge(with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="n">with</span> <span class="nv">object</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -4824,6 +5041,132 @@ desires a different policy, it should be inserted in <code>options</code>.
                               <td>
                                 <div>
                                   <p>A block that will be called when the password reset completes or fails.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Verify%20Password"></a>
+                <a name="//apple_ref/swift/Section/Verify Password" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Verify%20Password"></a>
+                  <h3 class="section-name"><span>Verify Password</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE14verifyPassword8password9usingPost7options13callbackQueue10completionySS_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/verifyPassword(password:usingPost:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE14verifyPassword8password9usingPost7options13callbackQueue10completionySS_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ">verifyPassword(password:<wbr>usingPost:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Verifies <em>asynchronously</em> whether the specified password associated with the user account is valid.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <code>usePost == true</code>requires Parse Server &gt; 5.0.0. Othewise you should set
+<code>userPost = false</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">verifyPassword</span><span class="p">(</span><span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                  <span class="nv">usingPost</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                                  <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The password to be verified.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>usingPost</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> to use <strong>POST</strong> for sending. Will use <strong>GET</strong>
+otherwise. Defaults to <strong>true</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when the verification request completes or fails.</p>
                                 </div>
                               </td>
                             </tr>
@@ -5662,9 +6005,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE4save28isIgnoreCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF"></a>
-                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE4save28isIgnoreCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE4save28ignoringCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF"></a>
+                    <a name="//apple_ref/swift/Method/save(ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE4save28ignoringCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF">save(ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -5688,9 +6031,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -5708,7 +6051,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
                  <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
@@ -5720,7 +6063,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -5756,9 +6099,9 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE4save28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE4save28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE4save28ignoringCustomObjectIdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/save(ignoringCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE4save28ignoringCustomObjectIdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(ignoringCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -5778,9 +6121,9 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
@@ -5799,7 +6142,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
-    <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
@@ -5814,7 +6157,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -6202,7 +6545,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-17)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-26)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

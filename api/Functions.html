@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 3.1.2 Docs
+          ParseSwift 4.0.0 Docs
         </a>
-         (96% documented)
+         (97% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -162,10 +162,10 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
@@ -279,9 +279,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/ParseObject.html">ParseObject</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/ParseObjectMutable.html">ParseObjectMutable</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/ParseQueryScorable.html">ParseQueryScorable</a>
@@ -741,9 +738,9 @@ Parse Servers  &lt;= 5.0.0.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF"></a>
-                    <a name="//apple_ref/swift/Function/equalTo(key:value:isUsingEQ:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:<wbr>value:<wbr>isUsingEQ:<wbr>)</a>
+                    <a name="/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF"></a>
+                    <a name="//apple_ref/swift/Function/equalTo(key:value:usingEqComparator:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:<wbr>value:<wbr>usingEqComparator:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -754,7 +751,7 @@ Parse Servers  &lt;= 5.0.0.
                         <p>Add a constraint that requires that a key is equal to a value.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <code>isUsingEQ == true</code> is known not to work for LiveQueries
+    <code>usingEqComparator == true</code> is known not to work for LiveQueries
 on Parse Servers &lt;= 5.0.0.
 
 </div>
@@ -767,7 +764,7 @@ on Parse Servers &lt;= 5.0.0.
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">equalTo</span> <span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                         <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span>
                         <span class="c1">//swiftlint:disable:next line_length</span>
-                        <span class="nv">isUsingEQ</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingEqualQueryConstraint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span><span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+                        <span class="nv">usingEqComparator</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingEqualQueryConstraint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span><span class="p">:</span> <span class="kt">Encodable</span></code></pre>
 
                         </div>
                       </div>
@@ -802,7 +799,7 @@ on Parse Servers &lt;= 5.0.0.
                             <tr>
                               <td>
                                 <code>
-                                <em>isUsingEQ</em>
+                                <em>usingEqComparator</em>
                                 </code>
                               </td>
                               <td>
@@ -901,9 +898,9 @@ Parse Servers  &lt;= 5.0.0.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF"></a>
-                    <a name="//apple_ref/swift/Function/equalTo(key:value:isUsingEQ:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:<wbr>value:<wbr>isUsingEQ:<wbr>)</a>
+                    <a name="/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/equalTo(key:value:usingEqComparator:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:<wbr>value:<wbr>usingEqComparator:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -918,7 +915,7 @@ Parse Servers  &lt;= 5.0.0.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <code>isUsingEQ == true</code> is known not to work for LiveQueries
+    <code>usingEqComparator == true</code> is known not to work for LiveQueries
 on Parse Servers &lt;= 5.0.0.
 
 </div>
@@ -931,7 +928,7 @@ on Parse Servers &lt;= 5.0.0.
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">equalTo</span> <span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                         <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span>
                         <span class="c1">//swiftlint:disable:next line_length</span>
-                        <span class="nv">isUsingEQ</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingEqualQueryConstraint</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span><span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                        <span class="nv">usingEqComparator</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">isUsingEqualQueryConstraint</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span><span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -966,7 +963,7 @@ on Parse Servers &lt;= 5.0.0.
                             <tr>
                               <td>
                                 <code>
-                                <em>isUsingEQ</em>
+                                <em>usingEqComparator</em>
                                 </code>
                               </td>
                               <td>
@@ -2760,7 +2757,7 @@ coordinates contains a <code><a href="Structs/ParseGeoPoint.html">ParseGeoPoint<
 string using Full Text Search.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    In order to sort you must use <code><a href="Structs/Query.html#/s:10ParseSwift5QueryV15sortByTextScoreACyxGyF">Query.sortByTextScore()</a></code>.
+    In order to sort you must use <code><a href="Structs/Query.html#/s:10ParseSwift5QueryVA2A0aC8ScorableRzrlE15sortByTextScoreACyxGyF">Query.sortByTextScore()</a></code>.
 Your <code><a href="Protocols/ParseObject.html">ParseObject</a></code> should conform to <code><a href="Protocols/ParseQueryScorable.html">ParseQueryScorable</a></code> to retrieve
 the weight/rank via  the &ldquo;score&rdquo; property of your <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.
 
@@ -2834,7 +2831,7 @@ the weight/rank via  the &ldquo;score&rdquo; property of your <code><a href="Pro
 string using Full Text Search.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    In order to sort you must use <code><a href="Structs/Query.html#/s:10ParseSwift5QueryV15sortByTextScoreACyxGyF">Query.sortByTextScore()</a></code>.
+    In order to sort you must use <code><a href="Structs/Query.html#/s:10ParseSwift5QueryVA2A0aC8ScorableRzrlE15sortByTextScoreACyxGyF">Query.sortByTextScore()</a></code>.
 Your <code><a href="Protocols/ParseObject.html">ParseObject</a></code> should conform to <code><a href="Protocols/ParseQueryScorable.html">ParseQueryScorable</a></code> to retrieve
 the weight/rank via  the &ldquo;score&rdquo; property of your <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.
 
@@ -3733,7 +3730,7 @@ This will use smart indexing, so it will be fast for large datasets.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-17)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-26)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

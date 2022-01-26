@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 3.1.2 Docs
+          ParseSwift 4.0.0 Docs
         </a>
-         (96% documented)
+         (97% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -162,10 +162,10 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:usingEqComparator:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
@@ -279,9 +279,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseObject.html">ParseObject</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/ParseObjectMutable.html">ParseObjectMutable</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseQueryScorable.html">ParseQueryScorable</a>
@@ -432,18 +429,23 @@ This is the main protocol that is used to interact with objects in your app.</p>
 If you are using value types the the compiler will assist you with conforming to <code>ParseObject</code> protocol. If you
 are thinking of using reference types, see the warning.</p>
 
-<p>It&rsquo;s recommended the developer conforms to the <code><a href="../Protocols/ParseObjectMutable.html">ParseObjectMutable</a></code> protocol.
-Gets an empty version of the respective object. This can be used when you only need to update a
-a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
-a subset of the fields reduces the amount of data sent between client and server when using <code>save</code> and <code>saveAll</code>
-to update objects.</p>
+<p>After a <code>ParseObject</code>is saved/created to a Parse Server. It is recommended to conduct the rest of your updates on a
+<code>mergeable</code> copy of your <code>ParseObject</code>. This allows a subset of the fields to be updated (PATCH) of an object
+as oppose to replacing all of the fields of an object (PUT). This reduces the amount of data
+sent between client and server when using <code>save</code>, <code>saveAll</code>, <code>update</code>,
+<code>updateAll</code>, <code>replace</code>, <code>replaceAll</code>, to update objects.</p>
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
-    It is recommended that all added properties be optional properties so they can eventually be used as
+    It is required that all added properties be optional properties so they can eventually be used as
 Parse <code><a href="../Structs/Pointer.html">Pointer</a></code>&lsquo;s. If a developer really wants to have a required key, they should require it on the server-side or
 create methods to check the respective properties on the client-side before saving objects. See
-<a href="https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025">here</a>
-for more information.
+<a href="https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003">here</a>
+for more information on the reasons why. See the <a href="https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66">Playgrounds</a> for an example.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    To take advantage of <code>mergeable</code>, the developer should implement the <code>merge</code> method in every
+<code>ParseObject</code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -467,6 +469,362 @@ otherwise it&rsquo;s possible you will get &ldquo;circular dependency errors&rdq
 
         <section class="section">
           <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectP12originalData10Foundation0E0VSgvp"></a>
+                    <a name="//apple_ref/swift/Property/originalData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectP12originalData10Foundation0E0VSgvp">originalData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A JSON encoded version of this <code>ParseObject</code> before <code><a href="../Protocols/ParseObject.html#/s:10ParseSwift0A6ObjectP9mergeablexvp">mergeable</a></code> was called and
+properties were changed.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This property is not intended to be set or modified by the developer.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">originalData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectP9mergeablexvp"></a>
+                    <a name="//apple_ref/swift/Property/mergeable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectP9mergeablexvp">mergeable</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An empty copy of the respective object that allows you to update a
+a subset of the fields (PATCH) of an object as oppose to replacing an object (PUT).</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    It is recommended to use this to create a mergeable copy of your <code>ParseObject</code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <code>mergeable</code> should only be used on <code>ParseObject</code>&lsquo;s that have already
+been saved at least once to a Parse Server and have a valid <code>objectId</code>. In addition,
+the developer should have implemented added all of their properties to <code>merge</code>.
+
+</div>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mergeable</span><span class="p">:</span> <span class="k">Self</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPxycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPxycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default initializer to ensure all <code>ParseObject</code>&lsquo;s can be encoded/decoded properly.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    The compiler will give you this initialzer for free
+(<a href="https://docs.swift.org/swift-book/LanguageGuide/Initialization.html">memberwise initializer</a>)
+as long as you declare all properties as <strong>optional</strong> (see <strong>Warning</strong> section) and you declare all other initializers in
+an <strong>extension</strong>. See the <a href="https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66">Playgrounds</a> for an example.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    It is required that all added properties be optional properties so they can eventually be used as
+Parse <code><a href="../Structs/Pointer.html">Pointer</a></code>&rsquo;s. If a developer really wants to have a required key, they should require it on the server-side or
+create methods to check the respective properties on the client-side before saving objects. See
+<a href="https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003">here</a>
+for more information.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectP16shouldRestoreKey_8originalSbs0F4PathCyxqd__SgG_xtSQRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/shouldRestoreKey(_:original:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectP16shouldRestoreKey_8originalSbs0F4PathCyxqd__SgG_xtSQRd__lF">shouldRestoreKey(_:<wbr>original:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determines if a <code>KeyPath</code> of the current <code>ParseObject</code> should be restored
+by comparing it to another <code>ParseObject</code>.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">shouldRestoreKey</span><span class="o">&lt;</span><span class="kt">W</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">KeyPath</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">W</span><span class="p">?</span><span class="o">&gt;</span><span class="p">,</span>
+                         <span class="nv">original</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">where</span> <span class="kt">W</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>original</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The original <code>ParseObject</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns a <code>true</code> if the keyPath should be restored  or <code>false</code> otherwise.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectP05mergeA04withxx_tKF"></a>
+                    <a name="//apple_ref/swift/Method/mergeParse(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectP05mergeA04withxx_tKF">mergeParse(with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Merges two <code>ParseObject</code>&lsquo;s with the resulting object consisting of all modified
+and unchanged Parse properties.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This is used in combination with <code>merge</code> to only send updated
+properties to the server and then merge those changes with the original object.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    You should only call this method and shouldn&rsquo;t implement it directly
+as it&rsquo;s already implemented for developers to use.
+
+</div>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">mergeParse</span><span class="p">(</span><span class="n">with</span> <span class="nv">object</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>with</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The original object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The updated installation.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectP5merge4withxx_tKF"></a>
+                    <a name="//apple_ref/swift/Method/merge(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectP5merge4withxx_tKF">merge(with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Merges two <code>ParseObject</code>&lsquo;s with the resulting object consisting of all modified
+and unchanged properties.</p>
+<pre class="highlight swift"><code><span class="c1">//: Create your own value typed `ParseObject`.</span>
+<span class="kd">struct</span> <span class="kt">GameScore</span><span class="p">:</span> <span class="kt">ParseObject</span> <span class="p">{</span>
+    <span class="c1">//: These are required by ParseObject</span>
+    <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">ACL</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">?</span>
+
+    <span class="c1">//: Your own properties.</span>
+    <span class="k">var</span> <span class="nv">points</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
+
+    <span class="c1">//: Implement your own version of merge</span>
+    <span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="n">with</span> <span class="nv">object</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">updated</span> <span class="o">=</span> <span class="k">try</span> <span class="nf">mergeParse</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">object</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">updated</span><span class="o">.</span><span class="nf">shouldRestoreKey</span><span class="p">(\</span><span class="o">.</span><span class="n">points</span><span class="p">,</span>
+                                         <span class="nv">original</span><span class="p">:</span> <span class="n">object</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">updated</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="n">points</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">updated</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Use this in combination with <code>ParseMutable</code> to only send updated
+properties to the server and then merge those changes with the original object.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    It is recommend you provide an implementation of this method
+for all of your <code>ParseObject</code>&rsquo;s as the developer has access to all properties of a
+<code>ParseObject</code>. You should always call <code>mergeParse</code>
+in the beginning of your implementation to handle all default Parse properties. In addition,
+use <code>shouldRestoreKey</code> to compare key modifications between objects.
+
+</div>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="n">with</span> <span class="nv">object</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>with</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The original object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The merged object.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <div class="task-group">
               <div class="task-name-container">
                 <a name="/Coding"></a>
@@ -760,9 +1118,9 @@ desires a different policy, it should be inserted in <code>options</code>.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A6ObjectPAAE4save014isIgnoreCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF"></a>
-                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE4save014isIgnoreCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE4save014ignoringCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/save(ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE4save014ignoringCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtYaKF">save(ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method, asynchronous
@@ -785,7 +1143,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
@@ -797,7 +1155,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -1091,9 +1449,9 @@ desires a different policy, it should be inserted in <code>options</code>.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A6ObjectPAAE13savePublisher014isIgnoreCustomC8IdConfig7options7Combine6FutureCyxAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/savePublisher(isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE13savePublisher014isIgnoreCustomC8IdConfig7options7Combine6FutureCyxAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtF">savePublisher(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE13savePublisher014ignoringCustomC8IdConfig7options7Combine6FutureCyxAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/savePublisher(ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE13savePublisher014ignoringCustomC8IdConfig7options7Combine6FutureCyxAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtF">savePublisher(ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -1109,9 +1467,9 @@ desires a different policy, it should be inserted in <code>options</code>.
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code>ParseObject</code>&rsquo;s by accident as the
@@ -1129,7 +1487,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">savePublisher</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">savePublisher</span><span class="p">(</span><span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -1141,7 +1499,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -1817,9 +2175,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A6ObjectPAAE4save014isIgnoreCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF"></a>
-                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE4save014isIgnoreCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE4save014ignoringCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF"></a>
+                    <a name="//apple_ref/swift/Method/save(ignoringCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE4save014ignoringCustomC8IdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF">save(ignoringCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -1839,9 +2197,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
     <p class="aside-title">Warning</p>
     <p>If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code>ParseObject</code>&rsquo;s by accident as the
@@ -1859,7 +2217,7 @@ desires a different policy, it should be inserted in <code>options</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                  <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
@@ -1871,7 +2229,7 @@ desires a different policy, it should be inserted in <code>options</code>.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -1907,9 +2265,9 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A6ObjectPAAE4save014isIgnoreCustomC8IdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE4save014isIgnoreCustomC8IdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE4save014ignoringCustomC8IdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/save(ignoringCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE4save014ignoringCustomC8IdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(ignoringCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -1925,9 +2283,9 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
     <p class="aside-title">Warning</p>
     If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
-<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ignoringCustomObjectIdConfig = false</code>. Setting
 <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
-<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+<code>ignoringCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code>ParseObject</code>&rsquo;s by accident as the
@@ -1941,7 +2299,7 @@ client-side checks are disabled. Developers are responsible for handling such ca
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
-    <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">ignoringCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
@@ -1956,7 +2314,7 @@ client-side checks are disabled. Developers are responsible for handling such ca
                             <tr>
                               <td>
                                 <code>
-                                <em>isIgnoreCustomObjectIdConfig</em>
+                                <em>ignoringCustomObjectIdConfig</em>
                                 </code>
                               </td>
                               <td>
@@ -2371,6 +2729,194 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/relation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGSgvp">relation</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a new relation with this <code>ParseObject</code> as the parent.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">relation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSAA7PointerVyqd__GtKAaBRd__lFZ"></a>
+                    <a name="//apple_ref/swift/Method/relation(_:key:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSAA7PointerVyqd__GtKAaBRd__lFZ">relation(_:<wbr>key:<wbr>with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establish a relation based on a stored relation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Protocols/ParseObject.html#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGSgvp">relation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">ParseObject</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">relation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">?,</span>
+                                     <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                     <span class="n">with</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>relation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The stored relation property.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>with</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code>ParseObject</code> Pointer of the <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A usable <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code> based on the stored relation property.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSqd__tKAaBRd__lFZ"></a>
+                    <a name="//apple_ref/swift/Method/relation(_:key:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSqd__tKAaBRd__lFZ">relation(_:<wbr>key:<wbr>with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establish a relation based on a stored relation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Protocols/ParseObject.html#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGSgvp">relation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">ParseObject</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">relation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">?,</span>
+                                     <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                     <span class="n">with</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>relation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The stored relation property.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>with</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code>ParseObject</code> of the <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A usable <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code> based on the stored relation property.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift0A6ObjectPAAE14queryRelations_6parentAA5QueryVyxGSS_qd__tKAaBRd__lFZ"></a>
                     <a name="//apple_ref/swift/Method/queryRelations(_:parent:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE14queryRelations_6parentAA5QueryVyxGSS_qd__tKAaBRd__lFZ">queryRelations(_:<wbr>parent:<wbr>)</a>
@@ -2384,7 +2930,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code>parent</code> in this relation.</p>
+                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> for child objects that is limited to objects for a specific <code>key</code> and <code>parent</code> in this relation.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
@@ -2433,7 +2979,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A relation query.</p>
+                        <p>A relation query for child objects related to a <code>parent</code> object with a specific <code>key</code>.</p>
                       </div>
                     </section>
                   </div>
@@ -2454,7 +3000,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> that is limited to objects for a specific <code>key</code> and <code>parent</code> in this relation.</p>
+                        <p>Returns a <code><a href="../Structs/Query.html">Query</a></code> for child objects that is limited to objects for a specific <code>key</code> and <code>parent</code> in this relation.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
@@ -2503,7 +3049,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A relation query.</p>
+                        <p>A relation query for child objects related to a <code>parent</code> object with a specific <code>key</code>.</p>
                       </div>
                     </section>
                   </div>
@@ -2511,39 +3057,9 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGvp"></a>
-                    <a name="//apple_ref/swift/Property/relation" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGvp">relation</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Create a new relation.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">relation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_9classNameAA0A8RelationVyxGSS_SStF"></a>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_9classNameAA0A8RelationVyxGSS_SStKF"></a>
                     <a name="//apple_ref/swift/Method/relation(_:className:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_9classNameAA0A8RelationVyxGSS_SStF">relation(_:<wbr>className:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_9classNameAA0A8RelationVyxGSS_SStKF">relation(_:<wbr>className:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -2561,7 +3077,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">relation</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">relation</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2577,7 +3093,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A key for the relation.</p>
+                                  <p>The key for the relation.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2606,9 +3122,9 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_5childAA0A8RelationVyxGSS_qd__tAaBRd__lF"></a>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_5childAA0A8RelationVyxGSS_qd__tKAaBRd__lF"></a>
                     <a name="//apple_ref/swift/Method/relation(_:child:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_5childAA0A8RelationVyxGSS_qd__tAaBRd__lF">relation(_:<wbr>child:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_5childAA0A8RelationVyxGSS_qd__tKAaBRd__lF">relation(_:<wbr>child:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -2626,7 +3142,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n"><a href="../Protocols/ParseObject.html#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGvp">relation</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">ParseObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n"><a href="../Protocols/ParseObject.html#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGSgvp">relation</a></span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">child</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">ParseObject</span></code></pre>
 
                         </div>
                       </div>
@@ -2642,7 +3158,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A key for the relation.</p>
+                                  <p>The key for the relation.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2664,6 +3180,230 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                       <div>
                         <h4>Return Value</h4>
                         <p>A new <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_3keyAA0A8RelationVyxGAHSg_SStKF"></a>
+                    <a name="//apple_ref/swift/Method/relation(_:key:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_3keyAA0A8RelationVyxGAHSg_SStKF">relation(_:<wbr>key:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establish a relation based on a stored relation with this <code>ParseObject</code> as the parent.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">relation</span><span class="p">(</span><span class="n">_</span> <span class="nv">relation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">?,</span>
+              <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>relation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The stored relation property.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A usable <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code> based on the stored relation property.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSAA7PointerVyqd__GtKAaBRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/relation(_:key:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSAA7PointerVyqd__GtKAaBRd__lF">relation(_:<wbr>key:<wbr>with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establish a relation based on a stored relation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n"><a href="../Protocols/ParseObject.html#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGSgvp">relation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">ParseObject</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">relation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">?,</span>
+                              <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                              <span class="n">with</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>relation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The stored relation property.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>with</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code>ParseObject</code> Pointer of the <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A usable <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code> based on the stored relation property.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSqd__tKAaBRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/relation(_:key:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE8relation_3key4withAA0A8RelationVyqd__GAISg_SSqd__tKAaBRd__lF">relation(_:<wbr>key:<wbr>with:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establish a relation based on a stored relation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n"><a href="../Protocols/ParseObject.html#/s:10ParseSwift0A6ObjectPAAE8relationAA0A8RelationVyxGSgvp">relation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">ParseObject</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">relation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">?,</span>
+                              <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                              <span class="n">with</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseRelation.html">ParseRelation</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>relation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The stored relation property.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the relation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>with</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parent <code>ParseObject</code> of the <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A usable <code><a href="../Structs/ParseRelation.html">ParseRelation</a></code> based on the stored relation property.</p>
                       </div>
                     </section>
                   </div>
@@ -2829,7 +3569,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-17)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-26)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
