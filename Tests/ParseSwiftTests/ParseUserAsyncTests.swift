@@ -423,7 +423,17 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return
         }
 
-        _ = try await User.logout()
+        do {
+            _ = try await User.logout()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+
         if let userFromKeychain = BaseParseUser.current {
             XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
         }
@@ -639,6 +649,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             _ = try await User.verifyPassword(password: "blue")
+            XCTFail("Should have thrown error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")
@@ -678,6 +689,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             _ = try await User.verificationEmail(email: "hello@parse.org")
+            XCTFail("Should have thrown error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")

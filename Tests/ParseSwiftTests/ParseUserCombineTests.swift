@@ -649,8 +649,8 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         let publisher = User.verificationEmailPublisher(email: "hello@parse.org")
             .sink(receiveCompletion: { result in
 
-                if case .finished = result {
-                    XCTFail("Should have thrown ParseError")
+                if case .failure(let error) = result {
+                    XCTAssertEqual(error.message, parseError.message)
                 }
                 expectation1.fulfill()
 

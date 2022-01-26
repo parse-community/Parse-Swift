@@ -101,8 +101,11 @@ public extension ParseUser {
      - throws: An error of type `ParseError`.
     */
     static func logout(options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             Self.logout(options: options, completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 
@@ -115,8 +118,11 @@ public extension ParseUser {
     */
     static func passwordReset(email: String,
                               options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             Self.passwordReset(email: email, options: options, completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 
@@ -147,8 +153,11 @@ public extension ParseUser {
     */
     static func verificationEmail(email: String,
                                   options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             Self.verificationEmail(email: email, options: options, completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 
@@ -252,8 +261,11 @@ public extension ParseUser {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func delete(options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             self.delete(options: options, completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 }

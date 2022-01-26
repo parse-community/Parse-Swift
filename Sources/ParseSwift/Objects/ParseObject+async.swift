@@ -96,9 +96,12 @@ public extension ParseObject {
      - throws: An error of type `ParseError`.
     */
     func delete(options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             self.delete(options: options,
                         completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 }

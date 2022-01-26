@@ -225,5 +225,41 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         _ = try await parseFile.delete(options: [.useMasterKey])
     }
+
+    @MainActor
+    func testDeleteError () async throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let serverResponse = ParseError(code: .fileDeleteFailure, message: "not found")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            _ = try await parseFile.delete(options: [.useMasterKey])
+            XCTFail("Should have thrown error")
+        } catch {
+
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+    }
 }
 #endif

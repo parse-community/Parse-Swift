@@ -664,6 +664,45 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
     }
 
     @MainActor
+    func testDeleteError() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        guard let installation = Installation.current,
+            let savedObjectId = installation.objectId else {
+                XCTFail("Should unwrap")
+                return
+        }
+        XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
+
+        let serverResponse = ParseError(code: .objectNotFound, message: "not found")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await installation.delete()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+
+        if let newInstallation = Installation.current {
+            XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
+        }
+    }
+
+    @MainActor
     func testFetchAll() async throws {
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()
