@@ -406,11 +406,12 @@ extension ParseInstallation {
 
         var foundCurrentInstallationObjects = results.filter { $0.hasSameInstallationId(as: currentInstallation) }
         foundCurrentInstallationObjects = try foundCurrentInstallationObjects.sorted(by: {
-            if $0.updatedAt == nil || $1.updatedAt == nil {
+            guard let firstUpdatedAt = $0.updatedAt,
+                  let secondUpdatedAt = $1.updatedAt else {
                 throw ParseError(code: .unknownError,
-                                 message: "Objects from the server should always have an 'updatedAt'")
+                                 message: "Objects from the server should always have an \"updatedAt\"")
             }
-            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
+            return firstUpdatedAt.compare(secondUpdatedAt) == .orderedDescending
         })
         if let foundCurrentInstallation = foundCurrentInstallationObjects.first {
             if !deleting {

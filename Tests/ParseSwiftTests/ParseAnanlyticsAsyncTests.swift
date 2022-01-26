@@ -56,10 +56,9 @@ class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_bod
         let options = [UIApplication.LaunchOptionsKey.remoteNotification: ["stop": "drop"]]
         _ = try await ParseAnalytics.trackAppOpened(launchOptions: options)
     }
-    #endif
 
-    @MainActor
-    func testTrackAppOpened() async throws {
+    func testTrackAppOpenedUIKitError() async throws {
+
         let serverResponse = NoBody()
 
         let encoded: Data!
@@ -72,8 +71,65 @@ class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_bod
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
+        let options = [UIApplication.LaunchOptionsKey.remoteNotification: ["stop": "drop"]]
+        _ = try await ParseAnalytics.trackAppOpened(launchOptions: options)
+    }
+    #endif
 
-        _ = try await ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"])
+    @MainActor
+    func testTrackAppOpened() async throws {
+        let serverResponse = ParseError(code: .internalServer, message: "none")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            _ = try await ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"])
+            XCTFail("Should have thrown error")
+        } catch {
+
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+    }
+
+    @MainActor
+    func testTrackAppOpenedError() async throws {
+        let serverResponse = ParseError(code: .internalServer, message: "none")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            _ = try await ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"])
+            XCTFail("Should have thrown error")
+        } catch {
+
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
     }
 
     @MainActor
@@ -94,6 +150,35 @@ class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_bod
         _ = try await event.track()
     }
 
+    @MainActor
+    func testTrackEventError() async throws {
+        let serverResponse = ParseError(code: .internalServer, message: "none")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let event = ParseAnalytics(name: "hello")
+
+        do {
+            _ = try await event.track()
+            XCTFail("Should have thrown error")
+        } catch {
+
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+    }
+
     func testTrackEventMutated() async throws {
         let serverResponse = NoBody()
 
@@ -109,6 +194,33 @@ class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_bod
         }
         let event = ParseAnalytics(name: "hello")
         _ = try await event.track(dimensions: ["stop": "drop"])
+    }
+
+    func testTrackEventMutatedError() async throws {
+        let serverResponse = ParseError(code: .internalServer, message: "none")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let event = ParseAnalytics(name: "hello")
+        do {
+            _ = try await event.track(dimensions: ["stop": "drop"])
+            XCTFail("Should have thrown error")
+        } catch {
+
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
     }
 }
 #endif

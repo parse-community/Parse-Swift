@@ -423,7 +423,17 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return
         }
 
-        _ = try await User.logout()
+        do {
+            _ = try await User.logout()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+
         if let userFromKeychain = BaseParseUser.current {
             XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
         }
@@ -639,6 +649,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             _ = try await User.verifyPassword(password: "blue")
+            XCTFail("Should have thrown error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")
@@ -678,6 +689,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             _ = try await User.verificationEmail(email: "hello@parse.org")
+            XCTFail("Should have thrown error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("Should be ParseError")
@@ -1090,6 +1102,41 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         if BaseParseUser.current != nil {
             XCTFail("Couldn't get CurrentUser from Keychain")
         }
+    }
+
+    @MainActor
+    func testDeleteError() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        let serverResponse = ParseError(code: .objectNotFound, message: "Not found")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await user.delete()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+        XCTAssertNotNil(BaseParseUser.current)
     }
 
     @MainActor

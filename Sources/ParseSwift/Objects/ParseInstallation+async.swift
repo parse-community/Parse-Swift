@@ -114,8 +114,11 @@ public extension ParseInstallation {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func delete(options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             self.delete(options: options, completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 }

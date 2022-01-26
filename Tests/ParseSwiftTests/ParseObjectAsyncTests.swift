@@ -485,6 +485,39 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     @MainActor
+    func testDeleteError() async throws {
+        var score = GameScore(points: 10)
+        score.objectId = "yarr"
+        let score2 = score
+
+        let serverResponse = ParseError(code: .objectNotFound, message: "not found")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            try await score2.delete()
+            XCTFail("Should have thrown error")
+        } catch {
+
+            guard let error = error as? ParseError else {
+                XCTFail("Should be ParseError")
+                return
+            }
+            XCTAssertEqual(error.message, serverResponse.message)
+        }
+    }
+
+    @MainActor
     func testFetchAll() async throws {
         let score = GameScore(points: 10)
         let score2 = GameScore(points: 20)

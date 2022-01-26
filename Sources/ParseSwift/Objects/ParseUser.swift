@@ -494,17 +494,8 @@ extension ParseUser {
                                       completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        let username: String!
-        if let current = BaseParseUser.current,
-           let currentUsername = current.username {
-            username = currentUsername
-        } else {
-            username = ""
-        }
-        var method: API.Method = .POST
-        if !usingPost {
-            method = .GET
-        }
+        let username = BaseParseUser.current?.username ?? ""
+        let method: API.Method = usingPost ? .POST : .GET
         verifyPasswordCommand(username: username,
                               password: password,
                               method: method)
@@ -532,10 +523,7 @@ extension ParseUser {
                            path: .verifyPassword,
                            params: params,
                            body: loginBody) { (data) -> Self in
-            var sessionToken = ""
-            if let currentSessionToken = BaseParseUser.current?.sessionToken {
-                sessionToken = currentSessionToken
-            }
+            var sessionToken = BaseParseUser.current?.sessionToken ?? ""
             if let decodedSessionToken = try? ParseCoding.jsonDecoder()
                 .decode(LoginSignupResponse.self, from: data).sessionToken {
                 sessionToken = decodedSessionToken
@@ -826,11 +814,12 @@ extension ParseUser {
 
         var foundCurrentUserObjects = results.filter { $0.hasSameObjectId(as: currentUser) }
         foundCurrentUserObjects = try foundCurrentUserObjects.sorted(by: {
-            if $0.updatedAt == nil || $1.updatedAt == nil {
+            guard let firstUpdatedAt = $0.updatedAt,
+                  let secondUpdatedAt = $1.updatedAt else {
                 throw ParseError(code: .unknownError,
-                                 message: "Objects from the server should always have an 'updatedAt'")
+                                 message: "Objects from the server should always have an \"updatedAt\"")
             }
-            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
+            return firstUpdatedAt.compare(secondUpdatedAt) == .orderedDescending
         })
         if let foundCurrentUser = foundCurrentUserObjects.first {
             if !deleting {

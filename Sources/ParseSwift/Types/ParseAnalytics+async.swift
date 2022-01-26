@@ -34,11 +34,14 @@ public extension ParseAnalytics {
     static func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
                                at date: Date? = nil,
                                options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             Self.trackAppOpened(launchOptions: launchOptions,
                                 at: date,
                                 options: options,
                                 completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
     #endif
@@ -58,11 +61,14 @@ public extension ParseAnalytics {
     static func trackAppOpened(dimensions: [String: String]? = nil,
                                at date: Date? = nil,
                                options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             Self.trackAppOpened(dimensions: dimensions,
                                 at: date,
                                 options: options,
                                 completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 
@@ -73,9 +79,12 @@ public extension ParseAnalytics {
      - throws: An error of type `ParseError`.
     */
     func track(options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let result = try await withCheckedThrowingContinuation { continuation in
             self.track(options: options,
                        completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 
