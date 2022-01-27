@@ -133,6 +133,8 @@ public extension ParseUser {
         otherwise. Defaults to **true**.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - throws: An error of type `ParseError`.
+        - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
+        `userPost = false`.
     */
     static func verifyPassword(password: String,
                                usingPost: Bool = true,
