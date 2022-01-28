@@ -23,6 +23,8 @@ public extension ParseUser {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func signupPublisher(username: String,
                                 password: String,
@@ -43,6 +45,8 @@ public extension ParseUser {
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func signupPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -60,6 +64,8 @@ public extension ParseUser {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func loginPublisher(username: String,
                                password: String,
@@ -81,6 +87,8 @@ public extension ParseUser {
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func becomePublisher(sessionToken: String, options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -95,6 +103,8 @@ public extension ParseUser {
      and all future calls to `current` will return `nil`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func logoutPublisher(options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
@@ -106,9 +116,11 @@ public extension ParseUser {
      Requests *asynchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely reset their password on the web.
      Publishes when complete.
-        - parameter email: The email address associated with the user that forgot their password.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - parameter email: The email address associated with the user that forgot their password.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func passwordResetPublisher(email: String,
                                        options: API.Options = []) -> Future<Void, ParseError> {
@@ -120,11 +132,15 @@ public extension ParseUser {
     /**
      Verifies *asynchronously* whether the specified password associated with the user account is valid.
      Publishes when complete.
-        - parameter password: The password to be verified.
-        - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
-        otherwise. Defaults to **true**.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - parameter password: The password to be verified.
+     - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
+     otherwise. Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
+     `userPost = false`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func verifyPasswordPublisher(password: String,
                                         usingPost: Bool = true,
@@ -140,9 +156,11 @@ public extension ParseUser {
     /**
      Requests *asynchronously* a verification email be sent to the specified email address
      associated with the user account. Publishes when complete.
-        - parameter email: The email address associated with the user.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - parameter email: The email address associated with the user.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func verificationEmailPublisher(email: String,
                                            options: API.Options = []) -> Future<Void, ParseError> {
@@ -190,6 +208,8 @@ public extension ParseUser {
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func savePublisher(options: API.Options = [],
                        ignoringCustomObjectIdConfig: Bool = false) -> Future<Self, ParseError> {
@@ -205,6 +225,8 @@ public extension ParseUser {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func createPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -219,6 +241,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object replaced has the same objectId as current, it will automatically replace the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func replacePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -233,6 +257,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object updated has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     internal func updatePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -247,6 +273,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
@@ -266,6 +294,8 @@ public extension Sequence where Element: ParseUser {
      - returns: A publisher that eventually produces an an array of Result enums with the object if a fetch was
      successful or a `ParseError` if it failed.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetchAllPublisher(includeKeys: [String]? = nil,
                            options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
@@ -302,6 +332,8 @@ public extension Sequence where Element: ParseUser {
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
                           transaction: Bool = ParseSwift.configuration.isUsingTransactions,
@@ -329,6 +361,8 @@ public extension Sequence where Element: ParseUser {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func createAllPublisher(batchLimit limit: Int? = nil,
                             transaction: Bool = ParseSwift.configuration.isUsingTransactions,
@@ -355,6 +389,8 @@ public extension Sequence where Element: ParseUser {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func replaceAllPublisher(batchLimit limit: Int? = nil,
                              transaction: Bool = ParseSwift.configuration.isUsingTransactions,
@@ -382,6 +418,8 @@ public extension Sequence where Element: ParseUser {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     internal func updateAllPublisher(batchLimit limit: Int? = nil,
                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
@@ -409,6 +447,8 @@ public extension Sequence where Element: ParseUser {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func deleteAllPublisher(batchLimit limit: Int? = nil,
                             transaction: Bool = ParseSwift.configuration.isUsingTransactions,

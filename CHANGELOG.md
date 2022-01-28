@@ -11,23 +11,12 @@
 __New features__
 - Add the verifyPassword to ParseUser. This method defaults to using POST though POST is not available on the current Parse Server. Change userPost == false to use GET on older Parse Servers ([#333](https://github.com/parse-community/Parse-Swift/pull/333)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Bump the SPM toolchain from 5.1 to 5.5. This is done to take advantage of features in the latest toolchain. For developers using < Xcode 13 and depending on the Swift SDK through SPM, this will cause a break. You can either upgrade your Xcode or use Cocoapods or Carthage to depend on ParseSwift ([#326](https://github.com/parse-community/Parse-Swift/pull/326)), thanks to [Corey Baker](https://github.com/cbaker6).
-- (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the 
-    .mergeable property. To do this, developers need to add an implementation of merge() to 
-    respective ParseObject's. The compiler will recommend the new originalData property be added to
-    every ParseObject. If you used ParseObjectMutable in the past, you should remove it as it is now 
-    part of ParseObject. In addition, all ParseObject properties should be optional and every object 
-    needs to have a default initilizer of init(). See the Playgrounds for recommendations on how to 
-    define a ParseObject. Look at the PR for 
-    details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the .mergeable property. To do this, developers need to add an implementation of merge() to respective ParseObject's. The compiler will recommend the new originalData property be added to every ParseObject. If you used ParseObjectMutable in the past, you should remove it as it is now part of ParseObject. In addition, all ParseObject properties should be optional and every object needs to have a default initializer of init(). See the Playgrounds for recommendations on how to define a ParseObject. Look at the PR for details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add DocC for SDK documentation ([#209](https://github.com/parse-community/Parse-Swift/pull/214)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
-- (Breaking Change) Make ParseRelation conform to Codable and add methods to make decoded stored
-    ParseRelations "usable". ParseObjects can now contain properties of ParseRelation<Self>.
-    In addition, ParseRelations can now be made from ParseObject pointers. For ParseRole, the 
-    computed properties: users and roles, are now optional. The queryRoles property has been
-    changed to queryRoles() to improve the handling of thrown errors 
-    ([#328](https://github.com/parse-community/Parse-Swift/pull/328)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Make ParseRelation conform to Codable and add methods to make decoded stored ParseRelations "usable". ParseObjects can now contain properties of ParseRelation<Self>. In addition, ParseRelations can now be made from ParseObject pointers. For ParseRole, the computed properties: users and roles, are now optional. The queryRoles property has been changed to queryRoles() to improve the handling of thrown errors ([#328](https://github.com/parse-community/Parse-Swift/pull/328)), thanks to @cbaker6.
+- (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Change the following method parameter names: isUsingTransactions -> usingTransactions, isAllowingCustomObjectIds -> allowingCustomObjectIds, isUsingEqualQueryConstraint -> usingEqualQueryConstraint, isMigratingFromObjcSDK -> migratingFromObjcSDK, isDeletingKeychainIfNeeded -> deletingKeychainIfNeeded ([#323](https://github.com/parse-community/Parse-Swift/pull/323)), thanks to [Corey Baker](https://github.com/cbaker6).
 

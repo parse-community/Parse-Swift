@@ -23,6 +23,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the signed in `ParseUser`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func signup(username: String,
                        password: String,
@@ -44,6 +46,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the signed in `ParseUser`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func signup(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -62,6 +66,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func login(username: String,
                       password: String,
@@ -84,6 +90,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func become(sessionToken: String,
                 options: API.Options = []) async throws -> Self {
@@ -99,6 +107,8 @@ public extension ParseUser {
      and all future calls to `current` will return `nil`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func logout(options: API.Options = []) async throws {
         let result = try await withCheckedThrowingContinuation { continuation in
@@ -112,9 +122,11 @@ public extension ParseUser {
     /**
      Requests *asynchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely reset their password on the web.
-        - parameter email: The email address associated with the user that forgot their password.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - throws: An error of type `ParseError`.
+     - parameter email: The email address associated with the user that forgot their password.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func passwordReset(email: String,
                               options: API.Options = []) async throws {
@@ -128,11 +140,16 @@ public extension ParseUser {
 
     /**
      Verifies *asynchronously* whether the specified password associated with the user account is valid.
-        - parameter password: The password to be verified.
-        - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
-        otherwise. Defaults to **true**.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - throws: An error of type `ParseError`.
+        
+     - parameter password: The password to be verified.
+     - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
+     otherwise. Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
+     `userPost = false`.
     */
     static func verifyPassword(password: String,
                                usingPost: Bool = true,
@@ -147,9 +164,11 @@ public extension ParseUser {
     /**
      Requests *asynchronously* a verification email be sent to the specified email address
      associated with the user account.
-        - parameter email: The email address associated with the user.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - throws: An error of type `ParseError`.
+     - parameter email: The email address associated with the user.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func verificationEmail(email: String,
                                   options: API.Options = []) async throws {
@@ -217,6 +236,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the saved `ParseUser`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func create(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -231,6 +252,8 @@ public extension ParseUser {
      - returns: Returns the saved `ParseUser`.
      - throws: An error of type `ParseError`.
      - important: If an object replaced has the same objectId as current, it will automatically replace the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func replace(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -245,6 +268,8 @@ public extension ParseUser {
      - returns: Returns the saved `ParseUser`.
      - throws: An error of type `ParseError`.
      - important: If an object updated has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     internal func update(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -259,6 +284,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func delete(options: API.Options = []) async throws {
         let result = try await withCheckedThrowingContinuation { continuation in
@@ -282,6 +309,8 @@ public extension Sequence where Element: ParseUser {
      `ParseError` if it failed.
      - throws: An error of type `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetchAll(includeKeys: [String]? = nil,
                   options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
@@ -435,6 +464,8 @@ public extension Sequence where Element: ParseUser {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
