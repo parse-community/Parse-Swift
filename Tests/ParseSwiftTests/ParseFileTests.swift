@@ -957,6 +957,8 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile.url, response.url)
         XCTAssertNotNil(fetchedFile.localURL)
 
+        // Cache policy flakey on older Swift versions
+        #if compiler(>=5.5.0)
         // Remove URL so we can check cache
         MockURLProtocol.removeAll()
 
@@ -979,6 +981,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
         XCTAssertLessThan(updatedMemoryUsage, currentMemoryUsage)
+        #endif
     }
 
     func testFetchFileProgress() throws {
