@@ -386,7 +386,7 @@ extension ParseOperation {
      - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> T {
-        if !target.isSaved {
+        guard target.objectId != nil else {
             throw ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
         }
         return try saveCommand()
@@ -406,7 +406,7 @@ extension ParseOperation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<T, ParseError>) -> Void
     ) {
-        if !target.isSaved {
+        guard target.objectId != nil else {
             callbackQueue.async {
                 let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
                 completion(.failure(error))

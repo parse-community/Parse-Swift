@@ -215,7 +215,7 @@ class ParseRelationTests: XCTestCase {
         XCTAssertThrowsError(try relation.add("level", objects: [level]))
     }
 
-    func testAddOperations() throws {
+    func testAddOperation() throws {
         var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
@@ -252,7 +252,7 @@ class ParseRelationTests: XCTestCase {
         XCTAssertThrowsError(try relation.add("yolo", objects: [level]))
     }
 
-    func testAddOperationsNoKey() throws {
+    func testAddOperationNoKey() throws {
         var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
@@ -274,7 +274,7 @@ class ParseRelationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testAddOperationsKeyCheck() throws {
+    func testAddOperationKeyCheck() throws {
         var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
