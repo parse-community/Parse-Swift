@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.0.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...4.0.1)
+
+__Fixes__
+- Allow ParseRole's to be updated when the SDK is allowing custom objectId's ([#338](https://github.com/parse-community/Parse-Swift/pull/338)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.0.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...4.0.0)
