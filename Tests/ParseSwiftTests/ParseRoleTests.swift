@@ -419,6 +419,34 @@ class ParseRoleTests: XCTestCase {
         XCTAssertTrue(updatedRole.hasSameObjectId(as: serverResponse))
     }
 
+    func testRoleAddOperationSaveSynchronousError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.createdAt = Date()
+        role.updatedAt = Date()
+        XCTAssertNil(role.roles) // Shouldn't produce a relation without an objectId.
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        var operation = try roles.add([newRole])
+        operation.target.objectId = nil
+
+        do {
+            _ = try operation.save()
+            XCTFail("Should have failed")
+        } catch {
+            XCTAssertTrue(error.containedIn([.missingObjectId]))
+        }
+    }
+
     func testRoleAddOperationSaveSynchronousCustomObjectId() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -460,6 +488,35 @@ class ParseRoleTests: XCTestCase {
         let updatedRole = try operation.save()
         XCTAssertEqual(updatedRole.updatedAt, serverResponse.updatedAt)
         XCTAssertTrue(updatedRole.hasSameObjectId(as: serverResponse))
+    }
+
+    func testRoleAddOperationSaveSynchronousCustomObjectIdError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        ParseSwift.configuration.isAllowingCustomObjectIds = true
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.createdAt = Date()
+        role.updatedAt = Date()
+        XCTAssertNil(role.roles) // Shouldn't produce a relation without an objectId.
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        var operation = try roles.add([newRole])
+        operation.target.objectId = nil
+
+        do {
+            _ = try operation.save()
+            XCTFail("Should have failed")
+        } catch {
+            XCTAssertTrue(error.containedIn([.missingObjectId]))
+        }
     }
 
     func testRoleAddOperationSaveAsynchronous() throws {
@@ -513,6 +570,40 @@ class ParseRoleTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testRoleAddOperationSaveAsynchronousError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        ParseSwift.configuration.isAllowingCustomObjectIds = true
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.createdAt = Date()
+        role.updatedAt = Date()
+        XCTAssertNil(role.roles) // Shouldn't produce a relation without an objectId.
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        var operation = try roles.add([newRole])
+        operation.target.objectId = nil
+
+        let expectation1 = XCTestExpectation(description: "Save object1")
+        operation.save { result in
+            switch result {
+            case .success:
+                XCTFail("Should have failed")
+            case .failure(let error):
+                XCTAssertEqual(error.code, .missingObjectId)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testRoleAddOperationSaveAsynchronousCustomObjectId() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -559,6 +650,39 @@ class ParseRoleTests: XCTestCase {
                 XCTAssertTrue(updatedRole.hasSameObjectId(as: serverResponse))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testRoleAddOperationSaveAsynchronousCustomObjectIdError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.createdAt = Date()
+        role.updatedAt = Date()
+        XCTAssertNil(role.roles) // Shouldn't produce a relation without an objectId.
+        role.objectId = "yolo"
+        guard let roles = role.roles else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        var operation = try roles.add([newRole])
+        operation.target.objectId = nil
+
+        let expectation1 = XCTestExpectation(description: "Save object1")
+        operation.save { result in
+            switch result {
+            case .success:
+                XCTFail("Should have failed")
+            case .failure(let error):
+                XCTAssertEqual(error.code, .missingObjectId)
             }
             expectation1.fulfill()
         }
