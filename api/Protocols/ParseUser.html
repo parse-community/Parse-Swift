@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 4.0.0 Docs
+          ParseSwift 4.0.1 Docs
         </a>
          (97% documented)
       </p>
@@ -2314,6 +2314,11 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -2404,6 +2409,11 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -2464,6 +2474,11 @@ Returns an instance of the successfully logged in <code>ParseUser</code>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -2552,6 +2567,11 @@ using <em>current</em>.</p>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -2626,6 +2646,11 @@ and all future calls to <code><a href="../Protocols/ParseUser.html#/s:10ParseSwi
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -2680,6 +2705,11 @@ associated with the user account. This email allows the user to securely reset t
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -2747,6 +2777,16 @@ associated with the user account. This email allows the user to securely reset t
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <code>usePost == true</code> requires Parse Server &gt; 5.0.0. Othewise you should set
+<code>userPost = false</code>.
 
 </div>
 
@@ -2829,6 +2869,11 @@ associated with the user account.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -3073,6 +3118,11 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -3135,6 +3185,11 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
     <p class="aside-title">Important</p>
     If an object replaced has the same objectId as current, it will automatically replace the current.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -3196,6 +3251,11 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
     If an object deleted has the same objectId as current, it will automatically update the current.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -3265,6 +3325,11 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     Make sure that password and username are set before calling this method.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -3352,6 +3417,11 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
     <p class="aside-title">Warning</p>
     Make sure that password and username are set before calling this method.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -3409,6 +3479,12 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
 Publishes an instance of the successfully logged in <code>ParseUser</code>.</p>
 
 <p>This also caches the user locally so that calls to <em>current</em> will use the latest logged in user.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -3491,6 +3567,12 @@ Publishes an instance of the successfully logged in <code>ParseUser</code>.</p>
 Publishes an instance of the successfully logged in <code>ParseUser</code>.
 If successful, this saves the session to the keychain, so you can retrieve the currently logged in user
 using <em>current</em>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -3559,6 +3641,12 @@ using <em>current</em>.</p>
 
 <p>This will also remove the session from the Keychain, log out of linked services
 and all future calls to <code><a href="../Protocols/ParseUser.html#/s:10ParseSwift0A4UserPAAE7currentxSgvpZ">current</a></code> will return <code>nil</code>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -3614,6 +3702,12 @@ and all future calls to <code><a href="../Protocols/ParseUser.html#/s:10ParseSwi
                         <p>Requests <em>asynchronously</em> a password reset email to be sent to the specified email address
 associated with the user account. This email allows the user to securely reset their password on the web.
 Publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -3681,6 +3775,17 @@ Publishes when complete.</p>
                       <div class="abstract">
                         <p>Verifies <em>asynchronously</em> whether the specified password associated with the user account is valid.
 Publishes when complete.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <code>usePost == true</code> requires Parse Server &gt; 5.0.0. Othewise you should set
+<code>userPost = false</code>.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -3762,6 +3867,12 @@ otherwise. Defaults to <strong>true</strong>.</p>
                       <div class="abstract">
                         <p>Requests <em>asynchronously</em> a verification email be sent to the specified email address
 associated with the user account. Publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -3923,6 +4034,11 @@ increase the probability of colliiding <code>objectId</code>&rsquo;s as the clie
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
 client-side checks are disabled. Developers are responsible for handling such cases.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -3992,6 +4108,12 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates the <code>ParseUser</code> <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -4048,6 +4170,11 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
     If an object replaced has the same objectId as current, it will automatically replace the current.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -4106,6 +4233,11 @@ when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow f
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
     If an object deleted has the same objectId as current, it will automatically update the current.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -5087,7 +5219,7 @@ desires a different policy, it should be inserted in <code>options</code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <code>usePost == true</code>requires Parse Server &gt; 5.0.0. Othewise you should set
+    <code>usePost == true</code> requires Parse Server &gt; 5.0.0. Othewise you should set
 <code>userPost = false</code>.
 
 </div>
@@ -6545,7 +6677,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-26)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-29)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

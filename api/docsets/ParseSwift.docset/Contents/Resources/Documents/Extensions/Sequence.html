@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 4.0.0 Docs
+          ParseSwift 4.0.1 Docs
         </a>
          (97% documented)
       </p>
@@ -4230,6 +4230,11 @@ an error if one occurs.</p>
     <p class="aside-title">Important</p>
     If an object fetched has the same objectId as current, it will automatically update the current.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -4646,6 +4651,11 @@ prevents the transaction from completing, then none of the objects are committed
 objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
 the transactions can fail.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -4730,6 +4740,11 @@ an error if one occurs. Publishes when complete.</p>
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
     If an object fetched has the same objectId as current, it will automatically update the current.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -4819,6 +4834,11 @@ and the server will generate an <code>objectId</code> only when the client does 
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
 different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
 client-side checks are disabled. Developers are responsible for handling such cases.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -4922,6 +4942,11 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
 objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
 the transactions can fail.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -5012,6 +5037,11 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
     If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
 objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
 the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -5104,6 +5134,11 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
     If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
 objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
 the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -6107,7 +6142,7 @@ Each element in the array is <code>nil</code> if the delete successful or a <cod
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-26)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-29)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
