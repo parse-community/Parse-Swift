@@ -57,7 +57,7 @@ struct GameScore: ParseObject {
 }
 
 //: It's recommended to place custom initializers in an extension
-//: to preserve the convenience initializer.
+//: to preserve the memberwise initializer.
 extension GameScore {
     //: Custom initializer.
     init(name: String, points: Int) {

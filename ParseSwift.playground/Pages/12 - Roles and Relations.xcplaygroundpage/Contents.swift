@@ -90,7 +90,7 @@ struct GameScore: ParseObject {
 }
 
 //: It's recommended to place custom initializers in an extension
-//: to preserve the convenience initializer.
+//: to preserve the memberwise initializer.
 extension GameScore {
 
     init(points: Int) {
@@ -108,32 +108,33 @@ extension GameScore {
 var savedRole: Role<User>?
 
 //: Now we will create the Role.
-if let currentUser = User.current {
+guard let currentUser = User.current else {
+    fatalError("User currently isn't signed in")
+}
 
-    //: Every Role requires an ACL that can't be changed after saving.
-    var acl = ParseACL()
-    acl.setReadAccess(user: currentUser, value: true)
-    acl.setWriteAccess(user: currentUser, value: true)
+//: Every Role requires an ACL that can't be changed after saving.
+var acl = ParseACL()
+acl.setReadAccess(user: currentUser, value: true)
+acl.setWriteAccess(user: currentUser, value: true)
 
-    do {
-        //: Create the actual Role with a name and ACL.
-        let adminRole = try Role<User>(name: "Administrator", acl: acl)
-        adminRole.save { result in
-            switch result {
-            case .success(let saved):
-                print("The role saved successfully: \(saved)")
-                print("Check your \"Role\" class in Parse Dashboard.")
+do {
+    //: Create the actual Role with a name and ACL.
+    let adminRole = try Role<User>(name: "Administrator", acl: acl)
+    adminRole.save { result in
+        switch result {
+        case .success(let saved):
+            print("The role saved successfully: \(saved)")
+            print("Check your \"Role\" class in Parse Dashboard.")
 
-                //: Store the saved role so we can use it later...
-                savedRole = saved
+            //: Store the saved role so we can use it later...
+            savedRole = saved
 
-            case .failure(let error):
-                print("Error saving role: \(error)")
-            }
+        case .failure(let error):
+            print("Error saving role: \(error)")
         }
-    } catch {
-        print("Error: \(error)")
     }
+} catch {
+    print("Error: \(error)")
 }
 
 //: Lets check to see if our Role has saved.
@@ -199,11 +200,6 @@ do {
 
 //: This variable will store the saved role.
 var savedRoleModerator: Role<User>?
-
-//: We need another ACL.
-var acl = ParseACL()
-acl.setReadAccess(user: User.current!, value: true)
-acl.setWriteAccess(user: User.current!, value: false)
 
 do {
     //: Create the actual Role with a name and ACL.
@@ -352,27 +348,25 @@ do {
 
 //: Now we will see how to use the stored `ParseRelation on` property in User to create query
 //: all of the relations to `scores`.
-var currentUser: User?
+var updatedCurrentUser: User
 do {
     //: Fetch the updated user since the previous relations were created on the server.
-    currentUser = try User.current?.fetch()
-    print("Updated current user with relation: \(String(describing: currentUser))")
+    updatedCurrentUser = try User.current!.fetch()
+    print("Updated current user with relation: \(updatedCurrentUser)")
 } catch {
+    updatedCurrentUser = User.current!
     print("\(error.localizedDescription)")
 }
 
 do {
-    if let usableStoredRelation = try currentUser?.relation(currentUser?.scores, key: "scores") {
-        try (usableStoredRelation.query() as Query<GameScore>).find { result in
-            switch result {
-            case .success(let scores):
-                print("Found related scores from stored ParseRelation: \(scores)")
-            case .failure(let error):
-                print("Error finding scores from stored ParseRelation: \(error)")
-            }
+    let usableStoredRelation = try updatedCurrentUser.relation(updatedCurrentUser.scores, key: "scores")
+    try (usableStoredRelation.query() as Query<GameScore>).find { result in
+        switch result {
+        case .success(let scores):
+            print("Found related scores from stored ParseRelation: \(scores)")
+        case .failure(let error):
+            print("Error finding scores from stored ParseRelation: \(error)")
         }
-    } else {
-        print("Error: should unwrapped relation")
     }
 } catch {
     print("\(error.localizedDescription)")
