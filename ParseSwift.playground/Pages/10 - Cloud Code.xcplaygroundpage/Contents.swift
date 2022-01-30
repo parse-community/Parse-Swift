@@ -22,28 +22,37 @@ struct Hello: ParseCloud {
     //: These are required by `ParseCloud`, you can set the default value to make it easier
     //: to use.
     var functionJobName: String = "hello"
-
-    //: If your cloud function takes arguments, they can be passed by creating properties:
-    //var argument1: [String: Int] = ["test": 5]
 }
 
 //: Create another `ParseCloud` type.
 struct TestCloudCode: ParseCloud {
 
     //: Return type of your Cloud Function
-    typealias ReturnType = String
+    typealias ReturnType = [String: Int]
 
     //: These are required by `ParseCloud`, you can set the default value to make it easier
     //: to use.
     var functionJobName: String = "testCloudCode"
 
     //: If your cloud function takes arguments, they can be passed by creating properties:
-    //var argument1: [String: Int] = ["test": 5]
+    var argument1: [String: Int]
+}
+
+//: Create another `ParseCloud` type.
+struct TestCloudCodeError: ParseCloud {
+
+    //: Return type of your Cloud Function
+    typealias ReturnType = String
+
+    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: to use.
+    var functionJobName: String = "testCloudCodeError"
 }
 
 /*: Assuming you have the Cloud Function named "hello" on your parse-server:
      // main.js
-     Parse.Cloud.define('hello', async () => {
+     Parse.Cloud.define('hello', async (request) => {
+       console.log('From client: ' + JSON.stringify(request));
        return 'Hello world!';
      });
  */
@@ -61,13 +70,33 @@ hello.runFunction { result in
 /*: Assuming you have the Cloud Function named "testCloudCode" on your parse-server.
  You can catch custom errors created in Cloud Code:
      // main.js
-     Parse.Cloud.define("testCloudCode", async() => {
-        throw new Parse.Error(3000, "cloud has an error on purpose.");
+     Parse.Cloud.define("testCloudCode", async(request) => {
+       console.log('From client: ' + JSON.stringify(request));
+       return request.params.argument1;
      });
  */
-let testCloudCode = TestCloudCode()
+let testCloudCode = TestCloudCode(argument1: ["test": 5])
 
 testCloudCode.runFunction { result in
+    switch result {
+    case .success(let response):
+        print("Response from cloud function: \(response)")
+    case .failure(let error):
+        assertionFailure("Error: \(error.localizedDescription)")
+    }
+}
+
+/*: Assuming you have the Cloud Function named "testCloudCode" on your parse-server.
+ You can catch custom errors created in Cloud Code:
+     // main.js
+     Parse.Cloud.define("testCloudCodeError", async(request) => {
+       console.log('From client: ' + JSON.stringify(request));
+       throw new Parse.Error(3000, "cloud has an error on purpose.");
+     });
+ */
+let testCloudCodeError = TestCloudCodeError()
+
+testCloudCodeError.runFunction { result in
     switch result {
     case .success:
         assertionFailure("Should have thrown a custom error")
@@ -98,7 +127,11 @@ testCloudCode.runFunction { result in
 
 //: Jobs can be run the same way by using the method `startJob()`.
 
-//: Saving objects with context for beforeSave, afterSave, etc.
+/*: Saving objects with context for beforeSave, afterSave, etc.
+ Parse.Cloud.beforeSave("GameScore", async(request) => {
+   console.log('From client context: ' + JSON.stringify(request.context));
+ });
+ */
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
     //: These are required by ParseObject
@@ -123,7 +156,7 @@ struct GameScore: ParseObject {
 }
 
 //: It's recommended to place custom initializers in an extension
-//: to preserve the convenience initializer.
+//: to preserve the memberwise initializer.
 extension GameScore {
     //: Custom initializer.
     init(points: Int) {

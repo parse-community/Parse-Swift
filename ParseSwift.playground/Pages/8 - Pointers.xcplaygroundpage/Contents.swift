@@ -43,7 +43,7 @@ struct Book: ParseObject, ParseQueryScorable {
 }
 
 //: It's recommended to place custom initializers in an extension
-//: to preserve the convenience initializer.
+//: to preserve the memberwise initializer.
 extension Book {
 
     init(title: String) {
@@ -84,7 +84,7 @@ struct Author: ParseObject {
 }
 
 //: It's recommended to place custom initializers in an extension
-//: to preserve the convenience initializer.
+//: to preserve the memberwise initializer.
 extension Author {
     init(name: String, book: Book) {
         self.name = name
