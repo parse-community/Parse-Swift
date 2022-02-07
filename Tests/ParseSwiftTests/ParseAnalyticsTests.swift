@@ -52,7 +52,7 @@ class ParseAnalyticsTests: XCTestCase {
         XCTAssertEqual(command2.method, API.Method.POST)
         XCTAssertNotNil(command2.body)
         XCTAssertEqual(command2.body?.at, date)
-        XCTAssertEqual(command2.body?.dimensions, dimensions)
+        XCTAssertNotNil(command2.body?.dimensions)
 
         event2.at = nil //Clear date for comparison
         let decoded = event2.debugDescription
@@ -96,15 +96,15 @@ class ParseAnalyticsTests: XCTestCase {
         let dimensions = ["stop": "drop"]
         let dimensions2 = ["open": "up shop"]
         var event = ParseAnalytics(name: name, dimensions: dimensions)
-        XCTAssertEqual(event.dimensions, dimensions)
+        let encodedDimensions = try ParseCoding.jsonEncoder().encode(AnyCodable(event.dimensions))
+        let decodedDictionary = try ParseCoding.jsonDecoder().decode([String: String].self,
+                                                                     from: encodedDimensions)
+        XCTAssertEqual(decodedDictionary, dimensions)
         event.dimensions = dimensions2
-        XCTAssertEqual(event.dimensions, dimensions2)
-        event.dimensionsCodable = dimensions2
-        XCTAssertEqual(event.dimensions, dimensions2)
-        let encoded = try ParseCoding.jsonEncoder().encode(event.dimensions)
+        let encoded = try ParseCoding.jsonEncoder().encode(AnyCodable(event.dimensions))
         let encodedExpected = try ParseCoding.jsonEncoder().encode(dimensions2)
         XCTAssertEqual(encoded, encodedExpected)
-        let encoded2 = try ParseCoding.jsonEncoder().encode(AnyCodable(event.dimensionsCodable))
+        let encoded2 = try ParseCoding.jsonEncoder().encode(event.dimensionsAnyCodable)
         XCTAssertEqual(encoded2, encodedExpected)
     }
 
@@ -117,11 +117,10 @@ class ParseAnalyticsTests: XCTestCase {
             dimensions3[key] = value
         }
         var event = ParseAnalytics(name: name, dimensions: dimensions)
-        XCTAssertEqual(event.dimensions, dimensions)
-        event.dimensionsCodable = dimensions2
-        XCTAssertNotEqual(event.dimensions, dimensions)
-        XCTAssertNotEqual(event.dimensions, dimensions3)
-        XCTAssertEqual(event.dimensions, dimensions2)
+        event.dimensions = dimensions2
+        let encoded = try ParseCoding.jsonEncoder().encode(AnyCodable(event.dimensions))
+        let encodedExpected = try ParseCoding.jsonEncoder().encode(dimensions2)
+        XCTAssertEqual(encoded, encodedExpected)
     }
 
     func testUpdateDimensionsNonInitially() throws {
@@ -129,8 +128,10 @@ class ParseAnalyticsTests: XCTestCase {
         let dimensions = ["stop": "drop"]
         var event = ParseAnalytics(name: name)
         XCTAssertNil(event.dimensions)
-        event.dimensionsCodable = dimensions
-        XCTAssertEqual(event.dimensions, dimensions)
+        event.dimensions = dimensions
+        let encoded = try ParseCoding.jsonEncoder().encode(AnyCodable(event.dimensions))
+        let encodedExpected = try ParseCoding.jsonEncoder().encode(dimensions)
+        XCTAssertEqual(encoded, encodedExpected)
     }
 
     #if os(iOS)

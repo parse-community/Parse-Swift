@@ -36,19 +36,7 @@ public struct ParseAnalytics: ParseType, Hashable {
     public var date: Date?
 
     /// The dictionary of information by which to segment this event.
-    /// - warning: This will be changed to [String: Codable] in ParseSwift 5.0.0.
-    public var dimensions: [String: String]? {
-        get {
-            convertToString(dimensionsAnyCodable)
-        }
-        set {
-            dimensionsAnyCodable = convertToAnyCodable(newValue)
-        }
-    }
-
-    /// The dictionary of information by which to segment this event.
-    /// - warning: This will be deprecated in ParseSwift 5.0.0 in favor of `dimensions`.
-    public var dimensionsCodable: [String: Codable]? {
+    public var dimensions: [String: Codable]? {
         get {
             convertToString(dimensionsAnyCodable)
         }
