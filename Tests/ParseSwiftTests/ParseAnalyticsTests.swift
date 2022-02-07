@@ -97,6 +97,8 @@ class ParseAnalyticsTests: XCTestCase {
         let dimensions2 = ["open": "up shop"]
         var event = ParseAnalytics(name: name, dimensions: dimensions)
         XCTAssertEqual(event.dimensions, dimensions)
+        event.dimensions = dimensions2
+        XCTAssertEqual(event.dimensions, dimensions2)
         event.dimensionsCodable = dimensions2
         XCTAssertEqual(event.dimensions, dimensions2)
         let encoded = try ParseCoding.jsonEncoder().encode(event.dimensions)
