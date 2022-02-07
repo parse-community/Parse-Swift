@@ -37,7 +37,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/ParseLiveQuery.swift",
-      "line": 775,
+      "line": 774,
       "symbol": "ParseLiveQuery.subscribe(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
