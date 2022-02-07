@@ -36,7 +36,8 @@ public struct ParseAnalytics: ParseType, Hashable {
     public var date: Date?
 
     /// The dictionary of information by which to segment this event.
-    /// - warning: It is not recommended to set this directly.
+    /// - warning: It is not recommended to set this directly. Use `setDimensions()`
+    /// or `updateDimensions()` instead.
     public var dimensions: [String: String]? {
         get {
             convertToString(dimensionsCodable)
@@ -113,7 +114,6 @@ public struct ParseAnalytics: ParseType, Hashable {
 
     /**
      Set the dimensions.
-     
      - parameter dimensions: The dictionary of information by which to segment this
      event.
     */
@@ -123,7 +123,6 @@ public struct ParseAnalytics: ParseType, Hashable {
 
     /**
      Update the dimensions with additional data or replace specific key value pairs.
-     
      - parameter dimensions: The dictionary of information by which to segment this
      event.
     */
