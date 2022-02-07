@@ -1,5 +1,5 @@
 //
-//  ParseAnanlyticsAsyncTests.swift
+//  ParseAnalyticsAsyncTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 9/28/21.
@@ -14,7 +14,7 @@ import FoundationNetworking
 import XCTest
 @testable import ParseSwift
 
-class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseAnalyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -192,7 +192,7 @@ class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_bod
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-        let event = ParseAnalytics(name: "hello")
+        var event = ParseAnalytics(name: "hello")
         _ = try await event.track(dimensions: ["stop": "drop"])
     }
 
@@ -209,7 +209,7 @@ class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_bod
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-        let event = ParseAnalytics(name: "hello")
+        var event = ParseAnalytics(name: "hello")
         do {
             _ = try await event.track(dimensions: ["stop": "drop"])
             XCTFail("Should have thrown error")

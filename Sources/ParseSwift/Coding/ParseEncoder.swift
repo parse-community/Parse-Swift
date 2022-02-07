@@ -191,7 +191,7 @@ public struct ParseEncoder {
 }
 
 // MARK: _ParseEncoder
-private class _ParseEncoder: JSONEncoder, Encoder {
+internal class _ParseEncoder: JSONEncoder, Encoder {
     var codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>

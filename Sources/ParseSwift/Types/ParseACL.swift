@@ -32,7 +32,10 @@ public struct ParseACL: ParseType,
         case write
 
         public init(from decoder: Decoder) throws {
-            self = Access(rawValue: try decoder.singleValueContainer().decode(String.self))!
+            guard let decoded = Access(rawValue: try decoder.singleValueContainer().decode(String.self)) else {
+                throw ParseError(code: .unknownError, message: "Not able to decode ParseACL Access")
+            }
+            self = decoded
         }
 
         public func encode(to encoder: Encoder) throws {

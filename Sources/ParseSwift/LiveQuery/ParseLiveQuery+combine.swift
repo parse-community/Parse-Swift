@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 extension ParseLiveQuery {
-    // MARK: Combine
+    // MARK: Connection - Combine
 
     /**
      Manually establish a connection to the `ParseLiveQuery` Server. Publishes when established.

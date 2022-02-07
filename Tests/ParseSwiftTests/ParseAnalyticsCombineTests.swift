@@ -1,5 +1,5 @@
 //
-//  ParseAnanlyticsCombineTests.swift
+//  ParseAnalyticsCombineTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 5/22/21.
@@ -13,7 +13,7 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-class ParseAnanlyticsCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseAnalyticsCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     override func setUpWithError() throws {
         try super.setUpWithError()

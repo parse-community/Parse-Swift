@@ -10,7 +10,7 @@
 import Foundation
 
 extension ParseLiveQuery {
-    // MARK: Async/Await
+    // MARK: Connection - Async/Await
 
     /**
      Manually establish a connection to the `ParseLiveQuery` Server.
