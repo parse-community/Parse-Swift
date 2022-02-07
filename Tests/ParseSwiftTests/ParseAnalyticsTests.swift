@@ -56,11 +56,50 @@ class ParseAnalyticsTests: XCTestCase {
 
         event2.at = nil //Clear date for comparison
         let decoded = event2.debugDescription
-        let expected = "{\"dimensions\":{\"stop\":\"drop\"}}"
+        let expected = "{\"dimensions\":{\"stop\":\"drop\"},\"name\":\"hello\"}"
         XCTAssertEqual(decoded, expected)
         let decoded2 = event2.description
-        let expected2 = "{\"dimensions\":{\"stop\":\"drop\"}}"
+        let expected2 = "{\"dimensions\":{\"stop\":\"drop\"},\"name\":\"hello\"}"
         XCTAssertEqual(decoded2, expected2)
+        let encoded3 = try ParseCoding.parseEncoder().encode(event2)
+        let decoded3 = String(data: encoded3, encoding: .utf8)
+        let expected3 = "{\"dimensions\":{\"stop\":\"drop\"}}"
+        XCTAssertEqual(decoded3, expected3)
+    }
+
+    func testSetDimensions() throws {
+        let name = "hello"
+        let dimensions = ["stop": "drop"]
+        let dimensions2 = ["open": "up shop"]
+        var event = ParseAnalytics(name: name, dimensions: dimensions)
+        XCTAssertEqual(event.dimensions, dimensions)
+        event.setDimensions(dimensions2)
+        XCTAssertEqual(event.dimensions, dimensions2)
+    }
+
+    func testUpdateDimensions() throws {
+        let name = "hello"
+        let dimensions = ["stop": "drop"]
+        let dimensions2 = ["open": "up shop"]
+        var dimensions3 = dimensions
+        for (key, value) in dimensions2 {
+            dimensions3[key] = value
+        }
+        var event = ParseAnalytics(name: name, dimensions: dimensions)
+        XCTAssertEqual(event.dimensions, dimensions)
+        event.updateDimensions(dimensions2)
+        XCTAssertNotEqual(event.dimensions, dimensions)
+        XCTAssertNotEqual(event.dimensions, dimensions2)
+        XCTAssertEqual(event.dimensions, dimensions3)
+    }
+
+    func testUpdateDimensionsNonInitially() throws {
+        let name = "hello"
+        let dimensions = ["stop": "drop"]
+        var event = ParseAnalytics(name: name)
+        XCTAssertNil(event.dimensions)
+        event.updateDimensions(dimensions)
+        XCTAssertEqual(event.dimensions, dimensions)
     }
 
     #if os(iOS)
@@ -115,28 +154,6 @@ class ParseAnalyticsTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
-
-    #if canImport(AppTrackingTransparency)
-    func testTrackAppOpenedUIKitNotAuthorized() {
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
-            let expectation = XCTestExpectation(description: "Analytics save")
-            let options = [UIApplication.LaunchOptionsKey.remoteNotification: ["stop": "drop"]]
-            ParseAnalytics.trackAppOpened(launchOptions: options) { result in
-
-                switch result {
-
-                case .success:
-                    XCTFail("Should have failed with not authorized.")
-                case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permission"))
-                }
-                expectation.fulfill()
-            }
-            wait(for: [expectation], timeout: 10.0)
-        }
-    }
-    #endif
     #endif
 
     func testTrackAppOpened() {
@@ -188,27 +205,6 @@ class ParseAnalyticsTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
-
-    #if canImport(AppTrackingTransparency)
-    func testTrackAppOpenedNotAuthorized() {
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
-            let expectation = XCTestExpectation(description: "Analytics save")
-            ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"]) { result in
-
-                switch result {
-
-                case .success:
-                    XCTFail("Should have failed with not authorized.")
-                case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permission"))
-                }
-                expectation.fulfill()
-            }
-            wait(for: [expectation], timeout: 10.0)
-        }
-    }
-    #endif
 
     func testTrackEvent() {
         let serverResponse = NoBody()
@@ -313,48 +309,4 @@ class ParseAnalyticsTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
-
-    #if canImport(AppTrackingTransparency)
-    func testTrackEventNotAuthorized() {
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
-
-            let expectation = XCTestExpectation(description: "Analytics save")
-            let event = ParseAnalytics(name: "hello")
-            event.track { result in
-
-                switch result {
-
-                case .success:
-                    XCTFail("Should have failed with not authorized.")
-                case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permission"))
-                }
-                expectation.fulfill()
-            }
-            wait(for: [expectation], timeout: 10.0)
-        }
-    }
-
-    func testTrackEventNotAuthorizedMutated() {
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
-
-            let expectation = XCTestExpectation(description: "Analytics save")
-            var event = ParseAnalytics(name: "hello")
-            event.track(dimensions: nil) { result in
-
-                switch result {
-
-                case .success:
-                    XCTFail("Should have failed with not authorized.")
-                case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permission"))
-                }
-                expectation.fulfill()
-            }
-            wait(for: [expectation], timeout: 10.0)
-        }
-    }
-    #endif
 }

@@ -96,19 +96,19 @@ public extension ParseAnalytics {
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - warning: This method makes a copy of the current `ParseAnalytics` and then mutates
-     it. You will not have access to the mutated analytic after calling this method.
      - throws: An error of type `ParseError`.
     */
-    func track(dimensions: [String: String]?,
-               at date: Date? = nil,
-               options: API.Options = []) async throws {
-        let _: Void = try await withCheckedThrowingContinuation { continuation in
-            var analytic = self
-            analytic.track(dimensions: dimensions,
-                           at: date,
-                           options: options,
-                           completion: continuation.resume)
+    mutating func track(dimensions: [String: String]?,
+                        at date: Date? = nil,
+                        options: API.Options = []) async throws {
+        let result = try await withCheckedThrowingContinuation { continuation in
+            self.track(dimensions: dimensions,
+                       at: date,
+                       options: options,
+                       completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 }

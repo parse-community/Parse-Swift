@@ -11,32 +11,47 @@ import Foundation
 import UIKit
 #endif
 
-#if canImport(AppTrackingTransparency)
-import AppTrackingTransparency
-#endif
-
 /**
-  `ParseAnalytics` provides an interface to Parse's logging and analytics
- backend.
- 
- - warning: For iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, you
- will need to request tracking authorization for ParseAnalytics to work.
- See Apple's [documentation](https://developer.apple.com/documentation/apptrackingtransparency) for more for details.
+ `ParseAnalytics` provides an interface to Parse's logging and analytics backend.
  */
 public struct ParseAnalytics: ParseType, Hashable {
 
     /// The name of the custom event to report to Parse as having happened.
-    public let name: String
+    public var name: String
 
     /// Explicitly set the time associated with a given event. If not provided the server
     /// time will be used.
-    public var at: Date? // swiftlint:disable:this identifier_name
+    /// - warning: This will be deprecated in ParseSwift 5.5 in favor of `date`.
+    public var at: Date? { // swiftlint:disable:this identifier_name
+        get {
+            date
+        }
+        set {
+            date = newValue
+        }
+    }
+
+    /// Explicitly set the time associated with a given event. If not provided the server
+    /// time will be used.
+    public var date: Date?
 
     /// The dictionary of information by which to segment this event.
-    public var dimensions: [String: String]?
+    /// - warning: It is not recommended to set this directly.
+    public var dimensions: [String: String]? {
+        get {
+            convertToString(dimensionsCodable)
+        }
+        set {
+            dimensionsCodable = convertToAnyCodable(newValue)
+        }
+    }
+
+    var dimensionsCodable: [String: AnyCodable]?
 
     enum CodingKeys: String, CodingKey {
-        case at, dimensions // swiftlint:disable:this identifier_name
+        case date = "at"
+        case dimensions
+        case name
     }
 
     /**
@@ -47,11 +62,82 @@ public struct ParseAnalytics: ParseType, Hashable {
      time will be used. Defaults to `nil`.
      */
     public init (name: String,
-                 dimensions: [String: String]? = nil,
-                 at: Date? = nil) { // swiftlint:disable:this identifier_name
+                 dimensions: [String: Codable]? = nil,
+                 at date: Date? = nil) {
         self.name = name
-        self.dimensions = dimensions
-        self.at = at
+        self.dimensionsCodable = convertToAnyCodable(dimensions)
+        self.date = date
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(date, forKey: .date)
+        try container.encodeIfPresent(dimensionsCodable, forKey: .dimensions)
+        if !(encoder is _ParseEncoder) {
+            try container.encode(name, forKey: .name)
+        }
+    }
+
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.debugDescription == rhs.debugDescription
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.debugDescription)
+    }
+
+    // MARK: Helpers
+    func convertToAnyCodable(_ dimensions: [String: Codable]?) -> [String: AnyCodable]? {
+        guard let dimensions = dimensions else {
+            return nil
+        }
+        var convertedDimensions = [String: AnyCodable]()
+        for (key, value) in dimensions {
+            convertedDimensions[key] = AnyCodable(value)
+        }
+        return convertedDimensions
+    }
+
+    func convertToString(_ dimensions: [String: AnyCodable]?) -> [String: String]? {
+        guard let dimensions = dimensions else {
+            return nil
+        }
+        var convertedDimensions = [String: String]()
+        for (key, value) in dimensions {
+            convertedDimensions[key] = "\(value.value)"
+        }
+        return convertedDimensions
+    }
+
+    // MARK: Intents
+
+    /**
+     Set the dimensions.
+     
+     - parameter dimensions: The dictionary of information by which to segment this
+     event.
+    */
+    public mutating func setDimensions(_ dimensions: [String: Codable]) {
+        dimensionsCodable = convertToAnyCodable(dimensions)
+    }
+
+    /**
+     Update the dimensions with additional data or replace specific key value pairs.
+     
+     - parameter dimensions: The dictionary of information by which to segment this
+     event.
+    */
+    public mutating func updateDimensions(_ dimensions: [String: Codable]) {
+        guard let convertedDimensions = convertToAnyCodable(dimensions) else {
+            return
+        }
+        if dimensionsCodable == nil {
+            dimensionsCodable = convertedDimensions
+        } else {
+            for (key, value) in convertedDimensions {
+                dimensionsCodable?[key] = value
+            }
+        }
     }
 
     #if os(iOS)
@@ -79,22 +165,6 @@ public struct ParseAnalytics: ParseType, Hashable {
                                       completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        #if canImport(AppTrackingTransparency)
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            if !ParseSwift.configuration.isTestingSDK {
-                let status = ATTrackingManager.trackingAuthorizationStatus
-                if status != .authorized {
-                    callbackQueue.async {
-                        let error = ParseError(code: .unknownError,
-                                               // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permission from user.")
-                        completion(.failure(error))
-                    }
-                    return
-                }
-            }
-        }
-        #endif
         var userInfo: [String: String]?
         if let remoteOptions = launchOptions?[.remoteNotification] as? [String: String] {
             userInfo = remoteOptions
@@ -118,7 +188,7 @@ public struct ParseAnalytics: ParseType, Hashable {
      Tracks *asynchronously* this application being launched with additional dimensions.
      
      - parameter dimensions: The dictionary of information by which to segment this
-     event and can be empty or `nil`.
+     event. Can be empty or `nil`.
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -135,22 +205,6 @@ public struct ParseAnalytics: ParseType, Hashable {
                                       completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        #if canImport(AppTrackingTransparency)
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            if !ParseSwift.configuration.isTestingSDK {
-                let status = ATTrackingManager.trackingAuthorizationStatus
-                if status != .authorized {
-                    callbackQueue.async {
-                        let error = ParseError(code: .unknownError,
-                                               // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permission from user.")
-                        completion(.failure(error))
-                    }
-                    return
-                }
-            }
-        }
-        #endif
         let appOppened = ParseAnalytics(name: "AppOpened",
                                         dimensions: dimensions,
                                         at: date)
@@ -180,22 +234,6 @@ public struct ParseAnalytics: ParseType, Hashable {
                       completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        #if canImport(AppTrackingTransparency)
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            if !ParseSwift.configuration.isTestingSDK {
-                let status = ATTrackingManager.trackingAuthorizationStatus
-                if status != .authorized {
-                    callbackQueue.async {
-                        let error = ParseError(code: .unknownError,
-                                               // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permission from user.")
-                        completion(.failure(error))
-                    }
-                    return
-                }
-            }
-        }
-        #endif
         self.saveCommand().executeAsync(options: options,
                                         callbackQueue: callbackQueue) { result in
             switch result {
@@ -211,7 +249,7 @@ public struct ParseAnalytics: ParseType, Hashable {
      Tracks *asynchronously* the occurrence of a custom event with additional dimensions.
      
      - parameter dimensions: The dictionary of information by which to segment this
-     event and can be empty or `nil`.
+     event. Can be empty or `nil`.
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -228,24 +266,8 @@ public struct ParseAnalytics: ParseType, Hashable {
                                completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        #if canImport(AppTrackingTransparency)
-        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            if !ParseSwift.configuration.isTestingSDK {
-                let status = ATTrackingManager.trackingAuthorizationStatus
-                if status != .authorized {
-                    callbackQueue.async {
-                        let error = ParseError(code: .unknownError,
-                                               // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permission from user.")
-                        completion(.failure(error))
-                    }
-                    return
-                }
-            }
-        }
-        #endif
-        self.dimensions = dimensions
-        self.at = date
+        self.dimensionsCodable = convertToAnyCodable(dimensions)
+        self.date = date
         self.saveCommand().executeAsync(options: options,
                                         callbackQueue: callbackQueue) { result in
             switch result {

@@ -98,11 +98,11 @@ public extension ParseRole {
     }
 
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.name == rhs.name && lhs.className == rhs.className
+        lhs.debugDescription == rhs.debugDescription
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine("\(self.className)_\(String(describing: self.name))")
+        hasher.combine(self.debugDescription)
     }
 }
 
