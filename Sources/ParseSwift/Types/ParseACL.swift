@@ -33,7 +33,7 @@ public struct ParseACL: ParseType,
 
         public init(from decoder: Decoder) throws {
             guard let decoded = Access(rawValue: try decoder.singleValueContainer().decode(String.self)) else {
-                throw ParseError(code: .unknownError, message: "Not able to decode ACL")
+                throw ParseError(code: .unknownError, message: "Not able to decode ParseACL Access")
             }
             self = decoded
         }

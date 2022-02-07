@@ -9,7 +9,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.1...4.1.0)
 
 __Improvements__
-- Let the OS and developer decide if app tracking authorization is required when using ParseAnalytics. ParseAnalytics can now take any Codable value in its' dimensions instead of just strings. Added new methods, "setDimensions" and "updateDimensions" on ParseAnalytics. Also adds a new property, "date" to ParseAnalytics. The "at" property will be deprecated in ParseSwift 5.0.0, so developers should switch to "date". ParseAnalytics can now be properly decoded after encoding with a JSONEncoder. This is useful if ParseAnalytics need to be stored locally and sent to the server later ([#341](https://github.com/parse-community/Parse-Swift/pull/341)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Let the OS and developer decide if app tracking authorization is required when using ParseAnalytics. ParseAnalytics can now take any Codable value in its' dimensions instead of just strings. Added new properties, "dimensionsCodable" and "date" to ParseAnalytics. The "at" property will be deprecated in ParseSwift 5.0.0, so developers should switch to "date". ParseAnalytics can now be properly decoded after encoding with a JSONEncoder. This is useful if ParseAnalytics need to be stored locally and sent to the server later ([#341](https://github.com/parse-community/Parse-Swift/pull/341)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.0.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...4.0.1)

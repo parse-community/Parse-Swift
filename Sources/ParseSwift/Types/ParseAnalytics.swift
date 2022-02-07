@@ -21,7 +21,7 @@ public struct ParseAnalytics: ParseType, Hashable {
 
     /// Explicitly set the time associated with a given event. If not provided the server
     /// time will be used.
-    /// - warning: This will be deprecated in ParseSwift 5.5 in favor of `date`.
+    /// - warning: This will be deprecated in ParseSwift 5.0.0 in favor of `date`.
     public var at: Date? { // swiftlint:disable:this identifier_name
         get {
             date
@@ -36,18 +36,28 @@ public struct ParseAnalytics: ParseType, Hashable {
     public var date: Date?
 
     /// The dictionary of information by which to segment this event.
-    /// - warning: It is not recommended to set this directly. Use `setDimensions()`
-    /// or `updateDimensions()` instead.
+    /// - warning: This will be changed to [String: Codable] in ParseSwift 5.0.0.
     public var dimensions: [String: String]? {
         get {
-            convertToString(dimensionsCodable)
+            convertToString(dimensionsAnyCodable)
         }
         set {
-            dimensionsCodable = convertToAnyCodable(newValue)
+            dimensionsAnyCodable = convertToAnyCodable(newValue)
         }
     }
 
-    var dimensionsCodable: [String: AnyCodable]?
+    /// The dictionary of information by which to segment this event.
+    /// - warning: This will be deprecated in ParseSwift 5.0.0 in favor of `dimensions`.
+    public var dimensionsCodable: [String: Codable]? {
+        get {
+            convertToString(dimensionsAnyCodable)
+        }
+        set {
+            dimensionsAnyCodable = convertToAnyCodable(newValue)
+        }
+    }
+
+    var dimensionsAnyCodable: [String: AnyCodable]?
 
     enum CodingKeys: String, CodingKey {
         case date = "at"
@@ -66,14 +76,14 @@ public struct ParseAnalytics: ParseType, Hashable {
                  dimensions: [String: Codable]? = nil,
                  at date: Date? = nil) {
         self.name = name
-        self.dimensionsCodable = convertToAnyCodable(dimensions)
+        self.dimensionsAnyCodable = convertToAnyCodable(dimensions)
         self.date = date
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(date, forKey: .date)
-        try container.encodeIfPresent(dimensionsCodable, forKey: .dimensions)
+        try container.encodeIfPresent(dimensionsAnyCodable, forKey: .dimensions)
         if !(encoder is _ParseEncoder) {
             try container.encode(name, forKey: .name)
         }
@@ -111,33 +121,6 @@ public struct ParseAnalytics: ParseType, Hashable {
     }
 
     // MARK: Intents
-
-    /**
-     Set the dimensions.
-     - parameter dimensions: The dictionary of information by which to segment this
-     event.
-    */
-    public mutating func setDimensions(_ dimensions: [String: Codable]) {
-        dimensionsCodable = convertToAnyCodable(dimensions)
-    }
-
-    /**
-     Update the dimensions with additional data or replace specific key value pairs.
-     - parameter dimensions: The dictionary of information by which to segment this
-     event.
-    */
-    public mutating func updateDimensions(_ dimensions: [String: Codable]) {
-        guard let convertedDimensions = convertToAnyCodable(dimensions) else {
-            return
-        }
-        if dimensionsCodable == nil {
-            dimensionsCodable = convertedDimensions
-        } else {
-            for (key, value) in convertedDimensions {
-                dimensionsCodable?[key] = value
-            }
-        }
-    }
 
     #if os(iOS)
     /**
@@ -265,7 +248,7 @@ public struct ParseAnalytics: ParseType, Hashable {
                                completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        self.dimensionsCodable = convertToAnyCodable(dimensions)
+        self.dimensionsAnyCodable = convertToAnyCodable(dimensions)
         self.date = date
         self.saveCommand().executeAsync(options: options,
                                         callbackQueue: callbackQueue) { result in

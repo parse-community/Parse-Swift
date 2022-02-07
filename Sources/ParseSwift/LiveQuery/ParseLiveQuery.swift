@@ -223,7 +223,6 @@ Not attempting to open ParseLiveQuery socket anymore
     }
 }
 
-// MARK: Helpers
 extension ParseLiveQuery {
 
     /// Current LiveQuery client.

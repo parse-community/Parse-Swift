@@ -215,6 +215,22 @@ class ParseACLTests: XCTestCase {
         }
     }
 
+    func testCodingAccess() throws {
+        let access = ParseACL.Access.read
+        let encoded = try ParseCoding.jsonEncoder().encode(access)
+        let decoded = try ParseCoding.jsonDecoder().decode(ParseACL.Access.self, from: encoded)
+        XCTAssertEqual(access, decoded)
+        let access2 = ParseACL.Access.write
+        let encoded2 = try ParseCoding.jsonEncoder().encode(access2)
+        let decoded2 = try ParseCoding.jsonDecoder().decode(ParseACL.Access.self, from: encoded2)
+        XCTAssertEqual(access2, decoded2)
+        guard let data = "hello".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertThrowsError(try ParseCoding.jsonDecoder().decode(ParseACL.Access.self, from: data))
+    }
+
     func testDebugString() {
         var acl = ParseACL()
         acl.setReadAccess(objectId: "a", value: false)

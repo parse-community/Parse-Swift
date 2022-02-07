@@ -67,14 +67,43 @@ class ParseAnalyticsTests: XCTestCase {
         XCTAssertEqual(decoded3, expected3)
     }
 
+    func testEquatable() throws {
+        let name = "hello"
+        let event = ParseAnalytics(name: name)
+        let event2 = ParseAnalytics(name: name,
+                                    dimensions: ["stop": "drop"],
+                                    at: Date())
+        XCTAssertEqual(event, event)
+        XCTAssertNotEqual(event, event2)
+        XCTAssertEqual(event2, event2)
+    }
+
+    func testHashable() throws {
+        let name = "hello"
+        let event = ParseAnalytics(name: name)
+        let event2 = ParseAnalytics(name: name,
+                                    dimensions: ["stop": "drop"],
+                                    at: Date())
+        let event3 = ParseAnalytics(name: "world")
+        let events = [event: 1, event2: 2]
+        XCTAssertEqual(events[event], 1)
+        XCTAssertEqual(events[event2], 2)
+        XCTAssertNil(events[event3])
+    }
+
     func testSetDimensions() throws {
         let name = "hello"
         let dimensions = ["stop": "drop"]
         let dimensions2 = ["open": "up shop"]
         var event = ParseAnalytics(name: name, dimensions: dimensions)
         XCTAssertEqual(event.dimensions, dimensions)
-        event.setDimensions(dimensions2)
+        event.dimensionsCodable = dimensions2
         XCTAssertEqual(event.dimensions, dimensions2)
+        let encoded = try ParseCoding.jsonEncoder().encode(event.dimensions)
+        let encodedExpected = try ParseCoding.jsonEncoder().encode(dimensions2)
+        XCTAssertEqual(encoded, encodedExpected)
+        let encoded2 = try ParseCoding.jsonEncoder().encode(AnyCodable(event.dimensionsCodable))
+        XCTAssertEqual(encoded2, encodedExpected)
     }
 
     func testUpdateDimensions() throws {
@@ -87,10 +116,10 @@ class ParseAnalyticsTests: XCTestCase {
         }
         var event = ParseAnalytics(name: name, dimensions: dimensions)
         XCTAssertEqual(event.dimensions, dimensions)
-        event.updateDimensions(dimensions2)
+        event.dimensionsCodable = dimensions2
         XCTAssertNotEqual(event.dimensions, dimensions)
-        XCTAssertNotEqual(event.dimensions, dimensions2)
-        XCTAssertEqual(event.dimensions, dimensions3)
+        XCTAssertNotEqual(event.dimensions, dimensions3)
+        XCTAssertEqual(event.dimensions, dimensions2)
     }
 
     func testUpdateDimensionsNonInitially() throws {
@@ -98,7 +127,7 @@ class ParseAnalyticsTests: XCTestCase {
         let dimensions = ["stop": "drop"]
         var event = ParseAnalytics(name: name)
         XCTAssertNil(event.dimensions)
-        event.updateDimensions(dimensions)
+        event.dimensionsCodable = dimensions
         XCTAssertEqual(event.dimensions, dimensions)
     }
 
