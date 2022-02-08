@@ -223,6 +223,7 @@ Not attempting to open ParseLiveQuery socket anymore
     }
 }
 
+// MARK: Client Intents
 extension ParseLiveQuery {
 
     /// Current LiveQuery client.
