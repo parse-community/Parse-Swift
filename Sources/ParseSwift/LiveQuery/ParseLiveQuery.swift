@@ -265,20 +265,29 @@ extension ParseLiveQuery {
         }
     }
 
+    /// The default `ParseLiveQuery` client for all LiveQuery connections.
+    class public var defaultClient: ParseLiveQuery? {
+        Self.client
+    }
+
     /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
     /// - parameter client: The client to set as the default.
     class public func setDefault(_ client: ParseLiveQuery) {
-        ParseLiveQuery.client = nil
-        ParseLiveQuery.client = client
+        Self.client = nil
+        Self.client = client
     }
 
     /// Get the default `ParseLiveQuery` client for all LiveQuery connections.
+    /// - returns: The default `ParseLiveQuery` client.
+    /// - warning: This will be deprecated in ParseSwift 5.0.0 in favor of `defaultClient`.
     class public func getDefault() -> ParseLiveQuery? {
-        ParseLiveQuery.client
+        Self.defaultClient
     }
 
     /// Check if a query has an active subscription on this `ParseLiveQuery` client.
     /// - parameter query: Query to verify.
+    /// - returns: **true** if subscribed. **false** otherwise.
+    /// - throws: An error of type `ParseError`.
     public func isSubscribed<T: ParseObject>(_ query: Query<T>) throws -> Bool {
         let queryData = try ParseCoding.jsonEncoder().encode(query)
         return subscriptions.contains(where: { (_, value) -> Bool in
@@ -292,6 +301,8 @@ extension ParseLiveQuery {
 
     /// Check if a query has a pending subscription on this `ParseLiveQuery` client.
     /// - parameter query: Query to verify.
+    /// - returns: **true** if query is a pending subscription. **false** otherwise.
+    /// - throws: An error of type `ParseError`.
     public func isPendingSubscription<T: ParseObject>(_ query: Query<T>) throws -> Bool {
         let queryData = try ParseCoding.jsonEncoder().encode(query)
         return pendingSubscriptions.contains(where: { (_, value) -> Bool in
@@ -305,6 +316,7 @@ extension ParseLiveQuery {
 
     /// Remove a pending subscription on this `ParseLiveQuery` client.
     /// - parameter query: Query to remove.
+    /// - throws: An error of type `ParseError`.
     public func removePendingSubscription<T: ParseObject>(_ query: Query<T>) throws {
         let queryData = try ParseCoding.jsonEncoder().encode(query)
         pendingSubscriptions.removeAll(where: { (_, value) -> Bool in
@@ -851,7 +863,8 @@ public extension Query {
      as the subscription can be used as a SwiftUI publisher. Meaning it can serve
      indepedently as a ViewModel in MVVM.
      - parameter client: A specific client.
-     - returns: The subscription that has just been registered
+     - returns: The subscription that has just been registered.
+     - throws: An error of type `ParseError`.
      */
     func subscribe(_ client: ParseLiveQuery) throws -> Subscription<ResultType> {
         try client.subscribe(Subscription(query: self))
@@ -862,6 +875,7 @@ public extension Query {
      Registers a query for live updates, using a custom subscription handler.
      - parameter handler: A custom subscription handler. 
      - returns: Your subscription handler, for easy chaining.
+     - throws: An error of type `ParseError`.
     */
     static func subscribe<T: QuerySubscribable>(_ handler: T) throws -> T {
         if let client = ParseLiveQuery.client {
@@ -876,6 +890,7 @@ public extension Query {
      - parameter handler: A custom subscription handler.
      - parameter client: A specific client.
      - returns: Your subscription handler, for easy chaining.
+     - throws: An error of type `ParseError`.
     */
     static func subscribe<T: QuerySubscribable>(_ handler: T, client: ParseLiveQuery) throws -> T {
         try client.subscribe(handler)
@@ -894,6 +909,7 @@ public extension Query {
      and a specific `ParseLiveQuery` client.
      - parameter client: A specific client.
      - returns: The subscription that has just been registered.
+     - throws: An error of type `ParseError`.
      */
     func subscribeCallback(_ client: ParseLiveQuery) throws -> SubscriptionCallback<ResultType> {
         try client.subscribe(SubscriptionCallback(query: self))
@@ -905,6 +921,7 @@ public extension Query {
     /**
      Unsubscribes all current subscriptions for a given query on the default
      `ParseLiveQuery` client.
+     - throws: An error of type `ParseError`.
      */
     func unsubscribe() throws {
         try ParseLiveQuery.client?.unsubscribe(self)
@@ -914,6 +931,7 @@ public extension Query {
      Unsubscribes all current subscriptions for a given query on a specific
      `ParseLiveQuery` client.
      - parameter client: A specific client.
+     - throws: An error of type `ParseError`.
      */
     func unsubscribe(client: ParseLiveQuery) throws {
         try client.unsubscribe(self)
@@ -923,6 +941,7 @@ public extension Query {
      Unsubscribes from a specific query-handler on the default
      `ParseLiveQuery` client.
      - parameter handler: The specific handler to unsubscribe from.
+     - throws: An error of type `ParseError`.
      */
     func unsubscribe<T: QuerySubscribable>(_ handler: T) throws {
         try ParseLiveQuery.client?.unsubscribe(handler)
@@ -933,6 +952,7 @@ public extension Query {
      `ParseLiveQuery` client.
      - parameter handler: The specific handler to unsubscribe from.
      - parameter client: A specific client.
+     - throws: An error of type `ParseError`.
      */
     func unsubscribe<T: QuerySubscribable>(_ handler: T, client: ParseLiveQuery) throws {
         try client.unsubscribe(handler)
@@ -945,6 +965,7 @@ public extension Query {
      Updates an existing subscription with a new query on the default `ParseLiveQuery` client.
      Upon completing the registration, the subscribe handler will be called with the new query.
      - parameter handler: The specific handler to update.
+     - throws: An error of type `ParseError`.
      */
     func update<T: QuerySubscribable>(_ handler: T) throws {
         try ParseLiveQuery.client?.update(handler)
@@ -955,6 +976,7 @@ public extension Query {
      Upon completing the registration, the subscribe handler will be called with the new query.
      - parameter handler: The specific handler to update.
      - parameter client: A specific client.
+     - throws: An error of type `ParseError`.
      */
     func update<T: QuerySubscribable>(_ handler: T, client: ParseLiveQuery) throws {
         try client.update(handler)
