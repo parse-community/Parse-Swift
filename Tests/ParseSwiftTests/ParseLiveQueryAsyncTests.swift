@@ -41,7 +41,7 @@ class ParseLiveQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body
 
     @MainActor
     func testOpen() async throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -57,7 +57,7 @@ class ParseLiveQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body
 
     @MainActor
     func testPingSocketNotEstablished() async throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -80,7 +80,7 @@ class ParseLiveQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body
 
     @MainActor
     func testPing() async throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }

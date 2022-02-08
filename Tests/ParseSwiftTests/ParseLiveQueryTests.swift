@@ -83,7 +83,7 @@ class ParseLiveQueryTests: XCTestCase {
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         let webSocketURL = components.url
 
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -111,7 +111,7 @@ class ParseLiveQueryTests: XCTestCase {
         let webSocketURL = components.url
 
         guard let client = try? ParseLiveQuery(serverURL: originalURL),
-              let defaultClient = ParseLiveQuery.getDefault() else {
+              let defaultClient = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to initialize a new client")
             return
         }
@@ -148,7 +148,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testDeinitializingNewShouldNotEffectDefault() throws {
-        guard let defaultClient = ParseLiveQuery.getDefault() else {
+        guard let defaultClient = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to initialize a new client")
             return
         }
@@ -160,7 +160,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         XCTAssertNotEqual(client, defaultClient)
         client = nil
-        XCTAssertNotNil(ParseLiveQuery.getDefault())
+        XCTAssertNotNil(ParseLiveQuery.defaultClient)
         let expectation1 = XCTestExpectation(description: "Socket delegate")
         defaultClient.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             let socketDelegates = URLSession.liveQuery.delegates
@@ -172,7 +172,7 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testBecomingSocketAuthDelegate() throws {
         let delegate = TestDelegate()
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should have unwrapped")
             return
         }
@@ -313,7 +313,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSocketNotOpenState() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -325,7 +325,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testConnectedState() throws {
-        guard let client = ParseLiveQuery.getDefault(),
+        guard let client = ParseLiveQuery.defaultClient,
               let task = client.task else {
             XCTFail("Should be able to get client and task")
             return
@@ -357,7 +357,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testDisconnectedState() throws {
-        guard let client = ParseLiveQuery.getDefault(),
+        guard let client = ParseLiveQuery.defaultClient,
               let task = client.task else {
             XCTFail("Should be able to get client and task")
             return
@@ -379,7 +379,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testSocketDisconnectedState() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -399,7 +399,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testUserClosedConnectionState() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -423,7 +423,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testOpenSocket() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -437,7 +437,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testCloseFromServer() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             throw ParseError(code: .unknownError,
                              message: "Should be able to get client")
         }
@@ -554,7 +554,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testPingSocketNotEstablished() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -576,7 +576,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testPing() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -595,7 +595,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testRandomIdGenerator() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -611,7 +611,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -625,7 +625,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func pretendToBeConnected() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             throw ParseError(code: .unknownError,
                              message: "Should be able to get client")
         }
@@ -643,7 +643,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -722,7 +722,7 @@ class ParseLiveQueryTests: XCTestCase {
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
 
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -786,7 +786,7 @@ class ParseLiveQueryTests: XCTestCase {
         let handler = SubscriptionCallback(query: query)
         var subscription = try Query<GameScore>.subscribe(handler)
 
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -866,7 +866,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testServerRedirectResponse() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -883,7 +883,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testServerErrorResponse() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -910,7 +910,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testServerErrorResponseNoReconnect() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -949,7 +949,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1001,7 +1001,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1053,7 +1053,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1105,7 +1105,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1157,7 +1157,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1209,7 +1209,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1297,7 +1297,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1383,7 +1383,7 @@ class ParseLiveQueryTests: XCTestCase {
         let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1426,7 +1426,7 @@ class ParseLiveQueryTests: XCTestCase {
         let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1469,7 +1469,7 @@ class ParseLiveQueryTests: XCTestCase {
         let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1512,7 +1512,7 @@ class ParseLiveQueryTests: XCTestCase {
         let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1555,7 +1555,7 @@ class ParseLiveQueryTests: XCTestCase {
         let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1598,7 +1598,7 @@ class ParseLiveQueryTests: XCTestCase {
         let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -1668,7 +1668,7 @@ class ParseLiveQueryTests: XCTestCase {
         let query = GameScore.query("points" > 9)
         let handler = SubscriptionCallback(query: query)
         let subscription = try Query<GameScore>.subscribe(handler)
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }

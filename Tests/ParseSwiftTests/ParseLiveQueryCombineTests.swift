@@ -41,7 +41,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
     }
 
     func testOpen() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -69,7 +69,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
     }
 
     func testPingSocketNotEstablished() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -104,7 +104,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
     }
 
     func testPing() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }

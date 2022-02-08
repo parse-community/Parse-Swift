@@ -68,7 +68,7 @@ class LiveQueryDelegate: ParseLiveQueryDelegate {
 
 //: Set the delegate.
 let delegate = LiveQueryDelegate()
-if let socket = ParseLiveQuery.getDefault() {
+if let socket = ParseLiveQuery.defaultClient {
     socket.receiveDelegate = delegate
 }
 

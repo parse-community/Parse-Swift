@@ -5,6 +5,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.1.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__Improvements__
+- Add clientDefault static property to ParseLiveQuery which replaces the getDefault() method. getDefault() is still avaiable, but will be deprecated in ParseSwift 5.0.0 so it is recommended to switch to clientDefault ([#342](https://github.com/parse-community/Parse-Swift/pull/342)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.1...4.1.0)
 
