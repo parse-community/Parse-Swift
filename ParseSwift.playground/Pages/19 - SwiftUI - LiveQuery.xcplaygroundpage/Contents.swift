@@ -69,7 +69,7 @@ var query = GameScore.query("points" < 11)
 struct ContentView: View {
 
     //: A LiveQuery subscription can be used as a view model in SwiftUI
-    @ObservedObject var subscription = query.subscribe!
+    @StateObject var subscription = query.subscribe!
 
     var body: some View {
         VStack {
