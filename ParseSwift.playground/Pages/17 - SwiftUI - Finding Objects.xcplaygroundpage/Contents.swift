@@ -72,7 +72,7 @@ extension GameScore {
 struct ContentView: View {
 
     //: A view model in SwiftUI
-    @ObservedObject var viewModel = GameScore.query("points" > 2)
+    @StateObject var viewModel = GameScore.query("points" > 2)
         .order([.descending("points")])
         .viewModel
     @State var name = ""

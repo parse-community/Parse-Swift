@@ -102,7 +102,7 @@ class ViewModel: ObservableObject {
 struct ContentView: View {
 
     //: A view model in SwiftUI
-    @ObservedObject var viewModel = ViewModel()
+    @StateObject var viewModel = ViewModel()
 
     var body: some View {
         NavigationView {
