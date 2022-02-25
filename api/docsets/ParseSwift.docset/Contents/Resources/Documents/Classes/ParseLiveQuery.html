@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 4.1.0 Docs
+          ParseSwift 4.2.0 Docs
         </a>
          (97% documented)
       </p>
@@ -132,6 +132,9 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2geoiyAA15QueryConstraintVSS_xtSERzlF">&gt;=(_:_:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">and(queries:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
               </li>
               <li class="nav-group-task">
@@ -198,6 +201,9 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">nor(queries:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">nor(queries:)</a>
               </li>
               <li class="nav-group-task">
@@ -205,6 +211,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2or7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">or(queries:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2or7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">or(queries:)</a>
@@ -873,6 +882,19 @@ server endpoint.</p>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Client%20Intents"></a>
+                <a name="//apple_ref/swift/Section/Client Intents" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Client%20Intents"></a>
+                  <h3 class="section-name"><span>Client Intents</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
@@ -894,6 +916,33 @@ server endpoint.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">client</span><span class="p">:</span> <span class="kt">ParseLiveQuery</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9LiveQueryC13defaultClientACSgvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/defaultClient" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9LiveQueryC13defaultClientACSgvpZ">defaultClient</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default <code>ParseLiveQuery</code> client for all LiveQuery connections.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="k">var</span> <span class="nv">defaultClient</span><span class="p">:</span> <span class="kt">ParseLiveQuery</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -960,6 +1009,11 @@ server endpoint.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Get the default <code>ParseLiveQuery</code> client for all LiveQuery connections.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This will be deprecated in ParseSwift 5.0.0 in favor of <code><a href="../Classes/ParseLiveQuery.html#/s:10ParseSwift0A9LiveQueryC13defaultClientACSgvpZ">defaultClient</a></code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -969,6 +1023,10 @@ server endpoint.</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">getDefault</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">ParseLiveQuery</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The default <code>ParseLiveQuery</code> client.</p>
                       </div>
                     </section>
                   </div>
@@ -987,6 +1045,11 @@ server endpoint.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Check if a query has an active subscription on this <code>ParseLiveQuery</code> client.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -1016,6 +1079,10 @@ server endpoint.</p>
                           </tbody>
                         </table>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><strong>true</strong> if subscribed. <strong>false</strong> otherwise.</p>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -1033,6 +1100,11 @@ server endpoint.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Check if a query has a pending subscription on this <code>ParseLiveQuery</code> client.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -1062,6 +1134,10 @@ server endpoint.</p>
                           </tbody>
                         </table>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><strong>true</strong> if query is a pending subscription. <strong>false</strong> otherwise.</p>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -1079,6 +1155,11 @@ server endpoint.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Remove a pending subscription on this <code>ParseLiveQuery</code> client.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -1292,7 +1373,7 @@ or nil if no error occurred.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-02-07)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-02-25)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

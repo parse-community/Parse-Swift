@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 4.1.0 Docs
+          ParseSwift 4.2.0 Docs
         </a>
          (97% documented)
       </p>
@@ -132,6 +132,9 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2geoiyAA15QueryConstraintVSS_xtSERzlF">&gt;=(_:_:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">and(queries:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
               </li>
               <li class="nav-group-task">
@@ -198,6 +201,9 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">nor(queries:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">nor(queries:)</a>
               </li>
               <li class="nav-group-task">
@@ -205,6 +211,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2or7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">or(queries:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2or7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">or(queries:)</a>
@@ -1162,6 +1171,56 @@ Defaults to <code>ParseSwift.configuration.isUsingEqualQueryConstraint</code>.</
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift2or7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/or(queries:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift2or7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">or(queries:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a <code><a href="Structs/Query.html">Query</a></code> that is the <code>or</code> of the passed in queries.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">or</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">queries</span><span class="p">:</span> <span class="kt"><a href="Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The variadic amount of queries to <code>or</code> together.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code>&lsquo;s that are the <code>or</code> of the passed in queries.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF"></a>
                     <a name="//apple_ref/swift/Function/nor(queries:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">nor(queries:<wbr>)</a>
@@ -1212,6 +1271,56 @@ Defaults to <code>ParseSwift.configuration.isUsingEqualQueryConstraint</code>.</
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift3nor7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/nor(queries:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3nor7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">nor(queries:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a <code><a href="Structs/Query.html">Query</a></code> that is the <code>nor</code> of the passed in queries.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">nor</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">queries</span><span class="p">:</span> <span class="kt"><a href="Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The variadic amount of queries to <code>nor</code> together.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code>&lsquo;s that are the <code>nor</code> of the passed in queries.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF"></a>
                     <a name="//apple_ref/swift/Function/and(queries:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:<wbr>)</a>
@@ -1225,7 +1334,7 @@ Defaults to <code>ParseSwift.configuration.isUsingEqualQueryConstraint</code>.</
                         <p>Constructs a Query that is the <code>and</code> of the passed in queries.</p>
 
 <p>For example:</p>
-<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">compoundQueryConstraints</span> <span class="o">=</span> <span class="nf">and</span><span class="p">(</span><span class="n">query1</span><span class="p">,</span> <span class="n">query2</span><span class="p">,</span> <span class="n">query3</span><span class="p">)</span>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">compoundQueryConstraints</span> <span class="o">=</span> <span class="nf">and</span><span class="p">([</span><span class="n">query1</span><span class="p">,</span> <span class="n">query2</span><span class="p">,</span> <span class="n">query3</span><span class="p">])</span>
 </code></pre>
 
 <p>will create a compoundQuery that is an and of the query1, query2, and query3.</p>
@@ -1252,6 +1361,62 @@ Defaults to <code>ParseSwift.configuration.isUsingEqualQueryConstraint</code>.</
                               <td>
                                 <div>
                                   <p>The list of queries to <code>and</code> together.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code>&lsquo;s that are the <code>and</code> of the passed in queries.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift3and7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/and(queries:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3and7queriesAA15QueryConstraintVAA0E0VyxGd_tAA0A6ObjectRzlF">and(queries:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Constructs a Query that is the <code>and</code> of the passed in queries.</p>
+
+<p>For example:</p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">compoundQueryConstraints</span> <span class="o">=</span> <span class="nf">and</span><span class="p">(</span><span class="n">query1</span><span class="p">,</span> <span class="n">query2</span><span class="p">,</span> <span class="n">query3</span><span class="p">)</span>
+</code></pre>
+
+<p>will create a compoundQuery that is an and of the query1, query2, and query3.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">and</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">queries</span><span class="p">:</span> <span class="kt"><a href="Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The variadic amount of queries to <code>and</code> together.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3730,7 +3895,7 @@ This will use smart indexing, so it will be fast for large datasets.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-02-07)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-02-25)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
