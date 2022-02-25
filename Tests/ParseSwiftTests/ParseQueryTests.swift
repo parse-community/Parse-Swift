@@ -1741,7 +1741,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         ]
         let query1 = GameScore.query("points" <= 50)
         let query2 = GameScore.query("points" <= 200)
-        let constraint = or(queries: [query1, query2])
+        let constraint = or(queries: query1, query2)
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
 
@@ -1772,7 +1772,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         ]
         let query1 = GameScore.query("points" <= 50)
         let query2 = GameScore.query("points" <= 200)
-        let constraint = nor(queries: [query1, query2])
+        let constraint = nor(queries: query1, query2)
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
 
@@ -1803,7 +1803,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         ]
         let query1 = GameScore.query("points" <= 50)
         let query2 = GameScore.query("points" <= 200)
-        let constraint = and(queries: [query1, query2])
+        let constraint = and(queries: query1, query2)
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
 

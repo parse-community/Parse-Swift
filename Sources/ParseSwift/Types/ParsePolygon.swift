@@ -32,7 +32,7 @@ public struct ParsePolygon: Codable, Hashable {
 
     /**
       Create new `ParsePolygon` instance with a variadic amount of coordinates.
-       - parameter coordinates:  variadic amount of zero or more `ParseGeoPoint`'s.
+       - parameter coordinates: variadic amount of zero or more `ParseGeoPoint`'s.
        - throws: An error of type `ParseError`.
      */
     public init(_ coordinates: ParseGeoPoint...) throws {
