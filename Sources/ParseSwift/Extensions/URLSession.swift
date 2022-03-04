@@ -192,7 +192,7 @@ internal extension URLSession {
         notificationQueue.sync(flags: .barrier) {
             var task: URLSessionTask?
             if let data = data {
-                task = self.uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
+                task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
                     completion(self.makeResult(request: request,
                                                responseData: responseData,
                                                urlResponse: urlResponse,
@@ -200,7 +200,7 @@ internal extension URLSession {
                                                mapper: mapper))
                 }
             } else if let file = file {
-                task = self.uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
+                task = uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
                     completion(self.makeResult(request: request,
                                                responseData: responseData,
                                                urlResponse: urlResponse,
@@ -226,7 +226,7 @@ internal extension URLSession {
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
         notificationQueue.sync(flags: .barrier) {
-            let task = self.downloadTask(with: request) { (location, urlResponse, responseError) in
+            let task = downloadTask(with: request) { (location, urlResponse, responseError) in
                 let result = self.makeResult(request: request,
                                              location: location,
                                              urlResponse: urlResponse,
