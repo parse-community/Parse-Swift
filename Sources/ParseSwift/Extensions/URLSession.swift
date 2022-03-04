@@ -189,7 +189,7 @@ internal extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-        notificationQueue.async(flags: .barrier) {
+        notificationQueue.sync(flags: .barrier) {
             var task: URLSessionTask?
             if let data = data {
                 task = self.uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
@@ -225,7 +225,7 @@ internal extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-        notificationQueue.async(flags: .barrier) {
+        notificationQueue.sync(flags: .barrier) {
             let task = self.downloadTask(with: request) { (location, urlResponse, responseError) in
                 let result = self.makeResult(request: request,
                                              location: location,
