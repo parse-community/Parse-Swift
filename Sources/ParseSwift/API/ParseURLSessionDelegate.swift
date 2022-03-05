@@ -49,14 +49,21 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     didSendBodyData bytesSent: Int64,
                     totalBytesSent: Int64,
                     totalBytesExpectedToSend: Int64) {
-        if let callBack = uploadDelegates[task],
-           let queue = taskCallbackQueues[task] {
+        let synchronizationQueue = DispatchQueue(label: "parseSwift.didSendBodyData.\(UUID())",
+                                                 qos: .default,
+                                                 attributes: .concurrent,
+                                                 autoreleaseFrequency: .inherit,
+                                                 target: nil)
+        synchronizationQueue.sync(flags: .barrier) {
+            if let callback = uploadDelegates[task],
+               let queue = taskCallbackQueues[task] {
 
-            queue.async {
-                callBack(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
+                queue.async {
+                    callback(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
 
-                if totalBytesSent == totalBytesExpectedToSend {
-                    self.uploadDelegates.removeValue(forKey: task)
+                    if totalBytesSent == totalBytesExpectedToSend {
+                        self.uploadDelegates.removeValue(forKey: task)
+                    }
                 }
             }
         }
@@ -68,10 +75,10 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
 
-        if let callBack = downloadDelegates[downloadTask],
+        if let callback = downloadDelegates[downloadTask],
            let queue = taskCallbackQueues[downloadTask] {
             queue.async {
-                callBack(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+                callback(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
                 if totalBytesWritten == totalBytesExpectedToWrite {
                     self.downloadDelegates.removeValue(forKey: downloadTask)
                 }
@@ -89,8 +96,15 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
     func urlSession(_ session: URLSession,
                     task: URLSessionTask,
                     needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
-        if let stream = streamDelegates[task] {
-            completionHandler(stream)
+        let synchronizationQueue = DispatchQueue(label: "parseSwift.needNewBodyStream.\(UUID())",
+                                                 qos: .default,
+                                                 attributes: .concurrent,
+                                                 autoreleaseFrequency: .inherit,
+                                                 target: nil)
+        synchronizationQueue.sync(flags: .barrier) {
+            if let stream = streamDelegates[task] {
+                completionHandler(stream)
+            }
         }
     }
 

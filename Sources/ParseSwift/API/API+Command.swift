@@ -59,11 +59,18 @@ internal extension API {
 
             case .success(let urlRequest):
                 if method == .POST || method == .PUT || method == .PATCH {
-                    let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
-                    ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
-                    ParseSwift.sessionDelegate.streamDelegates[task] = stream
-                    ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
-                    task.resume()
+                    let synchronizationQueue = DispatchQueue(label: "parseSwift.executeStream.\(UUID())",
+                                                             qos: .default,
+                                                             attributes: .concurrent,
+                                                             autoreleaseFrequency: .inherit,
+                                                             target: nil)
+                    synchronizationQueue.sync(flags: .barrier) {
+                        let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
+                        ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
+                        ParseSwift.sessionDelegate.streamDelegates[task] = stream
+                        ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
+                        task.resume()
+                    }
                     return
                 }
             case .failure(let error):

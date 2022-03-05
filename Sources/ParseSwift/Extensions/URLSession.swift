@@ -189,11 +189,6 @@ internal extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-        let synchronizationQueue = DispatchQueue(label: "parseSwift.uploadTask.\(UUID())",
-                                                 qos: .default,
-                                                 attributes: .concurrent,
-                                                 autoreleaseFrequency: .inherit,
-                                                 target: nil)
         var task: URLSessionTask?
         if let data = data {
             task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
@@ -215,6 +210,11 @@ internal extension URLSession {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
         }
         if let task = task {
+            let synchronizationQueue = DispatchQueue(label: "parseSwift.uploadTask.\(UUID())",
+                                                     qos: .default,
+                                                     attributes: .concurrent,
+                                                     autoreleaseFrequency: .inherit,
+                                                     target: nil)
             synchronizationQueue.sync(flags: .barrier) {
                 ParseSwift.sessionDelegate.uploadDelegates[task] = progress
                 ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
@@ -230,11 +230,6 @@ internal extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-        let synchronizationQueue = DispatchQueue(label: "parseSwift.downloadTask.\(UUID())",
-                                                 qos: .default,
-                                                 attributes: .concurrent,
-                                                 autoreleaseFrequency: .inherit,
-                                                 target: nil)
         let task = downloadTask(with: request) { (location, urlResponse, responseError) in
             let result = self.makeResult(request: request,
                                          location: location,
@@ -257,6 +252,11 @@ internal extension URLSession {
             }
             completion(result)
         }
+        let synchronizationQueue = DispatchQueue(label: "parseSwift.downloadTask.\(UUID())",
+                                                 qos: .default,
+                                                 attributes: .concurrent,
+                                                 autoreleaseFrequency: .inherit,
+                                                 target: nil)
         synchronizationQueue.sync(flags: .barrier) {
             ParseSwift.sessionDelegate.downloadDelegates[task] = progress
             ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue

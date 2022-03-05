@@ -24,8 +24,15 @@ final class LiveQuerySocket: NSObject {
 
     func createTask(_ url: URL, taskDelegate: LiveQuerySocketDelegate) -> URLSessionWebSocketTask {
         let task = session.webSocketTask(with: url)
-        delegates[task] = taskDelegate
-        receive(task)
+        let synchronizationQueue = DispatchQueue(label: "parseSwift.liveQuerySocket.createTask.\(UUID())",
+                                                 qos: .default,
+                                                 attributes: .concurrent,
+                                                 autoreleaseFrequency: .inherit,
+                                                 target: nil)
+        synchronizationQueue.sync(flags: .barrier) { [weak self] in
+            self?.delegates[task] = taskDelegate
+            self?.receive(task)
+        }
         return task
     }
 
@@ -92,27 +99,36 @@ extension LiveQuerySocket {
             // Receive has already been called for this task
             return
         }
-        receivingTasks[task] = true
+        let synchronizationQueue = DispatchQueue(label: "parseSwift.liveQuerySocket.receive.\(UUID())",
+                                                 qos: .default,
+                                                 attributes: .concurrent,
+                                                 autoreleaseFrequency: .inherit,
+                                                 target: nil)
+        synchronizationQueue.sync(flags: .barrier) { [weak self] in
+            self?.receivingTasks[task] = true
+        }
         task.receive { result in
-            self.receivingTasks.removeValue(forKey: task)
-            switch result {
-            case .success(.string(let message)):
-                if let data = message.data(using: .utf8) {
-                    self.delegates[task]?.received(data)
-                } else {
-                    let parseError = ParseError(code: .unknownError,
-                                                message: "Couldn't encode LiveQuery string as data")
-                    self.delegates[task]?.receivedError(parseError)
+            synchronizationQueue.sync(flags: .barrier) { [weak self] in
+                self?.receivingTasks.removeValue(forKey: task)
+                switch result {
+                case .success(.string(let message)):
+                    if let data = message.data(using: .utf8) {
+                        self?.delegates[task]?.received(data)
+                    } else {
+                        let parseError = ParseError(code: .unknownError,
+                                                    message: "Couldn't encode LiveQuery string as data")
+                        self?.delegates[task]?.receivedError(parseError)
+                    }
+                    self?.receive(task)
+                case .success(.data(let data)):
+                    self?.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
+                    self?.receive(task)
+                case .success(let message):
+                    self?.delegates[task]?.receivedUnsupported(nil, socketMessage: message)
+                    self?.receive(task)
+                case .failure(let error):
+                    self?.delegates[task]?.receivedError(error)
                 }
-                self.receive(task)
-            case .success(.data(let data)):
-                self.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
-                self.receive(task)
-            case .success(let message):
-                self.delegates[task]?.receivedUnsupported(nil, socketMessage: message)
-                self.receive(task)
-            case .failure(let error):
-                self.delegates[task]?.receivedError(error)
             }
         }
     }
