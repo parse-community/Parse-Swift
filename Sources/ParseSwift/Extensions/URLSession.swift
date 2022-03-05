@@ -230,35 +230,34 @@ internal extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
+        let task = downloadTask(with: request) { (location, urlResponse, responseError) in
+            let result = self.makeResult(request: request,
+                                         location: location,
+                                         urlResponse: urlResponse,
+                                         responseError: responseError, mapper: mapper)
+            if case .success(let file) = result {
+                guard let response = urlResponse,
+                      let parseFile = file as? ParseFile,
+                      let fileLocation = parseFile.localURL,
+                      let data = try? ParseCoding.jsonEncoder().encode(fileLocation) else {
+                          completion(result)
+                          return
+                      }
+                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                    URLSession.parse.configuration.urlCache?
+                        .storeCachedResponse(.init(response: response,
+                                                   data: data),
+                                             for: request)
+                }
+            }
+            completion(result)
+        }
         let synchronizationQueue = DispatchQueue(label: "parseSwift.downloadTask.\(UUID())",
                                                  qos: .default,
                                                  attributes: .concurrent,
                                                  autoreleaseFrequency: .inherit,
                                                  target: nil)
         synchronizationQueue.sync(flags: .barrier) {
-            let task = downloadTask(with: request) { (location, urlResponse, responseError) in
-                let result = self.makeResult(request: request,
-                                             location: location,
-                                             urlResponse: urlResponse,
-                                             responseError: responseError, mapper: mapper)
-                if case .success(let file) = result {
-                    guard let response = urlResponse,
-                          let parseFile = file as? ParseFile,
-                          let fileLocation = parseFile.localURL,
-                          let data = try? ParseCoding.jsonEncoder().encode(fileLocation) else {
-                              completion(result)
-                              return
-                          }
-                    if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                        URLSession.parse.configuration.urlCache?
-                            .storeCachedResponse(.init(response: response,
-                                                       data: data),
-                                                 for: request)
-                    }
-                }
-                completion(result)
-            }
-            
             ParseSwift.sessionDelegate.downloadDelegates[task] = progress
             ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
             task.resume()
