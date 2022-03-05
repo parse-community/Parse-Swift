@@ -189,28 +189,33 @@ internal extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-        notificationQueue.sync(flags: .barrier) {
-            var task: URLSessionTask?
-            if let data = data {
-                task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
-                    completion(self.makeResult(request: request,
-                                               responseData: responseData,
-                                               urlResponse: urlResponse,
-                                               responseError: responseError,
-                                               mapper: mapper))
-                }
-            } else if let file = file {
-                task = uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
-                    completion(self.makeResult(request: request,
-                                               responseData: responseData,
-                                               urlResponse: urlResponse,
-                                               responseError: responseError,
-                                               mapper: mapper))
-                }
-            } else {
-                completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
+        let synchronizationQueue = DispatchQueue(label: "parseSwift.uploadTask.\(UUID())",
+                                                 qos: .default,
+                                                 attributes: .concurrent,
+                                                 autoreleaseFrequency: .inherit,
+                                                 target: nil)
+        var task: URLSessionTask?
+        if let data = data {
+            task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError,
+                                           mapper: mapper))
             }
-            if let task = task {
+        } else if let file = file {
+            task = uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError,
+                                           mapper: mapper))
+            }
+        } else {
+            completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
+        }
+        if let task = task {
+            synchronizationQueue.sync(flags: .barrier) {
                 ParseSwift.sessionDelegate.uploadDelegates[task] = progress
                 ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
                 task.resume()
@@ -225,29 +230,34 @@ internal extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-        notificationQueue.sync(flags: .barrier) {
-            let task = downloadTask(with: request) { (location, urlResponse, responseError) in
-                let result = self.makeResult(request: request,
-                                             location: location,
-                                             urlResponse: urlResponse,
-                                             responseError: responseError, mapper: mapper)
-                if case .success(let file) = result {
-                    guard let response = urlResponse,
-                          let parseFile = file as? ParseFile,
-                          let fileLocation = parseFile.localURL,
-                          let data = try? ParseCoding.jsonEncoder().encode(fileLocation) else {
-                              completion(result)
-                              return
-                          }
-                    if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                        URLSession.parse.configuration.urlCache?
-                            .storeCachedResponse(.init(response: response,
-                                                       data: data),
-                                                 for: request)
-                    }
+        let synchronizationQueue = DispatchQueue(label: "parseSwift.downloadTask.\(UUID())",
+                                                 qos: .default,
+                                                 attributes: .concurrent,
+                                                 autoreleaseFrequency: .inherit,
+                                                 target: nil)
+        let task = downloadTask(with: request) { (location, urlResponse, responseError) in
+            let result = self.makeResult(request: request,
+                                         location: location,
+                                         urlResponse: urlResponse,
+                                         responseError: responseError, mapper: mapper)
+            if case .success(let file) = result {
+                guard let response = urlResponse,
+                      let parseFile = file as? ParseFile,
+                      let fileLocation = parseFile.localURL,
+                      let data = try? ParseCoding.jsonEncoder().encode(fileLocation) else {
+                          completion(result)
+                          return
+                      }
+                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                    URLSession.parse.configuration.urlCache?
+                        .storeCachedResponse(.init(response: response,
+                                                   data: data),
+                                             for: request)
                 }
-                completion(result)
             }
+            completion(result)
+        }
+        synchronizationQueue.sync(flags: .barrier) {
             ParseSwift.sessionDelegate.downloadDelegates[task] = progress
             ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
             task.resume()
