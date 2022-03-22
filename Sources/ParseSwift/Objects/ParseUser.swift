@@ -484,8 +484,8 @@ extension ParseUser {
         - parameter completion: A block that will be called when the verification request completes or fails.
         - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
         desires a different policy, it should be inserted in `options`.
-        - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
-        `userPost = false`.
+        - warning: `usingPost == true` requires Parse Server > 5.0.0. Othewise you should set
+        `usingPost = false`.
     */
     public static func verifyPassword(password: String,
                                       usingPost: Bool = true,
