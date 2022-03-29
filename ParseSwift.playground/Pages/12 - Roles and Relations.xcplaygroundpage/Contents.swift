@@ -173,7 +173,7 @@ do {
             """)
 
         case .failure(let error):
-            print("Error saving role: \(error)")
+            print("Error querying role: \(error)")
         }
     }
 } catch {
@@ -256,7 +256,7 @@ do {
             """)
 
         case .failure(let error):
-            print("Error saving role: \(error)")
+            print("Error querying role: \(error)")
         }
     }
 } catch {
@@ -325,7 +325,7 @@ do {
         case .success(let scores):
             print("Found related scores: \(scores)")
         case .failure(let error):
-            print("Error finding scores: \(error)")
+            print("Error querying scores: \(error)")
         }
     }
 } catch {
@@ -339,7 +339,7 @@ do {
         case .success(let scores):
             print("Found related scores from child: \(scores)")
         case .failure(let error):
-            print("Error finding scores from child: \(error)")
+            print("Error querying scores from child: \(error)")
         }
     }
 } catch {
@@ -365,7 +365,7 @@ do {
         case .success(let scores):
             print("Found related scores from stored ParseRelation: \(scores)")
         case .failure(let error):
-            print("Error finding scores from stored ParseRelation: \(error)")
+            print("Error querying scores from stored ParseRelation: \(error)")
         }
     }
 } catch {
