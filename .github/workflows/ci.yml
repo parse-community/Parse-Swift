@@ -6,11 +6,11 @@ on:
     branches: '*'
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_13: '/Applications/Xcode_13.2.1.app/Contents/Developer'
+  CI_XCODE_13: '/Applications/Xcode_13.3.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     #- name: Use multiple cores
@@ -37,7 +37,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-test-macos:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     - name: Create and set the default keychain
@@ -70,7 +70,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-test-tvos:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     #- name: Use multiple cores
@@ -97,7 +97,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-build-watchos:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     #- name: Use multiple cores
@@ -114,7 +114,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   spm-test:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     - name: Create and set the default keychain
@@ -205,7 +205,7 @@ jobs:
   
   docs:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
       #- name: Build
@@ -230,7 +230,7 @@ jobs:
     
   cocoapods:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
       - name: Update Framework Version
@@ -244,7 +244,7 @@ jobs:
 
   carthage:
    needs: xcode-build-watchos
-   runs-on: macos-latest
+   runs-on: macos-12
    steps:
      - uses: actions/checkout@v2
      - name: Carthage 
