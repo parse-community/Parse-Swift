@@ -15,7 +15,10 @@ import Foundation
  "the public" so that, for example, any user could read a particular object but only a 
  particular set of users could write to that object.
 */
-public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
+public struct ParseACL: ParseType,
+                        Decodable,
+                        Equatable,
+                        Hashable {
     private static let publicScope = "*"
     private var acl: [String: [Access: Bool]]?
 
@@ -29,7 +32,10 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
         case write
 
         public init(from decoder: Decoder) throws {
-            self = Access(rawValue: try decoder.singleValueContainer().decode(String.self))!
+            guard let decoded = Access(rawValue: try decoder.singleValueContainer().decode(String.self)) else {
+                throw ParseError(code: .unknownError, message: "Not able to decode ParseACL Access")
+            }
+            self = decoded
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -38,7 +44,8 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
         }
     }
 
-    public init() {}
+    /// The default initializer.
+    public init() { }
 
     /**
      Controls whether the public is allowed to read this object.
@@ -199,7 +206,8 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
      - returns: `true` if the `ParseRole` has read access, otherwise `false`.
     */
     public func getReadAccess<T>(role: T) -> Bool where T: ParseRole {
-        get(toRole(roleName: role.name), access: .read)
+        guard let name = role.name else { return false }
+        return get(toRole(roleName: name), access: .read)
     }
 
     /**
@@ -221,7 +229,8 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
      - returns: `true` if the role has read access, otherwise `false`.
     */
     public func getWriteAccess<T>(role: T) -> Bool where T: ParseRole {
-        get(toRole(roleName: role.name), access: .write)
+        guard let name = role.name else { return false }
+        return get(toRole(roleName: name), access: .write)
     }
 
     /**
@@ -241,7 +250,8 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
      - parameter role: The `ParseRole` to set access for.
     */
     public mutating func setReadAccess<T>(role: T, value: Bool) where T: ParseRole {
-        set(toRole(roleName: role.name), access: .read, value: value)
+        guard let name = role.name else { return }
+        set(toRole(roleName: name), access: .read, value: value)
     }
 
     /**
@@ -261,7 +271,8 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
      - parameter role: The `ParseRole` to set access for.
     */
     public mutating func setWriteAccess<T>(role: T, value: Bool) where T: ParseRole {
-        set(toRole(roleName: role.name), access: .write, value: value)
+        guard let name = role.name else { return }
+        set(toRole(roleName: name), access: .write, value: value)
     }
 
     private func toRole(roleName: String) -> String {
@@ -300,32 +311,38 @@ extension ParseACL {
     */
     public static func defaultACL() throws -> Self {
 
-        let aclController: DefaultACL?
+        let aclController: DefaultACL!
 
-        #if !os(Linux) && !os(Android)
-        aclController = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        if let controller: DefaultACL = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
+            aclController = controller
+        } else {
+            throw ParseError(code: .unknownError,
+                             message: "Default ACL can't be found in Keychain. You should `setDefaultACL` first")
+        }
         #else
-        aclController = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+        if let controller: DefaultACL = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
+            aclController = controller
+        } else {
+            throw ParseError(code: .unknownError,
+                             message: "Default ACL can't be found in Keychain. You should `setDefaultACL` first")
+        }
         #endif
 
-        if aclController != nil {
-            if !aclController!.useCurrentUser {
-                return aclController!.defaultACL
-            } else {
-                guard let userObjectId = BaseParseUser.current?.objectId else {
-                    return aclController!.defaultACL
-                }
-
-                guard let lastCurrentUserObjectId = aclController!.lastCurrentUserObjectId,
-                    userObjectId == lastCurrentUserObjectId else {
-                    return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
-                }
-
-                return aclController!.defaultACL
+        if !aclController.useCurrentUser {
+            return aclController.defaultACL
+        } else {
+            guard let userObjectId = BaseParseUser.current?.objectId else {
+                return aclController.defaultACL
             }
-        }
 
-        return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
+            guard let lastCurrentUserObjectId = aclController.lastCurrentUserObjectId,
+                userObjectId == lastCurrentUserObjectId else {
+                return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
+            }
+
+            return aclController.defaultACL
+        }
     }
 
     /**
@@ -371,8 +388,8 @@ extension ParseACL {
         }
 
         let aclController: DefaultACL!
-        if modifiedACL != nil {
-            aclController = DefaultACL(defaultACL: modifiedACL!,
+        if let modified = modifiedACL {
+            aclController = DefaultACL(defaultACL: modified,
                                        lastCurrentUserObjectId: currentUserObjectId,
                                        useCurrentUser: withAccessForCurrentUser)
         } else {
@@ -382,7 +399,7 @@ extension ParseACL {
                            useCurrentUser: withAccessForCurrentUser)
         }
 
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
         #else
         try ParseStorage.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
@@ -396,6 +413,13 @@ extension ParseACL {
         modifiedACL.setWriteAccess(user: user, value: true)
 
         return modifiedACL
+    }
+
+    internal static func deleteDefaultFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.defaultACL)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.defaultACL)
+        #endif
     }
 }
 
@@ -435,6 +459,7 @@ extension ParseACL {
 
 }
 
+// MARK: CustomDebugStringConvertible
 extension ParseACL: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
@@ -442,6 +467,13 @@ extension ParseACL: CustomDebugStringConvertible {
             return "ACL ()"
         }
         return "ACL (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseACL: CustomStringConvertible {
+    public var description: String {
+        debugDescription
     }
 }
 

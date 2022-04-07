@@ -7,6 +7,11 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+// swiftlint:disable line_length
 
 /// The REST API for communicating with a Parse Server.
 public struct API {
@@ -32,6 +37,7 @@ public struct API {
         case logout
         case file(fileName: String)
         case passwordReset
+        case verifyPassword
         case verificationEmail
         case functions(name: String)
         case jobs(name: String)
@@ -76,6 +82,8 @@ public struct API {
                 return "/files/\(fileName)"
             case .passwordReset:
                 return "/requestPasswordReset"
+            case .verifyPassword:
+                return "/verifyPassword"
             case .verificationEmail:
                 return "/verificationEmailRequest"
             case .functions(name: let name):
@@ -125,8 +133,13 @@ public struct API {
         /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
         /// Add context.
-        /// - warning: Requires Parse Server > 4.5.0.
+        /// - warning: Requires Parse Server 5.0.0+.
         case context(Encodable)
+        /// The caching policy to use for a specific http request. Determines when to
+        /// return a response from the cache. See Apple's
+        /// [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
+        /// for more info.
+        case cachePolicy(URLRequest.CachePolicy)
 
         public func hash(into hasher: inout Hasher) {
             switch self {
@@ -148,11 +161,13 @@ public struct API {
                 hasher.combine(8)
             case .context:
                 hasher.combine(9)
+            case .cachePolicy:
+                hasher.combine(10)
             }
         }
 
         public static func == (lhs: API.Option, rhs: API.Option) -> Bool {
-            return AnyEncodable(lhs) == AnyEncodable(rhs)
+            lhs.hashValue == rhs.hashValue
         }
     }
 
@@ -164,11 +179,11 @@ public struct API {
             headers["X-Parse-Client-Key"] = clientKey
         }
 
-        if let token = BaseParseUser.currentUserContainer?.sessionToken {
+        if let token = BaseParseUser.currentContainer?.sessionToken {
             headers["X-Parse-Session-Token"] = token
         }
 
-        if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
+        if let installationId = BaseParseInstallation.currentContainer.installationId {
             headers["X-Parse-Installation-Id"] = installationId
         }
 
@@ -203,6 +218,8 @@ public struct API {
                    let encodedString = String(data: encoded, encoding: .utf8) {
                     headers["X-Parse-Cloud-Context"] = encodedString
                 }
+            default:
+                break
             }
         }
 

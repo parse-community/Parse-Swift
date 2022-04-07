@@ -20,6 +20,7 @@ extension ParseCoding {
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = parseDateEncodingStrategy
+        encoder.outputFormatting = .sortedKeys
         return encoder
     }
 
@@ -36,8 +37,51 @@ extension ParseCoding {
     /// types in a way meaninful for a Parse Server to consume.
     static func parseEncoder() -> ParseEncoder {
         ParseEncoder(
-            dateEncodingStrategy: parseDateEncodingStrategy
+            dateEncodingStrategy: parseDateEncodingStrategy,
+            outputFormatting: .sortedKeys
         )
+    }
+}
+
+// MARK: Coding
+public extension ParseObject {
+
+    /// The Parse encoder is used to JSON encode all `ParseObject`s and
+    /// types in a way meaninful for a Parse Server to consume.
+    static func getEncoder() -> ParseEncoder {
+        return ParseCoding.parseEncoder()
+    }
+
+    /// The Parse encoder is used to JSON encode all `ParseObject`s and
+    /// types in a way meaninful for a Parse Server to consume.
+    func getEncoder() -> ParseEncoder {
+        return Self.getEncoder()
+    }
+
+    /// The JSON encoder setup with the correct `dateEncodingStrategy`
+    /// strategy to send data to a Parse Server.
+    static func getJSONEncoder() -> JSONEncoder {
+        return ParseCoding.jsonEncoder()
+    }
+
+    /// The JSON encoder setup with the correct `dateEncodingStrategy`
+    /// strategy to send data to a Parse Server.
+    func getJSONEncoder() -> JSONEncoder {
+        return Self.getJSONEncoder()
+    }
+
+    /// The JSON decoder setup with the correct `dateDecodingStrategy`
+    /// strategy to decode data from a Parse Server. This encoder is used to decode all data received
+    /// from the server.
+    static func getDecoder() -> JSONDecoder {
+        ParseCoding.jsonDecoder()
+    }
+
+    /// The JSON decoder setup with the correct `dateDecodingStrategy`
+    /// strategy to decode data from a Parse Server. This encoder is used to decode all data received
+    /// from the server.
+    func getDecoder() -> JSONDecoder {
+        Self.getDecoder()
     }
 }
 

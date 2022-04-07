@@ -39,7 +39,7 @@ class ParseFileManagerTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -152,6 +152,41 @@ class ParseFileManagerTests: XCTestCase {
                         return
                     }
                     XCTAssertFalse(FileManager.default.fileExists(atPath: filePath.relativePath))
+                    XCTAssertEqual(readFile2, dataAsString)
+                    expectation1.fulfill()
+                }
+                return
+            }
+            XCTFail(error.localizedDescription)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testDontMoveSameItem() throws {
+        let dataAsString = "Hello World"
+        guard let fileManager = ParseFileManager(),
+              let filePath = fileManager.dataItemPathForPathComponent("test.txt"),
+              let filePath2 = fileManager.dataItemPathForPathComponent("test.txt") else {
+            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+        }
+
+        let expectation1 = XCTestExpectation(description: "ParseFile async")
+        fileManager.writeString(dataAsString, filePath: filePath) { error in
+            guard let error = error else {
+                guard let readFile = try? String(contentsOf: filePath) else {
+                    XCTFail("Should have read as string")
+                    return
+                }
+                XCTAssertEqual(readFile, dataAsString)
+
+                fileManager.moveItem(filePath, toPath: filePath2) { _ in
+                    guard let readFile2 = try? String(contentsOf: filePath2) else {
+                        XCTFail("Should have read as string")
+                        return
+                    }
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: filePath2.relativePath))
                     XCTAssertEqual(readFile2, dataAsString)
                     expectation1.fulfill()
                 }

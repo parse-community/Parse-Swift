@@ -13,7 +13,7 @@ import Foundation
      let json = """
      {
          "boolean": true,
-         "integer": 1,
+         "integer": 42,
          "double": 3.14159265358979323846,
          "string": "string",
          "array": [1, 2, 3],

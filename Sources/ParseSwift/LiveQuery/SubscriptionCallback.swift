@@ -9,21 +9,20 @@
 import Foundation
 
 /**
- A default implementation of the `ParseSubscription` protocol using closures for callbacks.
+ A default implementation of the `QuerySubscribable` protocol using closures for callbacks.
  */
-open class SubscriptionCallback<T: ParseObject>: ParseSubscription {
-    //The query subscribed to.
+open class SubscriptionCallback<T: ParseObject>: QuerySubscribable {
+
     public var query: Query<T>
-    //The ParseObject
     public typealias Object = T
-    fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
-    fileprivate var subscribeHandlers: [(Query<T>, Bool) -> Void] = []
-    fileprivate var unsubscribeHandlers: [(Query<T>) -> Void] = []
+    fileprivate var eventHandlers = [(Query<T>, Event<T>) -> Void]()
+    fileprivate var subscribeHandlers = [(Query<T>, Bool) -> Void]()
+    fileprivate var unsubscribeHandlers = [(Query<T>) -> Void]()
 
     /**
      Creates a new subscription that can be used to handle updates.
      */
-    public init(query: Query<T>) {
+    public required init(query: Query<T>) {
         self.query = query
     }
 
@@ -39,7 +38,7 @@ open class SubscriptionCallback<T: ParseObject>: ParseSubscription {
     }
 
     /**
-     Register a callback for when a client succesfully subscribes to a query.
+     Register a callback for when a client successfully subscribes to a query.
      - parameter handler: The callback to register.
      - returns: The same subscription, for easy chaining.
      */
@@ -59,6 +58,35 @@ open class SubscriptionCallback<T: ParseObject>: ParseSubscription {
         return self
     }
 
+    /**
+     Register a callback for when an event occurs of a specific type
+     Example:
+         subscription.handle(Event.Created) { query, object in
+            // Called whenever an object is creaated
+         }
+     - parameter eventType: The event type to handle. You should pass one of the enum cases in `Event`.
+     - parameter handler: The callback to register.
+     - returns: The same subscription, for easy chaining.
+     */
+    @discardableResult public func handle(_ eventType: @escaping (T) -> Event<T>,
+                                          _ handler: @escaping (Query<T>, T) -> Void) -> SubscriptionCallback {
+        return handleEvent { query, event in
+            switch event {
+            case .entered(let obj) where eventType(obj) == event: handler(query, obj)
+            case .left(let obj)  where eventType(obj) == event: handler(query, obj)
+            case .created(let obj) where eventType(obj) == event: handler(query, obj)
+            case .updated(let obj) where eventType(obj) == event: handler(query, obj)
+            case .deleted(let obj) where eventType(obj) == event: handler(query, obj)
+            default: return
+            }
+        }
+    }
+
+}
+
+// MARK: QuerySubscribable
+
+extension SubscriptionCallback {
     open func didReceive(_ eventData: Data) throws {
         // Need to decode the event with respect to the `ParseObject`.
         let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)

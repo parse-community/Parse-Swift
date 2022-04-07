@@ -13,7 +13,10 @@ import Foundation
  When conforming to `ParseConfig`, any properties added can be retrieved by the client or updated on
  the server.
 */
-public protocol ParseConfig: ParseType, Decodable, CustomDebugStringConvertible { }
+public protocol ParseConfig: ParseType,
+                             Decodable,
+                             CustomDebugStringConvertible,
+                             CustomStringConvertible { }
 
 // MARK: Update
 extension ParseConfig {
@@ -23,9 +26,13 @@ extension ParseConfig {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: Returns `Self`.
         - throws: An error of type `ParseError`.
+        - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+        desires a different policy, it should be inserted in `options`.
     */
     public func fetch(options: API.Options = []) throws -> Self {
-        try fetchCommand().execute(options: options, callbackQueue: .main)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try fetchCommand().execute(options: options)
     }
 
     /**
@@ -34,15 +41,17 @@ extension ParseConfig {
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when retrieving the config completes or fails.
         It should have the following argument signature: `(Result<Self, ParseError>)`.
+        - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+        desires a different policy, it should be inserted in `options`.
     */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         fetchCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 
@@ -62,36 +71,41 @@ extension ParseConfig {
 
     /**
      Update the Config *synchronously*.
-          - parameter options: A set of header options sent to the server. Defaults to an empty set.
-          - returns: Returns `true` if updated, `false` otherwise.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns `true` if updated, `false` otherwise.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func save(options: API.Options = []) throws -> Bool {
-        try updateCommand().execute(options: options, callbackQueue: .main)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try updateCommand().execute(options: options)
     }
 
     /**
      Update the Config *asynchronously*.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-        - parameter completion: A block that will be called when retrieving the config completes or fails.
-        It should have the following argument signature: `(Result<Bool, ParseError>)`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: A block that will be called when retrieving the config completes or fails.
+     It should have the following argument signature: `(Result<Bool, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func save(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<Bool, ParseError>) -> Void) {
         var options = options
         options.insert(.useMasterKey)
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         updateCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 
     internal func updateCommand() -> API.Command<ConfigUpdateBody<Self>, Bool> {
         let body = ConfigUpdateBody(params: self)
-        return API.Command(method: .PUT,
+        return API.Command(method: .PUT, // MARK: Should be switched to ".PATCH" when server supports PATCH.
                            path: .config,
                            body: body) { (data) -> Bool in
             let updated = try ParseCoding.jsonDecoder().decode(ConfigUpdateResponse.self, from: data).result
@@ -113,13 +127,13 @@ struct CurrentConfigContainer<T: ParseConfig>: Codable {
     var currentConfig: T?
 }
 
-extension ParseConfig {
+public extension ParseConfig {
 
-    static var currentConfigContainer: CurrentConfigContainer<Self>? {
+    internal static var currentContainer: CurrentConfigContainer<Self>? {
         get {
             guard let configInMemory: CurrentConfigContainer<Self> =
                 try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
-                #if !os(Linux) && !os(Android)
+                #if !os(Linux) && !os(Android) && !os(Windows)
                     return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig)
                 #else
                     return nil
@@ -142,19 +156,14 @@ extension ParseConfig {
     }
 
     internal static func saveCurrentContainerToKeychain() {
-
-        guard let currentConfigInMemory: CurrentConfigContainer<Self>
-            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
-            return
-        }
-        #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.set(currentConfigInMemory, for: ParseStorage.Keys.currentConfig)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentConfig)
         #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentConfig)
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentConfig)
         #endif
     }
@@ -164,15 +173,15 @@ extension ParseConfig {
 
      - returns: Returns the latest `ParseConfig` on this device. If there is none, returns `nil`.
     */
-    public static var current: Self? {
+    internal(set) static var current: Self? {
         get {
-            return Self.currentConfigContainer?.currentConfig
+            return Self.currentContainer?.currentConfig
         }
         set {
-            if Self.currentConfigContainer == nil {
-                Self.currentConfigContainer = CurrentConfigContainer<Self>()
+            if Self.currentContainer == nil {
+                Self.currentContainer = CurrentConfigContainer<Self>()
             }
-            Self.currentConfigContainer?.currentConfig = newValue
+            Self.currentContainer?.currentConfig = newValue
         }
     }
 }
@@ -186,5 +195,12 @@ extension ParseConfig {
         }
 
         return "\(descriptionString)"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseConfig {
+    public var description: String {
+        debugDescription
     }
 }

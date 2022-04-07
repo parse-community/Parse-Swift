@@ -6,7 +6,8 @@ import CoreLocation
 /**
   `ParseGeoPoint` is used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
    It could be used to perform queries in a geospatial manner using `ParseQuery.whereKey:nearGeoPoint:`.
-   Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
+
+ - warning:Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
 */
 public struct ParseGeoPoint: Codable, Hashable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
@@ -20,66 +21,48 @@ public struct ParseGeoPoint: Codable, Hashable {
     /**
       Latitude of point in degrees. Valid range is from `-90.0` to `90.0`.
     */
-    public var latitude: Double {
-        get {
-            return _latitude
-        }
-        set {
-            assert(newValue > -90, "latitude should be > -90")
-            assert(newValue < 90, "latitude should be > 90")
-            _latitude = newValue
-        }
-    }
+    public var latitude: Double
 
     /**
       Longitude of point in degrees. Valid range is from `-180.0` to `180.0`.
     */
-    public var longitude: Double {
-        get {
-            return _longitude
-        }
-        set {
-            assert(newValue > -180, "longitude should be > -180")
-            assert(newValue < 180, "longitude should be > -180")
-            _longitude = newValue
-        }
-    }
-
-    private var _latitude: Double
-    private var _longitude: Double
+    public var longitude: Double
 
     /**
      Create a `ParseGeoPoint` instance. Latitude and longitude are set to `0.0`.
      */
     public init() {
-        _latitude = 0.0
-        _longitude = 0.0
+        latitude = 0.0
+        longitude = 0.0
     }
 
     /**
       Create a new `ParseGeoPoint` instance with the specified latitude and longitude.
        - parameter latitude: Latitude of point in degrees.
        - parameter longitude: Longitude of point in degrees.
+       - throws: An error of type `ParseError`.
      */
-    public init(latitude: Double, longitude: Double) {
-        assert(longitude > -180, "longitude should be > -180")
-        assert(longitude < 180, "longitude should be > -180")
-        assert(latitude > -90, "latitude should be > -90")
-        assert(latitude < 90, "latitude should be > 90")
-        self._latitude = latitude
-        self._longitude = longitude
+    public init(latitude: Double, longitude: Double) throws {
+        self.latitude = latitude
+        self.longitude = longitude
+        try validate()
     }
 
-    #if canImport(CoreLocation)
-    /**
-      Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
-       - parameter location: Instance of `CLLocation`, with set latitude and longitude.
-     */
-    public init(location: CLLocation) {
-        self._longitude = location.coordinate.longitude
-        self._latitude = location.coordinate.latitude
+    func validate() throws {
+        if longitude < -180 {
+            throw ParseError(code: .unknownError,
+                             message: "longitude should be > -180")
+        } else if longitude > 180 {
+            throw ParseError(code: .unknownError,
+                             message: "longitude should be < 180")
+        } else if latitude < -90 {
+            throw ParseError(code: .unknownError,
+                             message: "latitude should be > -90")
+        } else if latitude > 90 {
+            throw ParseError(code: .unknownError,
+                             message: "latitude should be < 90")
+        }
     }
-    #endif
 
     /**
      Get distance in radians from this point to specified point.
@@ -106,7 +89,6 @@ public struct ParseGeoPoint: Codable, Hashable {
 
     /**
      Get distance in miles from this point to specified point.
-
      - parameter point: `ParseGeoPoint` that represents the location of other point.
      - returns: Distance in miles between the receiver and `point`.
     */
@@ -127,24 +109,80 @@ public struct ParseGeoPoint: Codable, Hashable {
 extension ParseGeoPoint {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        _longitude = try values.decode(Double.self, forKey: .longitude)
-        _latitude = try values.decode(Double.self, forKey: .latitude)
+        longitude = try values.decode(Double.self, forKey: .longitude)
+        latitude = try values.decode(Double.self, forKey: .latitude)
+        try validate()
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(__type, forKey: .__type)
-        try container.encode(_longitude, forKey: .longitude)
-        try container.encode(_latitude, forKey: .latitude)
+        try container.encode(longitude, forKey: .longitude)
+        try container.encode(latitude, forKey: .latitude)
+        try validate()
     }
 }
 
+// MARK: CustomDebugStringConvertible
 extension ParseGeoPoint: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "GeoPoint ()"
+            return "ParseGeoPoint ()"
         }
-        return "GeoPoint (\(descriptionString))"
+        return "ParseGeoPoint (\(descriptionString))"
     }
 }
+
+// MARK: CustomStringConvertible
+extension ParseGeoPoint: CustomStringConvertible {
+    public var description: String {
+        debugDescription
+    }
+}
+
+#if canImport(CoreLocation)
+// MARK: CoreLocation
+public extension ParseGeoPoint {
+
+    /**
+     Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
+     - parameter location: Instance of `CLLocation`, with set latitude and longitude.
+     - throws: An error of `ParseError` type.
+     */
+    init(location: CLLocation) throws {
+        self.longitude = location.coordinate.longitude
+        self.latitude = location.coordinate.latitude
+        try validate()
+    }
+
+    /**
+     Creates a new `ParseGeoPoint` instance for the given `CLLocationCoordinate2D`, set to the location's coordinates.
+     - parameter location: Instance of `CLLocationCoordinate2D`, with set latitude and longitude.
+     - throws: An error of `ParseError` type.
+     */
+    init(coordinate: CLLocationCoordinate2D) throws {
+        self.longitude = coordinate.longitude
+        self.latitude = coordinate.latitude
+        try validate()
+    }
+
+    /**
+     Creates a new `CLLocation` instance for the given `ParseGeoPoint`, set to the location's coordinates.
+     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     - returns: Returns a `CLLocation`.
+     */
+    func toCLLocation() -> CLLocation {
+        CLLocation(latitude: latitude, longitude: longitude)
+    }
+
+    /**
+     Creates a new `CLLocationCoordinate2D` instance for the given `ParseGeoPoint`, set to the location's coordinates.
+     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     - returns: Returns a `CLLocationCoordinate2D`.
+     */
+    func toCLLocationCoordinate2D() -> CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+}
+#endif

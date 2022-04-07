@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 1/4/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-#if !os(Linux) && !os(Android)
+#if !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -14,7 +14,6 @@ import FoundationNetworking
 // swiftlint:disable line_length
 
 /// Receive/respond to notifications from the ParseLiveQuery Server.
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol ParseLiveQueryDelegate: AnyObject {
 
     /**
@@ -39,8 +38,9 @@ public protocol ParseLiveQueryDelegate: AnyObject {
     /**
     Receive errors from the ParseLiveQuery task/connection.
      - parameter error: An error from the session task.
+     - note: The type of error received can vary from `ParseError`, `URLError`, `POSIXError`, etc.
      */
-    func received(_ error: ParseError)
+    func received(_ error: Error)
 
     /**
     Receive unsupported data from the ParseLiveQuery task/connection.
@@ -67,14 +67,13 @@ public protocol ParseLiveQueryDelegate: AnyObject {
     func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?)
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-extension ParseLiveQueryDelegate {
+public extension ParseLiveQueryDelegate {
     func received(_ challenge: URLAuthenticationChallenge,
                   completionHandler: @escaping (URLSession.AuthChallengeDisposition,
                                                 URLCredential?) -> Void) {
         completionHandler(.performDefaultHandling, nil)
     }
-    func received(_ error: ParseError) { }
+    func received(_ error: Error) { }
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) { }
     func received(_ metrics: URLSessionTaskTransactionMetrics) { }
     func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) { }

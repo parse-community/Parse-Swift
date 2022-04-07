@@ -13,7 +13,6 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct Config: ParseConfig {
@@ -23,13 +22,14 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -47,8 +47,9 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -87,7 +88,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -149,7 +150,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
             XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
 
-            #if !os(Linux) && !os(Android)
+            #if !os(Linux) && !os(Android) && !os(Windows)
             //Should be updated in Keychain
             guard let keychainConfig: CurrentConfigContainer<Config>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -198,7 +199,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertTrue(saved)
             XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
 
-            #if !os(Linux) && !os(Android)
+            #if !os(Linux) && !os(Android) && !os(Windows)
             //Should be updated in Keychain
             guard let keychainConfig: CurrentConfigContainer<Config>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {

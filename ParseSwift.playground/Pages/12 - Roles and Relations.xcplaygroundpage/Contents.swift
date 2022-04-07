@@ -14,13 +14,14 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct User: ParseUser {
-    //: These are required for `ParseObject`.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
-    //: These are required for `ParseUser`.
+    //: These are required by `ParseUser`.
     var username: String?
     var email: String?
     var emailVerified: Bool?
@@ -29,6 +30,17 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
+    var scores: ParseRelation<Self>?
+
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
+            updated.customKey = object.customKey
+        }
+        return updated
+    }
 }
 
 struct Role<RoleUser: ParseUser>: ParseRole {
@@ -38,12 +50,55 @@ struct Role<RoleUser: ParseUser>: ParseRole {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Provided by Role.
-    var name: String
+    var name: String?
 
-    init() {
-        self.name = ""
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        return updated
+    }
+}
+
+//: Create your own value typed `ParseObject`.
+struct GameScore: ParseObject {
+    //: These are required by ParseObject
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+    var originalData: Data?
+
+    //: Your own properties.
+    var points: Int?
+
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the memberwise initializer.
+extension GameScore {
+
+    init(points: Int) {
+        self.points = points
+    }
+
+    init(objectId: String?) {
+        self.objectId = objectId
     }
 }
 
@@ -53,32 +108,33 @@ struct Role<RoleUser: ParseUser>: ParseRole {
 var savedRole: Role<User>?
 
 //: Now we will create the Role.
-if let currentUser = User.current {
+guard let currentUser = User.current else {
+    fatalError("User currently isn't signed in")
+}
 
-    //: Every Role requires an ACL that can't be changed after saving.
-    var acl = ParseACL()
-    acl.setReadAccess(user: currentUser, value: true)
-    acl.setWriteAccess(user: currentUser, value: true)
+//: Every Role requires an ACL that can't be changed after saving.
+var acl = ParseACL()
+acl.setReadAccess(user: currentUser, value: true)
+acl.setWriteAccess(user: currentUser, value: true)
 
-    do {
-        //: Create the actual Role with a name and ACL.
-        let adminRole = try Role<User>(name: "Administrator", acl: acl)
-        adminRole.save { result in
-            switch result {
-            case .success(let saved):
-                print("The role saved successfully: \(saved)")
-                print("Check your \"Role\" class in Parse Dashboard.")
+do {
+    //: Create the actual Role with a name and ACL.
+    let adminRole = try Role<User>(name: "Administrator", acl: acl)
+    adminRole.save { result in
+        switch result {
+        case .success(let saved):
+            print("The role saved successfully: \(saved)")
+            print("Check your \"Role\" class in Parse Dashboard.")
 
-                //: Store the saved role so we can use it later...
-                savedRole = saved
+            //: Store the saved role so we can use it later...
+            savedRole = saved
 
-            case .failure(let error):
-                print("Error saving role: \(error)")
-            }
+        case .failure(let error):
+            print("Error saving role: \(error)")
         }
-    } catch {
-        print("Error: \(error)")
     }
+} catch {
+    print("Error: \(error)")
 }
 
 //: Lets check to see if our Role has saved.
@@ -90,7 +146,7 @@ if savedRole != nil {
 do {
     //: `ParseRoles` have `ParseRelations` that relate them either `ParseUser` and `ParseRole` objects.
     //: The `ParseUser` relations can be accessed using `users`. We can then add `ParseUser`'s to the relation.
-    try savedRole!.users.add([User.current!]).save { result in
+    try savedRole!.users?.add([User.current!]).save { result in
         switch result {
         case .success(let saved):
             print("The role saved successfully: \(saved)")
@@ -106,12 +162,15 @@ do {
 }
 
 //: To retrieve the users who are all Administrators, we need to query the relation.
-let templateUser = User()
 do {
-    try savedRole!.users.query(templateUser).find { result in
+    let query: Query<User>? = try savedRole!.users?.query()
+    query?.find { result in
         switch result {
         case .success(let relatedUsers):
-            print("The following users are part of the \"\(savedRole!.name) role: \(relatedUsers)")
+            print("""
+                The following users are part of the
+                \"\(String(describing: savedRole!.name)) role: \(relatedUsers)
+            """)
 
         case .failure(let error):
             print("Error saving role: \(error)")
@@ -123,7 +182,7 @@ do {
 
 //: Of course, you can remove users from the roles as well.
 do {
-    try savedRole!.users.remove([User.current!]).save { result in
+    try savedRole!.users?.remove([User.current!]).save { result in
         switch result {
         case .success(let saved):
             print("The role removed successfully: \(saved)")
@@ -141,11 +200,6 @@ do {
 
 //: This variable will store the saved role.
 var savedRoleModerator: Role<User>?
-
-//: We need another ACL.
-var acl = ParseACL()
-acl.setReadAccess(user: User.current!, value: true)
-acl.setWriteAccess(user: User.current!, value: false)
 
 do {
     //: Create the actual Role with a name and ACL.
@@ -176,7 +230,7 @@ if savedRoleModerator != nil {
 do {
     //: `ParseRoles` have `ParseRelations` that relate them either `ParseUser` and `ParseRole` objects.
     //: The `ParseUser` relations can be accessed using `users`. We can then add `ParseUser`'s to the relation.
-    try savedRole!.roles.add([savedRoleModerator!]).save { result in
+    try savedRole!.roles?.add([savedRoleModerator!]).save { result in
         switch result {
         case .success(let saved):
             print("The role saved successfully: \(saved)")
@@ -192,19 +246,26 @@ do {
 
 //: To retrieve the users who are all Administrators, we need to query the relation.
 //: This time we will use a helper query from `ParseRole`.
-savedRole!.queryRoles?.find { result in
-    switch result {
-    case .success(let relatedRoles):
-        print("The following roles are part of the \"\(savedRole!.name) role: \(relatedRoles)")
+do {
+    try savedRole!.queryRoles().find { result in
+        switch result {
+        case .success(let relatedRoles):
+            print("""
+                The following roles are part of the
+                \"\(String(describing: savedRole!.name)) role: \(relatedRoles)
+            """)
 
-    case .failure(let error):
-        print("Error saving role: \(error)")
+        case .failure(let error):
+            print("Error saving role: \(error)")
+        }
     }
+} catch {
+    print("Error: \(error)")
 }
 
 //: Of course, you can remove users from the roles as well.
 do {
-    try savedRole!.roles.remove([savedRoleModerator!]).save { result in
+    try savedRole!.roles?.remove([savedRoleModerator!]).save { result in
         switch result {
         case .success(let saved):
             print("The role removed successfully: \(saved)")
@@ -218,16 +279,98 @@ do {
     print(error)
 }
 
+//: Using this relation, you can create one-to-many relationships with other `ParseObjecs`,
+//: similar to `users` and `roles`.
 //: All `ParseObject`s have a `ParseRelation` attribute that be used on instances.
 //: For example, the User has:
-let relation = User.current!.relation
+var relation = User.current!.relation
+let score1 = GameScore(points: 53)
+let score2 = GameScore(points: 57)
 
-//: Example: relation.add(<#T##users: [ParseUser]##[ParseUser]#>)
-//: Example: relation.remove(<#T##key: String##String#>, objects: <#T##[ParseObject]#>)
+//: Add new child relationships.
+[score1, score2].saveAll { result in
+    switch result {
+    case .success(let savedScores):
+        //: Make an array of all scores that were properly saved.
+        let scores = savedScores.compactMap { try? $0.get() }
+        do {
+            guard let newRelations = try relation?.add("scores", objects: scores) else {
+                print("Error: should have unwrapped relation")
+                return
+            }
+            newRelations.save { result in
+                switch result {
+                case .success(let saved):
+                    print("The relation saved successfully: \(saved)")
+                    print("Check \"points\" field in your \"_User\" class in Parse Dashboard.")
 
-//: Using this relation, you can create many-to-many relationships with other `ParseObjecs`,
-//: similar to `users` and `roles`.
+                case .failure(let error):
+                    print("Error saving role: \(error)")
+                }
+            }
+        } catch {
+            print(error)
+        }
+    case .failure(let error):
+        print("Couldn't save scores. \(error)")
+    }
+}
+
+//: You can also do
+// let specificRelation = User.current!.relation("scores", className: "GameScore")
+do {
+    let specificRelation = try User.current!.relation("scores", child: score1)
+    try (specificRelation.query() as Query<GameScore>).find { result in
+        switch result {
+        case .success(let scores):
+            print("Found related scores: \(scores)")
+        case .failure(let error):
+            print("Error finding scores: \(error)")
+        }
+    }
+} catch {
+    print(error)
+}
+
+//: In addition, you can leverage the child to find scores related to the parent.
+do {
+    try GameScore.queryRelations("scores", parent: User.current!).find { result in
+        switch result {
+        case .success(let scores):
+            print("Found related scores from child: \(scores)")
+        case .failure(let error):
+            print("Error finding scores from child: \(error)")
+        }
+    }
+} catch {
+    print(error)
+}
+
+//: Now we will see how to use the stored `ParseRelation on` property in User to create query
+//: all of the relations to `scores`.
+var updatedCurrentUser: User
+do {
+    //: Fetch the updated user since the previous relations were created on the server.
+    updatedCurrentUser = try User.current!.fetch()
+    print("Updated current user with relation: \(updatedCurrentUser)")
+} catch {
+    updatedCurrentUser = User.current!
+    print("\(error.localizedDescription)")
+}
+
+do {
+    let usableStoredRelation = try updatedCurrentUser.relation(updatedCurrentUser.scores, key: "scores")
+    try (usableStoredRelation.query() as Query<GameScore>).find { result in
+        switch result {
+        case .success(let scores):
+            print("Found related scores from stored ParseRelation: \(scores)")
+        case .failure(let error):
+            print("Error finding scores from stored ParseRelation: \(error)")
+        }
+    }
+} catch {
+    print("\(error.localizedDescription)")
+}
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

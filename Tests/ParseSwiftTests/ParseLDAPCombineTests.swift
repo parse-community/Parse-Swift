@@ -13,18 +13,18 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -39,8 +39,9 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -79,7 +80,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -225,8 +226,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(authData: ["id": "testing",
-                                                           "password": "this"])
+        let publisher = User.ldap.linkPublisher(id: "testing", password: "this")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -238,7 +238,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
             XCTAssertTrue(user.ldap.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
@@ -273,7 +273,9 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(id: "testing", password: "this")
+        let authData = ParseLDAP<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing", password: "authenticationToken")
+        let publisher = User.ldap.linkPublisher(authData: authData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -285,7 +287,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
             XCTAssertTrue(user.ldap.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
@@ -338,7 +340,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
             XCTAssertFalse(user.ldap.isLinked)
         })

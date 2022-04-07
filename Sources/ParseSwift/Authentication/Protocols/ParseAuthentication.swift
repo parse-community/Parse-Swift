@@ -11,6 +11,8 @@ import Foundation
 import Combine
 #endif
 
+// swiftlint:disable line_length
+
 /**
  Objects that conform to the `ParseAuthentication` protocol provide
  convenience implementations for using 3rd party authentication methods.
@@ -19,13 +21,15 @@ import Combine
  */
 public protocol ParseAuthentication: Codable {
     associatedtype AuthenticatedUser: ParseUser
-    init()
 
     /// The type of authentication.
     static var __type: String { get } // swiftlint:disable:this identifier_name
 
     /// Returns `true` if the *current* user is linked to the respective authentication type.
     var isLinked: Bool { get }
+
+    /// The default initializer for this authentication type.
+    init()
 
     /**
      Login a `ParseUser` *asynchronously* using the respective authentication type.
@@ -96,50 +100,74 @@ public protocol ParseAuthentication: Codable {
     func strip(_ user: AuthenticatedUser) -> AuthenticatedUser
 
     #if canImport(Combine)
+    // MARK: Combine
     /**
-     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     Login a `ParseUser` *asynchronously* using the respective authentication type. Publishes when complete.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String],
                         options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
+     Link the *current* `ParseUser` *asynchronously* using the respective authentication type. Publishes when complete.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(authData: [String: String],
                        options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     /**
-     Unlink the `ParseUser` *asynchronously* from the respective authentication type.
+     Unlink the `ParseUser` *asynchronously* from the respective authentication type. Publishes when complete.
      - parameter user: The `ParseUser` to unlink. The user must be logged in on this device.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func unlinkPublisher(_ user: AuthenticatedUser,
                          options: API.Options) -> Future<AuthenticatedUser, ParseError>
+
+    /**
+     Unlink the *current* `ParseUser` *asynchronously* from the respective authentication type. Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
+    func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
+    #endif
+
+    #if compiler(>=5.5.2) && canImport(_Concurrency)
+    // MARK: Async/Await
+
+    /**
+     Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter returns: An instance of the linked `AuthenticatedUser`.
+     */
+    func link(authData: [String: String],
+              options: API.Options) async throws -> AuthenticatedUser
+
+    /**
+     Unlink the `ParseUser` *asynchronously* from the respective authentication type.
+     - parameter user: The `ParseUser` to unlink. The user must be logged in on this device.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter returns: An instance of the unlinked `AuthenticatedUser`.
+     */
+    func unlink(_ user: AuthenticatedUser,
+                options: API.Options) async throws -> AuthenticatedUser
 
     /**
      Unlink the *current* `ParseUser` *asynchronously* from the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - parameter returns: An instance of the unlinked `AuthenticatedUser`.
      */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
-
+    func unlink(options: API.Options) async throws -> AuthenticatedUser
     #endif
 }
 
@@ -209,14 +237,19 @@ public extension ParseUser {
 
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: An instance of the logged in `ParseUser`.
      If login failed due to either an incorrect password or incorrect username, it throws a `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func login(_ type: String,
                       authData: [String: String],
                       options: API.Options) throws -> Self {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if Self.current != nil {
             return try Self.link(type, authData: authData, options: options)
         } else {
@@ -232,6 +265,7 @@ public extension ParseUser {
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -251,10 +285,9 @@ public extension ParseUser {
             let body = SignupLoginBody(authData: [type: authData])
             do {
                 try signupCommand(body: body)
-                    .executeAsync(options: options) { result in
-                        callbackQueue.async {
-                            completion(result)
-                        }
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue) { result in
+                        completion(result)
                 }
             } catch {
                 callbackQueue.async {
@@ -301,12 +334,13 @@ public extension ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     func unlink(_ type: String,
                 options: API.Options = [],
                 callbackQueue: DispatchQueue = .main,
                 completion: @escaping (Result<Self, ParseError>) -> Void) {
-
         guard let current = Self.current,
               current.authData != nil else {
             let error = ParseError(code: .unknownError, message: "Must be logged in to unlink user")
@@ -315,7 +349,8 @@ public extension ParseUser {
             }
             return
         }
-
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if current.isLinked(with: type) {
             guard let authData = current.strip(type).authData else {
                 let error = ParseError(code: .unknownError, message: "Missing authData.")
@@ -326,10 +361,9 @@ public extension ParseUser {
             }
             let body = SignupLoginBody(authData: authData)
             current.linkCommand(body: body)
-                .executeAsync(options: options) { result in
-                    callbackQueue.async {
-                        completion(result)
-                    }
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                    completion(result)
                 }
         } else {
             callbackQueue.async {
@@ -346,10 +380,13 @@ public extension ParseUser {
 
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: An instance of the logged in `ParseUser`.
      If login failed due to either an incorrect password or incorrect username, it throws a `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func link(_ type: String,
                      authData: [String: String],
@@ -357,6 +394,8 @@ public extension ParseUser {
         guard let current = Self.current else {
             throw ParseError(code: .unknownError, message: "Must be logged in to link user")
         }
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let body = SignupLoginBody(authData: [type: authData])
         return try current.linkCommand(body: body).execute(options: options)
     }
@@ -368,10 +407,13 @@ public extension ParseUser {
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func link(_ type: String,
                      authData: [String: String],
@@ -385,37 +427,43 @@ public extension ParseUser {
             }
             return
         }
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let body = SignupLoginBody(authData: [type: authData])
         current.linkCommand(body: body)
-            .executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
+                completion(result)
             }
     }
 
-    internal func linkCommand() -> API.NonParseBodyCommand<Self, Self> {
-        Self.current?.anonymous.strip()
-        return API.NonParseBodyCommand<Self, Self>(method: .PUT,
-                                         path: endpoint,
-                                         body: Self.current) { (data) -> Self in
-            let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
-            Self.current?.updatedAt = user.updatedAt
-            guard let current = Self.current else {
-                throw ParseError(code: .unknownError, message: "Should have a current user.")
+    internal func linkCommand() throws -> API.Command<Self, Self> {
+        var mutableSelf = self.anonymous.strip(self)
+        if let current = Self.current {
+            guard current.hasSameObjectId(as: mutableSelf) else {
+                let error = ParseError(code: .unknownError,
+                                       message: "Can't signup a user with a different objectId than the current user")
+                throw error
             }
+        }
+        return API.Command<Self, Self>(method: .PUT,
+                                       path: endpoint,
+                                       body: mutableSelf) { (data) -> Self in
+            let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
+            mutableSelf.updatedAt = user.updatedAt
             if let sessionToken = user.sessionToken {
-                Self.currentUserContainer = .init(currentUser: current,
-                                                  sessionToken: sessionToken)
+                Self.currentContainer = .init(currentUser: mutableSelf,
+                                              sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()
-            return current
+            return mutableSelf
         }
     }
 
-    internal func linkCommand(body: SignupLoginBody) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
-        var body = body
+    internal func linkCommand(body: SignupLoginBody) -> API.Command<SignupLoginBody, Self> {
+        let originalAuthData = Self.current?.authData
         Self.current?.anonymous.strip()
+        var body = body
         if var currentAuthData = Self.current?.authData {
             if let bodyAuthData = body.authData {
                 bodyAuthData.forEach { (key, value) in
@@ -425,9 +473,10 @@ public extension ParseUser {
             body.authData = currentAuthData
         }
 
-        return API.NonParseBodyCommand<SignupLoginBody, Self>(method: .PUT,
-                                         path: endpoint,
-                                         body: body) { (data) -> Self in
+        return API.Command<SignupLoginBody, Self>(method: .PUT,
+                                                  path: endpoint,
+                                                  body: body) { (data) -> Self in
+            Self.current?.authData = originalAuthData
             let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
             Self.current?.updatedAt = user.updatedAt
             Self.current?.authData = body.authData
@@ -435,8 +484,8 @@ public extension ParseUser {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
             if let sessionToken = user.sessionToken {
-                Self.currentUserContainer = .init(currentUser: current,
-                                                  sessionToken: sessionToken)
+                Self.currentContainer = .init(currentUser: current,
+                                              sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()
             return current

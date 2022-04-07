@@ -8,6 +8,5 @@ bundle exec jazzy \
   --theme fullwidth \
   --skip-undocumented \
   --output ./docs/api \
+  --build-tool-arguments -scheme,'ParseSwift (iOS)',-destination,'name=iPhone 12 Pro Max' \
   --module ParseSwift \
-  --swift-build-tool spm \
-  --build-tool-arguments -Xswiftc,-swift-version,-Xswiftc,5

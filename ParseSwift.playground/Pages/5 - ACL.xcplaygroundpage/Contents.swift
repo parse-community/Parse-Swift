@@ -24,26 +24,38 @@ do {
 
 //: Create your own value typed ParseObject.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties
-    var score: Int
+    var points: Int?
 
-    //: a custom initializer
-    init(score: Int) {
-        self.score = score
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the memberwise initializer.
+extension GameScore {
+    //: Custom initializer.
+    init(points: Int) {
+        self.points = points
     }
 }
 
 //: Define initial GameScores.
-var score = GameScore(score: 40)
-
-//: Set the ACL to default for your GameScore
-score.ACL = try? ParseACL.defaultACL()
+var score = GameScore(points: 40)
 
 /*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to specified callbackQueue.
@@ -55,7 +67,7 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.score == 40)
+        assert(savedScore.points == 40)
         assert(savedScore.ACL != nil)
 
         print("Saved score with ACL: \(savedScore)")
@@ -66,5 +78,4 @@ score.save { result in
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

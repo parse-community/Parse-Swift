@@ -12,7 +12,7 @@ import Foundation
  
      let dictionary: [String: AnyEncodable] = [
          "boolean": true,
-         "integer": 1,
+         "integer": 42,
          "double": 3.14159265358979323846,
          "string": "string",
          "array": [1, 2, 3],
@@ -20,7 +20,8 @@ import Foundation
              "a": "alpha",
              "b": "bravo",
              "c": "charlie"
-         ]
+         ],
+         "null": nil
      ]
  
      let encoder = JSONEncoder()
@@ -99,6 +100,8 @@ extension _AnyEncodable {
             try container.encode(array.map { AnyEncodable($0) })
         case let dictionary as [String: Any?]:
             try container.encode(dictionary.mapValues { AnyEncodable($0) })
+        case let encodable as Encodable:
+            try encodable.encode(to: encoder)
         default:
             let context = EncodingError.Context(codingPath: container.codingPath,
                                                 debugDescription: "AnyEncodable value cannot be encoded")

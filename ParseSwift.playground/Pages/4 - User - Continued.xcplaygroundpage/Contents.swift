@@ -14,13 +14,14 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct User: ParseUser {
-    //: These are required for `ParseObject`.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
-    //: These are required for `ParseUser`.
+    //: These are required by `ParseUser`.
     var username: String?
     var email: String?
     var emailVerified: Bool?
@@ -29,10 +30,36 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
-    var score: GameScore?
+    var gameScore: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
+            updated.customKey = object.customKey
+        }
+        if updated.shouldRestoreKey(\.gameScore,
+                                     original: object) {
+            updated.gameScore = object.gameScore
+        }
+        if updated.shouldRestoreKey(\.targetScore,
+                                     original: object) {
+            updated.targetScore = object.targetScore
+        }
+        if updated.shouldRestoreKey(\.allScores,
+                                     original: object) {
+            updated.allScores = object.allScores
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the memberwise initializer.
+extension User {
     //: Custom init for signup.
     init(username: String, password: String, email: String) {
         self.username = username
@@ -43,18 +70,33 @@ struct User: ParseUser {
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int? = 0
+    var points: Int? = 0
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the memberwise initializer.
+extension GameScore {
     //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -95,12 +137,15 @@ User.login(username: "hello", password: "world") { result in
     Asynchrounously - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
+    Using `.mergeable` allows you to only send the updated keys to the
+    parse server as opposed to the whole object.
 */
-User.current?.customKey = "myCustom"
-User.current?.score = GameScore(score: 12)
-User.current?.targetScore = GameScore(score: 100)
-User.current?.allScores = [GameScore(score: 5), GameScore(score: 8)]
-User.current?.save { result in
+var currentUser = User.current?.mergeable
+currentUser?.customKey = "myCustom"
+currentUser?.gameScore = GameScore(points: 12)
+currentUser?.targetScore = GameScore(points: 100)
+currentUser?.allScores = [GameScore(points: 5), GameScore(points: 8)]
+currentUser?.save { result in
 
     switch result {
     case .success(let updatedUser):
@@ -111,25 +156,25 @@ User.current?.save { result in
 }
 
 //: Looking at the output of user from the previous login, it only has
-//: a pointer to the `score` and `targetScore` fields. You can
-//: fetch using `include` to get the score.
-User.current?.fetch(includeKeys: ["score"]) { result in
+//: a pointer to the `gameScore` and `targetScore` fields. You can
+//: fetch using `include` to get the gameScore.
+User.current?.fetch(includeKeys: ["gameScore"]) { result in
     switch result {
     case .success:
-        print("Successfully fetched user with score key: \(String(describing: User.current))")
+        print("Successfully fetched user with gameScore key: \(String(describing: User.current))")
     case .failure(let error):
-        print("Error fetching score: \(error)")
+        print("Error fetching User: \(error)")
     }
 }
 
-//: The `target` score is still missing. You can get all pointer fields at
+//: The `target` gameScore is still missing. You can get all pointer fields at
 //: once by including `["*"]`.
 User.current?.fetch(includeKeys: ["*"]) { result in
     switch result {
     case .success:
         print("Successfully fetched user with all keys: \(String(describing: User.current))")
     case .failure(let error):
-        print("Error fetching score: \(error)")
+        print("Error fetching User: \(error)")
     }
 }
 
@@ -145,7 +190,7 @@ do {
 //: you should create an instance of your user first.
 var newUser = User(username: "parse", password: "aPassword*", email: "parse@parse.com")
 //: Add any other additional information.
-newUser.targetScore = .init(score: 40)
+newUser.customKey = "mind"
 newUser.signup { result in
 
     switch result {
@@ -199,9 +244,10 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-User.current?.username = "bye"
-User.current?.password = "world"
-User.current?.signup { result in
+var currentUser2 = User.current
+currentUser2?.username = "bye"
+currentUser2?.password = "world"
+currentUser2?.signup { result in
     switch result {
 
     case .success(let user):
@@ -213,5 +259,4 @@ User.current?.signup { result in
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

@@ -15,14 +15,14 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Cloud: ParseCloud {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
-        // Those are required for Object
+        // These are required by ParseObject
         var functionJobName: String
     }
 
     struct Cloud2: ParseCloud {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
-        // Those are required for Object
+        // These are required by ParseObject
         var functionJobName: String
 
         // Your custom keys
@@ -32,7 +32,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Cloud3: ParseCloud {
         typealias ReturnType = [String: String] // swiftlint:disable:this nesting
 
-        // Those are required for Object
+        // These are required by ParseObject
         var functionJobName: String
     }
 
@@ -56,7 +56,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -99,13 +99,17 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(decoded, expected, "\"functionJobName\" key should be skipped by ParseEncoder")
     }
 
-    #if !os(Linux) && !os(Android)
     func testDebugString() {
         let cloud = Cloud2(functionJobName: "test", customKey: "parse")
         let expected = "{\"customKey\":\"parse\",\"functionJobName\":\"test\"}"
         XCTAssertEqual(cloud.debugDescription, expected)
     }
-    #endif
+
+    func testDescription() {
+        let cloud = Cloud2(functionJobName: "test", customKey: "parse")
+        let expected = "{\"customKey\":\"parse\",\"functionJobName\":\"test\"}"
+        XCTAssertEqual(cloud.description, expected)
+    }
 
     func testCallFunctionCommand() throws {
         let cloud = Cloud(functionJobName: "test")

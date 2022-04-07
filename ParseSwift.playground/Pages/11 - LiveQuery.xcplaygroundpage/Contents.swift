@@ -1,105 +1,79 @@
 //: [Previous](@previous)
 
-//: For this page, make sure your build target is set to ParseSwift (iOS) and targeting
-//: an iPhone, iPod, or iPad. Also be sure your `Playground Settings`
-//: in the `File Inspector` is `Platform = iOS`. This is because
-//: SwiftUI in macOS Playgrounds doesn't seem to build correctly
-//: Be sure to switch your target and `Playground Settings` back to
-//: macOS after leaving this page.
-
 import PlaygroundSupport
 import Foundation
 import ParseSwift
-#if canImport(SwiftUI)
 import SwiftUI
-#if canImport(Combine)
-import Combine
-#endif
-#endif
+
 PlaygroundPage.current.needsIndefiniteExecution = true
 
 initializeParse()
 
 //: Create your own value typed ParseObject.
 struct GameScore: ParseObject {
-    //: These are required for any Object.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int?
     var location: ParseGeoPoint?
     var name: String?
 
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.location,
+                                     original: object) {
+            updated.location = object.location
+        }
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the memberwise initializer.
+extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
+    }
+}
+
+//: Create a delegate for LiveQuery errors
+class LiveQueryDelegate: ParseLiveQueryDelegate {
+
+    func received(_ error: Error) {
+        print(error)
+    }
+
+    func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) {
+        print("Socket closed with \(String(describing: code)) and \(String(describing: reason))")
     }
 }
 
 //: Be sure you have LiveQuery enabled on your server.
 
-//: Create a query just as you normally would.
-var query = GameScore.query("score" < 11)
-
-#if canImport(SwiftUI)
-//: To use subscriptions inside of SwiftUI
-struct ContentView: View {
-
-    //: A LiveQuery subscription can be used as a view model in SwiftUI
-    @ObservedObject var subscription = query.subscribe!
-
-    var body: some View {
-        VStack {
-
-            if subscription.subscribed != nil {
-                Text("Subscribed to query!")
-            } else if subscription.unsubscribed != nil {
-                Text("Unsubscribed from query!")
-            } else if let event = subscription.event {
-
-                //: This is how you register to receive notifications of events related to your LiveQuery.
-                switch event.event {
-
-                case .entered(let object):
-                    Text("Entered with score: \(object.score)")
-                case .left(let object):
-                    Text("Left with score: \(object.score)")
-                case .created(let object):
-                    Text("Created with score: \(object.score)")
-                case .updated(let object):
-                    Text("Updated with score: \(object.score)")
-                case .deleted(let object):
-                    Text("Deleted with score: \(object.score)")
-                }
-            } else {
-                Text("Not subscribed to a query")
-            }
-
-            Spacer()
-
-            Text("Update GameScore in Parse Dashboard to see changes here")
-
-            Button(action: {
-                try? query.unsubscribe()
-            }, label: {
-                Text("Unsubscribe")
-                    .font(.headline)
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .padding()
-                    .cornerRadius(20.0)
-                    .frame(width: 300, height: 50)
-            })
-        }
-    }
+//: Set the delegate.
+let delegate = LiveQueryDelegate()
+if let socket = ParseLiveQuery.defaultClient {
+    socket.receiveDelegate = delegate
 }
 
-PlaygroundPage.current.setLiveView(ContentView())
-#endif
+//: Create a query just as you normally would.
+var query = GameScore.query("points" < 11)
 
 //: This is how you subscribe to your created query using callbacks.
 let subscription = query.subscribeCallback!
@@ -171,10 +145,10 @@ ParseLiveQuery.client?.sendPing { error in
 }
 
 //: Create a new query.
-var query2 = GameScore.query("score" > 50)
+var query2 = GameScore.query("points" > 50)
 
 //: Select the fields you are interested in receiving.
-query2.fields("score")
+query2.fields("points")
 
 //: Subscribe to your new query.
 let subscription2 = query2.subscribeCallback!

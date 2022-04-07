@@ -10,12 +10,12 @@ import Foundation
 
 enum ParseConstants {
     static let sdk = "swift"
-    static let version = "1.8.4"
-    static let hashingKey = "parseSwift"
+    static let version = "4.2.0"
     static let fileManagementDirectory = "parse/"
     static let fileManagementPrivateDocumentsDirectory = "Private Documents/"
     static let fileManagementLibraryDirectory = "Library/"
     static let fileDownloadsDirectory = "Downloads"
+    static let bundlePrefix = "com.parse.ParseSwift"
     static let batchLimit = 50
     #if os(iOS)
     static let deviceType = "ios"
@@ -29,5 +29,11 @@ enum ParseConstants {
     static let deviceType = "linux"
     #elseif os(Android)
     static let deviceType = "android"
+    #elseif os(Windows)
+    static let deviceType = "windows"
     #endif
+}
+
+enum Method: String {
+    case save, create, replace, update
 }

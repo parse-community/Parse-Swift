@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if !os(Linux) && !os(Android)
+#if !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -14,7 +14,6 @@ import XCTest
 import Combine
 #endif
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseLiveQueryCombineTests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -34,7 +33,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -42,7 +41,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
     }
 
     func testOpen() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -70,7 +69,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
     }
 
     func testPingSocketNotEstablished() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }
@@ -86,13 +85,14 @@ class ParseLiveQueryCombineTests: XCTestCase {
                     XCTFail("Should have produced failure")
                 case .failure(let error):
                     XCTAssertEqual(client.isSocketEstablished, false)
-                    guard let parseError = error as? ParseError else {
+                    guard let urlError = error as? URLError else {
                         XCTFail("Should have casted to ParseError.")
                         expectation1.fulfill()
                         return
                     }
-                    XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
-                    XCTAssertTrue(parseError.message.contains("socket status"))
+                    // "Could not connect to the server"
+                    // because webSocket connections are not intercepted.
+                    XCTAssertTrue([-1004, -1022].contains(urlError.errorCode))
                 }
                 expectation1.fulfill()
 
@@ -104,7 +104,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
     }
 
     func testPing() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
+        guard let client = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to get client")
             return
         }

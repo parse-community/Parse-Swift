@@ -15,20 +15,43 @@ initializeParse()
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int? = 0
     var profilePicture: ParseFile?
     var myData: ParseFile?
 
-    //custom initializer
-    init(score: Int) {
-        self.score = score
+    //: Implement your own version of merge
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.profilePicture,
+                                     original: object) {
+            updated.profilePicture = object.profilePicture
+        }
+        if updated.shouldRestoreKey(\.myData,
+                                     original: object) {
+            updated.myData = object.myData
+        }
+        return updated
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the memberwise initializer.
+extension GameScore {
+    //: Custom initializer.
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -37,7 +60,7 @@ struct GameScore: ParseObject {
 }
 
 //: Define initial GameScore.
-var score = GameScore(score: 52)
+var score = GameScore(points: 52)
 
 //: Set the link online for the file.
 let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg")!
@@ -58,8 +81,7 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.ACL == nil)
-        assert(savedScore.score == 52)
+        assert(savedScore.points == 52)
         assert(savedScore.profilePicture != nil)
 
         print("Your profile picture has been successfully saved")
@@ -103,7 +125,7 @@ let sampleData = "Hello World".data(using: .utf8)!
 let helloFile = ParseFile(name: "hello.txt", data: sampleData)
 
 //: Define another GameScore.
-var score2 = GameScore(score: 105)
+var score2 = GameScore(points: 105)
 score2.myData = helloFile
 
 //: Save synchronously (not preferred - all operations on main queue).

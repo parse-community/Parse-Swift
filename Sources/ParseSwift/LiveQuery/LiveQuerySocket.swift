@@ -5,16 +5,16 @@
 //  Created by Corey Baker on 12/31/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if !os(Linux) && !os(Android)
+#if !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 final class LiveQuerySocket: NSObject {
     private var session: URLSession!
     var delegates = [URLSessionWebSocketTask: LiveQuerySocketDelegate]()
+    var receivingTasks = [URLSessionWebSocketTask: Bool]()
     weak var authenticationDelegate: LiveQuerySocketDelegate?
 
     override init() {
@@ -22,21 +22,26 @@ final class LiveQuerySocket: NSObject {
         session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
     }
 
-    func createTask(_ url: URL) -> URLSessionWebSocketTask {
+    func createTask(_ url: URL, taskDelegate: LiveQuerySocketDelegate) -> URLSessionWebSocketTask {
         let task = session.webSocketTask(with: url)
+        delegates[task] = taskDelegate
+        receive(task)
         return task
+    }
+
+    func removeTaskFromDelegates(_ task: URLSessionWebSocketTask) {
+        receivingTasks.removeValue(forKey: task)
+        delegates.removeValue(forKey: task)
     }
 
     func closeAll() {
         delegates.forEach { (_, client) -> Void in
             client.close(useDedicatedQueue: false)
         }
-        authenticationDelegate = nil
     }
 }
 
 // MARK: Status
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     enum Status: String {
         case open
@@ -45,7 +50,6 @@ extension LiveQuerySocket {
 }
 
 // MARK: Connect
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     func connect(task: URLSessionWebSocketTask,
                  completion: @escaping (Error?) -> Void) throws {
@@ -59,21 +63,6 @@ extension LiveQuerySocket {
             return
         }
         task.send(.string(encodedAsString)) { error in
-            completion(error)
-        }
-        self.receive(task)
-    }
-}
-
-// MARK: Send
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-extension LiveQuerySocket {
-    func send(_ data: Data, task: URLSessionWebSocketTask, completion: @escaping (Error?) -> Void) {
-        guard let encodedAsString = String(data: data, encoding: .utf8) else {
-            completion(nil)
-            return
-        }
-        task.send(.string(encodedAsString)) { error in
             if error == nil {
                 self.receive(task)
             }
@@ -82,33 +71,54 @@ extension LiveQuerySocket {
     }
 }
 
+// MARK: Send
+extension LiveQuerySocket {
+    func send(_ data: Data, task: URLSessionWebSocketTask, completion: @escaping (Error?) -> Void) {
+        guard let encodedAsString = String(data: data, encoding: .utf8) else {
+            completion(nil)
+            return
+        }
+        task.send(.string(encodedAsString)) { error in
+            completion(error)
+        }
+    }
+}
+
 // MARK: Receive
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
 
     func receive(_ task: URLSessionWebSocketTask) {
+        if receivingTasks[task] != nil {
+            // Receive has already been called for this task
+            return
+        }
+        receivingTasks[task] = true
         task.receive { result in
+            self.receivingTasks.removeValue(forKey: task)
             switch result {
             case .success(.string(let message)):
-                guard let data = message.data(using: .utf8) else {
-                    return
+                if let data = message.data(using: .utf8) {
+                    self.delegates[task]?.received(data)
+                } else {
+                    let parseError = ParseError(code: .unknownError,
+                                                message: "Couldn't encode LiveQuery string as data")
+                    self.delegates[task]?.receivedError(parseError)
                 }
-                self.delegates[task]?.received(data)
                 self.receive(task)
             case .success(.data(let data)):
                 self.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
+                self.receive(task)
             case .success(let message):
                 self.delegates[task]?.receivedUnsupported(nil, socketMessage: message)
+                self.receive(task)
             case .failure(let error):
-                let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                self.delegates[task]?.receivedError(parseError)
+                self.delegates[task]?.receivedError(error)
             }
         }
     }
 }
 
 // MARK: Ping
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
 
     func sendPing(_ task: URLSessionWebSocketTask, pongReceiveHandler: @escaping (Error?) -> Void) {
@@ -117,13 +127,11 @@ extension LiveQuerySocket {
 }
 
 // MARK: URLSession
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension URLSession {
     static let liveQuery = LiveQuerySocket()
 }
 
 // MARK: URLSessionWebSocketDelegate
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession,
                     webSocketTask: URLSessionWebSocketTask,

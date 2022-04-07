@@ -52,6 +52,14 @@ extension Objectable {
     public var className: String {
         return Self.className
     }
+
+    static func createHash(_ object: Encodable) throws -> String {
+        let encoded = try ParseCoding.parseEncoder().encode(object)
+        guard let hashString = String(data: encoded, encoding: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Couldn't create hash")
+        }
+        return hashString
+    }
 }
 
 // MARK: Convenience
@@ -64,8 +72,9 @@ extension Objectable {
         return .objects(className: className)
     }
 
-    var isSaved: Bool {
-        if !ParseSwift.configuration.allowCustomObjectId {
+    /// Specifies if a `ParseObject` has been saved.
+    public var isSaved: Bool {
+        if !ParseSwift.configuration.isAllowingCustomObjectIds {
             return objectId != nil
         } else {
             return objectId != nil && createdAt != nil
@@ -77,30 +86,10 @@ extension Objectable {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !ParseSwift.configuration.allowCustomObjectId || method != .POST {
+        if !ParseSwift.configuration.isAllowingCustomObjectIds || method != .POST {
             return endpoint
         } else {
             return .objects(className: className)
-        }
-    }
-}
-
-internal struct UniqueObject: Encodable, Decodable, Hashable {
-    let objectId: String
-
-    init?(target: Encodable) {
-        guard let objectable = target as? Objectable,
-              let objectId = objectable.objectId else {
-            return nil
-        }
-        self.objectId = objectId
-    }
-
-    init?(target: Objectable) {
-        if let objectId = target.objectId {
-            self.objectId = objectId
-        } else {
-            return nil
         }
     }
 }

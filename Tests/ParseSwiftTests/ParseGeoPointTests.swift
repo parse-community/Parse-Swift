@@ -29,7 +29,7 @@ class ParseGeoPointTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -40,19 +40,44 @@ class ParseGeoPointTests: XCTestCase {
         // Check default values
         XCTAssertEqual(point.latitude, 0.0, accuracy: 0.00001, "Latitude should be 0.0")
         XCTAssertEqual(point.longitude, 0.0, accuracy: 0.00001, "Longitude should be 0.0")
+        XCTAssertThrowsError(try ParseGeoPoint(latitude: 100, longitude: 0))
+        XCTAssertThrowsError(try ParseGeoPoint(latitude: -100, longitude: 0))
+        XCTAssertThrowsError(try ParseGeoPoint(latitude: 0, longitude: 200))
+        XCTAssertThrowsError(try ParseGeoPoint(latitude: 0, longitude: -200))
     }
 
     #if canImport(CoreLocation)
-    func testGeoPointFromLocation() {
+    func testGeoPointFromLocation() throws {
         let location = CLLocation(latitude: 10.0, longitude: 20.0)
-        let geoPoint = ParseGeoPoint(location: location)
+        let geoPoint = try ParseGeoPoint(location: location)
         XCTAssertEqual(geoPoint.latitude, location.coordinate.latitude)
         XCTAssertEqual(geoPoint.longitude, location.coordinate.longitude)
     }
+
+    func testGeoPointFromLocationCoordinate2D() throws {
+        let location = CLLocationCoordinate2D(latitude: 10.0, longitude: 20.0)
+        let geoPoint = try ParseGeoPoint(coordinate: location)
+        XCTAssertEqual(geoPoint.latitude, location.latitude)
+        XCTAssertEqual(geoPoint.longitude, location.longitude)
+    }
+
+    func testToCLLocation() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let location = point.toCLLocation()
+        XCTAssertEqual(point.latitude, location.coordinate.latitude)
+        XCTAssertEqual(point.longitude, location.coordinate.longitude)
+    }
+
+    func testToCLLocationCoordinate2D() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let location = point.toCLLocationCoordinate2D()
+        XCTAssertEqual(point.latitude, location.latitude)
+        XCTAssertEqual(point.longitude, location.longitude)
+    }
     #endif
 
-    func testGeoPointEncoding() {
-        let point = ParseGeoPoint(latitude: 10, longitude: 20)
+    func testGeoPointEncoding() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
 
         do {
             let encoded = try ParseCoding.jsonEncoder().encode(point)
@@ -63,16 +88,20 @@ class ParseGeoPointTests: XCTestCase {
         }
     }
 
-    #if !os(Linux) && !os(Android)
-    func testDebugString() {
-        let point = ParseGeoPoint(latitude: 10, longitude: 20)
-        let expected = "GeoPoint ({\"__type\":\"GeoPoint\",\"longitude\":20,\"latitude\":10})"
+    func testDebugString() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
         XCTAssertEqual(point.debugDescription, expected)
     }
-    #endif
+
+    func testDescription() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
+        XCTAssertEqual(point.description, expected)
+    }
 
     // swiftlint:disable:next function_body_length
-    func testGeoUtilityDistance() {
+    func testGeoUtilityDistance() throws {
         let d2R = Double.pi / 180.0
         var pointA = ParseGeoPoint()
         var pointB = ParseGeoPoint()
@@ -145,28 +174,28 @@ class ParseGeoPointTests: XCTestCase {
                        accuracy: 0.01, "Sydney to Buenos Aires Fail")
 
         // [SAC]  38.52  -121.50  Sacramento,CA
-        let sacramento = ParseGeoPoint(latitude: 38.52, longitude: -121.50)
+        let sacramento = try ParseGeoPoint(latitude: 38.52, longitude: -121.50)
 
         // [HNL]  21.35  -157.93  Honolulu Int,HI
-        let honolulu = ParseGeoPoint(latitude: 21.35, longitude: -157.93)
+        let honolulu = try ParseGeoPoint(latitude: 21.35, longitude: -157.93)
 
         // [51Q]  37.75  -122.68  San Francisco,CA
-        let sanfran = ParseGeoPoint(latitude: 37.75, longitude: -122.68)
+        let sanfran = try ParseGeoPoint(latitude: 37.75, longitude: -122.68)
 
         // Vorkuta 67.509619,64.085999
-        let vorkuta = ParseGeoPoint(latitude: 67.509619, longitude: 64.085999)
+        let vorkuta = try ParseGeoPoint(latitude: 67.509619, longitude: 64.085999)
 
         // London
-        let london = ParseGeoPoint(latitude: 51.501904, longitude: -0.115356)
+        let london = try ParseGeoPoint(latitude: 51.501904, longitude: -0.115356)
 
         // Northampton
-        let northhampton = ParseGeoPoint(latitude: 52.241256, longitude: -0.895386)
+        let northhampton = try ParseGeoPoint(latitude: 52.241256, longitude: -0.895386)
 
         // Powell St BART station
-        let powell = ParseGeoPoint(latitude: 37.78507, longitude: -122.407007)
+        let powell = try ParseGeoPoint(latitude: 37.78507, longitude: -122.407007)
 
         // Apple store
-        let astore = ParseGeoPoint(latitude: 37.785809, longitude: -122.406363)
+        let astore = try ParseGeoPoint(latitude: 37.785809, longitude: -122.406363)
 
         // Self
         XCTAssertEqual(honolulu.distanceInKilometers(honolulu), 0.0,
@@ -200,9 +229,10 @@ class ParseGeoPointTests: XCTestCase {
                        accuracy: 100.0, "Sacramento to Vorkuta")
     }
 
-    func testDebugGeoPoint() {
-        let point = ParseGeoPoint(latitude: 10, longitude: 20)
+    func testDebugGeoPoint() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
         XCTAssertTrue(point.debugDescription.contains("10"))
         XCTAssertTrue(point.debugDescription.contains("20"))
     }
+
 }

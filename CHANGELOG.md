@@ -1,16 +1,362 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...main)
+
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
 
 __Improvements__
 - Use hashable when saving child ParseObjects  ([#177](https://github.com/parse-community/Parse-Swift/pull/177)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+### 4.2.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.1.0...4.2.0)
+
+__New features__
+- Add variadic QueryConstraint methods for or, nor, and ([#345](https://github.com/parse-community/Parse-Swift/pull/345)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Add clientDefault static property to ParseLiveQuery which replaces the getDefault() method. getDefault() is still avaiable, but will be deprecated in ParseSwift 5.0.0 so it is recommended to switch to clientDefault ([#342](https://github.com/parse-community/Parse-Swift/pull/342)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.1...4.1.0)
+
+__Improvements__
+- Let the OS and developer decide if app tracking authorization is required when using ParseAnalytics. ParseAnalytics can now take any Codable value in its' dimensions instead of just strings. Added a new property "date" to ParseAnalytics. The "at" property will be deprecated in ParseSwift 5.0.0, so developers should switch to "date". ParseAnalytics can now be properly decoded after encoding with a JSONEncoder. This is useful if ParseAnalytics need to be stored locally and sent to the server later ([#341](https://github.com/parse-community/Parse-Swift/pull/341)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.0.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...4.0.1)
+
+__Fixes__
+- Allow ParseRole's to be updated when the SDK is allowing custom objectId's ([#338](https://github.com/parse-community/Parse-Swift/pull/338)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.0.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...4.0.0)
+
+__New features__
+- Add the verifyPassword to ParseUser. This method defaults to using POST though POST is not available on the current Parse Server. Change userPost == false to use GET on older Parse Servers ([#333](https://github.com/parse-community/Parse-Swift/pull/333)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Bump the SPM toolchain from 5.1 to 5.5. This is done to take advantage of features in the latest toolchain. For developers using < Xcode 13 and depending on the Swift SDK through SPM, this will cause a break. You can either upgrade your Xcode or use Cocoapods or Carthage to depend on ParseSwift ([#326](https://github.com/parse-community/Parse-Swift/pull/326)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the .mergeable property. To do this, developers need to add an implementation of merge() to respective ParseObject's. The compiler will recommend the new originalData property be added to every ParseObject. If you used ParseObjectMutable in the past, you should remove it as it is now part of ParseObject. In addition, all ParseObject properties should be optional and every object needs to have a default initializer of init(). See the Playgrounds for recommendations on how to define a ParseObject. Look at the PR for details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add DocC for SDK documentation ([#209](https://github.com/parse-community/Parse-Swift/pull/214)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- (Breaking Change) Make ParseRelation conform to Codable and add methods to make decoded stored ParseRelations "usable". ParseObjects can now contain properties of ParseRelation<Self>. In addition, ParseRelations can now be made from ParseObject pointers. For ParseRole, the computed properties: users and roles, are now optional. The queryRoles property has been changed to queryRoles() to improve the handling of thrown errors ([#328](https://github.com/parse-community/Parse-Swift/pull/328)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Change the following method parameter names: isUsingTransactions -> usingTransactions, isAllowingCustomObjectIds -> allowingCustomObjectIds, isUsingEqualQueryConstraint -> usingEqualQueryConstraint, isMigratingFromObjcSDK -> migratingFromObjcSDK, isDeletingKeychainIfNeeded -> deletingKeychainIfNeeded ([#323](https://github.com/parse-community/Parse-Swift/pull/323)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Async/await methods that return void would no throw errors received from server ([#334](https://github.com/parse-community/Parse-Swift/pull/334)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Always check for ParseError first when decoding responses from the server. Before this fix, this could cause issues depending on how calls are made from the Swift SDK ([#332](https://github.com/parse-community/Parse-Swift/pull/332)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 3.1.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...3.1.2)
+
+__Fixes__
+- Allowing building of the Swift SDK for Swift 5.5.0 and 5.5.1 re-enabling builds for Xcode 13.0 and 13.1. Note that async/await functionality is only available for Swift 5.5.2+ and Xcode 13.2+ ([#320](https://github.com/parse-community/Parse-Swift/pull/320)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Move the var score: Double? to a protocol named ParseQueryScorable. When developers want to sort by score using a matchesText QueryConstraint, they just conform their ParseObject's to ParseQueryScorable ([#319](https://github.com/parse-community/Parse-Swift/pull/319)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 3.1.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...3.1.1)
+
+__Fixes__
+- Always sort keys when using the ParseEncoder as it can cause issues when trying to save ParseObject's that have children ([#318](https://github.com/parse-community/Parse-Swift/pull/318)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 3.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...3.1.0)
+
+__New features__
+- Add the ability to explain MongoDB queries by setting usingMongoDB = true for the respective explain query ([#314](https://github.com/parse-community/Parse-Swift/pull/314)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 3.0.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.1...3.0.0)
+
+__New features__
+- Adds equalTo QueryConstraint along with ability to change the SDK default behavior of using $eq QueryConstraint parameter or not ([#310](https://github.com/parse-community/Parse-Swift/pull/310)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds isNull and isNotNull QueryConstraint along with the ability set/forceSet null using ParseOperation ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds auth support for GitHub, Google, and LinkedIn ([#307](https://github.com/parse-community/Parse-Swift/pull/307)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Adds options to matchesText QueryConstraint along with the ability to see matching score. The compiler will recommend the new score property be added to all ParseObjects ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds withCount query ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- (Breaking Change) Change boolean configuration parameters to match Swift conventions. The compilor should help with name changes ([#311](https://github.com/parse-community/Parse-Swift/pull/311)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Improve QueryWhere by making at a set of QueryConstraint's instead of any array. This dedupes the same constraint when encoding the query; improving the encoding speed when the same constraints are added ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.5.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.0...2.5.1)
+
+__Improvements__
+- Reduce call sites by having all methods with variadic arguments call their array counterparts ([#301](https://github.com/parse-community/Parse-Swift/pull/301)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Let additional headers accept [AnyHashable: Any] ([#302](https://github.com/parse-community/Parse-Swift/pull/302)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Throw .missingObjectId when missing the client detects a missing objectId instead of throwing an .unknown error ([#300](https://github.com/parse-community/Parse-Swift/pull/300)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.5.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.4.0...2.5.0)
+
+__New features__
+- Added create(), replace(), update(), createAll(), replaceAll(), and updateAll() to ParseObjects. Currently, update() and updateAll() are unavaivalble due to limitations of PATCH on the Parse Server ([#299](https://github.com/parse-community/Parse-Swift/pull/299)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added convenience methods to convert ParseObject's to Pointer<ParseObject>'s for QueryConstraint's: !=, containedIn, notContainedIn, containedBy, containsAll ([#298](https://github.com/parse-community/Parse-Swift/pull/298)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.4.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.1...2.4.0)
+
+__New features__
+- Added additional methods to ParseRelation to make it easier to create and query relations ([#294](https://github.com/parse-community/Parse-Swift/pull/294)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. All async/await methods are MainActor's. Requires Xcode 13.2 or above to use async/await. Not compatible with Xcode 13.0/1, will need to upgrade to 13.2+. Still works with Xcode 11/12 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- When transactions are enabled errors are now thrown from the client if the amount of objects in a transaction exceeds the batch size. An error will also be thrown if a developer attempts to save objects in a transation that has unsaved children ([#295](https://github.com/parse-community/Parse-Swift/pull/294)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.3.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.0...2.3.1)
+
+__Fixes__
+- Fixed an issue where querying an object didn't dispatch to the proper queue which can cause app crashes ([#293](https://github.com/parse-community/Parse-Swift/pull/293)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.3.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.6...2.3.0)
+
+__New features__
+- Add a retry mechanism to the SDK that randomly (up to 3 seconds each) tries to reconnect up to 5 times. The developer can increase or reduce the amount of retries when configuring the SDK ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add toCLLocation and toCLLocationCoordinate2D methods for easy conversion from a ParseGeoPoint object ([#287](https://github.com/parse-community/Parse-Swift/pull/287)), thanks to [Jayson Ng](https://github.com/jaysonng).
+
+__Fixes__
+- Fixed an issue where an annonymous couldn't be turned into a regular user using signup ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
+- The default ACL is now deleted from the keychain when a user is logged out. This previously caused an issue when logging out a user and logging in as a different user caused all objects to only have ACL permisions for the logged in user ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.5...2.2.6)
+
+__Fixes__
+- Use default ACL automatically on newley created ParseObject's if a default ACL is available ([#284](https://github.com/parse-community/Parse-Swift/pull/284)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...2.2.5)
+
+__Fixes__
+- Overload QueryConstraint to accept Pointer<ParseObject> ([#281](https://github.com/parse-community/Parse-Swift/pull/281)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add checks to build for Windows ([#281](https://github.com/parse-community/Parse-Swift/pull/281)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.3...2.2.4)
+
+__Fixes__
+- Delete all stored Parse data and cache when isDeletingKeychainIfNeeded is true ([#280](https://github.com/parse-community/Parse-Swift/pull/280)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.2...2.2.3)
+
+__Fixes__
+- Improve dpcumentation ([#276](https://github.com/parse-community/Parse-Swift/pull/276)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.1...2.2.2)
+
+__Fixes__
+- Improve equatable comparison of QueryConstraint ([#275](https://github.com/parse-community/Parse-Swift/pull/275)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.0...2.2.1)
+
+__Fixes__
+- Set the default cache policy for ParseFile to the default policy set when initializing the SDK ([#274](https://github.com/parse-community/Parse-Swift/pull/274)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.1.0...2.2.0)
+
+__Improvements__
+- Added ability to fetch ParsePointer using async/await ([#271](https://github.com/parse-community/Parse-Swift/pull/271)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- By default, don't use cache when fetching ParseObject's and ParseFile's. Developers can choose to fetch from cache if desired by passing the necessary option while fetching. Fixed a bug when the incorrect file location for a dowloaded ParseFile was being cached ([#272](https://github.com/parse-community/Parse-Swift/pull/272)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.3...2.1.0)
+
+__Improvements__
+- Make ParseUser.current, ParseInstallation.current, ParseConfig.current immutable. This prevents accidently setting to nil. When developers want to make changes, they should make mutable copies, mutate, then save ([#266](https://github.com/parse-community/Parse-Swift/pull/266)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added the ParseObjectMutable protocol to make emptyObject more developer friendly ([#270](https://github.com/parse-community/Parse-Swift/pull/270)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).
+
+
+### 2.0.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.2...2.0.3)
+
+__Fixes__
+- Async/await methods should be available for watchOS 8+ ([#265](https://github.com/parse-community/Parse-Swift/pull/265)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.0.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.1...2.0.2)
+
+__Improvements__
+- Add static methods for accessing encoders/decoder so developers do not have to create instances to access ([#259](https://github.com/parse-community/Parse-Swift/pull/259)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Parse ViewModels always dispatch to the main queue when updating published properties. This prevents possible issues when background async calls update properties used for views ([#260](https://github.com/parse-community/Parse-Swift/pull/260)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.0.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.0...2.0.1)
+
+__Fixes__
+- ParseUser should only encode email when User.current?.email is different from current user email ([#256](https://github.com/parse-community/Parse-Swift/pull/256)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.0.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.11.0...2.0.0)
+
+__New features__
+- Added option to delete Parse items from Keychain when the app is running for the first time  ([#254](https://github.com/parse-community/Parse-Swift/pull/254)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- (Breaking Change) ParseObject's now conform to Identifiable and can be used directly with SwiftUI without additonal properties needed. Drops support for iOS 12, tvOS 12, watchOS 5, and macOS 10.13/14 ([#254](https://github.com/parse-community/Parse-Swift/pull/254)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.11.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.4...1.11.0)
+
+__Improvements__
+- Added `operation` for `set` and `forceSet`, used for single key updates ([#248](https://github.com/parse-community/Parse-Swift/pull/248)), thanks to [Daniel Blyth](https://github.com/dblythy) and [Corey Baker](https://github.com/cbaker6).
+- Add more detail to invalid struct errors ([#238](https://github.com/parse-community/Parse-Swift/pull/238)), thanks to [Daniel Blyth](https://github.com/dblythy).
+
+### 1.10.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.3...1.10.4)
+
+__Improvements__
+- Improve documentation for ParseObject ([#253](https://github.com/parse-community/Parse-Swift/pull/253)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.10.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.2...1.10.3)
+
+__Improvements__
+- Update documents to show new Swift 5.5 async/await methods ([#252](https://github.com/parse-community/Parse-Swift/pull/252)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.10.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.1...1.10.2)
+
+__New features__
+- Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Added an extension to compare a Swift Error with a single ParseError or multiple ParseErrors ([#250](https://github.com/parse-community/Parse-Swift/pull/250)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).
+
+### 1.10.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.0...1.10.1)
+
+__Improvements__
+- Removes emptyObject requirement that was added in #243. Instead, has a recommendation in playgrounds on how to use emptyObject to only send select modified keys to the server ([#249](https://github.com/parse-community/Parse-Swift/pull/249)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.10.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.10...1.10.0)
+
+__Improvements__
+- (Breaking Change) Provide ParseObject property, emptyObject, that makes it easy to send only modified keys to the server. This change "might" be breaking depending on your implementation as it requires ParseObjects to now have an empty initializer, init() ([#243](https://github.com/parse-community/Parse-Swift/pull/243)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- ParseUser shouldn't send email if it hasn't been modified or else email verification is resent ([#241](https://github.com/parse-community/Parse-Swift/pull/241)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.10
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.9...1.9.10)
+
+__Fixes__
+- ParseInstallation can't be retreived from Keychain after the first fun ([#236](https://github.com/parse-community/Parse-Swift/pull/236)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.9
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.8...1.9.9)
+
+__Fixes__
+- Saving ParseObjects with ParseFile properties now saves files on background queue ([#230](https://github.com/parse-community/Parse-Swift/pull/230)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.8
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...1.9.8)
+
+__Fixes__
+- Use a seperate Keychain for each app bundleId. This only effects macOS apps as their Keychain is handled by the OS differently. For macOS app developers only, the user who logged in last to your app will have their Keychain upgraded to the patched version. Other users/apps will either need to login again or logout then login again ([#224](https://github.com/parse-community/Parse-Swift/pull/224)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.7
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...1.9.7)
+
+__Improvements__
+- Properly allow a mixed custom objectId environment without compromising safety checks using .save(). If a developer wants to ignore the objectId checks, they need to specify ignoringCustomObjectIdConfig = true each time ([#222](https://github.com/parse-community/Parse-Swift/pull/222)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...1.9.6)
+
+__Fixes__
+- Query withinMiles and withinKilometers was not returning unsorted results when sort=false ([#219](https://github.com/parse-community/Parse-Swift/pull/219)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...1.9.5)
+
+__Improvements__
+- LiveQuery web socket connections handle URL error codes -1001 "The request timed out" and -1011 "There was a bad response from the server." ([#217](https://github.com/parse-community/Parse-Swift/pull/217)), thanks to [Lukas Smilek](https://github.com/lsmilek1).
+
+### 1.9.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...1.9.4)
+
+__Fixes__
+- Fix LiveQuery reconnections when server disconnects. Always receive and pass connection errors to ParseLiveQuery delegate ([#211](https://github.com/parse-community/Parse-Swift/pull/211)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.2...1.9.3)
+
+__Improvements__
+- Ensure delegate set before resuming a ParseLiveQuery task ([#209](https://github.com/parse-community/Parse-Swift/pull/209)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.1...1.9.2)
+
+__Improvements__
+- ParseLiveQuery checks all states of a websocket and reacts as needed after an error ([#207](https://github.com/parse-community/Parse-Swift/pull/207)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.0...1.9.1)
+
+__Improvements__
+- Clear caching when a user logs out ([#198](https://github.com/parse-community/Parse-Swift/pull/198)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Close all LiveQuery connections when a user logs out ([#199](https://github.com/parse-community/Parse-Swift/pull/199)), thanks to [Corey Baker](https://github.com/cbaker6).
+- ParseLiveQuery attempts to reconnect upon disconnection error ([#204](https://github.com/parse-community/Parse-Swift/pull/204)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Make ParseFileManager public so developers can easily find the location of ParseFiles ([#205](https://github.com/parse-community/Parse-Swift/pull/205)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Fix Facebook and Twitter login setting incorrect keys ([#202](https://github.com/parse-community/Parse-Swift/pull/202)), thanks to [Daniel Blyth](https://github.com/dblythy).
+
+### 1.9.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.6...1.9.0)
+
+__New features__
+- (Breaking Change) Added a new type, QueryViewModel which conforms to ObservableObject. The new type serves as a view model property for any Parse Query. Simply call query.viewModel to use the view model with any SwiftUI view. QueryViewModel can be subclassed for customization. In addition, developers can create their own view models for queries by conforming to QueryObservable. LiveQuery Subscription's inherrit from QueryViewModel meaning instances of Subscription provides a single view model that publishes updates from LiveQuery events and traditional find, first, count, and aggregate queries. A breaking change is introduced for those use custom subscriptions as ParseSubscription has been renamed to QuerySubscribable ([#183](https://github.com/parse-community/Parse-Swift/pull/183)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added a new type, CloudViewModel which conforms to ObservableObject. The new type serves as a view model property for any Cloud Code. Simply call cloud.viewModel to use the view model with any SwiftUI view. CloudViewModel can be subclassed for customization. In addition, developers can create their own view models for queries by conforming to CloudObservable ([#183](https://github.com/parse-community/Parse-Swift/pull/183)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added two missing Parse types, ParseBytes and ParsePolygon ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added caching of http requests along with adding additional headers. Caching and additional headers can be set when initializing the SDK. Caching can also be set per request using API.Options ([#196](https://github.com/parse-community/Parse-Swift/pull/196)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Removed CommonCrypto and now uses encoded string as a hash for child ParseObjects across all OS's ([#184](https://github.com/parse-community/Parse-Swift/pull/184)), thanks to [Corey Baker](https://github.com/cbaker6).
+- All types now conform to CustomStringConvertible ([#185](https://github.com/parse-community/Parse-Swift/pull/185)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Setting limit = 0 of a query doesn't query the server and instead just returns empty or no results depending on the query ([#189](https://github.com/parse-community/Parse-Swift/pull/189)), thanks to [Corey Baker](https://github.com/cbaker6).
+- ParseGeoPoint initializer now throws if geopoints are out-of-bounds instead of asserting ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Persist all properties of ParseUser and ParseInstallation to keychain so they can be accessed via current. Developers don't have to fetch the ParseUser or ParseInstlation after app restart anymore ([#191](https://github.com/parse-community/Parse-Swift/pull/191)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Fixed a bug when signing up from a ParseUser instance resulted in custom keys not being persisted to the keychain ([#187](https://github.com/parse-community/Parse-Swift/pull/187)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fixed a bug where countExplain query result wasn't returned as an array  ([#189](https://github.com/parse-community/Parse-Swift/pull/189)), thanks to [Corey Baker](https://github.com/cbaker6).
+- The query withinPolygon(key: String, points: [ParseGeoPoint]) now works correctly and sends an array of doubles instead of an array of GeoPoint's ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fixed a bug where the ParseEncoder incorrectly detects a circular dependency when two child objects are the same ([#194](https://github.com/parse-community/Parse-Swift/pull/194)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Make sure all LiveQuery socket changes are received on the correct queue to prevent threading issues ([#195](https://github.com/parse-community/Parse-Swift/pull/195)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.8.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...1.8.6)
+
+__Improvements__
+- Added SwiftUI query combine example to playgrounds. Skip id when encoding ParseObjects ([#181](https://github.com/parse-community/Parse-Swift/pull/181)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Persist current SDK version for migrating between versions ([#182](https://github.com/parse-community/Parse-Swift/pull/182)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.8.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...1.8.5)
+>>>>>>> main
+
 __Fixes__
 - Fixed a bug in LiveQuery when a close frame is sent from the server that resulted in closing
 all running websocket tasks instead of the particular task the request was intended for. The fix
-includes a new delegate method named `closedSocket()` which provides the close code 
+includes a new delegate method named `closedSocket()` which provides the close code
 and reason the server closed the connection ([#176](https://github.com/parse-community/Parse-Swift/pull/176)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.4
@@ -30,7 +376,7 @@ __Fixes__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.1...1.8.2)
 
 __Improvements__
-- Ensure pipeline and fields are checked when comparing queries  ([#163](https://github.com/parse-community/Parse-Swift/pull/163)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Ensure pipeline and fields are checked when comparing queries ([#163](https://github.com/parse-community/Parse-Swift/pull/163)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Allow custom error codes to be thrown from Cloud Functions ([#165](https://github.com/parse-community/Parse-Swift/pull/165)), thanks to [Daniel Blyth](https://github.com/dblythy).
 
 ### 1.8.1
@@ -40,7 +386,7 @@ __Improvements__
 - Append instead of replace when using query select, exclude, include, and fields ([#155](https://github.com/parse-community/Parse-Swift/pull/155)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
-- Transactions currently don't work when using mongoDB(postgres does work) on the parse-server. Internal use of transactions are disabled by default. If you want the Swift SDK to use transactions internally, you need to set useTransactionsInternally=true when configuring the client. It is recommended not to use transactions if you are using mongoDB until it's fixed on the server ([#158](https://github.com/parse-community/Parse-Swift/pull/158)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Transactions currently don't work when using MongoDB(postgres does work) on the parse-server. Internal use of transactions are disabled by default. If you want the Swift SDK to use transactions internally, you need to set isUsingTransactionsInternally=true when configuring the client. It is recommended not to use transactions if you are using MongoDB until it's fixed on the server ([#158](https://github.com/parse-community/Parse-Swift/pull/158)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.2...1.8.0)
@@ -85,7 +431,7 @@ __Improvements__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.1...1.6.0)
 
 __Improvements__
-- Make AnyCodable internal. If developers want to use AnyCodable, AnyEncodable, or AnyDecodable for `explain` or `ParseCloud`, they should add the [AnyCodable](https://github.com/Flight-School/AnyCodable) package to their app. In addition developers can create their own type-erased wrappers or use whatever they desire  ([#127](https://github.com/parse-community/Parse-Swift/pull/127)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Make AnyCodable internal. If developers want to use AnyCodable, AnyEncodable, or AnyDecodable for `explain` or `ParseCloud`, they should add the [AnyCodable](https://github.com/Flight-School/AnyCodable) package to their app. In addition developers can create their own type-erased wrappers or use whatever they desire ([#127](https://github.com/parse-community/Parse-Swift/pull/127)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.5.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.0...1.5.1)
@@ -120,7 +466,7 @@ __Improvements__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.6...1.3.0)
 
 __Improvements__
-- (Breaking Change) No longer require dispatch to main queue when using ParseInstallation. The side effect of this is bade is no longer retrieved by the SDK. The developer should retrieve the badge count on their own and save it to `ParseInstallation` if they require badge ([#114](https://github.com/parse-community/Parse-Swift/pull/114)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) No longer require dispatch to main queue when using ParseInstallation. The side effect of this is badge is no longer retrieved by the SDK. The developer should retrieve the badge count on their own and save it to `ParseInstallation` if they require badge ([#114](https://github.com/parse-community/Parse-Swift/pull/114)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - (Breaking Change) Correctly saves objectId of ParseInstallation to Keychain when saving to server. Also fixes issue when using deleteAll with current ParseUser and ParseInstallation. Old installations will automatically be migrated to the new one. If you end up having issues you can delete all of the installations in your ParseDashboard that were created with Parse-Swift < 1.30. If you are not able to do this, you can all log out of devices using Parse-Swift < 1.30 and then log back in ([#116](https://github.com/parse-community/Parse-Swift/pull/116)), thanks to [Corey Baker](https://github.com/cbaker6).
@@ -279,7 +625,7 @@ __Improvements__
 
 __Fixes__
 - Delete current installation during logout ([#52](https://github.com/parse-community/Parse-Swift/pull/52)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Parse server supports `$eq`, but this isn't supported by LiveQueryServer, switched to supported ([#48](https://github.com/parse-community/Parse-Swift/pull/48)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Parse server supports `$eq`, but this isn't supported by LiveQueryServer, switched to supported ([#49](https://github.com/parse-community/Parse-Swift/pull/49)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Bug when updating a ParseObject bug where objects was accidently converted to pointers ([#48](https://github.com/parse-community/Parse-Swift/pull/48)), thanks to [Corey Baker](https://github.com/cbaker6).
 - User logout was calling the wrong endpoint ([#43](https://github.com/parse-community/Parse-Swift/pull/43)), thanks to [Corey Baker](https://github.com/cbaker6) and [Tom Fox](https://github.com/TomWFox).
 - Fix an issue where ACL was overwritten with nil ([#40](https://github.com/parse-community/Parse-Swift/pull/40)), thanks to [Corey Baker](https://github.com/cbaker6).

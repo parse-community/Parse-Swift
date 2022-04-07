@@ -15,26 +15,34 @@ initializeParse()
 
 //: To track when the app has been opened, do the following.
 ParseAnalytics.trackAppOpened { result in
-    if case .success = result {
+    switch result {
+    case .success:
         print("Saved analytics for app opened.")
+    case .failure(let error):
+        print(error)
     }
 }
 
 //: To track any event, do the following.
 var friendEvent = ParseAnalytics(name: "openedFriendList")
 friendEvent.track { result in
-    if case .success = result {
+    switch result {
+    case .success:
         print("Saved analytics for custom event.")
+    case .failure(let error):
+        print(error)
     }
 }
 
 //: You can also add dimensions to your analytics.
 friendEvent.track(dimensions: ["more": "info"]) { result in
-    if case .success = result {
+    switch result {
+    case .success:
         print("Saved analytics for custom event with dimensions.")
+    case .failure(let error):
+        print(error)
     }
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)
