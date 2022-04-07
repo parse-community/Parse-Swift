@@ -2,6 +2,22 @@ import XCTest
 @testable import ParseSwift
 
 class AnyCodableTests: XCTestCase {
+
+    struct SomeCodable: Codable {
+        var string: String
+        var int: Int
+        var bool: Bool
+        var hasUnderscore: String
+
+        // swiftlint:disable:next nesting
+        enum CodingKeys: String, CodingKey {
+            case string
+            case int
+            case bool
+            case hasUnderscore = "has_underscore"
+        }
+    }
+
     func testJSONDecoding() {
         guard let json = """
         {
@@ -42,9 +58,15 @@ class AnyCodableTests: XCTestCase {
     //Test has objective-c
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testJSONEncoding() {
+
+        let someCodable = AnyCodable(SomeCodable(string: "String",
+                                                 int: 100,
+                                                 bool: true,
+                                                 hasUnderscore: "another string"))
+
         let dictionary: [String: AnyCodable] = [
             "boolean": true,
-            "integer": 1,
+            "integer": 42,
             "double": 3.14159265358979323846,
             "string": "string",
             "array": [1, 2, 3],
@@ -52,7 +74,9 @@ class AnyCodableTests: XCTestCase {
                 "a": "alpha",
                 "b": "bravo",
                 "c": "charlie"
-            ]
+            ],
+            "someCodable": someCodable,
+            "null": nil
         ]
         do {
             let encoder = JSONEncoder()
@@ -64,8 +88,8 @@ class AnyCodableTests: XCTestCase {
             }
             guard let expected = """
             {
-                "boolean": true,
-                "integer": 1,
+                "boolean": 1,
+                "integer": 42,
                 "double": 3.14159265358979323846,
                 "string": "string",
                 "array": [1, 2, 3],
@@ -73,7 +97,14 @@ class AnyCodableTests: XCTestCase {
                     "a": "alpha",
                     "b": "bravo",
                     "c": "charlie"
-                }
+                },
+                "someCodable": {
+                    "string":"String",
+                    "int":100,
+                    "bool": true,
+                    "has_underscore":"another string"
+                },
+                "null": null
             }
             """.data(using: .utf8) else {
                 XCTFail("Should unrap data to utf8")
