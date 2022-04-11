@@ -210,10 +210,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Use multiple cores
         run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+      - name: Create folders
+        run: mkdir ./docs
       - name: Build
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES swift package --allow-writing-to-directory ./docs generate-documentation --target ParseSwift --disable-indexing --output-path ./docs --transform-for-static-hosting --hosting-base-path parse-swift
         env:
-          BUILD_VERSION: '1.8.3'
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     
   cocoapods:
