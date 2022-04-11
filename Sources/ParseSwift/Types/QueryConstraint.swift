@@ -274,6 +274,15 @@ public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: ParseObject 
 }
 
 /**
+  Returns a `Query` that is the `or` of the passed in queries.
+  - parameter queries: The variadic amount of queries to `or` together.
+  - returns: An instance of `QueryConstraint`'s that are the `or` of the passed in queries.
+ */
+public func or <T>(queries: Query<T>...) -> QueryConstraint where T: ParseObject {
+    or(queries: queries)
+}
+
+/**
   Returns a `Query` that is the `nor` of the passed in queries.
   - parameter queries: The list of queries to `nor` together.
   - returns: An instance of `QueryConstraint`'s that are the `nor` of the passed in queries.
@@ -284,11 +293,20 @@ public func nor <T>(queries: [Query<T>]) -> QueryConstraint where T: ParseObject
 }
 
 /**
+  Returns a `Query` that is the `nor` of the passed in queries.
+  - parameter queries: The variadic amount of queries to `nor` together.
+  - returns: An instance of `QueryConstraint`'s that are the `nor` of the passed in queries.
+ */
+public func nor <T>(queries: Query<T>...) -> QueryConstraint where T: ParseObject {
+    nor(queries: queries)
+}
+
+/**
  Constructs a Query that is the `and` of the passed in queries.
  
  For example:
     
-     var compoundQueryConstraints = and(query1, query2, query3)
+     var compoundQueryConstraints = and([query1, query2, query3])
     
  will create a compoundQuery that is an and of the query1, query2, and query3.
     - parameter queries: The list of queries to `and` together.
@@ -297,6 +315,21 @@ public func nor <T>(queries: [Query<T>]) -> QueryConstraint where T: ParseObject
 public func and <T>(queries: [Query<T>]) -> QueryConstraint where T: ParseObject {
     let andQueries = queries.map { OrAndQuery(query: $0) }
     return QueryConstraint(key: QueryConstraint.Comparator.and.rawValue, value: andQueries)
+}
+
+/**
+ Constructs a Query that is the `and` of the passed in queries.
+ 
+ For example:
+    
+     var compoundQueryConstraints = and(query1, query2, query3)
+    
+ will create a compoundQuery that is an and of the query1, query2, and query3.
+    - parameter queries: The variadic amount of queries to `and` together.
+    - returns: An instance of `QueryConstraint`'s that are the `and` of the passed in queries.
+*/
+public func and <T>(queries: Query<T>...) -> QueryConstraint where T: ParseObject {
+    and(queries: queries)
 }
 
 /**
