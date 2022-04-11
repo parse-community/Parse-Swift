@@ -196,7 +196,8 @@ jobs:
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
           swift-version: "5.6.1"
-          shell-action: swift test --enable-test-discovery --enable-code-coverage -v
+          shell-action: swift build -v
+          #shell-action: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:

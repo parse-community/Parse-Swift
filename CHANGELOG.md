@@ -2,14 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 4.2.1
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.2.1)
+### 4.3.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.3.0)
 
 __Improvements__
-- Use DocC for documentation instead of jazzy. Improved documentation ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Use DocC for documentation instead of jazzy. Improved documentation. Need at least Swift 5.6 (Xcode 13.3) for version 4.3.0. Xctest using Swift 5.6.1 toolchain for Windows is currently broken, so the testsuite cannot be run. Will re-enable tests in the future ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.1.0...4.2.0)
