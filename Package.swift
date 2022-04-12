@@ -10,9 +10,6 @@ let package = Package(
             name: "ParseSwift",
             targets: ["ParseSwift"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", .upToNextMajor(from: "1.0.0"))
-    ],
     targets: [
         .target(
             name: "ParseSwift",

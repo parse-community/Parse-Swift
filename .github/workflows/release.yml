@@ -33,14 +33,7 @@ jobs:
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Use multiple cores
         run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
-      - name: Create folders
-        run: mkdir ./docs
-      - name: Build
-        run: set -o pipefail && env NSUnbufferedIO=YES set -o pipefail && env NSUnbufferedIO=YES swift package --allow-writing-to-directory ./docs generate-documentation --target ParseSwift --disable-indexing --output-path ./docs --transform-for-static-hosting --hosting-base-path parse-swift
+      - name: Build and Deploy Docs
+        run: set -o pipefail && env NSUnbufferedIO=YES Scripts/update-gh-pages-documentation-site
         env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
-      - name: Deploy Docs
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
