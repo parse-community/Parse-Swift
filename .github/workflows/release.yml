@@ -36,4 +36,5 @@ jobs:
       - name: Build and Deploy Docs
         run: set -o pipefail && env NSUnbufferedIO=YES Scripts/update-gh-pages-documentation-site
         env:
+          CURRENT_BRANCH_NAME: release
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}

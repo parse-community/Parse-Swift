@@ -45,7 +45,9 @@ git fetch
 git worktree add --checkout gh-pages origin/gh-pages
 
 # Get the name of the current branch to use as the subdirectory for the deployment
-CURRENT_BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
+if [ -z "$CURRENT_BRANCH_NAME"]; then
+  CURRENT_BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
+fi
 
 # Replace any forward slashes in the current branch name with dashes
 DEPLOYMENT_SUBDIRECTORY=${CURRENT_BRANCH_NAME//\//-}
