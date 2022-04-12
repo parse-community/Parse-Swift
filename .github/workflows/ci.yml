@@ -6,15 +6,15 @@ on:
     branches: '*'
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_13: '/Applications/Xcode_13.2.1.app/Contents/Developer'
+  CI_XCODE_13: '/Applications/Xcode_13.3.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
-    #- name: Use multiple cores
-    #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+    - name: Use multiple cores
+      run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
@@ -37,7 +37,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-test-macos:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     - name: Create and set the default keychain
@@ -46,8 +46,8 @@ jobs:
         security default-keychain -s temporary
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
-    #- name: Use multiple cores
-    #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+    - name: Use multiple cores
+      run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
@@ -70,11 +70,11 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-test-tvos:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
-    #- name: Use multiple cores
-    #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+    - name: Use multiple cores
+      run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
@@ -97,11 +97,11 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-build-watchos:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
-    #- name: Use multiple cores
-    #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+    - name: Use multiple cores
+      run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       env:
@@ -114,7 +114,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   spm-test:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     - name: Create and set the default keychain
@@ -205,34 +205,23 @@ jobs:
   
   docs:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
-      #- name: Build
-      #  run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
-      - name: Cache Gems
-        id: cache-gems
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gem-v4-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gem-v4
-      - name: Install Bundle
-        run: |
-          bundle config path vendor/bundle
-          bundle install
-      - name: Create Jazzy Docs
-        run: ./Scripts/jazzy.sh
+      - name: Use multiple cores
+        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+      - name: Generate Docs
+        run: set -o pipefail && env NSUnbufferedIO=YES Scripts/generate-documentation
         env:
-          BUILD_VERSION: '1.8.3'
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     
   cocoapods:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
+      - name: Use multiple cores
+        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Update Framework Version
         run: ./Scripts/update_build
         env:
@@ -244,9 +233,11 @@ jobs:
 
   carthage:
    needs: xcode-build-watchos
-   runs-on: macos-latest
+   runs-on: macos-12
    steps:
      - uses: actions/checkout@v2
+     - name: Use multiple cores
+       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
      - name: Carthage 
        run: ./carthage.sh build --no-skip-current --use-xcframeworks
        env:

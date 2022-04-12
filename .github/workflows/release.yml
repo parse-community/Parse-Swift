@@ -4,17 +4,17 @@ on:
     types: [published]
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_13: '/Applications/Xcode_13.2.1.app/Contents/Developer'
+  CI_XCODE_13: '/Applications/Xcode_13.3.app/Contents/Developer'
 
 jobs:
   cocoapods:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-#      - name: Use multiple cores
-#        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+      - name: Use multiple cores
+        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Update Framework Version
         run: ./Scripts/update_build
         env:
@@ -26,34 +26,15 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   docs:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
-      - name: Cache Gems
-        id: cache-gems
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gem-v4-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gem-v4
-      - name: Install Bundle
-        run: |
-          bundle config path vendor/bundle
-          bundle install
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-      #- name: Build
-      #  run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
- #     - name: Use multiple cores
- #       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
-      - name: Create Jazzy Docs
-        run: ./Scripts/jazzy.sh
+      - name: Use multiple cores
+        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+      - name: Build and Deploy Docs
+        run: set -o pipefail && env NSUnbufferedIO=YES Scripts/update-gh-pages-documentation-site
         env:
-          BUILD_VERSION: ${{ env.TAG }}
+          CURRENT_BRANCH_NAME: release
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
-      - name: Deploy Jazzy Docs
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs

@@ -137,8 +137,8 @@ public extension ParseUser {
      otherwise. Defaults to **true**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
-     `userPost = false`.
+     - warning: `usingPost == true` requires Parse Server > 5.0.0. Othewise you should set
+     `usingPost = false`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */

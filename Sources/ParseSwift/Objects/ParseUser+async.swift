@@ -148,8 +148,8 @@ public extension ParseUser {
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
-     `userPost = false`.
+     - warning: `usingPost == true` requires Parse Server > 5.0.0. Othewise you should set
+     `usingPost = false`.
     */
     static func verifyPassword(password: String,
                                usingPost: Bool = true,

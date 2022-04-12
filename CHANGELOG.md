@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.3.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.3.0)
+
+__Improvements__
+- Use DocC for documentation instead of jazzy. Improved documentation. ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.1.0...4.2.0)

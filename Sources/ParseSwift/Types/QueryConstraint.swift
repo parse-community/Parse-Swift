@@ -484,7 +484,7 @@ public func containedBy <T>(key: String, array: [T]) throws -> QueryConstraint w
  - parameter constraint: The key to be constrained. Should be a Date field. The value is a
  reference time, e.g. "12 days ago". Currently only comparators supported are: <, <=, >, and >=.
  - returns: The same instance of `QueryConstraint` as the receiver.
- - warning: Requires Parse Server 2.6.5+ for MongoDB and Parse Server 5.0.0+ for PostgreSQL.
+ - warning: Requires Parse Server 2.6.5+ for MongoDB and Parse Server 5.1.0+ for PostgreSQL.
  */
 public func relative(_ constraint: QueryConstraint) -> QueryConstraint {
     QueryConstraint(key: constraint.key,
