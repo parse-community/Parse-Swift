@@ -9,7 +9,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.3.0)
 
 __Improvements__
-- Use DocC for documentation instead of jazzy. Improved documentation. Need at least Swift 5.6 (Xcode 13.3) for version 4.3.0. Swift 5.6.1 toolchain for Windows is currently broken and building/testing is paused in the CI. Windows developers should use Parse-Swift <= 4.2.0. Will re-enable tests in the future ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Use DocC for documentation instead of jazzy. Improved documentation. ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.1.0...4.2.0)
