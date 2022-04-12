@@ -1,0 +1,137 @@
+{
+  "hierarchy" : {
+    "modules" : [
+      {
+        "projects" : [
+          {
+            "reference" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
+            "sections" : [
+              {
+                "kind" : "task",
+                "reference" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object#Check-server-health"
+              }
+            ]
+          }
+        ],
+        "reference" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-first-Object"
+      }
+    ],
+    "paths" : [
+      [
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/$volume",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-first-Object"
+      ]
+    ],
+    "reference" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift"
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object"
+  },
+  "kind" : "project",
+  "metadata" : {
+    "category" : "ParseSwift",
+    "categoryPathComponent" : "ParseSwift",
+    "role" : "project",
+    "title" : "Your First Object"
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+    {
+      "chapter" : "Your first Object",
+      "content" : [
+
+      ],
+      "estimatedTimeInMinutes" : 15,
+      "kind" : "hero",
+      "title" : "Your First Object"
+    },
+    {
+      "kind" : "tasks",
+      "tasks" : [
+        {
+          "anchor" : "Check-server-health",
+          "contentSection" : [
+
+          ],
+          "stepsSection" : [
+            {
+              "caption" : [
+
+              ],
+              "code" : null,
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "Check your server health.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ],
+              "media" : null,
+              "runtimePreview" : null,
+              "type" : "step"
+            }
+          ],
+          "title" : "Check server health"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift",
+  "kind" : "overview",
+  "role" : "overview",
+  "title" : "Welcome to ParseSwift",
+  "type" : "topic",
+  "url" : "\/tutorials\/parseswift"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift/Your-First-Object": {
+  "abstract" : [
+
+  ],
+  "estimatedTime" : "15min",
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
+  "kind" : "project",
+  "role" : "project",
+  "title" : "Your First Object",
+  "type" : "topic",
+  "url" : "\/tutorials\/parseswift\/your-first-object"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift/Your-First-Object#Check-server-health": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object#Check-server-health",
+  "kind" : "section",
+  "role" : "pseudoSymbol",
+  "title" : "Check server health",
+  "type" : "section",
+  "url" : "\/tutorials\/parseswift\/your-first-object#Check-server-health"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift/Your-first-Object": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-first-Object",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Your first Object",
+  "type" : "topic",
+  "url" : "\/tutorials\/parseswift\/your-first-object"
+}
+}
+}

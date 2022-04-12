@@ -1,0 +1,2345 @@
+{
+  "abstract" : [
+    {
+      "code" : "ParseError.Code",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " enum contains all custom error codes that are used",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "as ",
+      "type" : "text"
+    },
+    {
+      "code" : "code",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for ",
+      "type" : "text"
+    },
+    {
+      "code" : "Error",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for callbacks on all classes.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:10ParseSwift0A5ErrorV4CodeO",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "enum"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "Code"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "ParseSwift"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "Code"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Enumeration",
+    "symbolKind" : "enum",
+    "title" : "ParseError.Code"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "iOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "enum"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "Code"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s5ErrorP",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SY",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s8SendableP"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/accountAlreadyLinked",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/aggregateError",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/cacheMiss",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/commandUnavailable",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/connectionFailed",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/duplicateRequest",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/duplicateValue",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/exceededQuota",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileDeleteFailure",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileDeleteUnnamedFailure",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileReadError",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileSaveFailure",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileTooLarge",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/incorrectType",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/internalServer",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidACL",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidChannelName",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidClassName",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidContentLength",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidDeviceToken",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidEmailAddress",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidEventName",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidFileName",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidImageData",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidJSON",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidKeyName",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidLinkedSession",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidNestedKey",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidPointer",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidPushTime",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidQuery",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidRoleName",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidSchemaOperation",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidSessionToken",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidValue",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/linkedIdMissing",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/mfaError",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/mfaTokenRequired",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/missingContentLength",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/missingContentType",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/missingObjectId",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/objectNotFound",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/objectTooLarge",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/operationForbidden",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/other",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/pushMisconfigured",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/requestLimitExceeded",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/scriptFailed",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/timeout",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/unknownError",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/unsavedFileFailure",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/unsupportedService",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userCanOnlyBeCreatedThroughSignUp",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userCannotBeAlteredWithoutSession",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userEmailMissing",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userEmailTaken",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userPasswordMissing",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userWithEmailNotFound",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/usernameMissing",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/usernameTaken",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/validationFailed",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/xDomainRequest"
+      ],
+      "title" : "Enumeration Cases"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/init(rawValue:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Equatable-Implementations",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Error-Implementations",
+        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations"
+      ],
+      "title" : "Default Implementations"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/parseswift\/parseerror\/code-swift.enum"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+  "title" : "Swift.Encodable",
+  "type" : "unresolvable"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/SH": {
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH",
+  "title" : "Swift.Hashable",
+  "type" : "unresolvable"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/SY": {
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SY",
+  "title" : "Swift.RawRepresentable",
+  "type" : "unresolvable"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/Se": {
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
+  "title" : "Swift.Decodable",
+  "type" : "unresolvable"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+  "abstract" : [
+    {
+      "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ParseSwift",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError": {
+  "abstract" : [
+    {
+      "text" : "An object with a Parse code and message.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseError"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseError"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseError",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum": {
+  "abstract" : [
+    {
+      "code" : "ParseError.Code",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " enum contains all custom error codes that are used",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "as ",
+      "type" : "text"
+    },
+    {
+      "code" : "code",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for ",
+      "type" : "text"
+    },
+    {
+      "code" : "Error",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for callbacks on all classes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Code"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Code"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseError.Code",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/equatable-implementations"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/Error-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Error-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Error Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/error-implementations"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/RawRepresentable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "RawRepresentable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/rawrepresentable-implementations"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/accountAlreadyLinked": {
+  "abstract" : [
+    {
+      "text" : "An existing account already linked to another user.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "accountAlreadyLinked"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/accountAlreadyLinked",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.accountAlreadyLinked",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/accountalreadylinked"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/aggregateError": {
+  "abstract" : [
+    {
+      "text" : "Error code indicating that there were multiple errors. Aggregate errors",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "have an “errors” property, which is an array of error objects with more",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "detail about each error that occurred.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "aggregateError"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/aggregateError",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.aggregateError",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/aggregateerror"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/cacheMiss": {
+  "abstract" : [
+    {
+      "text" : "The results were not found in the cache.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "cacheMiss"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/cacheMiss",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.cacheMiss",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/cachemiss"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/commandUnavailable": {
+  "abstract" : [
+    {
+      "text" : "Tried to access a feature only available internally.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "commandUnavailable"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/commandUnavailable",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.commandUnavailable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/commandunavailable"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/connectionFailed": {
+  "abstract" : [
+    {
+      "text" : "The connection to the Parse servers failed.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "connectionFailed"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/connectionFailed",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.connectionFailed",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/connectionfailed"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/duplicateRequest": {
+  "abstract" : [
+    {
+      "text" : "The request was a duplicate and has been discarded",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "due to idempotency rules.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "duplicateRequest"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/duplicateRequest",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.duplicateRequest",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/duplicaterequest"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/duplicateValue": {
+  "abstract" : [
+    {
+      "text" : "A unique field was given a value that is already taken.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "duplicateValue"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/duplicateValue",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.duplicateValue",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/duplicatevalue"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/exceededQuota": {
+  "abstract" : [
+    {
+      "text" : "Exceeded an application quota. Upgrade to resolve.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "exceededQuota"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/exceededQuota",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.exceededQuota",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/exceededquota"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/fileDeleteFailure": {
+  "abstract" : [
+    {
+      "text" : "Fail to delete file.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fileDeleteFailure"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileDeleteFailure",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.fileDeleteFailure",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/filedeletefailure"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/fileDeleteUnnamedFailure": {
+  "abstract" : [
+    {
+      "text" : "Fail to delete an unnamed file.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fileDeleteUnnamedFailure"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileDeleteUnnamedFailure",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.fileDeleteUnnamedFailure",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/filedeleteunnamedfailure"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/fileReadError": {
+  "abstract" : [
+    {
+      "text" : "Error code indicating the client was unable to read an input file.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fileReadError"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileReadError",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.fileReadError",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/filereaderror"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/fileSaveFailure": {
+  "abstract" : [
+    {
+      "text" : "Failure saving a file.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fileSaveFailure"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileSaveFailure",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.fileSaveFailure",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/filesavefailure"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/fileTooLarge": {
+  "abstract" : [
+    {
+      "text" : "File was too large.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fileTooLarge"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/fileTooLarge",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.fileTooLarge",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/filetoolarge"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/incorrectType": {
+  "abstract" : [
+    {
+      "text" : "Field set to incorrect type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "incorrectType"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/incorrectType",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.incorrectType",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/incorrecttype"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/init(rawValue:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "rawValue"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/init(rawValue:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(rawValue:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/init(rawvalue:)"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/internalServer": {
+  "abstract" : [
+    {
+      "text" : "Internal server error. No information available.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "internalServer"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/internalServer",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.internalServer",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/internalserver"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidACL": {
+  "abstract" : [
+    {
+      "text" : "Invalid ACL. An ACL with an invalid format was saved. This should not happen if you use ",
+      "type" : "text"
+    },
+    {
+      "code" : "ACL",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidACL"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidACL",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidACL",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidacl"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidChannelName": {
+  "abstract" : [
+    {
+      "text" : "Invalid channel name. A channel name is either an empty string (the broadcast channel)",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "or contains only ",
+      "type" : "text"
+    },
+    {
+      "code" : "a-zA-Z0-9_",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " characters and starts with a letter.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidChannelName"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidChannelName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidChannelName",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidchannelname"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidClassName": {
+  "abstract" : [
+    {
+      "text" : "Missing or invalid classname. Classnames are case-sensitive.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "They must start with a letter, and ",
+      "type" : "text"
+    },
+    {
+      "code" : "a-zA-Z0-9_",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " are the only valid characters.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidClassName"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidClassName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidClassName",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidclassname"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidContentLength": {
+  "abstract" : [
+    {
+      "text" : "Invalid content length.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidContentLength"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidContentLength",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidContentLength",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidcontentlength"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidDeviceToken": {
+  "abstract" : [
+    {
+      "text" : "Invalid device token.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidDeviceToken"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidDeviceToken",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidDeviceToken",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invaliddevicetoken"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidEmailAddress": {
+  "abstract" : [
+    {
+      "text" : "The email address was invalid.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidEmailAddress"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidEmailAddress",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidEmailAddress",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidemailaddress"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidEventName": {
+  "abstract" : [
+    {
+      "text" : "Invalid event name.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidEventName"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidEventName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidEventName",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalideventname"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidFileName": {
+  "abstract" : [
+    {
+      "text" : "Invalid file name.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "A file name can contain only ",
+      "type" : "text"
+    },
+    {
+      "code" : "a-zA-Z0-9_.",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " characters and should be between 1 and 36 characters.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidFileName"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidFileName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidFileName",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidfilename"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidImageData": {
+  "abstract" : [
+    {
+      "text" : "Fail to convert data to image.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidImageData"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidImageData",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidImageData",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidimagedata"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidJSON": {
+  "abstract" : [
+    {
+      "text" : "Malformed json object. A json dictionary is expected.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidJSON"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidJSON",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidJSON",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidjson"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidKeyName": {
+  "abstract" : [
+    {
+      "text" : "Invalid key name. Keys are case-sensitive.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "They must start with a letter, and ",
+      "type" : "text"
+    },
+    {
+      "code" : "a-zA-Z0-9_",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " are the only valid characters.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidKeyName"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidKeyName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidKeyName",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidkeyname"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidLinkedSession": {
+  "abstract" : [
+    {
+      "text" : "Invalid linked session.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidLinkedSession"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidLinkedSession",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidLinkedSession",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidlinkedsession"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidNestedKey": {
+  "abstract" : [
+    {
+      "text" : "Keys in ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSDictionary",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " values may not include ",
+      "type" : "text"
+    },
+    {
+      "code" : "$",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " or ",
+      "type" : "text"
+    },
+    {
+      "code" : ".",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidNestedKey"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidNestedKey",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidNestedKey",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidnestedkey"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidPointer": {
+  "abstract" : [
+    {
+      "text" : "Malformed pointer. Pointers must be arrays of a classname and an object id.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidPointer"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidPointer",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidPointer",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidpointer"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidPushTime": {
+  "abstract" : [
+    {
+      "text" : "An invalid push time.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidPushTime"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidPushTime",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidPushTime",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidpushtime"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidQuery": {
+  "abstract" : [
+    {
+      "text" : "You tried to find values matching a datatype that doesn’t",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "support exact database matching, like an array or a dictionary.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidQuery"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidQuery",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidQuery",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidquery"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidRoleName": {
+  "abstract" : [
+    {
+      "text" : "Role’s name is invalid.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidRoleName"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidRoleName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidRoleName",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidrolename"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidSchemaOperation": {
+  "abstract" : [
+    {
+      "text" : "Error code indicating an invalid operation occured on schema",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidSchemaOperation"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidSchemaOperation",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidSchemaOperation",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidschemaoperation"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidSessionToken": {
+  "abstract" : [
+    {
+      "text" : "The current session token is invalid.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidSessionToken"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidSessionToken",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidSessionToken",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidsessiontoken"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidValue": {
+  "abstract" : [
+    {
+      "text" : "Invalid value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidValue"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/invalidValue",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.invalidValue",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/invalidvalue"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/linkedIdMissing": {
+  "abstract" : [
+    {
+      "text" : "Linked id missing from request.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "linkedIdMissing"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/linkedIdMissing",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.linkedIdMissing",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/linkedidmissing"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/mfaError": {
+  "abstract" : [
+    {
+      "text" : "Error enabling or verifying MFA.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mfaError"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/mfaError",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.mfaError",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/mfaerror"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/mfaTokenRequired": {
+  "abstract" : [
+    {
+      "text" : "A valid MFA token must be provided.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mfaTokenRequired"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/mfaTokenRequired",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.mfaTokenRequired",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/mfatokenrequired"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/missingContentLength": {
+  "abstract" : [
+    {
+      "text" : "Missing content length.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "missingContentLength"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/missingContentLength",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.missingContentLength",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/missingcontentlength"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/missingContentType": {
+  "abstract" : [
+    {
+      "text" : "Missing content type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "missingContentType"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/missingContentType",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.missingContentType",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/missingcontenttype"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/missingObjectId": {
+  "abstract" : [
+    {
+      "text" : "Missing object id.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "missingObjectId"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/missingObjectId",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.missingObjectId",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/missingobjectid"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/objectNotFound": {
+  "abstract" : [
+    {
+      "text" : "Object doesn’t exist, or has an incorrect password.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "objectNotFound"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/objectNotFound",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.objectNotFound",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/objectnotfound"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/objectTooLarge": {
+  "abstract" : [
+    {
+      "text" : "The object is too large.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "objectTooLarge"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/objectTooLarge",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.objectTooLarge",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/objecttoolarge"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/operationForbidden": {
+  "abstract" : [
+    {
+      "text" : "That operation isn’t allowed for clients.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "operationForbidden"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/operationForbidden",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.operationForbidden",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/operationforbidden"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/other": {
+  "abstract" : [
+    {
+      "text" : "Error code indicating any other custom error sent from the Parse Server.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "other"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/other",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.other",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/other"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/pushMisconfigured": {
+  "abstract" : [
+    {
+      "text" : "Push is misconfigured. See details to find out how.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "pushMisconfigured"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/pushMisconfigured",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.pushMisconfigured",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/pushmisconfigured"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/requestLimitExceeded": {
+  "abstract" : [
+    {
+      "text" : "Application has exceeded its request limit.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "requestLimitExceeded"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/requestLimitExceeded",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.requestLimitExceeded",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/requestlimitexceeded"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/scriptFailed": {
+  "abstract" : [
+    {
+      "text" : "Cloud Code script had an error.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "scriptFailed"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/scriptFailed",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.scriptFailed",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/scriptfailed"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/timeout": {
+  "abstract" : [
+    {
+      "text" : "The request timed out on the server. Typically this indicates the request is too expensive.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "timeout"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/timeout",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.timeout",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/timeout"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/unknownError": {
+  "abstract" : [
+    {
+      "text" : "Internal SDK Error. No information available",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "unknownError"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/unknownError",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.unknownError",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/unknownerror"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/unsavedFileFailure": {
+  "abstract" : [
+    {
+      "text" : "Unsaved file failure.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "unsavedFileFailure"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/unsavedFileFailure",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.unsavedFileFailure",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/unsavedfilefailure"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/unsupportedService": {
+  "abstract" : [
+    {
+      "text" : "Error code indicating that a service being linked (e.g. Facebook or",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Twitter) is unsupported.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "unsupportedService"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/unsupportedService",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.unsupportedService",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/unsupportedservice"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/userCanOnlyBeCreatedThroughSignUp": {
+  "abstract" : [
+    {
+      "text" : "Users can only be created through sign up.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "userCanOnlyBeCreatedThroughSignUp"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userCanOnlyBeCreatedThroughSignUp",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.userCanOnlyBeCreatedThroughSignUp",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/usercanonlybecreatedthroughsignup"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/userCannotBeAlteredWithoutSession": {
+  "abstract" : [
+    {
+      "text" : "The user cannot be altered by a client without the session.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "userCannotBeAlteredWithoutSession"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userCannotBeAlteredWithoutSession",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.userCannotBeAlteredWithoutSession",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/usercannotbealteredwithoutsession"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/userEmailMissing": {
+  "abstract" : [
+    {
+      "text" : "The email is missing, and must be specified.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "userEmailMissing"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userEmailMissing",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.userEmailMissing",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/useremailmissing"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/userEmailTaken": {
+  "abstract" : [
+    {
+      "text" : "Email has already been taken.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "userEmailTaken"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userEmailTaken",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.userEmailTaken",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/useremailtaken"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/userPasswordMissing": {
+  "abstract" : [
+    {
+      "text" : "Password is missing or empty.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "userPasswordMissing"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userPasswordMissing",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.userPasswordMissing",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/userpasswordmissing"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/userWithEmailNotFound": {
+  "abstract" : [
+    {
+      "text" : "A user with the specified email was not found.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "userWithEmailNotFound"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/userWithEmailNotFound",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.userWithEmailNotFound",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/userwithemailnotfound"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/usernameMissing": {
+  "abstract" : [
+    {
+      "text" : "Username is missing or empty.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "usernameMissing"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/usernameMissing",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.usernameMissing",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/usernamemissing"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/usernameTaken": {
+  "abstract" : [
+    {
+      "text" : "Username has already been taken.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "usernameTaken"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/usernameTaken",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.usernameTaken",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/usernametaken"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/validationFailed": {
+  "abstract" : [
+    {
+      "text" : "Cloud Code validation failed.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "validationFailed"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/validationFailed",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.validationFailed",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/validationfailed"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/xDomainRequest": {
+  "abstract" : [
+    {
+      "text" : "Error code indicating a real error code is unavailable because",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "we had to use an XDomainRequest object to allow CORS requests in",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Internet Explorer, which strips the body from HTTP responses that have",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "a non-2XX status code.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "xDomainRequest"
+    }
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/xDomainRequest",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseError.Code.xDomainRequest",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/xdomainrequest"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/s5ErrorP": {
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s5ErrorP",
+  "title" : "Swift.Error",
+  "type" : "unresolvable"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/s8SendableP": {
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s8SendableP",
+  "title" : "Swift.Sendable",
+  "type" : "unresolvable"
+}
+}
+}

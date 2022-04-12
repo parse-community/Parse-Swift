@@ -1,0 +1,106 @@
+{
+  "hierarchy" : {
+    "paths" : [
+
+    ],
+    "reference" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift"
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift"
+  },
+  "kind" : "overview",
+  "metadata" : {
+    "category" : "ParseSwift",
+    "categoryPathComponent" : "ParseSwift",
+    "estimatedTime" : "15min",
+    "role" : "overview",
+    "title" : "Welcome to ParseSwift"
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+    {
+      "action" : {
+        "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
+        "isActive" : true,
+        "overridingTitle" : "Get started",
+        "overridingTitleInlineContent" : [
+          {
+            "text" : "Get started",
+            "type" : "text"
+          }
+        ],
+        "type" : "reference"
+      },
+      "content" : [
+
+      ],
+      "kind" : "hero",
+      "title" : "Welcome to ParseSwift"
+    },
+    {
+      "chapters" : [
+        {
+          "content" : [
+
+          ],
+          "image" : "parse-swift.png",
+          "name" : "Your first Object",
+          "tutorials" : [
+            "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object"
+          ]
+        }
+      ],
+      "content" : [
+
+      ],
+      "image" : null,
+      "kind" : "volume",
+      "name" : null
+    }
+  ]
+, 
+"references": {
+"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift",
+  "kind" : "overview",
+  "role" : "overview",
+  "title" : "Welcome to ParseSwift",
+  "type" : "topic",
+  "url" : "\/tutorials\/parseswift"
+},
+"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift/Your-First-Object": {
+  "abstract" : [
+
+  ],
+  "estimatedTime" : "15min",
+  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
+  "kind" : "project",
+  "role" : "project",
+  "title" : "Your First Object",
+  "type" : "topic",
+  "url" : "\/tutorials\/parseswift\/your-first-object"
+},
+"parse-swift.png": {
+  "alt" : "Parse image",
+  "identifier" : "parse-swift.png",
+  "type" : "image",
+  "variants" : [
+    {
+      "traits" : [
+        "1x",
+        "light"
+      ],
+      "url" : "\/images\/parse-swift.png"
+    }
+  ]
+}
+}
+}
