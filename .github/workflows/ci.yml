@@ -5,7 +5,6 @@ on:
   pull_request:
     branches: '*'
 env:
-  CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
   CI_XCODE_13: '/Applications/Xcode_13.3.app/Contents/Developer'
 
 jobs:
