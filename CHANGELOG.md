@@ -9,7 +9,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.0...4.3.1)
 
 __Fixes__
-- Fix links to API documentation ([#352](https://github.com/parse-community/Parse-Swift/pull/352)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fix links to API documentation ([#354](https://github.com/parse-community/Parse-Swift/pull/354)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.3.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.3.0)
