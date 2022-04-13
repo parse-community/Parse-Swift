@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.3.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.0...4.3.1)
+
+__Fixes__
+- Fix links to API documentation ([#352](https://github.com/parse-community/Parse-Swift/pull/352)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.3.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.3.0)
