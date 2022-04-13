@@ -131,7 +131,7 @@ xcrun docc $DOCC_CMD \
     --additional-symbol-graph-dir "$SGFS_DIR" \
     --output-path "$OUTPUT_PATH" $EXTRA_DOCC_FLAGS \
     --fallback-display-name ParseSwift \
-    --fallback-bundle-identifier edu.uky.cs.netreconlab.ParseSwift \
+    --fallback-bundle-identifier com.parse..ParseSwift \
     --fallback-bundle-version 1.0.0
 
 if [[ "$DOCC_CMD" == "convert"* ]]; then
