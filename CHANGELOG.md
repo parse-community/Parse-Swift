@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.4.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.4.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.1...4.4.0)
+
+__Improvements__
+- Drop support for Swift 5.2 as App Store requires apps to be built in Xcode 12 ([#356](https://github.com/parse-community/Parse-Swift/pull/356)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.3.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.0...4.3.1)
@@ -15,7 +21,7 @@ __Fixes__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.3.0)
 
 __Improvements__
-- Use DocC for documentation instead of jazzy. Improved documentation. ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Use DocC for documentation instead of jazzy. Improved documentation ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.1.0...4.2.0)
