@@ -118,7 +118,7 @@ EXTRA_DOCC_FLAGS="--index"
 # If building for publishing, don't pass the --index flag but pass additional flags for
 # static hosting configuration.
 if [ "$PUBLISH" = "YES" ]; then
-    EXTRA_DOCC_FLAGS="--transform-for-static-hosting --hosting-base-path ParseSwift/$HOSTING_BASE_PATH"
+    EXTRA_DOCC_FLAGS="--transform-for-static-hosting --hosting-base-path Parse-Swift/$HOSTING_BASE_PATH"
 fi
 
 # Handle the case where a DocC catalog does not exist in the ParseSwift repo
