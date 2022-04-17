@@ -239,6 +239,6 @@ jobs:
      - name: Use multiple cores
        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
      - name: Carthage 
-       run: ./carthage.sh build --no-skip-current --use-xcframeworks
+       run: ./Scripts/carthage.sh build --no-skip-current --use-xcframeworks
        env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
