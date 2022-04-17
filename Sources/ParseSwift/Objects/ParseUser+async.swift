@@ -143,16 +143,17 @@ public extension ParseUser {
         
      - parameter password: The password to be verified.
      - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
-     otherwise. Defaults to **true**.
+     otherwise. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - warning: `usingPost == true` requires Parse Server > 5.0.0. Othewise you should set
-     `usingPost = false`.
+     - warning: `usingPost == true` requires the
+     [issue](https://github.com/parse-community/parse-server/issues/7784) to be addressed on
+     the Parse Server, othewise you should set `usingPost = false`.
     */
     static func verifyPassword(password: String,
-                               usingPost: Bool = true,
+                               usingPost: Bool = false,
                                options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.verifyPassword(password: password,

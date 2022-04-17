@@ -1,4 +1,4 @@
-@Tutorial(time: 15) {
+@Tutorial(time: 1) {
     @Intro(title: "Your First Object") {
         
     }
