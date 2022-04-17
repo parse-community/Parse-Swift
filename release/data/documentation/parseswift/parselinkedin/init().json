@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn\/init()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn\/init()"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -87,21 +87,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLinkedIn": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLinkedIn": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with LinkedIn User Authentication and ",
@@ -172,7 +172,7 @@
       "text" : "ParseLinkedIn"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -185,7 +185,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselinkedin"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLinkedIn/init()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLinkedIn/init()": {
   "abstract" : [
     {
       "text" : "The default initializer for this authentication type.",
@@ -202,7 +202,7 @@
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn\/init()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn\/init()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init()",

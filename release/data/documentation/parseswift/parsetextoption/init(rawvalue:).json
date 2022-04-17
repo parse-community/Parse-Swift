@@ -16,14 +16,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -129,21 +129,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption": {
   "abstract" : [
     {
       "text" : "Options used to constrain a text search.",
@@ -164,7 +164,7 @@
       "text" : "ParseTextOption"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -177,7 +177,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/init(rawValue:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/init(rawValue:)": {
   "abstract" : [
 
   ],
@@ -208,7 +208,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(rawValue:)",

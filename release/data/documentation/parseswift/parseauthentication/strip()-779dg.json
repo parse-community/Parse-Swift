@@ -21,15 +21,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-18xgc"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-18xgc"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-779dg"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-779dg"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -118,21 +118,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -190,7 +190,7 @@
       "text" : "ParseAuthentication"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -203,7 +203,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip()-18xgc": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip()-18xgc": {
   "abstract" : [
     {
       "text" : "Strips the ",
@@ -242,7 +242,7 @@
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-18xgc",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-18xgc",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -250,7 +250,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication\/strip()-18xgc"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip()-779dg": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip()-779dg": {
   "abstract" : [
     {
       "text" : "Strips the ",
@@ -288,7 +288,7 @@
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-779dg",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip()-779dg",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "strip()",

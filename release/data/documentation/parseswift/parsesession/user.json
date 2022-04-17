@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession\/user"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession\/user"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -82,7 +82,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession\/SessionUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession\/SessionUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A7SessionP0C4UserQa",
               "text" : "SessionUser"
@@ -127,21 +127,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSession": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSession": {
   "abstract" : [
     {
       "code" : "ParseSession",
@@ -190,7 +190,7 @@
       "text" : "ParseSession"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -203,7 +203,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsesession"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSession/SessionUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSession/SessionUser": {
   "abstract" : [
 
   ],
@@ -230,7 +230,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession\/SessionUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession\/SessionUser",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -238,7 +238,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsesession\/sessionuser"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSession/user": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSession/user": {
   "abstract" : [
     {
       "text" : "The user the session is for.",
@@ -268,7 +268,7 @@
       "text" : "SessionUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession\/user",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession\/user",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",

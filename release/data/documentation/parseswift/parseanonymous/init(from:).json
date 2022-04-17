@@ -16,14 +16,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/init(from:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/init(from:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -145,21 +145,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAnonymous": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnonymous": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with Anonymously logged-in users.",
@@ -180,7 +180,7 @@
       "text" : "ParseAnonymous"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -193,7 +193,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseanonymous"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAnonymous/init(from:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnonymous/init(from:)": {
   "abstract" : [
 
   ],
@@ -228,7 +228,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/init(from:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/init(from:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(from:)",

@@ -24,13 +24,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -117,7 +117,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A6ObjectP",
               "text" : "ParseObject"
@@ -131,11 +131,11 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Queryable",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s28CustomDebugStringConvertibleP",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s23CustomStringConvertibleP",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Queryable",
+        "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
+        "doc:\/\/com.parse.ParseSwift\/SE",
+        "doc:\/\/com.parse.ParseSwift\/SQ"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -153,126 +153,126 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/==(_:_:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/==(_:_:)"
       ],
       "title" : "Operators"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-16e61",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-6muig"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-16e61",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-6muig"
       ],
       "title" : "Initializers"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.property",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.property",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel"
       ],
       "title" : "Instance Properties"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-128p2",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-4ycg9",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-28oui",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-7k6n3",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplainPublisher(_:usingMongoDB:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregatePublisher(_:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-25obg",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-4fdb9",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-97wa2",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplainPublisher(usingMongoDB:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countPublisher(options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-783te",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-8r7nh",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-4h769",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-5q4cg",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplainPublisher(_:usingMongoDB:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctPublisher(_:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-717l0",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-2q1ez",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-71x3d",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-8vz5e",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findAllPublisher(batchLimit:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-58al",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-ret0",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplainPublisher(usingMongoDB:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findPublisher(options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-53w8y",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-7sns5",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-ie81",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplainPublisher(usingMongoDB:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstPublisher(options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/hint(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-323ik",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-47jms",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/includeAll()",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/limit(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/readPreference(_:includeReadPreference:subqueryReadPreference:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-23ewt",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-689ic",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/skip(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/sortByTextScore()",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.method",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe()",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(client:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:client:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-60ukn",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-m71l",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplainPublisher(usingMongoDB:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountPublisher(options:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-128p2",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-4ycg9",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-28oui",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-7k6n3",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplainPublisher(_:usingMongoDB:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregatePublisher(_:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-25obg",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-4fdb9",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-97wa2",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplainPublisher(usingMongoDB:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countPublisher(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-783te",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-8r7nh",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-4h769",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-5q4cg",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplainPublisher(_:usingMongoDB:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctPublisher(_:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-717l0",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-2q1ez",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-71x3d",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-8vz5e",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findAllPublisher(batchLimit:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-58al",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-ret0",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplainPublisher(usingMongoDB:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findPublisher(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-53w8y",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-7sns5",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-ie81",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplainPublisher(usingMongoDB:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstPublisher(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/hint(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-323ik",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-47jms",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/includeAll()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/limit(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/readPreference(_:includeReadPreference:subqueryReadPreference:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-23ewt",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-689ic",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/skip(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/sortByTextScore()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.method",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(client:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:client:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-60ukn",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-m71l",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplainPublisher(usingMongoDB:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountPublisher(options:)"
       ],
       "title" : "Instance Methods"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.type.property"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.type.property"
       ],
       "title" : "Type Properties"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.type.method",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:client:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel(_:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.type.method",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:client:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel(_:)"
       ],
       "title" : "Type Methods"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order"
       ],
       "title" : "Enumerations"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/CustomDebugStringConvertible-Implementations",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/CustomStringConvertible-Implementations",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Equatable-Implementations",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/CustomDebugStringConvertible-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/CustomStringConvertible-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Equatable-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -291,31 +291,31 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/SQ": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
   "title" : "Swift.Equatable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -352,7 +352,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -365,7 +365,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -402,7 +402,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -415,7 +415,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/==(_:_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/==(_:_:)": {
   "abstract" : [
 
   ],
@@ -490,47 +490,47 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/==(_:_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/==(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "==(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/==(_:_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/CustomDebugStringConvertible-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/CustomDebugStringConvertible-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/CustomDebugStringConvertible-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/CustomDebugStringConvertible-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "CustomDebugStringConvertible Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/customdebugstringconvertible-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/CustomStringConvertible-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/CustomStringConvertible-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/CustomStringConvertible-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/CustomStringConvertible-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "CustomStringConvertible Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/customstringconvertible-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Equatable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Equatable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Equatable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Equatable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/equatable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Order": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Order": {
   "abstract" : [
     {
       "text" : "An enum that determines the order to sort the results based on a given key.",
@@ -551,7 +551,7 @@
       "text" : "Order"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -564,18 +564,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Queryable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Queryable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Queryable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/queryable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregate(_:options:)-128p2": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregate(_:options:)-128p2": {
   "abstract" : [
     {
       "text" : "Executes an aggregate query ",
@@ -706,14 +706,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-128p2",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-128p2",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregate(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregate(_:options:)-128p2"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregate(_:options:)-4ycg9": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregate(_:options:)-4ycg9": {
   "abstract" : [
     {
       "text" : "Executes an aggregate query ",
@@ -852,14 +852,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-4ycg9",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:)-4ycg9",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregate(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregate(_:options:)-4ycg9"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregate(_:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregate(_:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Executes an aggregate query ",
@@ -1034,14 +1034,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregate(_:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregate(_:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregate(_:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregateExplain(_:usingMongoDB:options:)-28oui": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregateExplain(_:usingMongoDB:options:)-28oui": {
   "abstract" : [
     {
       "text" : "Query plan information for executing an aggregate query ",
@@ -1205,14 +1205,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-28oui",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-28oui",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregateExplain(_:usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregateexplain(_:usingmongodb:options:)-28oui"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregateExplain(_:usingMongoDB:options:)-7k6n3": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregateExplain(_:usingMongoDB:options:)-7k6n3": {
   "abstract" : [
     {
       "text" : "Query plan information for  executing an aggregate query ",
@@ -1368,14 +1368,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-7k6n3",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:)-7k6n3",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregateExplain(_:usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregateexplain(_:usingmongodb:options:)-7k6n3"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregateExplain(_:usingMongoDB:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregateExplain(_:usingMongoDB:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Query plan information for executing an aggregate query ",
@@ -1575,14 +1575,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplain(_:usingMongoDB:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregateExplain(_:usingMongoDB:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregateexplain(_:usingmongodb:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregateExplainPublisher(_:usingMongoDB:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregateExplainPublisher(_:usingMongoDB:options:)": {
   "abstract" : [
     {
       "text" : "Query plan information for executing an aggregate query ",
@@ -1748,14 +1748,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplainPublisher(_:usingMongoDB:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregateExplainPublisher(_:usingMongoDB:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregateExplainPublisher(_:usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregateexplainpublisher(_:usingmongodb:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/aggregatePublisher(_:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/aggregatePublisher(_:options:)": {
   "abstract" : [
     {
       "text" : "Executes an aggregate query ",
@@ -1896,14 +1896,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/aggregatePublisher(_:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/aggregatePublisher(_:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "aggregatePublisher(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/aggregatepublisher(_:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/className-swift.property": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/className-swift.property": {
   "abstract" : [
     {
       "text" : "The className of the ",
@@ -1941,14 +1941,14 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.property",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.property",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "className",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/classname-swift.property"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/className-swift.type.property": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/className-swift.type.property": {
   "abstract" : [
     {
       "text" : "The className of the ",
@@ -1994,14 +1994,14 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.type.property",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/className-swift.type.property",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "className",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/classname-swift.type.property"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/count(options:)-25obg": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/count(options:)-25obg": {
   "abstract" : [
     {
       "text" : "Count objects ",
@@ -2118,14 +2118,14 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-25obg",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-25obg",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "count(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/count(options:)-25obg"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/countExplain(usingMongoDB:options:)-4fdb9": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/countExplain(usingMongoDB:options:)-4fdb9": {
   "abstract" : [
     {
       "text" : "Query plan information for counting objects ",
@@ -2271,14 +2271,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-4fdb9",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-4fdb9",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "countExplain(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/countexplain(usingmongodb:options:)-4fdb9"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/countExplain(usingMongoDB:options:)-97wa2": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/countExplain(usingMongoDB:options:)-97wa2": {
   "abstract" : [
     {
       "text" : "Query plan information for counting objects ",
@@ -2424,14 +2424,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-97wa2",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:)-97wa2",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "countExplain(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/countexplain(usingmongodb:options:)-97wa2"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/countExplain(usingMongoDB:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/countExplain(usingMongoDB:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Query plan information for counting objects ",
@@ -2613,14 +2613,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplain(usingMongoDB:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "countExplain(usingMongoDB:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/countexplain(usingmongodb:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/countExplainPublisher(usingMongoDB:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/countExplainPublisher(usingMongoDB:options:)": {
   "abstract" : [
     {
       "text" : "Query plan information for counting objects ",
@@ -2768,14 +2768,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countExplainPublisher(usingMongoDB:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countExplainPublisher(usingMongoDB:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "countExplainPublisher(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/countexplainpublisher(usingmongodb:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/countPublisher(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/countPublisher(options:)": {
   "abstract" : [
     {
       "text" : "Count objects ",
@@ -2898,14 +2898,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/countPublisher(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/countPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "countPublisher(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/countpublisher(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinct(_:options:)-783te": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinct(_:options:)-783te": {
   "abstract" : [
     {
       "text" : "Executes an aggregate query ",
@@ -3027,14 +3027,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-783te",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-783te",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinct(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinct(_:options:)-783te"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinct(_:options:)-8r7nh": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinct(_:options:)-8r7nh": {
   "abstract" : [
     {
       "text" : "Executes a distinct query ",
@@ -3164,14 +3164,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-8r7nh",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:)-8r7nh",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinct(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinct(_:options:)-8r7nh"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinct(_:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinct(_:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Executes a distinct query ",
@@ -3337,14 +3337,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinct(_:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinct(_:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinct(_:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinctExplain(_:usingMongoDB:options:)-4h769": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinctExplain(_:usingMongoDB:options:)-4h769": {
   "abstract" : [
     {
       "text" : "Query plan information for executing a distinct query ",
@@ -3499,14 +3499,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-4h769",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-4h769",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinctExplain(_:usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinctexplain(_:usingmongodb:options:)-4h769"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinctExplain(_:usingMongoDB:options:)-5q4cg": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinctExplain(_:usingMongoDB:options:)-5q4cg": {
   "abstract" : [
     {
       "text" : "Query plan information for executing an aggregate query ",
@@ -3653,14 +3653,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-5q4cg",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:)-5q4cg",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinctExplain(_:usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinctexplain(_:usingmongodb:options:)-5q4cg"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinctExplain(_:usingMongoDB:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinctExplain(_:usingMongoDB:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Query plan information for executing a distinct query ",
@@ -3851,14 +3851,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplain(_:usingMongoDB:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinctExplain(_:usingMongoDB:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinctexplain(_:usingmongodb:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinctExplainPublisher(_:usingMongoDB:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinctExplainPublisher(_:usingMongoDB:options:)": {
   "abstract" : [
     {
       "text" : "Query plan information for executing a distinct query ",
@@ -4015,14 +4015,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplainPublisher(_:usingMongoDB:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctExplainPublisher(_:usingMongoDB:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinctExplainPublisher(_:usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinctexplainpublisher(_:usingmongodb:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/distinctPublisher(_:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/distinctPublisher(_:options:)": {
   "abstract" : [
     {
       "text" : "Executes a distinct query ",
@@ -4154,14 +4154,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/distinctPublisher(_:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/distinctPublisher(_:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distinctPublisher(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/distinctpublisher(_:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/exclude(_:)-1jvpb": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/exclude(_:)-1jvpb": {
   "abstract" : [
     {
       "text" : "Exclude specific keys for a ",
@@ -4229,14 +4229,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "exclude(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/exclude(_:)-1jvpb"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/exclude(_:)-717l0": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/exclude(_:)-717l0": {
   "abstract" : [
     {
       "text" : "Exclude specific keys for a ",
@@ -4304,14 +4304,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-717l0",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-717l0",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "exclude(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/exclude(_:)-717l0"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/fields(_:)-2q1ez": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/fields(_:)-2q1ez": {
   "abstract" : [
     {
       "text" : "A variadic list of fields to receive when receiving a ",
@@ -4371,14 +4371,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-2q1ez",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-2q1ez",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "fields(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/fields(_:)-2q1ez"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/fields(_:)-71x3d": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/fields(_:)-71x3d": {
   "abstract" : [
     {
       "text" : "A list of fields to receive when receiving a ",
@@ -4438,14 +4438,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-71x3d",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/fields(_:)-71x3d",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "fields(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/fields(_:)-71x3d"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/find(options:)-8vz5e": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/find(options:)-8vz5e": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -4566,14 +4566,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-8vz5e",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-8vz5e",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "find(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/find(options:)-8vz5e"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findAll(batchLimit:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findAll(batchLimit:options:)": {
   "abstract" : [
     {
       "text" : "Retrieves ",
@@ -4719,14 +4719,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findAll(batchLimit:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findall(batchlimit:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findAll(batchLimit:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findAll(batchLimit:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Retrieves ",
@@ -4908,14 +4908,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findAll(batchLimit:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findAll(batchLimit:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findall(batchlimit:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findAllPublisher(batchLimit:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findAllPublisher(batchLimit:options:)": {
   "abstract" : [
     {
       "text" : "Retrieves ",
@@ -5071,14 +5071,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findAllPublisher(batchLimit:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findAllPublisher(batchLimit:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findAllPublisher(batchLimit:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findallpublisher(batchlimit:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findExplain(usingMongoDB:options:)-58al": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findExplain(usingMongoDB:options:)-58al": {
   "abstract" : [
     {
       "text" : "Query plan information for finding objects ",
@@ -5224,14 +5224,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-58al",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-58al",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findExplain(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findexplain(usingmongodb:options:)-58al"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findExplain(usingMongoDB:options:)-ret0": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findExplain(usingMongoDB:options:)-ret0": {
   "abstract" : [
     {
       "text" : "Query plan information for finding objects ",
@@ -5377,14 +5377,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-ret0",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:)-ret0",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findExplain(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findexplain(usingmongodb:options:)-ret0"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findExplain(usingMongoDB:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findExplain(usingMongoDB:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Query plan information for finding objects ",
@@ -5566,14 +5566,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplain(usingMongoDB:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findExplain(usingMongoDB:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findexplain(usingmongodb:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findExplainPublisher(usingMongoDB:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findExplainPublisher(usingMongoDB:options:)": {
   "abstract" : [
     {
       "text" : "Query plan information for finding objects ",
@@ -5721,14 +5721,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findExplainPublisher(usingMongoDB:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findExplainPublisher(usingMongoDB:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findExplainPublisher(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findexplainpublisher(usingmongodb:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/findPublisher(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/findPublisher(options:)": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -5851,14 +5851,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/findPublisher(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/findPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "findPublisher(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/findpublisher(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/first(options:)-53w8y": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/first(options:)-53w8y": {
   "abstract" : [
     {
       "text" : "Gets an object ",
@@ -5975,14 +5975,14 @@
       "text" : "ResultType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-53w8y",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-53w8y",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "first(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/first(options:)-53w8y"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/firstExplain(usingMongoDB:options:)-7sns5": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/firstExplain(usingMongoDB:options:)-7sns5": {
   "abstract" : [
     {
       "text" : "Query plan information for getting an object ",
@@ -6124,14 +6124,14 @@
       "text" : "U"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-7sns5",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-7sns5",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "firstExplain(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/firstexplain(usingmongodb:options:)-7sns5"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/firstExplain(usingMongoDB:options:)-ie81": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/firstExplain(usingMongoDB:options:)-ie81": {
   "abstract" : [
     {
       "text" : "Query plan information for getting an object ",
@@ -6273,14 +6273,14 @@
       "text" : "U"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-ie81",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:)-ie81",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "firstExplain(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/firstexplain(usingmongodb:options:)-ie81"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/firstExplain(usingMongoDB:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/firstExplain(usingMongoDB:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Query plan information for getting an object ",
@@ -6462,14 +6462,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplain(usingMongoDB:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "firstExplain(usingMongoDB:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/firstexplain(usingmongodb:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/firstExplainPublisher(usingMongoDB:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/firstExplainPublisher(usingMongoDB:options:)": {
   "abstract" : [
     {
       "text" : "Query plan information for getting an object ",
@@ -6617,14 +6617,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplainPublisher(usingMongoDB:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstExplainPublisher(usingMongoDB:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "firstExplainPublisher(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/firstexplainpublisher(usingmongodb:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/firstPublisher(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/firstPublisher(options:)": {
   "abstract" : [
     {
       "text" : "Gets an object ",
@@ -6747,14 +6747,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/firstPublisher(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/firstPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "firstPublisher(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/firstpublisher(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/hint(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/hint(_:)": {
   "abstract" : [
     {
       "text" : "Adds a hint to force index selection.",
@@ -6814,14 +6814,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/hint(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/hint(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hint(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/hint(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/include(_:)-323ik": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/include(_:)-323ik": {
   "abstract" : [
     {
       "text" : "Make the query include ",
@@ -6889,14 +6889,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-323ik",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-323ik",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "include(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/include(_:)-323ik"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/include(_:)-47jms": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/include(_:)-47jms": {
   "abstract" : [
     {
       "text" : "Make the query include ",
@@ -6964,14 +6964,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-47jms",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-47jms",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "include(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/include(_:)-47jms"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/includeAll()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/includeAll()": {
   "abstract" : [
     {
       "text" : "Includes all nested ",
@@ -7022,14 +7022,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/includeAll()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/includeAll()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "includeAll()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/includeall()"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/init(_:)-16e61": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/init(_:)-16e61": {
   "abstract" : [
     {
       "text" : "Create an instance with a variadic amount constraints.",
@@ -7055,14 +7055,14 @@
       "text" : "...)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-16e61",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-16e61",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/init(_:)-16e61"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/init(_:)-6muig": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/init(_:)-6muig": {
   "abstract" : [
     {
       "text" : "Create an instance with an array of constraints.",
@@ -7088,14 +7088,14 @@
       "text" : "])"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-6muig",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/init(_:)-6muig",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/init(_:)-6muig"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/limit(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/limit(_:)": {
   "abstract" : [
     {
       "text" : "A limit on the number of objects to return. The default limit is ",
@@ -7163,14 +7163,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/limit(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/limit(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "limit(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/limit(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/order(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/order(_:)": {
   "abstract" : [
     {
       "text" : "An enum that determines the order to sort the results based on a given key.",
@@ -7222,14 +7222,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "order(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/readPreference(_:includeReadPreference:subqueryReadPreference:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/readPreference(_:includeReadPreference:subqueryReadPreference:)": {
   "abstract" : [
     {
       "text" : "Changes the read preference that the backend will use when performing the query to the database.",
@@ -7315,14 +7315,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/readPreference(_:includeReadPreference:subqueryReadPreference:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/readPreference(_:includeReadPreference:subqueryReadPreference:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "readPreference(_:includeReadPreference:subqueryReadPreference:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/readpreference(_:includereadpreference:subqueryreadpreference:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/select(_:)-23ewt": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/select(_:)-23ewt": {
   "abstract" : [
     {
       "text" : "Make the query restrict the fields of the returned ",
@@ -7390,14 +7390,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-23ewt",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-23ewt",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "select(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/select(_:)-23ewt"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/select(_:)-689ic": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/select(_:)-689ic": {
   "abstract" : [
     {
       "text" : "Make the query restrict the fields of the returned ",
@@ -7465,14 +7465,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-689ic",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-689ic",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "select(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/select(_:)-689ic"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/skip(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/skip(_:)": {
   "abstract" : [
     {
       "text" : "The number of objects to skip before returning any.",
@@ -7532,14 +7532,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/skip(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/skip(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "skip(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/skip(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/sortByTextScore()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/sortByTextScore()": {
   "abstract" : [
     {
       "text" : "Method to sort the full text search by text score.",
@@ -7622,14 +7622,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/sortByTextScore()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/sortByTextScore()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "sortByTextScore()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/sortbytextscore()"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/subscribe": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/subscribe": {
   "abstract" : [
     {
       "text" : "Registers the query for live updates, using the default subscription handler,",
@@ -7740,14 +7740,14 @@
       "text" : ">?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "subscribe",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/subscribe"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/subscribe(_:)-swift.method": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/subscribe(_:)-swift.method": {
   "abstract" : [
     {
       "text" : "Registers the query for live updates, using the default subscription handler,",
@@ -7875,14 +7875,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.method",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.method",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "subscribe(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/subscribe(_:)-swift.method"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/subscribe(_:)-swift.type.method": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/subscribe(_:)-swift.type.method": {
   "abstract" : [
     {
       "text" : "Registers a query for live updates, using a custom subscription handler.",
@@ -7977,14 +7977,14 @@
       "text" : "T"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.type.method",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:)-swift.type.method",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "subscribe(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/subscribe(_:)-swift.type.method"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/subscribe(_:client:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/subscribe(_:client:)": {
   "abstract" : [
     {
       "text" : "Registers a query for live updates, using a custom subscription handler.",
@@ -8096,14 +8096,14 @@
       "text" : "T"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:client:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe(_:client:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "subscribe(_:client:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/subscribe(_:client:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/subscribeCallback": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/subscribeCallback": {
   "abstract" : [
     {
       "text" : "Registers the query for live updates, using the default subscription handler,",
@@ -8194,14 +8194,14 @@
       "text" : ">?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "subscribeCallback",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/subscribecallback"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/subscribeCallback(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/subscribeCallback(_:)": {
   "abstract" : [
     {
       "text" : "Registers the query for live updates, using the default subscription handler,",
@@ -8309,14 +8309,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribeCallback(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "subscribeCallback(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/subscribecallback(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/unsubscribe()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/unsubscribe()": {
   "abstract" : [
     {
       "text" : "Unsubscribes all current subscriptions for a given query on the default",
@@ -8389,14 +8389,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unsubscribe()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/unsubscribe()"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/unsubscribe(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/unsubscribe(_:)": {
   "abstract" : [
     {
       "text" : "Unsubscribes from a specific query-handler on the default",
@@ -8486,14 +8486,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unsubscribe(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/unsubscribe(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/unsubscribe(_:client:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/unsubscribe(_:client:)": {
   "abstract" : [
     {
       "text" : "Unsubscribes from a specific query-handler on a specific",
@@ -8600,14 +8600,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unsubscribe(_:client:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/unsubscribe(_:client:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/unsubscribe(client:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/unsubscribe(client:)": {
   "abstract" : [
     {
       "text" : "Unsubscribes all current subscriptions for a given query on a specific",
@@ -8697,14 +8697,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(client:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(client:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unsubscribe(client:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/unsubscribe(client:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/update(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/update(_:)": {
   "abstract" : [
     {
       "text" : "Updates an existing subscription with a new query on the default ",
@@ -8798,14 +8798,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "update(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/update(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/update(_:client:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/update(_:client:)": {
   "abstract" : [
     {
       "text" : "Updates an existing subscription with a new query on a specific ",
@@ -8916,14 +8916,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:client:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/update(_:client:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "update(_:client:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/update(_:client:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/viewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/viewModel": {
   "abstract" : [
     {
       "text" : "Creates a view model for this query. Suitable for ",
@@ -9018,14 +9018,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "viewModel",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/viewmodel"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/viewModel(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/viewModel(_:)": {
   "abstract" : [
     {
       "text" : "Creates a view model for this query. Suitable for ",
@@ -9132,14 +9132,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "viewModel(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/viewmodel(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/where(_:)-60ukn": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/where(_:)-60ukn": {
   "abstract" : [
     {
       "text" : "Add any amount of variadic constraints.",
@@ -9191,14 +9191,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-60ukn",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-60ukn",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "where(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/where(_:)-60ukn"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/where(_:)-m71l": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/where(_:)-m71l": {
   "abstract" : [
     {
       "text" : "Add an array of variadic constraints.",
@@ -9250,14 +9250,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-m71l",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/where(_:)-m71l",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "where(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/where(_:)-m71l"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/withCount(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/withCount(options:)": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -9395,14 +9395,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "withCount(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/withcount(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/withCount(options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/withCount(options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -9576,14 +9576,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCount(options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "withCount(options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/withcount(options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/withCountExplain(usingMongoDB:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/withCountExplain(usingMongoDB:options:)": {
   "abstract" : [
     {
       "text" : "Query plan information for withCount objects ",
@@ -9729,14 +9729,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "withCountExplain(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/withcountexplain(usingmongodb:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/withCountExplain(usingMongoDB:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/withCountExplain(usingMongoDB:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Query plan information for withCount objects ",
@@ -9918,14 +9918,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplain(usingMongoDB:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "withCountExplain(usingMongoDB:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/withcountexplain(usingmongodb:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/withCountExplainPublisher(usingMongoDB:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/withCountExplainPublisher(usingMongoDB:options:)": {
   "abstract" : [
     {
       "text" : "Query plan information for counting objects ",
@@ -10073,14 +10073,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplainPublisher(usingMongoDB:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountExplainPublisher(usingMongoDB:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "withCountExplainPublisher(usingMongoDB:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/withcountexplainpublisher(usingmongodb:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/withCountPublisher(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/withCountPublisher(options:)": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -10228,14 +10228,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/withCountPublisher(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/withCountPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "withCountPublisher(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/withcountpublisher(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Queryable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Queryable": {
   "abstract" : [
 
   ],
@@ -10285,7 +10285,7 @@
       "text" : "Queryable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Queryable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Queryable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -10298,13 +10298,13 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/s23CustomStringConvertibleP": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s23CustomStringConvertibleP",
+"doc://com.parse.ParseSwift/s23CustomStringConvertibleP": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
   "title" : "Swift.CustomStringConvertible",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/s28CustomDebugStringConvertibleP": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/s28CustomDebugStringConvertibleP",
+"doc://com.parse.ParseSwift/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
   "title" : "Swift.CustomDebugStringConvertible",
   "type" : "unresolvable"
 }

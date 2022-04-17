@@ -8,8 +8,8 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-1f3yl",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-798hl"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-798hl",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-1f3yl"
       ],
       "title" : "ParseLiveQueryDelegate Implementations"
     }
@@ -17,14 +17,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-3krd3"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-3krd3"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -191,21 +191,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate": {
   "abstract" : [
     {
       "text" : "Receive\/respond to notifications from the ParseLiveQuery Server.",
@@ -226,7 +226,7 @@
       "text" : "ParseLiveQueryDelegate"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -239,7 +239,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequerydelegate"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate/received(_:)-1f3yl": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate/received(_:)-1f3yl": {
   "abstract" : [
 
   ],
@@ -270,14 +270,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-1f3yl",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-1f3yl",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "received(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-1f3yl"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate/received(_:)-3krd3": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate/received(_:)-3krd3": {
   "abstract" : [
     {
       "text" : "Receive metrics about the ParseLiveQuery task\/connection.",
@@ -312,7 +312,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-3krd3",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-3krd3",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -320,7 +320,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-3krd3"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate/received(_:)-798hl": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate/received(_:)-798hl": {
   "abstract" : [
 
   ],
@@ -351,7 +351,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-798hl",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-798hl",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "received(_:)",

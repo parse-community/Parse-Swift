@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/ParseAuthentication-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/ParseAuthentication-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -39,27 +39,27 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked"
       ],
       "title" : "Instance Properties"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/linkPublisher(authData:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/login(authData:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/loginPublisher(authData:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip()",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(_:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(options:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/linkPublisher(authData:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/login(authData:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/loginPublisher(authData:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(_:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(options:)"
       ],
       "title" : "Instance Methods"
     }
@@ -78,21 +78,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with LDAP User Authentication and ",
@@ -138,7 +138,7 @@
       "text" : "ParseLDAP"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -151,7 +151,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/isLinked": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/isLinked": {
   "abstract" : [
 
   ],
@@ -178,14 +178,14 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isLinked",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/islinked"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/isLinked(with:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/isLinked(with:)": {
   "abstract" : [
     {
       "text" : "Whether the ",
@@ -240,14 +240,14 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isLinked(with:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/islinked(with:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/link(authData:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/link(authData:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -411,14 +411,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(authData:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/link(authdata:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/link(authData:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/link(authData:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -622,14 +622,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/link(authData:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(authData:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/link(authdata:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/linkPublisher(authData:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/linkPublisher(authData:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -799,14 +799,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/linkPublisher(authData:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/linkPublisher(authData:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "linkPublisher(authData:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/linkpublisher(authdata:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/login(authData:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/login(authData:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -997,14 +997,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/login(authData:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/login(authData:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(authData:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/login(authdata:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/loginPublisher(authData:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/loginPublisher(authData:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -1161,14 +1161,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/loginPublisher(authData:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/loginPublisher(authData:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "loginPublisher(authData:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/loginpublisher(authdata:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/strip()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/strip()": {
   "abstract" : [
     {
       "text" : "Strips the ",
@@ -1206,14 +1206,14 @@
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "strip()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/strip()"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/strip(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/strip(_:)": {
   "abstract" : [
     {
       "text" : "Strips the ",
@@ -1260,14 +1260,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/strip(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "strip(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/strip(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(_:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(_:options:)": {
   "abstract" : [
     {
       "text" : "Unlink the ",
@@ -1369,14 +1369,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unlink(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/unlink(_:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(_:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(_:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Unlink the ",
@@ -1518,14 +1518,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(_:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unlink(_:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/unlink(_:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(options:)": {
   "abstract" : [
     {
       "text" : "Unlink the ",
@@ -1631,14 +1631,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unlink(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/unlink(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/unlink(options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Unlink the ",
@@ -1784,14 +1784,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlink(options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unlink(options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/unlink(options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/unlinkPublisher(_:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/unlinkPublisher(_:options:)": {
   "abstract" : [
     {
       "text" : "Unlink the ",
@@ -1899,14 +1899,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(_:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(_:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unlinkPublisher(_:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/unlinkpublisher(_:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/unlinkPublisher(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/unlinkPublisher(options:)": {
   "abstract" : [
     {
       "text" : "Unlink the ",
@@ -2018,7 +2018,7 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/unlinkPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unlinkPublisher(options:)",

@@ -32,13 +32,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/withinMiles(key:geoPoint:distance:sorted:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/withinMiles(key:geoPoint:distance:sorted:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -201,7 +201,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A8GeoPointV",
               "text" : "ParseGeoPoint"
@@ -245,7 +245,7 @@
               "text" : " = true) -> ["
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
               "text" : "QueryConstraint"
@@ -403,21 +403,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseGeoPoint": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint": {
   "abstract" : [
     {
       "code" : "ParseGeoPoint",
@@ -466,7 +466,7 @@
       "text" : "ParseGeoPoint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -479,7 +479,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsegeopoint"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint": {
   "abstract" : [
     {
       "text" : "Used to constrain a query.",
@@ -500,7 +500,7 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -513,7 +513,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/withinMiles(key:geoPoint:distance:sorted:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/withinMiles(key:geoPoint:distance:sorted:)": {
   "abstract" : [
     {
       "text" : "Add a constraint to the query that requires a particular key’s coordinates (specified via ",
@@ -639,7 +639,7 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/withinMiles(key:geoPoint:distance:sorted:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/withinMiles(key:geoPoint:distance:sorted:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "withinMiles(key:geoPoint:distance:sorted:)",

@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -101,8 +101,8 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ"
+        "doc:\/\/com.parse.ParseSwift\/SE",
+        "doc:\/\/com.parse.ParseSwift\/SQ"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -120,21 +120,21 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/ascending(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/descending(_:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/ascending(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/descending(_:)"
       ],
       "title" : "Enumeration Cases"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/encode(to:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/encode(to:)"
       ],
       "title" : "Instance Methods"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/Equatable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/Equatable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -153,31 +153,31 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/SQ": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
   "title" : "Swift.Equatable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -214,7 +214,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -227,7 +227,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Order": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Order": {
   "abstract" : [
     {
       "text" : "An enum that determines the order to sort the results based on a given key.",
@@ -248,7 +248,7 @@
       "text" : "Order"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -261,18 +261,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Order/Equatable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Order/Equatable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/Equatable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/Equatable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order\/equatable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Order/ascending(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Order/ascending(_:)": {
   "abstract" : [
     {
       "text" : "Sort in ascending order based on ",
@@ -314,14 +314,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/ascending(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/ascending(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "Query.Order.ascending(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order\/ascending(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Order/descending(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Order/descending(_:)": {
   "abstract" : [
     {
       "text" : "Sort in descending order based on ",
@@ -363,14 +363,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/descending(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/descending(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "Query.Order.descending(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order\/descending(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Order/encode(to:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Order/encode(to:)": {
   "abstract" : [
 
   ],
@@ -413,7 +413,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/encode(to:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/encode(to:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "encode(to:)",

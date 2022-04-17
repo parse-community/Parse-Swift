@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/deleteObjectiveCKeychain()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/deleteObjectiveCKeychain()"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -168,21 +168,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
   "abstract" : [
     {
       "code" : "ParseSwift",
@@ -207,7 +207,7 @@
       "text" : "ParseSwift"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -220,7 +220,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSwift/deleteObjectiveCKeychain()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/deleteObjectiveCKeychain()": {
   "abstract" : [
     {
       "text" : "Delete the Parse iOS Objective-C SDK Keychain from the device.",
@@ -257,7 +257,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/deleteObjectiveCKeychain()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/deleteObjectiveCKeychain()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "deleteObjectiveCKeychain()",

@@ -8,7 +8,7 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-8ieqs"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-8ieqs"
       ],
       "title" : "Deletable Implementations"
     }
@@ -16,14 +16,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -106,7 +106,7 @@
               "text" : " -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift9DeletableP12DeletingTypeQa",
               "text" : "DeletingType"
@@ -139,21 +139,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable": {
   "abstract" : [
 
   ],
@@ -171,7 +171,7 @@
       "text" : "Deletable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -184,7 +184,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/deletable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable/DeletingType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable/DeletingType": {
   "abstract" : [
 
   ],
@@ -202,7 +202,7 @@
       "text" : "DeletingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -210,7 +210,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/deletable\/deletingtype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable/delete()-5tyw7": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable/delete()-5tyw7": {
   "abstract" : [
 
   ],
@@ -246,7 +246,7 @@
       "text" : "DeletingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -254,7 +254,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/deletable\/delete()-5tyw7"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable/delete()-8ieqs": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable/delete()-8ieqs": {
   "abstract" : [
 
   ],
@@ -289,7 +289,7 @@
       "text" : "DeletingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-8ieqs",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-8ieqs",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "delete()",

@@ -16,16 +16,16 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -212,21 +212,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError": {
   "abstract" : [
     {
       "text" : "An object with a Parse code and message.",
@@ -247,7 +247,7 @@
       "text" : "ParseError"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -260,7 +260,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum": {
   "abstract" : [
     {
       "code" : "ParseError.Code",
@@ -309,7 +309,7 @@
       "text" : "Code"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -322,18 +322,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/RawRepresentable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/RawRepresentable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "RawRepresentable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/rawrepresentable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/encode(to:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/encode(to:)": {
   "abstract" : [
 
   ],
@@ -424,7 +424,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "encode(to:)",

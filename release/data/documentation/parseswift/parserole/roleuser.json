@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole\/RoleUser"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole\/RoleUser"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -82,7 +82,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A4UserP",
               "text" : "ParseUser"
@@ -115,21 +115,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRole": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRole": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -242,7 +242,7 @@
       "text" : "ParseRole"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -255,7 +255,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserole"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRole/RoleUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRole/RoleUser": {
   "abstract" : [
 
   ],
@@ -282,7 +282,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole\/RoleUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole\/RoleUser",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -290,7 +290,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserole\/roleuser"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -351,7 +351,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

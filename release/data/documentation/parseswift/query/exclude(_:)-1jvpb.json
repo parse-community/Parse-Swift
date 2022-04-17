@@ -24,14 +24,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -144,7 +144,7 @@
               "text" : "...) -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV",
               "text" : "Query"
@@ -235,21 +235,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -286,7 +286,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -299,7 +299,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/exclude(_:)-1jvpb": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/exclude(_:)-1jvpb": {
   "abstract" : [
     {
       "text" : "Exclude specific keys for a ",
@@ -367,7 +367,7 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/exclude(_:)-1jvpb",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "exclude(_:)",

@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/init(query:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/init(query:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -102,7 +102,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV",
               "text" : "Query"
@@ -148,21 +148,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -199,7 +199,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -212,7 +212,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/SubscriptionCallback": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/SubscriptionCallback": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -241,7 +241,7 @@
       "text" : "SubscriptionCallback"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -254,7 +254,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscriptioncallback"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/SubscriptionCallback/init(query:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/SubscriptionCallback/init(query:)": {
   "abstract" : [
     {
       "text" : "Creates a new subscription that can be used to handle updates.",
@@ -297,7 +297,7 @@
       "text" : ">)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/init(query:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/init(query:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(query:)",

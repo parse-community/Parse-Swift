@@ -28,14 +28,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -147,7 +147,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift14QueryViewModelC",
               "text" : "QueryViewModel"
@@ -157,7 +157,7 @@
               "text" : "<"
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV10ResultTypea",
               "text" : "ResultType"
@@ -202,21 +202,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -253,7 +253,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -266,7 +266,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/ResultType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/ResultType": {
   "abstract" : [
 
   ],
@@ -316,7 +316,7 @@
       "text" : "ResultType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -329,7 +329,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/resulttype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/viewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/viewModel": {
   "abstract" : [
     {
       "text" : "Creates a view model for this query. Suitable for ",
@@ -424,14 +424,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/viewModel",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "viewModel",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/viewmodel"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryViewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryViewModel": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -489,7 +489,7 @@
       "text" : "QueryViewModel"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

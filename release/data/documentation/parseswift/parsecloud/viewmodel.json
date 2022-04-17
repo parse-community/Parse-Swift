@@ -28,14 +28,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/viewModel"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/viewModel"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -114,7 +114,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC",
               "text" : "CloudViewModel"
@@ -167,21 +167,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/CloudViewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/CloudViewModel": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -239,7 +239,7 @@
       "text" : "CloudViewModel"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -252,7 +252,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/cloudviewmodel"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -301,7 +301,7 @@
       "text" : "ParseCloud"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -314,7 +314,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsecloud"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseCloud/viewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/viewModel": {
   "abstract" : [
     {
       "text" : "Creates a view model for this CloudCode. Suitable for ",
@@ -376,7 +376,7 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/viewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/viewModel",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "viewModel",

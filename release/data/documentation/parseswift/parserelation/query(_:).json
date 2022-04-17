@@ -32,14 +32,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/query(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/query(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -184,7 +184,7 @@
               "text" : " -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV",
               "text" : "Query"
@@ -219,7 +219,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A6ObjectP",
               "text" : "ParseObject"
@@ -326,21 +326,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -377,7 +377,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -390,7 +390,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRelation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRelation": {
   "abstract" : [
     {
       "text" : "The ",
@@ -435,7 +435,7 @@
       "text" : "ParseRelation"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -448,7 +448,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserelation"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRelation/query(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRelation/query(_:)": {
   "abstract" : [
     {
       "text" : "Returns a ",
@@ -540,14 +540,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/query(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/query(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "query(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserelation\/query(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -584,7 +584,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

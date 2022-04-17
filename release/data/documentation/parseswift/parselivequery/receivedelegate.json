@@ -32,14 +32,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery\/receiveDelegate"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery\/receiveDelegate"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -117,7 +117,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A17LiveQueryDelegateP",
               "text" : "ParseLiveQueryDelegate"
@@ -154,21 +154,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQuery": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQuery": {
   "abstract" : [
     {
       "text" : "The ",
@@ -205,7 +205,7 @@
       "text" : "ParseLiveQuery"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -218,7 +218,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequery"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQuery/receiveDelegate": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQuery/receiveDelegate": {
   "abstract" : [
     {
       "text" : "Have ",
@@ -276,14 +276,14 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery\/receiveDelegate",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery\/receiveDelegate",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "receiveDelegate",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequery\/receivedelegate"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQueryDelegate": {
   "abstract" : [
     {
       "text" : "Receive\/respond to notifications from the ParseLiveQuery Server.",
@@ -304,7 +304,7 @@
       "text" : "ParseLiveQueryDelegate"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseApple",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseApple\/ParseAuthentication-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseApple",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseApple\/ParseAuthentication-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseApple\/isLinked"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseApple\/isLinked"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -135,21 +135,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseApple": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseApple": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with Apple User Authentication and ",
@@ -220,7 +220,7 @@
       "text" : "ParseApple"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseApple",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseApple",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -233,18 +233,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseapple"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseApple/ParseAuthentication-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseApple/ParseAuthentication-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseApple\/ParseAuthentication-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseApple\/ParseAuthentication-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "ParseAuthentication Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseapple\/parseauthentication-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseApple/isLinked": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseApple/isLinked": {
   "abstract" : [
 
   ],
@@ -271,7 +271,7 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseApple\/isLinked",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseApple\/isLinked",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isLinked",

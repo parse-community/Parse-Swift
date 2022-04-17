@@ -8,13 +8,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFileManager"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -89,13 +89,13 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/init()"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/init()"
       ],
       "title" : "Initializers"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/defaultDataDirectoryPath"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/defaultDataDirectoryPath"
       ],
       "title" : "Instance Properties"
     }
@@ -114,21 +114,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFileManager": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager": {
   "abstract" : [
     {
       "text" : "Manages Parse files and directories.",
@@ -149,7 +149,7 @@
       "text" : "ParseFileManager"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFileManager",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -162,7 +162,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefilemanager"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFileManager/defaultDataDirectoryPath": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager/defaultDataDirectoryPath": {
   "abstract" : [
     {
       "text" : "The default directory for storing Parse files.",
@@ -196,14 +196,14 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/defaultDataDirectoryPath",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/defaultDataDirectoryPath",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "defaultDataDirectoryPath",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefilemanager\/defaultdatadirectorypath"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFileManager/init()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager/init()": {
   "abstract" : [
     {
       "text" : "Creates an instance of ",
@@ -228,7 +228,7 @@
       "text" : "?()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/init()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/init()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init()",

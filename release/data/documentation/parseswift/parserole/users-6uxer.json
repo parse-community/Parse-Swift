@@ -56,15 +56,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-7o4v6"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-7o4v6"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-6uxer"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-6uxer"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -143,7 +143,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A8RelationV",
               "text" : "ParseRelation"
@@ -196,21 +196,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRelation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRelation": {
   "abstract" : [
     {
       "text" : "The ",
@@ -255,7 +255,7 @@
       "text" : "ParseRelation"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -268,7 +268,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserelation"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRole": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRole": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -381,7 +381,7 @@
       "text" : "ParseRole"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -394,7 +394,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserole"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRole/users-6uxer": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRole/users-6uxer": {
   "abstract" : [
     {
       "text" : "Gets the ",
@@ -484,14 +484,14 @@
       "text" : ">?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-6uxer",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-6uxer",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "users",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserole\/users-6uxer"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRole/users-7o4v6": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRole/users-7o4v6": {
   "abstract" : [
     {
       "text" : "Gets the ",
@@ -582,7 +582,7 @@
       "text" : ">?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-7o4v6",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole\/users-7o4v6",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",

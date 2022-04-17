@@ -16,14 +16,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/setWriteAccess(user:value:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/setWriteAccess(user:value:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -192,7 +192,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A4UserP",
               "text" : "ParseUser"
@@ -266,21 +266,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL": {
   "abstract" : [
     {
       "code" : "ParseACL",
@@ -353,7 +353,7 @@
       "text" : "ParseACL"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -366,7 +366,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL/setWriteAccess(user:value:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL/setWriteAccess(user:value:)": {
   "abstract" : [
     {
       "text" : "Set whether the given ",
@@ -441,14 +441,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/setWriteAccess(user:value:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/setWriteAccess(user:value:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "setWriteAccess(user:value:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl\/setwriteaccess(user:value:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -509,7 +509,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

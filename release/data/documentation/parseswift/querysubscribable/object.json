@@ -16,14 +16,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/Object"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/Object"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -90,7 +90,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A6ObjectP",
               "text" : "ParseObject"
@@ -123,21 +123,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -174,7 +174,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -187,7 +187,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QuerySubscribable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QuerySubscribable": {
   "abstract" : [
     {
       "text" : "This protocol describes the interface for handling events from a ",
@@ -244,7 +244,7 @@
       "text" : "QuerySubscribable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -257,7 +257,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/querysubscribable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QuerySubscribable/Object": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QuerySubscribable/Object": {
   "abstract" : [
     {
       "text" : "The ",
@@ -295,7 +295,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/Object",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/Object",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",

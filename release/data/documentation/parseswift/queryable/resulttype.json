@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Queryable"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Queryable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Queryable\/ResultType"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Queryable\/ResultType"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -96,21 +96,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Queryable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Queryable": {
   "abstract" : [
 
   ],
@@ -128,7 +128,7 @@
       "text" : "Queryable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Queryable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Queryable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -141,7 +141,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Queryable/ResultType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Queryable/ResultType": {
   "abstract" : [
 
   ],
@@ -159,7 +159,7 @@
       "text" : "ResultType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Queryable\/ResultType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Queryable\/ResultType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",

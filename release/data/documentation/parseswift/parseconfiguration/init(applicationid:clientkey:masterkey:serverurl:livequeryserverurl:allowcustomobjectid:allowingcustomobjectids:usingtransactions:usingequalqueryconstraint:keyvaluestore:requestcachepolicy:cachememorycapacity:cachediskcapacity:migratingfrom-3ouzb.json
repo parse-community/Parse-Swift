@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -589,7 +589,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
               "text" : "ParseKeyValueStore"
@@ -1301,21 +1301,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
   "abstract" : [
     {
       "text" : "The Configuration for a Parse client.",
@@ -1336,7 +1336,7 @@
       "text" : "ParseConfiguration"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -1349,7 +1349,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
   "abstract" : [
     {
       "text" : "Create a Parse Swift configuration.",
@@ -1734,14 +1734,14 @@
       "text" : ")?)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowcustomobjectid:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migratingfrom-3ouzb"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
   "abstract" : [
     {
       "text" : "A store that supports key\/value storage. It should be able",
@@ -1770,7 +1770,7 @@
       "text" : "ParseKeyValueStore"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

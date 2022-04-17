@@ -16,14 +16,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/init(parent:key:child:)-6zxtt"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/init(parent:key:child:)-6zxtt"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -152,7 +152,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Pointer",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift7PointerV",
               "text" : "Pointer"
@@ -221,7 +221,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A6ObjectP",
               "text" : "ParseObject"
@@ -317,21 +317,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -368,7 +368,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -381,7 +381,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRelation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRelation": {
   "abstract" : [
     {
       "text" : "The ",
@@ -426,7 +426,7 @@
       "text" : "ParseRelation"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -439,7 +439,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserelation"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRelation/init(parent:key:child:)-6zxtt": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRelation/init(parent:key:child:)-6zxtt": {
   "abstract" : [
     {
       "text" : "Create a ",
@@ -532,14 +532,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/init(parent:key:child:)-6zxtt",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation\/init(parent:key:child:)-6zxtt",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(parent:key:child:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserelation\/init(parent:key:child:)-6zxtt"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Pointer": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Pointer": {
   "abstract" : [
     {
       "text" : "A Pointer referencing a ParseObject.",
@@ -560,7 +560,7 @@
       "text" : "Pointer"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Pointer",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

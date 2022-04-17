@@ -16,16 +16,16 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Equatable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Equatable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/!=(_:_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/!=(_:_:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -196,21 +196,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError": {
   "abstract" : [
     {
       "text" : "An object with a Parse code and message.",
@@ -231,7 +231,7 @@
       "text" : "ParseError"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -244,7 +244,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum": {
   "abstract" : [
     {
       "code" : "ParseError.Code",
@@ -293,7 +293,7 @@
       "text" : "Code"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -306,7 +306,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/!=(_:_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/!=(_:_:)": {
   "abstract" : [
 
   ],
@@ -361,18 +361,18 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/!=(_:_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/!=(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "!=(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/!=(_:_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/Equatable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/Equatable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Equatable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/Equatable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Equatable Implementations",

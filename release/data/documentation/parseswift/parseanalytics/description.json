@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/CustomStringConvertible-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/CustomStringConvertible-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/description"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/description"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -135,21 +135,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAnalytics": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnalytics": {
   "abstract" : [
     {
       "code" : "ParseAnalytics",
@@ -174,7 +174,7 @@
       "text" : "ParseAnalytics"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -187,18 +187,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseanalytics"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAnalytics/CustomStringConvertible-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnalytics/CustomStringConvertible-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/CustomStringConvertible-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/CustomStringConvertible-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "CustomStringConvertible Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseanalytics\/customstringconvertible-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAnalytics/description": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnalytics/description": {
   "abstract" : [
 
   ],
@@ -225,7 +225,7 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/description",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/description",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "description",

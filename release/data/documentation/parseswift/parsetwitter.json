@@ -58,13 +58,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -151,7 +151,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A4UserP",
               "text" : "ParseUser"
@@ -165,9 +165,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
+        "doc:\/\/com.parse.ParseSwift\/Se",
+        "doc:\/\/com.parse.ParseSwift\/SE"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -185,27 +185,27 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init()",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init(from:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init(from:)"
       ],
       "title" : "Initializers"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(authData:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(authData:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)"
       ],
       "title" : "Instance Methods"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/ParseAuthentication-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/ParseAuthentication-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -224,31 +224,31 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/Se": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
   "title" : "Swift.Decodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -306,7 +306,7 @@
       "text" : "ParseAuthentication"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -319,7 +319,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with Twitter User Authentication and ",
@@ -390,7 +390,7 @@
       "text" : "ParseTwitter"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -403,18 +403,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/ParseAuthentication-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/ParseAuthentication-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/ParseAuthentication-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/ParseAuthentication-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "ParseAuthentication Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/parseauthentication-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/init()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/init()": {
   "abstract" : [
     {
       "text" : "The default initializer for this authentication type.",
@@ -431,14 +431,14 @@
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/init()"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/init(from:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/init(from:)": {
   "abstract" : [
 
   ],
@@ -473,14 +473,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init(from:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/init(from:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(from:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/init(from:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -720,14 +720,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/link(userid:screenname:consumerkey:consumersecret:authtoken:authtokensecret:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -1007,14 +1007,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/link(userid:screenname:consumerkey:consumersecret:authtoken:authtokensecret:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -1260,14 +1260,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/linkpublisher(userid:screenname:consumerkey:consumersecret:authtoken:authtokensecret:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/login(authData:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/login(authData:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -1418,14 +1418,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(authData:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(authData:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(authData:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/login(authdata:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -1692,14 +1692,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/login(userid:screenname:authtoken:authtokensecret:consumerkey:consumersecret:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/login(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/login(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -1926,14 +1926,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/login(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/login(userid:screenname:consumerkey:consumersecret:authtoken:authtokensecret:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTwitter/loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter/loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -2166,14 +2166,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter\/loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter\/loginpublisher(userid:screenname:consumerkey:consumersecret:authtoken:authtokensecret:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -2234,7 +2234,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

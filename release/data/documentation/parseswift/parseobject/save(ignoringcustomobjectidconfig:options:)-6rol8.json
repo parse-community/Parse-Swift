@@ -29,14 +29,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject\/save(ignoringCustomObjectIdConfig:options:)-6rol8"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/save(ignoringCustomObjectIdConfig:options:)-6rol8"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -186,7 +186,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV",
               "text" : "API"
@@ -196,7 +196,7 @@
               "text" : "."
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV7Optionsa",
               "text" : "Options"
@@ -381,21 +381,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API": {
   "abstract" : [
     {
       "text" : "The REST API for communicating with a Parse Server.",
@@ -416,7 +416,7 @@
       "text" : "API"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -429,7 +429,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Options": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Options": {
   "abstract" : [
     {
       "text" : "A type alias for the set of options.",
@@ -450,7 +450,7 @@
       "text" : "Options"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -463,7 +463,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -500,7 +500,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -513,7 +513,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject/save(ignoringCustomObjectIdConfig:options:)-6rol8": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/save(ignoringCustomObjectIdConfig:options:)-6rol8": {
   "abstract" : [
     {
       "text" : "Saves the ",
@@ -622,7 +622,7 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject\/save(ignoringCustomObjectIdConfig:options:)-6rol8",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/save(ignoringCustomObjectIdConfig:options:)-6rol8",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "save(ignoringCustomObjectIdConfig:options:)",

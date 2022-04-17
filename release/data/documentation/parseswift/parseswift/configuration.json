@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/configuration"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/configuration"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -101,7 +101,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
               "text" : "ParseConfiguration"
@@ -138,21 +138,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
   "abstract" : [
     {
       "text" : "The Configuration for a Parse client.",
@@ -173,7 +173,7 @@
       "text" : "ParseConfiguration"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -186,7 +186,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
   "abstract" : [
     {
       "code" : "ParseSwift",
@@ -211,7 +211,7 @@
       "text" : "ParseSwift"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -224,7 +224,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSwift/configuration": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/configuration": {
   "abstract" : [
 
   ],
@@ -263,7 +263,7 @@
       "text" : "!"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/configuration",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/configuration",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "configuration",

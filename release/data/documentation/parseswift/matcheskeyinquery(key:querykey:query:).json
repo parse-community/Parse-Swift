@@ -16,13 +16,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/matchesKeyInQuery(key:queryKey:query:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/matchesKeyInQuery(key:queryKey:query:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -206,7 +206,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV",
               "text" : "Query"
@@ -225,7 +225,7 @@
               "text" : ">) -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
               "text" : "QueryConstraint"
@@ -251,7 +251,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A6ObjectP",
               "text" : "ParseObject"
@@ -359,21 +359,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -410,7 +410,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -423,7 +423,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -460,7 +460,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -473,7 +473,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint": {
   "abstract" : [
     {
       "text" : "Used to constrain a query.",
@@ -494,7 +494,7 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -507,7 +507,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/matchesKeyInQuery(key:queryKey:query:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/matchesKeyInQuery(key:queryKey:query:)": {
   "abstract" : [
     {
       "text" : "Adds a constraint that requires that a key’s value matches a value in another key",
@@ -613,7 +613,7 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/matchesKeyInQuery(key:queryKey:query:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/matchesKeyInQuery(key:queryKey:query:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "matchesKeyInQuery(key:queryKey:query:)",

@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/Equatable-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/Equatable-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -39,7 +39,7 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/!=(_:_:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/!=(_:_:)"
       ],
       "title" : "Operators"
     }
@@ -58,21 +58,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint": {
   "abstract" : [
     {
       "text" : "Used to constrain a query.",
@@ -93,7 +93,7 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -106,7 +106,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint/!=(_:_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint/!=(_:_:)": {
   "abstract" : [
 
   ],
@@ -161,7 +161,7 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/!=(_:_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/!=(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "!=(_:_:)",

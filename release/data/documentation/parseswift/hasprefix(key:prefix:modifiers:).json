@@ -16,13 +16,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/hasPrefix(key:prefix:modifiers:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasPrefix(key:prefix:modifiers:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -190,7 +190,7 @@
               "text" : "? = nil) -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
               "text" : "QueryConstraint"
@@ -298,21 +298,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint": {
   "abstract" : [
     {
       "text" : "Used to constrain a query.",
@@ -333,7 +333,7 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -346,7 +346,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/hasPrefix(key:prefix:modifiers:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/hasPrefix(key:prefix:modifiers:)": {
   "abstract" : [
     {
       "text" : "Add a constraint for finding string values that start with a provided prefix.",
@@ -435,7 +435,7 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/hasPrefix(key:prefix:modifiers:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasPrefix(key:prefix:modifiers:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hasPrefix(key:prefix:modifiers:)",

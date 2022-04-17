@@ -44,14 +44,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -163,7 +163,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift12SubscriptionC",
               "text" : "Subscription"
@@ -173,7 +173,7 @@
               "text" : "<"
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV10ResultTypea",
               "text" : "ResultType"
@@ -218,21 +218,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -269,7 +269,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -282,7 +282,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/ResultType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/ResultType": {
   "abstract" : [
 
   ],
@@ -332,7 +332,7 @@
       "text" : "ResultType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -345,7 +345,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/resulttype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/subscribe": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/subscribe": {
   "abstract" : [
     {
       "text" : "Registers the query for live updates, using the default subscription handler,",
@@ -456,14 +456,14 @@
       "text" : ">?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/subscribe",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "subscribe",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/subscribe"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Subscription": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -529,7 +529,7 @@
       "text" : "Subscription"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

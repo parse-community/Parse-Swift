@@ -16,13 +16,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -97,10 +97,10 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/delete(valueFor:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/deleteAll()",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/get(valueFor:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/set(_:for:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/delete(valueFor:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/deleteAll()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/get(valueFor:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/set(_:for:)"
       ],
       "title" : "Instance Methods"
     }
@@ -119,21 +119,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
   "abstract" : [
     {
       "text" : "A store that supports key\/value storage. It should be able",
@@ -162,7 +162,7 @@
       "text" : "ParseKeyValueStore"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -175,7 +175,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsekeyvaluestore"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/delete(valueFor:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/delete(valueFor:)": {
   "abstract" : [
     {
       "text" : "Delete an object from the store.",
@@ -221,7 +221,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/delete(valueFor:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/delete(valueFor:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -229,7 +229,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsekeyvaluestore\/delete(valuefor:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/deleteAll()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/deleteAll()": {
   "abstract" : [
     {
       "text" : "Delete all objects from the store.",
@@ -258,7 +258,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/deleteAll()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/deleteAll()",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -266,7 +266,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsekeyvaluestore\/deleteall()"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/get(valueFor:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/get(valueFor:)": {
   "abstract" : [
     {
       "text" : "Gets an object from the store based on its ",
@@ -341,7 +341,7 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/get(valueFor:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/get(valueFor:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -349,7 +349,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsekeyvaluestore\/get(valuefor:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/set(_:for:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/set(_:for:)": {
   "abstract" : [
     {
       "text" : "Stores an object in the store with a given ",
@@ -420,7 +420,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/set(_:for:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/set(_:for:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",

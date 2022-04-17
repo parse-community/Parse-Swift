@@ -58,13 +58,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -151,7 +151,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A4UserP",
               "text" : "ParseUser"
@@ -165,9 +165,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
+        "doc:\/\/com.parse.ParseSwift\/Se",
+        "doc:\/\/com.parse.ParseSwift\/SE"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -185,33 +185,33 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init()",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init(from:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init(from:)"
       ],
       "title" : "Initializers"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:accessToken:expiresIn:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:authenticationToken:expiresIn:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(authData:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:accessToken:expiresIn:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:authenticationToken:expiresIn:options:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:accessToken:expiresIn:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:authenticationToken:expiresIn:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(authData:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:accessToken:expiresIn:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:authenticationToken:expiresIn:options:)"
       ],
       "title" : "Instance Methods"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/ParseAuthentication-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/ParseAuthentication-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -230,31 +230,31 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/Se": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
   "title" : "Swift.Decodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -312,7 +312,7 @@
       "text" : "ParseAuthentication"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -325,7 +325,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with Facebook User Authentication and ",
@@ -396,7 +396,7 @@
       "text" : "ParseFacebook"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -409,18 +409,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/ParseAuthentication-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/ParseAuthentication-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/ParseAuthentication-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/ParseAuthentication-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "ParseAuthentication Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/parseauthentication-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/init()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/init()": {
   "abstract" : [
     {
       "text" : "The default initializer for this authentication type.",
@@ -437,14 +437,14 @@
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/init()"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/init(from:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/init(from:)": {
   "abstract" : [
 
   ],
@@ -479,14 +479,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init(from:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/init(from:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(from:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/init(from:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:accessToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:accessToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -675,14 +675,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(userId:accessToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/link(userid:accesstoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:accessToken:expiresIn:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:accessToken:expiresIn:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -911,14 +911,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/link(userid:accesstoken:expiresin:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:authenticationToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:authenticationToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -1107,14 +1107,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(userId:authenticationToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/link(userid:authenticationtoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/link(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -1343,14 +1343,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/link(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "link(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/link(userid:authenticationtoken:expiresin:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/linkPublisher(userId:accessToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/linkPublisher(userId:accessToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -1553,14 +1553,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:accessToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:accessToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "linkPublisher(userId:accessToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/linkpublisher(userid:accesstoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/linkPublisher(userId:authenticationToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/linkPublisher(userId:authenticationToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Link the ",
@@ -1763,14 +1763,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:authenticationToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/linkPublisher(userId:authenticationToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "linkPublisher(userId:authenticationToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/linkpublisher(userid:authenticationtoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/login(authData:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/login(authData:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -1921,14 +1921,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(authData:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(authData:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(authData:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/login(authdata:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:accessToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:accessToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -2104,14 +2104,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(userId:accessToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/login(userid:accesstoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:accessToken:expiresIn:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:accessToken:expiresIn:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -2327,14 +2327,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(userId:accessToken:expiresIn:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/login(userid:accesstoken:expiresin:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:authenticationToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:authenticationToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -2510,14 +2510,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(userId:authenticationToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/login(userid:authenticationtoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/login(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -2733,14 +2733,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/login(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(userId:authenticationToken:expiresIn:options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/login(userid:authenticationtoken:expiresin:options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/loginPublisher(userId:accessToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/loginPublisher(userId:accessToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -2922,14 +2922,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:accessToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:accessToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "loginPublisher(userId:accessToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/loginpublisher(userid:accesstoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFacebook/loginPublisher(userId:authenticationToken:expiresIn:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFacebook/loginPublisher(userId:authenticationToken:expiresIn:options:)": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -3111,14 +3111,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:authenticationToken:expiresIn:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook\/loginPublisher(userId:authenticationToken:expiresIn:options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "loginPublisher(userId:authenticationToken:expiresIn:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook\/loginpublisher(userid:authenticationtoken:expiresin:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -3179,7 +3179,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

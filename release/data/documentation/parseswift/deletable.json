@@ -8,13 +8,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -99,8 +99,8 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE"
+        "doc:\/\/com.parse.ParseSwift\/Se",
+        "doc:\/\/com.parse.ParseSwift\/SE"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -108,11 +108,11 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser"
       ],
       "kind" : "relationships",
       "title" : "Inherited By",
@@ -120,7 +120,7 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile"
       ],
       "kind" : "relationships",
       "title" : "Conforming Types",
@@ -138,14 +138,14 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType"
       ],
       "title" : "Associated Types"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete(options:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete(options:)"
       ],
       "title" : "Instance Methods"
     }
@@ -164,31 +164,31 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/Se": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
   "title" : "Swift.Decodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable": {
   "abstract" : [
 
   ],
@@ -206,7 +206,7 @@
       "text" : "Deletable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -219,7 +219,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/deletable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable/DeletingType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable/DeletingType": {
   "abstract" : [
 
   ],
@@ -237,7 +237,7 @@
       "text" : "DeletingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/DeletingType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -245,7 +245,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/deletable\/deletingtype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable/delete()-5tyw7": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable/delete()-5tyw7": {
   "abstract" : [
 
   ],
@@ -281,7 +281,7 @@
       "text" : "DeletingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete()-5tyw7",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -289,7 +289,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/deletable\/delete()-5tyw7"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Deletable/delete(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Deletable/delete(options:)": {
   "abstract" : [
 
   ],
@@ -351,7 +351,7 @@
       "text" : "DeletingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable\/delete(options:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -359,7 +359,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/deletable\/delete(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFile": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile": {
   "abstract" : [
     {
       "text" : "A ",
@@ -396,7 +396,7 @@
       "text" : "ParseFile"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -409,7 +409,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefile"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseInstallation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -482,7 +482,7 @@
       "text" : "ParseInstallation"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -495,7 +495,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseinstallation"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -532,7 +532,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -545,7 +545,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseRole": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseRole": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -658,7 +658,7 @@
       "text" : "ParseRole"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseRole",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -671,7 +671,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserole"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSession": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSession": {
   "abstract" : [
     {
       "code" : "ParseSession",
@@ -720,7 +720,7 @@
       "text" : "ParseSession"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSession",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -733,7 +733,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsesession"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -794,7 +794,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

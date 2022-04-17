@@ -8,15 +8,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/Objectable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/Objectable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/className"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/className"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -143,21 +143,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseInstallation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -230,7 +230,7 @@
       "text" : "ParseInstallation"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -243,18 +243,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseinstallation"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseInstallation/Objectable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation/Objectable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/Objectable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/Objectable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Objectable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseinstallation\/objectable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseInstallation/className": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation/className": {
   "abstract" : [
     {
       "text" : "The class name of the object.",
@@ -292,7 +292,7 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/className",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/className",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "className",

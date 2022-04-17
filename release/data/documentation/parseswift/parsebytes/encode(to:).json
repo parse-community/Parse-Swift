@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseBytes",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/Encodable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseBytes",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/Encodable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/encode(to:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/encode(to:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -163,21 +163,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseBytes": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseBytes": {
   "abstract" : [
     {
       "code" : "ParseBytes",
@@ -202,7 +202,7 @@
       "text" : "ParseBytes"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseBytes",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseBytes",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -215,18 +215,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsebytes"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseBytes/Encodable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseBytes/Encodable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/Encodable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/Encodable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Encodable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsebytes\/encodable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseBytes/encode(to:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseBytes/encode(to:)": {
   "abstract" : [
 
   ],
@@ -269,7 +269,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/encode(to:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseBytes\/encode(to:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "encode(to:)",

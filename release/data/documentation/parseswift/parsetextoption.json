@@ -8,13 +8,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -81,9 +81,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SY"
+        "doc:\/\/com.parse.ParseSwift\/SQ",
+        "doc:\/\/com.parse.ParseSwift\/SH",
+        "doc:\/\/com.parse.ParseSwift\/SY"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -101,23 +101,23 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/caseSensitive",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/diacriticSensitive",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/language"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/caseSensitive",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/diacriticSensitive",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/language"
       ],
       "title" : "Enumeration Cases"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)"
       ],
       "title" : "Initializers"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/Equatable-Implementations",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/RawRepresentable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/Equatable-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/RawRepresentable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -136,36 +136,36 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SH": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH",
+"doc://com.parse.ParseSwift/SH": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SH",
   "title" : "Swift.Hashable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/SQ": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
   "title" : "Swift.Equatable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/SY": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SY",
+"doc://com.parse.ParseSwift/SY": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SY",
   "title" : "Swift.RawRepresentable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption": {
   "abstract" : [
     {
       "text" : "Options used to constrain a text search.",
@@ -186,7 +186,7 @@
       "text" : "ParseTextOption"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -199,29 +199,29 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/Equatable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/Equatable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/Equatable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/Equatable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption\/equatable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/RawRepresentable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/RawRepresentable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/RawRepresentable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/RawRepresentable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "RawRepresentable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption\/rawrepresentable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/caseSensitive": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/caseSensitive": {
   "abstract" : [
     {
       "text" : "A boolean flag to enable or disable case sensitive search.",
@@ -242,14 +242,14 @@
       "text" : "caseSensitive"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/caseSensitive",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/caseSensitive",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseTextOption.caseSensitive",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption\/casesensitive"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/diacriticSensitive": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/diacriticSensitive": {
   "abstract" : [
     {
       "text" : "A boolean flag to enable or disable diacritic sensitive search.",
@@ -270,14 +270,14 @@
       "text" : "diacriticSensitive"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/diacriticSensitive",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/diacriticSensitive",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseTextOption.diacriticSensitive",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption\/diacriticsensitive"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/init(rawValue:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/init(rawValue:)": {
   "abstract" : [
 
   ],
@@ -308,14 +308,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/init(rawValue:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(rawValue:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption\/init(rawvalue:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/language": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/language": {
   "abstract" : [
     {
       "text" : "The language that determines the list of stop words for the search and the rules for the stemmer and tokenizer.",
@@ -352,7 +352,7 @@
       "text" : "language"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/language",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/language",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseTextOption.language",

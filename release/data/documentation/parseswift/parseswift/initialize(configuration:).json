@@ -20,13 +20,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(configuration:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(configuration:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -128,7 +128,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
               "text" : "ParseConfiguration"
@@ -174,7 +174,7 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
       ],
       "title" : "Initialize the SDK"
     }
@@ -193,21 +193,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
   "abstract" : [
     {
       "text" : "The Configuration for a Parse client.",
@@ -228,7 +228,7 @@
       "text" : "ParseConfiguration"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -241,7 +241,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
   "abstract" : [
     {
       "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
@@ -637,14 +637,14 @@
       "text" : ")?)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migratingfromobjcsdk:deleti-97083"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseSwift/initialize(configuration:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/initialize(configuration:)": {
   "abstract" : [
     {
       "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
@@ -706,7 +706,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(configuration:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(configuration:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "initialize(configuration:)",

@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/ParseAuthentication-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/ParseAuthentication-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -124,7 +124,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A14AuthenticationP17AuthenticatedUserQa",
               "text" : "AuthenticatedUser"
@@ -245,21 +245,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication/AuthenticatedUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication/AuthenticatedUser": {
   "abstract" : [
 
   ],
@@ -286,7 +286,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -294,7 +294,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication\/authenticateduser"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with LDAP User Authentication and ",
@@ -340,7 +340,7 @@
       "text" : "ParseLDAP"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -353,18 +353,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/ParseAuthentication-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/ParseAuthentication-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/ParseAuthentication-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/ParseAuthentication-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "ParseAuthentication Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseldap\/parseauthentication-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLDAP/isLinked(with:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP/isLinked(with:)": {
   "abstract" : [
     {
       "text" : "Whether the ",
@@ -419,7 +419,7 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP\/isLinked(with:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isLinked(with:)",

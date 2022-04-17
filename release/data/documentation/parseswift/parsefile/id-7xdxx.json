@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile\/Identifiable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/Identifiable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile\/id-7xdxx"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/id-7xdxx"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -165,21 +165,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFile": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile": {
   "abstract" : [
     {
       "text" : "A ",
@@ -216,7 +216,7 @@
       "text" : "ParseFile"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -229,18 +229,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefile"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFile/Identifiable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/Identifiable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile\/Identifiable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/Identifiable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Identifiable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefile\/identifiable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFile/id-7xdxx": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/id-7xdxx": {
   "abstract" : [
 
   ],
@@ -267,7 +267,7 @@
       "text" : "ObjectIdentifier"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile\/id-7xdxx",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/id-7xdxx",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "id",

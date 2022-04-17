@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -82,8 +82,8 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH"
+        "doc:\/\/com.parse.ParseSwift\/SQ",
+        "doc:\/\/com.parse.ParseSwift\/SH"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -101,35 +101,35 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/==(_:_:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/==(_:_:)"
       ],
       "title" : "Operators"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/cachePolicy(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/fileSize(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/installationId(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/metadata(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/mimeType(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/removeMimeType",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/sessionToken(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/tags(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/useMasterKey"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/cachePolicy(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/fileSize(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/installationId(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/metadata(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/mimeType(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/removeMimeType",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/sessionToken(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/tags(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/useMasterKey"
       ],
       "title" : "Enumeration Cases"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/hash(into:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/hash(into:)"
       ],
       "title" : "Instance Methods"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/Equatable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/Equatable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -148,31 +148,31 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SH": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH",
+"doc://com.parse.ParseSwift/SH": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SH",
   "title" : "Swift.Hashable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/SQ": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
   "title" : "Swift.Equatable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API": {
   "abstract" : [
     {
       "text" : "The REST API for communicating with a Parse Server.",
@@ -193,7 +193,7 @@
       "text" : "API"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -206,7 +206,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option": {
   "abstract" : [
     {
       "text" : "Options available to send to Parse Server.",
@@ -227,7 +227,7 @@
       "text" : "Option"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -240,7 +240,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/==(_:_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/==(_:_:)": {
   "abstract" : [
 
   ],
@@ -315,25 +315,25 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/==(_:_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/==(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "==(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/==(_:_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/Equatable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/Equatable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/Equatable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/Equatable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/equatable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/cachePolicy(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/cachePolicy(_:)": {
   "abstract" : [
     {
       "text" : "The caching policy to use for a specific http request. Determines when to",
@@ -401,14 +401,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/cachePolicy(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/cachePolicy(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.cachePolicy(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/cachepolicy(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/context(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/context(_:)": {
   "abstract" : [
     {
       "text" : "Add context.",
@@ -442,14 +442,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.context(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/context(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/fileSize(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/fileSize(_:)": {
   "abstract" : [
     {
       "text" : "Specify fileSize.",
@@ -483,14 +483,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/fileSize(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/fileSize(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.fileSize(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/filesize(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/hash(into:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/hash(into:)": {
   "abstract" : [
 
   ],
@@ -537,14 +537,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/hash(into:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/hash(into:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hash(into:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/hash(into:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/installationId(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/installationId(_:)": {
   "abstract" : [
     {
       "text" : "Use a specific installationId.",
@@ -578,14 +578,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/installationId(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/installationId(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.installationId(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/installationid(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/metadata(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/metadata(_:)": {
   "abstract" : [
     {
       "text" : "Specify metadata.",
@@ -628,14 +628,14 @@
       "text" : "])"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/metadata(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/metadata(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.metadata(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/metadata(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/mimeType(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/mimeType(_:)": {
   "abstract" : [
     {
       "text" : "Specify mimeType.",
@@ -669,14 +669,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/mimeType(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/mimeType(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.mimeType(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/mimetype(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/removeMimeType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/removeMimeType": {
   "abstract" : [
     {
       "text" : "Remove mimeType.",
@@ -697,14 +697,14 @@
       "text" : "removeMimeType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/removeMimeType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/removeMimeType",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.removeMimeType",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/removemimetype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/sessionToken(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/sessionToken(_:)": {
   "abstract" : [
     {
       "text" : "Use a specific session token.",
@@ -738,14 +738,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/sessionToken(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/sessionToken(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.sessionToken(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/sessiontoken(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/tags(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/tags(_:)": {
   "abstract" : [
     {
       "text" : "Specify tags.",
@@ -788,14 +788,14 @@
       "text" : "])"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/tags(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/tags(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.tags(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option\/tags(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/useMasterKey": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/useMasterKey": {
   "abstract" : [
     {
       "text" : "Use the masterKey if it was provided during initial configuraration.",
@@ -816,7 +816,7 @@
       "text" : "useMasterKey"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/useMasterKey",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/useMasterKey",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.useMasterKey",

@@ -16,13 +16,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -109,7 +109,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A6ObjectP",
               "text" : "ParseObject"
@@ -212,11 +212,11 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/created(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/deleted(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/entered(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/left(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/updated(_:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/created(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/deleted(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/entered(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/left(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/updated(_:)"
       ],
       "title" : "Enumeration Cases"
     }
@@ -235,21 +235,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Event": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Event": {
   "abstract" : [
     {
       "text" : "Represents an update on a specific object from the ",
@@ -278,7 +278,7 @@
       "text" : "Event"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -291,7 +291,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/event"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Event/created(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Event/created(_:)": {
   "abstract" : [
     {
       "text" : "The object has been created, and is a part of the query.",
@@ -325,14 +325,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/created(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/created(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "Event.created(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/event\/created(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Event/deleted(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Event/deleted(_:)": {
   "abstract" : [
     {
       "text" : "The object has been deleted, and is no longer included in the query.",
@@ -366,14 +366,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/deleted(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/deleted(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "Event.deleted(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/event\/deleted(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Event/entered(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Event/entered(_:)": {
   "abstract" : [
     {
       "text" : "The object has been updated, and is now included in the query.",
@@ -407,14 +407,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/entered(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/entered(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "Event.entered(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/event\/entered(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Event/left(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Event/left(_:)": {
   "abstract" : [
     {
       "text" : "The object has been updated, and is no longer included in the query.",
@@ -448,14 +448,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/left(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/left(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "Event.left(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/event\/left(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Event/updated(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Event/updated(_:)": {
   "abstract" : [
     {
       "text" : "The object has been updated, and is still a part of the query.",
@@ -489,14 +489,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event\/updated(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event\/updated(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "Event.updated(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/event\/updated(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -533,7 +533,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

@@ -8,15 +8,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -140,21 +140,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder": {
   "abstract" : [
     {
       "text" : "An object that encodes Parse instances of a data type as JSON objects.",
@@ -175,7 +175,7 @@
       "text" : "ParseEncoder"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -188,7 +188,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys": {
   "abstract" : [
     {
       "text" : "Keys to skip during encoding.",
@@ -209,7 +209,7 @@
       "text" : "SkipKeys"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -222,7 +222,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder\/skipkeys"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/custom(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/custom(_:)": {
   "abstract" : [
     {
       "text" : "Specify a custom set of keys to skip.",
@@ -265,7 +265,7 @@
       "text" : ">)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseEncoder.SkipKeys.custom(_:)",

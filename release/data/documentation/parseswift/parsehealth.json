@@ -12,13 +12,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -85,9 +85,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseType",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+        "doc:\/\/com.parse.ParseSwift\/Se",
+        "doc:\/\/com.parse.ParseSwift\/SE"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -105,16 +105,16 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/init(from:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/init(from:)"
       ],
       "title" : "Initializers"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-4x9n3",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-q7uf",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/checkPublisher(options:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-4x9n3",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-q7uf",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/checkPublisher(options:)"
       ],
       "title" : "Type Methods"
     }
@@ -133,31 +133,31 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/Se": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/Se",
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
   "title" : "Swift.Decodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseHealth": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHealth": {
   "abstract" : [
     {
       "code" : "ParseHealth",
@@ -182,7 +182,7 @@
       "text" : "ParseHealth"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -195,7 +195,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehealth"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseHealth/check(options:)-4x9n3": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHealth/check(options:)-4x9n3": {
   "abstract" : [
     {
       "text" : "Calls the health check function ",
@@ -288,14 +288,14 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-4x9n3",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-4x9n3",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "check(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehealth\/check(options:)-4x9n3"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseHealth/check(options:)-q7uf": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHealth/check(options:)-q7uf": {
   "abstract" : [
     {
       "text" : "Calls the health check function ",
@@ -380,14 +380,14 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-q7uf",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:)-q7uf",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "check(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehealth\/check(options:)-q7uf"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseHealth/check(options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHealth/check(options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Calls the health check function ",
@@ -520,14 +520,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/check(options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "check(options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehealth\/check(options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseHealth/checkPublisher(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHealth/checkPublisher(options:)": {
   "abstract" : [
     {
       "text" : "Calls the health check function ",
@@ -626,14 +626,14 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/checkPublisher(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/checkPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "checkPublisher(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehealth\/checkpublisher(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseHealth/init(from:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHealth/init(from:)": {
   "abstract" : [
 
   ],
@@ -668,14 +668,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/init(from:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth\/init(from:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(from:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehealth\/init(from:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseType": {
   "abstract" : [
 
   ],
@@ -693,7 +693,7 @@
       "text" : "ParseType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

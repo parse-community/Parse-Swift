@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription\/QuerySubscribable-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/QuerySubscribable-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -39,9 +39,9 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription\/didReceive(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription\/didSubscribe(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription\/didUnsubscribe()"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didReceive(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didSubscribe(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didUnsubscribe()"
       ],
       "title" : "Instance Methods"
     }
@@ -60,21 +60,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Subscription": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -140,7 +140,7 @@
       "text" : "Subscription"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -153,7 +153,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscription"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Subscription/didReceive(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/didReceive(_:)": {
   "abstract" : [
     {
       "text" : "Tells the handler that an event has been received from the ",
@@ -231,14 +231,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription\/didReceive(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didReceive(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "didReceive(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscription\/didreceive(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Subscription/didSubscribe(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/didSubscribe(_:)": {
   "abstract" : [
     {
       "text" : "Tells the handler that a query has been successfully registered with the server.",
@@ -304,14 +304,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription\/didSubscribe(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didSubscribe(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "didSubscribe(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscription\/didsubscribe(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Subscription/didUnsubscribe()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/didUnsubscribe()": {
   "abstract" : [
     {
       "text" : "Tells the handler that a query has been successfully deregistered from the server.",
@@ -368,7 +368,7 @@
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription\/didUnsubscribe()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didUnsubscribe()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "didUnsubscribe()",

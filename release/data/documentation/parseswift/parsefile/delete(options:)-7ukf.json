@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile\/delete(options:)-7ukf"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/delete(options:)-7ukf"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -123,7 +123,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV",
               "text" : "API"
@@ -133,7 +133,7 @@
               "text" : "."
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV7Optionsa",
               "text" : "Options"
@@ -260,21 +260,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API": {
   "abstract" : [
     {
       "text" : "The REST API for communicating with a Parse Server.",
@@ -295,7 +295,7 @@
       "text" : "API"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -308,7 +308,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Options": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Options": {
   "abstract" : [
     {
       "text" : "A type alias for the set of options.",
@@ -329,7 +329,7 @@
       "text" : "Options"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -342,7 +342,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFile": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile": {
   "abstract" : [
     {
       "text" : "A ",
@@ -379,7 +379,7 @@
       "text" : "ParseFile"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -392,7 +392,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefile"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseFile/delete(options:)-7ukf": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/delete(options:)-7ukf": {
   "abstract" : [
     {
       "text" : "Deletes the file from the Parse Server.",
@@ -455,7 +455,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseFile\/delete(options:)-7ukf",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/delete(options:)-7ukf",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "delete(options:)",

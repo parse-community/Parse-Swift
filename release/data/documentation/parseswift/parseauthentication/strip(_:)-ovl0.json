@@ -16,7 +16,7 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-80krh"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-80krh"
       ],
       "title" : "ParseAuthentication Implementations"
     }
@@ -24,14 +24,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-ovl0"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-ovl0"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -123,7 +123,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A14AuthenticationP17AuthenticatedUserQa",
               "text" : "AuthenticatedUser"
@@ -133,7 +133,7 @@
               "text" : ") -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A14AuthenticationP17AuthenticatedUserQa",
               "text" : "AuthenticatedUser"
@@ -213,21 +213,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -285,7 +285,7 @@
       "text" : "ParseAuthentication"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -298,7 +298,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication/AuthenticatedUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication/AuthenticatedUser": {
   "abstract" : [
 
   ],
@@ -325,7 +325,7 @@
       "text" : "ParseUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/AuthenticatedUser",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -333,7 +333,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication\/authenticateduser"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip(_:)-80krh": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip(_:)-80krh": {
   "abstract" : [
     {
       "text" : "Strips the ",
@@ -380,14 +380,14 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-80krh",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-80krh",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "strip(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseauthentication\/strip(_:)-80krh"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip(_:)-ovl0": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAuthentication/strip(_:)-ovl0": {
   "abstract" : [
     {
       "text" : "Strips the ",
@@ -435,7 +435,7 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-ovl0",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication\/strip(_:)-ovl0",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",

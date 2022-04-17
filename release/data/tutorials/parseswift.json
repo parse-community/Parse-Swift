@@ -3,17 +3,17 @@
     "paths" : [
 
     ],
-    "reference" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift"
+    "reference" : "doc:\/\/com.parse.ParseSwift\/tutorials\/ParseSwift"
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift"
+    "url" : "doc:\/\/com.parse.ParseSwift\/tutorials\/ParseSwift"
   },
   "kind" : "overview",
   "metadata" : {
     "category" : "ParseSwift",
     "categoryPathComponent" : "ParseSwift",
-    "estimatedTime" : "15min",
+    "estimatedTime" : "1min",
     "role" : "overview",
     "title" : "Welcome to ParseSwift"
   },
@@ -25,7 +25,7 @@
   "sections" : [
     {
       "action" : {
-        "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
+        "identifier" : "doc:\/\/com.parse.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
         "isActive" : true,
         "overridingTitle" : "Get started",
         "overridingTitleInlineContent" : [
@@ -51,7 +51,7 @@
           "image" : "parse-swift.png",
           "name" : "Your first Object",
           "tutorials" : [
-            "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object"
+            "doc:\/\/com.parse.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object"
           ]
         }
       ],
@@ -65,23 +65,23 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift": {
+"doc://com.parse.ParseSwift/tutorials/ParseSwift": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/tutorials\/ParseSwift",
   "kind" : "overview",
   "role" : "overview",
   "title" : "Welcome to ParseSwift",
   "type" : "topic",
   "url" : "\/tutorials\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/tutorials/ParseSwift/Your-First-Object": {
+"doc://com.parse.ParseSwift/tutorials/ParseSwift/Your-First-Object": {
   "abstract" : [
 
   ],
-  "estimatedTime" : "15min",
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
+  "estimatedTime" : "1min",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/tutorials\/ParseSwift\/Your-First-Object",
   "kind" : "project",
   "role" : "project",
   "title" : "Your First Object",

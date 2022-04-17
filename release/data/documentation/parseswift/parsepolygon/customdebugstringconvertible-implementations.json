@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParsePolygon"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePolygon"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParsePolygon\/CustomDebugStringConvertible-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePolygon\/CustomDebugStringConvertible-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -39,7 +39,7 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParsePolygon\/debugDescription"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePolygon\/debugDescription"
       ],
       "title" : "Instance Properties"
     }
@@ -58,21 +58,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParsePolygon": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePolygon": {
   "abstract" : [
     {
       "code" : "ParsePolygon",
@@ -113,7 +113,7 @@
       "text" : "ParsePolygon"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParsePolygon",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePolygon",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -126,7 +126,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsepolygon"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParsePolygon/debugDescription": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePolygon/debugDescription": {
   "abstract" : [
 
   ],
@@ -153,7 +153,7 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParsePolygon\/debugDescription",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePolygon\/debugDescription",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "debugDescription",

@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Pointer"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Pointer\/CustomStringConvertible-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer\/CustomStringConvertible-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -39,7 +39,7 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Pointer\/description"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer\/description"
       ],
       "title" : "Instance Properties"
     }
@@ -58,21 +58,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Pointer": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Pointer": {
   "abstract" : [
     {
       "text" : "A Pointer referencing a ParseObject.",
@@ -93,7 +93,7 @@
       "text" : "Pointer"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Pointer",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -106,7 +106,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/pointer"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Pointer/description": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Pointer/description": {
   "abstract" : [
 
   ],
@@ -165,7 +165,7 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Pointer\/description",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer\/description",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "description",

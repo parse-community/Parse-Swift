@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/add(_:objects:)-951bu"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/add(_:objects:)-951bu"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -231,7 +231,7 @@
               "text" : "]) -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
               "text" : "ParseOperation"
@@ -344,21 +344,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseOperation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation": {
   "abstract" : [
     {
       "text" : "A ",
@@ -423,7 +423,7 @@
       "text" : "ParseOperation"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -436,7 +436,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseoperation"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseOperation/add(_:objects:)-951bu": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/add(_:objects:)-951bu": {
   "abstract" : [
     {
       "text" : "An operation that adds a new element to an array field.",
@@ -539,7 +539,7 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/add(_:objects:)-951bu",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/add(_:objects:)-951bu",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "add(_:objects:)",

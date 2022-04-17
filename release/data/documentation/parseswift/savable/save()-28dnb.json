@@ -8,15 +8,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-3stwk"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-3stwk"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-28dnb"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-28dnb"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -99,7 +99,7 @@
               "text" : " -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable\/SavingType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable\/SavingType",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift7SavableP10SavingTypeQa",
               "text" : "SavingType"
@@ -132,21 +132,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Savable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Savable": {
   "abstract" : [
 
   ],
@@ -164,7 +164,7 @@
       "text" : "Savable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -177,7 +177,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/savable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Savable/SavingType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Savable/SavingType": {
   "abstract" : [
 
   ],
@@ -195,7 +195,7 @@
       "text" : "SavingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable\/SavingType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable\/SavingType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -203,7 +203,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/savable\/savingtype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Savable/save()-28dnb": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Savable/save()-28dnb": {
   "abstract" : [
 
   ],
@@ -238,14 +238,14 @@
       "text" : "SavingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-28dnb",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-28dnb",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "save()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/savable\/save()-28dnb"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Savable/save()-3stwk": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Savable/save()-3stwk": {
   "abstract" : [
 
   ],
@@ -281,7 +281,7 @@
       "text" : "SavingType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-3stwk",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable\/save()-3stwk",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",

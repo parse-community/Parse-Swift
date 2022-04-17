@@ -8,15 +8,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/RawRepresentable-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -40,22 +40,22 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/init(from:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/init(from:)"
       ],
       "title" : "Initializers"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hashValue"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hashValue"
       ],
       "title" : "Instance Properties"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hash(into:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hash(into:)"
       ],
       "title" : "Instance Methods"
     }
@@ -74,21 +74,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError": {
   "abstract" : [
     {
       "text" : "An object with a Parse code and message.",
@@ -109,7 +109,7 @@
       "text" : "ParseError"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -122,7 +122,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum": {
   "abstract" : [
     {
       "code" : "ParseError.Code",
@@ -171,7 +171,7 @@
       "text" : "Code"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -184,7 +184,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/encode(to:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/encode(to:)": {
   "abstract" : [
 
   ],
@@ -275,14 +275,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/encode(to:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "encode(to:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/encode(to:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/hash(into:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/hash(into:)": {
   "abstract" : [
 
   ],
@@ -377,14 +377,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hash(into:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hash(into:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hash(into:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/hash(into:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/hashValue": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/hashValue": {
   "abstract" : [
 
   ],
@@ -459,14 +459,14 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hashValue",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/hashValue",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hashValue",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.enum\/hashvalue"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/init(from:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/init(from:)": {
   "abstract" : [
 
   ],
@@ -549,7 +549,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/init(from:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Code-swift.enum\/init(from:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(from:)",

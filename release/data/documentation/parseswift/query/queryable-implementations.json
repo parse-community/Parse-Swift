@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -39,19 +39,19 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-u7t5",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:callbackQueue:completion:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-5jw7y",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:callbackQueue:completion:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-u7t5",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:callbackQueue:completion:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-5jw7y",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:callbackQueue:completion:)"
       ],
       "title" : "Instance Methods"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType"
       ],
       "title" : "Type Aliases"
     }
@@ -70,21 +70,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -121,7 +121,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -134,7 +134,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/ResultType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/ResultType": {
   "abstract" : [
 
   ],
@@ -184,7 +184,7 @@
       "text" : "ResultType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -197,7 +197,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/resulttype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/count(options:)-u7t5": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/count(options:)-u7t5": {
   "abstract" : [
     {
       "text" : "Counts objects ",
@@ -306,14 +306,14 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-u7t5",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:)-u7t5",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "count(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/count(options:)-u7t5"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/count(options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/count(options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Counts objects ",
@@ -470,14 +470,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/count(options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "count(options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/count(options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/find(options:)-6imwh": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/find(options:)-6imwh": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -590,14 +590,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "find(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/find(options:)-6imwh"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/find(options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/find(options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -754,14 +754,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "find(options:callbackQueue:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/find(options:callbackqueue:completion:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/first(options:)-5jw7y": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/first(options:)-5jw7y": {
   "abstract" : [
     {
       "text" : "Gets an object ",
@@ -870,14 +870,14 @@
       "text" : "ResultType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-5jw7y",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:)-5jw7y",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "first(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/first(options:)-5jw7y"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/first(options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/first(options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Gets an object ",
@@ -1034,7 +1034,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/first(options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "first(options:callbackQueue:completion:)",

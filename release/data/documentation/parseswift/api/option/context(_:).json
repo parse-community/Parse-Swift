@@ -8,15 +8,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -148,21 +148,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API": {
   "abstract" : [
     {
       "text" : "The REST API for communicating with a Parse Server.",
@@ -183,7 +183,7 @@
       "text" : "API"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -196,7 +196,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option": {
   "abstract" : [
     {
       "text" : "Options available to send to Parse Server.",
@@ -217,7 +217,7 @@
       "text" : "Option"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -230,7 +230,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/option"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Option/context(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Option/context(_:)": {
   "abstract" : [
     {
       "text" : "Add context.",
@@ -264,7 +264,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Option\/context(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "API.Option.context(_:)",

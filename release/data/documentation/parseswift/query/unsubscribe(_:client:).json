@@ -20,14 +20,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -200,7 +200,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "c:@M@ParseSwift@objc(cs)ParseLiveQuery",
               "text" : "ParseLiveQuery"
@@ -234,7 +234,7 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift17QuerySubscribableP",
               "text" : "QuerySubscribable"
@@ -335,21 +335,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseLiveQuery": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQuery": {
   "abstract" : [
     {
       "text" : "The ",
@@ -386,7 +386,7 @@
       "text" : "ParseLiveQuery"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -399,7 +399,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequery"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -436,7 +436,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -449,7 +449,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/unsubscribe(_:client:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/unsubscribe(_:client:)": {
   "abstract" : [
     {
       "text" : "Unsubscribes from a specific query-handler on a specific",
@@ -556,14 +556,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/unsubscribe(_:client:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "unsubscribe(_:client:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/unsubscribe(_:client:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QuerySubscribable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QuerySubscribable": {
   "abstract" : [
     {
       "text" : "This protocol describes the interface for handling events from a ",
@@ -620,7 +620,7 @@
       "text" : "QuerySubscribable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

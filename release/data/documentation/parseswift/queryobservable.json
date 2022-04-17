@@ -32,13 +32,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -114,7 +114,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/7Combine16ObservableObjectP"
+        "doc:\/\/com.parse.ParseSwift\/7Combine16ObservableObjectP"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -122,8 +122,8 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription"
       ],
       "kind" : "relationships",
       "title" : "Conforming Types",
@@ -141,29 +141,29 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/Object"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/Object"
       ],
       "title" : "Associated Types"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/init(query:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/init(query:)"
       ],
       "title" : "Initializers"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/query"
       ],
       "title" : "Instance Properties"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/aggregate(_:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/count(options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/find(options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/findAll(batchLimit:options:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/first(options:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/aggregate(_:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/count(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/find(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/findAll(batchLimit:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/first(options:)"
       ],
       "title" : "Instance Methods"
     }
@@ -182,26 +182,26 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/7Combine16ObservableObjectP": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/7Combine16ObservableObjectP",
+"doc://com.parse.ParseSwift/7Combine16ObservableObjectP": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/7Combine16ObservableObjectP",
   "title" : "Combine.ObservableObject",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable": {
   "abstract" : [
     {
       "text" : "This protocol describes the interface for creating a view model for a ",
@@ -246,7 +246,7 @@
       "text" : "QueryObservable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -259,7 +259,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/Object": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/Object": {
   "abstract" : [
     {
       "text" : "The ",
@@ -297,7 +297,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/Object",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/Object",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -305,7 +305,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/object"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/aggregate(_:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/aggregate(_:options:)": {
   "abstract" : [
     {
       "text" : "Executes an aggregate query ",
@@ -387,7 +387,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/aggregate(_:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/aggregate(_:options:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -395,7 +395,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/aggregate(_:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/count(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/count(options:)": {
   "abstract" : [
     {
       "text" : "Counts objects ",
@@ -467,7 +467,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/count(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/count(options:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -475,7 +475,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/count(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/find(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/find(options:)": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -547,7 +547,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/find(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/find(options:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -555,7 +555,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/find(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/findAll(batchLimit:options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/findAll(batchLimit:options:)": {
   "abstract" : [
     {
       "text" : "Retrieves ",
@@ -652,7 +652,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/findAll(batchLimit:options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/findAll(batchLimit:options:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -660,7 +660,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/findall(batchlimit:options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/first(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/first(options:)": {
   "abstract" : [
     {
       "text" : "Gets an object ",
@@ -724,7 +724,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/first(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/first(options:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -732,7 +732,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/first(options:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/init(query:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/init(query:)": {
   "abstract" : [
     {
       "text" : "Creates a new view model that can be used to handle updates.",
@@ -775,7 +775,7 @@
       "text" : ">)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/init(query:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/init(query:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -783,7 +783,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/init(query:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryObservable/query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryObservable/query": {
   "abstract" : [
     {
       "text" : "The query associated with this view model.",
@@ -826,7 +826,7 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable\/query",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -834,7 +834,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryobservable\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryViewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryViewModel": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -892,7 +892,7 @@
       "text" : "QueryViewModel"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -905,7 +905,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryviewmodel"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Subscription": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -971,7 +971,7 @@
       "text" : "Subscription"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Subscription",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

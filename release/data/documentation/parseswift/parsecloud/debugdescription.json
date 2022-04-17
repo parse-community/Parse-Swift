@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/CustomDebugStringConvertible-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/CustomDebugStringConvertible-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/debugDescription"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/debugDescription"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -135,21 +135,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -198,7 +198,7 @@
       "text" : "ParseCloud"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -211,18 +211,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsecloud"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseCloud/CustomDebugStringConvertible-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/CustomDebugStringConvertible-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/CustomDebugStringConvertible-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/CustomDebugStringConvertible-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "CustomDebugStringConvertible Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsecloud\/customdebugstringconvertible-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseCloud/debugDescription": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/debugDescription": {
   "abstract" : [
 
   ],
@@ -249,7 +249,7 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/debugDescription",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/debugDescription",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "debugDescription",

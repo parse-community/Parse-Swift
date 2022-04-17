@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/ObservableObject-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/ObservableObject-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/objectWillChange"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/objectWillChange"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -197,21 +197,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/CloudViewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/CloudViewModel": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -269,7 +269,7 @@
       "text" : "CloudViewModel"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -282,18 +282,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/cloudviewmodel"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/CloudViewModel/ObservableObject-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/CloudViewModel/ObservableObject-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/ObservableObject-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/ObservableObject-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "ObservableObject Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/cloudviewmodel\/observableobject-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/CloudViewModel/objectWillChange": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/CloudViewModel/objectWillChange": {
   "abstract" : [
 
   ],
@@ -352,7 +352,7 @@
       "text" : "ObservableObjectPublisher"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/objectWillChange",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/objectWillChange",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "objectWillChange",

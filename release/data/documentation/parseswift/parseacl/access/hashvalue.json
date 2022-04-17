@@ -16,16 +16,16 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/RawRepresentable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/RawRepresentable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/hashValue"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/hashValue"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -184,21 +184,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL": {
   "abstract" : [
     {
       "code" : "ParseACL",
@@ -271,7 +271,7 @@
       "text" : "ParseACL"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -284,7 +284,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL/Access": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL/Access": {
   "abstract" : [
     {
       "text" : "An enum specifying read and write access controls.",
@@ -305,7 +305,7 @@
       "text" : "Access"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -318,18 +318,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl\/access"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL/Access/RawRepresentable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL/Access/RawRepresentable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/RawRepresentable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/RawRepresentable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "RawRepresentable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl\/access\/rawrepresentable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL/Access/hashValue": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL/Access/hashValue": {
   "abstract" : [
 
   ],
@@ -404,7 +404,7 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/hashValue",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/hashValue",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hashValue",

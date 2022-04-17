@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Objectable"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Objectable\/ACL"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable\/ACL"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -86,7 +86,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A3ACLV",
               "text" : "ParseACL"
@@ -139,21 +139,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Objectable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Objectable": {
   "abstract" : [
     {
       "text" : "The base protocol for a ",
@@ -182,7 +182,7 @@
       "text" : "Objectable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Objectable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -195,7 +195,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/objectable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Objectable/ACL": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Objectable/ACL": {
   "abstract" : [
     {
       "text" : "The ACL for this object.",
@@ -229,7 +229,7 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Objectable\/ACL",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable\/ACL",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -237,7 +237,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/objectable\/acl"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL": {
   "abstract" : [
     {
       "code" : "ParseACL",
@@ -310,7 +310,7 @@
       "text" : "ParseACL"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL",
   "kind" : "symbol",
   "navigatorTitle" : [
     {

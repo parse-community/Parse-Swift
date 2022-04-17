@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/increment(_:by:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/increment(_:by:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -169,7 +169,7 @@
               "text" : ") -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
               "text" : "ParseOperation"
@@ -261,21 +261,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseOperation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation": {
   "abstract" : [
     {
       "text" : "A ",
@@ -340,7 +340,7 @@
       "text" : "ParseOperation"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -353,7 +353,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseoperation"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseOperation/increment(_:by:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/increment(_:by:)": {
   "abstract" : [
     {
       "text" : "An operation that increases a numeric field’s value by a given amount.",
@@ -421,7 +421,7 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/increment(_:by:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/increment(_:by:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "increment(_:by:)",

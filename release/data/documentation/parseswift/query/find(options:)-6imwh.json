@@ -21,15 +21,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -174,7 +174,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV",
               "text" : "API"
@@ -184,7 +184,7 @@
               "text" : "."
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV7Optionsa",
               "text" : "Options"
@@ -202,7 +202,7 @@
               "text" : " -> ["
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV10ResultTypea",
               "text" : "ResultType"
@@ -321,21 +321,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API": {
   "abstract" : [
     {
       "text" : "The REST API for communicating with a Parse Server.",
@@ -356,7 +356,7 @@
       "text" : "API"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -369,7 +369,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Options": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Options": {
   "abstract" : [
     {
       "text" : "A type alias for the set of options.",
@@ -390,7 +390,7 @@
       "text" : "Options"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -403,7 +403,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -440,7 +440,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -453,18 +453,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/Queryable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Queryable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Queryable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Queryable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/queryable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/ResultType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/ResultType": {
   "abstract" : [
 
   ],
@@ -514,7 +514,7 @@
       "text" : "ResultType"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/ResultType",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -527,7 +527,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/resulttype"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query/find(options:)-6imwh": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/find(options:)-6imwh": {
   "abstract" : [
     {
       "text" : "Finds objects ",
@@ -640,7 +640,7 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/find(options:)-6imwh",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "find(options:)",

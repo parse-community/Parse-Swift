@@ -16,15 +16,15 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/encode(to:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/encode(to:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -162,21 +162,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL": {
   "abstract" : [
     {
       "code" : "ParseACL",
@@ -249,7 +249,7 @@
       "text" : "ParseACL"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -262,7 +262,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL/Access": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL/Access": {
   "abstract" : [
     {
       "text" : "An enum specifying read and write access controls.",
@@ -283,7 +283,7 @@
       "text" : "Access"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -296,7 +296,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl\/access"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseACL/Access/encode(to:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseACL/Access/encode(to:)": {
   "abstract" : [
 
   ],
@@ -339,7 +339,7 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/encode(to:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseACL\/Access\/encode(to:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "encode(to:)",

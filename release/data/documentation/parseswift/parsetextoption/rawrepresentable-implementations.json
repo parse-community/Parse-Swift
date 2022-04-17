@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/RawRepresentable-Implementations"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/RawRepresentable-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -39,14 +39,14 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hashValue"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hashValue"
       ],
       "title" : "Instance Properties"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hash(into:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hash(into:)"
       ],
       "title" : "Instance Methods"
     }
@@ -65,21 +65,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption": {
   "abstract" : [
     {
       "text" : "Options used to constrain a text search.",
@@ -100,7 +100,7 @@
       "text" : "ParseTextOption"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -113,7 +113,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/hash(into:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/hash(into:)": {
   "abstract" : [
 
   ],
@@ -208,14 +208,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hash(into:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hash(into:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hash(into:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetextoption\/hash(into:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseTextOption/hashValue": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption/hashValue": {
   "abstract" : [
 
   ],
@@ -290,7 +290,7 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hashValue",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption\/hashValue",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hashValue",

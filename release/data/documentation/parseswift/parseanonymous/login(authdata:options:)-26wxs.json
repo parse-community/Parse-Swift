@@ -29,14 +29,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/login(authData:options:)-26wxs"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/login(authData:options:)-26wxs"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -237,7 +237,7 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV",
               "text" : "API"
@@ -247,7 +247,7 @@
               "text" : "."
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift3APIV7Optionsa",
               "text" : "Options"
@@ -401,21 +401,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API": {
   "abstract" : [
     {
       "text" : "The REST API for communicating with a Parse Server.",
@@ -436,7 +436,7 @@
       "text" : "API"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -449,7 +449,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/API/Options": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/API/Options": {
   "abstract" : [
     {
       "text" : "A type alias for the set of options.",
@@ -470,7 +470,7 @@
       "text" : "Options"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/API\/Options",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/API\/Options",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -483,7 +483,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAnonymous": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnonymous": {
   "abstract" : [
     {
       "text" : "Provides utility functions for working with Anonymously logged-in users.",
@@ -504,7 +504,7 @@
       "text" : "ParseAnonymous"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -517,7 +517,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseanonymous"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseAnonymous/login(authData:options:)-26wxs": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnonymous/login(authData:options:)-26wxs": {
   "abstract" : [
     {
       "text" : "Login a ",
@@ -668,7 +668,7 @@
       "text" : "AuthenticatedUser"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/login(authData:options:)-26wxs",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous\/login(authData:options:)-26wxs",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "login(authData:options:)",

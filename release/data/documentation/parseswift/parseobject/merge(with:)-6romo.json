@@ -24,19 +24,19 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/merge(with:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/merge(with:)"
       ],
       "title" : "ParseInstallation Implementations"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-4hjo0"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-4hjo0"
       ],
       "title" : "ParseObject Implementations"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser\/merge(with:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/merge(with:)"
       ],
       "title" : "ParseUser Implementations"
     }
@@ -44,14 +44,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-6romo"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-6romo"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -407,21 +407,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseInstallation/merge(with:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation/merge(with:)": {
   "abstract" : [
     {
       "text" : "Merges two ",
@@ -490,14 +490,14 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/merge(with:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/merge(with:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "merge(with:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseinstallation\/merge(with:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
@@ -534,7 +534,7 @@
       "text" : "ParseObject"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -547,7 +547,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject/merge(with:)-4hjo0": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/merge(with:)-4hjo0": {
   "abstract" : [
     {
       "text" : "Merges two ",
@@ -616,14 +616,14 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-4hjo0",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-4hjo0",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "merge(with:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject\/merge(with:)-4hjo0"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseObject/merge(with:)-6romo": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/merge(with:)-6romo": {
   "abstract" : [
     {
       "text" : "Merges two ",
@@ -693,7 +693,7 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-6romo",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/merge(with:)-6romo",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
@@ -701,7 +701,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject\/merge(with:)-6romo"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseUser/merge(with:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/merge(with:)": {
   "abstract" : [
     {
       "text" : "Merges two ",
@@ -770,7 +770,7 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseUser\/merge(with:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/merge(with:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "merge(with:)",

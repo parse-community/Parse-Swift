@@ -8,13 +8,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -81,9 +81,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH"
+        "doc:\/\/com.parse.ParseSwift\/SE",
+        "doc:\/\/com.parse.ParseSwift\/SQ",
+        "doc:\/\/com.parse.ParseSwift\/SH"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -101,21 +101,21 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/==(_:_:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/==(_:_:)"
       ],
       "title" : "Operators"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/encode(to:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/hash(into:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/encode(to:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/hash(into:)"
       ],
       "title" : "Instance Methods"
     },
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/Equatable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/Equatable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -134,36 +134,36 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/SE": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SE",
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/SH": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SH",
+"doc://com.parse.ParseSwift/SH": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SH",
   "title" : "Swift.Hashable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/SQ": {
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/SQ",
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
   "title" : "Swift.Equatable",
   "type" : "unresolvable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint": {
   "abstract" : [
     {
       "text" : "Used to constrain a query.",
@@ -184,7 +184,7 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -197,7 +197,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint/==(_:_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint/==(_:_:)": {
   "abstract" : [
 
   ],
@@ -254,25 +254,25 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/==(_:_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/==(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "==(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint\/==(_:_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint/Equatable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint/Equatable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/Equatable-Implementations",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/Equatable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint\/equatable-implementations"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint/encode(to:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint/encode(to:)": {
   "abstract" : [
 
   ],
@@ -315,14 +315,14 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/encode(to:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/encode(to:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "encode(to:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryconstraint\/encode(to:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QueryConstraint/hash(into:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint/hash(into:)": {
   "abstract" : [
 
   ],
@@ -369,7 +369,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/hash(into:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint\/hash(into:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "hash(into:)",

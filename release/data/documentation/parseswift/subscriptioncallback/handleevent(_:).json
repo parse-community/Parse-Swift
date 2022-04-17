@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/handleEvent(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/handleEvent(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -158,7 +158,7 @@
               "text" : " ("
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5QueryV",
               "text" : "Query"
@@ -177,7 +177,7 @@
               "text" : ">, "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift5EventO",
               "text" : "Event"
@@ -205,7 +205,7 @@
               "text" : ") -> "
             },
             {
-              "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift20SubscriptionCallbackC",
               "text" : "SubscriptionCallback"
@@ -277,21 +277,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Event": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Event": {
   "abstract" : [
     {
       "text" : "Represents an update on a specific object from the ",
@@ -320,7 +320,7 @@
       "text" : "Event"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Event",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -333,7 +333,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/event"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [
     {
       "text" : "The ",
@@ -370,7 +370,7 @@
       "text" : "Query"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -383,7 +383,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/SubscriptionCallback": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/SubscriptionCallback": {
   "abstract" : [
     {
       "text" : "A default implementation of the ",
@@ -412,7 +412,7 @@
       "text" : "SubscriptionCallback"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -425,7 +425,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscriptioncallback"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/SubscriptionCallback/handleEvent(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/SubscriptionCallback/handleEvent(_:)": {
   "abstract" : [
     {
       "text" : "Register a callback for when an event occurs.",
@@ -500,7 +500,7 @@
       "text" : "SubscriptionCallback"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/handleEvent(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/SubscriptionCallback\/handleEvent(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "handleEvent(_:)",

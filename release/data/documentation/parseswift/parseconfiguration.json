@@ -8,13 +8,13 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -89,27 +89,27 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
       ],
       "title" : "Initializers"
     },
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/applicationId",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheDiskCapacity",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheMemoryCapacity",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/clientKey",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/httpAdditionalHeaders",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isAllowingCustomObjectIds",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isDeletingKeychainIfNeeded",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isMigratingFromObjcSDK",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingEqualQueryConstraint",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingTransactions",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/liveQuerysServerURL",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/masterKey",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/maxConnectionAttempts",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/requestCachePolicy",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/serverURL"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/applicationId",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheDiskCapacity",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheMemoryCapacity",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/clientKey",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/httpAdditionalHeaders",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isAllowingCustomObjectIds",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isDeletingKeychainIfNeeded",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isMigratingFromObjcSDK",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingEqualQueryConstraint",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingTransactions",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/liveQuerysServerURL",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/masterKey",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/maxConnectionAttempts",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/requestCachePolicy",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/serverURL"
       ],
       "title" : "Instance Properties"
     }
@@ -128,21 +128,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
   "abstract" : [
     {
       "text" : "The Configuration for a Parse client.",
@@ -163,7 +163,7 @@
       "text" : "ParseConfiguration"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -176,7 +176,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/applicationId": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/applicationId": {
   "abstract" : [
     {
       "text" : "The application id of your Parse application.",
@@ -206,14 +206,14 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/applicationId",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/applicationId",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "applicationId",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/applicationid"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/cacheDiskCapacity": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/cacheDiskCapacity": {
   "abstract" : [
     {
       "text" : "The disk capacity of the cache, in bytes. Defaults to 10MB.",
@@ -243,14 +243,14 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheDiskCapacity",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheDiskCapacity",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "cacheDiskCapacity",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/cachediskcapacity"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/cacheMemoryCapacity": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/cacheMemoryCapacity": {
   "abstract" : [
     {
       "text" : "The memory capacity of the cache, in bytes. Defaults to 512KB.",
@@ -280,14 +280,14 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheMemoryCapacity",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/cacheMemoryCapacity",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "cacheMemoryCapacity",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/cachememorycapacity"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/clientKey": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/clientKey": {
   "abstract" : [
     {
       "text" : "The client key of your Parse application.",
@@ -321,14 +321,14 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/clientKey",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/clientKey",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "clientKey",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/clientkey"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/httpAdditionalHeaders": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/httpAdditionalHeaders": {
   "abstract" : [
     {
       "text" : "A dictionary of additional headers to send with requests. See Apple’s",
@@ -387,14 +387,14 @@
       "text" : "]?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/httpAdditionalHeaders",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/httpAdditionalHeaders",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "httpAdditionalHeaders",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/httpadditionalheaders"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
   "abstract" : [
     {
       "text" : "Create a Parse Swift configuration.",
@@ -779,14 +779,14 @@
       "text" : ")?)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowcustomobjectid:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migratingfrom-3ouzb"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/isAllowingCustomObjectIds": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isAllowingCustomObjectIds": {
   "abstract" : [
     {
       "text" : "Allows objectIds to be created on the client.",
@@ -816,14 +816,14 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isAllowingCustomObjectIds",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isAllowingCustomObjectIds",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isAllowingCustomObjectIds",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/isallowingcustomobjectids"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/isDeletingKeychainIfNeeded": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isDeletingKeychainIfNeeded": {
   "abstract" : [
     {
       "text" : "Deletes the Parse Keychain when the app is running for the first time.",
@@ -869,14 +869,14 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isDeletingKeychainIfNeeded",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isDeletingKeychainIfNeeded",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isDeletingKeychainIfNeeded",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/isdeletingkeychainifneeded"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/isMigratingFromObjcSDK": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isMigratingFromObjcSDK": {
   "abstract" : [
     {
       "text" : "If your app previously used the iOS Objective-C SDK, setting this value",
@@ -938,14 +938,14 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isMigratingFromObjcSDK",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isMigratingFromObjcSDK",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isMigratingFromObjcSDK",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/ismigratingfromobjcsdk"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/isUsingEqualQueryConstraint": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isUsingEqualQueryConstraint": {
   "abstract" : [
     {
       "text" : "Use the ",
@@ -988,14 +988,14 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingEqualQueryConstraint",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingEqualQueryConstraint",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isUsingEqualQueryConstraint",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/isusingequalqueryconstraint"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/isUsingTransactions": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isUsingTransactions": {
   "abstract" : [
     {
       "text" : "Use transactions when saving\/updating multiple objects.",
@@ -1025,14 +1025,14 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingTransactions",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isUsingTransactions",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "isUsingTransactions",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/isusingtransactions"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/liveQuerysServerURL": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/liveQuerysServerURL": {
   "abstract" : [
     {
       "text" : "The live query server URL to connect to Parse Server.",
@@ -1066,14 +1066,14 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/liveQuerysServerURL",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/liveQuerysServerURL",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "liveQuerysServerURL",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/livequerysserverurl"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/masterKey": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/masterKey": {
   "abstract" : [
     {
       "text" : "The master key of your Parse application.",
@@ -1107,14 +1107,14 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/masterKey",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/masterKey",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "masterKey",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/masterkey"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/maxConnectionAttempts": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/maxConnectionAttempts": {
   "abstract" : [
     {
       "text" : "Maximum number of times to try to connect to Parse Server.",
@@ -1152,14 +1152,14 @@
       "text" : "Int"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/maxConnectionAttempts",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/maxConnectionAttempts",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "maxConnectionAttempts",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/maxconnectionattempts"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/requestCachePolicy": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/requestCachePolicy": {
   "abstract" : [
     {
       "text" : "The default caching policy for all http requests that determines when to",
@@ -1235,14 +1235,14 @@
       "text" : "CachePolicy"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/requestCachePolicy",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/requestCachePolicy",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "requestCachePolicy",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/requestcachepolicy"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseConfiguration/serverURL": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/serverURL": {
   "abstract" : [
     {
       "text" : "The server URL to connect to Parse Server.",
@@ -1272,7 +1272,7 @@
       "text" : "URL"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/serverURL",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/serverURL",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "serverURL",

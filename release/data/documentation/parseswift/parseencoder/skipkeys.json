@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -90,11 +90,11 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/cloud",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/customObjectId",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/none",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/object"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/cloud",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/customObjectId",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/none",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/object"
       ],
       "title" : "Enumeration Cases"
     }
@@ -113,21 +113,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder": {
   "abstract" : [
     {
       "text" : "An object that encodes Parse instances of a data type as JSON objects.",
@@ -148,7 +148,7 @@
       "text" : "ParseEncoder"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -161,7 +161,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys": {
   "abstract" : [
     {
       "text" : "Keys to skip during encoding.",
@@ -182,7 +182,7 @@
       "text" : "SkipKeys"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -195,7 +195,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder\/skipkeys"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/cloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/cloud": {
   "abstract" : [
     {
       "text" : "Skip keys for ",
@@ -224,14 +224,14 @@
       "text" : "cloud"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/cloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/cloud",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseEncoder.SkipKeys.cloud",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder\/skipkeys\/cloud"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/custom(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/custom(_:)": {
   "abstract" : [
     {
       "text" : "Specify a custom set of keys to skip.",
@@ -274,14 +274,14 @@
       "text" : ">)"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/custom(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseEncoder.SkipKeys.custom(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder\/skipkeys\/custom(_:)"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/customObjectId": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/customObjectId": {
   "abstract" : [
     {
       "text" : "Skip keys for ",
@@ -318,14 +318,14 @@
       "text" : "customObjectId"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/customObjectId",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/customObjectId",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseEncoder.SkipKeys.customObjectId",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder\/skipkeys\/customobjectid"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/none": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/none": {
   "abstract" : [
     {
       "text" : "Do not skip any keys.",
@@ -346,14 +346,14 @@
       "text" : "none"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/none",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/none",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseEncoder.SkipKeys.none",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder\/skipkeys\/none"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/object": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder/SkipKeys/object": {
   "abstract" : [
     {
       "text" : "Skip keys for ",
@@ -382,7 +382,7 @@
       "text" : "object"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/object",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder\/SkipKeys\/object",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "ParseEncoder.SkipKeys.object",

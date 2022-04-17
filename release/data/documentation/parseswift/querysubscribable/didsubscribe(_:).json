@@ -8,14 +8,14 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/didSubscribe(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/didSubscribe(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -164,21 +164,21 @@
   ]
 , 
 "references": {
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
       "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
   "kind" : "symbol",
   "role" : "collection",
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QuerySubscribable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QuerySubscribable": {
   "abstract" : [
     {
       "text" : "This protocol describes the interface for handling events from a ",
@@ -235,7 +235,7 @@
       "text" : "QuerySubscribable"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -248,7 +248,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/querysubscribable"
 },
-"doc://edu.uky.cs.netreconlab.ParseSwift/documentation/ParseSwift/QuerySubscribable/didSubscribe(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QuerySubscribable/didSubscribe(_:)": {
   "abstract" : [
     {
       "text" : "Tells the handler that a query has been successfully registered with the server.",
@@ -282,7 +282,7 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/edu.uky.cs.netreconlab.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/didSubscribe(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable\/didSubscribe(_:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
