@@ -317,7 +317,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-     Sort the results of a query based on the `Order` enum.
+     Sort the results of the query based on the `Order` enum.
       - parameter keys: A variadic list of keys to order by.
     */
     public func order(_ keys: Order...) -> Query<T> {
@@ -325,7 +325,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-     Sort the results of a query based on the `Order` enum.
+     Sort the results of the query based on the `Order` enum.
       - parameter keys: An array of keys to order by.
     */
     public func order(_ keys: [Order]?) -> Query<T> {
