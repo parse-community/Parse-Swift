@@ -5,6 +5,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.4.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+ - Add includeAll computed property to Query and deprecate includeAll() ([#361](https://github.com/parse-community/Parse-Swift/pull/361)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.4.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.1...4.4.0)
 

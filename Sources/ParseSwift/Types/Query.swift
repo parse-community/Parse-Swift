@@ -31,6 +31,29 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     internal var distinct: String?
     internal var pipeline: [[String: AnyEncodable]]?
     internal var fields: Set<String>?
+    var endpoint: API.Endpoint {
+        .objects(className: T.className)
+    }
+
+    /// The className of the `ParseObject` to query.
+    public static var className: String {
+        T.className
+    }
+
+    /// The className of the `ParseObject` to query.
+    public var className: String {
+        Self.className
+    }
+
+    /**
+     Includes all nested `ParseObject`s one level deep.
+     - warning: Requires Parse Server 3.0.0+.
+     */
+    public var includeAll: Query<T> {
+        var mutableQuery = self
+        mutableQuery.include = ["*"]
+        return mutableQuery
+    }
 
     struct AggregateBody<T>: Encodable where T: ParseObject {
         let pipeline: [[String: AnyEncodable]]?
@@ -58,6 +81,25 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
             explain = query.explain
             includeReadPreference = query.includeReadPreference
         }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case `where`
+        case method = "_method"
+        case limit
+        case skip
+        case include
+        case isCount = "count"
+        case keys
+        case order
+        case explain
+        case hint
+        case excludeKeys
+        case readPreference
+        case includeReadPreference
+        case subqueryReadPreference
+        case distinct
+        case pipeline
     }
 
     /**
@@ -215,11 +257,11 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Includes all nested `ParseObject`s one level deep.
      - warning: Requires Parse Server 3.0.0+.
+     - warning: This will be removed in ParseSwift 5.0.0 in favor of the `includeAll` computed property.
      */
-    public func includeAll() -> Query<T> {
-        var mutableQuery = self
-        mutableQuery.include = ["*"]
-        return mutableQuery
+    @available(*, deprecated, renamed: "includeAll")
+    public func includeAll(_ keys: [String]? = nil) -> Query<T> {
+        self.includeAll
     }
 
     /**
@@ -276,6 +318,14 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
        An enum that determines the order to sort the results based on a given key.
+      - parameter keys: A variadic list of keys to order by.
+    */
+    public func order(_ keys: Order...) -> Query<T> {
+        self.order(keys)
+    }
+
+    /**
+       An enum that determines the order to sort the results based on a given key.
       - parameter keys: An array of keys to order by.
     */
     public func order(_ keys: [Order]?) -> Query<T> {
@@ -318,39 +368,6 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
             mutableQuery.fields = Set(keys)
         }
         return mutableQuery
-    }
-
-    /// The className of the `ParseObject` to query.
-    public var className: String {
-        return Self.className
-    }
-
-    /// The className of the `ParseObject` to query.
-    public static var className: String {
-        return T.className
-    }
-
-    var endpoint: API.Endpoint {
-        return .objects(className: T.className)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case `where`
-        case method = "_method"
-        case limit
-        case skip
-        case include
-        case isCount = "count"
-        case keys
-        case order
-        case explain
-        case hint
-        case excludeKeys
-        case readPreference
-        case includeReadPreference
-        case subqueryReadPreference
-        case distinct
-        case pipeline
     }
 }
 
