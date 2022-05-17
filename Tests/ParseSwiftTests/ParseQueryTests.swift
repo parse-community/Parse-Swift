@@ -155,7 +155,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testOrder() {
         let query = GameScore.query()
         XCTAssertNil(query.order)
-        let query2 = GameScore.query().order([.ascending("yolo")])
+        let query2 = GameScore.query().order(.ascending("yolo"))
         XCTAssertNotNil(query2.order)
     }
 
@@ -165,8 +165,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(query.includeReadPreference)
         XCTAssertNil(query.subqueryReadPreference)
         let query2 = GameScore.query().readPreference("PRIMARY",
-                                                includeReadPreference: "SECONDARY",
-                                                subqueryReadPreference: "SECONDARY_PREFERRED")
+                                                      includeReadPreference: "SECONDARY",
+                                                      subqueryReadPreference: "SECONDARY_PREFERRED")
         XCTAssertNotNil(query2.readPreference)
         XCTAssertNotNil(query2.includeReadPreference)
         XCTAssertNotNil(query2.subqueryReadPreference)
