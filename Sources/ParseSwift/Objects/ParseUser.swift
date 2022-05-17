@@ -835,7 +835,7 @@ extension ParseUser {
     /**
      Fetches the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
@@ -856,7 +856,7 @@ extension ParseUser {
     /**
      Fetches the `ParseUser` *asynchronously* and executes the given callback block.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
@@ -1692,7 +1692,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *synchronously* all at once and throws an error if necessary.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
@@ -1735,7 +1735,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users all at once *asynchronously* and executes the completion block when done.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
