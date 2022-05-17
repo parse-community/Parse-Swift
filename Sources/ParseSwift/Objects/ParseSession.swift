@@ -29,7 +29,7 @@ public protocol ParseSession: ParseObject {
     /// Information about how the session was created.
     var createdWith: [String: String] { get }
 
-    /// Referrs to the `ParseInstallation` where the
+    /// Refers to the `ParseInstallation` where the
     /// session logged in from.
     var installationId: String { get }
 
