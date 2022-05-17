@@ -8,6 +8,9 @@
 __New features__
  - Add includeAll computed property to Query and deprecate includeAll() ([#361](https://github.com/parse-community/Parse-Swift/pull/361)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+__Improvements__
+- Allow LiveQuery client to be set using ParseLiveQuery.defaultClient and deprecate ParseLiveQuery.setDefault(). Show usage of deprecated code as warnings during compile time and suggest changes ([#360](https://github.com/parse-community/Parse-Swift/pull/360)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.4.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.1...4.4.0)
 
@@ -33,7 +36,7 @@ __New features__
 - Add variadic QueryConstraint methods for or, nor, and ([#345](https://github.com/parse-community/Parse-Swift/pull/345)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
-- Add clientDefault static property to ParseLiveQuery which replaces the getDefault() method. getDefault() is still avaiable, but will be deprecated in ParseSwift 5.0.0 so it is recommended to switch to clientDefault ([#342](https://github.com/parse-community/Parse-Swift/pull/342)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add clientDefault static property to ParseLiveQuery which replaces the getDefault() method. getDefault() is still avaiable, but will be deprecated in ParseSwift 5.0.0 so it is recommended to switch to defaultClient ([#342](https://github.com/parse-community/Parse-Swift/pull/342)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.1...4.1.0)

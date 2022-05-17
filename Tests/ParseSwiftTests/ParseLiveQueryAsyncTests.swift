@@ -26,7 +26,7 @@ class ParseLiveQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body
                               masterKey: "masterKey",
                               serverURL: url,
                               testing: true)
-        ParseLiveQuery.setDefault(try ParseLiveQuery(isDefault: true))
+        ParseLiveQuery.defaultClient = try ParseLiveQuery(isDefault: true)
     }
 
     override func tearDownWithError() throws {
