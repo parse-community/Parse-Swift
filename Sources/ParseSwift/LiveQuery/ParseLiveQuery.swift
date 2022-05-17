@@ -211,7 +211,7 @@ Not attempting to open ParseLiveQuery socket anymore
                                                     taskDelegate: self)
         self.resumeTask { _ in }
         if isDefault {
-            Self.setDefault(self)
+            Self.defaultClient = self
         }
     }
 
@@ -268,19 +268,27 @@ extension ParseLiveQuery {
 
     /// The default `ParseLiveQuery` client for all LiveQuery connections.
     class public var defaultClient: ParseLiveQuery? {
-        Self.client
+        get {
+            Self.client
+        }
+        set {
+            Self.client = nil
+            Self.client = newValue
+        }
     }
 
     /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
     /// - parameter client: The client to set as the default.
+    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `defaultClient`.
+    @available(*, deprecated, renamed: "defaultClient")
     class public func setDefault(_ client: ParseLiveQuery) {
-        Self.client = nil
-        Self.client = client
+        Self.defaultClient = client
     }
 
     /// Get the default `ParseLiveQuery` client for all LiveQuery connections.
     /// - returns: The default `ParseLiveQuery` client.
-    /// - warning: This will be deprecated in ParseSwift 5.0.0 in favor of `defaultClient`.
+    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `defaultClient`.
+    @available(*, deprecated, renamed: "defaultClient")
     class public func getDefault() -> ParseLiveQuery? {
         Self.defaultClient
     }
