@@ -6,13 +6,13 @@ on:
     branches: '*'
 env:
   CI_XCODE_VER: '/Applications/Xcode_12.5.1.app/Contents/Developer'
-  CI_XCODE_13: '/Applications/Xcode_13.3.app/Contents/Developer'
+  CI_XCODE_13: '/Applications/Xcode_13.4.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use multiple cores
       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build-Test
@@ -39,7 +39,7 @@ jobs:
   xcode-test-macos:
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Create and set the default keychain
       run: |
         security create-keychain -p "" temporary
@@ -72,7 +72,7 @@ jobs:
   xcode-test-tvos:
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use multiple cores
       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build
@@ -99,7 +99,7 @@ jobs:
   xcode-build-watchos:
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use multiple cores
       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build
@@ -116,7 +116,7 @@ jobs:
   spm-test:
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Create and set the default keychain
       run: |
         security create-keychain -p "" temporary
@@ -150,7 +150,7 @@ jobs:
     needs: xcode-build-watchos
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11 -derivedDataPath DerivedData clean test | xcpretty
       env:
@@ -173,7 +173,7 @@ jobs:
   linux:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: sersoft-gmbh/SwiftyActions@v1
         with:
           release-version: "5"
@@ -192,10 +192,10 @@ jobs:
   windows:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
-          swift-version: "5.5.1"
+          swift-version: "5.6.1"
           shell-action: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
@@ -207,7 +207,7 @@ jobs:
     needs: xcode-build-watchos
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use multiple cores
         run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Generate Docs
@@ -219,7 +219,7 @@ jobs:
     needs: xcode-build-watchos
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use multiple cores
         run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Update Framework Version
@@ -235,7 +235,7 @@ jobs:
    needs: xcode-build-watchos
    runs-on: macos-12
    steps:
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v3
      - name: Use multiple cores
        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
      - name: Carthage 
