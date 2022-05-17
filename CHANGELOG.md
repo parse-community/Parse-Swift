@@ -6,7 +6,8 @@
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __New features__
- - Add includeAll computed property to Query and deprecate includeAll() ([#361](https://github.com/parse-community/Parse-Swift/pull/361)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add macCatalyst to SPM ([#363](https://github.com/parse-community/Parse-Swift/pull/363)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add includeAll computed property to Query and deprecate includeAll() ([#362](https://github.com/parse-community/Parse-Swift/pull/362)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - Allow LiveQuery client to be set using ParseLiveQuery.defaultClient and deprecate ParseLiveQuery.setDefault(). Show usage of deprecated code as warnings during compile time and suggest changes ([#360](https://github.com/parse-community/Parse-Swift/pull/360)), thanks to [Corey Baker](https://github.com/cbaker6).
