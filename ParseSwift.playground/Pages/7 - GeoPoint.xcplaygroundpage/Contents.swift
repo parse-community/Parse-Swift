@@ -241,7 +241,7 @@ query7.find { results in
 }
 
 //: Find all GameScores.
-let query8 = GameScore.query()
+let query8 = GameScore.query
 query8.findAll { result in
     switch result {
     case .success(let scores):

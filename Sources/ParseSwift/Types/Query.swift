@@ -1362,7 +1362,7 @@ public extension ParseObject {
       Create an instance with no constraints.
      - returns: An instance of query for easy chaining.
      */
-    static func query() -> Query<Self> {
+    static var query: Query<Self> {
         Query<Self>()
     }
 
@@ -1380,7 +1380,7 @@ public extension ParseObject {
      - parameter constraints: An array of `QueryConstraint`'s.
      - returns: An instance of query for easy chaining.
      */
-    static func query(_ constraints: [QueryConstraint]) -> Query<Self> {
+    static func query(_ constraints: [QueryConstraint] = []) -> Query<Self> {
         Query<Self>(constraints)
     }
 }

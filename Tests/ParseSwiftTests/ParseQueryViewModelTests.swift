@@ -70,7 +70,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.find()
@@ -101,7 +101,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
@@ -133,7 +133,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let query = GameScore.query()
+        let query = GameScore.query
         let viewModel = Query.viewModel(query)
         viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.find()
@@ -169,7 +169,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.findAll()
@@ -200,7 +200,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
@@ -232,7 +232,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.first()
@@ -263,7 +263,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
@@ -295,7 +295,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.results = [GameScore(points: 10), GameScore(points: 12)]
         viewModel.count()
@@ -321,7 +321,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
@@ -353,7 +353,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
+        let viewModel = GameScore.query
             .viewModel
         viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.aggregate([["hello": "world"]])
@@ -384,8 +384,7 @@ class ParseQueryViewModelTests: XCTestCase {
                 return nil
             }
         }
-        let viewModel = GameScore.query()
-            .viewModel
+        let viewModel = GameScore.query.viewModel
         viewModel.results = [GameScore(points: 10)]
         viewModel.count = 1
         viewModel.aggregate([["hello": "world"]])

@@ -96,6 +96,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query4.className, GameScore.className)
         XCTAssertEqual(query4.className, query.className)
         XCTAssertEqual(query4.`where`.constraints.values.count, 2)
+
+        let query5 = GameScore.query
+        XCTAssertEqual(query5.className, GameScore.className)
+        XCTAssertEqual(query5.className, query.className)
+        XCTAssertEqual(query5.`where`.constraints.values.count, 0)
     }
 
     func testCompareQueries() {
@@ -139,32 +144,32 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testSkip() {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertEqual(query.skip, 0)
-        let query2 = GameScore.query().skip(1)
+        let query2 = GameScore.query.skip(1)
         XCTAssertEqual(query2.skip, 1)
     }
 
     func testLimit() {
-        var query = GameScore.query()
+        var query = GameScore.query
         XCTAssertEqual(query.limit, 100)
         query = query.limit(10)
         XCTAssertEqual(query.limit, 10)
     }
 
     func testOrder() {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.order)
-        let query2 = GameScore.query().order(.ascending("yolo"))
+        let query2 = GameScore.query.order(.ascending("yolo"))
         XCTAssertNotNil(query2.order)
     }
 
     func testReadPreferences() {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.readPreference)
         XCTAssertNil(query.includeReadPreference)
         XCTAssertNil(query.subqueryReadPreference)
-        let query2 = GameScore.query().readPreference("PRIMARY",
+        let query2 = GameScore.query.readPreference("PRIMARY",
                                                       includeReadPreference: "SECONDARY",
                                                       subqueryReadPreference: "SECONDARY_PREFERRED")
         XCTAssertNotNil(query2.readPreference)
@@ -173,9 +178,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testIncludeKeys() {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.include)
-        var query2 = GameScore.query().include(["yolo"])
+        var query2 = GameScore.query.include(["yolo"])
         XCTAssertEqual(query2.include?.count, 1)
         XCTAssertEqual(query2.include?.first, "yolo")
         query2 = query2.include(["hello", "wow"])
@@ -184,9 +189,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testIncludeKeysVariadic() {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.include)
-        var query2 = GameScore.query().include("yolo")
+        var query2 = GameScore.query.include("yolo")
         XCTAssertEqual(query2.include?.count, 1)
         XCTAssertEqual(query2.include?.first, "yolo")
         query2 = query2.include("hello", "wow")
@@ -195,17 +200,17 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testIncludeAllKeys() {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.include)
-        let query2 = GameScore.query().includeAll()
+        let query2 = GameScore.query.includeAll()
         XCTAssertEqual(query2.include?.count, 1)
         XCTAssertEqual(query2.include, ["*"])
     }
 
     func testExcludeKeys() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.excludeKeys)
-        var query2 = GameScore.query().exclude(["yolo"])
+        var query2 = GameScore.query.exclude(["yolo"])
         XCTAssertEqual(query2.excludeKeys, ["yolo"])
         let encoded = try ParseCoding.jsonEncoder().encode(query2)
         let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
@@ -229,9 +234,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testExcludeKeysVariadic() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.excludeKeys)
-        var query2 = GameScore.query().exclude("yolo")
+        var query2 = GameScore.query.exclude("yolo")
         XCTAssertEqual(query2.excludeKeys, ["yolo"])
         let encoded = try ParseCoding.jsonEncoder().encode(query2)
         let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
@@ -255,10 +260,10 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testSelectKeys() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.keys)
 
-        var query2 = GameScore.query().select(["yolo"])
+        var query2 = GameScore.query.select(["yolo"])
         XCTAssertEqual(query2.keys?.count, 1)
         XCTAssertEqual(query2.keys?.first, "yolo")
         let encoded = try ParseCoding.jsonEncoder().encode(query2)
@@ -284,10 +289,10 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testSelectKeysVariadic() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.keys)
 
-        var query2 = GameScore.query().select("yolo")
+        var query2 = GameScore.query.select("yolo")
         XCTAssertEqual(query2.keys?.count, 1)
         XCTAssertEqual(query2.keys?.first, "yolo")
         let encoded = try ParseCoding.jsonEncoder().encode(query2)
@@ -313,11 +318,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testSortByTextScore() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.keys)
 
         let expectedOrder = Query<GameScore>.Order.ascending("$score")
-        var query2 = GameScore.query().sortByTextScore()
+        var query2 = GameScore.query.sortByTextScore()
         XCTAssertEqual(query2.keys?.count, 1)
         XCTAssertEqual(query2.keys?.first, "$score")
         XCTAssertEqual(query2.order?.first, expectedOrder)
@@ -359,7 +364,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testAddingConstraints() {
-        var query = GameScore.query()
+        var query = GameScore.query
         XCTAssertEqual(query.className, GameScore.className)
         XCTAssertEqual(query.className, query.className)
         XCTAssertEqual(query.`where`.constraints.values.count, 0)
@@ -369,7 +374,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFindCommand() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         let command = query.findCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
@@ -380,7 +385,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testQueryEncoding() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{}})"
         XCTAssertEqual(query.debugDescription, expected)
         XCTAssertEqual(query.description, expected)

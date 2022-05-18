@@ -220,10 +220,10 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testFieldKeys() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.keys)
 
-        var query2 = GameScore.query().fields(["yolo"])
+        var query2 = GameScore.query.fields(["yolo"])
         XCTAssertEqual(query2.fields?.count, 1)
         XCTAssertEqual(query2.fields?.first, "yolo")
 
@@ -233,10 +233,10 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testFieldKeysVariadic() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.keys)
 
-        var query2 = GameScore.query().fields("yolo")
+        var query2 = GameScore.query.fields("yolo")
         XCTAssertEqual(query2.fields?.count, 1)
         XCTAssertEqual(query2.fields?.first, "yolo")
 
