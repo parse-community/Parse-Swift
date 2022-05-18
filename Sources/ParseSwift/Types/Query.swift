@@ -268,7 +268,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: This will be removed in ParseSwift 5.0.0 in favor of the `includeAll` computed property.
      - returns: The mutated instance of query for easy chaining.
      */
-    @available(*, deprecated, renamed: "includeAll")
+    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
     public func includeAll(_ keys: [String]? = nil) -> Query<T> {
         self.includeAll
     }
