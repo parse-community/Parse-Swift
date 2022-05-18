@@ -165,6 +165,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
       Add any amount of variadic constraints.
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
+     - returns: The current instance of query for easy chaining.
      */
     public func `where`(_ constraints: QueryConstraint...) -> Query<T> {
         self.`where`(constraints)
@@ -173,6 +174,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
       Add an array of variadic constraints.
      - parameter constraints: An array of zero or more `QueryConstraint`'s.
+     - returns: The current instance of query for easy chaining.
      */
     public func `where`(_ constraints: [QueryConstraint]) -> Query<T> {
         var mutableQuery = self
@@ -181,11 +183,12 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      A limit on the number of objects to return. The default limit is `100`, with a
-      maximum of 1000 results being returned at a time.
+     A limit on the number of objects to return. The default limit is `100`, with a
+     maximum of 1000 results being returned at a time.
 
-      - parameter value: `n` number of results to limit to.
-      - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
+     - parameter value: `n` number of results to limit to.
+     - returns: The mutated instance of query for easy chaining.
+     - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
     */
     public func limit(_ value: Int) -> Query<T> {
         var mutableQuery = self
@@ -194,9 +197,10 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      The number of objects to skip before returning any.
-      This is useful for pagination. Default is to skip zero results.
-      - parameter value: `n` number of results to skip.
+     The number of objects to skip before returning any.
+     This is useful for pagination. Default is to skip zero results.
+     - parameter value: `n` number of results to skip.
+     - returns: The mutated instance of query for easy chaining.
     */
     public func skip(_ value: Int) -> Query<T> {
         var mutableQuery = self
@@ -207,6 +211,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
       Adds a hint to force index selection.
       - parameter value: String or Object of index that should be used when executing query.
+      - returns: The mutated instance of query for easy chaining.
     */
     public func hint<U: Encodable>(_ value: U) -> Query<T> {
         var mutableQuery = self
@@ -219,6 +224,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter readPreference: The read preference for the main query.
       - parameter includeReadPreference: The read preference for the queries to include pointers.
       - parameter subqueryReadPreference: The read preference for the sub queries.
+      - returns: The mutated instance of query for easy chaining.
     */
     public func readPreference(_ readPreference: String?,
                                includeReadPreference: String? = nil,
@@ -234,6 +240,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func include(_ keys: String...) -> Query<T> {
         self.include(keys)
@@ -243,6 +250,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to load child `ParseObject`s for.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func include(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -258,6 +266,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Includes all nested `ParseObject`s one level deep.
      - warning: Requires Parse Server 3.0.0+.
      - warning: This will be removed in ParseSwift 5.0.0 in favor of the `includeAll` computed property.
+     - returns: The mutated instance of query for easy chaining.
      */
     @available(*, deprecated, renamed: "includeAll")
     public func includeAll(_ keys: [String]? = nil) -> Query<T> {
@@ -268,6 +277,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Exclude specific keys for a `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
      - parameter keys: A variadic list of keys include in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
      */
     public func exclude(_ keys: String...) -> Query<T> {
@@ -278,6 +288,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Exclude specific keys for a `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
      - parameter keys: An array of keys to exclude in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
     */
     public func exclude(_ keys: [String]) -> Query<T> {
@@ -294,6 +305,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys include in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
      */
     public func select(_ keys: String...) -> Query<T> {
@@ -304,6 +316,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to include in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
      */
     public func select(_ keys: [String]) -> Query<T> {
@@ -319,6 +332,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Sort the results of the query based on the `Order` enum.
       - parameter keys: A variadic list of keys to order by.
+      - returns: The mutated instance of query for easy chaining.
     */
     public func order(_ keys: Order...) -> Query<T> {
         self.order(keys)
@@ -327,6 +341,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Sort the results of the query based on the `Order` enum.
       - parameter keys: An array of keys to order by.
+      - returns: The mutated instance of query for easy chaining.
     */
     public func order(_ keys: [Order]?) -> Query<T> {
         var mutableQuery = self
@@ -344,6 +359,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func fields(_ keys: String...) -> Query<T> {
         self.fields(keys)
@@ -359,6 +375,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func fields(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
