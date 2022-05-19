@@ -146,6 +146,20 @@ extension ParseGeoPoint: CustomStringConvertible {
 public extension ParseGeoPoint {
 
     /**
+     A `CLLocation` instance created from the current `ParseGeoPoint`.
+     */
+    var toCLLocation: CLLocation {
+        CLLocation(latitude: latitude, longitude: longitude)
+    }
+
+    /**
+     A `CLLocationCoordinate2D` instance created from the current `ParseGeoPoint`.
+     */
+    var toCLLocationCoordinate2D: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
+    /**
      Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
      - parameter location: Instance of `CLLocation`, with set latitude and longitude.
      - throws: An error of `ParseError` type.
@@ -168,21 +182,21 @@ public extension ParseGeoPoint {
     }
 
     /**
-     Creates a new `CLLocation` instance for the given `ParseGeoPoint`, set to the location's coordinates.
-     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     A `CLLocation` instance created from the current `ParseGeoPoint`.
      - returns: Returns a `CLLocation`.
      */
-    func toCLLocation() -> CLLocation {
-        CLLocation(latitude: latitude, longitude: longitude)
+    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
+    func toCLLocation(_ geoPoint: ParseGeoPoint? = nil) -> CLLocation {
+        toCLLocation
     }
 
     /**
-     Creates a new `CLLocationCoordinate2D` instance for the given `ParseGeoPoint`, set to the location's coordinates.
-     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     A `CLLocationCoordinate2D` instance created from the current `ParseGeoPoint`.
      - returns: Returns a `CLLocationCoordinate2D`.
      */
-    func toCLLocationCoordinate2D() -> CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
+    func toCLLocationCoordinate2D(_ geoPoint: ParseGeoPoint? = nil) -> CLLocationCoordinate2D {
+        toCLLocationCoordinate2D
     }
 }
 #endif

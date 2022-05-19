@@ -6,6 +6,7 @@
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __New features__
+- Add toCLLocation and toCLLocationCoordinate2D computed properties to ParseGeoPoint, deprecate toCLLocation() and toCLLocationCoordinate2D() ([#366](https://github.com/parse-community/Parse-Swift/pull/366)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add query computed property to ParseObject ([#365](https://github.com/parse-community/Parse-Swift/pull/365)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add macCatalyst to SPM ([#363](https://github.com/parse-community/Parse-Swift/pull/363)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add includeAll computed property to Query and deprecate includeAll(). Add an order() method to Query that excepts a variadic list as input ([#362](https://github.com/parse-community/Parse-Swift/pull/362)), thanks to [Corey Baker](https://github.com/cbaker6).
