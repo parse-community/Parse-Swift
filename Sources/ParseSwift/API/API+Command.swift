@@ -474,7 +474,7 @@ internal extension API.Command {
 
         var params: [String: String]?
         if let includeParams = include {
-            params = ["include": "\(includeParams)"]
+            params = ["include": "\(Set(includeParams))"]
         }
 
         return API.Command<T, T>(

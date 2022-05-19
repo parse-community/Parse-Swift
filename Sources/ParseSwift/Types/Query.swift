@@ -259,7 +259,11 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func includeAll() -> Query<T> {
         var mutableQuery = self
-        mutableQuery.include = ["*"]
+        if mutableQuery.include != nil {
+            mutableQuery.include?.insert(ParseConstants.includeAllKey)
+        } else {
+            mutableQuery.include = [ParseConstants.includeAllKey]
+        }
         return mutableQuery
     }
 
