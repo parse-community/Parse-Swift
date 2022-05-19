@@ -45,16 +45,6 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         Self.className
     }
 
-    /**
-     Includes all nested `ParseObject`s one level deep.
-     - warning: Requires Parse Server 3.0.0+.
-     */
-    public var includeAll: Query<T> {
-        var mutableQuery = self
-        mutableQuery.include = ["*"]
-        return mutableQuery
-    }
-
     struct AggregateBody<T>: Encodable where T: ParseObject {
         let pipeline: [[String: AnyEncodable]]?
         let hint: AnyEncodable?
@@ -265,12 +255,12 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Includes all nested `ParseObject`s one level deep.
      - warning: Requires Parse Server 3.0.0+.
-     - warning: This will be removed in ParseSwift 5.0.0 in favor of the `includeAll` computed property.
      - returns: The mutated instance of query for easy chaining.
      */
-    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
-    public func includeAll(_ keys: [String]? = nil) -> Query<T> {
-        self.includeAll
+    public func includeAll() -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.include = ["*"]
+        return mutableQuery
     }
 
     /**

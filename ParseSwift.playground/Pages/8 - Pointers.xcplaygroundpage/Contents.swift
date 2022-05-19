@@ -177,7 +177,7 @@ query2.first { results in
  objects.
 */
 let query3 = Author.query("name" == "Bruce")
-    .includeAll
+    .includeAll()
 
 query3.first { results in
     switch results {
@@ -192,7 +192,7 @@ query3.first { results in
 //: You can also check if a field is equal to a ParseObject.
 do {
     let query4 = try Author.query("book" == newBook)
-        .includeAll
+        .includeAll()
 
     query4.first { results in
         switch results {
