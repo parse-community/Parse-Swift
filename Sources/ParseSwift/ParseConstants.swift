@@ -17,6 +17,7 @@ enum ParseConstants {
     static let fileDownloadsDirectory = "Downloads"
     static let bundlePrefix = "com.parse.ParseSwift"
     static let batchLimit = 50
+    static let includeAllKey = "*"
     #if os(iOS)
     static let deviceType = "ios"
     #elseif os(macOS)

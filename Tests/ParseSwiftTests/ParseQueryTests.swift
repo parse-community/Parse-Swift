@@ -205,6 +205,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query2 = GameScore.query.includeAll()
         XCTAssertEqual(query2.include?.count, 1)
         XCTAssertEqual(query2.include, ["*"])
+        let query3 = GameScore.query
+            .include("hello")
+            .includeAll()
+        XCTAssertEqual(query3.include?.count, 2)
+        XCTAssertEqual(query3.include, Set(["hello", "*"]))
     }
 
     func testExcludeKeys() throws {

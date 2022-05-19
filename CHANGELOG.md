@@ -9,9 +9,10 @@ __New features__
 - Add toCLLocation and toCLLocationCoordinate2D computed properties to ParseGeoPoint, deprecate toCLLocation() and toCLLocationCoordinate2D() ([#366](https://github.com/parse-community/Parse-Swift/pull/366)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add query computed property to ParseObject ([#365](https://github.com/parse-community/Parse-Swift/pull/365)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add macCatalyst to SPM ([#363](https://github.com/parse-community/Parse-Swift/pull/363)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Add includeAll computed property to Query and deprecate includeAll(). Add an order() method to Query that excepts a variadic list as input ([#362](https://github.com/parse-community/Parse-Swift/pull/362)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add an order() method to Query that excepts a variadic list as input ([#362](https://github.com/parse-community/Parse-Swift/pull/362)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
+- Allow includeAll key to be sent with additional include keys. When fetching, if the include argument is specified, convert it to a Set to prevent duplicate keys from being sent to the server ([#367](https://github.com/parse-community/Parse-Swift/pull/367)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Allow LiveQuery client to be set using ParseLiveQuery.defaultClient and deprecate ParseLiveQuery.setDefault(). Show usage of deprecated code as warnings during compile time and suggest changes ([#360](https://github.com/parse-community/Parse-Swift/pull/360)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.4.0

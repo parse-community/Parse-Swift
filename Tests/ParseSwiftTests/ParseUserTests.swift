@@ -213,21 +213,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
-            XCTAssertEqual(command.params, includeExpected)
+            XCTAssertEqual(command.params?.keys.first, includeExpected.keys.first)
+            if let value = command.params?.values.first,
+                let includeValue = value {
+                XCTAssertTrue(includeValue.contains("\"yolo\""))
+            } else {
+                XCTFail("Should have unwrapped value")
+            }
             XCTAssertNil(command.body)
-
-            // swiftlint:disable:next line_length
-            guard let urlExpected = URL(string: "http://localhost:1337/1/users/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
-                XCTFail("Should have unwrapped")
-                return
-            }
-            let request = command.prepareURLRequest(options: [])
-            switch request {
-            case .success(let url):
-                XCTAssertEqual(url.url, urlExpected)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
         } catch {
             XCTFail(error.localizedDescription)
         }
