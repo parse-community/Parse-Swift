@@ -1,15 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a new ",
+      "text" : "A ",
       "type" : "text"
     },
     {
-      "code" : "CLLocationCoordinate2D",
+      "code" : "CLLocation",
       "type" : "codeVoice"
     },
     {
-      "text" : " instance for the given ",
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
@@ -17,7 +17,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ", set to the location’s coordinates.",
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -31,16 +31,16 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocationCoordinate2D()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocation"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A8GeoPointV24toCLLocationCoordinate2DSo0fG1DVyF",
+    "externalID" : "s:10ParseSwift0A8GeoPointV12toCLLocationSo0F0Cvp",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "func"
+        "text" : "var"
       },
       {
         "kind" : "text",
@@ -48,16 +48,16 @@
       },
       {
         "kind" : "identifier",
-        "text" : "toCLLocationCoordinate2D"
+        "text" : "toCLLocation"
       },
       {
         "kind" : "text",
-        "text" : "() -> "
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
-        "text" : "CLLocationCoordinate2D"
+        "preciseIdentifier" : "c:objc(cs)CLLocation",
+        "text" : "CLLocation"
       }
     ],
     "modules" : [
@@ -66,9 +66,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Instance Method",
-    "symbolKind" : "method",
-    "title" : "toCLLocationCoordinate2D()"
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "toCLLocation"
   },
   "primaryContentSections" : [
     {
@@ -83,7 +83,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "func"
+              "text" : "var"
             },
             {
               "kind" : "text",
@@ -91,76 +91,33 @@
             },
             {
               "kind" : "identifier",
-              "text" : "toCLLocationCoordinate2D"
+              "text" : "toCLLocation"
             },
             {
               "kind" : "text",
-              "text" : "() -> "
+              "text" : ": "
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
-              "text" : "CLLocationCoordinate2D"
+              "preciseIdentifier" : "c:objc(cs)CLLocation",
+              "text" : "CLLocation"
+            },
+            {
+              "kind" : "text",
+              "text" : " { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "Returns a ",
-              "type" : "text"
-            },
-            {
-              "code" : "CLLocationCoordinate2D",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : ".",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "Instance of ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseGeoPoint",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ", with set latitude and longitude.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "geopoint"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -174,7 +131,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsegeopoint\/tocllocationcoordinate2d()"
+        "\/documentation\/parseswift\/parsegeopoint\/tocllocation"
       ],
       "traits" : [
         {
@@ -261,18 +218,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsegeopoint"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint/toCLLocationCoordinate2D()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint/toCLLocation": {
   "abstract" : [
     {
-      "text" : "Creates a new ",
+      "text" : "A ",
       "type" : "text"
     },
     {
-      "code" : "CLLocationCoordinate2D",
+      "code" : "CLLocation",
       "type" : "codeVoice"
     },
     {
-      "text" : " instance for the given ",
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
@@ -280,14 +237,14 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ", set to the location’s coordinates.",
+      "text" : ".",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "func"
+      "text" : "var"
     },
     {
       "kind" : "text",
@@ -295,24 +252,24 @@
     },
     {
       "kind" : "identifier",
-      "text" : "toCLLocationCoordinate2D"
+      "text" : "toCLLocation"
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
-      "text" : "CLLocationCoordinate2D"
+      "preciseIdentifier" : "c:objc(cs)CLLocation",
+      "text" : "CLLocation"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocationCoordinate2D()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocation",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "toCLLocationCoordinate2D()",
+  "title" : "toCLLocation",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsegeopoint\/tocllocationcoordinate2d()"
+  "url" : "\/documentation\/parseswift\/parsegeopoint\/tocllocation"
 }
 }
 }

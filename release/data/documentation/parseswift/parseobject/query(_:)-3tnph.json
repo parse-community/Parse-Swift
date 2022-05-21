@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Create an instance with a variadic amount constraints.",
+      "text" : "Create a query with a variadic amount constraints.",
       "type" : "text"
     }
   ],
@@ -304,7 +304,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query(_:)-3tnph": {
   "abstract" : [
     {
-      "text" : "Create an instance with a variadic amount constraints.",
+      "text" : "Create a query with a variadic amount constraints.",
       "type" : "text"
     }
   ],

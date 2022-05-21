@@ -582,7 +582,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSession/installationId": {
   "abstract" : [
     {
-      "text" : "Referrs to the ",
+      "text" : "Refers to the ",
       "type" : "text"
     },
     {

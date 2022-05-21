@@ -221,7 +221,8 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-47jms",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/includeAll()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/limit(_:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)-75g9s",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)-779cz",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/readPreference(_:includeReadPreference:subqueryReadPreference:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-23ewt",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/select(_:)-689ic",
@@ -7170,10 +7171,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/limit(_:)"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/order(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/order(_:)-75g9s": {
   "abstract" : [
     {
-      "text" : "An enum that determines the order to sort the results based on a given key.",
+      "text" : "Sort the results of the query based on the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Order",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " enum.",
       "type" : "text"
     }
   ],
@@ -7222,12 +7231,79 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)-75g9s",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "order(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/query\/order(_:)"
+  "url" : "\/documentation\/parseswift\/query\/order(_:)-75g9s"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/order(_:)-779cz": {
+  "abstract" : [
+    {
+      "text" : "Sort the results of the query based on the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Order",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " enum.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "order"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift5QueryV5OrderO",
+      "text" : "Order"
+    },
+    {
+      "kind" : "text",
+      "text" : "...) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift5QueryV",
+      "text" : "Query"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift5QueryV1Txmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)-779cz",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "order(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/query\/order(_:)-779cz"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Query/readPreference(_:includeReadPreference:subqueryReadPreference:)": {
   "abstract" : [

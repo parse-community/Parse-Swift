@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a new ",
+      "text" : "A ",
       "type" : "text"
     },
     {
@@ -9,7 +9,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " instance for the given ",
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
@@ -17,8 +17,19 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ", set to the location’s coordinates.",
+      "text" : ".",
       "type" : "text"
+    }
+  ],
+  "deprecationSummary" : [
+    {
+      "inlineContent" : [
+        {
+          "text" : "Use the computed property instead by removing \\\"()\\\"",
+          "type" : "text"
+        }
+      ],
+      "type" : "paragraph"
     }
   ],
   "hierarchy" : {
@@ -31,12 +42,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocation()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocation(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A8GeoPointV12toCLLocationSo0F0CyF",
+    "externalID" : "s:10ParseSwift0A8GeoPointV12toCLLocationySo0F0CACSgF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -52,7 +63,16 @@
       },
       {
         "kind" : "text",
-        "text" : "() -> "
+        "text" : "("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A8GeoPointV",
+        "text" : "ParseGeoPoint"
+      },
+      {
+        "kind" : "text",
+        "text" : "?) -> "
       },
       {
         "kind" : "typeIdentifier",
@@ -65,10 +85,13 @@
         "name" : "ParseSwift"
       }
     ],
+    "platforms" : [
+
+    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "toCLLocation()"
+    "title" : "toCLLocation(_:)"
   },
   "primaryContentSections" : [
     {
@@ -95,7 +118,33 @@
             },
             {
               "kind" : "text",
-              "text" : "() -> "
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "_"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "geoPoint"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A8GeoPointV",
+              "text" : "ParseGeoPoint"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil) -> "
             },
             {
               "kind" : "typeIdentifier",
@@ -134,33 +183,6 @@
         }
       ],
       "kind" : "content"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "Instance of ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseGeoPoint",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ", with set latitude and longitude.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "geopoint"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -174,7 +196,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsegeopoint\/tocllocation()"
+        "\/documentation\/parseswift\/parsegeopoint\/tocllocation(_:)"
       ],
       "traits" : [
         {
@@ -261,10 +283,10 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsegeopoint"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint/toCLLocation()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint/toCLLocation(_:)": {
   "abstract" : [
     {
-      "text" : "Creates a new ",
+      "text" : "A ",
       "type" : "text"
     },
     {
@@ -272,7 +294,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " instance for the given ",
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
@@ -280,10 +302,11 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ", set to the location’s coordinates.",
+      "text" : ".",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -299,7 +322,16 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A8GeoPointV",
+      "text" : "ParseGeoPoint"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -307,12 +339,12 @@
       "text" : "CLLocation"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocation()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocation(_:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "toCLLocation()",
+  "title" : "toCLLocation(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsegeopoint\/tocllocation()"
+  "url" : "\/documentation\/parseswift\/parsegeopoint\/tocllocation(_:)"
 }
 }
 }

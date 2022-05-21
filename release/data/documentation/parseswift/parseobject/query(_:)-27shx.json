@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Create an instance with an array of constraints.",
+      "text" : "Create a query with an array of constraints.",
       "type" : "text"
     }
   ],
@@ -142,7 +142,7 @@
             },
             {
               "kind" : "text",
-              "text" : "]) -> "
+              "text" : "] = []) -> "
             },
             {
               "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
@@ -304,7 +304,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query(_:)-27shx": {
   "abstract" : [
     {
-      "text" : "Create an instance with an array of constraints.",
+      "text" : "Create a query with an array of constraints.",
       "type" : "text"
     }
   ],

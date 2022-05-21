@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Create an instance with no constraints.",
+      "text" : "Create a query with no constraints.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A6ObjectPAAE5queryAA5QueryVyxGyFZ",
+    "externalID" : "s:10ParseSwift0A6ObjectPAAE5queryAA5QueryVyxGvpZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,7 @@
       },
       {
         "kind" : "keyword",
-        "text" : "func"
+        "text" : "var"
       },
       {
         "kind" : "text",
@@ -44,7 +44,7 @@
       },
       {
         "kind" : "text",
-        "text" : "() -> "
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
@@ -70,9 +70,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Type Method",
-    "symbolKind" : "method",
-    "title" : "query()"
+    "roleHeading" : "Type Property",
+    "symbolKind" : "property",
+    "title" : "query"
   },
   "primaryContentSections" : [
     {
@@ -95,7 +95,7 @@
             },
             {
               "kind" : "keyword",
-              "text" : "func"
+              "text" : "var"
             },
             {
               "kind" : "text",
@@ -107,7 +107,7 @@
             },
             {
               "kind" : "text",
-              "text" : "() -> "
+              "text" : ": "
             },
             {
               "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
@@ -125,32 +125,20 @@
             },
             {
               "kind" : "text",
-              "text" : ">"
+              "text" : "> { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "An instance of query for easy chaining.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -164,7 +152,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseobject\/query()"
+        "\/documentation\/parseswift\/parseobject\/query"
       ],
       "traits" : [
         {
@@ -239,10 +227,10 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query": {
   "abstract" : [
     {
-      "text" : "Create an instance with no constraints.",
+      "text" : "Create a query with no constraints.",
       "type" : "text"
     }
   ],
@@ -257,7 +245,7 @@
     },
     {
       "kind" : "keyword",
-      "text" : "func"
+      "text" : "var"
     },
     {
       "kind" : "text",
@@ -269,7 +257,7 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
@@ -289,12 +277,12 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "query()",
+  "title" : "query",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/query()"
+  "url" : "\/documentation\/parseswift\/parseobject\/query"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
   "abstract" : [

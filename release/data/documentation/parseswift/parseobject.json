@@ -740,10 +740,15 @@
     },
     {
       "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query"
+      ],
+      "title" : "Type Properties"
+    },
+    {
+      "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/getDecoder()-swift.type.method",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/getEncoder()-swift.type.method",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/getJSONEncoder()-swift.type.method",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query(_:)-27shx",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query(_:)-3tnph",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/queryRelations(_:parent:)-87cdn",
@@ -2762,10 +2767,10 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject\/originaldata"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query": {
   "abstract" : [
     {
-      "text" : "Create an instance with no constraints.",
+      "text" : "Create a query with no constraints.",
       "type" : "text"
     }
   ],
@@ -2780,7 +2785,7 @@
     },
     {
       "kind" : "keyword",
-      "text" : "func"
+      "text" : "var"
     },
     {
       "kind" : "text",
@@ -2792,7 +2797,7 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
@@ -2812,17 +2817,17 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/query",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "query()",
+  "title" : "query",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/query()"
+  "url" : "\/documentation\/parseswift\/parseobject\/query"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query(_:)-27shx": {
   "abstract" : [
     {
-      "text" : "Create an instance with an array of constraints.",
+      "text" : "Create a query with an array of constraints.",
       "type" : "text"
     }
   ],
@@ -2888,7 +2893,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/query(_:)-3tnph": {
   "abstract" : [
     {
-      "text" : "Create an instance with a variadic amount constraints.",
+      "text" : "Create a query with a variadic amount constraints.",
       "type" : "text"
     }
   ],

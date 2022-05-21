@@ -347,7 +347,7 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " to include all keys. This is similar to ",
+                  "text" : " to include all keys one level deep. This is similar to ",
                   "type" : "text"
                 },
                 {

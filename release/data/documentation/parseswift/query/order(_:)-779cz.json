@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "An enum that determines the order to sort the results based on a given key.",
+      "text" : "Sort the results of the query based on the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Order",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " enum.",
       "type" : "text"
     }
   ],
@@ -15,11 +23,11 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)-779cz"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift5QueryV5orderyACyxGSayAC5OrderOyx_GGSgF",
+    "externalID" : "s:10ParseSwift5QueryV5orderyACyxGAC5OrderOyx_Gd_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -35,7 +43,7 @@
       },
       {
         "kind" : "text",
-        "text" : "(["
+        "text" : "("
       },
       {
         "kind" : "typeIdentifier",
@@ -44,7 +52,7 @@
       },
       {
         "kind" : "text",
-        "text" : "]?) -> "
+        "text" : "...) -> "
       },
       {
         "kind" : "typeIdentifier",
@@ -116,7 +124,7 @@
             },
             {
               "kind" : "text",
-              "text" : ": ["
+              "text" : ": "
             },
             {
               "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order",
@@ -126,7 +134,7 @@
             },
             {
               "kind" : "text",
-              "text" : "]?) -> "
+              "text" : "...) -> "
             },
             {
               "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
@@ -153,6 +161,26 @@
       "kind" : "declarations"
     },
     {
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The mutated instance of query for easy chaining.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    },
+    {
       "kind" : "parameters",
       "parameters" : [
         {
@@ -160,7 +188,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "An array of keys to order by.",
+                  "text" : "A variadic list of keys to order by.",
                   "type" : "text"
                 }
               ],
@@ -183,7 +211,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/query\/order(_:)"
+        "\/documentation\/parseswift\/query\/order(_:)-779cz"
       ],
       "traits" : [
         {
@@ -292,10 +320,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/order(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/order(_:)-779cz": {
   "abstract" : [
     {
-      "text" : "An enum that determines the order to sort the results based on a given key.",
+      "text" : "Sort the results of the query based on the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Order",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " enum.",
       "type" : "text"
     }
   ],
@@ -314,7 +350,7 @@
     },
     {
       "kind" : "text",
-      "text" : "(["
+      "text" : "("
     },
     {
       "kind" : "typeIdentifier",
@@ -323,7 +359,7 @@
     },
     {
       "kind" : "text",
-      "text" : "]?) -> "
+      "text" : "...) -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -344,12 +380,12 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/order(_:)-779cz",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "order(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/query\/order(_:)"
+  "url" : "\/documentation\/parseswift\/query\/order(_:)-779cz"
 }
 }
 }

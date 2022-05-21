@@ -1,15 +1,23 @@
 {
   "abstract" : [
     {
-      "text" : "Explicitly set the time associated with a given event. If not provided the server",
+      "text" : "A ",
       "type" : "text"
     },
     {
-      "text" : " ",
+      "code" : "CLLocationCoordinate2D",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
-      "text" : "time will be used.",
+      "code" : "ParseGeoPoint",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -17,17 +25,18 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/at"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocationCoordinate2D"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A9AnalyticsV2at10Foundation4DateVSgvp",
+    "extendedModule" : "ParseSwift",
+    "externalID" : "s:10ParseSwift0A8GeoPointV24toCLLocationCoordinate2DSo0fG1DVvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -39,7 +48,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "at"
+        "text" : "toCLLocationCoordinate2D"
       },
       {
         "kind" : "text",
@@ -47,12 +56,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10Foundation4DateV",
-        "text" : "Date"
-      },
-      {
-        "kind" : "text",
-        "text" : "?"
+        "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
+        "text" : "CLLocationCoordinate2D"
       }
     ],
     "modules" : [
@@ -60,13 +65,10 @@
         "name" : "ParseSwift"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
     "roleHeading" : "Instance Property",
     "symbolKind" : "property",
-    "title" : "at"
+    "title" : "toCLLocationCoordinate2D"
   },
   "primaryContentSections" : [
     {
@@ -89,7 +91,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "at"
+              "text" : "toCLLocationCoordinate2D"
             },
             {
               "kind" : "text",
@@ -97,24 +99,16 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10Foundation4DateV",
-              "text" : "Date"
+              "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
+              "text" : "CLLocationCoordinate2D"
             },
             {
               "kind" : "text",
-              "text" : "? { "
+              "text" : " { "
             },
             {
               "kind" : "keyword",
               "text" : "get"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "set"
             },
             {
               "kind" : "text",
@@ -124,40 +118,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "This will be removed in ParseSwift 5.0.0 in favor of ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "date",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ".",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "style" : "warning",
-          "type" : "aside"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -171,7 +131,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseanalytics\/at"
+        "\/documentation\/parseswift\/parsegeopoint\/tocllocationcoordinate2d"
       ],
       "traits" : [
         {
@@ -196,14 +156,38 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnalytics": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint": {
   "abstract" : [
     {
-      "code" : "ParseAnalytics",
+      "code" : "ParseGeoPoint",
       "type" : "codeVoice"
     },
     {
-      "text" : " provides an interface to Parse’s logging and analytics backend.",
+      "text" : " is used to embed a latitude \/ longitude point as the value for a key in a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "It could be used to perform queries in a geospatial manner using ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseQuery.whereKey:nearGeoPoint:",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -218,38 +202,45 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseAnalytics"
+      "text" : "ParseGeoPoint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseAnalytics"
+      "text" : "ParseGeoPoint"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseAnalytics",
+  "title" : "ParseGeoPoint",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseanalytics"
+  "url" : "\/documentation\/parseswift\/parsegeopoint"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnalytics/at": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint/toCLLocationCoordinate2D": {
   "abstract" : [
     {
-      "text" : "Explicitly set the time associated with a given event. If not provided the server",
+      "text" : "A ",
       "type" : "text"
     },
     {
-      "text" : " ",
+      "code" : "CLLocationCoordinate2D",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
-      "text" : "time will be used.",
+      "code" : "ParseGeoPoint",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -261,7 +252,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "at"
+      "text" : "toCLLocationCoordinate2D"
     },
     {
       "kind" : "text",
@@ -269,20 +260,16 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10Foundation4DateV",
-      "text" : "Date"
-    },
-    {
-      "kind" : "text",
-      "text" : "?"
+      "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
+      "text" : "CLLocationCoordinate2D"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/at",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocationCoordinate2D",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "at",
+  "title" : "toCLLocationCoordinate2D",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseanalytics\/at"
+  "url" : "\/documentation\/parseswift\/parsegeopoint\/tocllocationcoordinate2d"
 }
 }
 }

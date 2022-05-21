@@ -275,7 +275,7 @@
         },
         {
           "code" : [
-            "var compoundQueryConstraints = and(query1, query2, query3)"
+            "var compoundQueryConstraints = and(queries: query1, query2, query3)"
           ],
           "syntax" : null,
           "type" : "codeListing"

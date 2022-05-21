@@ -1,41 +1,53 @@
 {
   "abstract" : [
     {
-      "text" : "Make the query include ",
+      "text" : "A ",
       "type" : "text"
     },
     {
-      "code" : "ParseObject",
+      "code" : "CLLocationCoordinate2D",
       "type" : "codeVoice"
     },
     {
-      "text" : "s that have a reference stored at the provided keys.",
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
-      "text" : " ",
-      "type" : "text"
+      "code" : "ParseGeoPoint",
+      "type" : "codeVoice"
     },
     {
-      "text" : "If this is called multiple times, then all of the keys specified in each of the calls will be included.",
+      "text" : ".",
       "type" : "text"
+    }
+  ],
+  "deprecationSummary" : [
+    {
+      "inlineContent" : [
+        {
+          "text" : "Use the computed property instead by removing \\\"()\\\"",
+          "type" : "text"
+        }
+      ],
+      "type" : "paragraph"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-47jms"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocationCoordinate2D(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift5QueryV7includeyACyxGSaySSGF",
+    "extendedModule" : "ParseSwift",
+    "externalID" : "s:10ParseSwift0A8GeoPointV24toCLLocationCoordinate2DySo0fG1DVACSgF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -47,38 +59,25 @@
       },
       {
         "kind" : "identifier",
-        "text" : "include"
+        "text" : "toCLLocationCoordinate2D"
       },
       {
         "kind" : "text",
-        "text" : "(["
+        "text" : "("
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
+        "preciseIdentifier" : "s:10ParseSwift0A8GeoPointV",
+        "text" : "ParseGeoPoint"
       },
       {
         "kind" : "text",
-        "text" : "]) -> "
+        "text" : "?) -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift5QueryV",
-        "text" : "Query"
-      },
-      {
-        "kind" : "text",
-        "text" : "<"
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift5QueryV1Txmfp",
-        "text" : "T"
-      },
-      {
-        "kind" : "text",
-        "text" : ">"
+        "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
+        "text" : "CLLocationCoordinate2D"
       }
     ],
     "modules" : [
@@ -86,10 +85,13 @@
         "name" : "ParseSwift"
       }
     ],
+    "platforms" : [
+
+    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "include(_:)"
+    "title" : "toCLLocationCoordinate2D(_:)"
   },
   "primaryContentSections" : [
     {
@@ -112,7 +114,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "include"
+              "text" : "toCLLocationCoordinate2D"
             },
             {
               "kind" : "text",
@@ -128,39 +130,26 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "keys"
+              "text" : "geoPoint"
             },
             {
               "kind" : "text",
-              "text" : ": ["
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A8GeoPointV",
+              "text" : "ParseGeoPoint"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil) -> "
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
-            },
-            {
-              "kind" : "text",
-              "text" : "]) -> "
-            },
-            {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift5QueryV",
-              "text" : "Query"
-            },
-            {
-              "kind" : "text",
-              "text" : "<"
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift5QueryV1Txmfp",
-              "text" : "T"
-            },
-            {
-              "kind" : "text",
-              "text" : ">"
+              "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
+              "text" : "CLLocationCoordinate2D"
             }
           ]
         }
@@ -178,7 +167,15 @@
         {
           "inlineContent" : [
             {
-              "text" : "The mutated instance of query for easy chaining.",
+              "text" : "Returns a ",
+              "type" : "text"
+            },
+            {
+              "code" : "CLLocationCoordinate2D",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ".",
               "type" : "text"
             }
           ],
@@ -186,33 +183,6 @@
         }
       ],
       "kind" : "content"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "An array of keys to load child ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseObject",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : "s for.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "keys"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -226,7 +196,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/query\/include(_:)-47jms"
+        "\/documentation\/parseswift\/parsegeopoint\/tocllocationcoordinate2d(_:)"
       ],
       "traits" : [
         {
@@ -251,18 +221,14 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/Query": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint": {
   "abstract" : [
     {
-      "text" : "The ",
-      "type" : "text"
-    },
-    {
-      "code" : "Query",
+      "code" : "ParseGeoPoint",
       "type" : "codeVoice"
     },
     {
-      "text" : " class defines a query that is used to query for ",
+      "text" : " is used to embed a latitude \/ longitude point as the value for a key in a ",
       "type" : "text"
     },
     {
@@ -270,7 +236,23 @@
       "type" : "codeVoice"
     },
     {
-      "text" : "s.",
+      "text" : ".",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "It could be used to perform queries in a geospatial manner using ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseQuery.whereKey:nearGeoPoint:",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -285,45 +267,46 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Query"
+      "text" : "ParseGeoPoint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Query"
+      "text" : "ParseGeoPoint"
     }
   ],
   "role" : "symbol",
-  "title" : "Query",
+  "title" : "ParseGeoPoint",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/query"
+  "url" : "\/documentation\/parseswift\/parsegeopoint"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/include(_:)-47jms": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseGeoPoint/toCLLocationCoordinate2D(_:)": {
   "abstract" : [
     {
-      "text" : "Make the query include ",
+      "text" : "A ",
       "type" : "text"
     },
     {
-      "code" : "ParseObject",
+      "code" : "CLLocationCoordinate2D",
       "type" : "codeVoice"
     },
     {
-      "text" : "s that have a reference stored at the provided keys.",
+      "text" : " instance created from the current ",
       "type" : "text"
     },
     {
-      "text" : " ",
-      "type" : "text"
+      "code" : "ParseGeoPoint",
+      "type" : "codeVoice"
     },
     {
-      "text" : "If this is called multiple times, then all of the keys specified in each of the calls will be included.",
+      "text" : ".",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -335,46 +318,33 @@
     },
     {
       "kind" : "identifier",
-      "text" : "include"
+      "text" : "toCLLocationCoordinate2D"
     },
     {
       "kind" : "text",
-      "text" : "(["
+      "text" : "("
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
+      "preciseIdentifier" : "s:10ParseSwift0A8GeoPointV",
+      "text" : "ParseGeoPoint"
     },
     {
       "kind" : "text",
-      "text" : "]) -> "
+      "text" : "?) -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift5QueryV",
-      "text" : "Query"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift5QueryV1Txmfp",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">"
+      "preciseIdentifier" : "c:@S@CLLocationCoordinate2D",
+      "text" : "CLLocationCoordinate2D"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/include(_:)-47jms",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint\/toCLLocationCoordinate2D(_:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "include(_:)",
+  "title" : "toCLLocationCoordinate2D(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/query\/include(_:)-47jms"
+  "url" : "\/documentation\/parseswift\/parsegeopoint\/tocllocationcoordinate2d(_:)"
 }
 }
 }
