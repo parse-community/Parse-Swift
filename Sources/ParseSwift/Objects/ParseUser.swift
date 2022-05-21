@@ -875,7 +875,7 @@ extension ParseUser {
     ) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-         do {
+        do {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
