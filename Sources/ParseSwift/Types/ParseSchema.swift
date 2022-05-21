@@ -9,28 +9,20 @@
 import Foundation
 
 /**
- `ParseSchema` is a local representation of a session.
- This protocol conforms to `ParseObject` and retains the
- same functionality.
+ `ParseSchema` is used for handeling your schemas.
+ - requires: `.useMasterKey` has to be available.
  */
 public struct ParseSchema<T: ParseObject>: ParseType, Decodable {
-    /* associatedtype SchemaObject: ParseObject
 
-    /// The session token for this session.
-    var className: String { get set }
-    /// The session token for this session.
-    var fields: [String: ParseField]? { get set }
-    /// The session token for this session.
-    var indexes: [String: [String: Int] ]? { get set }
-    /// The session token for this session.
-    var classLevelPermissions: [String: Codable]? { get set }
-
-    init(className: String) */
+    /// The class name of the Schema.
     var className: String
+
     /// The session token for this session.
     internal var fields: [String: ParseField]?
+
     /// The session token for this session.
     internal var indexes: [String: [String: Int]]?
+
     /// The session token for this session.
     // internal var classLevelPermissions: [String: Codable]?
 }
@@ -45,50 +37,69 @@ public extension ParseSchema {
         self.init(className: T.className)
     }
 
-    func addField<V>(_ name: String,
-                     type: ParseFieldType,
-                     options: ParseFieldOptions<V>) -> Self {
-        var mutableSchema = self
-        /* switch type {
-        case .string:
-            <#code#>
-        case .number:
-            <#code#>
-        case .boolean:
-            <#code#>
-        case .date:
-            <#code#>
-        case .file:
-            <#code#>
-        case .geoPoint:
-            <#code#>
-        case .polygon:
-            <#code#>
-        case .array:
-            <#code#>
-        case .object:
-            <#code#>
+    /**
+     Add a Field to Create/Update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter type: The `ParseFieldType` of the field that will be created/updated on Parse Server.
+     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server. Defaults to **nil**
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining..
+    */
+    func addField<T, V>(_ name: String,
+                        type: ParseFieldType,
+                        target: T? = nil,
+                        options: ParseFieldOptions<V>) throws -> Self where T: ParseObject {
+        switch type {
         case .pointer:
-            <#code#>
+            return try addPointer(name, target: target, options: options)
         case .relation:
-            <#code#>
-        case .bytes:
-            <#code#>
-        case .acl:
-            <#code#>
-        } */
-        mutableSchema.fields
-        
-        return mutableSchema
+            return try addRelation(name, target: target)
+        default:
+            var mutableSchema = self
+            let field = ParseField(type: type, options: options)
+            if mutableSchema.fields != nil {
+                mutableSchema.fields?[name] = field
+            } else {
+                mutableSchema.fields = [name: field]
+            }
+
+            return mutableSchema
+        }
     }
 
     func addPointer<T, V>(_ name: String,
-                          target: T,
-                          options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                          target: T?,
+                          options: ParseFieldOptions<V>) throws -> Self where T: ParseObject {
+        guard let target = target else {
+            throw ParseError(code: .unknownError, message: "Target must not be nil")
+        }
+
         let field = ParseField(type: .pointer, target: target, options: options)
         var mutableSchema = self
-        mutableSchema.fields[name] = field
-        
+        if mutableSchema.fields != nil {
+            mutableSchema.fields?[name] = field
+        } else {
+            mutableSchema.fields = [name: field]
+        }
+
+        return mutableSchema
+    }
+
+    func addRelation<T>(_ name: String,
+                        target: T?) throws -> Self where T: ParseObject {
+        guard let target = target else {
+            throw ParseError(code: .unknownError, message: "Target must not be nil")
+        }
+
+        let field = ParseField(type: .relation, target: target)
+        var mutableSchema = self
+        if mutableSchema.fields != nil {
+            mutableSchema.fields?[name] = field
+        } else {
+            mutableSchema.fields = [name: field]
+        }
+
         return mutableSchema
     }
 }

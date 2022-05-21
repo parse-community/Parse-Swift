@@ -13,7 +13,7 @@ extension ParsePointer {
     /**
      Determines if two objects have the same objectId.
      - parameter as: Object to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a `true` if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId(as other: ParsePointer) -> Bool {
         return other.className == className && other.objectId == objectId
@@ -81,7 +81,7 @@ public extension Pointer {
     /**
      Determines if a `ParseObject` and `Pointer`have the same `objectId`.
      - parameter as: `ParseObject` to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a `true` if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId
@@ -90,7 +90,7 @@ public extension Pointer {
     /**
      Determines if two `Pointer`'s have the same `objectId`.
      - parameter as: `Pointer` to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a `true` if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId(as other: Self) -> Bool {
         return other.className == className && other.objectId == objectId

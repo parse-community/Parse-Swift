@@ -75,7 +75,7 @@ public struct ParseACL: ParseType,
      Returns true if a particular key has a specific access level.
      - parameter key: The key of the `ParseUser` or `ParseRole` for which to retrieve access.
      - parameter access: The type of access.
-     - returns: `true` if the `key` has *explicit* access, otherwise `false`.
+     - returns: `true` if the `key` has *explicit* access, otherwise **false**.
     */
     func get(_ key: String, access: Access) -> Bool {
         guard let acl = acl else { // no acl, all open!
@@ -87,11 +87,11 @@ public struct ParseACL: ParseType,
     // MARK: ParseUser
     /**
      Gets whether the given `objectId` is *explicitly* allowed to read this object.
-     Even if this returns `false`, the user may still be able to access it if `publicReadAccess` returns `true`
+     Even if this returns **false**, the user may still be able to access it if `publicReadAccess` returns `true`
      or if the user belongs to a role that has access.
 
      - parameter objectId: The `ParseUser.objectId` of the user for which to retrieve access.
-     - returns: `true` if the user with this `objectId` has *explicit* read access, otherwise `false`.
+     - returns: `true` if the user with this `objectId` has *explicit* read access, otherwise **false**.
     */
     public func getReadAccess(objectId: String) -> Bool {
         get(objectId, access: .read)
@@ -99,11 +99,11 @@ public struct ParseACL: ParseType,
 
     /**
      Gets whether the given `ParseUser` is *explicitly* allowed to read this object.
-     Even if this returns `false`, the user may still be able to access it if `publicReadAccess` returns `true`
+     Even if this returns **false**, the user may still be able to access it if `publicReadAccess` returns `true`
      or if the user belongs to a role that has access.
 
      - parameter user: The `ParseUser` for which to retrieve access.
-     - returns: `true` if the user with this `ParseUser` has *explicit* read access, otherwise `false`.
+     - returns: `true` if the user with this `ParseUser` has *explicit* read access, otherwise **false**.
     */
     public func getReadAccess<T>(user: T) -> Bool where T: ParseUser {
         if let objectId = user.objectId {
@@ -119,7 +119,7 @@ public struct ParseACL: ParseType,
      or if the user belongs to a role that has access.
 
      - parameter objectId: The `ParseUser.objectId` of the user for which to retrieve access.
-     - returns: `true` if the user with this `ParseUser.objectId` has *explicit* write access, otherwise `false`.
+     - returns: `true` if the user with this `ParseUser.objectId` has *explicit* write access, otherwise **false**.
     */
     public func getWriteAccess(objectId: String) -> Bool {
         return get(objectId, access: .write)
@@ -131,7 +131,7 @@ public struct ParseACL: ParseType,
      or if the user belongs to a role that has access.
 
      - parameter user: The `ParseUser` of the user for which to retrieve access.
-     - returns: `true` if the `ParseUser` has *explicit* write access, otherwise `false`.
+     - returns: `true` if the `ParseUser` has *explicit* write access, otherwise **false**.
     */
     public func getWriteAccess<T>(user: T) -> Bool where T: ParseUser {
         if let objectId = user.objectId {
@@ -189,10 +189,10 @@ public struct ParseACL: ParseType,
 
     /**
      Get whether users belonging to the role with the given name are allowed to read this object.
-     Even if this returns `false`, the role may still be able to read it if a parent role has read access.
+     Even if this returns **false**, the role may still be able to read it if a parent role has read access.
 
      - parameter roleName: The name of the role.
-     - returns: `true` if the role has read access, otherwise `false`.
+     - returns: `true` if the role has read access, otherwise **false**.
     */
     public func getReadAccess(roleName: String) -> Bool {
         get(toRole(roleName: roleName), access: .read)
@@ -200,10 +200,10 @@ public struct ParseACL: ParseType,
 
     /**
      Get whether users belonging to the role are allowed to read this object.
-     Even if this returns `false`, the role may still be able to read it if a parent role has read access.
+     Even if this returns **false**, the role may still be able to read it if a parent role has read access.
 
      - parameter role: The `ParseRole` to get access for.
-     - returns: `true` if the `ParseRole` has read access, otherwise `false`.
+     - returns: `true` if the `ParseRole` has read access, otherwise **false**.
     */
     public func getReadAccess<T>(role: T) -> Bool where T: ParseRole {
         guard let name = role.name else { return false }
@@ -212,10 +212,10 @@ public struct ParseACL: ParseType,
 
     /**
      Get whether users belonging to the role with the given name are allowed to write this object.
-     Even if this returns `false`, the role may still be able to write it if a parent role has write access.
+     Even if this returns **false**, the role may still be able to write it if a parent role has write access.
 
      - parameter roleName: The name of the role.
-     - returns: `true` if the role has read access, otherwise `false`.
+     - returns: `true` if the role has read access, otherwise **false**.
     */
     public func getWriteAccess(roleName: String) -> Bool {
         get(toRole(roleName: roleName), access: .write)
@@ -223,10 +223,10 @@ public struct ParseACL: ParseType,
 
     /**
      Get whether users belonging to the role are allowed to write this object.
-     Even if this returns `false`, the role may still be able to write it if a parent role has write access.
+     Even if this returns **false**, the role may still be able to write it if a parent role has write access.
 
      - parameter role: The `ParseRole` to get access for.
-     - returns: `true` if the role has read access, otherwise `false`.
+     - returns: `true` if the role has read access, otherwise **false**.
     */
     public func getWriteAccess<T>(role: T) -> Bool where T: ParseRole {
         guard let name = role.name else { return false }
@@ -368,7 +368,7 @@ extension ParseACL {
      - parameter withAccessForCurrentUser: If `true`, the `ACL` that is applied to
      newly-created instance of `ParseObject` will
      provide read and write access to the `ParseUser.+currentUser` at the time of creation.
-     - If `false`, the provided `acl` will be used without modification.
+     - If **false**, the provided `acl` will be used without modification.
      - If `acl` is `nil`, this value is ignored.
      
      - returns: Updated defaultACL

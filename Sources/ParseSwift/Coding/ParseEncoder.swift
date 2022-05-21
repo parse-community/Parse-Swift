@@ -233,7 +233,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
 
     /// Returns whether a new element can be encoded at this coding path.
     ///
-    /// `true` if an element has not yet been encoded at this coding path; `false` otherwise.
+    /// `true` if an element has not yet been encoded at this coding path; **false** otherwise.
     var canEncodeNewValue: Bool {
         // Every time a new value gets encoded, the key it's encoded for is pushed onto the coding path (even if it's a nil key from an unkeyed container).
         // At the same time, every time a container is requested, a new value gets pushed onto the storage stack.

@@ -85,7 +85,7 @@ public protocol ParseObject: Objectable,
      Determines if a `KeyPath` of the current `ParseObject` should be restored
      by comparing it to another `ParseObject`.
      - parameter original: The original `ParseObject`.
-     - returns: Returns a `true` if the keyPath should be restored  or `false` otherwise.
+     - returns: Returns a `true` if the keyPath should be restored  or **false** otherwise.
     */
     func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
                              original: Self) -> Bool where W: Equatable
@@ -169,7 +169,7 @@ public extension ParseObject {
     /**
      Determines if two objects have the same objectId.
      - parameter as: Object to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a `true` if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil

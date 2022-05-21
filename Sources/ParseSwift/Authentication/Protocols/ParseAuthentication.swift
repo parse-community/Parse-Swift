@@ -59,7 +59,7 @@ public protocol ParseAuthentication: Codable {
      Whether the `ParseUser` is logged in with the respective authentication type.
      - parameter user: The `ParseUser` to check authentication type. The user must be logged in on this device.
      - returns: `true` if the `ParseUser` is logged in via the repective
-     authentication type. `false` if the user is not.
+     authentication type. **false** if the user is not.
      */
     func isLinked(with user: AuthenticatedUser) -> Bool
 
@@ -307,7 +307,7 @@ public extension ParseUser {
      Whether the `ParseUser` is logged in with the respective authentication string type.
      - parameter type: The authentication type to check. The user must be logged in on this device.
      - returns: `true` if the `ParseUser` is logged in via the repective
-     authentication type. `false` if the user is not.
+     authentication type. **false** if the user is not.
      */
     func isLinked(with type: String) -> Bool {
         guard let authData = self.authData?[type] else {
