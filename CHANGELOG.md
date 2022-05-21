@@ -2,8 +2,11 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.4.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.5.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.5.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.4.0...4.5.0)
 
 __New features__
 - Add toCLLocation and toCLLocationCoordinate2D computed properties to ParseGeoPoint, deprecate toCLLocation() and toCLLocationCoordinate2D() ([#366](https://github.com/parse-community/Parse-Swift/pull/366)), thanks to [Corey Baker](https://github.com/cbaker6).

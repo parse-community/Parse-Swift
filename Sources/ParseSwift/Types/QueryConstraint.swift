@@ -306,7 +306,7 @@ public func nor <T>(queries: Query<T>...) -> QueryConstraint where T: ParseObjec
  
  For example:
     
-     var compoundQueryConstraints = and([query1, query2, query3])
+     var compoundQueryConstraints = and(queries: [query1, query2, query3])
     
  will create a compoundQuery that is an and of the query1, query2, and query3.
     - parameter queries: The list of queries to `and` together.
@@ -322,7 +322,7 @@ public func and <T>(queries: [Query<T>]) -> QueryConstraint where T: ParseObject
  
  For example:
     
-     var compoundQueryConstraints = and(query1, query2, query3)
+     var compoundQueryConstraints = and(queries: query1, query2, query3)
     
  will create a compoundQuery that is an and of the query1, query2, and query3.
     - parameter queries: The variadic amount of queries to `and` together.
