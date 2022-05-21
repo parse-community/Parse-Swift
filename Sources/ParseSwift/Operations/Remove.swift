@@ -9,6 +9,6 @@
 import Foundation
 
 internal struct Remove<T>: Encodable where T: Encodable {
-    let __op: String = "Remove" // swiftlint:disable:this identifier_name
+    let __op: Operation = .remove // swiftlint:disable:this identifier_name
     let objects: [T]
 }

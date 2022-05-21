@@ -9,11 +9,16 @@
 import Foundation
 
 struct ParseField: Codable {
-    var type: ParseFieldType
+    var __op: Operation? // swiftlint:disable:this identifier_name
+    var type: ParseFieldType?
     var required: Bool?
     var defaultValue: AnyCodable?
     var targetClass: String?
 
+    init(operation: Operation) {
+        __op = operation
+    }
+    
     init<V>(type: ParseFieldType, options: ParseFieldOptions<V>) where V: Codable {
         self.type = type
         self.required = options.required

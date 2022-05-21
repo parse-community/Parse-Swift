@@ -38,17 +38,19 @@ public extension ParseSchema {
     }
 
     /**
-     Add a Field to Create/Update a `ParseSchema`.
+     Add a Field to create/update a `ParseSchema`.
      
      - parameter name: Name of the field that will be created/updated on Parse Server.
      - parameter type: The `ParseFieldType` of the field that will be created/updated on Parse Server.
-     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server. Defaults to **nil**
+     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server.
      - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
-     - returns: A mutated instance of `ParseSchema` for easy chaining..
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - throws: An error of type `ParseError`.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addField<T, V>(_ name: String,
                         type: ParseFieldType,
-                        target: T? = nil,
+                        target: T,
                         options: ParseFieldOptions<V>) throws -> Self where T: ParseObject {
         switch type {
         case .pointer:
@@ -56,18 +58,174 @@ public extension ParseSchema {
         case .relation:
             return try addRelation(name, target: target)
         default:
-            var mutableSchema = self
-            let field = ParseField(type: type, options: options)
-            if mutableSchema.fields != nil {
-                mutableSchema.fields?[name] = field
-            } else {
-                mutableSchema.fields = [name: field]
-            }
-
-            return mutableSchema
+            return addField(name, type: type, options: options)
         }
     }
 
+    /**
+     Add a Field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter type: The `ParseFieldType` of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addField<V>(_ name: String,
+                     type: ParseFieldType,
+                     options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        var mutableSchema = self
+        let field = ParseField(type: type, options: options)
+        if mutableSchema.fields != nil {
+            mutableSchema.fields?[name] = field
+        } else {
+            mutableSchema.fields = [name: field]
+        }
+
+        return mutableSchema
+    }
+
+    /**
+     Add a String field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addString<V>(_ name: String,
+                      options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .string, options: options)
+    }
+
+    /**
+     Add a Number field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addNumber<V>(_ name: String,
+                      options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .number, options: options)
+    }
+
+    /**
+     Add a Boolean field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addBoolean<V>(_ name: String,
+                       options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .boolean, options: options)
+    }
+
+    /**
+     Add a Date field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addDate<V>(_ name: String,
+                    options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .date, options: options)
+    }
+
+    /**
+     Add a File field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addFile<V>(_ name: String,
+                    options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .file, options: options)
+    }
+
+    /**
+     Add a GeoPoint field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addGeoPoint<V>(_ name: String,
+                        options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .geoPoint, options: options)
+    }
+
+    /**
+     Add a Polygon field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addPolygon<V>(_ name: String,
+                       options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .polygon, options: options)
+    }
+
+    /**
+     Add an Object field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addObject<V>(_ name: String,
+                      options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .object, options: options)
+    }
+
+    /**
+     Add a Bytes field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addBytes<V>(_ name: String,
+                     options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .bytes, options: options)
+    }
+
+    /**
+     Add an Array field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
+    func addArray<V>(_ name: String,
+                     options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+        addField(name, type: .array, options: options)
+    }
+
+    /**
+     Add a Pointer field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server.
+     Defaults to **nil**.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - throws: An error of type `ParseError`.
+     - warning: The use of `options` requires Parse Server 3.7.0+.
+    */
     func addPointer<T, V>(_ name: String,
                           target: T?,
                           options: ParseFieldOptions<V>) throws -> Self where T: ParseObject {
@@ -86,6 +244,15 @@ public extension ParseSchema {
         return mutableSchema
     }
 
+    /**
+     Add a Relation field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the field that will be created/updated on Parse Server.
+     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server.
+     Defaults to **nil**.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+     - throws: An error of type `ParseError`.
+    */
     func addRelation<T>(_ name: String,
                         target: T?) throws -> Self where T: ParseObject {
         guard let target = target else {
@@ -93,6 +260,24 @@ public extension ParseSchema {
         }
 
         let field = ParseField(type: .relation, target: target)
+        var mutableSchema = self
+        if mutableSchema.fields != nil {
+            mutableSchema.fields?[name] = field
+        } else {
+            mutableSchema.fields = [name: field]
+        }
+
+        return mutableSchema
+    }
+
+    /**
+     Delete a field in the `ParseSchema`.
+     
+     - parameter name: Name of the field that will be deleted on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+    */
+    func deleteField(_ name: String) -> Self {
+        let field = ParseField(operation: .delete)
         var mutableSchema = self
         if mutableSchema.fields != nil {
             mutableSchema.fields?[name] = field
