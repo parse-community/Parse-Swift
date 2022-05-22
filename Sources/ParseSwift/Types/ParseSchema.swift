@@ -12,10 +12,10 @@ import Foundation
  `ParseSchema` is used for handeling your schemas.
  - requires: `.useMasterKey` has to be available.
  */
-public struct ParseSchema<T: ParseObject>: ParseSchemable {
+public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
 
     /// The class name of the Schema.
-    var className: String
+    public var className: String
 
     /// The session token for this session.
     internal var fields: [String: ParseField]?
@@ -25,16 +25,40 @@ public struct ParseSchema<T: ParseObject>: ParseSchemable {
 
     /// The session token for this session.
     // internal var classLevelPermissions: [String: Codable]?
+
+    /**
+     Get the current fields for this `ParseSchema`.
+     - returns: The current fields.
+     */
+    public func getFields() -> [String: String] {
+        var currentFields = [String: String]()
+        fields?.forEach { (key, value) in
+            currentFields[key] = value.description
+        }
+        return currentFields
+    }
+
+    /**
+     Get the current indexes for this `ParseSchema`.
+     - returns: The current indexes.
+     */
+    public func getIndexes() -> [String: String] {
+        var currentIndexes = [String: String]()
+        indexes?.forEach { (key, value) in
+            currentIndexes[key] = value.description
+        }
+        return currentIndexes
+    }
 }
 
 // MARK: Default Implementations
 public extension ParseSchema {
     static var className: String {
-        T.className
+        SchemaObject.className
     }
 
     init() {
-        self.init(className: T.className)
+        self.init(className: SchemaObject.className)
     }
 
     /**

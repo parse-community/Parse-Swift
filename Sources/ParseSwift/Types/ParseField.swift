@@ -80,23 +80,60 @@ struct ParseField: Codable {
     }
 }
 
+// MARK: CustomDebugStringConvertible
+extension ParseField {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+                return "()"
+        }
+
+        return "(\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseField {
+    public var description: String {
+        debugDescription
+    }
+}
+
+/// The options for a field in `ParseSchema`
 public struct ParseFieldOptions<V: Codable>: Codable {
+    /// Specifies if a field is required.
     var required: Bool = false
+
+    /// The default value for a field.
     var defaultValue: V?
 }
 
+/// Field types available in `ParseSchema`.
 public enum ParseFieldType: String, Codable {
+    /// A string type.
     case string = "String"
+    /// A number type.
     case number = "Number"
+    /// A boolean type.
     case boolean = "Boolean"
+    /// A date type.
     case date = "Date"
+    /// A file type.
     case file = "File"
+    /// A geoPoint type.
     case geoPoint = "GeoPoint"
+    /// A polygon type.
     case polygon = "Polygon"
+    /// An array type.
     case array = "Array"
+    /// An object type.
     case object = "Object"
+    /// A pointer type.
     case pointer = "Pointer"
+    /// A relation type.
     case relation = "Relation"
+    /// A bytes type.
     case bytes = "Bytes"
+    /// A acl type.
     case acl = "ACL"
 }
