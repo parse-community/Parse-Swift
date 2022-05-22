@@ -47,6 +47,17 @@ public struct ParseACL: ParseType,
     /// The default initializer.
     public init() { }
 
+    static func getRoleAccessName<R>(_ role: R) throws -> String where R: ParseRole {
+        guard let name = role.name else {
+            throw ParseError(code: .unknownError, message: "Name of ParseRole cannot be nil")
+        }
+        return getRoleAccessName(name)
+    }
+
+    static func getRoleAccessName(_ name: String) -> String {
+        return "role:\(name)"
+    }
+
     /**
      Controls whether the public is allowed to read this object.
     */
@@ -195,7 +206,7 @@ public struct ParseACL: ParseType,
      - returns: `true` if the role has read access, otherwise **false**.
     */
     public func getReadAccess(roleName: String) -> Bool {
-        get(toRole(roleName: roleName), access: .read)
+        get(Self.getRoleAccessName(roleName), access: .read)
     }
 
     /**
@@ -207,7 +218,7 @@ public struct ParseACL: ParseType,
     */
     public func getReadAccess<T>(role: T) -> Bool where T: ParseRole {
         guard let name = role.name else { return false }
-        return get(toRole(roleName: name), access: .read)
+        return get(Self.getRoleAccessName(name), access: .read)
     }
 
     /**
@@ -218,7 +229,7 @@ public struct ParseACL: ParseType,
      - returns: `true` if the role has read access, otherwise **false**.
     */
     public func getWriteAccess(roleName: String) -> Bool {
-        get(toRole(roleName: roleName), access: .write)
+        get(Self.getRoleAccessName(roleName), access: .write)
     }
 
     /**
@@ -230,7 +241,7 @@ public struct ParseACL: ParseType,
     */
     public func getWriteAccess<T>(role: T) -> Bool where T: ParseRole {
         guard let name = role.name else { return false }
-        return get(toRole(roleName: name), access: .write)
+        return get(Self.getRoleAccessName(name), access: .write)
     }
 
     /**
@@ -240,7 +251,7 @@ public struct ParseACL: ParseType,
      - parameter roleName: The name of the role.
     */
     public mutating func setReadAccess(roleName: String, value: Bool) {
-        set(toRole(roleName: roleName), access: .read, value: value)
+        set(Self.getRoleAccessName(roleName), access: .read, value: value)
     }
 
     /**
@@ -251,7 +262,7 @@ public struct ParseACL: ParseType,
     */
     public mutating func setReadAccess<T>(role: T, value: Bool) where T: ParseRole {
         guard let name = role.name else { return }
-        set(toRole(roleName: name), access: .read, value: value)
+        set(Self.getRoleAccessName(name), access: .read, value: value)
     }
 
     /**
@@ -261,7 +272,7 @@ public struct ParseACL: ParseType,
      - parameter roleName: The name of the role.
     */
     public mutating func setWriteAccess(roleName: String, value: Bool) {
-        set(toRole(roleName: roleName), access: .write, value: value)
+        set(Self.getRoleAccessName(roleName), access: .write, value: value)
     }
 
     /**
@@ -272,11 +283,7 @@ public struct ParseACL: ParseType,
     */
     public mutating func setWriteAccess<T>(role: T, value: Bool) where T: ParseRole {
         guard let name = role.name else { return }
-        set(toRole(roleName: name), access: .write, value: value)
-    }
-
-    private func toRole(roleName: String) -> String {
-        "role:\(roleName)"
+        set(Self.getRoleAccessName(name), access: .write, value: value)
     }
 
     private mutating func set(_ key: String, access: Access, value: Bool) {
