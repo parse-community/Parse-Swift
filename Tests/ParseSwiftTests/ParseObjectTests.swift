@@ -156,7 +156,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
 
-         - returns: Returns a `true` if the other object has the same `objectId` or **false** if unsuccessful.
+         - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
         */
         public static func == (lhs: ParseObjectTests.GameScoreClass,
                                rhs: ParseObjectTests.GameScoreClass) -> Bool {
@@ -213,7 +213,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
 
-         - returns: Returns a `true` if the other object has the same `objectId` or **false** if unsuccessful.
+         - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
         */
         public static func == (lhs: ParseObjectTests.GameClass, rhs: ParseObjectTests.GameClass) -> Bool {
             lhs.hasSameObjectId(as: rhs)

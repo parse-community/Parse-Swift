@@ -600,7 +600,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 extension ParseLiveQuery {
 
     /// Manually establish a connection to the `ParseLiveQuery` Server.
-    /// - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
+    /// - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to **true**.
     /// - parameter completion: Returns `nil` if successful, an `Error` otherwise.
     public func open(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) {
         synchronizationQueue.sync {

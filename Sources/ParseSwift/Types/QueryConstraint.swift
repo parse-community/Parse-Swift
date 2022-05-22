@@ -511,7 +511,7 @@ public func near(key: String, geoPoint: ParseGeoPoint) -> QueryConstraint {
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in radians.
- - parameter sorted: `true` if results should be sorted by distance ascending, **false** is no sorting is required.
+ - parameter sorted: **true** if results should be sorted by distance ascending, **false** is no sorting is required.
  Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
@@ -537,7 +537,7 @@ public func withinRadians(key: String,
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in miles.
- - parameter sorted: `true` if results should be sorted by distance ascending, **false** is no sorting is required.
+ - parameter sorted: **true** if results should be sorted by distance ascending, **false** is no sorting is required.
  Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
@@ -558,7 +558,7 @@ public func withinMiles(key: String,
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in kilometers.
- - parameter sorted: `true` if results should be sorted by distance ascending, **false** is no sorting is required.
+ - parameter sorted: **true** if results should be sorted by distance ascending, **false** is no sorting is required.
  Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
