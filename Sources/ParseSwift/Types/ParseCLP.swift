@@ -78,60 +78,81 @@ public extension ParseCLP {
     }
 
     /**
-     Get the protected fields for the given user objectId.
+     Get the protected fields for the given `ParseUser`.
      
      - parameter user: The `ParseUser` access to check.
      - returns: The protected fields.
     */
     func getProtected<U>(_ user: U) throws -> [String] where U: ParseUser {
         let objectId = try user.toPointer().objectId
-        return getProtected(\.protectedFields, for: objectId)
+        return getProtected(objectId)
     }
 
     /**
-     Get the protected fields for the given user objectId.
+     Get the protected fields for the given `ParseUser` pointer.
+     
+     - parameter user: The `ParseUser` access to check.
+     - returns: The protected fields.
+    */
+    func getProtected<U>(_ user: Pointer<U>) -> [String] where U: ParseUser {
+        getProtected(user.objectId)
+    }
+
+    /**
+     Get the protected fields for the given `ParseRole`.
      
      - parameter role: The `ParseRole` access to check.
      - returns: The protected fields.
     */
     func getProtected<R>(_ role: R) throws -> [String] where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return getProtected(\.protectedFields, for: roleNameAccess)
+        return getProtected(roleNameAccess)
     }
 
     /**
      Set whether the given user objectId is allowed to retrieve fields from this class.
      
-     - parameter objectId: The user objectId to provide/restrict access to.
+     - parameter for: The user objectId to provide/restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
-    func setProtected(_ fields: [String], objectId: String) -> Self {
+    func setProtected(_ fields: [String], for objectId: String) -> Self {
         setProtected(\.protectedFields, fields: fields, for: objectId)
     }
 
     /**
      Set whether the given `ParseUser` is allowed to retrieve fields from this class.
      
-     - parameter user: The `ParseUser` to provide/restrict access to.
+     - parameter for: The `ParseUser` to provide/restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
-    func setProtected<U>(_ fields: [String], user: U) throws -> Self where U: ParseUser {
+    func setProtected<U>(_ fields: [String], for user: U) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
-        return setProtected(\.protectedFields, fields: fields, for: objectId)
+        return setProtected(fields, for: objectId)
+    }
+
+    /**
+     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
+     
+     - parameter for: The `ParseUser` to provide/restrict access to.
+     - parameter fields: The fields to be protected.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+    */
+    func setProtected<U>(_ fields: [String], for user: Pointer<U>) -> Self where U: ParseUser {
+        setProtected(fields, for: user.objectId)
     }
 
     /**
      Set whether the given `ParseRole` is allowed to retrieve fields from this class.
      
-     - parameter user: The `ParseRole` to provide/restrict access to.
+     - parameter for: The `ParseRole` to provide/restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
-    func setProtected<R>(_ fields: [String], role: R) throws -> Self where R: ParseRole {
+    func setProtected<R>(_ fields: [String], for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return setProtected(\.protectedFields, fields: fields, for: roleNameAccess)
+        return setProtected(fields, for: roleNameAccess)
     }
 }
 
@@ -471,7 +492,7 @@ public extension ParseCLP {
         return updatedCLP
     }
 
-    func getWrite(_ entity: String, check addField: Bool) -> Bool {
+    internal func getWrite(_ entity: String, check addField: Bool) -> Bool {
         let access = getAccess(\.create, for: entity)
             && getAccess(\.update, for: entity)
             && getAccess(\.delete, for: entity)
@@ -480,7 +501,7 @@ public extension ParseCLP {
         }
         return access
     }
-    
+
     /**
      Check whether authentication is required to write to this class.
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
@@ -507,6 +528,8 @@ public extension ParseCLP {
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
      - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
     */
     func doesHaveWriteAccess(_ objectId: String,
                              checkAddField: Bool = false) -> Bool {
@@ -519,6 +542,8 @@ public extension ParseCLP {
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
      - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
     */
     func doesHaveWriteAccess<U>(_ user: Pointer<U>,
                                 checkAddField: Bool = false) -> Bool where U: ParseUser {
@@ -531,6 +556,8 @@ public extension ParseCLP {
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
      - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
     */
     func doesHaveWriteAccess<U>(_ user: U,
                                 checkAddField: Bool = false) throws -> Bool where U: ParseUser {
@@ -544,6 +571,8 @@ public extension ParseCLP {
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
      - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
     */
     func doesHaveWriteAccess<R>(_ role: R,
                                 checkAddField: Bool = false) throws -> Bool where R: ParseRole {
@@ -605,7 +634,22 @@ public extension ParseCLP {
                            to allow: Bool,
                            canAddField addField: Bool = false) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
-        return setWrite(objectId, to: allow, can: addField)
+        return setWriteAccess(objectId, to: allow, canAddField: addField)
+    }
+
+    /**
+     Sets whether the given `ParseUser`pointer  is allowed to create/update/delete/addField to this class.
+     
+     - parameter user: The `ParseUser` to provide/restrict access to.
+     - parameter to: **true** if access should be allowed, **false** otherwise.
+     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
+     Defaults to **false**.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+    */
+    func setWriteAccess<U>(_ user: Pointer<U>,
+                           to allow: Bool,
+                           canAddField addField: Bool = false) -> Self where U: ParseUser {
+        setWriteAccess(user.objectId, to: allow, canAddField: addField)
     }
 
     /**
@@ -621,7 +665,7 @@ public extension ParseCLP {
                            to allow: Bool,
                            canAddField addField: Bool = false) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return setWrite(roleNameAccess, to: allow, can: addField)
+        return setWriteAccess(roleNameAccess, to: allow, canAddField: addField)
     }
 }
 
@@ -634,6 +678,74 @@ public extension ParseCLP {
             .setAccess(\.find, for: entity, to: allow)
             .setAccess(\.count, for: entity, to: allow)
         return updatedCLP
+    }
+
+    internal func getRead(_ entity: String) -> Bool {
+        getAccess(\.get, for: entity)
+            && getAccess(\.find, for: entity)
+            && getAccess(\.count, for: entity)
+    }
+
+    /**
+     Check whether authentication is required to read from this class.
+     - returns: **true** if authentication is required, **false** otherwise.
+    */
+    func doesReadRequireAuthentication() -> Bool {
+        getRead(Access.requiresAuthentication.rawValue)
+    }
+
+    /**
+     Check whether the public has access to read from this class.
+     - returns: **true** if authentication is required, **false** otherwise.
+    */
+    func doesReadHavePublicAccess() -> Bool {
+        getRead(Access.publicScope.rawValue)
+    }
+
+    /**
+     Check whether the user objectId has access to read from this class.
+     - parameter objectId: The user objectId to check.
+     - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
+    */
+    func doesHaveReadAccess(_ objectId: String) -> Bool {
+        getRead(objectId)
+    }
+
+    /**
+     Check whether the `ParseUser` pointer has access to read from this class.
+     - parameter user: The `ParseUser` pointer to check.
+     - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
+    */
+    func doesHaveReadAccess<U>(_ user: Pointer<U>) -> Bool where U: ParseUser {
+        doesHaveReadAccess(user.objectId)
+    }
+
+    /**
+     Check whether the `ParseUser` has access to read from this class.
+     - parameter user: The `ParseUser` to check.
+     - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
+    */
+    func doesHaveReadAccess<U>(_ user: U) throws -> Bool where U: ParseUser {
+        let objectId = try user.toPointer().objectId
+        return doesHaveReadAccess(objectId)
+    }
+
+    /**
+     Check whether the `ParseRole` has access to read from this class.
+     - parameter role: The `ParseRole` to check.
+     - returns: **true** if authentication is required, **false** otherwise.
+     - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
+     have access if they aare apart of a `ParseRole` that has access.
+    */
+    func doesHaveReadAccess<R>(_ role: R) throws -> Bool where R: ParseRole {
+        let roleNameAccess = try ParseACL.getRoleAccessName(role)
+        return doesHaveReadAccess(roleNameAccess)
     }
 
     /**
@@ -679,7 +791,19 @@ public extension ParseCLP {
     */
     func setReadAccess<U>(_ user: U, to allow: Bool) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
-        return setRead(objectId, to: allow)
+        return setReadAccess(objectId, to: allow)
+    }
+
+    /**
+     Sets whether the given `ParseUser` is allowed to get/find/count this class.
+     
+     - parameter role: The `ParseUser` pointer to provide/restrict access to.
+     - parameter allow: **true** if access should be allowed, **false** otherwise.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+    */
+    func setReadAccess<U>(_ user: Pointer<U>,
+                          to allow: Bool) -> Self where U: ParseUser {
+        return setReadAccess(user.objectId, to: allow)
     }
 
     /**
@@ -691,6 +815,6 @@ public extension ParseCLP {
     */
     func setReadAccess<R>(_ role: R, to allow: Bool) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return setRead(roleNameAccess, to: allow)
+        return setReadAccess(roleNameAccess, to: allow)
     }
 }
