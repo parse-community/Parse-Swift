@@ -18,7 +18,7 @@ struct ParseField: Codable {
     init(operation: Operation) {
         __op = operation
     }
-    
+
     init<V>(type: ParseFieldType, options: ParseFieldOptions<V>) where V: Codable {
         self.type = type
         self.required = options.required

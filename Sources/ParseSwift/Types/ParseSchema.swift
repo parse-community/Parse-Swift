@@ -12,7 +12,7 @@ import Foundation
  `ParseSchema` is used for handeling your schemas.
  - requires: `.useMasterKey` has to be available.
  */
-public struct ParseSchema<T: ParseObject>: ParseType, Decodable {
+public struct ParseSchema<T: ParseObject>: ParseSchemable {
 
     /// The class name of the Schema.
     var className: String
@@ -21,7 +21,7 @@ public struct ParseSchema<T: ParseObject>: ParseType, Decodable {
     internal var fields: [String: ParseField]?
 
     /// The session token for this session.
-    internal var indexes: [String: [String: Int]]?
+    internal var indexes: [String: AnyCodable]?
 
     /// The session token for this session.
     // internal var classLevelPermissions: [String: Codable]?
@@ -35,6 +35,26 @@ public extension ParseSchema {
 
     init() {
         self.init(className: T.className)
+    }
+
+    /**
+     Add a Field to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the index that will be created/updated on Parse Server.
+     - parameter index: The `ParseIndex` to add that will be created/updated on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+    */
+    func addIndex(_ name: String,
+                  index: ParseIndex) -> Self {
+        var mutableSchema = self
+
+        if mutableSchema.indexes != nil {
+            mutableSchema.indexes?[name] = AnyCodable(index)
+        } else {
+            mutableSchema.indexes = [name: AnyCodable(index)]
+        }
+
+        return mutableSchema
     }
 
     /**
@@ -73,7 +93,7 @@ public extension ParseSchema {
     */
     func addField<V>(_ name: String,
                      type: ParseFieldType,
-                     options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                     options: ParseFieldOptions<V>) -> Self {
         var mutableSchema = self
         let field = ParseField(type: type, options: options)
         if mutableSchema.fields != nil {
@@ -94,7 +114,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addString<V>(_ name: String,
-                      options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                      options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .string, options: options)
     }
 
@@ -107,7 +127,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addNumber<V>(_ name: String,
-                      options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                      options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .number, options: options)
     }
 
@@ -120,7 +140,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addBoolean<V>(_ name: String,
-                       options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                       options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .boolean, options: options)
     }
 
@@ -133,7 +153,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addDate<V>(_ name: String,
-                    options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                    options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .date, options: options)
     }
 
@@ -146,7 +166,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addFile<V>(_ name: String,
-                    options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                    options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .file, options: options)
     }
 
@@ -159,7 +179,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addGeoPoint<V>(_ name: String,
-                        options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                        options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .geoPoint, options: options)
     }
 
@@ -172,7 +192,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addPolygon<V>(_ name: String,
-                       options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                       options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .polygon, options: options)
     }
 
@@ -185,7 +205,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addObject<V>(_ name: String,
-                      options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                      options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .object, options: options)
     }
 
@@ -198,7 +218,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addBytes<V>(_ name: String,
-                     options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                     options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .bytes, options: options)
     }
 
@@ -211,7 +231,7 @@ public extension ParseSchema {
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addArray<V>(_ name: String,
-                     options: ParseFieldOptions<V>) -> Self where T: ParseObject {
+                     options: ParseFieldOptions<V>) -> Self {
         addField(name, type: .array, options: options)
     }
 
@@ -283,6 +303,24 @@ public extension ParseSchema {
             mutableSchema.fields?[name] = field
         } else {
             mutableSchema.fields = [name: field]
+        }
+
+        return mutableSchema
+    }
+
+    /**
+     Delete an index in the `ParseSchema`.
+     
+     - parameter name: Name of the index that will be deleted on Parse Server.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+    */
+    func deleteIndex(_ name: String) -> Self {
+        let index = AnyCodable(Delete())
+        var mutableSchema = self
+        if mutableSchema.indexes != nil {
+            mutableSchema.indexes?[name] = index
+        } else {
+            mutableSchema.indexes = [name: index]
         }
 
         return mutableSchema
