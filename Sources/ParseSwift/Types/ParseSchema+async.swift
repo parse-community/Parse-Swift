@@ -11,7 +11,7 @@ import Foundation
 
 public extension ParseSchema {
     /**
-     Fetches the `ParseSchema` *aynchronously* with the current data from the server.
+     Fetches the `ParseSchema` *aynchronously* from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseSchema`.
      - throws: An error of type `ParseError`.
@@ -26,7 +26,7 @@ public extension ParseSchema {
     }
 
     /**
-     Creates the `ParseSchema` *aynchronously* with the current data from the server.
+     Creates the `ParseSchema` *aynchronously* on the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseSchema`.
      - throws: An error of type `ParseError`.
@@ -41,7 +41,7 @@ public extension ParseSchema {
     }
 
     /**
-     Updates the `ParseSchema` *aynchronously* with the current data from the server.
+     Updates the `ParseSchema` *aynchronously* on the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseSchema`.
      - throws: An error of type `ParseError`.
@@ -56,7 +56,7 @@ public extension ParseSchema {
     }
 
     /**
-     Purges the `ParseSchema` *aynchronously* with the current data from the server.
+     Deletes all objects in the `ParseSchema` *aynchronously* from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseSchema`.
      - throws: An error of type `ParseError`.
@@ -75,7 +75,7 @@ public extension ParseSchema {
     }
 
     /**
-     Deletes the `ParseSchema` *aynchronously* with the current data from the server.
+     Deletes the `ParseSchema` *aynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseSchema`.
      - throws: An error of type `ParseError`.

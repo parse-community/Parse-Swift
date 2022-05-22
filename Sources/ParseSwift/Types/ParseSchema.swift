@@ -379,7 +379,7 @@ extension ParseSchema {
 extension ParseSchema {
 
     /**
-     Fetches the `ParseSchema` *asynchronously* and executes the given callback block.
+     Fetches the `ParseSchema` *asynchronously* from the server and executes the given callback block.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
@@ -423,7 +423,7 @@ extension ParseSchema {
 extension ParseSchema {
 
     /**
-     Creates the `ParseSchema` *asynchronously* and executes the given callback block.
+     Creates the `ParseSchema` *asynchronously* on the server and executes the given callback block.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
@@ -455,7 +455,7 @@ extension ParseSchema {
     }
 
     /**
-     Updates the `ParseSchema` *asynchronously* and executes the given callback block.
+     Updates the `ParseSchema` *asynchronously* on the server and executes the given callback block.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
@@ -509,7 +509,7 @@ extension ParseSchema {
 extension ParseSchema {
 
     /**
-     Deletes all objects in the `ParseSchema` *asynchronously* and executes the given callback block.
+     Deletes all objects in the `ParseSchema` *asynchronously* from the server and executes the given callback block.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
@@ -552,7 +552,7 @@ extension ParseSchema {
     }
 
     /**
-     Deletes the `ParseSchema` *asynchronously* and executes the given callback block.
+     Deletes the `ParseSchema` *asynchronously* from the server and executes the given callback block.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
