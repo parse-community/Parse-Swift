@@ -14,7 +14,7 @@ public extension ParseObject {
 
     // MARK: Combine
     /**
-     Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseObject` *aynchronously* with the current data from the server.
      Publishes when complete.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and

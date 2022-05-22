@@ -424,8 +424,7 @@ extension ParseInstallation {
     }
 
     /**
-     Fetches the `ParseInstallation` *synchronously* with the current data from the server
-     and sets an error if one occurs.
+     Fetches the `ParseInstallation` *synchronously* with the current data from the server.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
@@ -814,8 +813,7 @@ extension ParseInstallation {
 // MARK: Deletable
 extension ParseInstallation {
     /**
-     Deletes the `ParseInstallation` *synchronously* with the current data from the server
-     and sets an error if one occurs.
+     Deletes the `ParseInstallation` *synchronously* with the current data from the server.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.

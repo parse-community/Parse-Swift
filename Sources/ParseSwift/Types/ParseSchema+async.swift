@@ -11,11 +11,10 @@ import Foundation
 
 public extension ParseSchema {
     /**
-     Fetches the `ParseSchema` *aynchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseSchema` *aynchronously* with the current data from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseSchema`.
      - throws: An error of type `ParseError`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -23,6 +22,75 @@ public extension ParseSchema {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(options: options,
                        completion: continuation.resume)
+        }
+    }
+
+    /**
+     Creates the `ParseSchema` *aynchronously* with the current data from the server.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the fetched `ParseSchema`.
+     - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func create(options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            self.create(options: options,
+                        completion: continuation.resume)
+        }
+    }
+
+    /**
+     Updates the `ParseSchema` *aynchronously* with the current data from the server.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the fetched `ParseSchema`.
+     - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func update(options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            self.update(options: options,
+                        completion: continuation.resume)
+        }
+    }
+
+    /**
+     Purges the `ParseSchema` *aynchronously* with the current data from the server.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the fetched `ParseSchema`.
+     - throws: An error of type `ParseError`.
+     - warning: This will delete all objects for this `ParseSchema` and cannot be reversed.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func purge(options: API.Options = []) async throws {
+        let result = try await withCheckedThrowingContinuation { continuation in
+            self.purge(options: options,
+                        completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
+        }
+    }
+
+    /**
+     Deletes the `ParseSchema` *aynchronously* with the current data from the server.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the fetched `ParseSchema`.
+     - throws: An error of type `ParseError`.
+     - warning: This can only be used on a `ParseSchema` without objects. If the `ParseSchema`
+     currently contains objects, run `purge()` first.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func delete(options: API.Options = []) async throws {
+        let result = try await withCheckedThrowingContinuation { continuation in
+            self.delete(options: options,
+                        completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
         }
     }
 }
