@@ -14,17 +14,17 @@ import Foundation
  */
 public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
 
-    /// The class name of the Schema.
+    /// The class name of the `ParseSchema`.
     public var className: String
 
-    /// The session token for this session.
+    /// The fiekds of this `ParseSchema`.
     internal var fields: [String: ParseField]?
 
-    /// The session token for this session.
+    /// The indexs of this `ParseSchema`.
     internal var indexes: [String: AnyCodable]?
 
-    /// The session token for this session.
-    // internal var classLevelPermissions: [String: Codable]?
+    /// The CLPs of this `ParseSchema`.
+    public var classLevelPermissions: ParseCLP?
 
     /**
      Get the current fields for this `ParseSchema`.
@@ -59,6 +59,11 @@ public extension ParseSchema {
 
     init() {
         self.init(className: SchemaObject.className)
+    }
+
+    init(classLevelPermissions: ParseCLP) {
+        self.init(className: SchemaObject.className)
+        self.classLevelPermissions = classLevelPermissions
     }
 
     /**

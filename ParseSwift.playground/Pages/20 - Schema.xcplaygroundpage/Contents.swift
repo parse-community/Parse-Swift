@@ -43,6 +43,8 @@ extension GameScore {
     }
 }
 
-let schema = ParseSchema<GameScore>()
-schema.
+let schema = ParseSchema<GameScore>(classLevelPermissions: .init())
+
+print(schema.className)
+
 //: [Next](@next)
