@@ -370,6 +370,10 @@
 		709A149C2839BA3900BF85E5 /* ParseSchemable+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149A2839BA3900BF85E5 /* ParseSchemable+async.swift */; };
 		709A149D2839BA3900BF85E5 /* ParseSchemable+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149A2839BA3900BF85E5 /* ParseSchemable+async.swift */; };
 		709A149E2839BA3900BF85E5 /* ParseSchemable+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149A2839BA3900BF85E5 /* ParseSchemable+async.swift */; };
+		709A14A02839CABD00BF85E5 /* ParseCLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149F2839CABD00BF85E5 /* ParseCLP.swift */; };
+		709A14A12839CABD00BF85E5 /* ParseCLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149F2839CABD00BF85E5 /* ParseCLP.swift */; };
+		709A14A22839CABD00BF85E5 /* ParseCLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149F2839CABD00BF85E5 /* ParseCLP.swift */; };
+		709A14A32839CABD00BF85E5 /* ParseCLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149F2839CABD00BF85E5 /* ParseCLP.swift */; };
 		709B40C1268F999000ED2EAC /* IOS13Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709B40C0268F999000ED2EAC /* IOS13Tests.swift */; };
 		709B40C2268F999000ED2EAC /* IOS13Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709B40C0268F999000ED2EAC /* IOS13Tests.swift */; };
 		709B40C3268F999000ED2EAC /* IOS13Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709B40C0268F999000ED2EAC /* IOS13Tests.swift */; };
@@ -1003,6 +1007,7 @@
 		709A14902839A60600BF85E5 /* ParseIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseIndex.swift; sourceTree = "<group>"; };
 		709A14952839B72300BF85E5 /* ParseSchemable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSchemable.swift; sourceTree = "<group>"; };
 		709A149A2839BA3900BF85E5 /* ParseSchemable+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseSchemable+async.swift"; sourceTree = "<group>"; };
+		709A149F2839CABD00BF85E5 /* ParseCLP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCLP.swift; sourceTree = "<group>"; };
 		709B40C0268F999000ED2EAC /* IOS13Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOS13Tests.swift; sourceTree = "<group>"; };
 		709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTeststvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		709B98342556EC7400507778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1706,6 +1711,7 @@
 				703B090126BD9652005A112F /* ParseAnalytics+async.swift */,
 				70170A482656E2FE0070C905 /* ParseAnalytics+combine.swift */,
 				91285B122698DBF20051B544 /* ParseBytes.swift */,
+				709A149F2839CABD00BF85E5 /* ParseCLP.swift */,
 				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
 				703B090626BD9764005A112F /* ParseCloud+async.swift */,
 				7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */,
@@ -2274,6 +2280,7 @@
 				7045769826BD917500F86F71 /* Query+async.swift in Sources */,
 				703B094E26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3825D998D90048EC1B /* ParseLDAP.swift in Sources */,
+				709A14A02839CABD00BF85E5 /* ParseCLP.swift in Sources */,
 				700395F225A171320052CB31 /* LiveQueryable.swift in Sources */,
 				70F03A252780BDF700E5AFB4 /* ParseGoogle+async.swift in Sources */,
 				F97B45F224D9C6F200F4A88B /* Pointer.swift in Sources */,
@@ -2515,6 +2522,7 @@
 				703B094F26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3925D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F325A171320052CB31 /* LiveQueryable.swift in Sources */,
+				709A14A12839CABD00BF85E5 /* ParseCLP.swift in Sources */,
 				F97B45F324D9C6F200F4A88B /* Pointer.swift in Sources */,
 				703B095926BF480D005A112F /* ParseFacebook+combine.swift in Sources */,
 				70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
@@ -2859,6 +2867,7 @@
 				7045769B26BD917500F86F71 /* Query+async.swift in Sources */,
 				703B095126BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3B25D998D90048EC1B /* ParseLDAP.swift in Sources */,
+				709A14A32839CABD00BF85E5 /* ParseCLP.swift in Sources */,
 				700395F525A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				703B095B26BF480D005A112F /* ParseFacebook+combine.swift in Sources */,
@@ -3006,6 +3015,7 @@
 				7045769A26BD917500F86F71 /* Query+async.swift in Sources */,
 				703B095026BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3A25D998D90048EC1B /* ParseLDAP.swift in Sources */,
+				709A14A22839CABD00BF85E5 /* ParseCLP.swift in Sources */,
 				700395F425A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				703B095A26BF480D005A112F /* ParseFacebook+combine.swift in Sources */,

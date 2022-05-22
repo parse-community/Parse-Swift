@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ParseSchemable: ParseType, Decodable {
-    
+
     /// The class name of the Schema.
     var className: String { get set }
 
