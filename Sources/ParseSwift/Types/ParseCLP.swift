@@ -28,6 +28,40 @@ public struct ParseCLP: Codable, Equatable {
 
     /// An empty CLP.
     public init() { }
+}
+
+// MARK: Default Implementation
+public extension ParseCLP {
+
+    init(requireAuthentication: Bool, publicAccess: Bool) {
+        let clp = setRequiresAuthenticationWriteAccess(requireAuthentication)
+            .setRequiresAuthenticationReadAccess(requireAuthentication)
+            .setPublicWriteAccess(publicAccess)
+            .setPublicReadAccess(publicAccess)
+        self = clp
+    }
+
+    init(objectId: String, canAddFied: Bool = false) {
+        let clp = setWriteAccess(objectId,
+                                 to: true,
+                                 canAddField: canAddFied)
+            .setReadAccess(objectId, to: true)
+        self = clp
+    }
+
+    init<U>(user: U, canAddFied: Bool = false) throws where U: ParseUser {
+        let objectId = try user.toPointer().objectId
+        self.init(objectId: objectId, canAddFied: canAddFied)
+    }
+
+    init<U>(user: Pointer<U>, canAddFied: Bool = false) where U: ParseUser {
+        self.init(objectId: user.objectId, canAddFied: canAddFied)
+    }
+
+    init<R>(role: R, canAddFied: Bool = false) throws where R: ParseRole {
+        let roleNameAccess = try ParseACL.getRoleAccessName(role)
+        self.init(objectId: roleNameAccess, canAddFied: canAddFied)
+    }
 
     func getAccess(_ key: KeyPath<Self, [String: Bool]?>,
                    for entity: String) -> Bool {
@@ -73,40 +107,6 @@ public struct ParseCLP: Codable, Equatable {
             mutableCLP[keyPath: key] = [entity: fields]
         }
         return mutableCLP
-    }
-}
-
-// MARK: Default Implementation
-public extension ParseCLP {
-
-    init(requireAuthentication: Bool, publicAccess: Bool) {
-        let clp = setRequiresAuthenticationWriteAccess(requireAuthentication)
-            .setRequiresAuthenticationReadAccess(requireAuthentication)
-            .setPublicWriteAccess(publicAccess)
-            .setPublicReadAccess(publicAccess)
-        self = clp
-    }
-
-    init(objectId: String, canAddFied: Bool = false) {
-        let clp = setWriteAccess(objectId,
-                                 to: true,
-                                 canAddField: canAddFied)
-            .setReadAccess(objectId, to: true)
-        self = clp
-    }
-
-    init<U>(user: U, canAddFied: Bool = false) throws where U: ParseUser {
-        let objectId = try user.toPointer().objectId
-        self.init(objectId: objectId, canAddFied: canAddFied)
-    }
-
-    init<U>(user: Pointer<U>, canAddFied: Bool = false) where U: ParseUser {
-        self.init(objectId: user.objectId, canAddFied: canAddFied)
-    }
-
-    init<R>(role: R, canAddFied: Bool = false) throws where R: ParseRole {
-        let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        self.init(objectId: roleNameAccess, canAddFied: canAddFied)
     }
 }
 

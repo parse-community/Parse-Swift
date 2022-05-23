@@ -18,6 +18,7 @@ struct GameScore2: ParseObject {
 
     //: Your own properties.
     var points: Int?
+    var data: ParseBytes?
 
     //: Implement your own version of merge
     func merge(with object: Self) throws -> Self {
@@ -50,7 +51,10 @@ let clp = ParseCLP(requireAuthentication: false, publicAccess: true)
 var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
     .addField("points",
               type: .number,
-              options: ParseFieldOptions<Int>(required: false, defauleValue: 0))
+              options: ParseFieldOptions<Int>(required: false, defauleValue: nil))
+    .addField("data",
+              type: .bytes,
+              options: ParseFieldOptions<String>(required: false, defauleValue: nil))
 
 //: Now lets create the schema on the server.
 gameScoreSchema.create { result in
