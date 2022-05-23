@@ -8,7 +8,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject {
+struct GameScore2: ParseObject {
     //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
@@ -32,7 +32,7 @@ struct GameScore: ParseObject {
 
 //: It's recommended to place custom initializers in an extension
 //: to preserve the memberwise initializer.
-extension GameScore {
+extension GameScore2 {
 
     init(points: Int) {
         self.points = points
@@ -43,8 +43,25 @@ extension GameScore {
     }
 }
 
-let schema = ParseSchema<GameScore>(classLevelPermissions: .init())
+//: First lets create a new CLP for the new schema.
+let clp = ParseCLP(requireAuthentication: false, publicAccess: true)
 
-print(schema.className)
+//: Next we use the CLP to create the new schema and add fields to it.
+var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
+    .addField("points",
+              type: .number,
+              options: ParseFieldOptions<Int>(required: false, defauleValue: 0))
+
+print(gameScoreSchema)
+
+//: Now lets create the schema on the server.
+gameScoreSchema.create { result in
+    switch result {
+    case .success(let savedSchema):
+        print("Check GameScore2 in Dashboard. \(savedSchema)")
+    case .failure(let error):
+        print("Couldn't save schema: \(error)")
+    }
+}
 
 //: [Next](@next)

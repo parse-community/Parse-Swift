@@ -387,11 +387,13 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
+        options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try fetchCommand()
@@ -431,11 +433,13 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     public func create(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
+        options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try createCommand()
@@ -463,11 +467,13 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     public func update(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
+        options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try updateCommand()
@@ -519,6 +525,7 @@ extension ParseSchema {
      - warning: This will delete all objects for this `ParseSchema` and cannot be reversed.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     public func purge(
         options: API.Options = [],
@@ -526,6 +533,7 @@ extension ParseSchema {
         completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
         var options = options
+        options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try deleteCommand().executeAsync(options: options,
@@ -563,6 +571,7 @@ extension ParseSchema {
      currently contains objects, run `purge()` first.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     public func delete(
         options: API.Options = [],
@@ -570,6 +579,7 @@ extension ParseSchema {
         completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
         var options = options
+        options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try deleteCommand().executeAsync(options: options,
@@ -620,5 +630,23 @@ extension ParseSchema {
                 return NoBody()
             }
         }
+    }
+}
+
+// MARK: CustomDebugStringConvertible
+extension ParseSchema: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "ParseSchema ()"
+        }
+        return "ParseSchema (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseSchema: CustomStringConvertible {
+    public var description: String {
+        debugDescription
     }
 }

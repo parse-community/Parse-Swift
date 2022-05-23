@@ -17,6 +17,7 @@ public extension ParseSchema {
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func fetch(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -32,6 +33,7 @@ public extension ParseSchema {
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func create(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -47,6 +49,7 @@ public extension ParseSchema {
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func update(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -63,6 +66,7 @@ public extension ParseSchema {
      - warning: This will delete all objects for this `ParseSchema` and cannot be reversed.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func purge(options: API.Options = []) async throws {
         let result = try await withCheckedThrowingContinuation { continuation in
@@ -83,6 +87,7 @@ public extension ParseSchema {
      currently contains objects, run `purge()` first.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func delete(options: API.Options = []) async throws {
         let result = try await withCheckedThrowingContinuation { continuation in

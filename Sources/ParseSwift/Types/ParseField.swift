@@ -15,6 +15,10 @@ struct ParseField: Codable {
     var defaultValue: AnyCodable?
     var targetClass: String?
 
+    enum CodingKeys: String, CodingKey {
+        case type, required
+    }
+
     init(operation: Operation) {
         __op = operation
     }
@@ -22,13 +26,17 @@ struct ParseField: Codable {
     init<V>(type: ParseFieldType, options: ParseFieldOptions<V>) where V: Codable {
         self.type = type
         self.required = options.required
-        self.defaultValue = AnyCodable(options.defaultValue)
+        if let defaultValue = options.defaultValue {
+            self.defaultValue = AnyCodable(defaultValue)
+        }
     }
 
     init<V>(type: ParseFieldType, options: ParseFieldOptions<V>) throws where V: ParseObject {
         self.type = type
         self.required = options.required
-        self.defaultValue = AnyCodable(try options.defaultValue?.toPointer())
+        if let defaultValue = options.defaultValue {
+            self.defaultValue = AnyCodable(try defaultValue.toPointer())
+        }
     }
 
     init<T>(type: ParseFieldType,
@@ -49,7 +57,9 @@ struct ParseField: Codable {
         self.type = type
         self.targetClass = target?.className
         self.required = options.required
-        self.defaultValue = AnyCodable(options.defaultValue)
+        if let defaultValue = options.defaultValue {
+            self.defaultValue = AnyCodable(defaultValue)
+        }
     }
 
     init<T, V>(type: ParseFieldType,
@@ -58,7 +68,9 @@ struct ParseField: Codable {
         self.type = type
         self.targetClass = target?.className
         self.required = options.required
-        self.defaultValue = AnyCodable(options.defaultValue)
+        if let defaultValue = options.defaultValue {
+            self.defaultValue = AnyCodable(defaultValue)
+        }
     }
 
     init<T, V>(type: ParseFieldType,
@@ -67,7 +79,9 @@ struct ParseField: Codable {
         self.type = type
         self.targetClass = target?.className
         self.required = options.required
-        self.defaultValue = AnyCodable(try options.defaultValue?.toPointer())
+        if let defaultValue = options.defaultValue {
+            self.defaultValue = AnyCodable(try defaultValue.toPointer())
+        }
     }
 
     init<T, V>(type: ParseFieldType,
@@ -76,7 +90,9 @@ struct ParseField: Codable {
         self.type = type
         self.targetClass = target?.className
         self.required = options.required
-        self.defaultValue = AnyCodable(try options.defaultValue?.toPointer())
+        if let defaultValue = options.defaultValue {
+            self.defaultValue = AnyCodable(try defaultValue.toPointer())
+        }
     }
 }
 
@@ -106,6 +122,11 @@ public struct ParseFieldOptions<V: Codable>: Codable {
 
     /// The default value for a field.
     var defaultValue: V?
+
+    public init(required: Bool = false, defauleValue: V? = nil) {
+        self.required = required
+        self.defaultValue = defauleValue
+    }
 }
 
 /// Field types available in `ParseSchema`.

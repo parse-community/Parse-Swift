@@ -102,7 +102,7 @@ public struct API {
             case .schemas:
                 return "/schemas"
             case .schema(let className):
-                return "/sessions/\(className)"
+                return "/schemas/\(className)"
             case .purge(let className):
                 return "/purge/\(className)"
             case .triggers:

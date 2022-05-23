@@ -17,6 +17,7 @@ public extension ParseSchema {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func fetchPublisher(includeKeys: [String]? = nil,
                         options: API.Options = []) -> Future<Self, ParseError> {
@@ -32,6 +33,7 @@ public extension ParseSchema {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func createPublisher(includeKeys: [String]? = nil,
                          options: API.Options = []) -> Future<Self, ParseError> {
@@ -47,6 +49,7 @@ public extension ParseSchema {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available.
     */
     func updatePublisher(includeKeys: [String]? = nil,
                          options: API.Options = []) -> Future<Self, ParseError> {
@@ -63,6 +66,7 @@ public extension ParseSchema {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
      - warning: This will delete all objects for this `ParseSchema` and cannot be reversed.
+     - requires: `.useMasterKey` has to be available.
     */
     func purgePublisher(includeKeys: [String]? = nil,
                         options: API.Options = []) -> Future<Void, ParseError> {
@@ -80,6 +84,7 @@ public extension ParseSchema {
      desires a different policy, it should be inserted in `options`.
      - warning: This can only be used on a `ParseSchema` without objects. If the `ParseSchema`
      currently contains objects, run `purge()` first.
+     - requires: `.useMasterKey` has to be available.
     */
     func deletePublisher(includeKeys: [String]? = nil,
                          options: API.Options = []) -> Future<Void, ParseError> {
