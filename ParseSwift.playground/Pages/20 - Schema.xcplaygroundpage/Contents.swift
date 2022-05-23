@@ -52,8 +52,6 @@ var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
               type: .number,
               options: ParseFieldOptions<Int>(required: false, defauleValue: 0))
 
-print(gameScoreSchema)
-
 //: Now lets create the schema on the server.
 gameScoreSchema.create { result in
     switch result {

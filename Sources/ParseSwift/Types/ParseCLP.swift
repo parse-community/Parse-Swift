@@ -37,8 +37,13 @@ public struct ParseCLP: Codable, Equatable {
     func setAccess(_ key: WritableKeyPath<Self, [String: Bool]?>,
                    for entity: String,
                    to allow: Bool) -> Self {
+        let allowed: Bool? = allow ? allow : nil
         var mutableCLP = self
-        mutableCLP[keyPath: key]?[entity] = allow
+        if mutableCLP[keyPath: key] != nil {
+            mutableCLP[keyPath: key]?[entity] = allowed
+        } else if let allowed = allowed {
+            mutableCLP[keyPath: key] = [entity: allowed]
+        }
         return mutableCLP
     }
 
@@ -62,7 +67,11 @@ public struct ParseCLP: Codable, Equatable {
                       fields: [String],
                       for entity: String) -> Self {
         var mutableCLP = self
-        mutableCLP[keyPath: key]?[entity] = fields
+        if mutableCLP[keyPath: key] != nil {
+            mutableCLP[keyPath: key]?[entity] = fields
+        } else {
+            mutableCLP[keyPath: key] = [entity: fields]
+        }
         return mutableCLP
     }
 }
