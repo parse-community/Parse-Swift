@@ -10,7 +10,9 @@ import Foundation
 
 /**
  `ParseSchema` is used for handeling your schemas.
- - requires: `.useMasterKey` has to be available.
+ - requires: `.useMasterKey` has to be available. It is recommended to only
+ use the master key in server-side applications where the key is kept secure and not
+ exposed to the public.
  */
 public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
 
@@ -387,7 +389,9 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
     */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
@@ -433,7 +437,9 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
     */
     public func create(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
@@ -467,7 +473,9 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
     */
     public func update(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
@@ -525,7 +533,9 @@ extension ParseSchema {
      - warning: This will delete all objects for this `ParseSchema` and cannot be reversed.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
     */
     public func purge(
         options: API.Options = [],
@@ -571,7 +581,9 @@ extension ParseSchema {
      currently contains objects, run `purge()` first.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
     */
     public func delete(
         options: API.Options = [],
