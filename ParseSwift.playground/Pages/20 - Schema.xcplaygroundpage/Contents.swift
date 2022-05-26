@@ -46,6 +46,9 @@ extension GameScore2 {
 
 //: First lets create a new CLP for the new schema.
 let clp = ParseCLP(requireAuthentication: false, publicAccess: true)
+    .setAccessPublic(\.count, to: false)
+    .setAccessRequiresAuthentication(\.count, to: true)
+    .setAccessRequiresAuthentication(\.addField, to: true)
 
 //: Next we use the CLP to create the new schema and add fields to it.
 var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
