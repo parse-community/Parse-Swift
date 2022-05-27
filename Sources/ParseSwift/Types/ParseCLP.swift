@@ -9,7 +9,7 @@
 import Foundation
 
 /// Class Level Permissions for `ParseSchema`.
-public struct ParseCLP: Codable, Equatable {
+public struct ParseCLP: ParseClassLevelPermisioinable {
 
     public var get: [String: Bool]?
     public var find: [String: Bool]?
@@ -48,22 +48,6 @@ public struct ParseCLP: Codable, Equatable {
         return mutableCLP
     }
 
-    func getProtected(_ keyPath: KeyPath<Self, [String: [String]]?>,
-                      for entity: String) -> [String] {
-        self[keyPath: keyPath]?[entity] ?? []
-    }
-
-    func setProtected(_ keyPath: WritableKeyPath<Self, [String: [String]]?>,
-                      fields: [String],
-                      for entity: String) -> Self {
-        var mutableCLP = self
-        if mutableCLP[keyPath: keyPath] != nil {
-            mutableCLP[keyPath: keyPath]?[entity] = fields
-        } else {
-            mutableCLP[keyPath: keyPath] = [entity: fields]
-        }
-        return mutableCLP
-    }
 }
 
 // MARK: Default Implementation
@@ -168,160 +152,6 @@ public extension ParseCLP {
                       for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return setAccess(keyPath, to: allow, for: roleNameAccess)
-    }
-
-    func getUser(_ keyPath: KeyPath<Self, [String]?>) -> [String] {
-        self[keyPath: keyPath] ?? []
-    }
-
-    func setUser(_ keyPath: WritableKeyPath<Self, [String]?>,
-                 fields: [String]) -> Self {
-        var mutableCLP = self
-        mutableCLP[keyPath: keyPath] = fields
-        return mutableCLP
-    }
-}
-
-// MARK: Protected
-public extension ParseCLP {
-
-    /**
-     Get the protected fields for the given `ParseUser` objectId.
-     
-     - parameter user: The `ParseUser` objectId access to check.
-     - returns: The protected fields.
-    */
-    func getProtectedFields(_ objectId: String) -> [String] {
-        getProtected(\.protectedFields, for: objectId)
-    }
-
-    /**
-     Get the protected fields for the given `ParseUser`.
-     
-     - parameter user: The `ParseUser` access to check.
-     - returns: The protected fields.
-     - throws: An error of type `ParseError`.
-    */
-    func getProtectedFields<U>(_ user: U) throws -> [String] where U: ParseUser {
-        let objectId = try user.toPointer().objectId
-        return getProtectedFields(objectId)
-    }
-
-    /**
-     Get the protected fields for the given `ParseUser` pointer.
-     
-     - parameter user: The `ParseUser` access to check.
-     - returns: The protected fields.
-    */
-    func getProtectedFields<U>(_ user: Pointer<U>) -> [String] where U: ParseUser {
-        getProtectedFields(user.objectId)
-    }
-
-    /**
-     Get the protected fields for the given `ParseRole`.
-     
-     - parameter role: The `ParseRole` access to check.
-     - returns: The protected fields.
-     - throws: An error of type `ParseError`.
-    */
-    func getProtectedFields<R>(_ role: R) throws -> [String] where R: ParseRole {
-        let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return getProtectedFields(roleNameAccess)
-    }
-
-    /**
-     Set whether the given `ParseUser` objectId is allowed to retrieve fields from this class.
-     
-     - parameter for: The `ParseUser` objectId to provide/restrict access to.
-     - parameter fields: The fields to be protected.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - throws: An error of type `ParseError`.
-    */
-    func setProtectedFields(_ fields: [String], for objectId: String) -> Self {
-        setProtected(\.protectedFields, fields: fields, for: objectId)
-    }
-
-    /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
-     
-     - parameter for: The `ParseUser` to provide/restrict access to.
-     - parameter fields: The fields to be protected.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - throws: An error of type `ParseError`.
-    */
-    func setProtectedFields<U>(_ fields: [String], for user: U) throws -> Self where U: ParseUser {
-        let objectId = try user.toPointer().objectId
-        return setProtectedFields(fields, for: objectId)
-    }
-
-    /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
-     
-     - parameter for: The `ParseUser` to provide/restrict access to.
-     - parameter fields: The fields to be protected.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-    */
-    func setProtectedFields<U>(_ fields: [String], for user: Pointer<U>) -> Self where U: ParseUser {
-        setProtectedFields(fields, for: user.objectId)
-    }
-
-    /**
-     Set whether the given `ParseRole` is allowed to retrieve fields from this class.
-     
-     - parameter for: The `ParseRole` to provide/restrict access to.
-     - parameter fields: The fields to be protected.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - throws: An error of type `ParseError`.
-    */
-    func setProtectedFields<R>(_ fields: [String], for role: R) throws -> Self where R: ParseRole {
-        let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return setProtectedFields(fields, for: roleNameAccess)
-    }
-}
-
-// MARK: WriteUserFields
-public extension ParseCLP {
-
-    /**
-     Get the `writeUserFields`.
-
-     - returns: User pointer fields.
-    */
-    func getWriteUserFields() -> [String] {
-        getUser(\.writeUserFields)
-    }
-
-    /**
-     Sets permission for the user pointer fields or create/delete/update/addField operations.
-
-     - parameter fields: User pointer fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-    */
-    func setWriteUser(_ fields: [String]) -> Self {
-        setUser(\.writeUserFields, fields: fields)
-    }
-}
-
-// MARK: ReadUserFields
-public extension ParseCLP {
-
-    /**
-     Get the `readUserFields`.
-
-     - returns: User pointer fields.
-    */
-    func getReadUserFields() -> [String] {
-        getUser(\.readUserFields)
-    }
-
-    /**
-     Sets permission for the user pointer fields or get/count/find operations.
-
-     - parameter fields: User pointer fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-    */
-    func setReadUser(_ fields: [String]) -> Self {
-        setUser(\.readUserFields, fields: fields)
     }
 }
 
