@@ -14,7 +14,7 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParseSchema<SchemaObject: ParseObject, SchemaCLP: ParseClassLevelPermisioinable>: ParseType, Decodable {
+public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
 
     /// The class name of the `ParseSchema`.
     public var className: String
@@ -26,7 +26,7 @@ public struct ParseSchema<SchemaObject: ParseObject, SchemaCLP: ParseClassLevelP
     internal var indexes: [String: AnyCodable]?
 
     /// The CLPs of this `ParseSchema`.
-    public var classLevelPermissions: SchemaCLP?
+    public var classLevelPermissions: ParseCLP?
 
     /**
      Get the current fields for this `ParseSchema`.
@@ -63,7 +63,7 @@ public extension ParseSchema {
         self.init(className: SchemaObject.className)
     }
 
-    init(classLevelPermissions: SchemaCLP) {
+    init(classLevelPermissions: ParseCLP) {
         self.init(className: SchemaObject.className)
         self.classLevelPermissions = classLevelPermissions
     }
