@@ -18,13 +18,14 @@ public struct ParseCLP: ParseClassLevelPermisioinable {
     public var update: [String: Bool]?
     public var delete: [String: Bool]?
     public var addField: [String: Bool]?
-    public var protectedFields: [String: [String]]?
-    public var readUserFields: [String]?
-    public var writeUserFields: [String]?
+    public var protectedFields: [String: Set<String>]?
+    public var readUserFields: Set<String>?
+    public var writeUserFields: Set<String>?
 
     enum Access: String {
         case requiresAuthentication
         case publicScope = "*"
+        case pointerFields
     }
 
     /// Creates an empty CLP type.

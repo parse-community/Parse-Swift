@@ -45,13 +45,12 @@ extension GameScore2 {
 }
 
 //: First lets create a new CLP for the new schema.
-let clp = ParseCLP(requireAuthentication: false, publicAccess: true)
-    .setAccessPublic(\.count, to: false)
-    .setAccessRequiresAuthentication(\.count, to: true)
-    .setAccessRequiresAuthentication(\.addField, to: true)
+let clp = ParseCLP(requireAuthentication: true, publicAccess: false)
+    .setAccessPublic(\.get, to: true)
+    .setAccessPublic(\.find, to: true)
 
 //: Next we use the CLP to create the new schema and add fields to it.
-var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
+var gameScoreSchema = ParseSchema<GameScore2, ParseCLP>(classLevelPermissions: clp)
     .addField("points",
               type: .number,
               options: ParseFieldOptions<Int>(required: false, defauleValue: nil))
@@ -60,7 +59,7 @@ var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
               options: ParseFieldOptions<String>(required: false, defauleValue: nil))
 
 //: Now lets create the schema on the server.
-gameScoreSchema.create { result in
+gameScoreSchema.fetch { result in
     switch result {
     case .success(let savedSchema):
         print("Check GameScore2 in Dashboard. \(savedSchema)")
@@ -68,5 +67,7 @@ gameScoreSchema.create { result in
         print("Couldn't save schema: \(error)")
     }
 }
+
+let clpPointer = ParseCLPPointer()
 
 //: [Next](@next)
