@@ -117,7 +117,7 @@ gameScoreSchema.create { result in
 }
 
 //: We can update the CLP to only allow access to users specified in the "owner" field.
-var clp2 = clp.setPointerFields(.get, to: Set(["owner"]))
+let clp2 = clp.setPointerFields(.get, to: Set(["owner"]))
 gameScoreSchema.classLevelPermissions = clp2
 
 //: In addition, we can add an index.
@@ -148,6 +148,32 @@ gameScoreSchema.update { result in
     switch result {
     case .success(let updatedSchema):
         print("Check GameScore2 in Dashboard. \nThe updated schema: \(updatedSchema)")
+        /*:
+         Updated the current gameScoreSchema with the newest.
+         */
+        gameScoreSchema = updatedSchema
+    case .failure(let error):
+        print("Couldn't update schema: \(error)")
+    }
+}
+
+/*:
+ Fields can also be deleted on a schema. Lets remove
+ the **data** field since it's not going being used.
+*/
+var clp3 = gameScoreSchema.classLevelPermissions
+clp3 = clp3?.setProtectedFieldsPublic(["owner"])
+gameScoreSchema.classLevelPermissions = clp3
+
+//: Next, we need to update the schema on the server with the changes.
+gameScoreSchema.update { result in
+    switch result {
+    case .success(let updatedSchema):
+        print("Check GameScore2 in Dashboard. \nThe updated schema: \(updatedSchema)")
+        /*:
+         Updated the current gameScoreSchema with the newest.
+         */
+        gameScoreSchema = updatedSchema
     case .failure(let error):
         print("Couldn't update schema: \(error)")
     }

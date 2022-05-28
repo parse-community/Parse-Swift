@@ -772,7 +772,7 @@ public extension ParseCLP {
      Get the fields the publc cannot access.
      - returns: The set protected fields that cannot be accessed.
     */
-    func getPublicProtectedFields() -> Set<String> {
+    func getProtectedFieldsPublic() -> Set<String> {
         getProtectedFields(Access.publicScope.rawValue)
     }
 
@@ -781,7 +781,7 @@ public extension ParseCLP {
      - returns: The set protected fields that cannot be accessed.
      - warning: Requires Parse Server 2.3.0+.
     */
-    func getRequiresAuthenticationProtectedFields() -> Set<String> {
+    func getProtectedFieldsRequireAuthentication() -> Set<String> {
         getProtectedFields(Access.requiresAuthentication.rawValue)
     }
 
@@ -823,6 +823,27 @@ public extension ParseCLP {
     func getProtectedFields<R>(_ role: R) throws -> Set<String> where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return getProtectedFields(roleNameAccess)
+    }
+
+    /**
+     Set whether the public should not have access to specific fields of a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+    */
+    func setProtectedFieldsPublic(_ fields: Set<String>) -> Self {
+        setProtected(fields, on: \.protectedFields, for: Access.publicScope.rawValue)
+    }
+
+    /**
+     Set whether authenticated users should not have access to specific fields of a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+     - warning: Requires Parse Server 2.3.0+.
+    */
+    func setProtectedFieldsRequireAuthentication(_ fields: Set<String>) -> Self {
+        setProtected(fields, on: \.protectedFields, for: Access.requiresAuthentication.rawValue)
     }
 
     /**
@@ -868,6 +889,29 @@ public extension ParseCLP {
     func setProtectedFields<R>(_ fields: Set<String>, for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return setProtectedFields(fields, for: roleNameAccess)
+    }
+
+    /**
+     Add to the set of specific fields the public should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+     - note: This method adds on to the current set of `fields` in the CLP.
+    */
+    func addProtectedFieldsPublic(_ fields: Set<String>) -> Self {
+        addProtected(fields, on: \.protectedFields, for: Access.publicScope.rawValue)
+    }
+
+    /**
+     Add to the set of specific fields authenticated users should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+     - note: This method adds on to the current set of `fields` in the CLP.
+     - warning: Requires Parse Server 2.3.0+.
+    */
+    func addProtectedFieldsRequireAuthentication(_ fields: Set<String>) -> Self {
+        addProtected(fields, on: \.protectedFields, for: Access.requiresAuthentication.rawValue)
     }
 
     /**

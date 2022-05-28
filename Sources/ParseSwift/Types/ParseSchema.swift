@@ -355,6 +355,8 @@ extension ParseSchema {
         var mutableSchema = self
         if !mutableSchema.pendingIndexes.isEmpty {
             mutableSchema.indexes = pendingIndexes
+        } else {
+            mutableSchema.indexes = nil
         }
         var options = options
         options.insert(.useMasterKey)
