@@ -18,9 +18,12 @@ public struct ParseCLP: Codable, Equatable {
     var update: [String: AnyCodable]?
     var delete: [String: AnyCodable]?
     var addField: [String: AnyCodable]?
-    public var protectedFields: [String: Set<String>]?
-    public var readUserFields: Set<String>?
-    public var writeUserFields: Set<String>?
+    /// The users, roles, and access level restrictions for particular fields on this class.
+    public internal(set) var protectedFields: [String: Set<String>]?
+    /// The users and roles that can perform get/count/find actions on this class.
+    public internal(set) var readUserFields: Set<String>?
+    /// The users and roles that can perform create/delete/update/addField actions on this class.
+    public internal(set) var writeUserFields: Set<String>?
 
     /// The avialable actions on a `ParseSchema`.
     public enum Action {
@@ -88,7 +91,7 @@ public struct ParseCLP: Codable, Equatable {
         case pointerFields
     }
 
-    /// Creates an empty CLP type.
+    /// Creates an empty instance of CLP.
     public init() { }
 
     func getPointerFields(_ keyPath: KeyPath<Self, [String: AnyCodable]?>) -> Set<String> {
@@ -156,6 +159,11 @@ public struct ParseCLP: Codable, Equatable {
 // MARK: Default Implementation
 public extension ParseCLP {
 
+    /**
+     Creates an empty instance of CLP.
+     - parameter requireAuthentication: Read/Write to this class requires users to be authenticated.
+     - parameter publicAccess:Read/Write to this class can be done by the public.
+     */
     init(requireAuthentication: Bool, publicAccess: Bool) {
         let clp = setWriteAccessRequiresAuthentication(requireAuthentication)
             .setReadAccessRequiresAuthentication(requireAuthentication)
