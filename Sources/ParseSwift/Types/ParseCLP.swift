@@ -18,11 +18,11 @@ public struct ParseCLP: Codable, Equatable {
     var update: [String: AnyCodable]?
     var delete: [String: AnyCodable]?
     var addField: [String: AnyCodable]?
-    /// The users, roles, and access level restrictions for particular fields on this class.
+    /// The users, roles, and access level restrictions who cannot access particular fields in a Parse class.
     public internal(set) var protectedFields: [String: Set<String>]?
-    /// The users and roles that can perform get/count/find actions on this class.
+    /// The users and roles that can perform get/count/find actions on a Parse class.
     public internal(set) var readUserFields: Set<String>?
-    /// The users and roles that can perform create/delete/update/addField actions on this class.
+    /// The users and roles that can perform create/delete/update/addField actions on a Parse class.
     public internal(set) var writeUserFields: Set<String>?
 
     /// The avialable actions on a `ParseSchema`.
@@ -160,9 +160,12 @@ public struct ParseCLP: Codable, Equatable {
 public extension ParseCLP {
 
     /**
-     Creates an empty instance of CLP.
-     - parameter requireAuthentication: Read/Write to this class requires users to be authenticated.
-     - parameter publicAccess:Read/Write to this class can be done by the public.
+     Creates an instance of CLP with particular access.
+     - parameter requireAuthentication: Read/Write to a Parse class requires users to be authenticated.
+     - parameter publicAccess:Read/Write to a Parse class can be done by the public.
+     - warning: Setting `requireAuthentication` and `publicAccess` does not give **addField**
+     access. You can set **addField** access after creating an instance of CLP.
+     - warning: Requires Parse Server 2.3.0+.
      */
     init(requireAuthentication: Bool, publicAccess: Bool) {
         let clp = setWriteAccessRequiresAuthentication(requireAuthentication)
@@ -172,41 +175,19 @@ public extension ParseCLP {
         self = clp
     }
 
-    init(objectId: String, canAddFied: Bool = false) {
-        let clp = setWriteAccess(true,
-                                 objectId: objectId,
-                                 canAddField: canAddFied)
-            .setReadAccess(true, objectId: objectId)
-        self = clp
-    }
-
-    init<U>(user: U, canAddFied: Bool = false) throws where U: ParseUser {
-        let objectId = try user.toPointer().objectId
-        self.init(objectId: objectId, canAddFied: canAddFied)
-    }
-
-    init<U>(user: Pointer<U>, canAddFied: Bool = false) where U: ParseUser {
-        self.init(objectId: user.objectId, canAddFied: canAddFied)
-    }
-
-    init<R>(role: R, canAddFied: Bool = false) throws where R: ParseRole {
-        let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        self.init(objectId: roleNameAccess, canAddFied: canAddFied)
-    }
-
     /**
-     Checks if get/find/count/create/update/delete/addField actions currently have public access.
-     - parameter action: Any of the following action on a `ParseSchema`:
+     Retreive the fields in a Parse class that determine access for a specific `Action`.
+     - parameter action: An enum value of one of the following actions:
      get/find/count/create/update/delete/addField.
-     - returns: **true** if access is allowed, **false** otherwise.
+     - returns: The set of user fields given access to a particular `Action`.
     */
     func getPointerFields(_ action: Action) throws -> Set<String> {
         getPointerFields(action.keyPath())
     }
 
     /**
-     Checks if get/find/count/create/update/delete/addField actions currently have public access.
-     - parameter action: Any of the following actions on a `ParseSchema`:
+     Checks if an `Action` on a Parse class has public access.
+     - parameter action: An enum value of one of the following actions:
      get/find/count/create/update/delete/addField.
      - returns: **true** if access is allowed, **false** otherwise.
     */
@@ -215,8 +196,9 @@ public extension ParseCLP {
     }
 
     /**
-     Checks if get/find/count/create/update/delete/addField actions currently requires authentication to access.
-     - parameter action: Any of the following action on a `ParseSchema`: get/find/count/create/update/delete/addField.
+     Checks if an `Action` on a Parse class requires users to be authenticated to access.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
      - returns: **true** if access is allowed, **false** otherwise.
      - warning: Requires Parse Server 2.3.0+.
     */
@@ -224,34 +206,76 @@ public extension ParseCLP {
         hasAccess(action.keyPath(), for: Access.requiresAuthentication.rawValue)
     }
 
+    /**
+     Checks if an `Action` on a Parse class provides access to a specific `objectId`.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter objectId: The `ParseUser` objectId to check.
+     - returns: **true** if access is allowed, **false** otherwise.
+    */
     func hasAccess(_ action: Action,
                    for objectId: String) throws -> Bool {
         return hasAccess(action.keyPath(), for: objectId)
     }
 
+    /**
+     Checks if an `Action` on a Parse class provides access to a specific `ParseUser`.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter user: The `ParseUser` to check.
+     - returns: **true** if access is allowed, **false** otherwise.
+     - throws: An error of type `ParseError`.
+    */
     func hasAccess<U>(_ action: Action,
                       for user: U) throws -> Bool where U: ParseUser {
         let objectId = try user.toPointer().objectId
         return hasAccess(action.keyPath(), for: objectId)
     }
 
+    /**
+     Checks if an `Action` on a Parse class provides access to a specific `ParseUser` pointer.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter user: The `ParseUser` pointer to check.
+     - returns: **true** if access is allowed, **false** otherwise.
+    */
     func hasAccess<U>(_ action: Action,
-                      for user: Pointer<U>) throws -> Bool where U: ParseUser {
+                      for user: Pointer<U>) -> Bool where U: ParseUser {
         hasAccess(action.keyPath(), for: user.objectId)
     }
 
+    /**
+     Checks if an `Action` on a Parse class provides access to a specific `ParseRole`.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter role: The `ParseRole` to check.
+     - returns: **true** if access is allowed, **false** otherwise.
+     - throws: An error of type `ParseError`.
+    */
     func hasAccess<R>(_ action: Action,
                       for role: R) throws -> Bool where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return hasAccess(action.keyPath(), for: roleNameAccess)
     }
 
+    /**
+     Set/remove public access to an `Action` on a Parse class.
+     - parameter allow: **true** to allow access , **false** to remove access.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+    */
     func setAccessPublic(_ allow: Bool,
                          on action: Action) -> Self {
         setAccess(allow, on: action.writableKeyPath(), for: Access.publicScope.rawValue)
     }
 
     /**
+     Set/remove require user authentication to access an `Action` on a Parse class.
+     - parameter allow: **true** to allow access , **false** to remove access.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
      - warning: Requires Parse Server 2.3.0+.
      */
     func setAccessRequiresAuthentication(_ allow: Bool,
@@ -259,12 +283,29 @@ public extension ParseCLP {
         setAccess(allow, on: action.writableKeyPath(), for: Access.requiresAuthentication.rawValue)
     }
 
+    /**
+     Set/remove access to an `Action` for a specific user objectId on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter allow: **true** to allow access , **false** to remove access.
+     - parameter objectId: The `ParseUser` objectId to add/remove access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     */
     func setAccess(_ action: Action,
                    to allow: Bool,
                    for objectId: String) -> Self {
         setAccess(allow, on: action.writableKeyPath(), for: objectId)
     }
 
+    /**
+     Set/remove access to an `Action` for a specific user `ParseUser` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter allow: **true** to allow access , **false** to remove access.
+     - parameter objectId: The `ParseUser` to add/remove access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+     */
     func setAccess<U>(_ action: Action,
                       to allow: Bool,
                       for user: U) throws -> Self where U: ParseUser {
@@ -272,12 +313,29 @@ public extension ParseCLP {
         return setAccess(allow, on: action.writableKeyPath(), for: objectId)
     }
 
+    /**
+     Set/remove access to an `Action` for a specific user `ParseUser` pointer on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter allow: **true** to allow access , **false** to remove access.
+     - parameter user: The `ParseUser` pointer to add/remove access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     */
     func setAccess<U>(_ action: Action,
                       to allow: Bool,
                       for user: Pointer<U>) -> Self where U: ParseUser {
         setAccess(allow, on: action.writableKeyPath(), for: user.objectId)
     }
 
+    /**
+     Set/remove access to an `Action` for a specific `ParseRole` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter allow: **true** to allow access , **false** to remove access.
+     - parameter objectId: The `ParseRole` to add/remove access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+     */
     func setAccess<R>(_ action: Action,
                       to allow: Bool,
                       for role: R) throws -> Self where R: ParseRole {
@@ -286,7 +344,14 @@ public extension ParseCLP {
     }
 
     /**
-     Set access to a **\_User** column or array **\_User** column in this Schema.
+     Give access to a set of `ParseUser` column's or array `ParseUser`
+     column's for a specific `Action` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
+     columns to give access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method replaces the current set of `fields` in the CLP.
      - warning: Requires Parse Server 3.1.1+.
      */
     func setPointerFields(_ action: Action,
@@ -294,11 +359,33 @@ public extension ParseCLP {
         setPointer(fields, on: action.writableKeyPath())
     }
 
+    /**
+     Add access to an additional set of `ParseUser` column's or array `ParseUser`
+     column's for a specific `Action` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
+     columns to add access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method adds on to the current set of `fields` in the CLP.
+     - warning: Requires Parse Server 3.1.1+.
+     */
     func addPointerFields(_ fields: Set<String>,
                           on action: Action) -> Self {
         addPointer(fields, on: action.writableKeyPath())
     }
 
+    /**
+     Remove access for the set of `ParseUser` column's or array `ParseUser`
+     column's for a specific `Action` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
+     columns to remove access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method adds on to the current set of `fields` in the CLP.
+     - warning: Requires Parse Server 3.1.1+.
+     */
     func removePointerFields(_ fields: Set<String>,
                              on action: Action) -> Self {
         removePointer(fields, on: action.writableKeyPath())
@@ -320,33 +407,34 @@ public extension ParseCLP {
     }
 
     /**
-     Check whether authentication is required to write to this class.
+     Check whether user authentication is required to perform create/update/delete/addField actions on a Parse class.
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
+     - warning: Requires Parse Server 2.3.0+.
     */
     func hasWriteAccessRequiresAuthentication(_ checkAddField: Bool = false) -> Bool {
         hasWriteAccess(Access.requiresAuthentication.rawValue, check: checkAddField)
     }
 
     /**
-     Check whether the public has access to write to this class.
+     Check whether the public has access to perform create/update/delete/addField actions on a Parse class.
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
     */
     func hasWriteAccessPublic(_ checkAddField: Bool = false) -> Bool {
         hasWriteAccess(Access.publicScope.rawValue, check: checkAddField)
     }
 
     /**
-     Check whether the `ParseUser` objectId has access to write to this class.
+     Check whether a `ParseUser` objectId has access to perform create/update/delete/addField actions on a Parse class.
      - parameter objectId: The `ParseUser` objectId to check.
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
      - throws: An error of type `ParseError`.
     */
     func hasWriteAccess(_ objectId: String,
@@ -355,13 +443,13 @@ public extension ParseCLP {
     }
 
     /**
-     Check whether the `ParseUser` pointer has access to write to this class.
+     Check whether the `ParseUser` pointer has access to perform create/update/delete/addField actions on a Parse class.
      - parameter user: The `ParseUser` pointer to check.
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
     */
     func hasWriteAccess<U>(_ user: Pointer<U>,
                            checkAddField: Bool = false) -> Bool where U: ParseUser {
@@ -369,13 +457,13 @@ public extension ParseCLP {
     }
 
     /**
-     Check whether the `ParseUser` has access to write to this class.
+     Check whether the `ParseUser` has access to perform create/update/delete/addField actions on a Parse class.
      - parameter user: The `ParseUser` to check.
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
      - throws: An error of type `ParseError`.
     */
     func hasWriteAccess<U>(_ user: U,
@@ -385,13 +473,13 @@ public extension ParseCLP {
     }
 
     /**
-     Check whether the `ParseRole` has access to write to this class.
+     Check whether the `ParseRole` has access to perform create/update/delete/addField actions on a Parse class.
      - parameter role: The `ParseRole` to check.
      - parameter checkAddField: **true** if `addField` should be part of the check, **false** otherwise.
      Defaults to **false**.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
      - throws: An error of type `ParseError`.
     */
     func hasWriteAccess<R>(_ role: R,
@@ -401,12 +489,12 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether authentication is required to create/update/delete/addField this class.
-
+     Sets whether user authentication is required to perform create/update/delete/addField actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
-     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
-     Defaults to **false**.
+     - parameter canAddField: **true** if access should be allowed to `addField`,
+     **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - warning: Requires Parse Server 2.3.0+.
     */
     func setWriteAccessRequiresAuthentication(_ allow: Bool,
                                               canAddField addField: Bool = false) -> Self {
@@ -414,11 +502,10 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the public is allowed to create/update/delete/addField this class.
-
+     Sets whether the public has access to perform create/update/delete/addField actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
-     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
-     Defaults to **false**.
+     - parameter canAddField: **true** if access should be allowed to `addField`,
+     **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setWriteAccessPublic(_ allow: Bool,
@@ -427,12 +514,11 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser` objectId  is allowed to create/update/delete/addField to this class.
-     
+     Sets whether the given `ParseUser` objectId  has access to perform create/update/delete/addField actions on a Parse class.
      - parameter objectId: The `ParseUser` objectId to provide/restrict access to.
      - parameter to: **true** if access should be allowed, **false** otherwise.
-     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
-     Defaults to **false**.
+     - parameter canAddField: **true** if access should be allowed to `addField`,
+     **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setWriteAccess(_ allow: Bool,
@@ -449,12 +535,11 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser` is allowed to create/update/delete/addField to this class.
-     
+     Sets whether the given `ParseUser` has access to perform create/update/delete/addField actions on a Parse class.
      - parameter user: The `ParseUser` to provide/restrict access to.
      - parameter to: **true** if access should be allowed, **false** otherwise.
-     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
-     Defaults to **false**.
+     - parameter canAddField: **true** if access should be allowed to `addField`,
+     **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -466,12 +551,11 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser`pointer  is allowed to create/update/delete/addField to this class.
-     
+     Sets whether the given `ParseUser`pointer  has access to perform create/update/delete/addField actions on a Parse class.
      - parameter user: The `ParseUser` to provide/restrict access to.
      - parameter to: **true** if access should be allowed, **false** otherwise.
-     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
-     Defaults to **false**.
+     - parameter canAddField: **true** if access should be allowed to `addField`,
+     **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setWriteAccess<U>(_ allow: Bool,
@@ -481,12 +565,11 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseRole` is allowed to create/update/delete/addField to this class.
-     
+     Sets whether the given `ParseRole` has access to perform create/update/delete/addField actions on a Parse class.
      - parameter role: The `ParseRole` to provide/restrict access to.
      - parameter to: **true** if access should be allowed, **false** otherwise.
-     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
-     Defaults to **false**.
+     - parameter canAddField: **true** if access should be allowed to `addField`,
+     **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -502,27 +585,28 @@ public extension ParseCLP {
 public extension ParseCLP {
 
     /**
-     Check whether authentication is required to read from this class.
-     - returns: **true** if authentication is required, **false** otherwise.
+     Check whether user authentication is required to perform get/find/count actions on a Parse class.
+     - returns: **true** if has access, **false** otherwise.
+     - warning: Requires Parse Server 2.3.0+.
     */
     func hasReadAccessRequiresAuthentication() -> Bool {
         hasReadAccess(Access.requiresAuthentication.rawValue)
     }
 
     /**
-     Check whether the public has access to read from this class.
-     - returns: **true** if authentication is required, **false** otherwise.
+     Check whether the public has access to perform get/find/count actions on a Parse class.
+     - returns: **true** if has access, **false** otherwise.
     */
     func hasReadAccessPublic() -> Bool {
         hasReadAccess(Access.publicScope.rawValue)
     }
 
     /**
-     Check whether the `ParseUser` objectId has access to read from this class.
+     Check whether the `ParseUser` objectId has access to perform get/find/count actions on a Parse class.
      - parameter objectId: The `ParseUser` objectId to check.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
     */
     func hasReadAccess(_ objectId: String) -> Bool {
         hasAccess(\.get, for: objectId)
@@ -531,23 +615,23 @@ public extension ParseCLP {
     }
 
     /**
-     Check whether the `ParseUser` pointer has access to read from this class.
+     Check whether the `ParseUser` pointer has access to perform get/find/count actions on a Parse class.
      - parameter user: The `ParseUser` pointer to check.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
     */
     func hasReadAccess<U>(_ user: Pointer<U>) -> Bool where U: ParseUser {
         hasReadAccess(user.objectId)
     }
 
     /**
-     Check whether the `ParseUser` has access to read from this class.
+     Check whether the `ParseUser` has access to perform get/find/count actions on a Parse class.
      - parameter user: The `ParseUser` to check.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - throws: An error of type `ParseError`.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
     */
     func hasReadAccess<U>(_ user: U) throws -> Bool where U: ParseUser {
         let objectId = try user.toPointer().objectId
@@ -555,12 +639,12 @@ public extension ParseCLP {
     }
 
     /**
-     Check whether the `ParseRole` has access to read from this class.
+     Check whether the `ParseRole` has access to perform get/find/count actions on a Parse class.
      - parameter role: The `ParseRole` to check.
-     - returns: **true** if authentication is required, **false** otherwise.
+     - returns: **true** if has access, **false** otherwise.
      - throws: An error of type `ParseError`.
      - warning: Even if **false** is returned, the `ParseUser`/`ParseRole` may still
-     have access if they aare apart of a `ParseRole` that has access.
+     have access if they are apart of a `ParseRole` that has access.
     */
     func hasReadAccess<R>(_ role: R) throws -> Bool where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
@@ -568,12 +652,12 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether authentication is required to get/find/count this class.
-
+     Sets whether authentication is required to perform get/find/count actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
-     - parameter can: **true** if access should be allowed to `addField`, **false** otherwise.
-     Defaults to **false**.
+     - parameter canAddField: **true** if access should be allowed to `addField`,
+     **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - warning: Requires Parse Server 2.3.0+.
     */
     func setReadAccessRequiresAuthentication(_ allow: Bool,
                                              canAddField addField: Bool = false) -> Self {
@@ -581,8 +665,7 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the public is allowed to get/find/count this class.
-
+     Sets whether the public has access to perform get/find/count actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
@@ -591,10 +674,9 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser` is allowed to get/find/count this class.
-     
-     - parameter objectId: The `ParseUser` pointer to provide/restrict access to.
+     Sets whether the given `ParseUser` has access to perform get/find/count actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
+     - parameter objectId: The `ParseUser` pointer to provide/restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setReadAccess(_ allow: Bool,
@@ -607,10 +689,9 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser` is allowed to get/find/count this class.
-     
-     - parameter role: The `ParseUser` to provide/restrict access to.
+     Sets whether the given `ParseUser` has access to perform get/find/count actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
+     - parameter user: The `ParseUser` to provide/restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -621,10 +702,9 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser` is allowed to get/find/count this class.
-     
-     - parameter role: The `ParseUser` pointer to provide/restrict access to.
+     Sets whether the given `ParseUser` has access to perform get/find/count actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
+     - parameter user: The `ParseUser` pointer to provide/restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setReadAccess<U>(_ allow: Bool,
@@ -633,10 +713,9 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseRole` is allowed to get/find/count this class.
-     
-     - parameter role: The `ParseRole` to provide/restrict access to.
+     Sets whether the given `ParseRole` has access to perform get/find/count actions on a Parse class.
      - parameter allow: **true** if access should be allowed, **false** otherwise.
+     - parameter role: The `ParseRole` to provide/restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -688,20 +767,35 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Get the protected fields for the given `ParseUser` objectId.
-     
-     - parameter user: The `ParseUser` objectId access to check.
-     - returns: The protected fields.
+     Get the fields the publc cannot access.
+     - returns: The set protected fields that cannot be accessed.
+    */
+    func getPublicProtectedFields() -> Set<String> {
+        getProtectedFields(Access.publicScope.rawValue)
+    }
+
+    /**
+     Get the fields the users with authentication cannot access.
+     - returns: The set protected fields that cannot be accessed.
+     - warning: Requires Parse Server 2.3.0+.
+    */
+    func getPublicProtectedFields() -> Set<String> {
+        getProtectedFields(Access.requiresAuthentication.rawValue)
+    }
+
+    /**
+     Get the protected fields the given `ParseUser` objectId cannot access.
+     - parameter objectId: The `ParseUser` objectId access to check.
+     - returns: The set protected fields that cannot be accessed.
     */
     func getProtectedFields(_ objectId: String) -> Set<String> {
         getProtected(\.protectedFields, for: objectId)
     }
 
     /**
-     Get the protected fields for the given `ParseUser`.
-     
+     Get the protected fields the given `ParseUser` cannot access.
      - parameter user: The `ParseUser` access to check.
-     - returns: The protected fields.
+     - returns: The set protected fields that cannot be accessed.
      - throws: An error of type `ParseError`.
     */
     func getProtectedFields<U>(_ user: U) throws -> Set<String> where U: ParseUser {
@@ -710,20 +804,18 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Get the protected fields for the given `ParseUser` pointer.
-     
+     Get the protected fields for the given `ParseUser` pointer cannot access.
      - parameter user: The `ParseUser` access to check.
-     - returns: The protected fields.
+     - returns: The set protected fields that cannot be accessed.
     */
     func getProtectedFields<U>(_ user: Pointer<U>) -> Set<String> where U: ParseUser {
         getProtectedFields(user.objectId)
     }
 
     /**
-     Get the protected fields for the given `ParseRole`.
-     
+     Get the protected fields the given `ParseRole` cannot access.
      - parameter role: The `ParseRole` access to check.
-     - returns: The protected fields.
+     - returns: The set protected fields that cannot be accessed.
      - throws: An error of type `ParseError`.
     */
     func getProtectedFields<R>(_ role: R) throws -> Set<String> where R: ParseRole {
@@ -732,10 +824,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` objectId is allowed to retrieve fields from this class.
-     
-     - parameter for: The `ParseUser` objectId to provide/restrict access to.
-     - parameter fields: The fields to be protected.
+     Set whether the given `ParseUser` objectId should not have access to specific fields of a Parse class.
+     - parameter for: The `ParseUser` objectId to restrict access to.
+     - parameter fields: The set protected fields that should not be accessed.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -744,9 +835,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
+     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` to provide/restrict access to.
+     - parameter for: The `ParseUser` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -757,9 +848,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
+     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` to provide/restrict access to.
+     - parameter for: The `ParseUser` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
@@ -768,9 +859,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseRole` is allowed to retrieve fields from this class.
+     Set whether the given `ParseRole` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseRole` to provide/restrict access to.
+     - parameter for: The `ParseRole` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -781,9 +872,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` objectId is allowed to retrieve fields from this class.
+     Set whether the given `ParseUser` objectId has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` objectId to provide/restrict access to.
+     - parameter for: The `ParseUser` objectId to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -793,9 +884,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
+     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` to provide/restrict access to.
+     - parameter for: The `ParseUser` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -806,9 +897,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
+     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` to provide/restrict access to.
+     - parameter for: The `ParseUser` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
@@ -817,9 +908,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseRole` is allowed to retrieve fields from this class.
+     Set whether the given `ParseRole` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseRole` to provide/restrict access to.
+     - parameter for: The `ParseRole` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -830,9 +921,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Remove  the given `ParseUser` objectId is allowed to retrieve fields from this class.
+     Remove  the given `ParseUser` objectId has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` objectId to provide/restrict access to.
+     - parameter for: The `ParseUser` objectId to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -842,9 +933,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
+     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` to provide/restrict access to.
+     - parameter for: The `ParseUser` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -855,9 +946,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` is allowed to retrieve fields from this class.
+     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseUser` to provide/restrict access to.
+     - parameter for: The `ParseUser` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
@@ -866,9 +957,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseRole` is allowed to retrieve fields from this class.
+     Set whether the given `ParseRole` has access to retrieve fields from a Parse class.
      
-     - parameter for: The `ParseRole` to provide/restrict access to.
+     - parameter for: The `ParseRole` to restrict access to.
      - parameter fields: The fields to be protected.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
