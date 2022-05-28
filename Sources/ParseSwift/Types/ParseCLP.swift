@@ -25,11 +25,11 @@ public struct ParseCLP: Codable, Equatable {
     /// The users and roles that can perform create/delete/update/addField actions on a Parse class.
     public internal(set) var writeUserFields: Set<String>?
 
-    /// The avialable actions on a `ParseSchema`.
+    /// The avialable actions to perform on a Parse class.
     public enum Action {
         /// Fetch `ParseObject`'s.
         case get
-        /// Find `ParseObject`'s.
+        /// Query for `ParseObject`'s.
         case find
         /// Count `ParseObject`'s.
         case count
@@ -39,7 +39,7 @@ public struct ParseCLP: Codable, Equatable {
         case update
         /// Delete `ParseObject`'s.
         case delete
-        /// Add field to the `ParseSchema`.
+        /// Add fields to the Parse class.
         case addField
 
         internal func keyPath() -> KeyPath<ParseCLP, [String: AnyCodable]?> {
