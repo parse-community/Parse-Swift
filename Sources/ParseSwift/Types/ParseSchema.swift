@@ -71,7 +71,7 @@ public extension ParseSchema {
     /**
      Add an index to create/update a `ParseSchema`.
      
-     - parameter name: Name of the index that will be created/updated on Parse Server.
+     - parameter name: Name of the index that will be created/updated in the schema on Parse Server.
      - parameter field: The **field** to apply the `ParseIndex` to.
      - parameter index: The **index** to create.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
@@ -93,10 +93,10 @@ public extension ParseSchema {
     /**
      Add a Field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter type: The `ParseFieldType` of the field that will be created/updated on Parse Server.
-     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter type: The `ParseFieldType` of the field that will be created/updated in the schema on Parse Server.
+     - parameter target: The  target `ParseObject` of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - throws: An error of type `ParseError`.
      - warning: The use of `options` requires Parse Server 3.7.0+.
@@ -118,9 +118,9 @@ public extension ParseSchema {
     /**
      Add a Field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter type: The `ParseFieldType` of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter type: The `ParseFieldType` of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -141,8 +141,8 @@ public extension ParseSchema {
     /**
      Add a String field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -154,8 +154,8 @@ public extension ParseSchema {
     /**
      Add a Number field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -167,8 +167,8 @@ public extension ParseSchema {
     /**
      Add a Boolean field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -180,8 +180,8 @@ public extension ParseSchema {
     /**
      Add a Date field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -193,8 +193,8 @@ public extension ParseSchema {
     /**
      Add a File field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -206,8 +206,8 @@ public extension ParseSchema {
     /**
      Add a GeoPoint field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -219,8 +219,8 @@ public extension ParseSchema {
     /**
      Add a Polygon field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -232,8 +232,8 @@ public extension ParseSchema {
     /**
      Add an Object field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -245,8 +245,8 @@ public extension ParseSchema {
     /**
      Add a Bytes field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -258,8 +258,8 @@ public extension ParseSchema {
     /**
      Add an Array field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
@@ -271,10 +271,10 @@ public extension ParseSchema {
     /**
      Add a Pointer field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter target: The  target `ParseObject` of the field that will be created/updated in the schema on Parse Server.
      Defaults to **nil**.
-     - parameter options: The `ParseFieldOptions` of the field that will be created/updated on Parse Server.
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - throws: An error of type `ParseError`.
      - warning: The use of `options` requires Parse Server 3.7.0+.
@@ -300,8 +300,8 @@ public extension ParseSchema {
     /**
      Add a Relation field to create/update a `ParseSchema`.
      
-     - parameter name: Name of the field that will be created/updated on Parse Server.
-     - parameter target: The  target `ParseObject` of the field that will be created/updated on Parse Server.
+     - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
+     - parameter target: The  target `ParseObject` of the field that will be created/updated in the schema on Parse Server.
      Defaults to **nil**.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - throws: An error of type `ParseError`.
@@ -326,7 +326,7 @@ public extension ParseSchema {
     /**
      Delete a field in the `ParseSchema`.
      
-     - parameter name: Name of the field that will be deleted on Parse Server.
+     - parameter name: Name of the field that will be deleted in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
     */
     func deleteField(_ name: String) -> Self {
@@ -344,7 +344,7 @@ public extension ParseSchema {
     /**
      Delete an index in the `ParseSchema`.
      
-     - parameter name: Name of the index that will be deleted on Parse Server.
+     - parameter name: Name of the index that will be deleted in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
     */
     func deleteIndex(_ name: String, field: String) -> Self {
