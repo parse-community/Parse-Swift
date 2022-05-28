@@ -18,15 +18,15 @@ public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
 
     /// The class name of the `ParseSchema`.
     public var className: String
-
-    /// The fiekds of this `ParseSchema`.
-    internal var fields: [String: ParseField]?
-
-    /// The indexs of this `ParseSchema`.
-    internal var indexes: [String: [String: AnyCodable]]?
-
     /// The CLPs of this `ParseSchema`.
     public var classLevelPermissions: ParseCLP?
+    internal var fields: [String: ParseField]?
+    internal var indexes: [String: [String: AnyCodable]]?
+    internal var pendingIndexes = [String: [String: AnyCodable]]()
+
+    enum CodingKeys: String, CodingKey {
+        case className, classLevelPermissions, fields, indexes
+    }
 
     /**
      Get the current fields for this `ParseSchema`.
@@ -85,13 +85,7 @@ public extension ParseSchema {
                   field: String,
                   index: Encodable) -> Self {
         var mutableSchema = self
-
-        if mutableSchema.indexes != nil {
-            mutableSchema.indexes?[name]?[field] = AnyCodable(index)
-        } else {
-            mutableSchema.indexes = [name: [field: AnyCodable(index)]]
-        }
-
+        mutableSchema.pendingIndexes[name] = [field: AnyCodable(index)]
         return mutableSchema
     }
 
@@ -231,12 +225,7 @@ public extension ParseSchema {
     func deleteIndex(_ name: String, field: String) -> Self {
         let index = AnyCodable(Delete())
         var mutableSchema = self
-        if mutableSchema.indexes != nil {
-            mutableSchema.indexes?[name]?[field] = index
-        } else {
-            mutableSchema.indexes = [name: [field: index]]
-        }
-
+        mutableSchema.pendingIndexes[name] = [field: index]
         return mutableSchema
     }
 }
@@ -363,11 +352,15 @@ extension ParseSchema {
     public func update(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var mutableSchema = self
+        if !mutableSchema.pendingIndexes.isEmpty {
+            mutableSchema.indexes = pendingIndexes
+        }
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
-            try updateCommand()
+            try mutableSchema.updateCommand()
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
                               completion: completion)
