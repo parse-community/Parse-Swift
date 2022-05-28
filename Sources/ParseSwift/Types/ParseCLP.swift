@@ -514,7 +514,8 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser` objectId  has access to perform create/update/delete/addField actions on a Parse class.
+     Sets whether the given `ParseUser` objectId  has access to perform
+     create/update/delete/addField actions on a Parse class.
      - parameter objectId: The `ParseUser` objectId to provide/restrict access to.
      - parameter to: **true** if access should be allowed, **false** otherwise.
      - parameter canAddField: **true** if access should be allowed to `addField`,
@@ -551,7 +552,8 @@ public extension ParseCLP {
     }
 
     /**
-     Sets whether the given `ParseUser`pointer  has access to perform create/update/delete/addField actions on a Parse class.
+     Sets whether the given `ParseUser`pointer  has access to perform
+     create/update/delete/addField actions on a Parse class.
      - parameter user: The `ParseUser` to provide/restrict access to.
      - parameter to: **true** if access should be allowed, **false** otherwise.
      - parameter canAddField: **true** if access should be allowed to `addField`,
@@ -726,7 +728,7 @@ public extension ParseCLP {
 }
 
 // MARK: Protected
-public extension ParseClassLevelPermisioinable {
+public extension ParseCLP {
     internal func getProtected(_ keyPath: KeyPath<Self, [String: Set<String>]?>,
                                for entity: String) -> Set<String> {
         self[keyPath: keyPath]?[entity] ?? []
@@ -779,7 +781,7 @@ public extension ParseClassLevelPermisioinable {
      - returns: The set protected fields that cannot be accessed.
      - warning: Requires Parse Server 2.3.0+.
     */
-    func getPublicProtectedFields() -> Set<String> {
+    func getRequiresAuthenticationProtectedFields() -> Set<String> {
         getProtectedFields(Access.requiresAuthentication.rawValue)
     }
 
@@ -867,7 +869,7 @@ public extension ParseClassLevelPermisioinable {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return setProtectedFields(fields, for: roleNameAccess)
     }
-    
+
     /**
      Add to the set of specific fields the given `ParseUser` objectId should not have access to on a Parse class.
      - parameter fields: The set of fields that should be protected from access.
@@ -918,7 +920,8 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Remove fields from the set of specific fields the given `ParseUser` objectId should not have access to on a Parse class.
+     Remove fields from the set of specific fields the given `ParseUser` objectId
+     should not have access to on a Parse class.
      - parameter fields: The set of fields that should be removed from protected access.
      - parameter objectId: The `ParseUser` objectId to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
@@ -943,7 +946,8 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Remove fields from the set of specific fields the given `ParseUser` pointer should not have access to on a Parse class.
+     Remove fields from the set of specific fields the given `ParseUser` pointer
+     should not have access to on a Parse class.
      - parameter fields: The set of fields that should be removed from protected access.
      - parameter user: The `ParseUser` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
@@ -1005,18 +1009,18 @@ extension ParseCLP {
 public extension ParseCLP {
 
     /**
-     Get the `writeUserFields`.
-
-     - returns: User pointer fields.
+     Get the set of `ParseUser` and array `ParseUser` fields that can
+     perform create/update/delete/addField actions on this Parse class.
+     - returns: The set of `ParseUser` and array `ParseUser` fields.
     */
     func getWriteUserFields() -> Set<String> {
         getUser(\.writeUserFields)
     }
 
     /**
-     Sets permission for the user pointer fields or create/delete/update/addField operations.
-
-     - parameter fields: User pointer fields.
+     Set the `ParseUser` and array `ParseUser` fields that can
+     perform create/update/delete/addField actions on this Parse class.
+     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setWriteUser(_ fields: Set<String>) -> Self {
@@ -1024,20 +1028,22 @@ public extension ParseCLP {
     }
 
     /**
-     Adds permission for the user pointer fields or create/delete/update/addField operations.
-
-     - parameter fields: User pointer fields.
+     Add to the set of `ParseUser` and array `ParseUser` fields that can
+     perform create/update/delete/addField actions on this Parse class.
+     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method adds on to the current set of `fields` in the CLP.
     */
     func addWriteUser(_ fields: Set<String>) -> Self {
         addUser(\.writeUserFields, fields: fields)
     }
 
     /**
-     Adds permission for the user pointer fields or create/delete/update/addField operations.
-
-     - parameter fields: User pointer fields.
+     Remove fields from the set of `ParseUser` and array `ParseUser` fields that can
+     perform create/update/delete/addField actions on this Parse class.
+     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method removes from the current set of `fields` in the CLP.
     */
     func removeWriteUser(_ fields: Set<String>) -> Self {
         removeUser(\.writeUserFields, fields: fields)
@@ -1048,18 +1054,18 @@ public extension ParseCLP {
 public extension ParseCLP {
 
     /**
-     Get the `readUserFields`.
-
-     - returns: User pointer fields.
+     Get the set of `ParseUser` and array `ParseUser` fields that can
+     perform get/find/count actions on this Parse class.
+     - returns: The set of `ParseUser` and array `ParseUser` fields.
     */
     func getReadUserFields() -> Set<String> {
         getUser(\.readUserFields)
     }
 
     /**
-     Sets permission for the user pointer fields or get/count/find operations.
-
-     - parameter fields: User pointer fields.
+     Set the `ParseUser` and array `ParseUser` fields that can
+     perform get/find/count actions on this Parse class.
+     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setReadUser(_ fields: Set<String>) -> Self {
@@ -1067,20 +1073,22 @@ public extension ParseCLP {
     }
 
     /**
-     Adds permission for the user pointer fields or get/count/find operations.
-
-     - parameter fields: User pointer fields.
+     Add to the set of `ParseUser` and array `ParseUser` fields that can
+     perform get/find/count actions on this Parse class.
+     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method adds on to the current set of `fields` in the CLP.
     */
     func addReadUser(_ fields: Set<String>) -> Self {
         addUser(\.readUserFields, fields: fields)
     }
 
     /**
-     Removes permission for the user pointer fields or get/count/find operations.
-
-     - parameter fields: User pointer fields.
+     Remove fields from the set of `ParseUser` and array `ParseUser` fields that can
+     perform get/find/count actions on this Parse class.
+     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method removes from the current set of `fields` in the CLP.
     */
     func removeReadUser(_ fields: Set<String>) -> Self {
         removeUser(\.readUserFields, fields: fields)
