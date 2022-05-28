@@ -15,10 +15,6 @@ struct ParseField: Codable {
     var defaultValue: AnyCodable?
     var targetClass: String?
 
-    enum CodingKeys: String, CodingKey {
-        case type, required
-    }
-
     init(operation: Operation) {
         __op = operation
     }

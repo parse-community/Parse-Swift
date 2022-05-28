@@ -22,8 +22,22 @@ public struct ParseCLP: Codable, Equatable {
     public var readUserFields: Set<String>?
     public var writeUserFields: Set<String>?
 
+    /// The avialable actions on a `ParseSchema`.
     public enum Action {
-        case get, find, count, create, update, delete, addField
+        /// Fetch `ParseObject`'s.
+        case get
+        /// Find `ParseObject`'s.
+        case find
+        /// Count `ParseObject`'s.
+        case count
+        /// Create new `ParseObject`'s.
+        case create
+        /// Update `ParseObject`'s.
+        case update
+        /// Delete `ParseObject`'s.
+        case delete
+        /// Add field to the `ParseSchema`.
+        case addField
 
         internal func keyPath() -> KeyPath<ParseCLP, [String: AnyCodable]?> {
             let keyPath: KeyPath<ParseCLP, [String: AnyCodable]?>
@@ -105,43 +119,37 @@ public struct ParseCLP: Codable, Equatable {
     }
 
     func setPointer(_ fields: Set<String>,
-                    on keyPath: WritableKeyPath<Self, [String: AnyCodable]?>,
-                    for entity: String) -> Self {
+                    on keyPath: WritableKeyPath<Self, [String: AnyCodable]?>) -> Self {
         var mutableCLP = self
         let value = AnyCodable(fields)
         if mutableCLP[keyPath: keyPath] != nil {
-            mutableCLP[keyPath: keyPath]?[entity] = value
+            mutableCLP[keyPath: keyPath]?[Access.pointerFields.rawValue] = value
         } else {
-            mutableCLP[keyPath: keyPath] = [entity: value]
+            mutableCLP[keyPath: keyPath] = [Access.pointerFields.rawValue: value]
         }
         return mutableCLP
     }
 
     func addPointer(_ fields: Set<String>,
-                    on keyPath: WritableKeyPath<Self, [String: AnyCodable]?>,
-                    for entity: String) -> Self {
+                    on keyPath: WritableKeyPath<Self, [String: AnyCodable]?>) -> Self {
 
-        if let currentSet = self[keyPath: keyPath]?[entity]?.value as? Set<String> {
+        if let currentSet = self[keyPath: keyPath]?[Access.pointerFields.rawValue]?.value as? Set<String> {
             var mutableCLP = self
-            mutableCLP[keyPath: keyPath]?[entity] = AnyCodable(currentSet.union(fields))
+            mutableCLP[keyPath: keyPath]?[Access.pointerFields.rawValue] = AnyCodable(currentSet.union(fields))
             return mutableCLP
         } else {
-            return setPointer(fields, on: keyPath, for: entity)
+            return setPointer(fields, on: keyPath)
         }
     }
 
     func removePointer(_ fields: Set<String>,
-                       on keyPath: WritableKeyPath<Self, [String: AnyCodable]?>,
-                       for entity: String) -> Self {
-
-        if var currentSet = self[keyPath: keyPath]?[entity]?.value as? Set<String> {
-            var mutableCLP = self
+                       on keyPath: WritableKeyPath<Self, [String: AnyCodable]?>) -> Self {
+        var mutableCLP = self
+        if var currentSet = self[keyPath: keyPath]?[Access.pointerFields.rawValue]?.value as? Set<String> {
             fields.forEach { currentSet.remove($0) }
-            mutableCLP[keyPath: keyPath]?[entity] = AnyCodable(currentSet)
-            return mutableCLP
-        } else {
-            return setPointer(fields, on: keyPath, for: entity)
+            mutableCLP[keyPath: keyPath]?[Access.pointerFields.rawValue] = AnyCodable(currentSet)
         }
+        return mutableCLP
     }
 }
 
@@ -180,8 +188,8 @@ public extension ParseCLP {
 
     /**
      Checks if get/find/count/create/update/delete/addField actions currently have public access.
-     - parameter keyPath: Any of the following keyPaths that represent an
-     action on a `ParseSchema`: get/find/count/create/update/delete/addField.
+     - parameter action: Any of the following action on a `ParseSchema`:
+     get/find/count/create/update/delete/addField.
      - returns: **true** if access is allowed, **false** otherwise.
     */
     func getPointerFields(_ action: Action) throws -> Set<String> {
@@ -190,8 +198,8 @@ public extension ParseCLP {
 
     /**
      Checks if get/find/count/create/update/delete/addField actions currently have public access.
-     - parameter keyPath: Any of the following keyPaths that represent an
-     action on a `ParseSchema`: get/find/count/create/update/delete/addField.
+     - parameter action: Any of the following actions on a `ParseSchema`:
+     get/find/count/create/update/delete/addField.
      - returns: **true** if access is allowed, **false** otherwise.
     */
     func hasAccessPublic(_ action: Action) throws -> Bool {
@@ -200,8 +208,7 @@ public extension ParseCLP {
 
     /**
      Checks if get/find/count/create/update/delete/addField actions currently requires authentication to access.
-     - parameter keyPath: Any of the following keyPaths that represent an
-     action on a `ParseSchema`: get/find/count/create/update/delete/addField.
+     - parameter action: Any of the following action on a `ParseSchema`: get/find/count/create/update/delete/addField.
      - returns: **true** if access is allowed, **false** otherwise.
      - warning: Requires Parse Server 2.3.0+.
     */
@@ -270,82 +277,23 @@ public extension ParseCLP {
         return setAccess(allow, on: action.writableKeyPath(), for: roleNameAccess)
     }
 
+    /**
+     Set access to a **\_User** column or array **\_User** column in this Schema.
+     - warning: Requires Parse Server 3.1.1+.
+     */
     func setPointerFields(_ action: Action,
-                          to fields: Set<String>,
-                          for objectId: String) -> Self {
-        setPointer(fields, on: action.writableKeyPath(), for: objectId)
-    }
-
-    func setPointerFields<U>(_ action: Action,
-                             to fields: Set<String>,
-                             for user: U) throws -> Self where U: ParseUser {
-        let objectId = try user.toPointer().objectId
-        return setPointer(fields, on: action.writableKeyPath(), for: objectId)
-    }
-
-    func setPointerFields<U>(_ action: Action,
-                             to fields: Set<String>,
-                             for user: Pointer<U>) -> Self where U: ParseUser {
-        setPointer(fields, on: action.writableKeyPath(), for: user.objectId)
-    }
-
-    func setPointerFields<R>(_ action: Action,
-                             to fields: Set<String>,
-                             for role: R) throws -> Self where R: ParseRole {
-        let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return setPointer(fields, on: action.writableKeyPath(), for: roleNameAccess)
+                          to fields: Set<String>) -> Self {
+        setPointer(fields, on: action.writableKeyPath())
     }
 
     func addPointerFields(_ fields: Set<String>,
-                          on action: Action,
-                          for objectId: String) -> Self {
-        addPointer(fields, on: action.writableKeyPath(), for: objectId)
-    }
-
-    func addPointerFields<U>(_ fields: Set<String>,
-                             on action: Action,
-                             for user: U) throws -> Self where U: ParseUser {
-        let objectId = try user.toPointer().objectId
-        return addPointer(fields, on: action.writableKeyPath(), for: objectId)
-    }
-
-    func addPointerFields<U>(_ fields: Set<String>,
-                             on action: Action,
-                             for user: Pointer<U>) -> Self where U: ParseUser {
-        addPointer(fields, on: action.writableKeyPath(), for: user.objectId)
-    }
-
-    func addPointerFields<R>(_ fields: Set<String>,
-                             on action: Action,
-                             for role: R) throws -> Self where R: ParseRole {
-        let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return addPointer(fields, on: action.writableKeyPath(), for: roleNameAccess)
+                          on action: Action) -> Self {
+        addPointer(fields, on: action.writableKeyPath())
     }
 
     func removePointerFields(_ fields: Set<String>,
-                             on action: Action,
-                             for objectId: String) -> Self {
-        removePointer(fields, on: action.writableKeyPath(), for: objectId)
-    }
-
-    func removePointerFields<U>(_ fields: Set<String>,
-                                on action: Action,
-                                for user: U) throws -> Self where U: ParseUser {
-        let objectId = try user.toPointer().objectId
-        return removePointer(fields, on: action.writableKeyPath(), for: objectId)
-    }
-
-    func removePointerFields<U>(_ fields: Set<String>,
-                                on action: Action,
-                                for user: Pointer<U>) -> Self where U: ParseUser {
-        removePointer(fields, on: action.writableKeyPath(), for: user.objectId)
-    }
-
-    func removePointerFields<R>(_ fields: Set<String>,
-                                on action: Action,
-                                for role: R) throws -> Self where R: ParseRole {
-        let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return removePointer(fields, on: action.writableKeyPath(), for: roleNameAccess)
+                             on action: Action) -> Self {
+        removePointer(fields, on: action.writableKeyPath())
     }
 }
 

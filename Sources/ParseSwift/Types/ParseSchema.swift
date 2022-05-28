@@ -546,8 +546,8 @@ extension ParseSchema {
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
-            try deleteCommand().executeAsync(options: options,
-                                             callbackQueue: callbackQueue) { result in
+            try purgeCommand().executeAsync(options: options,
+                                            callbackQueue: callbackQueue) { result in
                 switch result {
 
                 case .success:
