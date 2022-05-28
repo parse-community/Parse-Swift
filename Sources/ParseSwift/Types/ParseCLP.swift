@@ -383,7 +383,7 @@ public extension ParseCLP {
      - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
      columns to remove access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method adds on to the current set of `fields` in the CLP.
+     - note: This method removes from the current set of `fields` in the CLP.
      - warning: Requires Parse Server 3.1.1+.
      */
     func removePointerFields(_ fields: Set<String>,
@@ -825,8 +825,8 @@ public extension ParseClassLevelPermisioinable {
 
     /**
      Set whether the given `ParseUser` objectId should not have access to specific fields of a Parse class.
-     - parameter for: The `ParseUser` objectId to restrict access to.
-     - parameter fields: The set protected fields that should not be accessed.
+     - parameter objectId: The `ParseUser` objectId to restrict access to.
+     - parameter fields: The set of fields that should be protected from access.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -835,10 +835,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Set whether the given `ParseUser` should not have access to specific fields of a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter user: The `ParseUser` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -848,10 +847,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Set whether the given `ParseUser` should not have access to specific fields of a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter user: The `ParseUser` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setProtectedFields<U>(_ fields: Set<String>, for user: Pointer<U>) -> Self where U: ParseUser {
@@ -859,10 +857,9 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseRole` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseRole` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Set whether the given `ParseRole` should not have access to specific fields of a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter role: The `ParseRole` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -870,26 +867,26 @@ public extension ParseClassLevelPermisioinable {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return setProtectedFields(fields, for: roleNameAccess)
     }
-
+    
     /**
-     Set whether the given `ParseUser` objectId has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` objectId to restrict access to.
-     - parameter fields: The fields to be protected.
+     Add to the set of specific fields the given `ParseUser` objectId should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter objectId: The `ParseUser` objectId to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
+     - note: This method adds on to the current set of `fields` in the CLP.
     */
     func addProtectedFields(_ fields: Set<String>, for objectId: String) -> Self {
         addProtected(fields, on: \.protectedFields, for: objectId)
     }
 
     /**
-     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Add to the set of specific fields the given `ParseUser` should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter user: The `ParseUser` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
+     - note: This method adds on to the current set of `fields` in the CLP.
     */
     func addProtectedFields<U>(_ fields: Set<String>, for user: U) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
@@ -897,23 +894,23 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Add to the set of specific fields the given `ParseUser` pointer should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter user: The `ParseUser` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method adds on to the current set of `fields` in the CLP.
     */
     func addProtectedFields<U>(_ fields: Set<String>, for user: Pointer<U>) -> Self where U: ParseUser {
         addProtectedFields(fields, for: user.objectId)
     }
 
     /**
-     Set whether the given `ParseRole` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseRole` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Add to the set of specific fields the given `ParseRole` should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter role: The `ParseRole` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
+     - note: This method adds on to the current set of `fields` in the CLP.
     */
     func addProtectedFields<R>(_ fields: Set<String>, for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
@@ -921,24 +918,24 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Remove  the given `ParseUser` objectId has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` objectId to restrict access to.
-     - parameter fields: The fields to be protected.
+     Remove fields from the set of specific fields the given `ParseUser` objectId should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be removed from protected access.
+     - parameter objectId: The `ParseUser` objectId to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
+     - note: This method removes from the current set of `fields` in the CLP.
     */
     func removeProtectedFields(_ fields: Set<String>, for objectId: String) -> Self {
         removeProtected(fields, on: \.protectedFields, for: objectId)
     }
 
     /**
-     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Remove fields from the set of specific fields the given `ParseUser` should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be removed from protected access.
+     - parameter user: The `ParseUser` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
+     - note: This method removes from the current set of `fields` in the CLP.
     */
     func removeProtectedFields<U>(_ fields: Set<String>, for user: U) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
@@ -946,23 +943,23 @@ public extension ParseClassLevelPermisioinable {
     }
 
     /**
-     Set whether the given `ParseUser` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseUser` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Remove fields from the set of specific fields the given `ParseUser` pointer should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be removed from protected access.
+     - parameter user: The `ParseUser` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method removes from the current set of `fields` in the CLP.
     */
     func removeProtectedFields<U>(_ fields: Set<String>, for user: Pointer<U>) -> Self where U: ParseUser {
         removeProtectedFields(fields, for: user.objectId)
     }
 
     /**
-     Set whether the given `ParseRole` has access to retrieve fields from a Parse class.
-     
-     - parameter for: The `ParseRole` to restrict access to.
-     - parameter fields: The fields to be protected.
+     Remove fields from the set of specific fields the given `ParseRole` should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be removed from protected access.
+     - parameter role: The `ParseRole` to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
+     - note: This method removes from the current set of `fields` in the CLP.
     */
     func removeProtectedFields<R>(_ fields: Set<String>, for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
