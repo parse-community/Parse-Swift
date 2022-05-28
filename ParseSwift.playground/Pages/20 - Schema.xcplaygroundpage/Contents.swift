@@ -110,9 +110,25 @@ do {
 gameScoreSchema.create { result in
     switch result {
     case .success(let savedSchema):
-        print("Check GameScore2 in Dashboard. \(savedSchema)")
+        print("Check GameScore2 in Dashboard. \nThe created schema:  \(savedSchema)")
     case .failure(let error):
         print("Couldn't save schema: \(error)")
+    }
+}
+
+/*:
+ Fields can also be deleted on a schema. Lets remove
+ the **data** field since it's not going being used.
+*/
+gameScoreSchema = gameScoreSchema.deleteField("data")
+
+//: Next, we need to update the schema on the server with the changes.
+gameScoreSchema.update { result in
+    switch result {
+    case .success(let updatedSchema):
+        print("Check GameScore2 in Dashboard. \nThe updated schema: \(updatedSchema)")
+    case .failure(let error):
+        print("Couldn't update schema: \(error)")
     }
 }
 
@@ -123,23 +139,13 @@ gameScoreSchema.classLevelPermissions = clp2
 //: In addition, we can add an index.
 gameScoreSchema = gameScoreSchema.addIndex("myIndex", field: "points", index: 1)
 
-//: Now lets create the schema on the server.
+//: Next, we need to update the schema on the server with the changes.
 gameScoreSchema.update { result in
     switch result {
-    case .success(let savedSchema):
-        print("Check GameScore2 in Dashboard. \(savedSchema)")
+    case .success(let updatedSchema):
+        print("Check GameScore2 in Dashboard. \nThe updated schema: \(updatedSchema)")
     case .failure(let error):
         print("Couldn't update schema: \(error)")
-    }
-}
-
-//: You can fetch your schema from the server at anytime.
-gameScoreSchema.fetch { result in
-    switch result {
-    case .success(let fetchedSchema):
-        print("The current schema is: \(fetchedSchema)")
-    case .failure(let error):
-        print("Couldn't fetch schema: \(error)")
     }
 }
 
