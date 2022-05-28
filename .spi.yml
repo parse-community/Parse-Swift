@@ -3,6 +3,7 @@ builder:
   configs:
   - platform: ios
     scheme: "ParseSwift (iOS)"
+    documentation_targets: ["ParseSwift (iOS)"]
   - platform: macos-xcodebuild
     scheme: "ParseSwift (macOS)"
   - platform: macos-xcodebuild-arm
