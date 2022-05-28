@@ -167,7 +167,8 @@ gameScoreSchema.purge { result in
     }
 }
 
-/*: As long as there's no data in your `ParseSchema` you can
+/*:
+ As long as there's no data in your `ParseSchema` you can
  delete the schema.
 */
  gameScoreSchema.delete { result in

@@ -20,6 +20,5 @@
         <page name='17 - SwiftUI - Finding Objects'/>
         <page name='18 - SwiftUI - Finding Objects With Custom ViewModel'/>
         <page name='19 - SwiftUI - LiveQuery'/>
-        <page name='20 - Schema'/>
     </pages>
 </playground>
