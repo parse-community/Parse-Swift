@@ -23,7 +23,7 @@ public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
     internal var fields: [String: ParseField]?
 
     /// The indexs of this `ParseSchema`.
-    internal var indexes: [String: AnyCodable]?
+    internal var indexes: [String: [String: AnyCodable]]?
 
     /// The CLPs of this `ParseSchema`.
     public var classLevelPermissions: ParseCLP?
@@ -69,20 +69,22 @@ public extension ParseSchema {
     }
 
     /**
-     Add a Field to create/update a `ParseSchema`.
+     Add an index to create/update a `ParseSchema`.
      
      - parameter name: Name of the index that will be created/updated on Parse Server.
-     - parameter index: The `ParseIndex` to add that will be created/updated on Parse Server.
+     - parameter field: The **field** to apply the `ParseIndex` to.
+     - parameter index: The **index** to create.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
     */
     func addIndex(_ name: String,
-                  index: ParseIndex) -> Self {
+                  field: String,
+                  index: Encodable) -> Self {
         var mutableSchema = self
 
         if mutableSchema.indexes != nil {
-            mutableSchema.indexes?[name] = AnyCodable(index)
+            mutableSchema.indexes?[name]?[field] = AnyCodable(index)
         } else {
-            mutableSchema.indexes = [name: AnyCodable(index)]
+            mutableSchema.indexes = [name: [field: AnyCodable(index)]]
         }
 
         return mutableSchema
@@ -345,13 +347,13 @@ public extension ParseSchema {
      - parameter name: Name of the index that will be deleted on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
     */
-    func deleteIndex(_ name: String) -> Self {
+    func deleteIndex(_ name: String, field: String) -> Self {
         let index = AnyCodable(Delete())
         var mutableSchema = self
         if mutableSchema.indexes != nil {
-            mutableSchema.indexes?[name] = index
+            mutableSchema.indexes?[name]?[field] = index
         } else {
-            mutableSchema.indexes = [name: index]
+            mutableSchema.indexes = [name: [field: index]]
         }
 
         return mutableSchema

@@ -105,7 +105,7 @@ do {
 } catch {
     print("Can't add field: \(gameScoreSchema)")
 }
-/*
+
 //: Now lets create the schema on the server.
 gameScoreSchema.create { result in
     switch result {
@@ -115,10 +115,13 @@ gameScoreSchema.create { result in
         print("Couldn't save schema: \(error)")
     }
 }
-*/
+
 //: We can update the CLP to only allow access to users specified in the "owner" field.
 var clp2 = clp.setPointerFields(.get, to: Set(["owner"]))
 gameScoreSchema.classLevelPermissions = clp2
+
+//: In addition, we can add an index.
+gameScoreSchema = gameScoreSchema.addIndex("myIndex", field: "points", index: 1)
 
 //: Now lets create the schema on the server.
 gameScoreSchema.update { result in
