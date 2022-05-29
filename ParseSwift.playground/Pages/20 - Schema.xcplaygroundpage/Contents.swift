@@ -84,7 +84,7 @@ extension GameScore2 {
 }
 
 //: First lets create a new CLP for the new schema.
-let clp = ParseCLP(requireAuthentication: true, publicAccess: false)
+let clp = ParseCLP(requiresAuthentication: true, publicAccess: false)
     .setAccessPublic(true, on: .get)
     .setAccessPublic(true, on: .find)
 

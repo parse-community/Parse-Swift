@@ -161,15 +161,15 @@ public extension ParseCLP {
 
     /**
      Creates an instance of CLP with particular access.
-     - parameter requireAuthentication: Read/Write to a Parse class requires users to be authenticated.
+     - parameter requiresAuthentication: Read/Write to a Parse class requires users to be authenticated.
      - parameter publicAccess:Read/Write to a Parse class can be done by the public.
-     - warning: Setting `requireAuthentication` and `publicAccess` does not give **addField**
+     - warning: Setting `requiresAuthentication` and `publicAccess` does not give **addField**
      access. You can set **addField** access after creating an instance of CLP.
      - warning: Requires Parse Server 2.3.0+.
      */
-    init(requireAuthentication: Bool, publicAccess: Bool) {
-        let clp = setWriteAccessRequiresAuthentication(requireAuthentication)
-            .setReadAccessRequiresAuthentication(requireAuthentication)
+    init(requiresAuthentication: Bool, publicAccess: Bool) {
+        let clp = setWriteAccessRequiresAuthentication(requiresAuthentication)
+            .setReadAccessRequiresAuthentication(requiresAuthentication)
             .setWriteAccessPublic(publicAccess)
             .setReadAccessPublic(publicAccess)
         self = clp
@@ -531,6 +531,8 @@ public extension ParseCLP {
             .setAccess(allow, on: \.delete, for: objectId)
         if addField {
             updatedCLP = updatedCLP.setAccess(allow, on: \.addField, for: objectId)
+        } else {
+            updatedCLP = updatedCLP.setAccess(false, on: \.addField, for: objectId)
         }
         return updatedCLP
     }
