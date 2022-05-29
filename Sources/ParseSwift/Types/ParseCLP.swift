@@ -291,8 +291,8 @@ public extension ParseCLP {
      - parameter objectId: The `ParseUser` objectId to add/remove access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      */
-    func setAccess(_ action: Action,
-                   to allow: Bool,
+    func setAccess(_ allow: Bool,
+                   on action: Action,
                    for objectId: String) -> Self {
         setAccess(allow, on: action.writableKeyPath(), for: objectId)
     }
@@ -306,8 +306,8 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
      */
-    func setAccess<U>(_ action: Action,
-                      to allow: Bool,
+    func setAccess<U>(_ allow: Bool,
+                      on action: Action,
                       for user: U) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
         return setAccess(allow, on: action.writableKeyPath(), for: objectId)
@@ -321,8 +321,8 @@ public extension ParseCLP {
      - parameter user: The `ParseUser` pointer to add/remove access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      */
-    func setAccess<U>(_ action: Action,
-                      to allow: Bool,
+    func setAccess<U>(_ allow: Bool,
+                      on action: Action,
                       for user: Pointer<U>) -> Self where U: ParseUser {
         setAccess(allow, on: action.writableKeyPath(), for: user.objectId)
     }
@@ -336,8 +336,8 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
      */
-    func setAccess<R>(_ action: Action,
-                      to allow: Bool,
+    func setAccess<R>(_ allow: Bool,
+                      on action: Action,
                       for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return setAccess(allow, on: action.writableKeyPath(), for: roleNameAccess)
@@ -354,8 +354,8 @@ public extension ParseCLP {
      - note: This method replaces the current set of `fields` in the CLP.
      - warning: Requires Parse Server 3.1.1+.
      */
-    func setPointerFields(_ action: Action,
-                          to fields: Set<String>) -> Self {
+    func setPointerFields(_ fields: Set<String>,
+                          on action: Action) -> Self {
         setPointer(fields, on: action.writableKeyPath())
     }
 
@@ -526,13 +526,13 @@ public extension ParseCLP {
                         objectId: String,
                         canAddField addField: Bool = false) -> Self {
         var updatedCLP = self
-            .setAccess(allow, on: \.create, for: objectId)
-            .setAccess(allow, on: \.update, for: objectId)
-            .setAccess(allow, on: \.delete, for: objectId)
+            .setAccess(allow, on: .create, for: objectId)
+            .setAccess(allow, on: .update, for: objectId)
+            .setAccess(allow, on: .delete, for: objectId)
         if addField {
-            updatedCLP = updatedCLP.setAccess(allow, on: \.addField, for: objectId)
+            updatedCLP = updatedCLP.setAccess(allow, on: .addField, for: objectId)
         } else {
-            updatedCLP = updatedCLP.setAccess(false, on: \.addField, for: objectId)
+            updatedCLP = updatedCLP.setAccess(false, on: .addField, for: objectId)
         }
         return updatedCLP
     }
@@ -686,9 +686,9 @@ public extension ParseCLP {
     func setReadAccess(_ allow: Bool,
                        objectId: String) -> Self {
         let updatedCLP = self
-            .setAccess(allow, on: \.get, for: objectId)
-            .setAccess(allow, on: \.find, for: objectId)
-            .setAccess(allow, on: \.count, for: objectId)
+            .setAccess(allow, on: .get, for: objectId)
+            .setAccess(allow, on: .find, for: objectId)
+            .setAccess(allow, on: .count, for: objectId)
         return updatedCLP
     }
 

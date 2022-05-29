@@ -117,7 +117,7 @@ gameScoreSchema.create { result in
 }
 
 //: We can update the CLP to only allow access to users specified in the "owner" field.
-let clp2 = clp.setPointerFields(.get, to: Set(["owner"]))
+let clp2 = clp.setPointerFields(Set(["owner"]), on: .get)
 gameScoreSchema.classLevelPermissions = clp2
 
 //: In addition, we can add an index.
