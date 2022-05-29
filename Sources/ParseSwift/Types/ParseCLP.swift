@@ -102,11 +102,26 @@ public struct ParseCLP: Codable, Equatable {
 
     /// Creates an empty instance of CLP.
     public init() { }
-
-    func getPointerFields(_ keyPath: KeyPath<Self, [String: AnyCodable]?>) -> Set<String> {
-        self[keyPath: keyPath]?[Access.pointerFields.rawValue]?.value as? Set<String> ?? []
+    
+    /**
+     Creates an instance of CLP with particular access.
+     - parameter requiresAuthentication: Read/Write to a Parse class requires users to be authenticated.
+     - parameter publicAccess:Read/Write to a Parse class can be done by the public.
+     - warning: Setting `requiresAuthentication` and `publicAccess` does not give **addField**
+     access. You can set **addField** access after creating an instance of CLP.
+     - warning: Requires Parse Server 2.3.0+.
+     */
+    public init(requiresAuthentication: Bool, publicAccess: Bool) {
+        let clp = setWriteAccessRequiresAuthentication(requiresAuthentication)
+            .setReadAccessRequiresAuthentication(requiresAuthentication)
+            .setWriteAccessPublic(publicAccess)
+            .setReadAccessPublic(publicAccess)
+        self = clp
     }
+}
 
+// MARK: Default Implementation
+extension ParseCLP {
     func hasAccess(_ keyPath: KeyPath<Self, [String: AnyCodable]?>,
                    for entity: String) -> Bool {
         self[keyPath: keyPath]?[entity]?.value as? Bool ?? false
@@ -128,6 +143,10 @@ public struct ParseCLP: Codable, Equatable {
             mutableCLP[keyPath: keyPath]?[entity] = nil
         }
         return mutableCLP
+    }
+
+    func getPointerFields(_ keyPath: KeyPath<Self, [String: AnyCodable]?>) -> Set<String> {
+        self[keyPath: keyPath]?[Access.pointerFields.rawValue]?.value as? Set<String> ?? []
     }
 
     func setPointer(_ fields: Set<String>,
@@ -165,35 +184,8 @@ public struct ParseCLP: Codable, Equatable {
     }
 }
 
-// MARK: Default Implementation
+// MARK: Standard Access
 public extension ParseCLP {
-
-    /**
-     Creates an instance of CLP with particular access.
-     - parameter requiresAuthentication: Read/Write to a Parse class requires users to be authenticated.
-     - parameter publicAccess:Read/Write to a Parse class can be done by the public.
-     - warning: Setting `requiresAuthentication` and `publicAccess` does not give **addField**
-     access. You can set **addField** access after creating an instance of CLP.
-     - warning: Requires Parse Server 2.3.0+.
-     */
-    init(requiresAuthentication: Bool, publicAccess: Bool) {
-        let clp = setWriteAccessRequiresAuthentication(requiresAuthentication)
-            .setReadAccessRequiresAuthentication(requiresAuthentication)
-            .setWriteAccessPublic(publicAccess)
-            .setReadAccessPublic(publicAccess)
-        self = clp
-    }
-
-    /**
-     Retreive the fields in a Parse class that determine access for a specific `Action`.
-     - parameter action: An enum value of one of the following actions:
-     get/find/count/create/update/delete/addField.
-     - returns: The set of user fields given access to a particular `Action`.
-    */
-    func getPointerFields(_ action: Action) throws -> Set<String> {
-        getPointerFields(action.keyPath())
-    }
-
     /**
      Checks if an `Action` on a Parse class has public access.
      - parameter action: An enum value of one of the following actions:
@@ -351,59 +343,10 @@ public extension ParseCLP {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return setAccess(allow, on: action.writableKeyPath(), for: roleNameAccess)
     }
-
-    /**
-     Give access to a set of `ParseUser` column's or array `ParseUser`
-     column's for a specific `Action` on a Parse class.
-     - parameter action: An enum value of one of the following actions:
-     get/find/count/create/update/delete/addField.
-     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
-     columns to give access to.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method replaces the current set of `fields` in the CLP.
-     - warning: Requires Parse Server 3.1.1+.
-     */
-    func setPointerFields(_ fields: Set<String>,
-                          on action: Action) -> Self {
-        setPointer(fields, on: action.writableKeyPath())
-    }
-
-    /**
-     Add access to an additional set of `ParseUser` column's or array `ParseUser`
-     column's for a specific `Action` on a Parse class.
-     - parameter action: An enum value of one of the following actions:
-     get/find/count/create/update/delete/addField.
-     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
-     columns to add access to.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method adds on to the current set of `fields` in the CLP.
-     - warning: Requires Parse Server 3.1.1+.
-     */
-    func addPointerFields(_ fields: Set<String>,
-                          on action: Action) -> Self {
-        addPointer(fields, on: action.writableKeyPath())
-    }
-
-    /**
-     Remove access for the set of `ParseUser` column's or array `ParseUser`
-     column's for a specific `Action` on a Parse class.
-     - parameter action: An enum value of one of the following actions:
-     get/find/count/create/update/delete/addField.
-     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
-     columns to remove access to.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method removes from the current set of `fields` in the CLP.
-     - warning: Requires Parse Server 3.1.1+.
-     */
-    func removePointerFields(_ fields: Set<String>,
-                             on action: Action) -> Self {
-        removePointer(fields, on: action.writableKeyPath())
-    }
 }
 
 // MARK: WriteAccess
 public extension ParseCLP {
-
     internal func hasWriteAccess(_ entity: String,
                                  check addField: Bool) -> Bool {
         let access = hasAccess(.create, for: entity)
@@ -596,7 +539,6 @@ public extension ParseCLP {
 
 // MARK: ReadAccess
 public extension ParseCLP {
-
     /**
      Check whether user authentication is required to perform get/find/count actions on a Parse class.
      - returns: **true** if has access, **false** otherwise.
@@ -738,7 +680,68 @@ public extension ParseCLP {
     }
 }
 
-// MARK: Protected
+// MARK: Pointer Access
+public extension ParseCLP {
+    /**
+     Retreive the fields in a Parse class that determine access for a specific `Action`.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - returns: The set of user fields given access to a particular `Action`.
+    */
+    func getPointerFields(_ action: Action) throws -> Set<String> {
+        getPointerFields(action.keyPath())
+    }
+
+    /**
+     Give access to a set of `ParseUser` column's or array `ParseUser`
+     column's for a specific `Action` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
+     columns to give access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method replaces the current set of `fields` in the CLP.
+     - warning: Requires Parse Server 3.1.1+.
+     */
+    func setPointerFields(_ fields: Set<String>,
+                          on action: Action) -> Self {
+        setPointer(fields, on: action.writableKeyPath())
+    }
+
+    /**
+     Add access to an additional set of `ParseUser` column's or array `ParseUser`
+     column's for a specific `Action` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
+     columns to add access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method adds on to the current set of `fields` in the CLP.
+     - warning: Requires Parse Server 3.1.1+.
+     */
+    func addPointerFields(_ fields: Set<String>,
+                          on action: Action) -> Self {
+        addPointer(fields, on: action.writableKeyPath())
+    }
+
+    /**
+     Remove access for the set of `ParseUser` column's or array `ParseUser`
+     column's for a specific `Action` on a Parse class.
+     - parameter action: An enum value of one of the following actions:
+     get/find/count/create/update/delete/addField.
+     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
+     columns to remove access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - note: This method removes from the current set of `fields` in the CLP.
+     - warning: Requires Parse Server 3.1.1+.
+     */
+    func removePointerFields(_ fields: Set<String>,
+                             on action: Action) -> Self {
+        removePointer(fields, on: action.writableKeyPath())
+    }
+}
+
+// MARK: Protected Fields
 public extension ParseCLP {
     internal func getProtected(_ keyPath: KeyPath<Self, [String: Set<String>]?>,
                                for entity: String) -> Set<String> {
