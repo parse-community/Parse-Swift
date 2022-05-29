@@ -138,6 +138,142 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp.addField?[ParseCLP.Access.requiresAuthentication.rawValue])
     }
 
+    func testPointerFields() throws {
+        let fields = Set<String>(["hello", "world"])
+        let clp = ParseCLP().setPointerFields(fields, on: .create)
+        XCTAssertEqual(clp.getPointerFields(.create), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = clp.addPointerFields(newField, on: .create)
+        XCTAssertEqual(clp2.getPointerFields(.create), fields.union(newField))
+
+        let clp3 = clp2.removePointerFields(newField, on: .create)
+        XCTAssertEqual(clp3.getPointerFields(.create), fields)
+
+        let clp4 = ParseCLP().addPointerFields(newField, on: .create)
+        XCTAssertEqual(clp4.getPointerFields(.create), newField)
+    }
+
+    func testPointerFieldsEncode() throws {
+        let fields = Set<String>(["world"])
+        let clp = ParseCLP().setPointerFields(fields, on: .create)
+        XCTAssertEqual(clp.description, "ParseCLP ({\"create\":{\"pointerFields\":[\"world\"]}})")
+    }
+
+    func testPointerAndWriteAccessPublicSetEncode() throws {
+        let fields = Set<String>(["world"])
+        let clp = ParseCLP()
+            .setPointerFields(fields, on: .create)
+            .setWriteAccessPublic(true, canAddField: true)
+        // swiftlint:disable:next line_length
+        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"*\":true},\"create\":{\"*\":true,\"pointerFields\":[\"world\"]},\"delete\":{\"*\":true},\"update\":{\"*\":true}})")
+    }
+
+    func testProtectedFieldsPublic() throws {
+        let fields = Set<String>(["hello", "world"])
+        let clp = ParseCLP().setProtectedFieldsPublic(fields)
+        XCTAssertEqual(clp.getProtectedFieldsPublic(), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = clp.addProtectedFieldsPublic(newField)
+        XCTAssertEqual(clp2.getProtectedFieldsPublic(), fields.union(newField))
+
+        let clp3 = clp2.removeProtectedFieldsPublic(newField)
+        XCTAssertEqual(clp3.getProtectedFieldsPublic(), fields)
+
+        let clp4 = ParseCLP().addProtectedFieldsPublic(newField)
+        XCTAssertEqual(clp4.getProtectedFieldsPublic(), newField)
+    }
+
+    func testProtectedFieldsRequiresAuthentication() throws {
+        let fields = Set<String>(["hello", "world"])
+        let clp = ParseCLP().setProtectedFieldsRequiresAuthentication(fields)
+        XCTAssertEqual(clp.getProtectedFieldsRequiresAuthentication(), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = clp.addProtectedFieldsRequiresAuthentication(newField)
+        XCTAssertEqual(clp2.getProtectedFieldsRequiresAuthentication(), fields.union(newField))
+
+        let clp3 = clp2.removeProtectedFieldsRequiresAuthentication(newField)
+        XCTAssertEqual(clp3.getProtectedFieldsRequiresAuthentication(), fields)
+
+        let clp4 = ParseCLP().addProtectedFieldsRequiresAuthentication(newField)
+        XCTAssertEqual(clp4.getProtectedFieldsRequiresAuthentication(), newField)
+    }
+
+    func testProtectedFieldsObjectId() throws {
+        let fields = Set<String>(["hello", "world"])
+        let clp = ParseCLP().setProtectedFields(fields, for: objectId)
+        XCTAssertEqual(clp.getProtectedFields(objectId), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = clp.addProtectedFields(newField, for: objectId)
+        XCTAssertEqual(clp2.getProtectedFields(objectId), fields.union(newField))
+
+        let clp3 = clp2.removeProtectedFields(newField, for: objectId)
+        XCTAssertEqual(clp3.getProtectedFields(objectId), fields)
+
+        let clp4 = ParseCLP().addProtectedFields(newField, for: objectId)
+        XCTAssertEqual(clp4.getProtectedFields(objectId), newField)
+    }
+
+    func testProtectedFieldsUser() throws {
+        let fields = Set<String>(["hello", "world"])
+        let clp = try ParseCLP().setProtectedFields(fields, for: user)
+        XCTAssertEqual(try clp.getProtectedFields(user), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = try clp.addProtectedFields(newField, for: user)
+        XCTAssertEqual(try clp2.getProtectedFields(user), fields.union(newField))
+
+        let clp3 = try clp2.removeProtectedFields(newField, for: user)
+        XCTAssertEqual(try clp3.getProtectedFields(user), fields)
+
+        let clp4 = try ParseCLP().addProtectedFields(newField, for: user)
+        XCTAssertEqual(try clp4.getProtectedFields(user), newField)
+    }
+
+    func testProtectedFieldsPointer() throws {
+        let pointer = try user.toPointer()
+        let fields = Set<String>(["hello", "world"])
+        let clp = ParseCLP().setProtectedFields(fields, for: pointer)
+        XCTAssertEqual(clp.getProtectedFields(pointer), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = clp.addProtectedFields(newField, for: pointer)
+        XCTAssertEqual(clp2.getProtectedFields(pointer), fields.union(newField))
+
+        let clp3 = clp2.removeProtectedFields(newField, for: pointer)
+        XCTAssertEqual(clp3.getProtectedFields(pointer), fields)
+
+        let clp4 = ParseCLP().addProtectedFields(newField, for: pointer)
+        XCTAssertEqual(clp4.getProtectedFields(pointer), newField)
+    }
+
+    func testProtectedFieldsRole() throws {
+        let role = try Role<User>(name: "hello")
+        let fields = Set<String>(["hello", "world"])
+        let clp = try ParseCLP().setProtectedFields(fields, for: role)
+        XCTAssertEqual(try clp.getProtectedFields(role), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = try clp.addProtectedFields(newField, for: role)
+        XCTAssertEqual(try clp2.getProtectedFields(role), fields.union(newField))
+
+        let clp3 = try clp2.removeProtectedFields(newField, for: role)
+        XCTAssertEqual(try clp3.getProtectedFields(role), fields)
+
+        let clp4 = try ParseCLP().addProtectedFields(newField, for: role)
+        XCTAssertEqual(try clp4.getProtectedFields(role), newField)
+    }
+
+    func testProtectedFieldsEncode() throws {
+        let role = try Role<User>(name: "hello")
+        let fields = Set<String>(["world"])
+        let clp = try ParseCLP().setProtectedFields(fields, for: role)
+        XCTAssertEqual(clp.description, "ParseCLP ({\"protectedFields\":{\"role:hello\":[\"world\"]}})")
+    }
+
     func testPublicAccess() throws {
         let clp = ParseCLP().setAccessPublic(true, on: .create)
         XCTAssertTrue(clp.hasAccessPublic(.create))
@@ -178,6 +314,11 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let clp2 = try clp.setAccess(false, on: .create, for: role)
         XCTAssertFalse(try clp2.hasAccess(.create, for: user))
+    }
+
+    func testAccessEncode() throws {
+        let clp = ParseCLP().setAccess(true, on: .create, for: objectId)
+        XCTAssertEqual(clp.description, "ParseCLP ({\"create\":{\"\(objectId)\":true}})")
     }
 
     func testWriteAccessPublicSet() throws {
