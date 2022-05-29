@@ -269,7 +269,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWriteAccessObjectIdSet() throws {
-        let clp = ParseCLP().setWriteAccess(true, objectId: objectId)
+        let clp = ParseCLP().setWriteAccess(true, for: objectId)
         XCTAssertNil(clp.get?[objectId])
         XCTAssertNil(clp.find?[objectId])
         XCTAssertEqual(clp.create?[objectId], true)
@@ -278,7 +278,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp.count?[objectId])
         XCTAssertNil(clp.addField?[objectId])
 
-        let clp2 = ParseCLP().setWriteAccess(true, objectId: objectId, canAddField: true)
+        let clp2 = ParseCLP().setWriteAccess(true, for: objectId, canAddField: true)
         XCTAssertNil(clp2.get?[objectId])
         XCTAssertNil(clp2.find?[objectId])
         XCTAssertEqual(clp2.create?[objectId], true)
@@ -287,7 +287,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[objectId])
         XCTAssertEqual(clp2.addField?[objectId], true)
 
-        let clp3 = clp.setWriteAccess(false, objectId: objectId)
+        let clp3 = clp.setWriteAccess(false, for: objectId)
         XCTAssertNil(clp3.get?[objectId])
         XCTAssertNil(clp3.find?[objectId])
         XCTAssertNil(clp3.create?[objectId])
@@ -296,7 +296,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp3.count?[objectId])
         XCTAssertNil(clp3.addField?[objectId])
 
-        let clp4 = clp2.setWriteAccess(false, objectId: objectId)
+        let clp4 = clp2.setWriteAccess(false, for: objectId)
         XCTAssertNil(clp4.get?[objectId])
         XCTAssertNil(clp4.find?[objectId])
         XCTAssertNil(clp4.create?[objectId])
@@ -307,13 +307,13 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWriteAccessObjectIdSetEncode() throws {
-        let clp = ParseCLP().setWriteAccess(true, objectId: objectId, canAddField: true)
+        let clp = ParseCLP().setWriteAccess(true, for: objectId, canAddField: true)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}})")
     }
 
     func testWriteAccessUserSet() throws {
-        let clp = try ParseCLP().setWriteAccess(true, user: user)
+        let clp = try ParseCLP().setWriteAccess(true, for: user)
         XCTAssertNil(clp.get?[objectId])
         XCTAssertNil(clp.find?[objectId])
         XCTAssertEqual(clp.create?[objectId], true)
@@ -322,7 +322,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp.count?[objectId])
         XCTAssertNil(clp.addField?[objectId])
 
-        let clp2 = try ParseCLP().setWriteAccess(true, user: user, canAddField: true)
+        let clp2 = try ParseCLP().setWriteAccess(true, for: user, canAddField: true)
         XCTAssertNil(clp2.get?[objectId])
         XCTAssertNil(clp2.find?[objectId])
         XCTAssertEqual(clp2.create?[objectId], true)
@@ -331,7 +331,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[objectId])
         XCTAssertEqual(clp2.addField?[objectId], true)
 
-        let clp3 = try clp.setWriteAccess(false, user: user)
+        let clp3 = try clp.setWriteAccess(false, for: user)
         XCTAssertNil(clp3.get?[objectId])
         XCTAssertNil(clp3.find?[objectId])
         XCTAssertNil(clp3.create?[objectId])
@@ -340,7 +340,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp3.count?[objectId])
         XCTAssertNil(clp3.addField?[objectId])
 
-        let clp4 = try clp2.setWriteAccess(false, user: user)
+        let clp4 = try clp2.setWriteAccess(false, for: user)
         XCTAssertNil(clp4.get?[objectId])
         XCTAssertNil(clp4.find?[objectId])
         XCTAssertNil(clp4.create?[objectId])
@@ -351,13 +351,13 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWriteAccessUserSetEncode() throws {
-        let clp = try ParseCLP().setWriteAccess(true, user: user, canAddField: true)
+        let clp = try ParseCLP().setWriteAccess(true, for: user, canAddField: true)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}})")
     }
 
     func testWriteAccessPointerSet() throws {
-        let clp = ParseCLP().setWriteAccess(true, user: try user.toPointer())
+        let clp = ParseCLP().setWriteAccess(true, for: try user.toPointer())
         XCTAssertNil(clp.get?[objectId])
         XCTAssertNil(clp.find?[objectId])
         XCTAssertEqual(clp.create?[objectId], true)
@@ -367,7 +367,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp.addField?[objectId])
 
         let clp2 = ParseCLP().setWriteAccess(true,
-                                             user: try user.toPointer(),
+                                             for: try user.toPointer(),
                                              canAddField: true)
         XCTAssertNil(clp2.get?[objectId])
         XCTAssertNil(clp2.find?[objectId])
@@ -377,7 +377,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[objectId])
         XCTAssertEqual(clp2.addField?[objectId], true)
 
-        let clp3 = clp.setWriteAccess(false, user: try user.toPointer())
+        let clp3 = clp.setWriteAccess(false, for: try user.toPointer())
         XCTAssertNil(clp3.get?[objectId])
         XCTAssertNil(clp3.find?[objectId])
         XCTAssertNil(clp3.create?[objectId])
@@ -386,7 +386,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp3.count?[objectId])
         XCTAssertNil(clp3.addField?[objectId])
 
-        let clp4 = clp2.setWriteAccess(false, user: try user.toPointer())
+        let clp4 = clp2.setWriteAccess(false, for: try user.toPointer())
         XCTAssertNil(clp4.get?[objectId])
         XCTAssertNil(clp4.find?[objectId])
         XCTAssertNil(clp4.create?[objectId])
@@ -398,7 +398,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testWriteAccessPointerSetEncode() throws {
         let clp = ParseCLP().setWriteAccess(true,
-                                            user: try user.toPointer(),
+                                            for: try user.toPointer(),
                                             canAddField: true)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}})")
@@ -408,7 +408,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         let name = "hello"
         let role = try Role<User>(name: name)
         let roleName = try ParseACL.getRoleAccessName(role)
-        let clp = try ParseCLP().setWriteAccess(true, role: role)
+        let clp = try ParseCLP().setWriteAccess(true, for: role)
         XCTAssertNil(clp.get?[roleName])
         XCTAssertNil(clp.find?[roleName])
         XCTAssertEqual(clp.create?[roleName], true)
@@ -418,7 +418,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp.addField?[roleName])
 
         let clp2 = try ParseCLP().setWriteAccess(true,
-                                                 role: role,
+                                                 for: role,
                                                  canAddField: true)
         XCTAssertNil(clp2.get?[roleName])
         XCTAssertNil(clp2.find?[roleName])
@@ -428,7 +428,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[roleName])
         XCTAssertEqual(clp2.addField?[roleName], true)
 
-        let clp3 = try clp.setWriteAccess(false, role: role)
+        let clp3 = try clp.setWriteAccess(false, for: role)
         XCTAssertNil(clp3.get?[roleName])
         XCTAssertNil(clp3.find?[roleName])
         XCTAssertNil(clp3.create?[roleName])
@@ -437,7 +437,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp3.count?[roleName])
         XCTAssertNil(clp3.addField?[roleName])
 
-        let clp4 = try clp2.setWriteAccess(false, role: role)
+        let clp4 = try clp2.setWriteAccess(false, for: role)
         XCTAssertNil(clp4.get?[roleName])
         XCTAssertNil(clp4.find?[roleName])
         XCTAssertNil(clp4.create?[roleName])
@@ -452,7 +452,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         let role = try Role<User>(name: name)
         let roleName = try ParseACL.getRoleAccessName(role)
         let clp = try ParseCLP().setWriteAccess(true,
-                                                role: role,
+                                                for: role,
                                                 canAddField: true)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(roleName)\":true},\"create\":{\"\(roleName)\":true},\"delete\":{\"\(roleName)\":true},\"update\":{\"\(roleName)\":true}})")
@@ -487,58 +487,58 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWriteAccessObjectIdHas() throws {
-        let clp = ParseCLP().setWriteAccess(true, objectId: objectId)
+        let clp = ParseCLP().setWriteAccess(true, for: objectId)
         XCTAssertFalse(clp.hasReadAccess(objectId))
         XCTAssertTrue(clp.hasWriteAccess(objectId))
         XCTAssertFalse(clp.hasWriteAccess(objectId, check: true))
 
-        let clp2 = ParseCLP().setWriteAccess(false, objectId: objectId)
+        let clp2 = ParseCLP().setWriteAccess(false, for: objectId)
         XCTAssertFalse(clp2.hasReadAccess(objectId))
         XCTAssertFalse(clp2.hasWriteAccess(objectId))
 
-        let clp3 = clp.setWriteAccess(false, objectId: objectId)
+        let clp3 = clp.setWriteAccess(false, for: objectId)
         XCTAssertFalse(clp3.hasReadAccess(objectId))
         XCTAssertFalse(clp3.hasWriteAccess(objectId))
 
-        let clp4 = ParseCLP().setWriteAccess(true, objectId: objectId, canAddField: true)
+        let clp4 = ParseCLP().setWriteAccess(true, for: objectId, canAddField: true)
         XCTAssertFalse(clp4.hasReadAccess(objectId))
         XCTAssertTrue(clp4.hasWriteAccess(objectId, check: true))
     }
 
     func testWriteAccessUserHas() throws {
-        let clp = try ParseCLP().setWriteAccess(true, user: user)
+        let clp = try ParseCLP().setWriteAccess(true, for: user)
         XCTAssertFalse(try clp.hasReadAccess(user))
         XCTAssertTrue(try clp.hasWriteAccess(user))
         XCTAssertFalse(try clp.hasWriteAccess(user, checkAddField: true))
 
-        let clp2 = try ParseCLP().setWriteAccess(false, user: user)
+        let clp2 = try ParseCLP().setWriteAccess(false, for: user)
         XCTAssertFalse(try clp2.hasReadAccess(user))
         XCTAssertFalse(try clp2.hasWriteAccess(user))
 
-        let clp3 = try clp.setWriteAccess(false, user: user)
+        let clp3 = try clp.setWriteAccess(false, for: user)
         XCTAssertFalse(try clp3.hasReadAccess(user))
         XCTAssertFalse(try clp3.hasWriteAccess(user))
 
-        let clp4 = try ParseCLP().setWriteAccess(true, user: user, canAddField: true)
+        let clp4 = try ParseCLP().setWriteAccess(true, for: user, canAddField: true)
         XCTAssertFalse(try clp4.hasReadAccess(user))
         XCTAssertTrue(try clp4.hasWriteAccess(user, checkAddField: true))
     }
 
     func testWriteAccessPointerHas() throws {
-        let clp = ParseCLP().setWriteAccess(true, user: try user.toPointer())
+        let clp = ParseCLP().setWriteAccess(true, for: try user.toPointer())
         XCTAssertFalse(clp.hasReadAccess(try user.toPointer()))
         XCTAssertTrue(clp.hasWriteAccess(try user.toPointer()))
         XCTAssertFalse(clp.hasWriteAccess(try user.toPointer(), checkAddField: true))
 
-        let clp2 = ParseCLP().setWriteAccess(false, user: try user.toPointer())
+        let clp2 = ParseCLP().setWriteAccess(false, for: try user.toPointer())
         XCTAssertFalse(clp2.hasReadAccess(try user.toPointer()))
         XCTAssertFalse(clp2.hasWriteAccess(try user.toPointer()))
 
-        let clp3 = clp.setWriteAccess(false, user: try user.toPointer())
+        let clp3 = clp.setWriteAccess(false, for: try user.toPointer())
         XCTAssertFalse(clp3.hasReadAccess(try user.toPointer()))
         XCTAssertFalse(clp3.hasWriteAccess(try user.toPointer()))
 
-        let clp4 = ParseCLP().setWriteAccess(true, user: try user.toPointer(), canAddField: true)
+        let clp4 = ParseCLP().setWriteAccess(true, for: try user.toPointer(), canAddField: true)
         XCTAssertFalse(clp4.hasReadAccess(try user.toPointer()))
         XCTAssertTrue(clp4.hasWriteAccess(try user.toPointer(), checkAddField: true))
     }
@@ -546,20 +546,20 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWriteAccessRoleHas() throws {
         let name = "hello"
         let role = try Role<User>(name: name)
-        let clp = try ParseCLP().setWriteAccess(true, role: role)
+        let clp = try ParseCLP().setWriteAccess(true, for: role)
         XCTAssertFalse(try clp.hasReadAccess(role))
         XCTAssertTrue(try clp.hasWriteAccess(role))
         XCTAssertFalse(try clp.hasWriteAccess(role, checkAddField: true))
 
-        let clp2 = try ParseCLP().setWriteAccess(false, role: role)
+        let clp2 = try ParseCLP().setWriteAccess(false, for: role)
         XCTAssertFalse(try clp2.hasReadAccess(role))
         XCTAssertFalse(try clp2.hasWriteAccess(role))
 
-        let clp3 = try clp.setWriteAccess(false, role: role)
+        let clp3 = try clp.setWriteAccess(false, for: role)
         XCTAssertFalse(try clp3.hasReadAccess(role))
         XCTAssertFalse(try clp3.hasWriteAccess(role))
 
-        let clp4 = try ParseCLP().setWriteAccess(true, role: role, canAddField: true)
+        let clp4 = try ParseCLP().setWriteAccess(true, for: role, canAddField: true)
         XCTAssertFalse(try clp4.hasReadAccess(role))
         XCTAssertTrue(try clp4.hasWriteAccess(role, checkAddField: true))
     }
@@ -635,7 +635,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testReadAccessObjectIdSet() throws {
-        let clp = ParseCLP().setReadAccess(true, objectId: objectId)
+        let clp = ParseCLP().setReadAccess(true, for: objectId)
         XCTAssertEqual(clp.get?[objectId], true)
         XCTAssertEqual(clp.find?[objectId], true)
         XCTAssertNil(clp.create?[objectId])
@@ -644,7 +644,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(clp.count?[objectId], true)
         XCTAssertNil(clp.addField?[objectId])
 
-        let clp2 = ParseCLP().setReadAccess(false, objectId: objectId)
+        let clp2 = ParseCLP().setReadAccess(false, for: objectId)
         XCTAssertNil(clp2.get?[objectId])
         XCTAssertNil(clp2.find?[objectId])
         XCTAssertNil(clp2.create?[objectId])
@@ -653,7 +653,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[objectId])
         XCTAssertNil(clp2.addField?[objectId])
 
-        let clp3 = clp.setReadAccess(false, objectId: objectId)
+        let clp3 = clp.setReadAccess(false, for: objectId)
         XCTAssertNil(clp3.get?[objectId])
         XCTAssertNil(clp3.find?[objectId])
         XCTAssertNil(clp3.create?[objectId])
@@ -664,13 +664,13 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testReadAccessObjectIdSetEncode() throws {
-        let clp = ParseCLP().setReadAccess(true, objectId: objectId)
+        let clp = ParseCLP().setReadAccess(true, for: objectId)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}})")
     }
 
     func testReadAccessUserSet() throws {
-        let clp = try ParseCLP().setReadAccess(true, user: user)
+        let clp = try ParseCLP().setReadAccess(true, for: user)
         XCTAssertEqual(clp.get?[objectId], true)
         XCTAssertEqual(clp.find?[objectId], true)
         XCTAssertNil(clp.create?[objectId])
@@ -679,7 +679,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(clp.count?[objectId], true)
         XCTAssertNil(clp.addField?[objectId])
 
-        let clp2 = try ParseCLP().setReadAccess(false, user: user)
+        let clp2 = try ParseCLP().setReadAccess(false, for: user)
         XCTAssertNil(clp2.get?[objectId])
         XCTAssertNil(clp2.find?[objectId])
         XCTAssertNil(clp2.create?[objectId])
@@ -688,7 +688,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[objectId])
         XCTAssertNil(clp2.addField?[objectId])
 
-        let clp3 = try clp.setReadAccess(false, user: user)
+        let clp3 = try clp.setReadAccess(false, for: user)
         XCTAssertNil(clp3.get?[objectId])
         XCTAssertNil(clp3.find?[objectId])
         XCTAssertNil(clp3.create?[objectId])
@@ -699,13 +699,13 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testReadAccessUserSetEncode() throws {
-        let clp = try ParseCLP().setReadAccess(true, user: user)
+        let clp = try ParseCLP().setReadAccess(true, for: user)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}})")
     }
 
     func testReadAccessPointerSet() throws {
-        let clp = ParseCLP().setReadAccess(true, user: try user.toPointer())
+        let clp = ParseCLP().setReadAccess(true, for: try user.toPointer())
         XCTAssertEqual(clp.get?[objectId], true)
         XCTAssertEqual(clp.find?[objectId], true)
         XCTAssertNil(clp.create?[objectId])
@@ -714,7 +714,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(clp.count?[objectId], true)
         XCTAssertNil(clp.addField?[objectId])
 
-        let clp2 = ParseCLP().setReadAccess(false, user: try user.toPointer())
+        let clp2 = ParseCLP().setReadAccess(false, for: try user.toPointer())
         XCTAssertNil(clp2.get?[objectId])
         XCTAssertNil(clp2.find?[objectId])
         XCTAssertNil(clp2.create?[objectId])
@@ -723,7 +723,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[objectId])
         XCTAssertNil(clp2.addField?[objectId])
 
-        let clp3 = clp.setReadAccess(false, user: try user.toPointer())
+        let clp3 = clp.setReadAccess(false, for: try user.toPointer())
         XCTAssertNil(clp3.get?[objectId])
         XCTAssertNil(clp3.find?[objectId])
         XCTAssertNil(clp3.create?[objectId])
@@ -735,7 +735,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testReadAccessPointerSetEncode() throws {
         let clp = ParseCLP().setReadAccess(true,
-                                           user: try user.toPointer())
+                                           for: try user.toPointer())
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}})")
     }
@@ -744,7 +744,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         let name = "hello"
         let role = try Role<User>(name: name)
         let roleName = try ParseACL.getRoleAccessName(role)
-        let clp = try ParseCLP().setReadAccess(true, role: role)
+        let clp = try ParseCLP().setReadAccess(true, for: role)
         XCTAssertEqual(clp.get?[roleName], true)
         XCTAssertEqual(clp.find?[roleName], true)
         XCTAssertNil(clp.create?[roleName])
@@ -753,7 +753,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(clp.count?[roleName], true)
         XCTAssertNil(clp.addField?[roleName])
 
-        let clp2 = try ParseCLP().setReadAccess(false, role: role)
+        let clp2 = try ParseCLP().setReadAccess(false, for: role)
         XCTAssertNil(clp2.get?[roleName])
         XCTAssertNil(clp2.find?[roleName])
         XCTAssertNil(clp2.create?[roleName])
@@ -762,7 +762,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp2.count?[roleName])
         XCTAssertNil(clp2.addField?[roleName])
 
-        let clp3 = try clp.setReadAccess(false, role: role)
+        let clp3 = try clp.setReadAccess(false, for: role)
         XCTAssertNil(clp3.get?[roleName])
         XCTAssertNil(clp3.find?[roleName])
         XCTAssertNil(clp3.create?[roleName])
@@ -777,7 +777,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         let role = try Role<User>(name: name)
         let roleName = try ParseACL.getRoleAccessName(role)
         let clp = try ParseCLP().setReadAccess(true,
-                                               role: role)
+                                               for: role)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(roleName)\":true},\"find\":{\"\(roleName)\":true},\"get\":{\"\(roleName)\":true}})")
     }
@@ -811,43 +811,43 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testReadAccessObjectIdHas() throws {
-        let clp = ParseCLP().setReadAccess(true, objectId: objectId)
+        let clp = ParseCLP().setReadAccess(true, for: objectId)
         XCTAssertTrue(clp.hasReadAccess(objectId))
         XCTAssertFalse(clp.hasWriteAccess(objectId))
 
-        let clp2 = ParseCLP().setReadAccess(false, objectId: objectId)
+        let clp2 = ParseCLP().setReadAccess(false, for: objectId)
         XCTAssertFalse(clp2.hasReadAccess(objectId))
         XCTAssertFalse(clp2.hasWriteAccess(objectId))
 
-        let clp3 = clp.setReadAccess(false, objectId: objectId)
+        let clp3 = clp.setReadAccess(false, for: objectId)
         XCTAssertFalse(clp3.hasReadAccess(objectId))
         XCTAssertFalse(clp3.hasWriteAccess(objectId))
     }
 
     func testReadAccessUserHas() throws {
-        let clp = try ParseCLP().setReadAccess(true, user: user)
+        let clp = try ParseCLP().setReadAccess(true, for: user)
         XCTAssertTrue(try clp.hasReadAccess(user))
         XCTAssertFalse(try clp.hasWriteAccess(user))
 
-        let clp2 = try ParseCLP().setReadAccess(false, user: user)
+        let clp2 = try ParseCLP().setReadAccess(false, for: user)
         XCTAssertFalse(try clp2.hasReadAccess(user))
         XCTAssertFalse(try clp2.hasWriteAccess(user))
 
-        let clp3 = try clp.setReadAccess(false, user: user)
+        let clp3 = try clp.setReadAccess(false, for: user)
         XCTAssertFalse(try clp3.hasReadAccess(user))
         XCTAssertFalse(try clp3.hasWriteAccess(user))
     }
 
     func testReadAccessPointerHas() throws {
-        let clp = ParseCLP().setReadAccess(true, user: try user.toPointer())
+        let clp = ParseCLP().setReadAccess(true, for: try user.toPointer())
         XCTAssertTrue(clp.hasReadAccess(try user.toPointer()))
         XCTAssertFalse(clp.hasWriteAccess(try user.toPointer()))
 
-        let clp2 = ParseCLP().setReadAccess(false, user: try user.toPointer())
+        let clp2 = ParseCLP().setReadAccess(false, for: try user.toPointer())
         XCTAssertFalse(clp2.hasReadAccess(try user.toPointer()))
         XCTAssertFalse(clp2.hasWriteAccess(try user.toPointer()))
 
-        let clp3 = clp.setReadAccess(false, user: try user.toPointer())
+        let clp3 = clp.setReadAccess(false, for: try user.toPointer())
         XCTAssertFalse(clp3.hasReadAccess(try user.toPointer()))
         XCTAssertFalse(clp3.hasWriteAccess(try user.toPointer()))
     }
@@ -855,15 +855,15 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testReadAccessRoleHas() throws {
         let name = "hello"
         let role = try Role<User>(name: name)
-        let clp = try ParseCLP().setReadAccess(true, role: role)
+        let clp = try ParseCLP().setReadAccess(true, for: role)
         XCTAssertTrue(try clp.hasReadAccess(role))
         XCTAssertFalse(try clp.hasWriteAccess(role))
 
-        let clp2 = try ParseCLP().setReadAccess(false, role: role)
+        let clp2 = try ParseCLP().setReadAccess(false, for: role)
         XCTAssertFalse(try clp2.hasReadAccess(role))
         XCTAssertFalse(try clp2.hasWriteAccess(role))
 
-        let clp3 = try clp.setReadAccess(false, role: role)
+        let clp3 = try clp.setReadAccess(false, for: role)
         XCTAssertFalse(try clp3.hasReadAccess(role))
         XCTAssertFalse(try clp3.hasWriteAccess(role))
     }

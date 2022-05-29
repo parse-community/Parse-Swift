@@ -22,15 +22,15 @@ public struct ParseCLP: Codable, Equatable {
      The users, roles, and access level restrictions who cannot access particular
      fields in a Parse class.
      */
-    public var protectedFields: [String: Set<String>]?
+    public internal(set) var protectedFields: [String: Set<String>]?
     /**
-     The fields that contain either a `ParseUser` or an array of `ParseUser`'s that
+     Fields of `ParseUser` type or an array of `ParseUser`'s that
      can perform get/count/find actions on a Parse class.
      */
     public var readUserFields: Set<String>?
     /**
-     The fields that contain either a `ParseUser` or an array of `ParseUser`'s that can perform
-     create/delete/update/addField actions on a Parse class.
+     Fields of `ParseUser` type or an array of `ParseUser`'s that
+     can perform create/delete/update/addField actions on a Parse class.
      */
     public var writeUserFields: Set<String>?
 
@@ -109,7 +109,7 @@ public struct ParseCLP: Codable, Equatable {
      - parameter publicAccess:Read/Write to a Parse class can be done by the public.
      - warning: Setting `requiresAuthentication` and `publicAccess` does not give **addField**
      access. You can set **addField** access after creating an instance of CLP.
-     - warning: Requires Parse Server 2.3.0+.
+     - warning: Use of `requiresAuthentication == true` requires Parse Server 2.3.0+.
      */
     public init(requiresAuthentication: Bool, publicAccess: Bool) {
         let clp = setWriteAccessRequiresAuthentication(requiresAuthentication)
@@ -450,7 +450,7 @@ public extension ParseCLP {
     */
     func setWriteAccessRequiresAuthentication(_ allow: Bool,
                                               canAddField addField: Bool = false) -> Self {
-        setWriteAccess(allow, objectId: Access.requiresAuthentication.rawValue, canAddField: addField)
+        setWriteAccess(allow, for: Access.requiresAuthentication.rawValue, canAddField: addField)
     }
 
     /**
@@ -462,7 +462,7 @@ public extension ParseCLP {
     */
     func setWriteAccessPublic(_ allow: Bool,
                               canAddField addField: Bool = false) -> Self {
-        setWriteAccess(allow, objectId: Access.publicScope.rawValue, canAddField: addField)
+        setWriteAccess(allow, for: Access.publicScope.rawValue, canAddField: addField)
     }
 
     /**
@@ -475,7 +475,7 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setWriteAccess(_ allow: Bool,
-                        objectId: String,
+                        for objectId: String,
                         canAddField addField: Bool = false) -> Self {
         var updatedCLP = self
             .setAccess(allow, on: .create, for: objectId)
@@ -499,10 +499,10 @@ public extension ParseCLP {
      - throws: An error of type `ParseError`.
     */
     func setWriteAccess<U>(_ allow: Bool,
-                           user: U,
+                           for user: U,
                            canAddField addField: Bool = false) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
-        return setWriteAccess(allow, objectId: objectId, canAddField: addField)
+        return setWriteAccess(allow, for: objectId, canAddField: addField)
     }
 
     /**
@@ -515,9 +515,9 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setWriteAccess<U>(_ allow: Bool,
-                           user: Pointer<U>,
+                           for user: Pointer<U>,
                            canAddField addField: Bool = false) -> Self where U: ParseUser {
-        setWriteAccess(allow, objectId: user.objectId, canAddField: addField)
+        setWriteAccess(allow, for: user.objectId, canAddField: addField)
     }
 
     /**
@@ -530,10 +530,10 @@ public extension ParseCLP {
      - throws: An error of type `ParseError`.
     */
     func setWriteAccess<R>(_ allow: Bool,
-                           role: R,
+                           for role: R,
                            canAddField addField: Bool = false) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return setWriteAccess(allow, objectId: roleNameAccess, canAddField: addField)
+        return setWriteAccess(allow, for: roleNameAccess, canAddField: addField)
     }
 }
 
@@ -616,7 +616,7 @@ public extension ParseCLP {
     */
     func setReadAccessRequiresAuthentication(_ allow: Bool,
                                              canAddField addField: Bool = false) -> Self {
-        setReadAccess(allow, objectId: Access.requiresAuthentication.rawValue)
+        setReadAccess(allow, for: Access.requiresAuthentication.rawValue)
     }
 
     /**
@@ -625,7 +625,7 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setReadAccessPublic(_ allow: Bool) -> Self {
-        setReadAccess(allow, objectId: Access.publicScope.rawValue)
+        setReadAccess(allow, for: Access.publicScope.rawValue)
     }
 
     /**
@@ -635,7 +635,7 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setReadAccess(_ allow: Bool,
-                       objectId: String) -> Self {
+                       for objectId: String) -> Self {
         let updatedCLP = self
             .setAccess(allow, on: .get, for: objectId)
             .setAccess(allow, on: .find, for: objectId)
@@ -651,9 +651,9 @@ public extension ParseCLP {
      - throws: An error of type `ParseError`.
     */
     func setReadAccess<U>(_ allow: Bool,
-                          user: U) throws -> Self where U: ParseUser {
+                          for user: U) throws -> Self where U: ParseUser {
         let objectId = try user.toPointer().objectId
-        return setReadAccess(allow, objectId: objectId)
+        return setReadAccess(allow, for: objectId)
     }
 
     /**
@@ -663,8 +663,8 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
     */
     func setReadAccess<U>(_ allow: Bool,
-                          user: Pointer<U>) -> Self where U: ParseUser {
-        return setReadAccess(allow, objectId: user.objectId)
+                          for user: Pointer<U>) -> Self where U: ParseUser {
+        return setReadAccess(allow, for: user.objectId)
     }
 
     /**
@@ -674,9 +674,10 @@ public extension ParseCLP {
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
-    func setReadAccess<R>(_ allow: Bool, role: R) throws -> Self where R: ParseRole {
+    func setReadAccess<R>(_ allow: Bool,
+                          for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
-        return setReadAccess(allow, objectId: roleNameAccess)
+        return setReadAccess(allow, for: roleNameAccess)
     }
 }
 
@@ -686,19 +687,20 @@ public extension ParseCLP {
      Retreive the fields in a Parse class that determine access for a specific `Action`.
      - parameter action: An enum value of one of the following actions:
      get/find/count/create/update/delete/addField.
-     - returns: The set of user fields given access to a particular `Action`.
+     - returns: The set of fields that are either of`ParseUser` type or
+     an array of `ParseUser`'s.
     */
     func getPointerFields(_ action: Action) throws -> Set<String> {
         getPointerFields(action.keyPath())
     }
 
     /**
-     Give access to a set of `ParseUser` column's or array `ParseUser`
-     column's for a specific `Action` on a Parse class.
+     Give access to a set of fields that are either of `ParseUser` type or an array
+     `ParseUser`'s for a specific `Action` on a Parse class.
      - parameter action: An enum value of one of the following actions:
      get/find/count/create/update/delete/addField.
-     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
-     columns to give access to.
+     - parameter fields: The set of fields that are either of`ParseUser` type or
+     an array of `ParseUser`'s.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - note: This method replaces the current set of `fields` in the CLP.
      - warning: Requires Parse Server 3.1.1+.
@@ -709,12 +711,12 @@ public extension ParseCLP {
     }
 
     /**
-     Add access to an additional set of `ParseUser` column's or array `ParseUser`
-     column's for a specific `Action` on a Parse class.
+     Add access to an additional set of fields that are either of `ParseUser` type or an array
+     `ParseUser`'s for a specific `Action` on a Parse class.
      - parameter action: An enum value of one of the following actions:
      get/find/count/create/update/delete/addField.
-     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
-     columns to add access to.
+     - parameter fields: The set of fields that are either of`ParseUser` type or
+     an array of `ParseUser`'s.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - note: This method adds on to the current set of `fields` in the CLP.
      - warning: Requires Parse Server 3.1.1+.
@@ -725,12 +727,12 @@ public extension ParseCLP {
     }
 
     /**
-     Remove access for the set of `ParseUser` column's or array `ParseUser`
-     column's for a specific `Action` on a Parse class.
+     Remove access for the set of fields that are either of `ParseUser` type or an array
+     `ParseUser`'s for a specific `Action` on a Parse class.
      - parameter action: An enum value of one of the following actions:
      get/find/count/create/update/delete/addField.
-     - parameter fields: The set of `ParseUser` columns or array of `ParseUser`
-     columns to remove access to.
+     - parameter fields: The set of fields that are either of`ParseUser` type or
+     an array of `ParseUser`'s.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - note: This method removes from the current set of `fields` in the CLP.
      - warning: Requires Parse Server 3.1.1+.
