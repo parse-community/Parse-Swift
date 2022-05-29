@@ -74,26 +74,11 @@ public extension ParseSchema {
     }
 
     /**
-     Add an index to create/update a `ParseSchema`.
-     
-     - parameter name: Name of the index that will be created/updated in the schema on Parse Server.
-     - parameter field: The **field** to apply the `ParseIndex` to.
-     - parameter index: The **index** to create.
-     - returns: A mutated instance of `ParseSchema` for easy chaining.
-    */
-    func addIndex(_ name: String,
-                  field: String,
-                  index: Encodable) -> Self {
-        var mutableSchema = self
-        mutableSchema.pendingIndexes[name] = [field: AnyCodable(index)]
-        return mutableSchema
-    }
-
-    /**
      Add a Field to create/update a `ParseSchema`.
      
      - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
-     - parameter type: The `ParseFieldType` of the field that will be created/updated in the schema on Parse Server.
+     - parameter type: The `ParseField.FieldType` of the field that will be created/updated
+     in the schema on Parse Server.
      - parameter target: The  target `ParseObject` of the field that will be created/updated in
      the schema on Parse Server.
      - parameter options: The `ParseFieldOptions` of the field that will be created/updated in
@@ -102,17 +87,17 @@ public extension ParseSchema {
      - throws: An error of type `ParseError`.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
-    func addField<T, V>(_ name: String,
-                        type: ParseFieldType,
-                        target: T,
-                        options: ParseFieldOptions<V>) throws -> Self where T: ParseObject {
+    func addField<T>(_ name: String,
+                     type: ParseField.FieldType,
+                     options: ParseFieldOptions<T>) throws -> Self where T: ParseObject {
         switch type {
         case .pointer:
-            return try addPointer(name, target: target, options: options)
+            return addPointer(name, options: options)
         case .relation:
-            return try addRelation(name, target: target)
+            return addRelation(name, options: options)
         default:
-            return addField(name, type: type, options: options)
+            throw ParseError(code: .unknownError,
+                             message: "The type \"\(type)\" isn't supported by this method")
         }
     }
 
@@ -120,14 +105,15 @@ public extension ParseSchema {
      Add a Field to create/update a `ParseSchema`.
      
      - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
-     - parameter type: The `ParseFieldType` of the field that will be created/updated in the schema on Parse Server.
+     - parameter type: The `ParseField.FieldType` of the field that will be created/updated
+     in the schema on Parse Server.
      - parameter options: The `ParseFieldOptions` of the field that will be created/updated in
      the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
     func addField<V>(_ name: String,
-                     type: ParseFieldType,
+                     type: ParseField.FieldType,
                      options: ParseFieldOptions<V>) -> Self {
         var mutableSchema = self
         let field = ParseField(type: type, options: options)
@@ -153,14 +139,10 @@ public extension ParseSchema {
      - throws: An error of type `ParseError`.
      - warning: The use of `options` requires Parse Server 3.7.0+.
     */
-    func addPointer<T, V>(_ name: String,
-                          target: T?,
-                          options: ParseFieldOptions<V>) throws -> Self where T: ParseObject {
-        guard let target = target else {
-            throw ParseError(code: .unknownError, message: "Target must not be nil")
-        }
+    func addPointer<T>(_ name: String,
+                       options: ParseFieldOptions<T>) -> Self where T: ParseObject {
 
-        let field = ParseField(type: .pointer, target: target, options: options)
+        let field = ParseField(type: .pointer, options: options)
         var mutableSchema = self
         if mutableSchema.fields != nil {
             mutableSchema.fields?[name] = field
@@ -175,19 +157,16 @@ public extension ParseSchema {
      Add a Relation field to create/update a `ParseSchema`.
      
      - parameter name: Name of the field that will be created/updated in the schema on Parse Server.
-     - parameter target: The  target `ParseObject` of the field that will be created/updated in
+     - parameter options: The `ParseFieldOptions` of the field that will be created/updated in
      the schema on Parse Server.
      Defaults to **nil**.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
      - throws: An error of type `ParseError`.
     */
     func addRelation<T>(_ name: String,
-                        target: T?) throws -> Self where T: ParseObject {
-        guard let target = target else {
-            throw ParseError(code: .unknownError, message: "Target must not be nil")
-        }
+                        options: ParseFieldOptions<T>) -> Self where T: ParseObject {
 
-        let field = ParseField(type: .relation, target: target)
+        let field = ParseField(type: .relation, options: options)
         var mutableSchema = self
         if mutableSchema.fields != nil {
             mutableSchema.fields?[name] = field
@@ -217,6 +196,22 @@ public extension ParseSchema {
     }
 
     /**
+     Add an index to create/update a `ParseSchema`.
+     
+     - parameter name: Name of the index that will be created/updated in the schema on Parse Server.
+     - parameter field: The **field** to apply the `ParseIndex` to.
+     - parameter index: The **index** to create.
+     - returns: A mutated instance of `ParseSchema` for easy chaining.
+    */
+    func addIndex(_ name: String,
+                  field: String,
+                  index: Encodable) -> Self {
+        var mutableSchema = self
+        mutableSchema.pendingIndexes[name] = [field: AnyCodable(index)]
+        return mutableSchema
+    }
+
+    /**
      Delete an index in the `ParseSchema`.
      
      - parameter name: Name of the index that will be deleted in the schema on Parse Server.
@@ -232,14 +227,6 @@ public extension ParseSchema {
 
 // MARK: Convenience
 extension ParseSchema {
-    static var endpoint: API.Endpoint {
-        .schema(className: className)
-    }
-
-    static var endpointPurge: API.Endpoint {
-        .purge(className: className)
-    }
-
     var endpoint: API.Endpoint {
         .schema(className: className)
     }

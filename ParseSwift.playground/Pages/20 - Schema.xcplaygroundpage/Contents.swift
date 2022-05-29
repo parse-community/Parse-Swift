@@ -100,7 +100,6 @@ var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
 do {
     gameScoreSchema = try gameScoreSchema.addField("owner",
                                                    type: .pointer,
-                                                   target: User(),
                                                    options: ParseFieldOptions<User>(required: false, defauleValue: nil))
 } catch {
     print("Can't add field: \(gameScoreSchema)")

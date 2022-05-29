@@ -152,6 +152,11 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let clp4 = ParseCLP().addPointerFields(newField, on: .create)
         XCTAssertEqual(clp4.getPointerFields(.create), newField)
+
+        let clp5 = ParseCLP().setAccess(true, on: .create, for: "yo")
+            .setPointerFields(fields, on: .create)
+        XCTAssertEqual(clp5.getPointerFields(.create), fields)
+        XCTAssertEqual(clp5.hasAccess(.create, for: "yo"), true)
     }
 
     func testPointerFieldsEncode() throws {
@@ -183,6 +188,10 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let clp4 = ParseCLP().addProtectedFieldsPublic(newField)
         XCTAssertEqual(clp4.getProtectedFieldsPublic(), newField)
+
+        let clp5 = clp.setProtectedFieldsRequiresAuthentication(newField)
+        XCTAssertEqual(clp5.getProtectedFieldsPublic(), fields)
+        XCTAssertEqual(clp5.getProtectedFieldsRequiresAuthentication(), newField)
     }
 
     func testProtectedFieldsRequiresAuthentication() throws {
