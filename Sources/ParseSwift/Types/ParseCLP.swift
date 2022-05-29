@@ -214,7 +214,7 @@ public extension ParseCLP {
      - returns: **true** if access is allowed, **false** otherwise.
     */
     func hasAccess(_ action: Action,
-                   for objectId: String) throws -> Bool {
+                   for objectId: String) -> Bool {
         return hasAccess(action.keyPath(), for: objectId)
     }
 
@@ -397,11 +397,11 @@ public extension ParseCLP {
 
     internal func hasWriteAccess(_ entity: String,
                                  check addField: Bool) -> Bool {
-        let access = hasAccess(\.create, for: entity)
-            && hasAccess(\.update, for: entity)
-            && hasAccess(\.delete, for: entity)
+        let access = hasAccess(.create, for: entity)
+            && hasAccess(.update, for: entity)
+            && hasAccess(.delete, for: entity)
         if addField {
-            return access && hasAccess(\.addField, for: entity)
+            return access && hasAccess(.addField, for: entity)
         }
         return access
     }
@@ -613,9 +613,9 @@ public extension ParseCLP {
      have access if they are apart of a `ParseRole` that has access.
     */
     func hasReadAccess(_ objectId: String) -> Bool {
-        hasAccess(\.get, for: objectId)
-            && hasAccess(\.find, for: objectId)
-            && hasAccess(\.count, for: objectId)
+        hasAccess(.get, for: objectId)
+            && hasAccess(.find, for: objectId)
+            && hasAccess(.count, for: objectId)
     }
 
     /**
