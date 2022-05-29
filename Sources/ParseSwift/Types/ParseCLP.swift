@@ -191,7 +191,7 @@ public extension ParseCLP {
      get/find/count/create/update/delete/addField.
      - returns: **true** if access is allowed, **false** otherwise.
     */
-    func hasAccessPublic(_ action: Action) throws -> Bool {
+    func hasAccessPublic(_ action: Action) -> Bool {
         hasAccess(action.keyPath(), for: Access.publicScope.rawValue)
     }
 
@@ -202,7 +202,7 @@ public extension ParseCLP {
      - returns: **true** if access is allowed, **false** otherwise.
      - warning: Requires Parse Server 2.3.0+.
     */
-    func hasAccessRequiresAuthentication(_ action: Action) throws -> Bool {
+    func hasAccessRequiresAuthentication(_ action: Action) -> Bool {
         hasAccess(action.keyPath(), for: Access.requiresAuthentication.rawValue)
     }
 

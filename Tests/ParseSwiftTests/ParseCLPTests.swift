@@ -138,6 +138,22 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(clp.addField?[ParseCLP.Access.requiresAuthentication.rawValue])
     }
 
+    func testPublicAccess() throws {
+        let clp = ParseCLP().setAccessPublic(true, on: .create)
+        XCTAssertTrue(clp.hasAccessPublic(.create))
+
+        let clp2 = clp.setAccessPublic(false, on: .create)
+        XCTAssertFalse(clp2.hasAccessPublic(.create))
+    }
+
+    func testRequiresAuthenticationAccess() throws {
+        let clp = ParseCLP().setAccessRequiresAuthentication(true, on: .create)
+        XCTAssertTrue(clp.hasAccessRequiresAuthentication(.create))
+
+        let clp2 = clp.setAccessRequiresAuthentication(false, on: .create)
+        XCTAssertFalse(clp2.hasAccessRequiresAuthentication(.create))
+    }
+
     func testAccessUser() throws {
         let clp = try ParseCLP().setAccess(true, on: .create, for: user)
         XCTAssertTrue(try clp.hasAccess(.create, for: user))
