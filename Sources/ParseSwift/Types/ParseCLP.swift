@@ -18,12 +18,21 @@ public struct ParseCLP: Codable, Equatable {
     var update: [String: AnyCodable]?
     var delete: [String: AnyCodable]?
     var addField: [String: AnyCodable]?
-    /// The users, roles, and access level restrictions who cannot access particular fields in a Parse class.
-    public internal(set) var protectedFields: [String: Set<String>]?
-    /// The users and roles that can perform get/count/find actions on a Parse class.
-    public internal(set) var readUserFields: Set<String>?
-    /// The users and roles that can perform create/delete/update/addField actions on a Parse class.
-    public internal(set) var writeUserFields: Set<String>?
+    /**
+     The users, roles, and access level restrictions who cannot access particular
+     fields in a Parse class.
+     */
+    public var protectedFields: [String: Set<String>]?
+    /**
+     The fields that contain either a `ParseUser` or an array of `ParseUser`'s that
+     can perform get/count/find actions on a Parse class.
+     */
+    public var readUserFields: Set<String>?
+    /**
+     The fields that contain either a `ParseUser` or an array of `ParseUser`'s that can perform
+     create/delete/update/addField actions on a Parse class.
+     */
+    public var writeUserFields: Set<String>?
 
     /// The avialable actions to perform on a Parse class.
     public enum Action {
@@ -1014,130 +1023,6 @@ public extension ParseCLP {
     func removeProtectedFields<R>(_ fields: Set<String>, for role: R) throws -> Self where R: ParseRole {
         let roleNameAccess = try ParseACL.getRoleAccessName(role)
         return removeProtectedFields(fields, for: roleNameAccess)
-    }
-}
-
-// MARK: UserFields
-extension ParseCLP {
-    func getUser(_ keyPath: KeyPath<Self, Set<String>?>) -> Set<String> {
-        self[keyPath: keyPath] ?? []
-    }
-
-    func setUser(_ keyPath: WritableKeyPath<Self, Set<String>?>,
-                 fields: Set<String>) -> Self {
-        var mutableCLP = self
-        mutableCLP[keyPath: keyPath] = fields
-        return mutableCLP
-    }
-
-    func addUser(_ keyPath: WritableKeyPath<Self, Set<String>?>,
-                 fields: Set<String>) -> Self {
-        if let currentSet = self[keyPath: keyPath] {
-            var mutableCLP = self
-            mutableCLP[keyPath: keyPath] = currentSet.union(currentSet)
-            return mutableCLP
-        } else {
-            return setUser(keyPath, fields: fields)
-        }
-    }
-
-    func removeUser(_ keyPath: WritableKeyPath<Self, Set<String>?>,
-                    fields: Set<String>) -> Self {
-        var mutableCLP = self
-        fields.forEach {
-            mutableCLP[keyPath: keyPath]?.remove($0)
-        }
-        return mutableCLP
-    }
-}
-
-// MARK: WriteUserFields
-public extension ParseCLP {
-
-    /**
-     Get the set of `ParseUser` and array `ParseUser` fields that can
-     perform create/update/delete/addField actions on this Parse class.
-     - returns: The set of `ParseUser` and array `ParseUser` fields.
-    */
-    func getWriteUserFields() -> Set<String> {
-        getUser(\.writeUserFields)
-    }
-
-    /**
-     Set the `ParseUser` and array `ParseUser` fields that can
-     perform create/update/delete/addField actions on this Parse class.
-     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-    */
-    func setWriteUser(_ fields: Set<String>) -> Self {
-        setUser(\.writeUserFields, fields: fields)
-    }
-
-    /**
-     Add to the set of `ParseUser` and array `ParseUser` fields that can
-     perform create/update/delete/addField actions on this Parse class.
-     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method adds on to the current set of `fields` in the CLP.
-    */
-    func addWriteUser(_ fields: Set<String>) -> Self {
-        addUser(\.writeUserFields, fields: fields)
-    }
-
-    /**
-     Remove fields from the set of `ParseUser` and array `ParseUser` fields that can
-     perform create/update/delete/addField actions on this Parse class.
-     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method removes from the current set of `fields` in the CLP.
-    */
-    func removeWriteUser(_ fields: Set<String>) -> Self {
-        removeUser(\.writeUserFields, fields: fields)
-    }
-}
-
-// MARK: ReadUserFields
-public extension ParseCLP {
-
-    /**
-     Get the set of `ParseUser` and array `ParseUser` fields that can
-     perform get/find/count actions on this Parse class.
-     - returns: The set of `ParseUser` and array `ParseUser` fields.
-    */
-    func getReadUserFields() -> Set<String> {
-        getUser(\.readUserFields)
-    }
-
-    /**
-     Set the `ParseUser` and array `ParseUser` fields that can
-     perform get/find/count actions on this Parse class.
-     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-    */
-    func setReadUser(_ fields: Set<String>) -> Self {
-        setUser(\.readUserFields, fields: fields)
-    }
-
-    /**
-     Add to the set of `ParseUser` and array `ParseUser` fields that can
-     perform get/find/count actions on this Parse class.
-     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method adds on to the current set of `fields` in the CLP.
-    */
-    func addReadUser(_ fields: Set<String>) -> Self {
-        addUser(\.readUserFields, fields: fields)
-    }
-
-    /**
-     Remove fields from the set of `ParseUser` and array `ParseUser` fields that can
-     perform get/find/count actions on this Parse class.
-     - parameter fields: The set of `ParseUser` and array `ParseUser` fields.
-     - returns: A mutated instance of `ParseCLP` for easy chaining.
-     - note: This method removes from the current set of `fields` in the CLP.
-    */
-    func removeReadUser(_ fields: Set<String>) -> Self {
-        removeUser(\.readUserFields, fields: fields)
     }
 }
 
