@@ -102,7 +102,7 @@ public struct ParseCLP: Codable, Equatable {
 
     /// Creates an empty instance of CLP.
     public init() { }
-    
+
     /**
      Creates an instance of CLP with particular access.
      - parameter requiresAuthentication: Read/Write to a Parse class requires users to be authenticated.
