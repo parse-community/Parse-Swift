@@ -6,10 +6,10 @@ coverage:
   status:
     patch:
       default:
-        target: auto
+        target: 2
     changes: false
     project:
       default:
-        target: 87
+        target: 82
 comment:
   require_changes: true
