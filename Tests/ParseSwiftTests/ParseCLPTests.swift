@@ -416,6 +416,92 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(roleName)\":true},\"create\":{\"\(roleName)\":true},\"delete\":{\"\(roleName)\":true},\"update\":{\"\(roleName)\":true}})")
     }
 
+    func testCLPWriteAccessPublicHas() throws {
+        let clp = ParseCLP().setWriteAccessPublic(true)
+        XCTAssertTrue(clp.hasWriteAccessPublic())
+        XCTAssertFalse(clp.hasWriteAccessRequiresAuthentication())
+
+        let clp2 = ParseCLP().setWriteAccessPublic(false)
+        XCTAssertFalse(clp2.hasWriteAccessPublic())
+        XCTAssertFalse(clp2.hasWriteAccessRequiresAuthentication())
+
+        let clp3 = clp.setWriteAccessPublic(false)
+        XCTAssertFalse(clp3.hasWriteAccessPublic())
+        XCTAssertFalse(clp3.hasWriteAccessRequiresAuthentication())
+    }
+
+    func testCLPWriteAccessRequiresAuthenticationHas() throws {
+        let clp = ParseCLP().setWriteAccessRequiresAuthentication(true)
+        XCTAssertTrue(clp.hasWriteAccessRequiresAuthentication())
+        XCTAssertFalse(clp.hasWriteAccessPublic())
+
+        let clp2 = ParseCLP().setWriteAccessRequiresAuthentication(false)
+        XCTAssertFalse(clp2.hasWriteAccessRequiresAuthentication())
+        XCTAssertFalse(clp2.hasWriteAccessPublic())
+
+        let clp3 = clp.setWriteAccessRequiresAuthentication(false)
+        XCTAssertFalse(clp3.hasWriteAccessRequiresAuthentication())
+        XCTAssertFalse(clp3.hasWriteAccessPublic())
+    }
+
+    func testCLPWriteAccessObjectIdHas() throws {
+        let clp = ParseCLP().setWriteAccess(true, objectId: objectId)
+        XCTAssertFalse(clp.hasReadAccess(objectId))
+        XCTAssertTrue(clp.hasWriteAccess(objectId))
+
+        let clp2 = ParseCLP().setWriteAccess(false, objectId: objectId)
+        XCTAssertFalse(clp2.hasReadAccess(objectId))
+        XCTAssertFalse(clp2.hasWriteAccess(objectId))
+
+        let clp3 = clp.setWriteAccess(false, objectId: objectId)
+        XCTAssertFalse(clp3.hasReadAccess(objectId))
+        XCTAssertFalse(clp3.hasWriteAccess(objectId))
+    }
+
+    func testCLPWriteAccessUserHas() throws {
+        let clp = try ParseCLP().setWriteAccess(true, user: user)
+        XCTAssertFalse(try clp.hasReadAccess(user))
+        XCTAssertTrue(try clp.hasWriteAccess(user))
+
+        let clp2 = try ParseCLP().setWriteAccess(false, user: user)
+        XCTAssertFalse(try clp2.hasReadAccess(user))
+        XCTAssertFalse(try clp2.hasWriteAccess(user))
+
+        let clp3 = try clp.setWriteAccess(false, user: user)
+        XCTAssertFalse(try clp3.hasReadAccess(user))
+        XCTAssertFalse(try clp3.hasWriteAccess(user))
+    }
+
+    func testCLPWriteAccessPointerHas() throws {
+        let clp = ParseCLP().setWriteAccess(true, user: try user.toPointer())
+        XCTAssertFalse(clp.hasReadAccess(try user.toPointer()))
+        XCTAssertTrue(clp.hasWriteAccess(try user.toPointer()))
+
+        let clp2 = ParseCLP().setWriteAccess(false, user: try user.toPointer())
+        XCTAssertFalse(clp2.hasReadAccess(try user.toPointer()))
+        XCTAssertFalse(clp2.hasWriteAccess(try user.toPointer()))
+
+        let clp3 = clp.setWriteAccess(false, user: try user.toPointer())
+        XCTAssertFalse(clp3.hasReadAccess(try user.toPointer()))
+        XCTAssertFalse(clp3.hasWriteAccess(try user.toPointer()))
+    }
+
+    func testCLPWriteAccessRoleHas() throws {
+        let name = "hello"
+        let role = try Role<User>(name: name)
+        let clp = try ParseCLP().setWriteAccess(true, role: role)
+        XCTAssertFalse(try clp.hasReadAccess(role))
+        XCTAssertTrue(try clp.hasWriteAccess(role))
+
+        let clp2 = try ParseCLP().setWriteAccess(false, role: role)
+        XCTAssertFalse(try clp2.hasReadAccess(role))
+        XCTAssertFalse(try clp2.hasWriteAccess(role))
+
+        let clp3 = try clp.setWriteAccess(false, role: role)
+        XCTAssertFalse(try clp3.hasReadAccess(role))
+        XCTAssertFalse(try clp3.hasWriteAccess(role))
+    }
+
     func testCLPReadAccessPublicSet() throws {
         let clp = ParseCLP().setReadAccessPublic(true)
         XCTAssertEqual(clp.get?[ParseCLP.Access.publicScope.rawValue], true)
@@ -632,5 +718,91 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
                                                role: role)
         // swiftlint:disable:next line_length
         XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(roleName)\":true},\"find\":{\"\(roleName)\":true},\"get\":{\"\(roleName)\":true}})")
+    }
+
+    func testCLPReadAccessPublicHas() throws {
+        let clp = ParseCLP().setReadAccessPublic(true)
+        XCTAssertTrue(clp.hasReadAccessPublic())
+        XCTAssertFalse(clp.hasReadAccessRequiresAuthentication())
+
+        let clp2 = ParseCLP().setReadAccessPublic(false)
+        XCTAssertFalse(clp2.hasReadAccessPublic())
+        XCTAssertFalse(clp2.hasReadAccessRequiresAuthentication())
+
+        let clp3 = clp.setReadAccessPublic(false)
+        XCTAssertFalse(clp3.hasReadAccessPublic())
+        XCTAssertFalse(clp3.hasReadAccessRequiresAuthentication())
+    }
+
+    func testCLPReadAccessRequiresAuthenticationHas() throws {
+        let clp = ParseCLP().setReadAccessRequiresAuthentication(true)
+        XCTAssertTrue(clp.hasReadAccessRequiresAuthentication())
+        XCTAssertFalse(clp.hasReadAccessPublic())
+
+        let clp2 = ParseCLP().setReadAccessRequiresAuthentication(false)
+        XCTAssertFalse(clp2.hasReadAccessRequiresAuthentication())
+        XCTAssertFalse(clp2.hasReadAccessPublic())
+
+        let clp3 = clp.setReadAccessRequiresAuthentication(false)
+        XCTAssertFalse(clp3.hasReadAccessRequiresAuthentication())
+        XCTAssertFalse(clp3.hasReadAccessPublic())
+    }
+
+    func testCLPReadAccessObjectIdHas() throws {
+        let clp = ParseCLP().setReadAccess(true, objectId: objectId)
+        XCTAssertTrue(clp.hasReadAccess(objectId))
+        XCTAssertFalse(clp.hasWriteAccess(objectId))
+
+        let clp2 = ParseCLP().setReadAccess(false, objectId: objectId)
+        XCTAssertFalse(clp2.hasReadAccess(objectId))
+        XCTAssertFalse(clp2.hasWriteAccess(objectId))
+
+        let clp3 = clp.setReadAccess(false, objectId: objectId)
+        XCTAssertFalse(clp3.hasReadAccess(objectId))
+        XCTAssertFalse(clp3.hasWriteAccess(objectId))
+    }
+
+    func testCLPReadAccessUserHas() throws {
+        let clp = try ParseCLP().setReadAccess(true, user: user)
+        XCTAssertTrue(try clp.hasReadAccess(user))
+        XCTAssertFalse(try clp.hasWriteAccess(user))
+
+        let clp2 = try ParseCLP().setReadAccess(false, user: user)
+        XCTAssertFalse(try clp2.hasReadAccess(user))
+        XCTAssertFalse(try clp2.hasWriteAccess(user))
+
+        let clp3 = try clp.setReadAccess(false, user: user)
+        XCTAssertFalse(try clp3.hasReadAccess(user))
+        XCTAssertFalse(try clp3.hasWriteAccess(user))
+    }
+
+    func testCLPReadAccessPointerHas() throws {
+        let clp = ParseCLP().setReadAccess(true, user: try user.toPointer())
+        XCTAssertTrue(clp.hasReadAccess(try user.toPointer()))
+        XCTAssertFalse(clp.hasWriteAccess(try user.toPointer()))
+
+        let clp2 = ParseCLP().setReadAccess(false, user: try user.toPointer())
+        XCTAssertFalse(clp2.hasReadAccess(try user.toPointer()))
+        XCTAssertFalse(clp2.hasWriteAccess(try user.toPointer()))
+
+        let clp3 = clp.setReadAccess(false, user: try user.toPointer())
+        XCTAssertFalse(clp3.hasReadAccess(try user.toPointer()))
+        XCTAssertFalse(clp3.hasWriteAccess(try user.toPointer()))
+    }
+
+    func testCLPReadAccessRoleHas() throws {
+        let name = "hello"
+        let role = try Role<User>(name: name)
+        let clp = try ParseCLP().setReadAccess(true, role: role)
+        XCTAssertTrue(try clp.hasReadAccess(role))
+        XCTAssertFalse(try clp.hasWriteAccess(role))
+
+        let clp2 = try ParseCLP().setReadAccess(false, role: role)
+        XCTAssertFalse(try clp2.hasReadAccess(role))
+        XCTAssertFalse(try clp2.hasWriteAccess(role))
+
+        let clp3 = try clp.setReadAccess(false, role: role)
+        XCTAssertFalse(try clp3.hasReadAccess(role))
+        XCTAssertFalse(try clp3.hasWriteAccess(role))
     }
 }
