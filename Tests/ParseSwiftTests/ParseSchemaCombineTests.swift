@@ -70,7 +70,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             .addIndex("hello", field: "world", index: "yolo")
     }
 
-    func testCreate() async throws {
+    func testCreate() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -108,7 +108,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testCreateError() async throws {
+    func testCreateError() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -141,7 +141,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testUpdate() async throws {
+    func testUpdate() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -179,7 +179,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testUpdateError() async throws {
+    func testUpdateError() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -212,7 +212,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testFetch() async throws {
+    func testFetch() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -250,7 +250,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testFetchError() async throws {
+    func testFetchError() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -283,7 +283,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testPurge() async throws {
+    func testPurge() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -316,7 +316,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testPurgeError() async throws {
+    func testPurgeError() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -349,7 +349,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testDelete() async throws {
+    func testDelete() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
@@ -382,7 +382,7 @@ class ParseSchemaCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testDeleteError() async throws {
+    func testDeleteError() throws {
         var subscriptions = Set<AnyCancellable>()
         let schema = createDummySchema()
 
