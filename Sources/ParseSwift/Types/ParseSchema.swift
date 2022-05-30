@@ -265,24 +265,13 @@ extension ParseSchema {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        do {
-            try fetchCommand()
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              completion: completion)
-         } catch {
-            callbackQueue.async {
-                if let error = error as? ParseError {
-                    completion(.failure(error))
-                } else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)))
-                }
-            }
-         }
+        fetchCommand()
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
-    func fetchCommand() throws -> API.Command<Self, Self> {
+    func fetchCommand() -> API.Command<Self, Self> {
 
         return API.Command(method: .GET,
                            path: endpoint) { (data) -> Self in
