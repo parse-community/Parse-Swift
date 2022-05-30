@@ -21,12 +21,10 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
         var originalData: Data?
 
         //: Your own properties
-        var points: Int
+        var points: Int?
 
         //: a custom initializer
-        init() {
-            self.points = 5
-        }
+        init() { }
         init(points: Int) {
             self.points = points
         }
@@ -42,12 +40,10 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
         var originalData: Data?
 
         //: Your own properties
-        var points: Int
+        var points: Int?
 
         //: a custom initializer
-        init() {
-            self.points = 10
-        }
+        init() { }
         init(points: Int) {
             self.points = points
         }
@@ -55,44 +51,6 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.objectId = objectId
             self.points = points
         }
-    }
-
-    struct User: ParseUser {
-
-        //: These are required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-
-        init() { }
-        init(objectId: String) {
-            self.objectId = objectId
-        }
-    }
-
-    struct Role<RoleUser: ParseUser>: ParseRole {
-
-        // required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // provided by Role
-        var name: String?
     }
 
     override func setUpWithError() throws {
@@ -108,9 +66,6 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
                               testing: true)
     }
 
-    let objectId = "1234"
-    let user = User(objectId: "1234")
-
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
@@ -120,21 +75,48 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
         try ParseStorage.shared.deleteAll()
     }
 
+    func createDummySchema() -> ParseSchema<GameScore> {
+        let fields = Set<String>(["world"])
+        let clp = ParseCLP()
+            .setPointerFields(fields, on: .create)
+            .setWriteAccessPublic(true, canAddField: true)
+
+        let schema = ParseSchema<GameScore>(classLevelPermissions: clp)
+            .addField("a",
+                      type: .string,
+                      options: ParseFieldOptions<String>(required: false, defauleValue: nil))
+            .addField("b",
+                      type: .number,
+                      options: ParseFieldOptions<Int>(required: false, defauleValue: 2))
+            .deleteField("c")
+            .addIndex("hello", field: "world", index: "yolo")
+        return schema
+    }
+
     func testInitializer() throws {
         let clp = ParseCLP(requiresAuthentication: true, publicAccess: true)
         let schema = ParseSchema<GameScore>(classLevelPermissions: clp)
         XCTAssertEqual(schema.className, GameScore.className)
+        XCTAssertEqual(ParseSchema<GameScore>.className, GameScore.className)
         XCTAssertEqual(schema.classLevelPermissions, clp)
     }
 
+    func testSchemaEncode() throws {
+        let schema = createDummySchema()
+        // swiftlint:disable:next line_length
+        let expected = "ParseSchema ({\"classLevelPermissions\":{\"addField\":{\"*\":true},\"create\":{\"*\":true,\"pointerFields\":[\"world\"]},\"delete\":{\"*\":true},\"update\":{\"*\":true}},\"className\":\"GameScore\",\"fields\":{\"a\":{\"required\":false,\"type\":\"String\"},\"b\":{\"defaultValue\":2,\"required\":false,\"type\":\"Number\"},\"c\":{\"__op\":\"Delete\"}}})"
+        XCTAssertEqual(schema.description, expected)
+    }
+
     func testAddField() throws {
-        let schema = ParseSchema<GameScore>()
+        let options = try ParseFieldOptions<GameScore2>(required: false, defauleValue: nil)
+        let schema = try ParseSchema<GameScore>()
             .addField("a",
                       type: .string,
                       options: ParseFieldOptions<String>(required: false, defauleValue: nil))
             .addField("b",
                       type: .pointer,
-                      options: ParseFieldOptions<String>(required: false, defauleValue: nil))
+                      options: options)
             .addField("c",
                       type: .date,
                       options: ParseFieldOptions<String>(required: false, defauleValue: nil))
@@ -158,7 +140,7 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
                       options: ParseFieldOptions<String>(required: false, defauleValue: nil))
             .addField("j",
                       type: .relation,
-                      options: ParseFieldOptions<String>(required: false, defauleValue: nil))
+                      options: options)
             .addField("k",
                       type: .polygon,
                       options: ParseFieldOptions<String>(required: false, defauleValue: nil))
@@ -183,6 +165,27 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(schema.fields?["m"]?.type, .number)
     }
 
+    func testAddFieldWrongOptionsError() throws {
+        let options = try ParseFieldOptions<GameScore2>(required: false, defauleValue: nil)
+        XCTAssertThrowsError(try ParseSchema<GameScore>()
+            .addField("b",
+                      type: .string,
+                      options: options))
+    }
+
+    func testGetFields() throws {
+        let schema = ParseSchema<GameScore>()
+            .addField("a",
+                      type: .string,
+                      options: ParseFieldOptions<String>(required: false, defauleValue: nil))
+            .addField("b",
+                      type: .number,
+                      options: ParseFieldOptions<Int>(required: false, defauleValue: 2))
+        let fields = schema.getFields()
+        XCTAssertEqual(fields["a"], "ParseField ({\"required\":false,\"type\":\"String\"})")
+        XCTAssertEqual(fields["b"], "ParseField ({\"defaultValue\":2,\"required\":false,\"type\":\"Number\"})")
+    }
+
     func testAddPointer() throws {
         let gameScore2 = GameScore2(objectId: "yolo", points: 12)
         let options = try ParseFieldOptions<GameScore2>(required: false, defauleValue: gameScore2)
@@ -191,6 +194,21 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
                         options: options)
         XCTAssertEqual(schema.fields?["a"]?.type, .pointer)
         XCTAssertEqual(schema.fields?["a"]?.targetClass, gameScore2.className)
+        guard let value = schema.fields?["a"]?.defaultValue?.value as? GameScore2 else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(try value.toPointer(), try gameScore2.toPointer())
+
+        let schema2 = schema.addPointer("b",
+                                        options: options)
+        XCTAssertEqual(schema2.fields?["b"]?.type, .pointer)
+        XCTAssertEqual(schema2.fields?["b"]?.targetClass, gameScore2.className)
+        guard let value2 = schema2.fields?["b"]?.defaultValue?.value as? GameScore2 else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(try value2.toPointer(), try gameScore2.toPointer())
     }
 
     func testAddRelation() throws {
@@ -199,14 +217,16 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
             .addRelation("a",
                          options: options)
         XCTAssertEqual(schema.fields?["a"]?.type, .relation)
-        XCTAssertEqual(schema.fields?["a"]?.targetClass, GameScore2().className)
+        XCTAssertEqual(schema.fields?["a"]?.targetClass, GameScore2.className)
+
+        let schema2 = schema.addRelation("b",
+                                         options: options)
+        XCTAssertEqual(schema2.fields?["b"]?.type, .relation)
+        XCTAssertEqual(schema2.fields?["b"]?.targetClass, GameScore2.className)
     }
 
     func testDeleteField() throws {
         var schema = ParseSchema<GameScore>()
-            .addField("a",
-                      type: .string,
-                      options: ParseFieldOptions<String>(required: false, defauleValue: nil))
             .deleteField("a")
         let delete = ParseField(operation: .delete)
         XCTAssertEqual(schema.fields?["a"], delete)
@@ -214,5 +234,64 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
         schema = schema.deleteField("b")
         XCTAssertEqual(schema.fields?["a"], delete)
         XCTAssertEqual(schema.fields?["b"], delete)
+    }
+
+    func testAddIndexes() throws {
+        let schema = ParseSchema<GameScore>()
+            .addIndex("hello", field: "world", index: "yolo")
+            .addIndex("next", field: "place", index: "home")
+        let indexes = schema.getIndexes()
+        guard let firstIndex = indexes["hello"]?["world"],
+            let secondIndex = indexes["next"]?["place"] else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(firstIndex, "yolo")
+        XCTAssertEqual(secondIndex, "home")
+
+        let alreadyStoredIndexes: [String: [String: AnyCodable]] = [
+            "meta": ["world": "peace"],
+            "stop": ["being": "greedy"]
+        ]
+        var schema2 = ParseSchema<GameScore>()
+        schema2.indexes = alreadyStoredIndexes
+        let indexes2 = schema2.getIndexes()
+        guard let firstIndex2 = indexes2["meta"]?["world"],
+            let secondIndex2 = indexes2["stop"]?["being"] else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(firstIndex2, "peace")
+        XCTAssertEqual(secondIndex2, "greedy")
+
+        schema2 = schema2
+            .addIndex("hello", field: "world", index: "yolo")
+            .addIndex("next", field: "place", index: "home")
+        let indexes3 = schema2.getIndexes()
+        guard let firstIndex3 = indexes3["meta"]?["world"],
+            let secondIndex3 = indexes3["stop"]?["being"],
+            let thirdIndex3 = indexes["hello"]?["world"],
+            let fourthIndex3 = indexes["next"]?["place"] else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(firstIndex3, "peace")
+        XCTAssertEqual(secondIndex3, "greedy")
+        XCTAssertEqual(thirdIndex3, "yolo")
+        XCTAssertEqual(fourthIndex3, "home")
+    }
+
+    func testDeleteIndexes() throws {
+        let schema = ParseSchema<GameScore>()
+            .deleteIndex("hello")
+            .addIndex("next", field: "place", index: "home")
+        let indexes = schema.getIndexes()
+        guard let firstIndex = indexes["hello"]?["__op"],
+            let secondIndex = indexes["next"]?["place"] else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(firstIndex, "Delete")
+        XCTAssertEqual(secondIndex, "home")
     }
 }

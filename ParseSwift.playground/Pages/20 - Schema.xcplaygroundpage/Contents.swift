@@ -136,6 +136,23 @@ gameScoreSchema.update { result in
     }
 }
 
+//: Indexes can also be deleted.
+gameScoreSchema = gameScoreSchema.deleteIndex("myIndex")
+
+//: Next, we need to update the schema on the server with the changes.
+gameScoreSchema.update { result in
+    switch result {
+    case .success(let updatedSchema):
+        print("Check GameScore2 in Dashboard. \nThe updated schema: \(updatedSchema)")
+        /*:
+         Updated the current gameScoreSchema with the newest.
+         */
+        gameScoreSchema = updatedSchema
+    case .failure(let error):
+        print("Couldn't update schema: \(error)")
+    }
+}
+
 /*:
  Fields can also be deleted on a schema. Lets remove
  the **data** field since it's not going being used.

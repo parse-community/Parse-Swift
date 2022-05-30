@@ -11,7 +11,7 @@ import Foundation
 /**
  An object with a Parse code and message.
  */
-public struct ParseError: ParseType, Decodable, Swift.Error {
+public struct ParseError: ParseType, Equatable, Decodable, Swift.Error {
     /// The value representing the error from the Parse Server.
     public let code: Code
     /// The text representing the error from the Parse Server.

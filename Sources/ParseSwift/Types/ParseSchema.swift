@@ -44,10 +44,25 @@ public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
      Get the current indexes for this `ParseSchema`.
      - returns: The current indexes.
      */
-    public func getIndexes() -> [String: String] {
-        var currentIndexes = [String: String]()
-        indexes?.forEach { (key, value) in
-            currentIndexes[key] = value.description
+    public func getIndexes() -> [String: [String: String]] {
+        var currentIndexes = [String: [String: String]]()
+        indexes?.forEach { (name, value) in
+            value.forEach { (field, index) in
+                if currentIndexes[name] != nil {
+                    currentIndexes[name]?[field] = index.description
+                } else {
+                    currentIndexes[name] = [field: index.description]
+                }
+            }
+        }
+        pendingIndexes.forEach { (name, value) in
+            value.forEach { (field, index) in
+                if currentIndexes[name] != nil {
+                    currentIndexes[name]?[field] = index.description
+                } else {
+                    currentIndexes[name] = [field: index.description]
+                }
+            }
         }
         return currentIndexes
     }
@@ -217,10 +232,10 @@ public extension ParseSchema {
      - parameter name: Name of the index that will be deleted in the schema on Parse Server.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
     */
-    func deleteIndex(_ name: String, field: String) -> Self {
-        let index = AnyCodable(Delete())
+    func deleteIndex(_ name: String) -> Self {
+        let index = ["__op": AnyCodable(Operation.delete.rawValue)]
         var mutableSchema = self
-        mutableSchema.pendingIndexes[name] = [field: index]
+        mutableSchema.pendingIndexes[name] = index
         return mutableSchema
     }
 }

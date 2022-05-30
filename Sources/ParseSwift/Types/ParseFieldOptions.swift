@@ -39,3 +39,22 @@ extension ParseFieldOptions where V: ParseObject {
         self.defaultValue = try defauleValue?.toPointer().toObject()
     }
 }
+
+// MARK: CustomDebugStringConvertible
+extension ParseFieldOptions {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+                return "ParseFieldOptions ()"
+        }
+
+        return "ParseFieldOptions (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseFieldOptions {
+    public var description: String {
+        debugDescription
+    }
+}

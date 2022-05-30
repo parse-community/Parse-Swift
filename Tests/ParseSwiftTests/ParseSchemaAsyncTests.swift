@@ -37,44 +37,6 @@ class ParseSchemaAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    struct User: ParseUser {
-
-        //: These are required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-
-        init() { }
-        init(objectId: String) {
-            self.objectId = objectId
-        }
-    }
-
-    struct Role<RoleUser: ParseUser>: ParseRole {
-
-        // required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // provided by Role
-        var name: String?
-    }
-
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -88,9 +50,6 @@ class ParseSchemaAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
                               testing: true)
     }
 
-    let objectId = "1234"
-    let user = User(objectId: "1234")
-
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
@@ -100,36 +59,257 @@ class ParseSchemaAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         try ParseStorage.shared.deleteAll()
     }
 
-/*
+    func createDummySchema() -> ParseSchema<GameScore> {
+        ParseSchema<GameScore>()
+            .addField("a",
+                      type: .string,
+                      options: ParseFieldOptions<String>(required: false, defauleValue: nil))
+            .addField("b",
+                      type: .number,
+                      options: ParseFieldOptions<Int>(required: false, defauleValue: 2))
+            .deleteField("c")
+            .addIndex("hello", field: "world", index: "yolo")
+    }
+
     @MainActor
     func testCreate() async throws {
-        MockURLProtocol.removeAll()
 
-        var schema = ParseSchema<GameScore>()
-        schema.fields
-        installation.installationId = "123"
+        let schema = createDummySchema()
 
-        var serverResponse = installation
-        serverResponse.objectId = "yolo"
-        serverResponse.createdAt = Date()
+        var serverResponse = schema
+        serverResponse.indexes = schema.pendingIndexes
+        serverResponse.pendingIndexes.removeAll()
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
-                //Get dates in correct format from ParseDecoding strategy
-                serverResponse = try serverResponse.getDecoder().decode(Installation.self, from: encoded)
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }
         }
 
-        let saved = try await installation.create()
-        XCTAssert(saved.hasSameObjectId(as: serverResponse))
-        XCTAssert(saved.hasSameInstallationId(as: serverResponse))
-        XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
-        XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+        let saved = try await schema.create()
+        XCTAssertEqual(saved.fields, serverResponse.fields)
+        XCTAssertEqual(saved.indexes, serverResponse.indexes)
+        XCTAssertEqual(saved.classLevelPermissions, serverResponse.classLevelPermissions)
+        XCTAssertEqual(saved.className, serverResponse.className)
+        XCTAssertTrue(saved.pendingIndexes.isEmpty)
     }
- */
+
+    @MainActor
+    func testCreateError() async throws {
+
+        let schema = createDummySchema()
+
+        let parseError = ParseError(code: .invalidSchemaOperation,
+                                    message: "Problem with schema")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await schema.create()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.invalidSchemaOperation))
+        }
+    }
+
+    @MainActor
+    func testUpdate() async throws {
+
+        let schema = createDummySchema()
+
+        var serverResponse = schema
+        serverResponse.indexes = schema.pendingIndexes
+        serverResponse.pendingIndexes.removeAll()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await schema.update()
+        XCTAssertEqual(saved.fields, serverResponse.fields)
+        XCTAssertEqual(saved.indexes, serverResponse.indexes)
+        XCTAssertEqual(saved.classLevelPermissions, serverResponse.classLevelPermissions)
+        XCTAssertEqual(saved.className, serverResponse.className)
+        XCTAssertTrue(saved.pendingIndexes.isEmpty)
+    }
+
+    @MainActor
+    func testUpdateError() async throws {
+
+        let schema = createDummySchema()
+
+        let parseError = ParseError(code: .invalidSchemaOperation,
+                                    message: "Problem with schema")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await schema.update()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.invalidSchemaOperation))
+        }
+    }
+
+    @MainActor
+    func testFetch() async throws {
+
+        let schema = createDummySchema()
+
+        var serverResponse = schema
+        serverResponse.indexes = schema.pendingIndexes
+        serverResponse.pendingIndexes.removeAll()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await schema.fetch()
+        XCTAssertEqual(saved.fields, serverResponse.fields)
+        XCTAssertEqual(saved.indexes, serverResponse.indexes)
+        XCTAssertEqual(saved.classLevelPermissions, serverResponse.classLevelPermissions)
+        XCTAssertEqual(saved.className, serverResponse.className)
+        XCTAssertTrue(saved.pendingIndexes.isEmpty)
+    }
+
+    @MainActor
+    func testFetchError() async throws {
+
+        let schema = createDummySchema()
+
+        let parseError = ParseError(code: .invalidSchemaOperation,
+                                    message: "Problem with schema")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await schema.fetch()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.invalidSchemaOperation))
+        }
+    }
+
+    @MainActor
+    func testPurge() async throws {
+
+        let schema = createDummySchema()
+
+        let serverResponse = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        try await schema.purge()
+    }
+
+    @MainActor
+    func testPurgeError() async throws {
+
+        let schema = createDummySchema()
+
+        let parseError = ParseError(code: .invalidSchemaOperation,
+                                    message: "Problem with schema")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await schema.purge()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.invalidSchemaOperation))
+        }
+    }
+
+    @MainActor
+    func testDelete() async throws {
+
+        let schema = createDummySchema()
+
+        let serverResponse = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        try await schema.delete()
+    }
+
+    @MainActor
+    func testDeleteError() async throws {
+
+        let schema = createDummySchema()
+
+        let parseError = ParseError(code: .invalidSchemaOperation,
+                                    message: "Problem with schema")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try await schema.delete()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.invalidSchemaOperation))
+        }
+    }
 }
 #endif
