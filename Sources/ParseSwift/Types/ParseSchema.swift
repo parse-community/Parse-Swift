@@ -313,21 +313,10 @@ extension ParseSchema {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        do {
-            try createCommand()
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              completion: completion)
-         } catch {
-            callbackQueue.async {
-                if let error = error as? ParseError {
-                    completion(.failure(error))
-                } else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)))
-                }
-            }
-         }
+        createCommand()
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     /**
@@ -355,24 +344,13 @@ extension ParseSchema {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        do {
-            try mutableSchema.updateCommand()
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              completion: completion)
-         } catch {
-            callbackQueue.async {
-                if let error = error as? ParseError {
-                    completion(.failure(error))
-                } else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)))
-                }
-            }
-         }
+        mutableSchema.updateCommand()
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
-    func createCommand() throws -> API.Command<Self, Self> {
+    func createCommand() -> API.Command<Self, Self> {
 
         return API.Command(method: .POST,
                            path: endpoint,
@@ -381,7 +359,7 @@ extension ParseSchema {
         }
     }
 
-    func updateCommand() throws -> API.Command<Self, Self> {
+    func updateCommand() -> API.Command<Self, Self> {
 
         API.Command(method: .PUT,
                     path: endpoint,
@@ -417,28 +395,18 @@ extension ParseSchema {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-         do {
-            try purgeCommand().executeAsync(options: options,
-                                            callbackQueue: callbackQueue) { result in
-                switch result {
+        purgeCommand().executeAsync(options: options,
+                                        callbackQueue: callbackQueue) { result in
+            switch result {
 
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    callbackQueue.async {
-                        completion(.failure(error))
-                    }
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                callbackQueue.async {
+                    completion(.failure(error))
                 }
             }
-         } catch let error as ParseError {
-            callbackQueue.async {
-                completion(.failure(error))
-            }
-         } catch {
-            callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
-            }
-         }
+        }
     }
 
     /**
@@ -465,31 +433,21 @@ extension ParseSchema {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-         do {
-            try deleteCommand().executeAsync(options: options,
-                                             callbackQueue: callbackQueue) { result in
-                switch result {
+        deleteCommand().executeAsync(options: options,
+                                         callbackQueue: callbackQueue) { result in
+            switch result {
 
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    callbackQueue.async {
-                        completion(.failure(error))
-                    }
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                callbackQueue.async {
+                    completion(.failure(error))
                 }
             }
-         } catch let error as ParseError {
-            callbackQueue.async {
-                completion(.failure(error))
-            }
-         } catch {
-            callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
-            }
-         }
+        }
     }
 
-    func purgeCommand() throws -> API.Command<Self, NoBody> {
+    func purgeCommand() -> API.Command<Self, NoBody> {
 
         API.Command(method: .DELETE,
                     path: endpointPurge) { (data) -> NoBody in
@@ -502,7 +460,7 @@ extension ParseSchema {
         }
     }
 
-    func deleteCommand() throws -> API.Command<Self, NoBody> {
+    func deleteCommand() -> API.Command<Self, NoBody> {
 
         API.Command(method: .DELETE,
                     path: endpoint,
