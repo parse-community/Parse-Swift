@@ -799,7 +799,7 @@ public func isNotNull (key: String) -> QueryConstraint {
 }
 
 /**
-  Add a constraint that requires a particular key to be equal to **undefined**.
+  Add a constraint that requires a particular key to not be equal to **undefined**.
   - parameter key: The key that should exist.
   - returns: The resulting `QueryConstraint`.
  */
@@ -808,7 +808,7 @@ public func exists(key: String) -> QueryConstraint {
 }
 
 /**
-  Add a constraint that requires a key  to not be equal to **undefined**.
+  Add a constraint that requires a key to be equal to **undefined**.
   - parameter key: The key that should not exist.
   - returns: The resulting `QueryConstraint`.
  */
