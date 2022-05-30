@@ -122,6 +122,10 @@ public struct ParseCLP: Codable, Equatable {
 
 // MARK: Default Implementation
 extension ParseCLP {
+    static func getUserFieldAccess(_ field: String) -> String {
+        "userField:\(field)"
+    }
+
     func hasAccess(_ keyPath: KeyPath<Self, [String: AnyCodable]?>,
                    for entity: String) -> Bool {
         self[keyPath: keyPath]?[entity]?.value as? Bool ?? false
@@ -802,6 +806,17 @@ public extension ParseCLP {
     }
 
     /**
+     Get the protected fields either a field of `ParseUser` type or
+     an array of `ParseUser`'s in a Parse class cannot access.
+     - parameter field: A field in a Parse class that is either of `ParseUser` type or
+     an array of `ParseUser`'s.
+     - returns: The set protected fields that cannot be accessed.
+    */
+    func getProtectedFieldsUser(_ field: String) -> Set<String> {
+        getProtectedFields(Self.getUserFieldAccess(field))
+    }
+
+    /**
      Get the protected fields the given `ParseUser` objectId cannot access.
      - parameter objectId: The `ParseUser` objectId access to check.
      - returns: The set protected fields that cannot be accessed.
@@ -863,9 +878,24 @@ public extension ParseCLP {
     }
 
     /**
-     Set whether the given `ParseUser` objectId should not have access to specific fields of a Parse class.
-     - parameter objectId: The `ParseUser` objectId to restrict access to.
+     Set whether the given field that is either of `ParseUser` type or an array of `ParseUser`'s
+     should not have access to specific fields of a Parse class.
      - parameter fields: The set of fields that should be protected from access.
+     - parameter userField: A field in a Parse class that is either of `ParseUser` type or
+     an array of `ParseUser`'s to restrict access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+    */
+    func setProtectedFields(_ fields: Set<String>, userField: String) -> Self {
+        setProtected(fields,
+                     on: \.protectedFields,
+                     for: Self.getUserFieldAccess(userField))
+    }
+
+    /**
+     Set whether the given `ParseUser` objectId should not have access to specific fields of a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter objectId: The `ParseUser` objectId to restrict access to.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
      - throws: An error of type `ParseError`.
     */
@@ -928,6 +958,20 @@ public extension ParseCLP {
     */
     func addProtectedFieldsRequiresAuthentication(_ fields: Set<String>) -> Self {
         addProtected(fields, on: \.protectedFields, for: Access.requiresAuthentication.rawValue)
+    }
+
+    /**
+     Add to the set of specific fields the given field that is either of `ParseUser` type or an array of `ParseUser`'s
+     should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be protected from access.
+     - parameter userField: A field in a Parse class that is either of `ParseUser` type or
+     an array of `ParseUser`'s to restrict access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+     - note: This method adds on to the current set of `fields` in the CLP.
+    */
+    func addProtectedFieldsUser(_ fields: Set<String>, userField: String) -> Self {
+        addProtected(fields, on: \.protectedFields, for: Self.getUserFieldAccess(userField))
     }
 
     /**
@@ -1001,6 +1045,20 @@ public extension ParseCLP {
     */
     func removeProtectedFieldsRequiresAuthentication(_ fields: Set<String>) -> Self {
         removeProtected(fields, on: \.protectedFields, for: Access.requiresAuthentication.rawValue)
+    }
+
+    /**
+     Remove fields from the set of specific fields the given field that is either of `ParseUser` type
+     or an array of `ParseUser`'s should not have access to on a Parse class.
+     - parameter fields: The set of fields that should be removed from protected access.
+     - parameter userField: A field in a Parse class that is either of `ParseUser` type or
+     an array of `ParseUser`'s to restrict access to.
+     - returns: A mutated instance of `ParseCLP` for easy chaining.
+     - throws: An error of type `ParseError`.
+     - note: This method removes from the current set of `fields` in the CLP.
+    */
+    func removeProtectedFieldsUser(_ fields: Set<String>, userField: String) -> Self {
+        removeProtected(fields, on: \.protectedFields, for: Self.getUserFieldAccess(userField))
     }
 
     /**

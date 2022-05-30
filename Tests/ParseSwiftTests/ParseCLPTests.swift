@@ -210,6 +210,23 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(clp4.getProtectedFieldsRequiresAuthentication(), newField)
     }
 
+    func testProtectedFieldsUserField() throws {
+        let fields = Set<String>(["hello", "world"])
+        let userField = "peace"
+        let clp = ParseCLP().setProtectedFields(fields, userField: userField)
+        XCTAssertEqual(clp.getProtectedFieldsUser(userField), fields)
+
+        let newField = Set<String>(["new"])
+        let clp2 = clp.addProtectedFieldsUser(newField, userField: userField)
+        XCTAssertEqual(clp2.getProtectedFieldsUser(userField), fields.union(newField))
+
+        let clp3 = clp2.removeProtectedFieldsUser(newField, userField: userField)
+        XCTAssertEqual(clp3.getProtectedFieldsUser(userField), fields)
+
+        let clp4 = ParseCLP().addProtectedFieldsUser(newField, userField: userField)
+        XCTAssertEqual(clp4.getProtectedFieldsUser(userField), newField)
+    }
+
     func testProtectedFieldsObjectId() throws {
         let fields = Set<String>(["hello", "world"])
         let clp = ParseCLP().setProtectedFields(fields, for: objectId)

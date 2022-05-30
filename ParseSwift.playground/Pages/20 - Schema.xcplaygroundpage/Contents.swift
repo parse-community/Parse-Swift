@@ -48,8 +48,10 @@ struct GameScore2: ParseObject {
 
     //: Your own properties.
     var points: Int?
+    var level: Int?
     var data: ParseBytes?
     var owner: User?
+    var rivals: [User]?
 
     //: Implement your own version of merge
     func merge(with object: Self) throws -> Self {
@@ -58,6 +60,10 @@ struct GameScore2: ParseObject {
                                      original: object) {
             updated.points = object.points
         }
+        if updated.shouldRestoreKey(\.level,
+                                     original: object) {
+            updated.level = object.level
+        }
         if updated.shouldRestoreKey(\.data,
                                      original: object) {
             updated.data = object.data
@@ -65,6 +71,10 @@ struct GameScore2: ParseObject {
         if updated.shouldRestoreKey(\.owner,
                                      original: object) {
             updated.owner = object.owner
+        }
+        if updated.shouldRestoreKey(\.rivals,
+                                     original: object) {
+            updated.rivals = object.rivals
         }
         return updated
     }
@@ -93,14 +103,21 @@ var gameScoreSchema = ParseSchema<GameScore2>(classLevelPermissions: clp)
     .addField("points",
               type: .number,
               options: ParseFieldOptions<Int>(required: false, defauleValue: nil))
+    .addField("level",
+              type: .number,
+              options: ParseFieldOptions<Int>(required: false, defauleValue: nil))
     .addField("data",
               type: .bytes,
               options: ParseFieldOptions<String>(required: false, defauleValue: nil))
 
 do {
-    gameScoreSchema = try gameScoreSchema.addField("owner",
-                                                   type: .pointer,
-                                                   options: ParseFieldOptions<User>(required: false, defauleValue: nil))
+    gameScoreSchema = try gameScoreSchema
+        .addField("owner",
+                  type: .pointer,
+                  options: ParseFieldOptions<User>(required: false, defauleValue: nil))
+        .addField("rivals",
+                  type: .array,
+                  options: ParseFieldOptions<[User]>(required: false, defauleValue: nil))
 } catch {
     print("Can't add field: \(gameScoreSchema)")
 }
@@ -120,7 +137,7 @@ let clp2 = clp.setPointerFields(Set(["owner"]), on: .get)
 gameScoreSchema.classLevelPermissions = clp2
 
 //: In addition, we can add an index.
-gameScoreSchema = gameScoreSchema.addIndex("myIndex", field: "points", index: 1)
+gameScoreSchema = gameScoreSchema.addIndex("myIndex", field: "level", index: 1)
 
 //: Next, we need to update the schema on the server with the changes.
 gameScoreSchema.update { result in
@@ -174,11 +191,13 @@ gameScoreSchema.update { result in
 }
 
 /*:
- Fields can also be deleted on a schema. Lets remove
- the **data** field since it's not going being used.
+ Sets of fields can also be protected from access. Lets protect
+ some fields from access.
 */
 var clp3 = gameScoreSchema.classLevelPermissions
-clp3 = clp3?.setProtectedFieldsPublic(["owner"])
+clp3 = clp3?
+    .setProtectedFieldsPublic(["owner"])
+    .setProtectedFields(["level"], userField: "rivals")
 gameScoreSchema.classLevelPermissions = clp3
 
 //: Next, we need to update the schema on the server with the changes.
