@@ -85,7 +85,7 @@ public protocol ParseObject: Objectable,
      Determines if a `KeyPath` of the current `ParseObject` should be restored
      by comparing it to another `ParseObject`.
      - parameter original: The original `ParseObject`.
-     - returns: Returns a `true` if the keyPath should be restored  or `false` otherwise.
+     - returns: Returns a **true** if the keyPath should be restored  or **false** otherwise.
     */
     func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
                              original: Self) -> Bool where W: Equatable
@@ -169,7 +169,7 @@ public extension ParseObject {
     /**
      Determines if two objects have the same objectId.
      - parameter as: Object to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil
@@ -817,7 +817,7 @@ extension ParseObject {
 extension ParseObject {
 
     /**
-     Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseObject` *synchronously* with the current data from the server.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
@@ -1211,7 +1211,7 @@ internal extension ParseType {
 // MARK: Deletable
 extension ParseObject {
     /**
-     Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     Deletes the `ParseObject` *synchronously* with the current data from the server.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.

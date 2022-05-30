@@ -14,8 +14,8 @@ public extension ParseInstallation {
 
     // MARK: Combine
     /**
-     Fetches the `ParseInstallation` *aynchronously* with the current data from the server
-     and sets an error if one occurs. Publishes when complete.
+     Fetches the `ParseInstallation` *aynchronously* with the current data from the server.
+     Publishes when complete.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.

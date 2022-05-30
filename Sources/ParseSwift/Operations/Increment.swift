@@ -9,6 +9,6 @@
 import Foundation
 
 internal struct Increment: Encodable {
-    let __op: String = "Increment" // swiftlint:disable:this identifier_name
+    let __op: Operation = .increment // swiftlint:disable:this identifier_name
     let amount: Int
 }

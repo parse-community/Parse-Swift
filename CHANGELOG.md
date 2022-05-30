@@ -5,6 +5,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.5.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Add ParseSchema, ParseCLP, and ParseFieldOptions. Should only be used when using the Swift SDK on a secured server ([#370](https://github.com/parse-community/Parse-Swift/pull/370)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.5.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.4.0...4.5.0)
 

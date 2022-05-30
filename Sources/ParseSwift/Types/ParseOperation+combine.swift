@@ -15,7 +15,7 @@ public extension ParseOperation {
     // MARK: Combine
 
     /**
-     Saves the operations on the `ParseObject` *asynchronously* and executes the given callback block.
+     Saves the operations on the `ParseObject` *asynchronously*. Publishes when complete.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.

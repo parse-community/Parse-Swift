@@ -44,6 +44,11 @@ public struct API {
         case aggregate(className: String)
         case config
         case health
+        case schemas
+        case schema(className: String)
+        case purge(className: String)
+        case triggers
+        case trigger(name: String, className: String)
         case any(String)
 
         var urlComponent: String {
@@ -94,6 +99,16 @@ public struct API {
                 return "/config"
             case .health:
                 return "/health"
+            case .schemas:
+                return "/schemas"
+            case .schema(let className):
+                return "/schemas/\(className)"
+            case .purge(let className):
+                return "/purge/\(className)"
+            case .triggers:
+                return "/hooks/triggers"
+            case .trigger(let name, let className):
+                return "/hooks/triggers/\(className)/\(name)"
             case .any(let path):
                 return path
             }

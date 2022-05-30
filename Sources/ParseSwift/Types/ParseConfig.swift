@@ -72,7 +72,7 @@ extension ParseConfig {
     /**
      Update the Config *synchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns `true` if updated, `false` otherwise.
+     - returns: Returns **true** if updated, **false** otherwise.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */

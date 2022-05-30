@@ -38,7 +38,7 @@ public struct ParseGitHub<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
         /// Verifies all mandatory keys are in authData.
         /// - parameter authData: Dictionary containing key/values.
-        /// - returns: `true` if all the mandatory keys are present, `false` otherwise.
+        /// - returns: **true** if all the mandatory keys are present, **false** otherwise.
         func verifyMandatoryKeys(authData: [String: String]) -> Bool {
             guard authData[AuthenticationKeys.id.rawValue] != nil,
                   authData[AuthenticationKeys.accessToken.rawValue] != nil else {

@@ -12,7 +12,7 @@ import Foundation
 // MARK: Async/Await
 public extension Pointer {
     /**
-     Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseObject` *aynchronously* with the current data from the server.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
