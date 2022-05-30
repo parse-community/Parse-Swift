@@ -149,6 +149,35 @@ class ParseSchemaAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     @MainActor
+    func testUpdateOldIndexes() async throws {
+
+        var schema = createDummySchema()
+        schema.indexes = [
+            "meta": ["world": "peace"],
+            "stop": ["being": "greedy"]
+        ]
+        schema.pendingIndexes.removeAll()
+
+        let serverResponse = schema
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await schema.update()
+        XCTAssertEqual(saved.fields, serverResponse.fields)
+        XCTAssertEqual(saved.indexes, serverResponse.indexes)
+        XCTAssertEqual(saved.classLevelPermissions, serverResponse.classLevelPermissions)
+        XCTAssertEqual(saved.className, serverResponse.className)
+        XCTAssertTrue(saved.pendingIndexes.isEmpty)
+    }
+
+    @MainActor
     func testUpdateError() async throws {
 
         let schema = createDummySchema()

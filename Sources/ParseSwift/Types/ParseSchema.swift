@@ -48,20 +48,12 @@ public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
         var currentIndexes = [String: [String: String]]()
         indexes?.forEach { (name, value) in
             value.forEach { (field, index) in
-                if currentIndexes[name] != nil {
-                    currentIndexes[name]?[field] = index.description
-                } else {
-                    currentIndexes[name] = [field: index.description]
-                }
+                currentIndexes[name] = [field: index.description]
             }
         }
         pendingIndexes.forEach { (name, value) in
             value.forEach { (field, index) in
-                if currentIndexes[name] != nil {
-                    currentIndexes[name]?[field] = index.description
-                } else {
-                    currentIndexes[name] = [field: index.description]
-                }
+                currentIndexes[name] = [field: index.description]
             }
         }
         return currentIndexes
@@ -214,7 +206,7 @@ public extension ParseSchema {
      Add an index to create/update a `ParseSchema`.
      
      - parameter name: Name of the index that will be created/updated in the schema on Parse Server.
-     - parameter field: The **field** to apply the `ParseIndex` to.
+     - parameter field: The **field** the index should be added to.
      - parameter index: The **index** to create.
      - returns: A mutated instance of `ParseSchema` for easy chaining.
     */

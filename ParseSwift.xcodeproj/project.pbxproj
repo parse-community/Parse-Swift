@@ -374,10 +374,6 @@
 		709A148D2839A1DB00BF85E5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A148B2839A1DB00BF85E5 /* Operation.swift */; };
 		709A148E2839A1DB00BF85E5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A148B2839A1DB00BF85E5 /* Operation.swift */; };
 		709A148F2839A1DB00BF85E5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A148B2839A1DB00BF85E5 /* Operation.swift */; };
-		709A14912839A60600BF85E5 /* ParseIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A14902839A60600BF85E5 /* ParseIndex.swift */; };
-		709A14922839A60600BF85E5 /* ParseIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A14902839A60600BF85E5 /* ParseIndex.swift */; };
-		709A14932839A60600BF85E5 /* ParseIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A14902839A60600BF85E5 /* ParseIndex.swift */; };
-		709A14942839A60600BF85E5 /* ParseIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A14902839A60600BF85E5 /* ParseIndex.swift */; };
 		709A14A02839CABD00BF85E5 /* ParseCLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149F2839CABD00BF85E5 /* ParseCLP.swift */; };
 		709A14A12839CABD00BF85E5 /* ParseCLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149F2839CABD00BF85E5 /* ParseCLP.swift */; };
 		709A14A22839CABD00BF85E5 /* ParseCLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A149F2839CABD00BF85E5 /* ParseCLP.swift */; };
@@ -1021,7 +1017,6 @@
 		709A148128395ED100BF85E5 /* ParseSchema+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseSchema+async.swift"; sourceTree = "<group>"; };
 		709A148628396B1C00BF85E5 /* ParseField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseField.swift; sourceTree = "<group>"; };
 		709A148B2839A1DB00BF85E5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
-		709A14902839A60600BF85E5 /* ParseIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseIndex.swift; sourceTree = "<group>"; };
 		709A149F2839CABD00BF85E5 /* ParseCLP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCLP.swift; sourceTree = "<group>"; };
 		709A14A4283AAF4C00BF85E5 /* ParseSchema+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseSchema+combine.swift"; sourceTree = "<group>"; };
 		709B40C0268F999000ED2EAC /* IOS13Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOS13Tests.swift; sourceTree = "<group>"; };
@@ -1471,7 +1466,6 @@
 				F97B45C524D9C6F200F4A88B /* Fetchable.swift */,
 				705A9A2E25991C1400B3547F /* Fileable.swift */,
 				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
-				709A14902839A60600BF85E5 /* ParseIndex.swift */,
 				70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */,
 				70647E9B259E3A9A004C1004 /* ParseType.swift */,
 				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
@@ -2295,7 +2289,6 @@
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FCF2690BA70005A6BA5 /* QueryObservable.swift in Sources */,
-				709A14912839A60600BF85E5 /* ParseIndex.swift in Sources */,
 				70F03A232780BDE200E5AFB4 /* ParseGoogle.swift in Sources */,
 				709A148228395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				7045769826BD917500F86F71 /* Query+async.swift in Sources */,
@@ -2541,7 +2534,6 @@
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				700395A425A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD02690BA70005A6BA5 /* QueryObservable.swift in Sources */,
-				709A14922839A60600BF85E5 /* ParseIndex.swift in Sources */,
 				7045769926BD917500F86F71 /* Query+async.swift in Sources */,
 				709A148328395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				703B094F26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
@@ -2894,7 +2886,6 @@
 				7085DD9726CBF3A70033B977 /* Documentation.docc in Sources */,
 				F97B465D24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A625A119430052CB31 /* Operations.swift in Sources */,
-				709A14942839A60600BF85E5 /* ParseIndex.swift in Sources */,
 				91BB8FD22690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				709A148528395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				7045769B26BD917500F86F71 /* Query+async.swift in Sources */,
@@ -3042,7 +3033,6 @@
 				7085DD9626CBF3A70033B977 /* Documentation.docc in Sources */,
 				F97B465C24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A525A119430052CB31 /* Operations.swift in Sources */,
-				709A14932839A60600BF85E5 /* ParseIndex.swift in Sources */,
 				91BB8FD12690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				709A148428395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				7045769A26BD917500F86F71 /* Query+async.swift in Sources */,

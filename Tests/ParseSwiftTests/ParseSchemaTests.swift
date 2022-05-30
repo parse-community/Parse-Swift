@@ -101,6 +101,12 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(schema.classLevelPermissions, clp)
     }
 
+    func testParseFieldOptionsEncode() {
+        let options = ParseFieldOptions<Int>(required: false, defauleValue: 2)
+        XCTAssertEqual(options.description,
+                       "ParseFieldOptions ({\"defaultValue\":2,\"required\":false})")
+    }
+
     func testSchemaEncode() throws {
         let schema = createDummySchema()
         // swiftlint:disable:next line_length
