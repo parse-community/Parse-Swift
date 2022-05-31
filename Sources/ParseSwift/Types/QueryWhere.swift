@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct QueryWhere: Encodable, Equatable {
+struct QueryWhere: Codable, Equatable {
     var constraints = [String: Set<QueryConstraint>]()
 
     mutating func add(_ constraint: QueryConstraint) {

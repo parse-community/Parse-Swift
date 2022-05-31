@@ -9,8 +9,8 @@
 import Foundation
 
 /// Used to constrain a query.
-public struct QueryConstraint: Encodable, Hashable {
-    enum Comparator: String, CodingKey, Encodable {
+public struct QueryConstraint: Codable, Hashable {
+    enum Comparator: String, CodingKey, Codable {
         case lessThan = "$lt"
         case lessThanOrEqualTo = "$lte"
         case greaterThan = "$gt"
@@ -49,7 +49,7 @@ public struct QueryConstraint: Encodable, Hashable {
     }
 
     var key: String
-    var value: Encodable?
+    var value: Codable?
     var comparator: Comparator?
     var isNull: Bool = false
 
