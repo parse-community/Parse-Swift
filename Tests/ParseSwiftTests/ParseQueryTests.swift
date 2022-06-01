@@ -3491,7 +3491,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testAggregateCommand() throws {
         var query = GameScore.query()
-        let value = AnyEncodable("world")
+        let value = AnyCodable("world")
         query.pipeline = [["hello": value]]
         let aggregate = query.aggregateCommand()
         // swiftlint:disable:next line_length

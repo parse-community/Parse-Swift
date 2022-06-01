@@ -97,7 +97,7 @@ public struct Query<T>: Codable, Equatable where T: ParseObject {
 
       - parameter key: The key to order by.
     */
-    public enum Order: Encodable, Equatable {
+    public enum Order: Codable, Equatable {
         /// Sort in ascending order based on `key`.
         case ascending(String)
         /// Sort in descending order based on `key`.
