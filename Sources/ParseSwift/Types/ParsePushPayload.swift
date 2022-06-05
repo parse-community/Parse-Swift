@@ -9,14 +9,7 @@
 import Foundation
 
 /// A `ParsePushStatusable` payload.
-public struct ParsePushPayload: Codable, Hashable {
+public struct ParsePushPayload<V: ParsePushPayloadDatable>: Codable, Equatable {
     /// The data of the payload.
-    var data: ParsePushPayloadData?
-}
-
-public struct ParsePushPayloadData: Codable, Hashable {
-    /// The alert message.
-    var alert: String?
-    /// The badge number.
-    var badge: Int?
+    public var data: V?
 }

@@ -15,8 +15,9 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParsePushStatus<U: ParseInstallation>: ParsePushStatusable {
-    public typealias InstallationQuery = U
+public struct ParsePushStatus<U: ParseInstallation, V: ParsePushPayloadDatable>: ParsePushStatusable {
+    public typealias InstallationType = U
+    public typealias PushType = V
 
     public var originalData: Data?
 
@@ -34,7 +35,7 @@ public struct ParsePushStatus<U: ParseInstallation>: ParsePushStatusable {
 
     public var source: String?
 
-    public var payload: ParsePushPayload?
+    public var payload: ParsePushPayload<PushType>?
 
     public var title: String?
 

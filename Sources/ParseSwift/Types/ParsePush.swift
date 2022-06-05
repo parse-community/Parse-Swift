@@ -14,16 +14,18 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParsePush<U: ParseInstallation>: ParseType, Decodable {
-    public typealias InstallationQuery = U
-    /// The query of `ParseInstallation` for the notification.
+public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: ParseType, Decodable {
     var `where`: QueryWhere?
+    /// The installation type tied to `ParsePush`.
+    public typealias InstallationType = U
+    /// The payload to send.
+    public var data: V?
     /// When to send the notification.
-    var pushTime: Date?
+    public var pushTime: Date?
     /// When to expire the notification.
-    var expirationTime: Date?
+    public var expirationTime: Date?
     /// The seconds from now to expire the notification.
-    var expirationInterval: Int?
+    public var expirationInterval: Int?
 
     enum CodingKeys: String, CodingKey {
         case `where`
@@ -44,7 +46,7 @@ public struct ParsePush<U: ParseInstallation>: ParseType, Decodable {
      exposed to the public.
      - warning: expirationTime and expirationInterval cannot be set at the same time.
     */
-    public init(query: Query<InstallationQuery>, pushTime: Date?, expirationTime: Date?) {
+    public init(query: Query<InstallationType>, pushTime: Date?, expirationTime: Date?) {
         self.`where` = query.where
         self.pushTime = pushTime
         self.expirationTime = expirationTime
@@ -62,7 +64,7 @@ public struct ParsePush<U: ParseInstallation>: ParseType, Decodable {
      exposed to the public.
      - warning: expirationTime and expirationInterval cannot be set at the same time.
     */
-    public init(query: Query<InstallationQuery>, pushTime: Date?, expirationInterval: Int?) {
+    public init(query: Query<InstallationType>, pushTime: Date?, expirationInterval: Int?) {
         self.`where` = query.where
         self.pushTime = pushTime
         self.expirationInterval = expirationInterval
@@ -134,11 +136,11 @@ public extension ParsePush {
     func fetchStatus(_ statusId: String,
                      options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<ParsePushStatus<InstallationQuery>, ParseError>) -> Void) {
+                     completion: @escaping (Result<ParsePushStatus<InstallationType, V>, ParseError>) -> Void) {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        let query = ParsePushStatus<InstallationQuery>.query("objectId" == statusId)
+        let query = ParsePushStatus<InstallationType, V>.query("objectId" == statusId)
         query.first(options: options, completion: completion)
     }
 }

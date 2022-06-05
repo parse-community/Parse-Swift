@@ -40,7 +40,7 @@ public extension ParsePush {
      exposed to the public.
     */
     func fetchStatusPublisher(_ statusId: String,
-                              options: API.Options = []) -> Future<ParsePushStatus<InstallationQuery>, ParseError> {
+                              options: API.Options = []) -> Future<ParsePushStatus<InstallationType, V>, ParseError> {
         Future { promise in
             self.fetchStatus(statusId,
                              options: options,
