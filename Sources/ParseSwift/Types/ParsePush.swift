@@ -15,11 +15,10 @@ import Foundation
  exposed to the public.
  */
 public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: ParseType, Decodable {
-    var `where`: QueryWhere?
-    /// The installation type tied to `ParsePush`.
-    public typealias InstallationType = U
+    /// The query that determines what installations should receive the notification.
+    public var `where`: Query<U>?
     /// An Array of channels to push to.
-    public var channels: [String]?
+    public var channels: Set<String>?
     /// The payload to send.
     public var data: V?
     /// When to send the notification.
@@ -48,8 +47,8 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: Parse
      exposed to the public.
      - warning: expirationTime and expirationInterval cannot be set at the same time.
     */
-    public init(query: Query<InstallationType>, pushTime: Date?, expirationTime: Date?) {
-        self.`where` = query.where
+    public init(query: Query<U>, pushTime: Date?, expirationTime: Date?) {
+        self.`where` = query
         self.pushTime = pushTime
         self.expirationTime = expirationTime
     }
@@ -64,10 +63,11 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: Parse
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
-     - warning: expirationTime and expirationInterval cannot be set at the same time.
+     - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
+     - note: Only the `where` of `query` will be used. All other properties will be ignored.
     */
-    public init(query: Query<InstallationType>, pushTime: Date?, expirationInterval: Int?) {
-        self.`where` = query.where
+    public init(query: Query<U>, pushTime: Date?, expirationInterval: Int?) {
+        self.`where` = query
         self.pushTime = pushTime
         self.expirationInterval = expirationInterval
     }
@@ -96,6 +96,12 @@ extension ParsePush {
         if expirationTime != nil && expirationInterval != nil {
             let error =  ParseError(code: .unknownError,
                                     message: "expirationTime and expirationInterval cannot both be set.")
+            completion(.failure(error))
+            return
+        }
+        if `where` != nil && channels != nil {
+            let error =  ParseError(code: .unknownError,
+                                    message: "query and channels cannot both be set.")
             completion(.failure(error))
             return
         }
@@ -138,11 +144,11 @@ public extension ParsePush {
     func fetchStatus(_ statusId: String,
                      options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<ParsePushStatus<InstallationType, V>, ParseError>) -> Void) {
+                     completion: @escaping (Result<ParsePushStatus<U, V>, ParseError>) -> Void) {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        let query = ParsePushStatus<InstallationType, V>.query("objectId" == statusId)
+        let query = ParsePushStatus<U, V>.query("objectId" == statusId)
         query.first(options: options, completion: completion)
     }
 }
