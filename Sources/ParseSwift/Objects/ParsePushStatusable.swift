@@ -18,7 +18,7 @@ import Foundation
  */
 public protocol ParsePushStatusable: ParseObject {
 
-    associatedtype QueryObject: ParseObject
+    associatedtype InstallationQuery: ParseInstallation
 
     /// The time the notification was pushed.
     var pushTime: Date? { get }
@@ -27,7 +27,7 @@ public protocol ParsePushStatusable: ParseObject {
     var source: String? { get }
 
     /// The query used to  select what installations received the notification.
-    var query: Query<QueryObject>? { get }
+    var query: Query<InstallationQuery>? { get }
 
     /// The data sent in the notification.
     var payload: ParsePushPayload? { get }
@@ -35,7 +35,7 @@ public protocol ParsePushStatusable: ParseObject {
     /// The data sent in the notification.
     var title: String? { get }
 
-    /// The date the notification expires.
+    /// The date to expire the notification.
     var expiry: Int? { get }
 
     /// The amount of seconds until the notification expires after scheduling.

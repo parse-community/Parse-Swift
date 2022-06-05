@@ -15,8 +15,8 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParsePushStatus<U: ParseObject>: ParsePushStatusable {
-    public typealias QueryObject = U
+public struct ParsePushStatus<U: ParseInstallation>: ParsePushStatusable {
+    public typealias InstallationQuery = U
 
     public var originalData: Data?
 
@@ -72,7 +72,8 @@ public struct ParsePushStatus<U: ParseObject>: ParsePushStatusable {
         case expirationInterval = "expiration_interval"
         case objectId, createdAt, updatedAt, ACL
         case count, failedPerUTCOffset, sentPerUTCOffset,
-             sentPerType, errorMessage, pushHash, numFailed, numSent, status,
-             expiry, title, payload, source, pushTime, query
+             sentPerType, failedPerType, errorMessage, pushHash,
+             numFailed, numSent, status, expiry, title, payload,
+             source, pushTime, query
     }
 }

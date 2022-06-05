@@ -47,6 +47,7 @@ public struct API {
         case schemas
         case schema(className: String)
         case purge(className: String)
+        case push
         case triggers
         case trigger(name: String, className: String)
         case any(String)
@@ -105,6 +106,8 @@ public struct API {
                 return "/schemas/\(className)"
             case .purge(let className):
                 return "/purge/\(className)"
+            case .push:
+                return "/push"
             case .triggers:
                 return "/hooks/triggers"
             case .trigger(let name, let className):

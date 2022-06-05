@@ -12,7 +12,7 @@ import Combine
 
 public extension ParseSchema {
     /**
-     Fetches the `ParseObject` *aynchronously* from the server. Publishes when complete.
+     Fetches the `ParseSchema` *aynchronously* from the server. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
@@ -30,7 +30,7 @@ public extension ParseSchema {
     }
 
     /**
-     Creates the `ParseObject` *aynchronously* on the server. Publishes when complete.
+     Creates the `ParseSchema` *aynchronously* on the server. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
@@ -48,7 +48,7 @@ public extension ParseSchema {
     }
 
     /**
-     Updates the `ParseObject` *aynchronously* on the server. Publishes when complete.
+     Updates the `ParseSchema` *aynchronously* on the server. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
@@ -66,7 +66,7 @@ public extension ParseSchema {
     }
 
     /**
-     Deletes all objects in the `ParseObject` *aynchronously* from the server. Publishes when complete.
+     Deletes all objects in the `ParseSchema` *aynchronously* from the server. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
@@ -85,7 +85,7 @@ public extension ParseSchema {
     }
 
     /**
-     Deletes the `ParseObject` *aynchronously* from the server. Publishes when complete.
+     Deletes the `ParseSchema` *aynchronously* from the server. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
