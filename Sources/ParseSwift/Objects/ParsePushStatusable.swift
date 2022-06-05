@@ -9,63 +9,69 @@
 import Foundation
 
 /**
- Objects that conform to the `ParseRole` protocol represent a Role on the Parse Server.
- `ParseRole`'s represent groupings of `ParseUser` objects for the purposes of
- granting permissions (e.g. specifying a `ParseACL` for a `ParseObject`).
- Roles are specified by their sets of child users and child roles,
- all of which are granted any permissions that the parent role has.
- Roles must have a name (which cannot be changed after creation of the role),
- and must specify a `ParseACL`.
+ Objects that conform to the `ParsePushStatusable` protocol represent
+ PushStatus on the Parse Server.
+ - warning: These objects are only read-only.
+ - requires: `.useMasterKey` has to be available. It is recommended to only
+ use the master key in server-side applications where the key is kept secure and not
+ exposed to the public.
  */
 public protocol ParsePushStatusable: ParseObject {
 
     associatedtype QueryObject: ParseObject
 
-    /**
-     Gets or sets the name for a role.
-     This value must be set before the role has been saved to the server,
-     and cannot be set once the role has been saved.
-     - warning: A role's name can only contain alphanumeric characters, `_`, `-`, and spaces.
-     */
-    var pushTime: String? { get }
+    /// The time the notification was pushed.
+    var pushTime: Date? { get }
 
-    /**
-     Gets the `ParseRelation` for the `ParseUser` objects that are direct children of this role.
-     These users are granted any privileges that this role has been granted
-     (e.g. read or write access through `ParseACL`s). You can add or remove users from
-     the role through this relation.
-     */
+    /// The source that created the notification.
     var source: String? { get }
 
-    /**
-     Gets the `ParseRelation` for the `ParseRole` objects that are direct children of this role.
-     These roles' users are granted any privileges that this role has been granted
-     (e.g. read or write access through `ParseACL`s). You can add or remove child roles
-     from this role through this relation.
-     */
+    /// The query used to  select what installations received the notification.
     var query: Query<QueryObject>? { get }
 
-    var payload: String? { get }
+    /// The data sent in the notification.
+    var payload: ParsePushPayload? { get }
+
+    /// The data sent in the notification.
     var title: String? { get }
+
+    /// The date the notification expires.
     var expiry: Int? { get }
+
+    /// The amount of seconds until the notification expires after scheduling.
     var expirationInterval: String? { get }
+
+    /// The status of the notification.
     var status: String? { get }
+
+    /// The amount of notificaitons sent.
     var numSent: Int? { get }
+
+    /// The amount of notifications that failed.
     var numFailed: Int? { get }
+
+    /// The hash of the alert.
     var pushHash: String? { get }
+
+    /// The associated error message.
     var errorMessage: ParseError? { get }
+
+    /// The amount of notifications sent per type.
     var sentPerType: [String: Int]? { get }
+
+    /// The amount of notifications failed per type.
     var failedPerType: [String: Int]? { get }
+
+    /// The UTC offeset of notifications sent per type.
     var sentPerUTCOffset: [String: Int]? { get }
+
+    /// The UTC offeset of notifications failed per type.
     var failedPerUTCOffset: [String: Int]? { get }
+
+    /// The amount of batches queued.
     var count: Int? { get }
 
-    /**
-     Create a an empty `ParseRole`.
-     - warning: It's best to use the provided initializers, `init(name: String)`
-     or `init(name: String, acl: ParseACL)` instead of `init()` as they ensure the
-     `ParseRole` is setup properly.
-     */
+    /// Create a an empty `ParsePushStatus`.
     init()
 }
 

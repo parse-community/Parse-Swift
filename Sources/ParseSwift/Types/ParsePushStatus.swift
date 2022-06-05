@@ -8,6 +8,13 @@
 
 import Foundation
 
+/**
+ The PushStatus on the Parse Server.
+ - warning: These objects are only read-only.
+ - requires: `.useMasterKey` has to be available. It is recommended to only
+ use the master key in server-side applications where the key is kept secure and not
+ exposed to the public.
+ */
 public struct ParsePushStatus<U: ParseObject>: ParsePushStatusable {
     public typealias QueryObject = U
 
@@ -23,11 +30,11 @@ public struct ParsePushStatus<U: ParseObject>: ParsePushStatusable {
 
     public var query: Query<U>?
 
-    public var pushTime: String?
+    public var pushTime: Date?
 
     public var source: String?
 
-    public var payload: String?
+    public var payload: ParsePushPayload?
 
     public var title: String?
 
