@@ -135,7 +135,7 @@ public struct ParsePushPayloadData: ParsePushPayloadDatable {
      Increment the badge value by 1 to display on your app's icon.
      - warning: For Apple OS's only.
      */
-    public mutating func increaseBadge() {
+    public mutating func incrementBadge() {
         self.badge = AnyCodable(Increment(amount: 1))
     }
 }

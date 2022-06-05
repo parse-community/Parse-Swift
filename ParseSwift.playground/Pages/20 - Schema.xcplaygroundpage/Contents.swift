@@ -251,4 +251,5 @@ gameScoreSchema.purge { result in
     }
 }
 
+PlaygroundPage.current.finishExecution()
 //: [Next](@next)
