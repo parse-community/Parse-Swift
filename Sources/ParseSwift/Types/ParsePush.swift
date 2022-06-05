@@ -18,6 +18,8 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: Parse
     var `where`: QueryWhere?
     /// The installation type tied to `ParsePush`.
     public typealias InstallationType = U
+    /// An Array of channels to push to.
+    public var channels: [String]?
     /// The payload to send.
     public var data: V?
     /// When to send the notification.
@@ -28,10 +30,10 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: Parse
     public var expirationInterval: Int?
 
     enum CodingKeys: String, CodingKey {
-        case `where`
         case pushTime = "push_time"
         case expirationTime = "expiration_time"
         case expirationInterval = "expiration_interval"
+        case `where`, channels, data
     }
 
     /**
