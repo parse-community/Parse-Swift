@@ -45,7 +45,7 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: Parse
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
-     - warning: expirationTime and expirationInterval cannot be set at the same time.
+     - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
     */
     public init(query: Query<U>, pushTime: Date?, expirationTime: Date?) {
         self.`where` = query
@@ -64,7 +64,6 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: Parse
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
-     - note: Only the `where` of `query` will be used. All other properties will be ignored.
     */
     public init(query: Query<U>, pushTime: Date?, expirationInterval: Int?) {
         self.`where` = query
