@@ -176,3 +176,9 @@ internal struct ConfigUpdateResponse: Codable {
 internal struct HealthResponse: Codable {
     let status: String
 }
+
+// MARK: PushResponse
+internal struct PushResponse: Codable {
+    let data: Data
+    let statusId: String?
+}

@@ -85,16 +85,27 @@ data.incrementBadge()
 var push2 = ParsePush<Installation, ParsePushPayloadData>(data: data)
 push2.channels = Set(["newDevices"])
 
-var pushStatusId: String?
+//: Storing this property for later.
+var pushStatusId = ""
 
 //: Send the new notification.
 push2.send { result in
     switch result {
     case .success(let statusId):
         print("The push was created with id: \"\(statusId)\"")
+        //: Update the stored property with the lastest status id.
         pushStatusId = statusId
     case .failure(let error):
         print("Couldn't create push: \(error)")
+    }
+}
+
+push2.fetchStatus(pushStatusId) { result in
+    switch result {
+    case .success(let pushStatus):
+        print("The push status is: \"\(pushStatus)\"")
+    case .failure(let error):
+        print("Couldn't fetch push status: \(error)")
     }
 }
 

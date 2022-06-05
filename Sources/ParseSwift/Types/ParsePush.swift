@@ -129,7 +129,17 @@ extension ParsePush {
         return API.Command(method: .POST,
                            path: .push,
                            body: self) { (data) -> String in
-            try ParseCoding.jsonDecoder().decode(String .self, from: data)
+            let response = try ParseCoding.jsonDecoder().decode(PushResponse.self, from: data)
+            let success = try ParseCoding.jsonDecoder().decode(ConfigUpdateResponse.self, from: response.data).result
+            if success {
+                guard let statusId = response.statusId else {
+                    throw ParseError(code: .unknownError,
+                                     message: "Missing \"X-Parse-Push-Status-Id\" in header response")
+                }
+                return statusId
+            } else {
+                throw ParseError(code: .unknownError, message: "Push was unsuccessful")
+            }
         }
     }
 }
