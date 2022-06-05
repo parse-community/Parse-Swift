@@ -72,9 +72,9 @@ class ParsePointerTests: XCTestCase {
         score.objectId = "yarr"
         let pointer = try score.toPointer()
         XCTAssertEqual(pointer.debugDescription,
-                       "PointerType ({\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"})")
+                       "Pointer ({\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"})")
         XCTAssertEqual(pointer.description,
-                       "PointerType ({\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"})")
+                       "Pointer ({\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"})")
     }
 
     func testPointerNoObjectId() throws {
