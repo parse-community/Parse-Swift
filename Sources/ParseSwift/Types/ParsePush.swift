@@ -14,7 +14,7 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadDatable>: ParseType, Decodable {
+public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseType, Decodable {
     /// The query that determines what installations should receive the notification.
     public var `where`: Query<U>?
     /// An Array of channels to push to.

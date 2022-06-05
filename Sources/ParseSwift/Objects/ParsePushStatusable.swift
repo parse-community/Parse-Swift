@@ -19,7 +19,7 @@ import Foundation
 public protocol ParsePushStatusable: ParseObject {
 
     associatedtype InstallationType: ParseInstallation
-    associatedtype PushType: ParsePushPayloadDatable
+    associatedtype PushType: ParsePushPayloadable
 
     /// The time the notification was pushed.
     var pushTime: Date? { get }
@@ -31,7 +31,7 @@ public protocol ParsePushStatusable: ParseObject {
     var query: Query<InstallationType>? { get }
 
     /// The data sent in the notification.
-    var payload: ParsePushPayload<PushType>? { get }
+    var payload: PushType? { get }
 
     /// The data sent in the notification.
     var title: String? { get }

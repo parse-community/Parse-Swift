@@ -48,7 +48,7 @@ struct Installation: ParseInstallation {
  */
 var alert = ParsePushPayloadAppleAlert()
 alert.body = "Hello from ParseSwift!"
-var data = ParsePushPayloadData()
+var data = ParsePushPayload()
 data.setAlert(alert)
 data.setBadge(1)
 
@@ -62,15 +62,29 @@ if let objectId = Installation.current?.objectId {
 }
 
 //: We can create a new push using the data and query.
-let push = ParsePush<Installation, ParsePushPayloadData>(data: data, query: installationQuery)
+let push = ParsePush<Installation, ParsePushPayload>(data: data, query: installationQuery)
+
+//: Storing this property for later.
+var pushStatusId = ""
 
 //: We can send the push notification whenever we are ready.
 push.send { result in
     switch result {
     case .success(let statusId):
         print("The push was created with id: \"\(statusId)\"")
+        //: Update the stored property with the lastest status id.
+        pushStatusId = statusId
     case .failure(let error):
         print("Couldn't create push: \(error)")
+    }
+}
+
+push.fetchStatus(pushStatusId) { result in
+    switch result {
+    case .success(let pushStatus):
+        print("The push status is: \"\(pushStatus)\"")
+    case .failure(let error):
+        print("Couldn't fetch push status: \(error)")
     }
 }
 
@@ -82,11 +96,8 @@ alert.body = "Hello from ParseSwift again!"
 data.setAlert(alert)
 data.incrementBadge()
 
-var push2 = ParsePush<Installation, ParsePushPayloadData>(data: data)
+var push2 = ParsePush<Installation, ParsePushPayload>(data: data)
 push2.channels = Set(["newDevices"])
-
-//: Storing this property for later.
-var pushStatusId = ""
 
 //: Send the new notification.
 push2.send { result in

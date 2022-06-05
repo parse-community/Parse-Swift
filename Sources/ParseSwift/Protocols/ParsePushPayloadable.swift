@@ -16,7 +16,7 @@ import Foundation
  They are not provided by default as they need to be type erased. You will also
  need to implement `CodingKeys`, see `ParsePushPayloadData` for an example.
  */
-public protocol ParsePushPayloadDatable: Codable, Equatable {
+public protocol ParsePushPayloadable: Codable, Equatable {
     /**
      The destination topic for the notification.
      */
@@ -48,7 +48,7 @@ public protocol ParsePushPayloadDatable: Codable, Equatable {
      - warning: For Apple OS's only. Required when delivering notifications to
      devices running iOS 13 and later, or watchOS 6 and later. Ignored on earlier OS versions.
      */
-    var pushType: ParsePushPayloadData.PushType? { get set }
+    var pushType: ParsePushPayload.PushType? { get set }
     /**
      The priority of the notification. Specify 10 to send the notification immediately.
      Specify 5 to send the notification based on power considerations on the user’s device.
@@ -120,7 +120,7 @@ public protocol ParsePushPayloadDatable: Codable, Equatable {
     init()
 }
 
-public extension ParsePushPayloadDatable {
+public extension ParsePushPayloadable {
     init() {
         self.init()
     }
