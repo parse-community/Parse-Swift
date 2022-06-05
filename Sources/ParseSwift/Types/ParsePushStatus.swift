@@ -55,15 +55,17 @@ public struct ParsePushStatus<U: ParseObject>: ParsePushStatusable {
 
     public var count: Int?
 
-    public init() {
-    }
+    public init() { }
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.debugDescription)
     }
-/*
+
     enum CodingKeys: String, CodingKey {
         case expirationInterval = "expiration_interval"
-        case objectId
-    } */
+        case objectId, createdAt, updatedAt, ACL
+        case count, failedPerUTCOffset, sentPerUTCOffset,
+             sentPerType, errorMessage, pushHash, numFailed, numSent, status,
+             expiry, title, payload, source, pushTime, query
+    }
 }
