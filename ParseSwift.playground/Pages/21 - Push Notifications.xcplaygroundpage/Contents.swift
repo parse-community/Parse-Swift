@@ -54,12 +54,10 @@ data.setBadge(1)
 
 /*:
  We now crate a query where the `objectId`
- matches the installation of this Playground.
+ is not null or undefined.
 */
 var installationQuery = Installation.query()
-if let objectId = Installation.current?.objectId {
-    installationQuery.where("objectId" ==  objectId)
-}
+installationQuery = installationQuery.where(isNotNull(key: "objectId"))
 
 //: We can create a new push using the data and query.
 let push = ParsePush<Installation, ParsePushPayload>(data: data, query: installationQuery)

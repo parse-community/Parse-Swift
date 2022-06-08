@@ -29,7 +29,7 @@ public struct ParsePushStatus<U: ParseInstallation, V: ParsePushPayloadable>: Pa
 
     public var ACL: ParseACL?
 
-    public var query: Query<U>?
+    public var query: QueryWhere?
 
     public var pushTime: Date?
 
@@ -74,7 +74,49 @@ public struct ParsePushStatus<U: ParseInstallation, V: ParsePushPayloadable>: Pa
         case objectId, createdAt, updatedAt, ACL
         case count, failedPerUTCOffset, sentPerUTCOffset,
              sentPerType, failedPerType, errorMessage, pushHash,
-             numFailed, numSent, status, expiry, title, payload,
-             source, pushTime, query
+             numFailed, numSent, status, expiry, title, source,
+             pushTime, query, payload
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        objectId = try values.decodeIfPresent(String.self, forKey: .objectId)
+        createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
+        updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
+        ACL = try values.decodeIfPresent(ParseACL.self, forKey: .ACL)
+        count = try values.decodeIfPresent(Int.self, forKey: .count)
+        failedPerUTCOffset = try values.decodeIfPresent([String: Int].self, forKey: .failedPerUTCOffset)
+        sentPerUTCOffset = try values.decodeIfPresent([String: Int].self, forKey: .sentPerType)
+        sentPerType = try values.decodeIfPresent([String: Int].self, forKey: .sentPerType)
+        failedPerType = try values.decodeIfPresent([String: Int].self, forKey: .failedPerType)
+        errorMessage = try values.decodeIfPresent(ParseError.self, forKey: .errorMessage)
+        pushHash = try values.decodeIfPresent(String.self, forKey: .pushHash)
+        numFailed = try values.decodeIfPresent(Int.self, forKey: .numFailed)
+        numSent = try values.decodeIfPresent(Int.self, forKey: .numSent)
+        status = try values.decodeIfPresent(String.self, forKey: .status)
+        expiry = try values.decodeIfPresent(Int.self, forKey: .expiry)
+        title = try values.decodeIfPresent(String.self, forKey: .title)
+        source = try values.decodeIfPresent(String.self, forKey: .source)
+        pushTime = try values.decodeIfPresent(Date.self, forKey: .pushTime)
+        expirationInterval = try values.decodeIfPresent(String.self, forKey: .expirationInterval)
+        // Handle when Parse Server sends incorrect encoded info.
+        do {
+            payload = try values.decodeIfPresent(PayloadType.self, forKey: .payload)
+        } catch {
+            let payloadString = try values.decode(String.self, forKey: .payload)
+            guard let payloadData = payloadString.data(using: .utf8) else {
+                throw ParseError(code: .unknownError, message: "Couldn't decode payload")
+            }
+            payload = try ParseCoding.jsonDecoder().decode(PayloadType.self, from: payloadData)
+        }
+        do {
+            query = try values.decodeIfPresent(QueryWhere.self, forKey: .query)
+        } catch {
+            let queryString = try values.decode(String.self, forKey: .query)
+            guard let queryData = queryString.data(using: .utf8) else {
+                throw ParseError(code: .unknownError, message: "Couldn't decode query")
+            }
+            query = try ParseCoding.jsonDecoder().decode(QueryWhere.self, from: queryData)
+        }
     }
 }

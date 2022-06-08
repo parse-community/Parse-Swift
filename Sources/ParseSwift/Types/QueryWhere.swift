@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct QueryWhere: Codable, Equatable {
+public struct QueryWhere: Codable, Equatable {
     var constraints = [String: Set<QueryConstraint>]()
 
     mutating func add(_ constraint: QueryConstraint) {
@@ -17,7 +17,7 @@ struct QueryWhere: Codable, Equatable {
         constraints[constraint.key] = existing
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try constraints.forEach { (key, value) in
             try value.forEach { (constraint) in
@@ -33,7 +33,7 @@ struct QueryWhere: Codable, Equatable {
     }
 }
 
-extension QueryWhere {
+public extension QueryWhere {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: RawCodingKey.self)
         try container.allKeys.forEach { key in

@@ -27,8 +27,8 @@ public protocol ParsePushStatusable: ParseObject {
     /// The source that created the notification.
     var source: String? { get }
 
-    /// The query used to  select what installations received the notification.
-    var query: Query<InstallationType>? { get }
+    /// The **where** query used to  select what installations received the notification.
+    var query: QueryWhere? { get }
 
     /// The data sent in the notification.
     var payload: PushType? { get }

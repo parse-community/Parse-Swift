@@ -1214,7 +1214,6 @@ extension Query {
         var query = self
         query.limit = 1
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            print("*** 1: \(try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: $0))")
             if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
                 return decoded
             }

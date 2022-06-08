@@ -16,7 +16,7 @@ import Foundation
  */
 public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseType, Decodable {
     /// The query that determines what installations should receive the notification.
-    public var `where`: Query<U>?
+    public var `where`: QueryWhere?
     /// An Array of channels to push to.
     public var channels: Set<String>?
     /// The payload to send.
@@ -56,7 +56,7 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
     */
     public init(data: V, query: Query<U>? = nil, pushTime: Date? = nil, expirationTime: Date? = nil) {
         self.data = data
-        self.`where` = query
+        self.`where` = query?.`where`
         self.pushTime = pushTime
         self.expirationTime = expirationTime
     }
@@ -77,7 +77,7 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
     */
     public init(data: V, query: Query<U>? = nil, pushTime: Date? = nil, expirationInterval: Int?) {
         self.data = data
-        self.`where` = query
+        self.`where` = query?.`where`
         self.pushTime = pushTime
         self.expirationInterval = expirationInterval
     }
