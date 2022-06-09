@@ -112,6 +112,17 @@ public struct Query<T>: Codable, Equatable where T: ParseObject {
                 try container.encode("-\(value)")
             }
         }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.singleValueContainer()
+            var value = try values.decode(String.self)
+            if value.hasPrefix("-") {
+                value.removeFirst()
+                self = .descending(value)
+            } else {
+                self = .ascending(value)
+            }
+        }
     }
 
     /**

@@ -1271,7 +1271,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         let query = GameScore.query(isNull(key: "yolo"))
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":null}})"
+            .order(.ascending("yolo"), .descending("points"))
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"order\":[\"yolo\",\"-points\"],\"skip\":0,\"where\":{\"yolo\":null}})"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
