@@ -392,7 +392,7 @@ extension ParseError {
         do {
             message = try values.decode(String.self, forKey: .message)
         } catch {
-            // Handle when Parse Server sends incorrect encoded errpr.
+            // Handle when Parse Server sends incorrect encoded error.
             message = try values.decode(String.self, forKey: .error)
         }
         self.error = nil

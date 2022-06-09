@@ -8,8 +8,34 @@
 
 import Foundation
 
-/// The payload data for a push notification.
-public struct ParsePushPayload: ParsePushPayloadable {
+// swiftlint:disable line_length
+
+/// The payload data for an Apple push notification.
+public struct ParsePushPayloadApple: ParsePushApplePayloadable {
+    /**
+     If you are a writing an app using the Remote Notification
+     Background Mode introduced in iOS7 (a.k.a. “Background Push”), set this value to
+     1 to trigger a background download.
+     - warning: For Apple OS's only. You also have to set `pushType` starting iOS 13
+     and watchOS 6.
+     */
+    public var contentAvailable: Int?
+    /**
+     If you are a writing an app using the Remote Notification Background Mode introduced
+     in iOS7 (a.k.a. “Background Push”), set this value to 1 to trigger a background download.
+     - warning: You also have to set `pushType` starting iOS 13
+     and watchOS 6.
+     */
+    public var mutableContent: Int?
+    /**
+     The priority of the notification. Specify 10 to send the notification immediately.
+     Specify 5 to send the notification based on power considerations on the user’s device.
+     See Apple's [documentation](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
+     for more information.
+     - warning: For Apple OS's only.
+     */
+    public var priority: Int?
+
     public var topic: String?
 
     public var collapseId: String?
@@ -20,13 +46,7 @@ public struct ParsePushPayload: ParsePushPayloadable {
 
     public var interruptionLevel: String?
 
-    public var contentAvailable: Int?
-
-    public var mutableContent: Int?
-
-    public var pushType: PushType?
-
-    public var priority: Int?
+    public var pushType: PushType? = .alert
 
     public var category: String?
 
@@ -36,28 +56,31 @@ public struct ParsePushPayload: ParsePushPayloadable {
 
     public var mdm: String?
 
-    public var uri: URL?
-
-    public var title: String?
+    public var expirationTime: TimeInterval?
 
     var alert: AnyCodable?
     var badge: AnyCodable?
     var sound: AnyCodable?
 
+    /// The type of notification.
     public enum PushType: String, Codable {
-        case alert, backgroud
+        /// Send as an alert.
+        case alert
+        /// Send as a background notification.
+        case background
     }
 
     enum CodingKeys: String, CodingKey {
         case relevanceScore = "relevance-score"
-        case interruptionLevel = "interruption-level"
-        case targetContentId = "target-content-id"
+        case targetContentId = "targetContentIdentifier"
         case mutableContent = "mutable-content"
         case contentAvailable = "content-available"
-        case threadId = "thread-id"
-        case category, sound, badge, alert,
-             pushType, mdm, title, uri, priority,
-             topic, collapseId
+        case expirationTime = "expiration_time"
+        case pushType = "push_type"
+        case collapseId = "collapse_id"
+        case category, sound, badge, alert, threadId,
+             mdm, priority, topic, interruptionLevel,
+             urlArgs
     }
 
     /// Create an empty payload.

@@ -48,7 +48,7 @@ struct Installation: ParseInstallation {
  */
 var alert = ParsePushPayloadAppleAlert()
 alert.body = "Hello from ParseSwift!"
-var data = ParsePushPayload()
+var data = ParsePushPayloadApple()
 data.setAlert(alert)
 data.setBadge(1)
 
@@ -60,7 +60,7 @@ var installationQuery = Installation.query()
 installationQuery = installationQuery.where(isNotNull(key: "objectId"))
 
 //: We can create a new push using the data and query.
-let push = ParsePush<Installation, ParsePushPayload>(data: data, query: installationQuery)
+let push = ParsePush<Installation, ParsePushPayloadApple>(data: data, query: installationQuery)
 
 //: Storing this property for later.
 var pushStatusId = ""
@@ -94,7 +94,7 @@ alert.body = "Hello from ParseSwift again!"
 data.setAlert(alert)
 data.incrementBadge()
 
-var push2 = ParsePush<Installation, ParsePushPayload>(data: data)
+var push2 = ParsePush<Installation, ParsePushPayloadApple>(data: data)
 push2.channels = Set(["newDevices"])
 
 //: Send the new notification.
@@ -115,6 +115,24 @@ push2.fetchStatus(pushStatusId) { result in
         print("The push status is: \"\(pushStatus)\"")
     case .failure(let error):
         print("Couldn't fetch push status: \(error)")
+    }
+}
+
+/*:
+ If you have a mixed push environment and are querying
+ multiple ParsePushStatus's you will can use the generic
+ payload, `ParsePushPayloadGeneric`.
+ */
+let query = ParsePushStatus<Installation, ParsePushPayloadGeneric>
+    .query(isNotNull(key: "objectId"))
+
+//: Be sure to add the `userMasterKey option.
+query.findAll(options: [.useMasterKey]) { result in
+    switch result {
+    case .success(let pushStatus):
+        print("All matching status: \"\(pushStatus)\"")
+    case .failure(let error):
+        print("Couldn't perform query: \(error)")
     }
 }
 

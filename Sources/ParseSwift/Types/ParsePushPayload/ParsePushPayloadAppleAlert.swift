@@ -15,6 +15,12 @@ import Foundation
  for more information.
  */
 public struct ParsePushPayloadAppleAlert: Codable, Equatable {
+
+    /**
+     Multiple notifications with same collapse identifier are displayed to the user as a single
+     notification. The value should not exceed 64 bytes.
+     */
+    var collapseId: String?
     /**
      The content of the alert message.
      */
