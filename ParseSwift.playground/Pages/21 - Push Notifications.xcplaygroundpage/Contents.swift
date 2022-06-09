@@ -120,10 +120,10 @@ push2.fetchStatus(pushStatusId) { result in
 
 /*:
  If you have a mixed push environment and are querying
- multiple ParsePushStatus's you will can use the generic
- payload, `ParsePushPayloadGeneric`.
+ multiple ParsePushStatus's you will can use the any
+ payload, `ParsePushPayloadAny`.
  */
-let query = ParsePushStatus<Installation, ParsePushPayloadGeneric>
+let query = ParsePushStatus<Installation, ParsePushPayloadAny>
     .query(isNotNull(key: "objectId"))
 
 //: Be sure to add the `userMasterKey option.

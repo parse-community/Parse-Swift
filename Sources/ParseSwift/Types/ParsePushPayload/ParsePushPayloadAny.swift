@@ -1,5 +1,5 @@
 //
-//  ParsePushPayloadGeneric.swift
+//  ParsePushPayloadAny.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 6/8/22.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ParsePushPayloadGeneric: ParsePushApplePayloadable, ParsePushFCMPayloadable {
+public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFCMPayloadable {
     public var topic: String?
     public var collapseId: String?
     public var pushType: ParsePushPayloadApple.PushType?

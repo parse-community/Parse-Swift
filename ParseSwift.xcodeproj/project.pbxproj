@@ -330,10 +330,10 @@
 		705025E12851006F008D6624 /* ParsePushPayloadFCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025DF2851006F008D6624 /* ParsePushPayloadFCM.swift */; };
 		705025E22851006F008D6624 /* ParsePushPayloadFCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025DF2851006F008D6624 /* ParsePushPayloadFCM.swift */; };
 		705025E32851006F008D6624 /* ParsePushPayloadFCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025DF2851006F008D6624 /* ParsePushPayloadFCM.swift */; };
-		705025E628514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadGeneric.swift */; };
-		705025E728514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadGeneric.swift */; };
-		705025E828514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadGeneric.swift */; };
-		705025E928514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadGeneric.swift */; };
+		705025E628514F36008D6624 /* ParsePushPayloadAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadAny.swift */; };
+		705025E728514F36008D6624 /* ParsePushPayloadAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadAny.swift */; };
+		705025E828514F36008D6624 /* ParsePushPayloadAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadAny.swift */; };
+		705025E928514F36008D6624 /* ParsePushPayloadAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025E528514F36008D6624 /* ParsePushPayloadAny.swift */; };
 		705025EB285153BC008D6624 /* ParsePushApplePayloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025EA285153BC008D6624 /* ParsePushApplePayloadable.swift */; };
 		705025EC285153BC008D6624 /* ParsePushApplePayloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025EA285153BC008D6624 /* ParsePushApplePayloadable.swift */; };
 		705025ED285153BC008D6624 /* ParsePushApplePayloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025EA285153BC008D6624 /* ParsePushApplePayloadable.swift */; };
@@ -1057,7 +1057,7 @@
 		705025D5284D0C1D008D6624 /* ParsePushPayloadApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePushPayloadApple.swift; sourceTree = "<group>"; };
 		705025DA284D0D56008D6624 /* ParsePushPayloadAppleSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePushPayloadAppleSound.swift; sourceTree = "<group>"; };
 		705025DF2851006F008D6624 /* ParsePushPayloadFCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePushPayloadFCM.swift; sourceTree = "<group>"; };
-		705025E528514F36008D6624 /* ParsePushPayloadGeneric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePushPayloadGeneric.swift; sourceTree = "<group>"; };
+		705025E528514F36008D6624 /* ParsePushPayloadAny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePushPayloadAny.swift; sourceTree = "<group>"; };
 		705025EA285153BC008D6624 /* ParsePushApplePayloadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePushApplePayloadable.swift; sourceTree = "<group>"; };
 		705025EF2851542D008D6624 /* ParsePushFCMPayloadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePushFCMPayloadable.swift; sourceTree = "<group>"; };
 		70510AAB259EE25E00FEA700 /* LiveQuerySocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQuerySocket.swift; sourceTree = "<group>"; };
@@ -1612,7 +1612,7 @@
 				705025D0284CFCDE008D6624 /* ParsePushPayloadAppleAlert.swift */,
 				705025DA284D0D56008D6624 /* ParsePushPayloadAppleSound.swift */,
 				705025DF2851006F008D6624 /* ParsePushPayloadFCM.swift */,
-				705025E528514F36008D6624 /* ParsePushPayloadGeneric.swift */,
+				705025E528514F36008D6624 /* ParsePushPayloadAny.swift */,
 			);
 			path = ParsePushPayload;
 			sourceTree = "<group>";
@@ -2378,7 +2378,7 @@
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FCF2690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				70F03A232780BDE200E5AFB4 /* ParseGoogle.swift in Sources */,
-				705025E628514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */,
+				705025E628514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148228395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D1284CFCDE008D6624 /* ParsePushPayloadAppleAlert.swift in Sources */,
 				7045769826BD917500F86F71 /* Query+async.swift in Sources */,
@@ -2636,7 +2636,7 @@
 				700395A425A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD02690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				7045769926BD917500F86F71 /* Query+async.swift in Sources */,
-				705025E728514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */,
+				705025E728514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148328395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D2284CFCDE008D6624 /* ParsePushPayloadAppleAlert.swift in Sources */,
 				703B094F26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
@@ -3001,7 +3001,7 @@
 				F97B465D24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A625A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD22690BA70005A6BA5 /* QueryObservable.swift in Sources */,
-				705025E928514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */,
+				705025E928514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148528395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D4284CFCDE008D6624 /* ParsePushPayloadAppleAlert.swift in Sources */,
 				7045769B26BD917500F86F71 /* Query+async.swift in Sources */,
@@ -3161,7 +3161,7 @@
 				F97B465C24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A525A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD12690BA70005A6BA5 /* QueryObservable.swift in Sources */,
-				705025E828514F36008D6624 /* ParsePushPayloadGeneric.swift in Sources */,
+				705025E828514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148428395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D3284CFCDE008D6624 /* ParsePushPayloadAppleAlert.swift in Sources */,
 				7045769A26BD917500F86F71 /* Query+async.swift in Sources */,
