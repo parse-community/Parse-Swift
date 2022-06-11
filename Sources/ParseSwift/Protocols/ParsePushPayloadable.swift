@@ -13,7 +13,7 @@ import Foundation
  - warning: You will also need to implement `CodingKeys`,
  see `ParsePushPayloadData` for an example.
  */
-public protocol ParsePushPayloadable: Codable, Equatable {
+public protocol ParsePushPayloadable: Codable, Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     /**
      The UNIX timestamp when the notification should expire.
      If the notification cannot be delivered to the device, will retry until it expires.
@@ -51,5 +51,23 @@ public extension ParsePushPayloadable {
         set {
             expirationTime = newValue?.timeIntervalSince1970
         }
+    }
+}
+
+// MARK: CustomDebugStringConvertible
+extension ParsePushPayloadable {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "ParsePushPayloadable ()"
+        }
+        return "ParsePushPayloadable (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParsePushPayloadable {
+    public var description: String {
+        debugDescription
     }
 }

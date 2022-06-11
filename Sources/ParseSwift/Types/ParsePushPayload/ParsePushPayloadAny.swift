@@ -38,7 +38,7 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFirebaseP
     public init() { }
 
     /**
-     Convert the current `ParsePushPayloadGeneric` to `ParsePushPayloadApple`.
+     Convert the current `ParsePushPayloadAny` to `ParsePushPayloadApple`.
      - returns: A `ParsePushPayloadApple` instance.
      */
     public func convertToApple() -> ParsePushPayloadApple {
@@ -70,7 +70,7 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFirebaseP
     }
 
     /**
-     Convert the current `ParsePushPayloadGeneric` to `ParsePushPayloadFirebase`.
+     Convert the current `ParsePushPayloadAny` to `ParsePushPayloadFirebase`.
      - returns: A `ParsePushPayloadFirebase` instance.
      */
     public func convertToFirebase() -> ParsePushPayloadFirebase {

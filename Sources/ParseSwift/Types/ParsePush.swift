@@ -37,17 +37,10 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
     }
 
     /**
-     Creates an empty instance of `ParsePush`.
-     */
-    public init() { }
-
-    /**
      Create an instance of  `ParsePush` with a given expiration date.
      - parameter payload: The payload information to send.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationTime: The date to expire the notification. Defaults to **nil**.
-     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
-     desires a different policy, it should be inserted in `options`.
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
@@ -66,8 +59,6 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      - parameter payload: The payload information to send.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationInterval: How many seconds to expire the notification after now.
-     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
-     desires a different policy, it should be inserted in `options`.
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
@@ -88,8 +79,6 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      Defaults to **nil**.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationTime: The date to expire the notification. Defaults to **nil**.
-     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
-     desires a different policy, it should be inserted in `options`.
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
@@ -112,8 +101,6 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      Defaults to **nil**.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationInterval: How many seconds to expire the notification after now.
-     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
-     desires a different policy, it should be inserted in `options`.
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
@@ -176,14 +163,16 @@ extension ParsePush {
         return API.Command(method: .POST,
                            path: .push,
                            body: self) { (data) -> String in
-            let response = try ParseCoding.jsonDecoder().decode(PushResponse.self, from: data)
-            let success = try ParseCoding.jsonDecoder().decode(ConfigUpdateResponse.self, from: response.data).result
+            guard let response = try? ParseCoding.jsonDecoder().decode(PushResponse.self, from: data) else {
+                throw ParseError(code: .unknownError,
+                                 message: "The server is missing \"X-Parse-Push-Status-Id\" in its header response")
+            }
+            guard let success = try? ParseCoding.jsonDecoder().decode(BooleanResponse.self,
+                                                                      from: response.data).result else {
+                throw ParseError(code: .unknownError, message: "The server did not resturn a Boolean response")
+            }
             if success {
-                guard let statusId = response.statusId else {
-                    throw ParseError(code: .unknownError,
-                                     message: "Missing \"X-Parse-Push-Status-Id\" in header response")
-                }
-                return statusId
+                return response.statusId
             } else {
                 throw ParseError(code: .unknownError, message: "Push was unsuccessful")
             }
@@ -217,5 +206,23 @@ public extension ParsePush {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let query = ParsePushStatus<U, V>.query("objectId" == statusId)
         query.first(options: options, completion: completion)
+    }
+}
+
+// MARK: CustomDebugStringConvertible
+extension ParsePush: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "ParsePush ()"
+        }
+        return "ParsePush (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParsePush: CustomStringConvertible {
+    public var description: String {
+        debugDescription
     }
 }

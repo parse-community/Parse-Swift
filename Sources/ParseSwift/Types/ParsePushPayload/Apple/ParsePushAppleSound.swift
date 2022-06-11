@@ -32,3 +32,21 @@ public struct ParsePushAppleSound: Codable, Equatable {
      */
     var volume: Double?
 }
+
+// MARK: CustomDebugStringConvertible
+extension ParsePushAppleSound: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "ParsePushAppleSound ()"
+        }
+        return "ParsePushAppleSound (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParsePushAppleSound: CustomStringConvertible {
+    public var description: String {
+        debugDescription
+    }
+}

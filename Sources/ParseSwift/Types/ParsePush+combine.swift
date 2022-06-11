@@ -21,8 +21,7 @@ public extension ParsePush {
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
-    func sendPublisher(_ statusId: String,
-                       options: API.Options = []) -> Future<String, ParseError> {
+    func sendPublisher(options: API.Options = []) -> Future<String, ParseError> {
         Future { promise in
             self.send(options: options,
                       completion: promise)
@@ -31,6 +30,7 @@ public extension ParsePush {
 
     /**
      Fetches the `ParsePushStatus` *aynchronously* from the server. Publishes when complete.
+     - parameter statusId: The `objectId` of the `ParsePushStatus`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
