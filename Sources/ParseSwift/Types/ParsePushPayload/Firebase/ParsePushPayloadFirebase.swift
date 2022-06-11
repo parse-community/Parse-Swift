@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- The payload data for an Firebase Cloud Message (FCM) push notification.
+ The payload data for an Firebase Cloud Messaging (FCM) push notification.
  See [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/http-server-ref)
  documentation for more information.
  */

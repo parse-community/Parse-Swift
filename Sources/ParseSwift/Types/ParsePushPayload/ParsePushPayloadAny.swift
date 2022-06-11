@@ -70,10 +70,10 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFirebaseP
     }
 
     /**
-     Convert the current `ParsePushPayloadGeneric` to `ParsePushPayloadFCM`.
-     - returns: A `ParsePushPayloadFCM` instance.
+     Convert the current `ParsePushPayloadGeneric` to `ParsePushPayloadFirebase`.
+     - returns: A `ParsePushPayloadFirebase` instance.
      */
-    public func convertToFCM() -> ParsePushPayloadFirebase {
+    public func convertToFirebase() -> ParsePushPayloadFirebase {
         var payload = ParsePushPayloadFirebase()
         payload.expirationTime = expirationTime
         payload.uri = uri

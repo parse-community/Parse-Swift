@@ -56,13 +56,13 @@ let applePayload = ParsePushPayloadApple(alert: helloAlert)
 */
 let installationQuery = Installation.query(isNotNull(key: "objectId"))
 
-//: We can create a new push using the data and query.
+//: Now create a new push notification using the payload and query.
 let push = ParsePush(payload: applePayload, query: installationQuery)
 
-//: Storing this property for later.
+//: Creating this property to use later in the playground.
 var pushStatusId = ""
 
-//: We can send the push notification whenever we are ready.
+//: You can send the push notification whenever you are ready.
 push.send { result in
     switch result {
     case .success(let statusId):
@@ -74,7 +74,7 @@ push.send { result in
     }
 }
 
-//: Fetch the recent notificaiton.
+//: You can fetch the status of notificaiton if you know it's id.
 push.fetchStatus(pushStatusId) { result in
     switch result {
     case .success(let pushStatus):
@@ -93,9 +93,10 @@ let applePayload2 = ParsePushPayloadApple(alert: helloAgainAlert)
     .incrementBadge()
 
 var push2 = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload2)
+//: Set all channels the notificatioin should be published to.
 push2.channels = Set(["newDevices"])
 
-//: Send the new notification.
+//: You can send the push notification whenever you are ready.
 push2.send { result in
     switch result {
     case .success(let statusId):
@@ -107,7 +108,10 @@ push2.send { result in
     }
 }
 
-//: Fetch the recent notificaiton.
+/*:
+ Similar to before, you can fetch the status of notificaiton
+ if you know the id.
+ */
 push2.fetchStatus(pushStatusId) { result in
     switch result {
     case .success(let pushStatus):
@@ -118,14 +122,14 @@ push2.fetchStatus(pushStatusId) { result in
 }
 
 /*:
- Lets create a Firebase Cloud Message Push.
+ You can also send push notifications using Firebase Cloud Messanger.
  */
 let helloNotification = ParsePushFirebaseNotification(body: "Hello from ParseSwift using FCM!")
 let firebasePayload = ParsePushPayloadFirebase(notification: helloNotification)
 
 let push3 = ParsePush(payload: firebasePayload, query: installationQuery)
 
-//: Send the new notification.
+//: You can send the push notification whenever you are ready.
 push3.send { result in
     switch result {
     case .success(let statusId):
@@ -137,7 +141,10 @@ push3.send { result in
     }
 }
 
-//: Fetch the recent notificaiton.
+/*:
+ Similar to before, you can fetch the status of notificaiton
+ if you know the id.
+ */
 push3.fetchStatus(pushStatusId) { result in
     switch result {
     case .success(let pushStatus):
@@ -155,11 +162,14 @@ push3.fetchStatus(pushStatusId) { result in
 let query = ParsePushStatus<Installation, ParsePushPayloadAny>
     .query(isNotNull(key: "objectId"))
 
-//: Be sure to add the `userMasterKey option.
+/*:
+ Be sure to add the `.userMasterKey option when doing
+ anything with `ParsePushStatus` directly.
+*/
 query.findAll(options: [.useMasterKey]) { result in
     switch result {
     case .success(let pushStatus):
-        print("All matching status: \"\(pushStatus)\"")
+        print("All matching statuses: \"\(pushStatus)\"")
     case .failure(let error):
         print("Couldn't perform query: \(error)")
     }

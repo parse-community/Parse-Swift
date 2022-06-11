@@ -11,7 +11,7 @@ import Foundation
 // swiftlint:disable line_length
 
 /**
- The FCM notification payload. For more information, see
+ The Firebase Cloud Messaging (FCM) notification payload. For more information, see
  [Firebase Cloud Messaging](https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#Notification)
  and [Firebase Cloud Messaging (legacy)](https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support).
  */

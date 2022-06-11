@@ -1623,9 +1623,9 @@
 		705025F428541DBE008D6624 /* Apple */ = {
 			isa = PBXGroup;
 			children = (
-				705025D5284D0C1D008D6624 /* ParsePushPayloadApple.swift */,
 				705025D0284CFCDE008D6624 /* ParsePushAppleAlert.swift */,
 				705025DA284D0D56008D6624 /* ParsePushAppleSound.swift */,
+				705025D5284D0C1D008D6624 /* ParsePushPayloadApple.swift */,
 			);
 			path = Apple;
 			sourceTree = "<group>";
@@ -1633,8 +1633,8 @@
 		705025F528541E62008D6624 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				705025DF2851006F008D6624 /* ParsePushPayloadFirebase.swift */,
 				70212D122854C82B00386163 /* ParsePushFirebaseNotification.swift */,
+				705025DF2851006F008D6624 /* ParsePushPayloadFirebase.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";

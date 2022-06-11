@@ -9,8 +9,8 @@
 import Foundation
 
 /**
- A protocol for adding the standard properties for Firebase Cloud Messanger (FCM) push notifications.
- - warning: You will also need to implement `CodingKeys`, see `ParsePushPayloadFCM` for an example.
+ A protocol for adding the standard properties for Firebase Cloud Messaging (FCM) push notifications.
+ - warning: You will also need to implement `CodingKeys`, see `ParsePushPayloadFirebase` for an example.
  */
 public protocol ParsePushFirebasePayloadable: ParsePushPayloadable {
     /**
