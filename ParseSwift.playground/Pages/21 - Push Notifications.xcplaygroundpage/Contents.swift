@@ -46,21 +46,18 @@ struct Installation: ParseInstallation {
  We will begin by creating the payload information we want to
  send in the push notification.
  */
-var alert = ParsePushPayloadAppleAlert()
-alert.body = "Hello from ParseSwift!"
-var data = ParsePushPayloadApple()
-data.setAlert(alert)
-data.setBadge(1)
+let helloAlert = ParsePushAppleAlert(body: "Hello from ParseSwift!")
+let applePayload = ParsePushPayloadApple(alert: helloAlert)
+    .setBadge(1)
 
 /*:
  We now crate a query where the `objectId`
  is not null or undefined.
 */
-var installationQuery = Installation.query()
-installationQuery = installationQuery.where(isNotNull(key: "objectId"))
+let installationQuery = Installation.query(isNotNull(key: "objectId"))
 
 //: We can create a new push using the data and query.
-let push = ParsePush(data: data, query: installationQuery)
+let push = ParsePush(payload: applePayload, query: installationQuery)
 
 //: Storing this property for later.
 var pushStatusId = ""
@@ -77,6 +74,7 @@ push.send { result in
     }
 }
 
+//: Fetch the recent notificaiton.
 push.fetchStatus(pushStatusId) { result in
     switch result {
     case .success(let pushStatus):
@@ -90,11 +88,11 @@ push.fetchStatus(pushStatusId) { result in
  Lets create another Push, this time by incrementing the badge
  and using channels instead of a query.
  */
-alert.body = "Hello from ParseSwift again!"
-data.setAlert(alert)
-data.incrementBadge()
+let helloAgainAlert = ParsePushAppleAlert(body: "Hello from ParseSwift again!")
+let applePayload2 = ParsePushPayloadApple(alert: helloAgainAlert)
+    .incrementBadge()
 
-var push2 = ParsePush<Installation, ParsePushPayloadApple>(data: data)
+var push2 = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload2)
 push2.channels = Set(["newDevices"])
 
 //: Send the new notification.
@@ -109,10 +107,41 @@ push2.send { result in
     }
 }
 
+//: Fetch the recent notificaiton.
 push2.fetchStatus(pushStatusId) { result in
     switch result {
     case .success(let pushStatus):
         print("The push status is: \"\(pushStatus)\"")
+    case .failure(let error):
+        print("Couldn't fetch push status: \(error)")
+    }
+}
+
+/*:
+ Lets create a Firebase Cloud Message Push.
+ */
+let helloNotification = ParsePushFirebaseNotification(body: "Hello from ParseSwift using FCM!")
+let firebasePayload = ParsePushPayloadFirebase(notification: helloNotification)
+
+let push3 = ParsePush(payload: firebasePayload, query: installationQuery)
+
+//: Send the new notification.
+push3.send { result in
+    switch result {
+    case .success(let statusId):
+        print("The Firebase push was created with id: \"\(statusId)\"")
+        //: Update the stored property with the lastest status id.
+        pushStatusId = statusId
+    case .failure(let error):
+        print("Couldn't create push: \(error)")
+    }
+}
+
+//: Fetch the recent notificaiton.
+push3.fetchStatus(pushStatusId) { result in
+    switch result {
+    case .success(let pushStatus):
+        print("The Firebase push status is: \"\(pushStatus)\"")
     case .failure(let error):
         print("Couldn't fetch push status: \(error)")
     }

@@ -20,7 +20,7 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
     /// An Array of channels to push to.
     public var channels: Set<String>?
     /// The payload to send.
-    public var data: V?
+    public var payload: V?
     /// When to send the notification.
     public var pushTime: Date?
     /// When to expire the notification.
@@ -32,7 +32,8 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
         case pushTime = "push_time"
         case expirationTime = "expiration_time"
         case expirationInterval = "expiration_interval"
-        case `where`, channels, data
+        case payload = "data"
+        case `where`, channels
     }
 
     /**
@@ -42,7 +43,47 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
 
     /**
      Create an instance of  `ParsePush` with a given expiration date.
-     - parameter data: The payload to send.
+     - parameter payload: The payload information to send.
+     - parameter pushTime: When to send the notification.  Defaults to **nil**.
+     - parameter expirationTime: The date to expire the notification. Defaults to **nil**.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
+     - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
+    */
+    public init(payload: V,
+                pushTime: Date? = nil,
+                expirationTime: Date? = nil) {
+        self.payload = payload
+        self.pushTime = pushTime
+        self.expirationTime = expirationTime
+    }
+
+    /**
+     Create an instance of  `ParsePush` that expires after a given amount of seconds.
+     - parameter payload: The payload information to send.
+     - parameter pushTime: When to send the notification.  Defaults to **nil**.
+     - parameter expirationInterval: How many seconds to expire the notification after now.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
+     - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
+    */
+    public init(payload: V,
+                pushTime: Date? = nil,
+                expirationInterval: Int?) {
+        self.payload = payload
+        self.pushTime = pushTime
+        self.expirationInterval = expirationInterval
+    }
+
+    /**
+     Create an instance of  `ParsePush` with a given expiration date.
+     - parameter payload: The payload information to send.
      - parameter query: The query that determines what installations should receive the notification.
      Defaults to **nil**.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
@@ -54,16 +95,19 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
     */
-    public init(data: V, query: Query<U>? = nil, pushTime: Date? = nil, expirationTime: Date? = nil) {
-        self.data = data
-        self.`where` = query?.`where`
+    public init(payload: V,
+                query: Query<U>,
+                pushTime: Date? = nil,
+                expirationTime: Date? = nil) {
+        self.payload = payload
+        self.`where` = query.`where`
         self.pushTime = pushTime
         self.expirationTime = expirationTime
     }
 
     /**
      Create an instance of  `ParsePush` that expires after a given amount of seconds.
-     - parameter data: The payload to send.
+     - parameter payload: The payload information to send.
      - parameter query: The query that determines what installations should receive the notification.
      Defaults to **nil**.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
@@ -75,9 +119,12 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
     */
-    public init(data: V, query: Query<U>? = nil, pushTime: Date? = nil, expirationInterval: Int?) {
-        self.data = data
-        self.`where` = query?.`where`
+    public init(payload: V,
+                query: Query<U>,
+                pushTime: Date? = nil,
+                expirationInterval: Int?) {
+        self.payload = payload
+        self.`where` = query.`where`
         self.pushTime = pushTime
         self.expirationInterval = expirationInterval
     }

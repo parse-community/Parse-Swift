@@ -56,8 +56,7 @@ public protocol ParsePushFirebasePayloadable: ParsePushPayloadable {
      */
     var data: [String: String]? { get set }
     /**
-     Specifies the predefined, user-visible key-value pairs of the
-     notification payload
+     The predefined, user-visible notification payload.
      */
-    var notification: [String: String]? { get set }
+    var notification: ParsePushFirebaseNotification? { get set }
 }

@@ -26,9 +26,9 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFirebaseP
     public var restrictedPackageName: String?
     public var dryRun: Bool?
     public var data: [String: String]?
-    public var notification: [String: String]?
+    public var notification: ParsePushFirebaseNotification?
     public var expirationTime: TimeInterval?
-    public var alert: ParsePushPayloadAppleAlert?
+    public var alert: ParsePushAppleAlert?
     var badge: AnyCodable?
     var sound: AnyCodable?
     var priority: AnyCodable?

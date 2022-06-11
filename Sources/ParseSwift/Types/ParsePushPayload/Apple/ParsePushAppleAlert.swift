@@ -1,5 +1,5 @@
 //
-//  ParsePushPayloadAppleAlert.swift
+//  ParsePushAppleAlert.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 6/5/22.
@@ -14,7 +14,7 @@ import Foundation
  An alert payload for Apple push notifications. See Apple's [documentation](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2943365)
  for more information.
  */
-public struct ParsePushPayloadAppleAlert: Codable, Equatable {
+public struct ParsePushAppleAlert: Codable, Equatable {
 
     /**
      Multiple notifications with same collapse identifier are displayed to the user as a single

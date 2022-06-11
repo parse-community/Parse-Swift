@@ -48,7 +48,7 @@ public struct ParsePushPayloadFirebase: ParsePushFirebasePayloadable {
     public var restrictedPackageName: String?
     public var dryRun: Bool?
     public var data: [String: String]?
-    public var notification: [String: String]?
+    public var notification: ParsePushFirebaseNotification?
 
     /// The priority type of a notification.
     public enum PushPriority: String, Codable {
@@ -58,8 +58,13 @@ public struct ParsePushPayloadFirebase: ParsePushFirebasePayloadable {
         case high
     }
 
-    /// Create an empty payload.
-    public init() { }
+    /**
+     Create a new instance of `ParsePushPayloadFirebase`.
+     - parameter notification: The predefined, user-visible notification payload.
+     */
+    public init(notification: ParsePushFirebaseNotification? = nil) {
+        self.notification = notification
+    }
 
     enum CodingKeys: String, CodingKey {
         case expirationTime = "expiration_time"

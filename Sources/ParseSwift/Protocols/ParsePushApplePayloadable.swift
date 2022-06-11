@@ -18,9 +18,9 @@ import Foundation
  */
 public protocol ParsePushApplePayloadable: ParsePushPayloadable {
     /**
-     The information for displaying an alert.
+     The payload for displaying an alert.
      */
-    var alert: ParsePushPayloadAppleAlert? { get set }
+    var alert: ParsePushAppleAlert? { get set }
     /**
      The destination topic for the notification.
      */

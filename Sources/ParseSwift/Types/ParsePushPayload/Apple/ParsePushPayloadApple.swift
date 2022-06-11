@@ -58,7 +58,7 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
 
     public var expirationTime: TimeInterval?
 
-    public var alert: ParsePushPayloadAppleAlert?
+    public var alert: ParsePushAppleAlert?
 
     /**
      The content of the alert message.
@@ -99,8 +99,22 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
              urlArgs
     }
 
-    /// Create an empty payload.
-    public init() { }
+    /**
+     Create an instance of `ParsePushPayloadApple` .
+     - parameter alert: The alert payload for the Apple push notification.
+     Defaults to **nil**.
+     */
+    public init(alert: ParsePushAppleAlert? = nil) {
+        self.alert = alert
+    }
+
+    /**
+     Create an instance of `ParsePushPayloadApple` .
+     - parameter body: The body message to display for the Apple push notification.
+     */
+    public init(body: String) {
+        self.body = body
+    }
 
     /**
      Set the name of a sound file in your app’s main bundle or in the Library/Sounds folder
@@ -108,10 +122,13 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
      sound. Use this key for **regular** notifications. For critical alerts, use the sound
      `ParsePushPayloadAppleSound` instead. For information about how to prepare sounds, see
      [UNNotificationSound](https://developer.apple.com/documentation/usernotifications/unnotificationsound).
+     - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
      - warning: For Apple OS's only.
      */
-    public mutating func setSound(_ name: String) {
-        self.sound = AnyCodable(name)
+    public func setSound(_ name: String) -> Self {
+        var mutablePayload = self
+        mutablePayload.sound = AnyCodable(name)
+        return mutablePayload
     }
 
     /**
@@ -121,35 +138,46 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
      `ParsePushPayloadAppleSound` instead. For information about how to prepare sounds, see
      [UNNotificationSound](https://developer.apple.com/documentation/usernotifications/unnotificationsound).
      - parameter alert: The `ParsePushPayloadSound`.
-     - warning: For Apple OS's only.
+     - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
      */
-    public mutating func setSound(_ payload: ParsePushPayloadAppleSound) {
-        self.sound = AnyCodable(payload)
+    public func setSound(_ payload: ParsePushAppleSound) -> Self {
+        var mutablePayload = self
+        mutablePayload.sound = AnyCodable(payload)
+        return mutablePayload
     }
 
     /**
      Set the sound using any type that conforms to `Codable`.
      - parameter alert: The `Codable` alert.
+     - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
      */
-    public mutating func setSound(_ payload: Codable) {
-        self.sound = AnyCodable(payload)
+    public func setSound(_ payload: Codable) -> Self {
+        var mutablePayload = self
+        mutablePayload.sound = AnyCodable(payload)
+        return mutablePayload
     }
 
     /**
      Set the badge to a specific value to display on your app's icon.
      - parameter badge: The number to display in a badge on your app’s icon.
      Specify 0 to remove the current badge, if any.
+     - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
      - warning: For Apple OS's only.
      */
-    public mutating func setBadge(_ number: Int) {
-        self.badge = AnyCodable(number)
+    public func setBadge(_ number: Int) -> Self {
+        var mutablePayload = self
+        mutablePayload.badge = AnyCodable(number)
+        return mutablePayload
     }
 
     /**
      Increment the badge value by 1 to display on your app's icon.
      - warning: For Apple OS's only.
+     - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
      */
-    public mutating func incrementBadge() {
-        self.badge = AnyCodable(Increment(amount: 1))
+    public func incrementBadge() -> Self {
+        var mutablePayload = self
+        mutablePayload.badge = AnyCodable(Increment(amount: 1))
+        return mutablePayload
     }
 }
