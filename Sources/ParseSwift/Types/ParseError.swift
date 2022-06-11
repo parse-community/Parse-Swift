@@ -389,10 +389,11 @@ extension ParseError {
             code = .other
             otherCode = try values.decode(Int.self, forKey: .code)
         }
+        // Handle when Parse Server sends "message" instead of "error".
         do {
+            // Attempt the common case first.
             message = try values.decode(String.self, forKey: .message)
         } catch {
-            // Handle when Parse Server sends incorrect encoded error.
             message = try values.decode(String.self, forKey: .error)
         }
         self.error = nil

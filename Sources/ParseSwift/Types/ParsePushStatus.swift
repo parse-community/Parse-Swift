@@ -99,8 +99,9 @@ public struct ParsePushStatus<U: ParseInstallation, V: ParsePushPayloadable>: Pa
         source = try values.decodeIfPresent(String.self, forKey: .source)
         pushTime = try values.decodeIfPresent(Date.self, forKey: .pushTime)
         expirationInterval = try values.decodeIfPresent(String.self, forKey: .expirationInterval)
-        // Handle when Parse Server sends incorrect encoded info.
+        // Handle when Parse Server sends doubly encoded fields.
         do {
+            // Attempt the correct decoding first.
             payload = try values.decodeIfPresent(PayloadType.self, forKey: .payload)
         } catch {
             let payloadString = try values.decode(String.self, forKey: .payload)
@@ -110,6 +111,7 @@ public struct ParsePushStatus<U: ParseInstallation, V: ParsePushPayloadable>: Pa
             payload = try ParseCoding.jsonDecoder().decode(PayloadType.self, from: payloadData)
         }
         do {
+            // Attempt the correct decoding first.
             query = try values.decodeIfPresent(QueryWhere.self, forKey: .query)
         } catch {
             let queryString = try values.decode(String.self, forKey: .query)
