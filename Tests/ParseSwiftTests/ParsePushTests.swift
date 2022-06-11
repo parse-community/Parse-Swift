@@ -108,31 +108,4 @@ class ParsePushTests: XCTestCase {
                        // swiftlint:disable:next line_length
                        "ParsePush ({\"channels\":[\"hello\"],\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"expiration_time\":\(currentDateString)})")
     }
-
-    func testExpiration() throws {
-        let fcmPayload = ParsePushPayloadFirebase(notification: .init(body: "Bye FCM"))
-        var push = ParsePush<Installation, ParsePushPayloadFirebase>(payload: fcmPayload, expirationTime: Date())
-        XCTAssertNotNil(push.expirationTime)
-        XCTAssertNil(push.expirationInterval)
-        push.expirationInterval = 7
-        XCTAssertNil(push.expirationTime)
-        XCTAssertNotNil(push.expirationInterval)
-        push.expirationTime = Date()
-        XCTAssertNotNil(push.expirationTime)
-        XCTAssertNil(push.expirationInterval)
-    }
-
-    func testQueryAndChannels() throws {
-        let fcmPayload = ParsePushPayloadFirebase(notification: .init(body: "Bye FCM"))
-        let installationQuery = Installation.query(isNotNull(key: "objectId"))
-        var push = ParsePush<Installation, ParsePushPayloadFirebase>(payload: fcmPayload, query: installationQuery)
-        XCTAssertNotNil(push.`where`)
-        XCTAssertNil(push.channels)
-        push.channels = ["hello"]
-        XCTAssertNil(push.`where`)
-        XCTAssertNotNil(push.channels)
-        push.`where` = installationQuery.`where`
-        XCTAssertNotNil(push.`where`)
-        XCTAssertNil(push.channels)
-    }
 }
