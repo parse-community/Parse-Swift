@@ -120,6 +120,69 @@ class ParsePushAsyncTests: XCTestCase {
     }
 
     @MainActor
+    func testSendErrorTimeAndIntervalSet() async throws {
+        let objectId = "yolo"
+        let appleAlert = ParsePushAppleAlert(body: "hello world")
+
+        let headers = ["X-Parse-Push-Status-Id": objectId]
+        let results = BooleanResponse(result: true)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0, headerFields: headers)
+            } catch {
+                return nil
+            }
+        }
+
+        let applePayload = ParsePushPayloadApple(alert: appleAlert)
+        var push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload, expirationTime: Date())
+        push.expirationInterval = 7
+        do {
+            _ = try await push.send()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("expirationTime"))
+        }
+    }
+
+    @MainActor
+    func testSendErrorQueryAndChannelsSet() async throws {
+        let objectId = "yolo"
+        let appleAlert = ParsePushAppleAlert(body: "hello world")
+
+        let headers = ["X-Parse-Push-Status-Id": objectId]
+        let results = BooleanResponse(result: true)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0, headerFields: headers)
+            } catch {
+                return nil
+            }
+        }
+
+        let applePayload = ParsePushPayloadApple(alert: appleAlert)
+        let installationQuery = Installation.query(isNotNull(key: "objectId"))
+        var push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload, query: installationQuery)
+        push.channels = ["hello"]
+        do {
+            _ = try await push.send()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("query"))
+        }
+    }
+
+    @MainActor
     func testSendErrorServerReturnedWrongType() async throws {
         let objectId = "yolo"
         let appleAlert = ParsePushAppleAlert(body: "hello world")

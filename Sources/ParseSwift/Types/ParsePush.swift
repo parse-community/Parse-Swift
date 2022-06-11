@@ -17,48 +17,28 @@ import Foundation
 public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseType, Decodable {
     /**
      The query that determines what installations should receive the notification.
-     - warning: Setting this value will unset `channels` as they both cannot be
-     set at the same time.
+     - warning: Cannot send a notification with this valuel and `channels` both set.
      */
-    public var `where`: QueryWhere? {
-        willSet {
-            channels = nil
-        }
-    }
+    public var `where`: QueryWhere?
     /**
      An Array of channels to push to.
-     - warning: Setting this value will unset `where` as they both cannot be
-     set at the same time.
+     - warning: Cannot send a notification with this valuel and `where` both set.
      */
-    public var channels: Set<String>? {
-        willSet {
-            `where` = nil
-        }
-    }
+    public var channels: Set<String>?
     /// The payload to send.
     public var payload: V?
     /// When to send the notification.
     public var pushTime: Date?
     /**
      When to expire the notification.
-     - warning: Setting this value will unset `expirationInterval` as they both cannot be
-     set at the same time.
+     - warning: Cannot send a notification with this valuel and `expirationInterval` both set.
      */
-    public var expirationTime: Date? {
-        willSet {
-            expirationInterval = nil
-        }
-    }
+    public var expirationTime: Date?
     /**
      The seconds from now to expire the notification.
-     - warning: Setting this value will unset `expirationTime` as they both cannot be
-     set at the same time.
+     - warning: Cannot send a notification with this valuel and `expirationTime` both set.
      */
-    public var expirationInterval: Int? {
-        willSet {
-            expirationTime = nil
-        }
-    }
+    public var expirationInterval: Int?
 
     enum CodingKeys: String, CodingKey {
         case pushTime = "push_time"
@@ -169,6 +149,18 @@ extension ParsePush {
     public func send(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<String, ParseError>) -> Void) {
+        if expirationTime != nil && expirationInterval != nil {
+            let error =  ParseError(code: .unknownError,
+                                    message: "expirationTime and expirationInterval cannot both be set.")
+            completion(.failure(error))
+            return
+        }
+        if `where` != nil && channels != nil {
+            let error =  ParseError(code: .unknownError,
+                                    message: "query and channels cannot both be set.")
+            completion(.failure(error))
+            return
+        }
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
