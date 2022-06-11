@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFCMPayloadable {
+public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFirebasePayloadable {
     public var topic: String?
     public var collapseId: String?
     public var pushType: ParsePushPayloadApple.PushType?
@@ -22,13 +22,13 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFCMPayloa
     public var uri: URL?
     public var title: String?
     public var collapseKey: String?
-    public var delayWhileIdle: String?
+    public var delayWhileIdle: Bool?
     public var restrictedPackageName: String?
     public var dryRun: Bool?
     public var data: [String: String]?
     public var notification: [String: String]?
     public var expirationTime: TimeInterval?
-    var alert: AnyCodable?
+    public var alert: ParsePushPayloadAppleAlert?
     var badge: AnyCodable?
     var sound: AnyCodable?
     var priority: AnyCodable?
@@ -73,8 +73,8 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFCMPayloa
      Convert the current `ParsePushPayloadGeneric` to `ParsePushPayloadFCM`.
      - returns: A `ParsePushPayloadFCM` instance.
      */
-    public func convertToFCM() -> ParsePushPayloadFCM {
-        var payload = ParsePushPayloadFCM()
+    public func convertToFCM() -> ParsePushPayloadFirebase {
+        var payload = ParsePushPayloadFirebase()
         payload.expirationTime = expirationTime
         payload.uri = uri
         payload.title = title
@@ -84,7 +84,7 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFCMPayloa
         payload.dryRun = dryRun
         payload.data = data
         payload.notification = notification
-        if let priority = priority?.value as? ParsePushPayloadFCM.PushPriority {
+        if let priority = priority?.value as? ParsePushPayloadFirebase.PushPriority {
             payload.priority = priority
         }
         if let contentAvailable = contentAvailable?.value as? Bool {

@@ -58,7 +58,23 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
 
     public var expirationTime: TimeInterval?
 
-    var alert: AnyCodable?
+    public var alert: ParsePushPayloadAppleAlert?
+
+    /**
+     The content of the alert message.
+     */
+    public var body: String? {
+        get {
+            alert?.body
+        }
+        set {
+            if alert != nil {
+                alert?.body = newValue
+            } else if let newBody = newValue {
+                alert = .init(body: newBody)
+            }
+        }
+    }
     var badge: AnyCodable?
     var sound: AnyCodable?
 
@@ -85,31 +101,6 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
 
     /// Create an empty payload.
     public init() { }
-
-    /**
-     Set the alert using a `String`.
-     - parameter alert: The information for displaying an alert.
-     */
-    public mutating func setAlert(_ alert: String) {
-        self.alert = AnyCodable(alert)
-    }
-
-    /**
-     Set the alert using a `ParsePushPayloadAlert`.
-     - parameter alert: The `ParsePushPayloadAlert`.
-     - warning: For Apple OS's only.
-     */
-    public mutating func setAlert(_ alert: ParsePushPayloadAppleAlert) {
-        self.alert = AnyCodable(alert)
-    }
-
-    /**
-     Set the alert using any type that conforms to `Codable`.
-     - parameter alert: The `Codable` alert.
-     */
-    public mutating func setAlert(_ alert: Codable) {
-        self.alert = AnyCodable(alert)
-    }
 
     /**
      Set the name of a sound file in your app’s main bundle or in the Library/Sounds folder

@@ -1,5 +1,5 @@
 //
-//  ParsePushPayloadAndroid.swift
+//  ParsePushPayloadFirebase.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 6/8/22.
@@ -9,17 +9,17 @@
 import Foundation
 
 /**
- The payload data for an Firebase Cloud Message push notification.
+ The payload data for an Firebase Cloud Message (FCM) push notification.
  See [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/http-server-ref)
  documentation for more information.
  */
-public struct ParsePushPayloadFCM: ParsePushFCMPayloadable {
+public struct ParsePushPayloadFirebase: ParsePushFirebasePayloadable {
     /**
      The delivery priority to downstream messages. Can be either
      **normal** or **high** priority. On Apple platforms,
      these correspond to APNs priorities 5 and 10.
      */
-    public var priority: ParsePushPayloadFCM.PushPriority?
+    public var priority: Self.PushPriority?
     /**
      On Apple platforms, use this field to represent content-available
      in the APNs payload. When a notification or message is sent and
@@ -44,7 +44,7 @@ public struct ParsePushPayloadFCM: ParsePushFCMPayloadable {
     public var uri: URL?
     public var title: String?
     public var collapseKey: String?
-    public var delayWhileIdle: String?
+    public var delayWhileIdle: Bool?
     public var restrictedPackageName: String?
     public var dryRun: Bool?
     public var data: [String: String]?

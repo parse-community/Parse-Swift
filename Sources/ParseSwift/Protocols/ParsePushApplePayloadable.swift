@@ -18,6 +18,10 @@ import Foundation
  */
 public protocol ParsePushApplePayloadable: ParsePushPayloadable {
     /**
+     The information for displaying an alert.
+     */
+    var alert: ParsePushPayloadAppleAlert? { get set }
+    /**
      The destination topic for the notification.
      */
     var topic: String? { get set }

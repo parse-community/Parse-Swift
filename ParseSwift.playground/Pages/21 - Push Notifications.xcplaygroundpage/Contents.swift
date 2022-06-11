@@ -60,7 +60,7 @@ var installationQuery = Installation.query()
 installationQuery = installationQuery.where(isNotNull(key: "objectId"))
 
 //: We can create a new push using the data and query.
-let push = ParsePush<Installation, ParsePushPayloadApple>(data: data, query: installationQuery)
+let push = ParsePush(data: data, query: installationQuery)
 
 //: Storing this property for later.
 var pushStatusId = ""
