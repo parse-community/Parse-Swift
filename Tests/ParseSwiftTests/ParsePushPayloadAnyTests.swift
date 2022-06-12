@@ -157,6 +157,11 @@ class ParsePushPayloadAnyTests: XCTestCase {
                        "ParsePushPayloadable ({\"alert\":{\"action\":\"to\",\"action-loc-key\":\"icon\",\"body\":\"pull up\",\"launch-image\":\"it\",\"loc-args\":[\"mother\"],\"loc-key\":\"cousin\",\"subtitle\":\"trip\",\"subtitle-loc-args\":[\"gone\"],\"subtitle-loc-key\":\"far\",\"title\":\"you\",\"title-loc-args\":[\"arg\"],\"title-loc-key\":\"it\"},\"badge\":1,\"collapse_id\":\"nope\",\"content-available\":1,\"interruptionLevel\":\"yolo\",\"mutable-content\":1,\"priority\":6,\"push_type\":\"background\",\"relevance-score\":2,\"sound\":{\"critical\":true,\"name\":\"hello\",\"volume\":7},\"targetContentIdentifier\":\"press\",\"threadId\":\"yep\",\"topic\":\"naw\",\"urlArgs\":[\"help\"]})")
         let decoded2 = try ParseCoding.jsonDecoder().decode(ParsePushPayloadAny.self, from: encoded).convertToApple()
         XCTAssertEqual(decoded2, applePayload)
+        var applePayload2 = applePayload
+        applePayload2.sound = AnyCodable("wow")
+        let encodedSound = try ParseCoding.parseEncoder().encode(applePayload2)
+        let decodedSound = try ParseCoding.jsonDecoder().decode(ParsePushPayloadAny.self, from: encodedSound).convertToApple()
+        XCTAssertEqual(decodedSound, applePayload2)
     }
 
     func testConvertToFirebase() throws {

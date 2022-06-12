@@ -39,6 +39,8 @@ class ParsePushPayloadFirebaseTests: XCTestCase {
     func testInitializers() throws {
         let fcmPayload = ParsePushPayloadFirebase(notification: .init(body: "Bye FCM"))
         XCTAssertEqual(fcmPayload.description, "ParsePushPayloadable ({\"notification\":{\"body\":\"Bye FCM\"}})")
+        let notification = ParsePushFirebaseNotification(title: "hello", body: "new", image: "world")
+        XCTAssertEqual(notification.description, "ParsePushFirebaseNotification ({\"body\":\"new\",\"image\":\"world\",\"title\":\"hello\"})")
     }
 
     func testCoding() throws {

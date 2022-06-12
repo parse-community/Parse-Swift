@@ -75,6 +75,7 @@ class ParsePushPayloadAppleTests: XCTestCase {
                        "ParsePushPayloadable ({\"push_type\":\"alert\",\"sound\":{\"critical\":true,\"name\":\"hello\",\"volume\":7}})")
         let soundObject: ParsePushAppleSound = try applePayload2.getSound()
         XCTAssertEqual(soundObject, sound)
+        XCTAssertThrowsError(try applePayload2.getSound() as String)
     }
 
     func testCoding() throws {
@@ -111,5 +112,18 @@ class ParsePushPayloadAppleTests: XCTestCase {
         XCTAssertEqual(applePayload, decoded)
         XCTAssertEqual(applePayload.description,
                        "ParsePushPayloadable ({\"alert\":{\"action\":\"to\",\"action-loc-key\":\"icon\",\"body\":\"pull up\",\"launch-image\":\"it\",\"loc-args\":[\"mother\"],\"loc-key\":\"cousin\",\"subtitle\":\"trip\",\"subtitle-loc-args\":[\"gone\"],\"subtitle-loc-key\":\"far\",\"title\":\"you\",\"title-loc-args\":[\"arg\"],\"title-loc-key\":\"it\"},\"badge\":1,\"collapse_id\":\"nope\",\"content-available\":1,\"interruptionLevel\":\"yolo\",\"mutable-content\":1,\"priority\":6,\"push_type\":\"background\",\"relevance-score\":2,\"sound\":{\"critical\":true,\"name\":\"hello\",\"volume\":7},\"targetContentIdentifier\":\"press\",\"threadId\":\"yep\",\"topic\":\"naw\",\"urlArgs\":[\"help\"]})")
+        XCTAssertEqual(alert.description, "ParsePushAppleAlert ({\"action\":\"to\",\"action-loc-key\":\"icon\",\"body\":\"pull up\",\"launch-image\":\"it\",\"loc-args\":[\"mother\"],\"loc-key\":\"cousin\",\"subtitle\":\"trip\",\"subtitle-loc-args\":[\"gone\"],\"subtitle-loc-key\":\"far\",\"title\":\"you\",\"title-loc-args\":[\"arg\"],\"title-loc-key\":\"it\"})")
+        let alert2 = ParsePushAppleAlert()
+        XCTAssertNotEqual(alert, alert2)
+        XCTAssertEqual(sound.description, "ParsePushAppleSound ({\"critical\":true,\"name\":\"hello\",\"volume\":7})")
+    }
+
+    func testCodingAlert() throws {
+        let body = "Hello from ParseSwift!"
+        var applePayload = ParsePushPayloadApple(alert: .init(body: body))
+        applePayload.body = "stop"
+        let encoded = try ParseCoding.parseEncoder().encode(applePayload)
+        let decoded = try ParseCoding.jsonDecoder().decode(ParsePushPayloadApple.self, from: encoded)
+        XCTAssertEqual(applePayload, decoded)
     }
 }

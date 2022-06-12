@@ -73,10 +73,7 @@ extension AnyCodable: Hashable {
     public func hash(into hasher: inout Hasher) {
         do {
             let encodedData = try ParseCoding.jsonEncoder().encode(self)
-            guard let encodedString = String(data: encodedData, encoding: .utf8) else {
-                hasher.combine(0)
-                return
-            }
+            let encodedString = String(data: encodedData, encoding: .utf8)
             hasher.combine(encodedString)
         } catch {
             hasher.combine(0)
