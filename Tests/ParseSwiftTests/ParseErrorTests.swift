@@ -44,6 +44,23 @@ class ParseErrorTests: XCTestCase {
         let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
         XCTAssertEqual(decoded.code.rawValue, code)
         XCTAssertEqual(decoded.message, message)
+        XCTAssertNil(decoded.error)
+        XCTAssertEqual(decoded.debugDescription, "ParseError code=\(code) error=\(message)")
+        XCTAssertEqual(decoded.description, "ParseError code=\(code) error=\(message)")
+        XCTAssertEqual(decoded.errorDescription, "ParseError code=\(code) error=\(message)")
+    }
+
+    func testEncodeMessage() throws {
+        let code = -1
+        let message = "testing ParseError"
+        guard let encoded: Data = "{\"message\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
+        XCTAssertEqual(decoded.code.rawValue, code)
+        XCTAssertEqual(decoded.message, message)
+        XCTAssertNil(decoded.error)
         XCTAssertEqual(decoded.debugDescription, "ParseError code=\(code) error=\(message)")
         XCTAssertEqual(decoded.description, "ParseError code=\(code) error=\(message)")
         XCTAssertEqual(decoded.errorDescription, "ParseError code=\(code) error=\(message)")
@@ -59,6 +76,7 @@ class ParseErrorTests: XCTestCase {
         let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
         XCTAssertEqual(decoded.code, .other)
         XCTAssertEqual(decoded.message, message)
+        XCTAssertNil(decoded.error)
         XCTAssertEqual(decoded.debugDescription,
                        "ParseError code=\(ParseError.Code.other.rawValue) error=\(message) otherCode=\(code)")
         XCTAssertEqual(decoded.otherCode, code)

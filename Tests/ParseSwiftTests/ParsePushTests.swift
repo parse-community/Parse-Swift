@@ -191,5 +191,12 @@ class ParsePushTests: XCTestCase {
         XCTAssertEqual(push.description,
                        // swiftlint:disable:next line_length
                        "ParsePush ({\"channels\":[\"hello\"],\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"expiration_time\":\(currentDateString)})")
+        guard let pushDate = push.expirationDate else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertLessThan(pushDate.timeIntervalSince(currentDate), 1)
+        push.expirationTime = nil
+        XCTAssertNil(push.expirationDate)
     }
 }

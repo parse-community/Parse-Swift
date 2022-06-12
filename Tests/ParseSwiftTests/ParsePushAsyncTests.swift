@@ -328,5 +328,70 @@ class ParsePushAsyncTests: XCTestCase {
         XCTAssertEqual(found.payload, anyPayload.convertToApple())
         XCTAssertEqual(found.query, query.where)
     }
+
+    @MainActor
+    func testFetchBrokenServerResponseWrongPayload() async throws {
+        let objectId = "yolo"
+        let appleAlert = ParsePushAppleAlert(body: "hello world")
+        var anyPayload = ParsePushPayloadAny()
+        anyPayload.alert = appleAlert
+        let query = Installation.query("peace" == "out")
+        var statusOnServer = try ParsePushStatusResponse()
+            .setQueryWhere(query.where)
+        statusOnServer.payload = "this is wrong"
+        statusOnServer.objectId = objectId
+        statusOnServer.createdAt = Date()
+        statusOnServer.updatedAt = statusOnServer.createdAt
+
+        let results = QueryResponse<ParsePushStatusResponse>(results: [statusOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let applePayload = ParsePushPayloadApple(alert: appleAlert)
+        let push = ParsePush(payload: applePayload)
+        do {
+            _ = try await push.fetchStatus(objectId)
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
+        }
+    }
+
+    @MainActor
+    func testFetchBrokenServerResponseWrongQuery() async throws {
+        let objectId = "yolo"
+        let appleAlert = ParsePushAppleAlert(body: "hello world")
+        var anyPayload = ParsePushPayloadAny()
+        anyPayload.alert = appleAlert
+        var statusOnServer = try ParsePushStatusResponse()
+            .setPayload(anyPayload)
+        statusOnServer.query = "this is wrong"
+        statusOnServer.objectId = objectId
+        statusOnServer.createdAt = Date()
+        statusOnServer.updatedAt = statusOnServer.createdAt
+
+        let results = QueryResponse<ParsePushStatusResponse>(results: [statusOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let applePayload = ParsePushPayloadApple(alert: appleAlert)
+        let push = ParsePush(payload: applePayload)
+        do {
+            _ = try await push.fetchStatus(objectId)
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
+        }
+    }
 }
 #endif
