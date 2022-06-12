@@ -112,6 +112,8 @@ extension AnyDecodable: Equatable {
             return lhs == rhs
         case let (lhs as [AnyDecodable], rhs as [AnyDecodable]):
             return lhs == rhs
+        case let (lhs as AnyEncodable, rhs as AnyEncodable):
+            return lhs == rhs
         default:
             return false
         }

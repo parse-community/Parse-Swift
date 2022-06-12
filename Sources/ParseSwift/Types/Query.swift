@@ -141,28 +141,6 @@ public struct Query<T>: Codable, Equatable where T: ParseObject {
         constraints.forEach({ self.where.add($0) })
     }
 
-    public static func == (lhs: Query<T>, rhs: Query<T>) -> Bool {
-        guard lhs.limit == rhs.limit,
-              lhs.skip == rhs.skip,
-              lhs.keys == rhs.keys,
-              lhs.include == rhs.include,
-              lhs.order == rhs.order,
-              lhs.isCount == rhs.isCount,
-              lhs.explain == rhs.explain,
-              lhs.hint == rhs.hint,
-              lhs.`where` == rhs.`where`,
-              lhs.excludeKeys == rhs.excludeKeys,
-              lhs.readPreference == rhs.readPreference,
-              lhs.includeReadPreference == rhs.includeReadPreference,
-              lhs.subqueryReadPreference == rhs.subqueryReadPreference,
-              lhs.distinct == rhs.distinct,
-              lhs.pipeline == rhs.pipeline,
-              lhs.fields == rhs.fields else {
-            return false
-        }
-        return true
-    }
-
     /**
       Add any amount of variadic constraints.
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
@@ -1459,7 +1437,7 @@ enum RawCodingKey: CodingKey {
         }
     }
     var intValue: Int? {
-        fatalError()
+        Int(stringValue)
     }
     init?(stringValue: String) {
         self = .key(stringValue)

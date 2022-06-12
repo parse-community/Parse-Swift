@@ -14,14 +14,8 @@ import Foundation
  */
 public protocol ParsePushPayloadable: Codable, Equatable, CustomDebugStringConvertible, CustomStringConvertible {
 
-    /// Initialize an empty payload.
+    /// Creates an empty payload.
     init()
-}
-
-public extension ParsePushPayloadable {
-    init() {
-        self.init()
-    }
 }
 
 // MARK: CustomDebugStringConvertible

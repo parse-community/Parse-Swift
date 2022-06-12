@@ -78,14 +78,6 @@ public struct ParseAnalytics: ParseType, Hashable {
         }
     }
 
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.debugDescription == rhs.debugDescription
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.debugDescription)
-    }
-
     // MARK: Helpers
     func convertToAnyCodable(_ dimensions: [String: Codable]?) -> [String: AnyCodable]? {
         guard let dimensions = dimensions else {

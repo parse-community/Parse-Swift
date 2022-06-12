@@ -96,12 +96,13 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
              urlArgs
     }
 
+    public init() { }
+
     /**
      Create an instance of `ParsePushPayloadApple` .
      - parameter alert: The alert payload for the Apple push notification.
-     Defaults to **nil**.
      */
-    public init(alert: ParsePushAppleAlert? = nil) {
+    public init(alert: ParsePushAppleAlert) {
         self.alert = alert
     }
 
@@ -113,45 +114,74 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
         self.body = body
     }
 
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        relevanceScore = try values.decodeIfPresent(Double.self, forKey: .relevanceScore)
+        targetContentId = try values.decodeIfPresent(String.self, forKey: .targetContentId)
+        mutableContent = try values.decodeIfPresent(Int.self, forKey: .mutableContent)
+        contentAvailable = try values.decodeIfPresent(Int.self, forKey: .contentAvailable)
+        priority = try values.decodeIfPresent(Int.self, forKey: .priority)
+        pushType = try values.decodeIfPresent(Self.PushType.self, forKey: .pushType)
+        collapseId = try values.decodeIfPresent(String.self, forKey: .collapseId)
+        category = try values.decodeIfPresent(String.self, forKey: .category)
+        sound = try values.decodeIfPresent(AnyCodable.self, forKey: .sound)
+        badge = try values.decodeIfPresent(AnyCodable.self, forKey: .badge)
+        threadId = try values.decodeIfPresent(String.self, forKey: .threadId)
+        mdm = try values.decodeIfPresent(String.self, forKey: .mdm)
+        topic = try values.decodeIfPresent(String.self, forKey: .topic)
+        interruptionLevel = try values.decodeIfPresent(String.self, forKey: .interruptionLevel)
+        urlArgs = try values.decodeIfPresent([String].self, forKey: .urlArgs)
+        do {
+            alert = try values.decode(ParsePushAppleAlert.self, forKey: .alert)
+        } catch {
+            guard let alertBody = try values.decodeIfPresent(String.self, forKey: .alert) else {
+                return
+            }
+            alert = ParsePushAppleAlert(body: alertBody)
+        }
+    }
+
     /**
      Set the name of a sound file in your app’s main bundle or in the Library/Sounds folder
-     of your app’s container directory. Specify the string “default” to play the system
-     sound. Use this key for **regular** notifications. For critical alerts, use the sound
-     `ParsePushPayloadAppleSound` instead. For information about how to prepare sounds, see
+     of your app’s container directory. For information about how to prepare sounds, see
      [UNNotificationSound](https://developer.apple.com/documentation/usernotifications/unnotificationsound).
+     - parameter sound: An instance of `ParsePushAppleSound`.
      - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
      - warning: For Apple OS's only.
      */
-    public func setSound(_ name: String) -> Self {
+    public func setSound(_ sound: ParsePushAppleSound) -> Self {
         var mutablePayload = self
-        mutablePayload.sound = AnyCodable(name)
+        mutablePayload.sound = AnyCodable(sound)
         return mutablePayload
     }
 
     /**
-     Set the **critical** sound in your app’s main bundle or in the Library/Sounds folder
+     Set the name of a sound file in your app’s main bundle or in the Library/Sounds folder
      of your app’s container directory. Specify the string “default” to play the system
-     sound. Use this key for **critical** notifications. For regular alerts, use the sound
-     `ParsePushPayloadAppleSound` instead. For information about how to prepare sounds, see
+     sound. Pass a string for **regular** notifications. For critical alerts, pass the sound
+     `ParsePushAppleSound` instead. For information about how to prepare sounds, see
      [UNNotificationSound](https://developer.apple.com/documentation/usernotifications/unnotificationsound).
-     - parameter alert: The `ParsePushPayloadSound`.
+     - parameter sound: A `String` or any `Codable` object that can be sent to APN.
      - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
+     - warning: For Apple OS's only.
      */
-    public func setSound(_ payload: ParsePushAppleSound) -> Self {
+    public func setSound<V>(_ sound: V) -> Self where V: Codable {
         var mutablePayload = self
-        mutablePayload.sound = AnyCodable(payload)
+        mutablePayload.sound = AnyCodable(sound)
         return mutablePayload
     }
 
     /**
-     Set the sound using any type that conforms to `Codable`.
-     - parameter alert: The `Codable` alert.
+     Get the sound using any type that conforms to `Codable`.
      - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
+     - throws: An error of type `ParseError`.
      */
-    public func setSound(_ payload: Codable) -> Self {
-        var mutablePayload = self
-        mutablePayload.sound = AnyCodable(payload)
-        return mutablePayload
+    public func getSound<V>() throws -> V where V: Codable {
+        guard let sound = sound?.value as? V else {
+            throw ParseError(code: .unknownError,
+                             message: "Cannot be casted to the inferred type")
+        }
+        return sound
     }
 
     /**

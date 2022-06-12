@@ -39,29 +39,43 @@ public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFirebaseP
         relevanceScore = try values.decodeIfPresent(Double.self, forKey: .key("relevance-score"))
         targetContentId = try values.decodeIfPresent(String.self, forKey: .key("targetContentIdentifier"))
         do {
-            mutableContent = try values.decodeIfPresent(AnyCodable.self, forKey: .key("mutable-content"))
+            mutableContent = try values.decode(AnyCodable.self, forKey: .key("mutable-content"))
         } catch {
             mutableContent = try values.decodeIfPresent(AnyCodable.self, forKey: .key("mutableContent"))
         }
         do {
-            contentAvailable = try values.decodeIfPresent(AnyCodable.self, forKey: .key("content-available"))
+            contentAvailable = try values.decode(AnyCodable.self, forKey: .key("content-available"))
         } catch {
             contentAvailable = try values.decodeIfPresent(AnyCodable.self, forKey: .key("contentAvailable"))
         }
-        priority = try values.decodeIfPresent(AnyCodable.self, forKey: .key("priority"))
+        do {
+            let priorityInt = try values.decode(Int.self, forKey: .key("priority"))
+            priority = AnyCodable(priorityInt)
+        } catch {
+            if let priorityString = try values.decodeIfPresent(String.self, forKey: .key("priority")),
+               let priorityEnum = ParsePushPayloadFirebase.PushPriority(rawValue: priorityString) {
+                priority = AnyCodable(priorityEnum)
+            }
+        }
         pushType = try values.decodeIfPresent(ParsePushPayloadApple.PushType.self, forKey: .key("push_type"))
         collapseId = try values.decodeIfPresent(String.self, forKey: .key("collapse_id"))
         category = try values.decodeIfPresent(String.self, forKey: .key("category"))
         sound = try values.decodeIfPresent(AnyCodable.self, forKey: .key("sound"))
         badge = try values.decodeIfPresent(AnyCodable.self, forKey: .key("badge"))
-        alert = try values.decodeIfPresent(ParsePushAppleAlert.self, forKey: .key("alert"))
+        do {
+            alert = try values.decode(ParsePushAppleAlert.self, forKey: .key("alert"))
+        } catch {
+            if let alertBody = try? values.decode(String.self, forKey: .key("alert")) {
+                alert = ParsePushAppleAlert(body: alertBody)
+            }
+        }
         threadId = try values.decodeIfPresent(String.self, forKey: .key("threadId"))
         mdm = try values.decodeIfPresent(String.self, forKey: .key("mdm"))
         topic = try values.decodeIfPresent(String.self, forKey: .key("topic"))
         interruptionLevel = try values.decodeIfPresent(String.self, forKey: .key("interruptionLevel"))
         urlArgs = try values.decodeIfPresent([String].self, forKey: .key("urlArgs"))
         title = try values.decodeIfPresent(String.self, forKey: .key("title"))
-        uri = try values.decodeIfPresent(URL.self, forKey: .key("title"))
+        uri = try values.decodeIfPresent(URL.self, forKey: .key("uri"))
         collapseKey = try values.decodeIfPresent(String.self, forKey: .key("collapseKey"))
         delayWhileIdle = try values.decodeIfPresent(Bool.self, forKey: .key("delayWhileIdle"))
         restrictedPackageName = try values.decodeIfPresent(String.self, forKey: .key("restrictedPackageName"))

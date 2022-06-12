@@ -85,32 +85,6 @@ public struct QueryConstraint: Codable, Hashable {
             value = try container.decode(AnyCodable.self)
         }
     }
-
-    public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
-        guard lhs.key == rhs.key,
-              lhs.comparator == rhs.comparator,
-              lhs.isNull == rhs.isNull else {
-            return false
-        }
-        guard let lhsValue = lhs.value,
-              let rhsValue = rhs.value else {
-                  guard lhs.value == nil,
-                        rhs.value == nil else {
-                      return false
-                  }
-                  return true
-              }
-        return lhsValue.isEqual(rhsValue)
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        do {
-            let encodedData = try ParseCoding.jsonEncoder().encode(self)
-            hasher.combine(encodedData)
-        } catch {
-            hasher.combine(0)
-        }
-    }
 }
 
 /**

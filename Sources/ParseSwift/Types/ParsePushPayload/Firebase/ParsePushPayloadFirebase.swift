@@ -53,11 +53,13 @@ public struct ParsePushPayloadFirebase: ParsePushFirebasePayloadable {
         case high
     }
 
+    public init() { }
+
     /**
      Create a new instance of `ParsePushPayloadFirebase`.
      - parameter notification: The predefined, user-visible notification payload.
      */
-    public init(notification: ParsePushFirebaseNotification? = nil) {
+    public init(notification: ParsePushFirebaseNotification) {
         self.notification = notification
     }
 

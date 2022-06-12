@@ -97,12 +97,9 @@ public extension ParseRole {
         self.ACL = acl
     }
 
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.debugDescription == rhs.debugDescription
-    }
-
     func hash(into hasher: inout Hasher) {
-        hasher.combine(self.debugDescription)
+        let name = self.name ?? self.objectId
+        hasher.combine(name)
     }
 }
 
