@@ -14,7 +14,7 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseType, Decodable {
+public struct ParsePush<V: ParsePushPayloadable>: ParseType, Decodable {
     /**
      The query that determines what installations should receive the notification.
      - warning: Cannot send a notification with this valuel and `channels` both set.
@@ -120,10 +120,10 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
     */
-    public init(payload: V,
-                query: Query<U>,
-                pushTime: Date? = nil,
-                expirationDate: Date? = nil) {
+    public init<U>(payload: V,
+                   query: Query<U>,
+                   pushTime: Date? = nil,
+                   expirationDate: Date? = nil) where U: ParseInstallation {
         self.payload = payload
         self.`where` = query.`where`
         self.pushTime = pushTime
@@ -142,10 +142,10 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
     */
-    public init(payload: V,
-                query: Query<U>,
-                pushTime: Date? = nil,
-                expirationInterval: Int?) {
+    public init<U>(payload: V,
+                   query: Query<U>,
+                   pushTime: Date? = nil,
+                   expirationInterval: Int?) where U: ParseInstallation {
         self.payload = payload
         self.`where` = query.`where`
         self.pushTime = pushTime
@@ -236,11 +236,11 @@ public extension ParsePush {
     func fetchStatus(_ statusId: String,
                      options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<ParsePushStatus<U, V>, ParseError>) -> Void) {
+                     completion: @escaping (Result<ParsePushStatus<V>, ParseError>) -> Void) {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        let query = ParsePushStatus<U, V>.query("objectId" == statusId)
+        let query = ParsePushStatus<V>.query("objectId" == statusId)
         query.first(options: options, completion: completion)
     }
 }

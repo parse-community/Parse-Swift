@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- A protocol for making ush notification payloads.
+ A protocol for making push notification payloads.
  See `ParsePushPayloadApple` or `ParsePushPayloadFirebase` for examples.
  */
 public protocol ParsePushPayloadable: Codable, Equatable, CustomDebugStringConvertible, CustomStringConvertible {

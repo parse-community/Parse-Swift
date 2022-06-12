@@ -17,8 +17,7 @@ import Foundation
  exposed to the public.
  */
 public protocol ParsePushStatusable: ParseObject {
-
-    associatedtype InstallationType: ParseInstallation
+    /// A type that conforms to `ParsePushPayloadable`.
     associatedtype PushType: ParsePushPayloadable
 
     /// The time the notification was pushed.

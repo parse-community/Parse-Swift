@@ -85,7 +85,7 @@ class ParsePushCombineTests: XCTestCase {
         }
 
         let applePayload = ParsePushPayloadApple(alert: appleAlert)
-        let push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload)
+        let push = ParsePush(payload: applePayload)
         let publisher = push.sendPublisher()
             .sink(receiveCompletion: { result in
 
@@ -122,7 +122,7 @@ class ParsePushCombineTests: XCTestCase {
         }
 
         let applePayload = ParsePushPayloadApple(alert: appleAlert)
-        let push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload)
+        let push = ParsePush(payload: applePayload)
         let publisher = push.sendPublisher()
             .sink(receiveCompletion: { result in
                 switch result {
@@ -161,7 +161,7 @@ class ParsePushCombineTests: XCTestCase {
         }
 
         let applePayload = ParsePushPayloadApple(alert: appleAlert)
-        var push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload, expirationTime: Date())
+        var push = ParsePush(payload: applePayload, expirationDate: Date())
         push.expirationInterval = 7
         let publisher = push.sendPublisher()
             .sink(receiveCompletion: { result in
@@ -202,7 +202,7 @@ class ParsePushCombineTests: XCTestCase {
 
         let applePayload = ParsePushPayloadApple(alert: appleAlert)
         let installationQuery = Installation.query(isNotNull(key: "objectId"))
-        var push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload, query: installationQuery)
+        var push = ParsePush(payload: applePayload, query: installationQuery)
         push.channels = ["hello"]
         let publisher = push.sendPublisher()
             .sink(receiveCompletion: { result in
@@ -242,7 +242,7 @@ class ParsePushCombineTests: XCTestCase {
         }
 
         let applePayload = ParsePushPayloadApple(alert: appleAlert)
-        let push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload)
+        let push = ParsePush(payload: applePayload)
         let publisher = push.sendPublisher()
             .sink(receiveCompletion: { result in
                 switch result {
@@ -279,7 +279,7 @@ class ParsePushCombineTests: XCTestCase {
         }
 
         let applePayload = ParsePushPayloadApple(alert: appleAlert)
-        let push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload)
+        let push = ParsePush(payload: applePayload)
         let publisher = push.sendPublisher()
             .sink(receiveCompletion: { result in
                 switch result {
@@ -307,14 +307,13 @@ class ParsePushCombineTests: XCTestCase {
         let appleAlert = ParsePushAppleAlert(body: "hello world")
         var anyPayload = ParsePushPayloadAny()
         anyPayload.alert = appleAlert
-        var statusOnServer = ParsePushStatus<Installation, ParsePushPayloadAny>()
+        var statusOnServer = ParsePushStatus<ParsePushPayloadAny>()
         statusOnServer.payload = anyPayload
         statusOnServer.objectId = objectId
         statusOnServer.createdAt = Date()
         statusOnServer.updatedAt = statusOnServer.createdAt
 
-        // swiftlint:disable:next line_length
-        let results = QueryResponse<ParsePushStatus<Installation, ParsePushPayloadAny>>(results: [statusOnServer], count: 1)
+        let results = QueryResponse<ParsePushStatus<ParsePushPayloadAny>>(results: [statusOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(results)
@@ -325,7 +324,7 @@ class ParsePushCombineTests: XCTestCase {
         }
 
         let applePayload = ParsePushPayloadApple(alert: appleAlert)
-        let push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload)
+        let push = ParsePush(payload: applePayload)
         let publisher = push.fetchStatusPublisher(objectId)
             .sink(receiveCompletion: { result in
 

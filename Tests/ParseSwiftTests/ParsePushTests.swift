@@ -10,6 +10,89 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
+/**
+ For testing _PushStatus response of at least Parse Server 5.2.1 and below.
+ - warning: This struct should be kept inline with `ParsePushStatus`
+ so tests don't break.
+*/
+internal struct ParsePushStatusResponse: ParseObject {
+
+    var originalData: Data?
+
+    var objectId: String?
+
+    var createdAt: Date?
+
+    var updatedAt: Date?
+
+    var ACL: ParseACL?
+
+    var query: String?
+
+    var pushTime: Date?
+
+    var source: String?
+
+    var payload: String?
+
+    var title: String?
+
+    var expiry: Int?
+
+    var expirationInterval: String?
+
+    var status: String?
+
+    var numSent: Int?
+
+    var numFailed: Int?
+
+    var pushHash: String?
+
+    var errorMessage: ParseError?
+
+    var sentPerType: [String: Int]?
+
+    var failedPerType: [String: Int]?
+
+    var sentPerUTCOffset: [String: Int]?
+
+    var failedPerUTCOffset: [String: Int]?
+
+    var count: Int?
+
+    init() { }
+
+    func setQueryWhere(_ query: QueryWhere) throws -> Self {
+        var mutatingResponse = self
+        let whereData = try ParseCoding.jsonEncoder().encode(query)
+        guard let whereString = String(data: whereData, encoding: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have created String")
+        }
+        mutatingResponse.query = whereString
+        return mutatingResponse
+    }
+
+    func setPayload<V: ParsePushPayloadable>(_ payload: V) throws -> Self {
+        var mutatingResponse = self
+        let payloadData = try ParseCoding.jsonEncoder().encode(payload)
+        guard let payloadString = String(data: payloadData, encoding: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have created String")
+        }
+        mutatingResponse.payload = payloadString
+        return mutatingResponse
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case expirationInterval = "expiration_interval"
+        case objectId, createdAt, updatedAt, ACL
+        case count, failedPerUTCOffset, sentPerUTCOffset,
+             sentPerType, failedPerType, errorMessage, pushHash,
+             numFailed, numSent, status, expiry, title, source,
+             pushTime, query, payload
+    }
+}
+
 class ParsePushTests: XCTestCase {
 
     struct Installation: ParseInstallation {
@@ -69,7 +152,7 @@ class ParsePushTests: XCTestCase {
         let fcmPayload = ParsePushPayloadFirebase(notification: .init(body: "Bye FCM"))
         let installationQuery = Installation.query(isNotNull(key: "objectId"))
 
-        let push = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload)
+        let push = ParsePush(payload: applePayload)
         XCTAssertEqual(push.debugDescription,
                        // swiftlint:disable:next line_length
                        "ParsePush ({\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"}})")
@@ -77,11 +160,11 @@ class ParsePushTests: XCTestCase {
         XCTAssertEqual(push2.debugDescription,
                        // swiftlint:disable:next line_length
                        "ParsePush ({\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"},\"where\":{\"objectId\":{\"$ne\":null}}})")
-        let push3 = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload, expirationInterval: 7)
+        let push3 = ParsePush(payload: applePayload, expirationInterval: 7)
         XCTAssertEqual(push3.debugDescription,
                        // swiftlint:disable:next line_length
                        "ParsePush ({\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"},\"expiration_interval\":7})")
-        let push4 = ParsePush<Installation, ParsePushPayloadFirebase>(payload: fcmPayload)
+        let push4 = ParsePush(payload: fcmPayload)
         XCTAssertEqual(push4.debugDescription,
                        "ParsePush ({\"data\":{\"notification\":{\"body\":\"Bye FCM\"}}})")
         let push5 = ParsePush(payload: fcmPayload, query: installationQuery)
@@ -96,13 +179,14 @@ class ParsePushTests: XCTestCase {
 
     func testChannels() throws {
         let currentDate = Date()
-        let currentDateData = try ParseCoding.jsonEncoder().encode(currentDate)
+        let currentDateInterval = currentDate.timeIntervalSince1970
+        let currentDateData = try ParseCoding.jsonEncoder().encode(currentDateInterval)
         guard let currentDateString = String(data: currentDateData, encoding: .utf8) else {
             XCTFail("Should have unwrapped")
             return
         }
         let fcmPayload = ParsePushPayloadFirebase(notification: .init(body: "Bye FCM"))
-        var push = ParsePush<Installation, ParsePushPayloadFirebase>(payload: fcmPayload, expirationTime: currentDate)
+        var push = ParsePush(payload: fcmPayload, expirationDate: currentDate)
         push.channels = ["hello"]
         XCTAssertEqual(push.description,
                        // swiftlint:disable:next line_length

@@ -92,7 +92,7 @@ let helloAgainAlert = ParsePushAppleAlert(body: "Hello from ParseSwift again!")
 let applePayload2 = ParsePushPayloadApple(alert: helloAgainAlert)
     .incrementBadge()
 
-var push2 = ParsePush<Installation, ParsePushPayloadApple>(payload: applePayload2)
+var push2 = ParsePush(payload: applePayload2)
 //: Set all channels the notificatioin should be published to.
 push2.channels = Set(["newDevices"])
 
@@ -159,7 +159,7 @@ push3.fetchStatus(pushStatusId) { result in
  multiple ParsePushStatus's you will can use the any
  payload, `ParsePushPayloadAny`.
  */
-let query = ParsePushStatus<Installation, ParsePushPayloadAny>
+let query = ParsePushStatus<ParsePushPayloadAny>
     .query(isNotNull(key: "objectId"))
 
 /*:

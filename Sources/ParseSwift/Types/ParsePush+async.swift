@@ -41,7 +41,7 @@ public extension ParsePush {
      exposed to the public.
     */
     func fetchStatus(_ statusId: String,
-                     options: API.Options = []) async throws -> ParsePushStatus<U, V> {
+                     options: API.Options = []) async throws -> ParsePushStatus<V> {
         try await withCheckedThrowingContinuation { continuation in
             self.fetchStatus(statusId,
                              options: options,
