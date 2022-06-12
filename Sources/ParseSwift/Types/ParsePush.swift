@@ -30,10 +30,34 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
     /// When to send the notification.
     public var pushTime: Date?
     /**
-     When to expire the notification.
+     The UNIX timestamp when the notification should expire.
+     If the notification cannot be delivered to the device, will retry until it expires.
+     An expiry of **0** indicates that the notification expires immediately, therefore
+     no retries will be attempted.
+     - note: This shouldn't be set directly using a **Date** type. Instead it should
+     be set using `expirationDate`.
      - warning: Cannot send a notification with this valuel and `expirationInterval` both set.
      */
-    public var expirationTime: Date?
+    var expirationTime: TimeInterval?
+
+    /**
+     The date when the notification should expire.
+     If the notification cannot be delivered to the device, will retry until it expires.
+     - note: This takes any date and turns it into a UNIX timestamp and sets the
+     value of `expirationTime`.
+     - warning: Cannot send a notification with this valuel and `expirationInterval` both set.
+     */
+    var expirationDate: Date? {
+        get {
+            guard let interval = expirationTime else {
+                return nil
+            }
+            return Date(timeIntervalSince1970: interval)
+        }
+        set {
+            expirationTime = newValue?.timeIntervalSince1970
+        }
+    }
     /**
      The seconds from now to expire the notification.
      - warning: Cannot send a notification with this valuel and `expirationTime` both set.
@@ -52,7 +76,7 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      Create an instance of  `ParsePush` with a given expiration date.
      - parameter payload: The payload information to send.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
-     - parameter expirationTime: The date to expire the notification. Defaults to **nil**.
+     - parameter expirationDate: The date to expire the notification. Defaults to **nil**.
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
@@ -60,10 +84,10 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
     */
     public init(payload: V,
                 pushTime: Date? = nil,
-                expirationTime: Date? = nil) {
+                expirationDate: Date? = nil) {
         self.payload = payload
         self.pushTime = pushTime
-        self.expirationTime = expirationTime
+        self.expirationDate = expirationDate
     }
 
     /**
@@ -90,7 +114,7 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
      - parameter query: The query that determines what installations should receive the notification.
      Defaults to **nil**.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
-     - parameter expirationTime: The date to expire the notification. Defaults to **nil**.
+     - parameter expirationDate: The date to expire the notification. Defaults to **nil**.
      - requires: `.useMasterKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
@@ -99,11 +123,11 @@ public struct ParsePush<U: ParseInstallation, V: ParsePushPayloadable>: ParseTyp
     public init(payload: V,
                 query: Query<U>,
                 pushTime: Date? = nil,
-                expirationTime: Date? = nil) {
+                expirationDate: Date? = nil) {
         self.payload = payload
         self.`where` = query.`where`
         self.pushTime = pushTime
-        self.expirationTime = expirationTime
+        self.expirationDate = expirationDate
     }
 
     /**

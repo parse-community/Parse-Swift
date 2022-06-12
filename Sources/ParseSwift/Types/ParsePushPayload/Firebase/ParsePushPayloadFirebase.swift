@@ -36,11 +36,6 @@ public struct ParsePushPayloadFirebase: ParsePushFirebasePayloadable {
      the APNs payload.
      */
     public var mutableContent: Bool?
-    /**
-     This parameter specifies how long the message
-     should be kept in FCM storage if the device is offline.
-     */
-    public var expirationTime: TimeInterval?
     public var uri: URL?
     public var title: String?
     public var collapseKey: String?
@@ -67,7 +62,6 @@ public struct ParsePushPayloadFirebase: ParsePushFirebasePayloadable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case expirationTime = "expiration_time"
         case priority, contentAvailable, title, uri,
              collapseKey, delayWhileIdle, restrictedPackageName,
              dryRun, data, notification, mutableContent

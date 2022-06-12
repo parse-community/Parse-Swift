@@ -56,8 +56,6 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
 
     public var mdm: String?
 
-    public var expirationTime: TimeInterval?
-
     public var alert: ParsePushAppleAlert?
 
     /**
@@ -91,7 +89,6 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
         case targetContentId = "targetContentIdentifier"
         case mutableContent = "mutable-content"
         case contentAvailable = "content-available"
-        case expirationTime = "expiration_time"
         case pushType = "push_type"
         case collapseId = "collapse_id"
         case category, sound, badge, alert, threadId,

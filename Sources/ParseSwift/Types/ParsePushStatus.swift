@@ -65,10 +65,6 @@ public struct ParsePushStatus<U: ParseInstallation, V: ParsePushPayloadable>: Pa
 
     public init() { }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.debugDescription)
-    }
-
     enum CodingKeys: String, CodingKey {
         case expirationInterval = "expiration_interval"
         case objectId, createdAt, updatedAt, ACL
