@@ -1437,7 +1437,7 @@ enum RawCodingKey: CodingKey {
         }
     }
     var intValue: Int? {
-        Int(stringValue)
+        nil
     }
     init?(stringValue: String) {
         self = .key(stringValue)

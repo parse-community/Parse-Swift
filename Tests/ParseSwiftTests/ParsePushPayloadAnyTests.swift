@@ -111,10 +111,40 @@ class ParsePushPayloadAnyTests: XCTestCase {
         let encoded2 = try ParseCoding.parseEncoder().encode(fcmPayload)
         let decoded2 = try ParseCoding.jsonDecoder().decode(ParsePushPayloadFirebase.self, from: encoded2)
         XCTAssertEqual(fcmPayload, decoded2)
-        XCTAssertEqual(fcmPayload.description,
-                       "ParsePushPayloadable ({\"collapseKey\":\"nope\",\"data\":{\"help\":\"you\"},\"delayWhileIdle\":false,\"dryRun\":false,\"notification\":{\"android_channel_id\":\"you\",\"badge\":\"no\",\"body\":\"android\",\"body_loc-key\":\"cousin\",\"body-loc-args\":[\"mother\"],\"click_action\":\"to\",\"color\":\"blue\",\"icon\":\"world\",\"image\":\"icon\",\"sound\":\"yes\",\"subtitle\":\"trip\",\"tag\":\"it\",\"title\":\"hello\",\"title_loc_args\":[\"arg\"],\"title_loc_key\":\"it\"},\"restrictedPackageName\":\"geez\",\"title\":\"peace\",\"uri\":\"https:\\/\\/parse.org\"})")
         let decodedAny2 = try ParseCoding.jsonDecoder().decode(ParsePushPayloadAny.self, from: encoded).convertToApple()
         XCTAssertEqual(decodedAny2, applePayload)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        XCTAssertEqual(fcmPayload.description,
+                       "ParsePushPayloadable ({\"collapseKey\":\"nope\",\"data\":{\"help\":\"you\"},\"delayWhileIdle\":false,\"dryRun\":false,\"notification\":{\"android_channel_id\":\"you\",\"badge\":\"no\",\"body\":\"android\",\"body_loc-key\":\"cousin\",\"body-loc-args\":[\"mother\"],\"click_action\":\"to\",\"color\":\"blue\",\"icon\":\"world\",\"image\":\"icon\",\"sound\":\"yes\",\"subtitle\":\"trip\",\"tag\":\"it\",\"title\":\"hello\",\"title_loc_args\":[\"arg\"],\"title_loc_key\":\"it\"},\"restrictedPackageName\":\"geez\",\"title\":\"peace\",\"uri\":\"https:\\/\\/parse.org\"})")
+        #endif
+    }
+
+    func testAppleAlertStringDecode() throws {
+        let sound = ParsePushAppleSound(critical: true, name: "hello", volume: 7)
+        let alert = ParsePushAppleAlert(body: "pull up")
+        var anyPayload = ParsePushPayloadAny()
+        anyPayload.alert = alert
+        anyPayload.badge = AnyCodable(1)
+        anyPayload.sound = AnyCodable(sound)
+        anyPayload.urlArgs = ["help"]
+        anyPayload.interruptionLevel = "yolo"
+        anyPayload.topic = "naw"
+        anyPayload.threadId = "yep"
+        anyPayload.collapseId = "nope"
+        anyPayload.pushType = .background
+        anyPayload.targetContentId = "press"
+        anyPayload.relevanceScore = 2.0
+        anyPayload.priority = 6
+        anyPayload.contentAvailable = 1
+        anyPayload.mutableContent = 1
+
+        let applePayload = anyPayload.convertToApple()
+        guard let jsonData = "{\"alert\":\"pull up\",\"badge\":1,\"collapse_id\":\"nope\",\"content-available\":1,\"interruptionLevel\":\"yolo\",\"mutable-content\":1,\"priority\":6,\"push_type\":\"background\",\"relevance-score\":2,\"sound\":{\"critical\":true,\"name\":\"hello\",\"volume\":7},\"targetContentIdentifier\":\"press\",\"threadId\":\"yep\",\"topic\":\"naw\",\"urlArgs\":[\"help\"]}".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let decodedAlert = try ParseCoding.jsonDecoder().decode(ParsePushPayloadAny.self, from: jsonData).convertToApple()
+        XCTAssertEqual(decodedAlert, applePayload)
     }
 
     func testConvertToApple() throws {
@@ -196,9 +226,11 @@ class ParsePushPayloadAnyTests: XCTestCase {
         let encoded = try ParseCoding.parseEncoder().encode(fcmPayload)
         let decoded = try ParseCoding.jsonDecoder().decode(ParsePushPayloadFirebase.self, from: encoded)
         XCTAssertEqual(fcmPayload, decoded)
-        XCTAssertEqual(fcmPayload.description,
-                       "ParsePushPayloadable ({\"collapseKey\":\"nope\",\"contentAvailable\":true,\"data\":{\"help\":\"you\"},\"delayWhileIdle\":false,\"dryRun\":false,\"mutableContent\":true,\"notification\":{\"android_channel_id\":\"you\",\"badge\":\"no\",\"body\":\"android\",\"body_loc-key\":\"cousin\",\"body-loc-args\":[\"mother\"],\"click_action\":\"to\",\"color\":\"blue\",\"icon\":\"world\",\"image\":\"icon\",\"sound\":\"yes\",\"subtitle\":\"trip\",\"tag\":\"it\",\"title\":\"hello\",\"title_loc_args\":[\"arg\"],\"title_loc_key\":\"it\"},\"priority\":\"high\",\"restrictedPackageName\":\"geez\",\"title\":\"peace\",\"uri\":\"https:\\/\\/parse.org\"})")
         let decoded2 = try ParseCoding.jsonDecoder().decode(ParsePushPayloadAny.self, from: encoded).convertToFirebase()
         XCTAssertEqual(decoded2, fcmPayload)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        XCTAssertEqual(fcmPayload.description,
+                       "ParsePushPayloadable ({\"collapseKey\":\"nope\",\"contentAvailable\":true,\"data\":{\"help\":\"you\"},\"delayWhileIdle\":false,\"dryRun\":false,\"mutableContent\":true,\"notification\":{\"android_channel_id\":\"you\",\"badge\":\"no\",\"body\":\"android\",\"body_loc-key\":\"cousin\",\"body-loc-args\":[\"mother\"],\"click_action\":\"to\",\"color\":\"blue\",\"icon\":\"world\",\"image\":\"icon\",\"sound\":\"yes\",\"subtitle\":\"trip\",\"tag\":\"it\",\"title\":\"hello\",\"title_loc_args\":[\"arg\"],\"title_loc_key\":\"it\"},\"priority\":\"high\",\"restrictedPackageName\":\"geez\",\"title\":\"peace\",\"uri\":\"https:\\/\\/parse.org\"})")
+        #endif
     }
 }
