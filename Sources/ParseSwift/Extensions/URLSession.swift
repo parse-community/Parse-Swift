@@ -53,7 +53,7 @@ internal extension URLSession {
             }
             return .failure(parseError)
         }
-        if let responseData = responseData {
+        if var responseData = responseData {
             if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
                 return .failure(error)
             }
@@ -62,6 +62,16 @@ internal extension URLSession {
                     .storeCachedResponse(.init(response: response,
                                                data: responseData),
                                          for: request)
+            }
+            if let httpResponse = response as? HTTPURLResponse {
+                 if let pushStatusId = httpResponse.value(forHTTPHeaderField: "X-Parse-Push-Status-Id") {
+                     let pushStatus = PushResponse(data: responseData, statusId: pushStatusId)
+                     do {
+                         responseData = try ParseCoding.jsonEncoder().encode(pushStatus)
+                     } catch {
+                         return .failure(ParseError(code: .unknownError, message: error.localizedDescription))
+                     }
+                 }
             }
             do {
                 return try .success(mapper(responseData))

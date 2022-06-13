@@ -6,6 +6,7 @@
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __New features__
+- Add the ability to send APN and FCM push notifications. Also adds the ability to query _PushStatus ([#371](https://github.com/parse-community/Parse-Swift/pull/371)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add ParseSchema, ParseCLP, and ParseFieldOptions. Should only be used when using the Swift SDK on a secured server ([#370](https://github.com/parse-community/Parse-Swift/pull/370)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.5.0

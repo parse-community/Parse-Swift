@@ -14,7 +14,7 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable {
+public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable, Equatable {
 
     /// The class name of the `ParseSchema`.
     public var className: String

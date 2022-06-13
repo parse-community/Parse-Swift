@@ -33,7 +33,7 @@ extension Query where T: ParseObject & ParseQueryScorable {
         var mutableQuery = self
         let ascendingScore = Order.ascending(QueryConstraint.Comparator.score.rawValue)
         if mutableQuery.order != nil {
-            mutableQuery.order!.append(ascendingScore)
+            mutableQuery.order?.append(ascendingScore)
         } else {
             mutableQuery.order = [ascendingScore]
         }

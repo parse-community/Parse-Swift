@@ -6,12 +6,15 @@ import FoundationNetworking
 // swiftlint:disable line_length
 
 /// The Configuration for a Parse client.
+/// - warning: It is recomended to only specify `masterKey` when using the
+/// SDK on a server. Do not use this key on the client.
 public struct ParseConfiguration {
 
     /// The application id of your Parse application.
     public internal(set) var applicationId: String
 
-    /// The master key of your Parse application.
+    /// The master key of your Parse application. This key should only
+    /// be specified when using the SDK on a server.
     public internal(set) var masterKey: String? // swiftlint:disable:this inclusive_language
 
     /// The client key of your Parse application.
@@ -74,7 +77,8 @@ public struct ParseConfiguration {
      Create a Parse Swift configuration.
      - parameter applicationId: The application id of your Parse application.
      - parameter clientKey: The client key of your Parse application.
-     - parameter masterKey: The master key of your Parse application.
+     - parameter masterKey: The master key of your Parse application. This key should only be
+     specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
@@ -105,6 +109,7 @@ public struct ParseConfiguration {
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
      - warning: `usingTransactions` is experimental.
+     - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -239,7 +244,8 @@ public struct ParseSwift {
      `application(... didFinishLaunchingWithOptions launchOptions...)`.
      - parameter applicationId: The application id of your Parse application.
      - parameter clientKey: The client key of your Parse application.
-     - parameter masterKey: The master key of your Parse application.
+     - parameter masterKey: The master key of your Parse application. This key should only be
+     specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
@@ -268,6 +274,7 @@ public struct ParseSwift {
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
      - warning: `usingTransactions` is experimental.
+     - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
      */
     static public func initialize(
         applicationId: String,

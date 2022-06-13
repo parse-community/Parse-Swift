@@ -108,7 +108,7 @@ extension ParseConfig {
         return API.Command(method: .PUT, // MARK: Should be switched to ".PATCH" when server supports PATCH.
                            path: .config,
                            body: body) { (data) -> Bool in
-            let updated = try ParseCoding.jsonDecoder().decode(ConfigUpdateResponse.self, from: data).result
+            let updated = try ParseCoding.jsonDecoder().decode(BooleanResponse.self, from: data).result
 
             if updated {
                 Self.updateKeychainIfNeeded(self)

@@ -146,6 +146,10 @@ public protocol ParseObject: Objectable,
 // MARK: Default Implementations
 public extension ParseObject {
 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+
     /**
     A computed property that is the same value as `objectId` and makes it easy to use `ParseObject`'s
      as models in MVVM and SwiftUI.

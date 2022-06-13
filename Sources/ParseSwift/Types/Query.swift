@@ -12,7 +12,7 @@ import Foundation
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public struct Query<T>: Encodable, Equatable where T: ParseObject {
+public struct Query<T>: Codable, Equatable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100
@@ -22,14 +22,14 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     internal var order: [Order]?
     internal var isCount: Bool?
     internal var explain: Bool?
-    internal var hint: AnyEncodable?
+    internal var hint: AnyCodable?
     internal var `where` = QueryWhere()
     internal var excludeKeys: Set<String>?
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
     internal var distinct: String?
-    internal var pipeline: [[String: AnyEncodable]]?
+    internal var pipeline: [[String: AnyCodable]]?
     internal var fields: Set<String>?
     var endpoint: API.Endpoint {
         .objects(className: T.className)
@@ -45,9 +45,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         Self.className
     }
 
-    struct AggregateBody<T>: Encodable where T: ParseObject {
-        let pipeline: [[String: AnyEncodable]]?
-        let hint: AnyEncodable?
+    struct AggregateBody<T>: Codable where T: ParseObject {
+        let pipeline: [[String: AnyCodable]]?
+        let hint: AnyCodable?
         let explain: Bool?
         let includeReadPreference: String?
 
@@ -59,8 +59,8 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         }
     }
 
-    struct DistinctBody<T>: Encodable where T: ParseObject {
-        let hint: AnyEncodable?
+    struct DistinctBody<T>: Codable where T: ParseObject {
+        let hint: AnyCodable?
         let explain: Bool?
         let includeReadPreference: String?
         let distinct: String?
@@ -97,7 +97,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
       - parameter key: The key to order by.
     */
-    public enum Order: Encodable, Equatable {
+    public enum Order: Codable, Equatable {
         /// Sort in ascending order based on `key`.
         case ascending(String)
         /// Sort in descending order based on `key`.
@@ -110,6 +110,17 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
                 try container.encode(value)
             case .descending(let value):
                 try container.encode("-\(value)")
+            }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.singleValueContainer()
+            var value = try values.decode(String.self)
+            if value.hasPrefix("-") {
+                value.removeFirst()
+                self = .descending(value)
+            } else {
+                self = .ascending(value)
             }
         }
     }
@@ -128,28 +139,6 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public init(_ constraints: [QueryConstraint]) {
         constraints.forEach({ self.where.add($0) })
-    }
-
-    public static func == (lhs: Query<T>, rhs: Query<T>) -> Bool {
-        guard lhs.limit == rhs.limit,
-              lhs.skip == rhs.skip,
-              lhs.keys == rhs.keys,
-              lhs.include == rhs.include,
-              lhs.order == rhs.order,
-              lhs.isCount == rhs.isCount,
-              lhs.explain == rhs.explain,
-              lhs.hint == rhs.hint,
-              lhs.`where` == rhs.`where`,
-              lhs.excludeKeys == rhs.excludeKeys,
-              lhs.readPreference == rhs.readPreference,
-              lhs.includeReadPreference == rhs.includeReadPreference,
-              lhs.subqueryReadPreference == rhs.subqueryReadPreference,
-              lhs.distinct == rhs.distinct,
-              lhs.pipeline == rhs.pipeline,
-              lhs.fields == rhs.fields else {
-            return false
-        }
-        return true
     }
 
     /**
@@ -205,7 +194,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     */
     public func hint<U: Encodable>(_ value: U) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.hint = AnyEncodable(value)
+        mutableQuery.hint = AnyCodable(value)
         return mutableQuery
     }
 
@@ -862,8 +851,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -874,7 +863,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -910,8 +899,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -927,7 +916,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -968,8 +957,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -980,7 +969,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -1028,8 +1017,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -1045,7 +1034,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -1448,7 +1437,7 @@ enum RawCodingKey: CodingKey {
         }
     }
     var intValue: Int? {
-        fatalError()
+        nil
     }
     init?(stringValue: String) {
         self = .key(stringValue)

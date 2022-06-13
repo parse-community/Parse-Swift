@@ -65,13 +65,14 @@ currentInstallation?.save { results in
     }
 }
 
-/*: Update your `ParseInstallation` `customKey` value.
+/*: Update your `ParseInstallation` `customKey` and `channels` values.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
  */
 var installationToUpdate = Installation.current?.mergeable
 installationToUpdate?.customKey = "myCustomInstallationKey2"
+installationToUpdate?.channels = ["newDevices"]
 installationToUpdate?.save { results in
 
     switch results {

@@ -174,7 +174,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         */
         public func hash(into hasher: inout Hasher) {
-            hasher.combine(self.objectId)
+            hasher.combine(self.id)
         }
     }
 
@@ -230,7 +230,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         */
         public func hash(into hasher: inout Hasher) {
-            hasher.combine(self.objectId)
+            hasher.combine(self.id)
         }
     }
 

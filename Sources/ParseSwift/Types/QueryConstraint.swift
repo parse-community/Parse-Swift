@@ -9,8 +9,8 @@
 import Foundation
 
 /// Used to constrain a query.
-public struct QueryConstraint: Encodable, Hashable {
-    enum Comparator: String, CodingKey, Encodable {
+public struct QueryConstraint: Codable, Hashable {
+    enum Comparator: String, CodingKey, Codable, CaseIterable {
         case lessThan = "$lt"
         case lessThanOrEqualTo = "$lte"
         case greaterThan = "$gt"
@@ -49,15 +49,22 @@ public struct QueryConstraint: Encodable, Hashable {
     }
 
     var key: String
-    var value: Encodable?
+    var value: AnyCodable?
     var comparator: Comparator?
     var isNull: Bool = false
+
+    init(key: String, value: Codable? = nil, comparator: Comparator? = nil, isNull: Bool = false) {
+        self.key = key
+        self.value = AnyCodable(value)
+        self.comparator = comparator
+        self.isNull = isNull
+    }
 
     public func encode(to encoder: Encoder) throws {
         if isNull {
             var container = encoder.singleValueContainer()
             try container.encodeNil()
-        } else if let value = value as? Date {
+        } else if let value = value?.value as? Date {
             // Parse uses special case for date
             try value.parseRepresentation.encode(to: encoder)
         } else {
@@ -65,29 +72,17 @@ public struct QueryConstraint: Encodable, Hashable {
         }
     }
 
-    public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
-        guard lhs.key == rhs.key,
-              lhs.comparator == rhs.comparator,
-              lhs.isNull == rhs.isNull else {
-            return false
+    public init(from decoder: Decoder) throws {
+        key = "" // Dummy string that needs to be set to the correct value
+        if let comparatorString = decoder.codingPath.last?.stringValue {
+            comparator = Comparator(rawValue: comparatorString)
         }
-        guard let lhsValue = lhs.value,
-              let rhsValue = rhs.value else {
-                  guard lhs.value == nil,
-                        rhs.value == nil else {
-                      return false
-                  }
-                  return true
-              }
-        return lhsValue.isEqual(rhsValue)
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        do {
-            let encodedData = try ParseCoding.jsonEncoder().encode(self)
-            hasher.combine(encodedData)
-        } catch {
-            hasher.combine(0)
+        let container = try decoder.singleValueContainer()
+        if container.decodeNil() {
+            isNull = true
+            value = AnyCodable(nil)
+        } else {
+            value = try container.decode(AnyCodable.self)
         }
     }
 }
@@ -98,7 +93,7 @@ public struct QueryConstraint: Encodable, Hashable {
  - parameter value: The value to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func > <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
+public func > <T>(key: String, value: T) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: value, comparator: .greaterThan)
 }
 
@@ -108,7 +103,7 @@ public func > <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
  - parameter value: The value to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
+public func >= <T>(key: String, value: T) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: value, comparator: .greaterThanOrEqualTo)
 }
 
@@ -118,7 +113,7 @@ public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
  - parameter value: The value to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
+public func < <T>(key: String, value: T) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: value, comparator: .lessThan)
 }
 
@@ -128,7 +123,7 @@ public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
  - parameter value: The value to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
+public func <= <T>(key: String, value: T) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: value, comparator: .lessThanOrEqualTo)
 }
 
@@ -142,7 +137,7 @@ public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
  where isUsingEqualQueryConstraint == true is known not to work for LiveQuery on
  Parse Servers  <= 5.0.0.
  */
-public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
+public func == <T>(key: String, value: T) -> QueryConstraint where T: Codable {
     equalTo(key: key, value: value)
 }
 
@@ -161,7 +156,7 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
 public func equalTo <T>(key: String,
                         value: T,
                         //swiftlint:disable:next line_length
-                        usingEqComparator: Bool = ParseSwift.configuration.isUsingEqualQueryConstraint) -> QueryConstraint where T: Encodable {
+                        usingEqComparator: Bool = ParseSwift.configuration.isUsingEqualQueryConstraint) -> QueryConstraint where T: Codable {
     if !usingEqComparator {
         return QueryConstraint(key: key, value: value)
     } else {
@@ -214,7 +209,7 @@ public func equalTo <T>(key: String,
  - parameter value: The value to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func != <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
+public func != <T>(key: String, value: T) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: value, comparator: .notEqualTo)
 }
 
@@ -228,37 +223,30 @@ public func != <T>(key: String, value: T) throws -> QueryConstraint where T: Par
     try QueryConstraint(key: key, value: value.toPointer(), comparator: .notEqualTo)
 }
 
-internal struct InQuery<T>: Encodable where T: ParseObject {
-    let query: Query<T>
-    var className: String {
-        return T.className
-    }
+internal struct InQuery<T>: Codable where T: ParseObject {
+    let `where`: QueryWhere
+    let className: String
 
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(className, forKey: .className)
-        try container.encode(query.where, forKey: .where)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case `where`, className
+    init(query: Query<T>) {
+        self.`where` = query.`where`
+        self.className = query.className
     }
 }
 
-internal struct OrAndQuery<T>: Encodable where T: ParseObject {
-    let query: Query<T>
+internal struct OrAndQuery<T>: Codable where T: ParseObject {
+    let `where`: QueryWhere
+
+    init(query: Query<T>) {
+        self.`where` = query.`where`
+    }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode(query.where)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case `where`
+        try container.encode(self.`where`)
     }
 }
 
-internal struct QuerySelect<T>: Encodable where T: ParseObject {
+internal struct QuerySelect<T>: Codable where T: ParseObject {
     let query: InQuery<T>
     let key: String
 }
@@ -387,7 +375,7 @@ public func doesNotMatchKeyInQuery <T>(key: String, queryKey: String, query: Que
   - parameter array: The possible values for the key's object.
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: array, comparator: .containedIn)
 }
 
@@ -410,7 +398,7 @@ public func containedIn <T>(key: String, array: [T]) throws -> QueryConstraint w
   - parameter array: The list of values the key's object should not be.
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: array, comparator: .notContainedIn)
 }
 
@@ -433,7 +421,7 @@ public func notContainedIn <T>(key: String, array: [T]) throws -> QueryConstrain
   - parameter array: The possible values for the key's object.
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: array, comparator: .all)
 }
 
@@ -456,7 +444,7 @@ public func containsAll <T>(key: String, array: [T]) throws -> QueryConstraint w
   - parameter array: The possible values for the key's object.
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T: Codable {
     QueryConstraint(key: key, value: array, comparator: .containedBy)
 }
 
@@ -488,7 +476,7 @@ public func containedBy <T>(key: String, array: [T]) throws -> QueryConstraint w
  */
 public func relative(_ constraint: QueryConstraint) -> QueryConstraint {
     QueryConstraint(key: constraint.key,
-                    value: [QueryConstraint.Comparator.relativeTime.rawValue: AnyEncodable(constraint.value)],
+                    value: [QueryConstraint.Comparator.relativeTime.rawValue: AnyCodable(constraint.value)],
                     comparator: constraint.comparator)
 }
 
@@ -704,7 +692,7 @@ public func matchesText(key: String,
                         options: [ParseTextOption: Encodable]) throws -> QueryConstraint {
     let search = try ParseTextOption.language.buildSearch(text, options: options)
     let dictionary = [QueryConstraint.Comparator.search.rawValue: search]
-    return .init(key: key, value: AnyEncodable(dictionary), comparator: .text)
+    return .init(key: key, value: AnyCodable(dictionary), comparator: .text)
 }
 
 /**
@@ -799,7 +787,7 @@ public func isNotNull (key: String) -> QueryConstraint {
 }
 
 /**
-  Add a constraint that requires a particular key to be equal to **undefined**.
+  Add a constraint that requires a particular key to not be equal to **undefined**.
   - parameter key: The key that should exist.
   - returns: The resulting `QueryConstraint`.
  */
@@ -808,7 +796,7 @@ public func exists(key: String) -> QueryConstraint {
 }
 
 /**
-  Add a constraint that requires a key  to not be equal to **undefined**.
+  Add a constraint that requires a key to be equal to **undefined**.
   - parameter key: The key that should not exist.
   - returns: The resulting `QueryConstraint`.
  */
@@ -816,15 +804,15 @@ public func doesNotExist(key: String) -> QueryConstraint {
     .init(key: key, value: false, comparator: .exists)
 }
 
-internal struct RelatedKeyCondition: Encodable {
+internal struct RelatedKeyCondition: Codable {
     let key: String
 }
 
-internal struct RelatedObjectCondition <T>: Encodable where T: ParseObject {
+internal struct RelatedObjectCondition <T>: Codable where T: ParseObject {
     let object: Pointer<T>
 }
 
-internal struct RelatedCondition <T>: Encodable where T: ParseObject {
+internal struct RelatedCondition <T>: Codable where T: ParseObject {
     let object: Pointer<T>
     let key: String
 }

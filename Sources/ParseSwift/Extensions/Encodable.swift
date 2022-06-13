@@ -9,9 +9,10 @@
 import Foundation
 
 internal extension Encodable {
-    func isEqual(_ other: Encodable) -> Bool {
+    func isEqual(_ other: Encodable?) -> Bool {
         guard let lhsData = try? ParseCoding.parseEncoder().encode(self),
               let lhsString = String(data: lhsData, encoding: .utf8),
+              let other = other,
               let rhsData = try? ParseCoding.parseEncoder().encode(other),
               let rhsString = String(data: rhsData, encoding: .utf8) else {
          return false

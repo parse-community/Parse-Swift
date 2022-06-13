@@ -259,7 +259,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         var config = Config()
         config.welcomeMessage = "Hello"
 
-        let serverResponse = ConfigUpdateResponse(result: true)
+        let serverResponse = BooleanResponse(result: true)
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
@@ -295,7 +295,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         var config = Config()
         config.welcomeMessage = "Hello"
 
-        let serverResponse = ConfigUpdateResponse(result: true)
+        let serverResponse = BooleanResponse(result: true)
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
