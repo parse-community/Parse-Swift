@@ -116,6 +116,13 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            alert = try values.decode(ParsePushAppleAlert.self, forKey: .alert)
+        } catch {
+            if let alertBody = try values.decodeIfPresent(String.self, forKey: .alert) {
+                alert = ParsePushAppleAlert(body: alertBody)
+            }
+        }
         relevanceScore = try values.decodeIfPresent(Double.self, forKey: .relevanceScore)
         targetContentId = try values.decodeIfPresent(String.self, forKey: .targetContentId)
         mutableContent = try values.decodeIfPresent(Int.self, forKey: .mutableContent)
@@ -131,14 +138,6 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
         topic = try values.decodeIfPresent(String.self, forKey: .topic)
         interruptionLevel = try values.decodeIfPresent(String.self, forKey: .interruptionLevel)
         urlArgs = try values.decodeIfPresent([String].self, forKey: .urlArgs)
-        do {
-            alert = try values.decode(ParsePushAppleAlert.self, forKey: .alert)
-        } catch {
-            guard let alertBody = try values.decodeIfPresent(String.self, forKey: .alert) else {
-                return
-            }
-            alert = ParsePushAppleAlert(body: alertBody)
-        }
     }
 
     /**

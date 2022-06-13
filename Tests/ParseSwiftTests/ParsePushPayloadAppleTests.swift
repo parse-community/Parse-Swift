@@ -128,6 +128,9 @@ class ParsePushPayloadAppleTests: XCTestCase {
         let anyEncodablePayload = AnyEncodable(applePayload)
         let anyEncodablePayload2 = AnyEncodable(decoded)
         XCTAssertEqual(anyEncodablePayload, anyEncodablePayload2)
+        let value = "peace"
+        let dictionary = [anyEncodablePayload: value]
+        XCTAssertEqual(dictionary[anyEncodablePayload2], value)
     }
 
     func testAppleAlertStringDecode() throws {
