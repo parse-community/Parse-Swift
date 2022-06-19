@@ -16,11 +16,11 @@ import Foundation
  For information on acquiring Instagram sign-in credentials to use with `ParseInstagram`, refer to [Facebook's Documentation](https://developers.facebook.com/docs/instagram-basic-display-api/overview).
  */
 public struct ParseInstagram<AuthenticatedUser: ParseUser>: ParseAuthentication {
-    
+
     public static var graphAPIBaseURL: String {
         "https://graph.instagram.com/"
     }
-    
+
     /// Authentication keys required for Instagram authentication.
     enum AuthenticationKeys: String, Codable {
         case id
