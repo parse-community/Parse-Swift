@@ -48,8 +48,10 @@ public struct API {
         case schema(className: String)
         case purge(className: String)
         case push
-        case triggers
-        case trigger(name: String, className: String)
+        case hookFunctions
+        case hookFunction(name: String)
+        case hookTriggers
+        case hookTrigger(className: String, type: ParseHookTriggerType)
         case any(String)
 
         var urlComponent: String {
@@ -108,10 +110,14 @@ public struct API {
                 return "/purge/\(className)"
             case .push:
                 return "/push"
-            case .triggers:
-                return "/hooks/triggers"
-            case .trigger(let name, let className):
-                return "/hooks/triggers/\(className)/\(name)"
+            case .hookFunctions:
+                return "/hooks/functions/"
+            case .hookFunction(let name):
+                return "/hooks/functions/\(name)"
+            case .hookTriggers:
+                return "/hooks/triggers/"
+            case .hookTrigger(let className, let type):
+                return "/hooks/triggers/\(className)/\(type)"
             case .any(let path):
                 return path
             }

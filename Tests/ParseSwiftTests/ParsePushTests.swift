@@ -154,27 +154,25 @@ class ParsePushTests: XCTestCase {
 
         let push = ParsePush(payload: applePayload)
         XCTAssertEqual(push.debugDescription,
-                       // swiftlint:disable:next line_length
-                       "ParsePush ({\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"}})")
+                       "{\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"}}")
         let push2 = ParsePush(payload: applePayload, query: installationQuery)
         XCTAssertEqual(push2.debugDescription,
                        // swiftlint:disable:next line_length
-                       "ParsePush ({\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"},\"where\":{\"objectId\":{\"$ne\":null}}})")
+                       "{\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"},\"where\":{\"objectId\":{\"$ne\":null}}}")
         let push3 = ParsePush(payload: applePayload, expirationInterval: 7)
         XCTAssertEqual(push3.debugDescription,
                        // swiftlint:disable:next line_length
-                       "ParsePush ({\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"},\"expiration_interval\":7})")
+                       "{\"data\":{\"alert\":{\"body\":\"Hello from ParseSwift!\"},\"push_type\":\"alert\"},\"expiration_interval\":7}")
         let push4 = ParsePush(payload: fcmPayload)
         XCTAssertEqual(push4.debugDescription,
-                       "ParsePush ({\"data\":{\"notification\":{\"body\":\"Bye FCM\"}}})")
+                       "{\"data\":{\"notification\":{\"body\":\"Bye FCM\"}}}")
         let push5 = ParsePush(payload: fcmPayload, query: installationQuery)
         XCTAssertEqual(push5.debugDescription,
-                       // swiftlint:disable:next line_length
-                       "ParsePush ({\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"where\":{\"objectId\":{\"$ne\":null}}})")
+                       "{\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"where\":{\"objectId\":{\"$ne\":null}}}")
         let push6 = ParsePush(payload: fcmPayload, query: installationQuery, expirationInterval: 7)
         XCTAssertEqual(push6.debugDescription,
                        // swiftlint:disable:next line_length
-                       "ParsePush ({\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"expiration_interval\":7,\"where\":{\"objectId\":{\"$ne\":null}}})")
+                       "{\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"expiration_interval\":7,\"where\":{\"objectId\":{\"$ne\":null}}}")
     }
 
     func testChannels() throws {
@@ -190,7 +188,7 @@ class ParsePushTests: XCTestCase {
         push.channels = ["hello"]
         XCTAssertEqual(push.description,
                        // swiftlint:disable:next line_length
-                       "ParsePush ({\"channels\":[\"hello\"],\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"expiration_time\":\(currentDateString)})")
+                       "{\"channels\":[\"hello\"],\"data\":{\"notification\":{\"body\":\"Bye FCM\"}},\"expiration_time\":\(currentDateString)}")
         guard let pushDate = push.expirationDate else {
             XCTFail("Should have unwrapped")
             return

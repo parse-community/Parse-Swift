@@ -1207,7 +1207,7 @@ extension Query {
                 return decoded
             }
             throw ParseError(code: .objectNotFound,
-                              message: "Object not found on the server.")
+                             message: "Object not found on the server.")
         }
     }
 

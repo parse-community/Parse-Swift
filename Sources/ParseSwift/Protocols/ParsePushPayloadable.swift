@@ -12,26 +12,8 @@ import Foundation
  A protocol for making push notification payloads.
  See `ParsePushPayloadApple` or `ParsePushPayloadFirebase` for examples.
  */
-public protocol ParsePushPayloadable: Codable, Equatable, CustomDebugStringConvertible, CustomStringConvertible {
+public protocol ParsePushPayloadable: Codable, Equatable {
 
     /// Creates an empty payload.
     init()
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParsePushPayloadable {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePushPayloadable ()"
-        }
-        return "ParsePushPayloadable (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePushPayloadable {
-    public var description: String {
-        debugDescription
-    }
 }

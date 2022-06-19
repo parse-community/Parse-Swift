@@ -170,6 +170,16 @@ gameScoreSchema.update { result in
     }
 }
 
+//: We can also fetch the schema.
+gameScoreSchema.fetch { result in
+    switch result {
+    case .success(let fetchedGameScore):
+        print("The fetched GameScore2 schema is: \(fetchedGameScore)")
+    case .failure(let error):
+        print("Couldn't fetch schema: \(error)")
+    }
+}
+
 /*:
  Fields can also be deleted on a schema. Lets remove
  the **data** field since it's not going being used.

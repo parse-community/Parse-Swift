@@ -172,7 +172,7 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
 
     /**
      Get the sound using any type that conforms to `Codable`.
-     - returns: A mutated instance of `ParsePushPayloadApple` for easy chaining.
+     - returns: The sound casted to the inferred type.
      - throws: An error of type `ParseError`.
      */
     public func getSound<V>() throws -> V where V: Codable {

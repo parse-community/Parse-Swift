@@ -14,7 +14,7 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParsePush<V: ParsePushPayloadable>: ParseType, Decodable {
+public struct ParsePush<V: ParsePushPayloadable>: Codable {
     /**
      The query that determines what installations should receive the notification.
      - warning: Cannot send a notification with this valuel and `channels` both set.
@@ -194,11 +194,11 @@ extension ParsePush {
                           completion: completion)
     }
 
-    func sendCommand() -> API.Command<Self, String> {
+    func sendCommand() -> API.NonParseBodyCommand<Self, String> {
 
-        return API.Command(method: .POST,
-                           path: .push,
-                           body: self) { (data) -> String in
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: .push,
+                                       body: self) { (data) -> String in
             guard let response = try? ParseCoding.jsonDecoder().decode(PushResponse.self, from: data) else {
                 throw ParseError(code: .unknownError,
                                  message: "The server is missing \"X-Parse-Push-Status-Id\" in its header response")
@@ -242,23 +242,5 @@ public extension ParsePush {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let query = ParsePushStatus<V>.query("objectId" == statusId)
         query.first(options: options, completion: completion)
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParsePush: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePush ()"
-        }
-        return "ParsePush (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePush: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }

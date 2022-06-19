@@ -14,7 +14,7 @@ import UIKit
 /**
  `ParseAnalytics` provides an interface to Parse's logging and analytics backend.
  */
-public struct ParseAnalytics: ParseType, Hashable {
+public struct ParseAnalytics: Codable, Hashable {
 
     /// The name of the custom event to report to Parse as having happened.
     public var name: String
@@ -67,15 +67,6 @@ public struct ParseAnalytics: ParseType, Hashable {
         self.name = name
         self.dimensionsAnyCodable = convertToAnyCodable(dimensions)
         self.date = date
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(date, forKey: .date)
-        try container.encodeIfPresent(dimensionsAnyCodable, forKey: .dimensions)
-        if !(encoder is _ParseEncoder) {
-            try container.encode(name, forKey: .name)
-        }
     }
 
     // MARK: Helpers
@@ -253,6 +244,25 @@ public struct ParseAnalytics: ParseType, Hashable {
                 return try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
             }
             throw parseError
+        }
+    }
+}
+
+// MARK: ParseType
+public extension ParseAnalytics {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
+        date = try values.decodeIfPresent(Date.self, forKey: .date)
+        dimensionsAnyCodable = try values.decodeIfPresent([String: AnyCodable].self, forKey: .dimensions)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(date, forKey: .date)
+        try container.encodeIfPresent(dimensionsAnyCodable, forKey: .dimensions)
+        if !(encoder is _ParseEncoder) {
+            try container.encode(name, forKey: .name)
         }
     }
 }

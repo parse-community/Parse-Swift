@@ -83,5 +83,17 @@ installationToUpdate?.save { results in
     }
 }
 
+//: You can fetch your installation at anytime.
+Installation.current?.fetch { results in
+
+    switch results {
+    case .success(let fetchedInstallation):
+        print("Successfully fetched installation from ParseServer: \(fetchedInstallation)")
+    case .failure(let error):
+        print("Failed to fetch installation: \(error)")
+    }
+
+}
+
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

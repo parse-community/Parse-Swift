@@ -466,24 +466,6 @@ extension ParseACL {
 
 }
 
-// MARK: CustomDebugStringConvertible
-extension ParseACL: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ACL ()"
-        }
-        return "ACL (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseACL: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}
-
 struct DefaultACL: Codable {
     var defaultACL: ParseACL
     var lastCurrentUserObjectId: String?

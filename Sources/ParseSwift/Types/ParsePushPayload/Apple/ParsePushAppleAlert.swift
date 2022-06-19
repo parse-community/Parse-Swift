@@ -104,21 +104,3 @@ public struct ParsePushAppleAlert: Codable, Equatable {
         case title, subtitle, body, action
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParsePushAppleAlert: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePushAppleAlert ()"
-        }
-        return "ParsePushAppleAlert (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePushAppleAlert: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}
