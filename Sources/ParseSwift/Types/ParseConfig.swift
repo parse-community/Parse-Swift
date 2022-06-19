@@ -100,11 +100,11 @@ extension ParseConfig {
             }
     }
 
-    internal func updateCommand() -> API.Command<ConfigUpdateBody<Self>, Bool> {
+    internal func updateCommand() -> API.NonParseBodyCommand<ConfigUpdateBody<Self>, Bool> {
         let body = ConfigUpdateBody(params: self)
-        return API.Command(method: .PUT, // MARK: Should be switched to ".PATCH" when server supports PATCH.
-                           path: .config,
-                           body: body) { (data) -> Bool in
+        return API.NonParseBodyCommand(method: .PUT, // MARK: Should be switched to ".PATCH" when server supports PATCH.
+                                       path: .config,
+                                       body: body) { (data) -> Bool in
             let updated = try ParseCoding.jsonDecoder().decode(BooleanResponse.self, from: data).result
 
             if updated {
@@ -115,7 +115,7 @@ extension ParseConfig {
     }
 }
 
-internal struct ConfigUpdateBody<T>: ParseEncodable, Decodable where T: ParseConfig {
+internal struct ConfigUpdateBody<T>: ParseTypeable, Decodable where T: ParseConfig {
     let params: T
 }
 

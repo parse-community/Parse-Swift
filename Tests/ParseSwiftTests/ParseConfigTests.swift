@@ -249,7 +249,6 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         let command = config.updateCommand()
         XCTAssertEqual(command.path.urlComponent, "/config")
         XCTAssertEqual(command.method, API.Method.PUT)
-        XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
     }
 

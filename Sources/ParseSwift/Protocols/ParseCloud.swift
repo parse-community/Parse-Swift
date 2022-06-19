@@ -8,16 +8,14 @@
 
 import Foundation
 
-public protocol CloudType: Decodable,
-                           CustomDebugStringConvertible,
-                           CustomStringConvertible { }
+public protocol ParseCloudTypeable: ParseEncodable {}
 
 /**
  Objects that conform to the `ParseCloud` protocol are able to call Parse Cloud Functions and Jobs.
  An object should be instantiated for each function and job type. When conforming to
  `ParseCloud`, any properties added will be passed as parameters to your Cloud Function or Job.
 */
-public protocol ParseCloud: ParseEncodable, CloudType, Hashable {
+public protocol ParseCloud: ParseCloudTypeable, Hashable {
 
     associatedtype ReturnType: Decodable
     /**
@@ -57,10 +55,9 @@ extension ParseCloud {
     }
 
     internal func runFunctionCommand() -> API.Command<Self, ReturnType> {
-
-        return API.Command(method: .POST,
-                           path: .functions(name: functionJobName),
-                           body: self) { (data) -> ReturnType in
+        API.Command(method: .POST,
+                    path: .functions(name: functionJobName),
+                    body: self) { (data) -> ReturnType in
             let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse<ReturnType>.self, from: data)
             return response.result
         }
@@ -95,9 +92,9 @@ extension ParseCloud {
     }
 
     internal func startJobCommand() -> API.Command<Self, ReturnType> {
-        return API.Command(method: .POST,
-                           path: .jobs(name: functionJobName),
-                           body: self) { (data) -> ReturnType in
+        API.Command(method: .POST,
+                    path: .jobs(name: functionJobName),
+                    body: self) { (data) -> ReturnType in
             let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse<ReturnType>.self, from: data)
             return response.result
         }

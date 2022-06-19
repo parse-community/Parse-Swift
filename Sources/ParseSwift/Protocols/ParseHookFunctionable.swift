@@ -49,9 +49,9 @@ extension ParseHookFunctionable {
         }
     }
 
-    func fetchCommand(_ functionName: String) -> API.Command<Self, Self> {
-        API.Command(method: .GET,
-                    path: .hookFunction(name: functionName)) { (data) -> Self in
+    func fetchCommand(_ functionName: String) -> API.NonParseBodyCommand<Self, Self> {
+        API.NonParseBodyCommand(method: .GET,
+                                path: .hookFunction(name: functionName)) { (data) -> Self in
             if let decoded = try ParseCoding
                 .jsonDecoder()
                 .decode(AnyResultsResponse<Self>.self, from: data).results.first {
@@ -103,9 +103,9 @@ extension ParseHookFunctionable {
         }
     }
 
-    static func fetchAllCommand() -> API.Command<Self, [Self]> {
-        API.Command(method: .GET,
-                    path: .hookFunctions) { (data) -> [Self] in
+    static func fetchAllCommand() -> API.NonParseBodyCommand<Self, [Self]> {
+        API.NonParseBodyCommand(method: .GET,
+                                path: .hookFunctions) { (data) -> [Self] in
             try ParseCoding.jsonDecoder().decode([Self].self, from: data)
         }
     }
@@ -113,10 +113,10 @@ extension ParseHookFunctionable {
 
 // MARK: Create
 extension ParseHookFunctionable {
-    func createCommand(_ functionName: String) -> API.Command<Self, Self> {
-        API.Command(method: .POST,
-                    path: .hookFunction(name: functionName),
-                    body: self) { (data) -> Self in
+    func createCommand(_ functionName: String) -> API.NonParseBodyCommand<Self, Self> {
+        API.NonParseBodyCommand(method: .POST,
+                                path: .hookFunction(name: functionName),
+                                body: self) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
@@ -124,10 +124,10 @@ extension ParseHookFunctionable {
 
 // MARK: Update
 extension ParseHookFunctionable {
-    func updateCommand(_ functionName: String) -> API.Command<Self, Self> {
-        API.Command(method: .PUT,
-                    path: .hookFunction(name: functionName),
-                    body: self) { (data) -> Self in
+    func updateCommand(_ functionName: String) -> API.NonParseBodyCommand<Self, Self> {
+        API.NonParseBodyCommand(method: .PUT,
+                                path: .hookFunction(name: functionName),
+                                body: self) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
