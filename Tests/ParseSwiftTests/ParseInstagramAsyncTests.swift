@@ -123,6 +123,43 @@ class ParseInstagramAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         XCTAssertEqual(user.password, "world")
         XCTAssertTrue(user.instagram.isLinked)
     }
+    
+    @MainActor
+    func testLoginWithDefaultApiURL() async throws {
+
+        var serverResponse = LoginSignupResponse()
+        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.instagram.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let user = try await User.instagram.login(id: "testing",
+                                                  accessToken: "access_token")
+        XCTAssertEqual(user, User.current)
+        XCTAssertEqual(user, userOnServer)
+        XCTAssertEqual(user.username, "hello")
+        XCTAssertEqual(user.password, "world")
+        XCTAssertTrue(user.instagram.isLinked)
+    }
 
     @MainActor
     func testLoginAuthData() async throws {
