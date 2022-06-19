@@ -11,7 +11,7 @@ import Foundation
 /**
  Build a successful response to return from a `ParseHook`.
  */
-public struct ParseHookSuccessResponse<R: Codable & Equatable>: ParseHookResponsable {
+public struct ParseHookSuccessResponse<R: Codable & Equatable>: ParseTypeable {
     /// The data to return in the response.
     public let success: R
 }

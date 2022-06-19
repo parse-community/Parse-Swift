@@ -14,7 +14,7 @@ import Foundation
  An alert payload for Apple push notifications. See Apple's [documentation](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2943365)
  for more information.
  */
-public struct ParsePushAppleAlert: Codable, Equatable {
+public struct ParsePushAppleAlert: ParseTypeable {
     /**
      The content of the alert message.
      */

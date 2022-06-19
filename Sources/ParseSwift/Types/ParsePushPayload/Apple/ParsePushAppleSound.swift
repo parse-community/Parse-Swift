@@ -14,7 +14,7 @@ import Foundation
  Use these keys to configure the sound for a critical alert.
  - warning: For Apple OS's only.
  */
-public struct ParsePushAppleSound: Codable, Equatable {
+public struct ParsePushAppleSound: ParseTypeable {
     /**
      The critical alert flag. Set to **true** to enable the critical alert.
      */

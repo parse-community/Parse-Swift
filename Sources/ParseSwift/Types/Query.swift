@@ -12,7 +12,7 @@ import Foundation
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public struct Query<T>: Codable, Equatable where T: ParseObject {
+public struct Query<T>: ParseTypeable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100

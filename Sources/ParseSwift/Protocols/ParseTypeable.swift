@@ -1,17 +1,23 @@
 //
-//  ParseType.swift
+//  ParseTypeable.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 12/31/20.
-//  Copyright © 2020 Parse Community. All rights reserved.
+//  Created by Corey Baker on 6/19/22.
+//  Copyright © 2022 Parse Community. All rights reserved.
 //
 
 import Foundation
 
-public protocol ParseType: Encodable {}
+/**
+ A special type that is considered a Parse type.
+ */
+public protocol ParseTypeable: Codable,
+                               Equatable,
+                               CustomDebugStringConvertible,
+                               CustomStringConvertible {}
 
 // MARK: CustomDebugStringConvertible
-extension ParseType {
+extension ParseTypeable {
     public var debugDescription: String {
         guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
@@ -23,7 +29,7 @@ extension ParseType {
 }
 
 // MARK: CustomStringConvertible
-extension ParseType {
+extension ParseTypeable {
     public var description: String {
         debugDescription
     }

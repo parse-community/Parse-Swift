@@ -10,12 +10,15 @@ import Foundation
 
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 public extension ParseHookRequestable {
-    /**
-
-     */
-    func hydrateUser() async throws -> Self {
+   /**
+    Fetches the complete `ParseUser`.
+    - parameter options: A set of header options sent to the server. Defaults to an empty set.
+    - throws: `ParseError` if the **identityToken** can't be converted to a string.
+    */
+    func hydrateUser(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.hydrateUser(completion: continuation.resume)
+            self.hydrateUser(options: options,
+                             completion: continuation.resume)
         }
     }
 }

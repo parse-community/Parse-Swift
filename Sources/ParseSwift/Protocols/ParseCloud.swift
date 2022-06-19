@@ -17,7 +17,7 @@ public protocol CloudType: Decodable,
  An object should be instantiated for each function and job type. When conforming to
  `ParseCloud`, any properties added will be passed as parameters to your Cloud Function or Job.
 */
-public protocol ParseCloud: ParseType, CloudType, Hashable {
+public protocol ParseCloud: ParseEncodable, CloudType, Hashable {
 
     associatedtype ReturnType: Decodable
     /**

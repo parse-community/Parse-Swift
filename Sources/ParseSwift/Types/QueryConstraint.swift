@@ -9,7 +9,7 @@
 import Foundation
 
 /// Used to constrain a query.
-public struct QueryConstraint: Codable, Hashable {
+public struct QueryConstraint: ParseTypeable, Hashable {
     enum Comparator: String, CodingKey, Codable, CaseIterable {
         case lessThan = "$lt"
         case lessThanOrEqualTo = "$lte"

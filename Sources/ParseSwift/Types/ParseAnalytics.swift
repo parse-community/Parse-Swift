@@ -14,7 +14,7 @@ import UIKit
 /**
  `ParseAnalytics` provides an interface to Parse's logging and analytics backend.
  */
-public struct ParseAnalytics: Codable, Hashable {
+public struct ParseAnalytics: ParseTypeable, Hashable {
 
     /// The name of the custom event to report to Parse as having happened.
     public var name: String
@@ -248,7 +248,7 @@ public struct ParseAnalytics: Codable, Hashable {
     }
 }
 
-// MARK: ParseType
+// MARK: Codable
 public extension ParseAnalytics {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)

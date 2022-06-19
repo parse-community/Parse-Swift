@@ -9,7 +9,7 @@ import CoreLocation
 
  - warning:Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
 */
-public struct ParseGeoPoint: Codable, Hashable {
+public struct ParseGeoPoint: ParseTypeable, Hashable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
     static let earthRadiusMiles = 3958.8
     static let earthRadiusKilometers = 6371.0

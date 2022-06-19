@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ParseField: Codable, Equatable {
+public struct ParseField: ParseTypeable {
     var __op: Operation? // swiftlint:disable:this identifier_name
     var type: FieldType?
     var required: Bool?

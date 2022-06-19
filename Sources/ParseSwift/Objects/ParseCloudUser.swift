@@ -8,6 +8,11 @@
 
 import Foundation
 
+/*
+ A `ParseUser` that contains additional attributes
+ needed for Parse hook calls.
+ */
 public protocol ParseCloudUser: ParseUser {
+    /// The session token of the `ParseUser`.
     var sessionToken: String? { get set }
 }

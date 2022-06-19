@@ -15,13 +15,12 @@ public extension ParseHookRequestable {
     // MARK: Combine
 
     /**
-     Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
-     Publishes when complete.
+     Fetches the complete `ParseUser`. Publishes when complete.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func hydrateUserPublisher() -> Future<Self, ParseError> {
+    func hydrateUserPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            self.hydrateUser(completion: promise)
+            self.hydrateUser(options: options, completion: promise)
         }
     }
 }

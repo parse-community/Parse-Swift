@@ -13,7 +13,7 @@ import FoundationNetworking
 
 internal extension API {
     // MARK: API.Command
-    struct Command<T, U>: Encodable where T: ParseType {
+    struct Command<T, U>: Encodable where T: ParseEncodable {
         typealias ReturnType = U // swiftlint:disable:this nesting
         let method: API.Method
         let path: API.Endpoint

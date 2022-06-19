@@ -11,7 +11,7 @@
  that may be associated with a key in a ParseObject or used as a reference point
  for geo queries. This allows proximity-based queries on the key.
 */
-public struct ParsePolygon: Codable, Hashable {
+public struct ParsePolygon: ParseTypeable, Hashable {
     private let __type: String = "Polygon" // swiftlint:disable:this identifier_name
     public let coordinates: [ParseGeoPoint]
 

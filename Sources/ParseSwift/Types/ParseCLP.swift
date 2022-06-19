@@ -9,7 +9,7 @@
 import Foundation
 
 /// Class Level Permissions for `ParseSchema`.
-public struct ParseCLP: Codable, Equatable {
+public struct ParseCLP: ParseTypeable {
 
     var get: [String: AnyCodable]?
     var find: [String: AnyCodable]?

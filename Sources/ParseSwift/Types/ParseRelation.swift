@@ -15,7 +15,7 @@ import Foundation
  In most cases, you do not need to create an instance of `ParseRelation` directly as it can be
  indirectly created from any `ParseObject` by using the respective `relation` property.
  */
-public struct ParseRelation<T>: Codable, Hashable where T: ParseObject {
+public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
     internal let __type: String = "Relation" // swiftlint:disable:this identifier_name
 
     /// The parent `ParseObject`

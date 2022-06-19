@@ -10,16 +10,34 @@ import Foundation
 
 public protocol ParseHookRequestable: Codable, Equatable {
     associatedtype UserType: ParseCloudUser
+    /**
+     Specifies if the **masterKey** was used in the
+     Parse hook call.
+     */
     var masterKey: Bool { get }
+    /**
+     A `ParseUser` that contains additional attributes
+     needed for Parse hook calls. If **nil** a user with
+     a valid session did not make the call.
+     */
     var user: UserType? { get set }
+    /**
+     The installationId of the device that made the hook call.
+     */
     var installationId: String? { get }
+    /**
+     The IP address the request was made from.
+     */
     var ipAddress: String { get }
+    /**
+     The headers associated with the hook call.
+     */
     var headers: [String: String] { get }
 }
 
 extension ParseHookRequestable {
     /**
-     Produce the set options that should be used for subsequent `ParseHook` requests.
+     Produce the set of options that should be used for subsequent `ParseHook` requests.
      - returns: The set of options produced by the current request.
      */
     public func options() -> API.Options {
@@ -35,7 +53,16 @@ extension ParseHookRequestable {
         return options
     }
 
-    public func hydrateUser(completion: @escaping (Result<Self, ParseError>) -> Void) {
+    /**
+     Fetches the complete `ParseUser`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: A block that will be called when the Cloud Code completes or fails.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     */
+    public func hydrateUser(options: API.Options = [],
+                            callbackQueue: DispatchQueue = .main,
+                            completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let user = user else {
             let error = ParseError(code: .unknownError,
                                    message: "Resquest does not contain a user.")
@@ -43,7 +70,10 @@ extension ParseHookRequestable {
             return
         }
         let request = self
-        user.fetch(options: options()) { result in
+        var updatedOptions = self.options()
+        options.forEach { updatedOptions.insert($0) }
+        user.fetch(options: updatedOptions,
+                   callbackQueue: callbackQueue) { result in
             switch result {
             case .success(let fetchedUser):
                 let updatedRequest = request.applyUser(fetchedUser)

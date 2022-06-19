@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol ParseHookable: ParseType, Decodable, Equatable {
+public protocol ParseHookable: ParseEncodable, Decodable, Equatable {
     init()
 }

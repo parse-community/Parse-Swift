@@ -13,10 +13,7 @@ import Foundation
  When conforming to `ParseConfig`, any properties added can be retrieved by the client or updated on
  the server.
 */
-public protocol ParseConfig: ParseType,
-                             Decodable,
-                             CustomDebugStringConvertible,
-                             CustomStringConvertible { }
+public protocol ParseConfig: ParseTypeable {}
 
 // MARK: Update
 extension ParseConfig {
@@ -55,10 +52,10 @@ extension ParseConfig {
             }
     }
 
-    internal func fetchCommand() -> API.Command<Self, Self> {
+    internal func fetchCommand() -> API.NonParseBodyCommand<Self, Self> {
 
-        return API.Command(method: .GET,
-                           path: .config) { (data) -> Self in
+        return API.NonParseBodyCommand(method: .GET,
+                                       path: .config) { (data) -> Self in
             let fetched = try ParseCoding.jsonDecoder().decode(ConfigFetchResponse<Self>.self, from: data).params
             Self.updateKeychainIfNeeded(fetched)
             return fetched
@@ -118,7 +115,7 @@ extension ParseConfig {
     }
 }
 
-internal struct ConfigUpdateBody<T>: ParseType, Decodable where T: ParseConfig {
+internal struct ConfigUpdateBody<T>: ParseEncodable, Decodable where T: ParseConfig {
     let params: T
 }
 
