@@ -266,22 +266,3 @@ public extension ParseAnalytics {
         }
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParseAnalytics: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "\(name)"
-        }
-
-        return "\(descriptionString)"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseAnalytics: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}

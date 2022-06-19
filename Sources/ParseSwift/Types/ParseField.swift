@@ -67,22 +67,3 @@ public struct ParseField: ParseTypeable {
         }
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParseField {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "ParseField ()"
-        }
-
-        return "ParseField (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseField {
-    public var description: String {
-        debugDescription
-    }
-}

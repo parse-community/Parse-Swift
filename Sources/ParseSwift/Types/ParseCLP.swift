@@ -1112,21 +1112,3 @@ public extension ParseCLP {
         return removeProtectedFields(fields, for: roleNameAccess)
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParseCLP: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseCLP ()"
-        }
-        return "ParseCLP (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseCLP: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}

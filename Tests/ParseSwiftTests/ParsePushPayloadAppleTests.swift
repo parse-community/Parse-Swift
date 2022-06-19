@@ -115,7 +115,7 @@ class ParsePushPayloadAppleTests: XCTestCase {
         XCTAssertEqual(alert.description, "{\"action\":\"to\",\"action-loc-key\":\"icon\",\"body\":\"pull up\",\"launch-image\":\"it\",\"loc-args\":[\"mother\"],\"loc-key\":\"cousin\",\"subtitle\":\"trip\",\"subtitle-loc-args\":[\"gone\"],\"subtitle-loc-key\":\"far\",\"title\":\"you\",\"title-loc-args\":[\"arg\"],\"title-loc-key\":\"it\"}")
         let alert2 = ParsePushAppleAlert()
         XCTAssertNotEqual(alert, alert2)
-        XCTAssertEqual(sound.description, "ParsePushAppleSound ({\"critical\":true,\"name\":\"hello\",\"volume\":7})")
+        XCTAssertEqual(sound.description, "{\"critical\":true,\"name\":\"hello\",\"volume\":7}")
     }
 
     func testCodingAlert() throws {

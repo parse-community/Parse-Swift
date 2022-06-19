@@ -49,21 +49,3 @@ extension ParseBytes {
         try container.encode(base64, forKey: .base64)
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParseBytes: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseBytes ()"
-        }
-        return "ParseBytes (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseBytes: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}

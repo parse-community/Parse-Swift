@@ -391,7 +391,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testQueryEncoding() throws {
         let query = GameScore.query
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{}}"
         XCTAssertEqual(query.debugDescription, expected)
         XCTAssertEqual(query.description, expected)
     }
@@ -1186,7 +1186,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testWhereKeyEqualToBool() throws {
         let query = GameScore.query("isCounts" == true)
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"isCounts\":true}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"isCounts\":true}}"
         XCTAssertEqual(query.debugDescription, expected)
         XCTAssertEqual(query.description, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
@@ -1196,8 +1196,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testWhereKeyEqualToBoolEQ() throws {
         let query = GameScore.query(equalTo(key: "isCounts", value: true, usingEqComparator: true))
-        // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"isCounts\":{\"$eq\":true}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"isCounts\":{\"$eq\":true}}}"
         XCTAssertEqual(query.debugDescription, expected)
         XCTAssertEqual(query.description, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
@@ -1210,7 +1209,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         compareObject.objectId = "hello"
         let query = try GameScore.query("yolo" == compareObject)
         // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1222,7 +1221,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         compareObject.objectId = "hello"
         let query = try GameScore.query(equalTo(key: "yolo", value: compareObject, usingEqComparator: true))
         // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$eq\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$eq\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1235,7 +1234,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = try GameScore.query("yolo" == compareObject,
                                         "yolo" == compareObject)
         // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1248,7 +1247,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let pointer = try compareObject.toPointer()
         let query = GameScore.query("yolo" == pointer)
         // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1260,7 +1259,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         compareObject.objectId = "hello"
         let query = try GameScore.query("yolo" != compareObject)
         // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$ne\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$ne\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1273,7 +1272,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query(isNull(key: "yolo"))
             .order(.ascending("yolo"), .descending("points"))
         // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"order\":[\"yolo\",\"-points\"],\"skip\":0,\"where\":{\"yolo\":null}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"order\":[\"yolo\",\"-points\"],\"skip\":0,\"where\":{\"yolo\":null}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1284,7 +1283,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         let query = GameScore.query(isNotNull(key: "yolo"))
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$ne\":null}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$ne\":null}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1296,7 +1295,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         compareObject.objectId = "hello"
         let query = GameScore.query(isNull(key: "yolo"),
                                     isNull(key: "yolo"))
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":null}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":null}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1308,8 +1307,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         compareObject.objectId = "hello"
         let query = GameScore.query(isNull(key: "yolo"),
                                     isNull(key: "hello"))
-        // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"hello\":null,\"yolo\":null}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"hello\":null,\"yolo\":null}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1321,8 +1319,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         compareObject.objectId = "hello"
         let query = GameScore.query("yolo" >= 5,
                                     "yolo" <= 10)
-        // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$gte\":5,\"$lte\":10}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$gte\":5,\"$lte\":10}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)
@@ -1335,8 +1332,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query("yolo" >= 5,
                                     "yolo" >= 5,
                                     "yolo" <= 10)
-        // swiftlint:disable:next line_length
-        let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$gte\":5,\"$lte\":10}}})"
+        let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$gte\":5,\"$lte\":10}}}"
         XCTAssertEqual(query.debugDescription, expected)
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded)

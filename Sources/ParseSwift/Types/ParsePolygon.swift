@@ -129,21 +129,3 @@ extension ParsePolygon {
         }
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParsePolygon: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePolygon ()"
-        }
-        return "ParsePolygon (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePolygon: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}

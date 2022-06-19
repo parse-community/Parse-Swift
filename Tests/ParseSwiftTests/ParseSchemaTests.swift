@@ -104,13 +104,13 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testParseFieldOptionsEncode() {
         let options = ParseFieldOptions<Int>(required: false, defauleValue: 2)
         XCTAssertEqual(options.description,
-                       "ParseFieldOptions ({\"defaultValue\":2,\"required\":false})")
+                       "{\"defaultValue\":2,\"required\":false}")
     }
 
     func testSchemaEncode() throws {
         let schema = createDummySchema()
         // swiftlint:disable:next line_length
-        let expected = "ParseSchema ({\"classLevelPermissions\":{\"addField\":{\"*\":true},\"create\":{\"*\":true,\"pointerFields\":[\"world\"]},\"delete\":{\"*\":true},\"update\":{\"*\":true}},\"className\":\"GameScore\",\"fields\":{\"a\":{\"required\":false,\"type\":\"String\"},\"b\":{\"defaultValue\":2,\"required\":false,\"type\":\"Number\"},\"c\":{\"__op\":\"Delete\"}}})"
+        let expected = "{\"classLevelPermissions\":{\"addField\":{\"*\":true},\"create\":{\"*\":true,\"pointerFields\":[\"world\"]},\"delete\":{\"*\":true},\"update\":{\"*\":true}},\"className\":\"GameScore\",\"fields\":{\"a\":{\"required\":false,\"type\":\"String\"},\"b\":{\"defaultValue\":2,\"required\":false,\"type\":\"Number\"},\"c\":{\"__op\":\"Delete\"}}}"
         XCTAssertEqual(schema.description, expected)
     }
 
@@ -188,8 +188,8 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
                       type: .number,
                       options: ParseFieldOptions<Int>(required: false, defauleValue: 2))
         let fields = schema.getFields()
-        XCTAssertEqual(fields["a"], "ParseField ({\"required\":false,\"type\":\"String\"})")
-        XCTAssertEqual(fields["b"], "ParseField ({\"defaultValue\":2,\"required\":false,\"type\":\"Number\"})")
+        XCTAssertEqual(fields["a"], "{\"required\":false,\"type\":\"String\"}")
+        XCTAssertEqual(fields["b"], "{\"defaultValue\":2,\"required\":false,\"type\":\"Number\"}")
     }
 
     func testAddPointer() throws {

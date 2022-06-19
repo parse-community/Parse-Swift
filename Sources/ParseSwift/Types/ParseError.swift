@@ -427,13 +427,6 @@ extension ParseError: CustomDebugStringConvertible {
     }
 }
 
-// MARK: CustomStringConvertible
-extension ParseError: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}
-
 // MARK: LocalizedError
 extension ParseError: LocalizedError {
     public var errorDescription: String? {

@@ -171,21 +171,3 @@ public struct ParsePushFirebaseNotification: ParseTypeable {
         self.image = image
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParsePushFirebaseNotification: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePushFirebaseNotification ()"
-        }
-        return "ParsePushFirebaseNotification (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePushFirebaseNotification: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}

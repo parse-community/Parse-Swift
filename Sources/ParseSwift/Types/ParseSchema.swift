@@ -459,21 +459,3 @@ extension ParseSchema {
         }
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParseSchema: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseSchema ()"
-        }
-        return "ParseSchema (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseSchema: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}

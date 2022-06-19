@@ -1447,22 +1447,4 @@ enum RawCodingKey: CodingKey {
     }
 }
 
-// MARK: CustomDebugStringConvertible
-extension Query: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "\(className)"
-        }
-        return "\(className) (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension Query: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}
-
 // swiftlint:disable:this file_length

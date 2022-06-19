@@ -162,7 +162,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testPointerFieldsEncode() throws {
         let fields = Set<String>(["world"])
         let clp = ParseCLP().setPointerFields(fields, on: .create)
-        XCTAssertEqual(clp.description, "ParseCLP ({\"create\":{\"pointerFields\":[\"world\"]}})")
+        XCTAssertEqual(clp.description, "{\"create\":{\"pointerFields\":[\"world\"]}}")
     }
 
     func testPointerAndWriteAccessPublicSetEncode() throws {
@@ -171,7 +171,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
             .setPointerFields(fields, on: .create)
             .setWriteAccessPublic(true, canAddField: true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"*\":true},\"create\":{\"*\":true,\"pointerFields\":[\"world\"]},\"delete\":{\"*\":true},\"update\":{\"*\":true}})")
+        XCTAssertEqual(clp.description, "{\"addField\":{\"*\":true},\"create\":{\"*\":true,\"pointerFields\":[\"world\"]},\"delete\":{\"*\":true},\"update\":{\"*\":true}}")
     }
 
     func testProtectedFieldsPublic() throws {
@@ -297,7 +297,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         let role = try Role<User>(name: "hello")
         let fields = Set<String>(["world"])
         let clp = try ParseCLP().setProtectedFields(fields, for: role)
-        XCTAssertEqual(clp.description, "ParseCLP ({\"protectedFields\":{\"role:hello\":[\"world\"]}})")
+        XCTAssertEqual(clp.description, "{\"protectedFields\":{\"role:hello\":[\"world\"]}}")
     }
 
     func testPublicAccess() throws {
@@ -344,7 +344,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testAccessEncode() throws {
         let clp = ParseCLP().setAccess(true, on: .create, for: objectId)
-        XCTAssertEqual(clp.description, "ParseCLP ({\"create\":{\"\(objectId)\":true}})")
+        XCTAssertEqual(clp.description, "{\"create\":{\"\(objectId)\":true}}")
     }
 
     func testWriteAccessPublicSet() throws {
@@ -388,7 +388,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWriteAccessPublicSetEncode() throws {
         let clp = ParseCLP().setWriteAccessPublic(true, canAddField: true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"*\":true},\"create\":{\"*\":true},\"delete\":{\"*\":true},\"update\":{\"*\":true}})")
+        XCTAssertEqual(clp.description, "{\"addField\":{\"*\":true},\"create\":{\"*\":true},\"delete\":{\"*\":true},\"update\":{\"*\":true}}")
     }
 
     func testWriteAccessRequiresAuthenticationSet() throws {
@@ -432,7 +432,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWriteAccessRequiresAuthenticationSetEncode() throws {
         let clp = ParseCLP().setWriteAccessRequiresAuthentication(true, canAddField: true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"requiresAuthentication\":true},\"create\":{\"requiresAuthentication\":true},\"delete\":{\"requiresAuthentication\":true},\"update\":{\"requiresAuthentication\":true}})")
+        XCTAssertEqual(clp.description, "{\"addField\":{\"requiresAuthentication\":true},\"create\":{\"requiresAuthentication\":true},\"delete\":{\"requiresAuthentication\":true},\"update\":{\"requiresAuthentication\":true}}")
     }
 
     func testWriteAccessObjectIdSet() throws {
@@ -476,7 +476,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWriteAccessObjectIdSetEncode() throws {
         let clp = ParseCLP().setWriteAccess(true, for: objectId, canAddField: true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}})")
+        XCTAssertEqual(clp.description, "{\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}}")
     }
 
     func testWriteAccessUserSet() throws {
@@ -520,7 +520,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWriteAccessUserSetEncode() throws {
         let clp = try ParseCLP().setWriteAccess(true, for: user, canAddField: true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}})")
+        XCTAssertEqual(clp.description, "{\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}}")
     }
 
     func testWriteAccessPointerSet() throws {
@@ -568,7 +568,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
                                             for: try user.toPointer(),
                                             canAddField: true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}})")
+        XCTAssertEqual(clp.description, "{\"addField\":{\"\(objectId)\":true},\"create\":{\"\(objectId)\":true},\"delete\":{\"\(objectId)\":true},\"update\":{\"\(objectId)\":true}}")
     }
 
     func testWriteAccessRoleSet() throws {
@@ -622,7 +622,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
                                                 for: role,
                                                 canAddField: true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"addField\":{\"\(roleName)\":true},\"create\":{\"\(roleName)\":true},\"delete\":{\"\(roleName)\":true},\"update\":{\"\(roleName)\":true}})")
+        XCTAssertEqual(clp.description, "{\"addField\":{\"\(roleName)\":true},\"create\":{\"\(roleName)\":true},\"delete\":{\"\(roleName)\":true},\"update\":{\"\(roleName)\":true}}")
     }
 
     func testWriteAccessPublicHas() throws {
@@ -762,8 +762,8 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testReadAccessPublicSetEncode() throws {
         let clp = ParseCLP().setReadAccessPublic(true)
-        // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"*\":true},\"find\":{\"*\":true},\"get\":{\"*\":true}})")
+        XCTAssertEqual(clp.description,
+                       "{\"count\":{\"*\":true},\"find\":{\"*\":true},\"get\":{\"*\":true}}")
     }
 
     func testReadAccessRequiresAuthenticationSet() throws {
@@ -798,7 +798,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testReadAccessRequiresAuthenticationSetEncode() throws {
         let clp = ParseCLP().setReadAccessRequiresAuthentication(true)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"requiresAuthentication\":true},\"find\":{\"requiresAuthentication\":true},\"get\":{\"requiresAuthentication\":true}})")
+        XCTAssertEqual(clp.description, "{\"count\":{\"requiresAuthentication\":true},\"find\":{\"requiresAuthentication\":true},\"get\":{\"requiresAuthentication\":true}}")
     }
 
     func testReadAccessObjectIdSet() throws {
@@ -833,7 +833,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testReadAccessObjectIdSetEncode() throws {
         let clp = ParseCLP().setReadAccess(true, for: objectId)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}})")
+        XCTAssertEqual(clp.description, "{\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}}")
     }
 
     func testReadAccessUserSet() throws {
@@ -868,7 +868,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testReadAccessUserSetEncode() throws {
         let clp = try ParseCLP().setReadAccess(true, for: user)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}})")
+        XCTAssertEqual(clp.description, "{\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}}")
     }
 
     func testReadAccessPointerSet() throws {
@@ -904,7 +904,7 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         let clp = ParseCLP().setReadAccess(true,
                                            for: try user.toPointer())
         // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}})")
+        XCTAssertEqual(clp.description, "{\"count\":{\"\(objectId)\":true},\"find\":{\"\(objectId)\":true},\"get\":{\"\(objectId)\":true}}")
     }
 
     func testReadAccessRoleSet() throws {
@@ -945,8 +945,9 @@ class ParseCLPTests: XCTestCase { // swiftlint:disable:this type_body_length
         let roleName = try ParseACL.getRoleAccessName(role)
         let clp = try ParseCLP().setReadAccess(true,
                                                for: role)
-        // swiftlint:disable:next line_length
-        XCTAssertEqual(clp.description, "ParseCLP ({\"count\":{\"\(roleName)\":true},\"find\":{\"\(roleName)\":true},\"get\":{\"\(roleName)\":true}})")
+        XCTAssertEqual(clp.description,
+                       // swiftlint:disable:next line_length
+                       "{\"count\":{\"\(roleName)\":true},\"find\":{\"\(roleName)\":true},\"get\":{\"\(roleName)\":true}}")
     }
 
     func testReadAccessPublicHas() throws {
