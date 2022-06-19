@@ -123,7 +123,7 @@ class ParseInstagramAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         XCTAssertEqual(user.password, "world")
         XCTAssertTrue(user.instagram.isLinked)
     }
-    
+
     @MainActor
     func testLoginWithDefaultApiURL() async throws {
 
