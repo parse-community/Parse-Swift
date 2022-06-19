@@ -14,7 +14,7 @@ public extension ParseInstagram {
     // MARK: Combine
     /**
      Login a `ParseUser` *asynchronously* using Instagram authentication. Publishes when complete.
-     - parameter id: The `Instagram profile id` from **Instagram**.
+     - parameter id: The **Instagram profile id** from **Instagram**.
      - parameter accessToken: Required **access_token** from **Instagram**.
      - parameter apiURL: The `Instagram's most recent graph api url` from **Instagram**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -52,7 +52,7 @@ public extension ParseInstagram {
     /**
      Link the *current* `ParseUser` *asynchronously* using Instagram authentication.
      Publishes when complete.
-     - parameter id: The `Instagram profile id` from **Instagram**.
+     - parameter id: The **Instagram profile id** from **Instagram**.
      - parameter accessToken: Required **access_token** from **Instagram**.
      - parameter apiURL: The `Instagram's most recent graph api url` from **Instagram**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
