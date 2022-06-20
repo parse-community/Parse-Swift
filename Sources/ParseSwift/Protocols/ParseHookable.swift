@@ -15,3 +15,16 @@ public protocol ParseHookable: ParseTypeable {
     /// Create an empty initializer.
     init()
 }
+
+extension ParseHookable {
+    static func checkHookKey(_ data: Data) throws -> Data {
+        guard let clientHookKey = ParseSwift.configuration.hookKey else {
+            return data
+        }
+        let hookResponse = try ParseCoding.jsonDecoder().decode(HookResponse.self, from: data)
+        guard clientHookKey == hookResponse.hookKey else {
+            throw ParseError(code: .unknownError, message: "Web hook keys do not match")
+        }
+        return hookResponse.data
+    }
+}

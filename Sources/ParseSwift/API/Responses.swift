@@ -182,3 +182,9 @@ internal struct PushResponse: Codable {
     let data: Data
     let statusId: String
 }
+
+// MARK: HookResponse
+internal struct HookResponse: Codable {
+    let data: Data
+    let hookKey: String
+}

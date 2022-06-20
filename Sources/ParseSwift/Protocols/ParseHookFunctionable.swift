@@ -73,7 +73,7 @@ extension ParseHookFunctionable {
     func fetchCommand(_ functionName: String) -> API.NonParseBodyCommand<Self, Self> {
         API.NonParseBodyCommand(method: .GET,
                                 path: .hookFunction(name: functionName)) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
         }
     }
 
@@ -122,7 +122,7 @@ extension ParseHookFunctionable {
     static func fetchAllCommand() -> API.NonParseBodyCommand<Self, [Self]> {
         API.NonParseBodyCommand(method: .GET,
                                 path: .hookFunctions) { (data) -> [Self] in
-            try ParseCoding.jsonDecoder().decode([Self].self, from: data)
+            try ParseCoding.jsonDecoder().decode([Self].self, from: try checkHookKey(data))
         }
     }
 }
@@ -156,7 +156,7 @@ extension ParseHookFunctionable {
         API.NonParseBodyCommand(method: .POST,
                                 path: .hookFunctions,
                                 body: self) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
         }
     }
 }
@@ -198,7 +198,7 @@ extension ParseHookFunctionable {
         return API.NonParseBodyCommand(method: .PUT,
                                        path: .hookFunction(name: functionName),
                                        body: mutableSelf) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
         }
     }
 }
@@ -244,7 +244,7 @@ extension ParseHookFunctionable {
         API.NonParseBodyCommand(method: .PUT,
                                 path: .hookFunction(name: functionName),
                                 body: Delete()) { (data) -> NoBody in
-            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+            try ParseCoding.jsonDecoder().decode(NoBody.self, from: try Self.checkHookKey(data))
         }
     }
 }
