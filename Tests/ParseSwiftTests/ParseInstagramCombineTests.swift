@@ -66,13 +66,13 @@ class ParseInstagramCombineTests: XCTestCase { // swiftlint:disable:this type_bo
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        guard let url = URL(string: "http://localhost:4242/biseycal") else {
+        guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
         }
-        ParseSwift.initialize(applicationId: "me.biseycal",
-                              clientKey: "DA6VtYV9LeKyUOc0Bg77rSkoSQWgPWax",
-                              masterKey: "fApDOwXl9WEKMctzQ7G2rLzyIkQrYGdT",
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
                               serverURL: url,
                               testing: true)
     }

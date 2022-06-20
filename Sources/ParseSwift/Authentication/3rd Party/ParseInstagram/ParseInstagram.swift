@@ -33,7 +33,7 @@ public struct ParseInstagram<AuthenticatedUser: ParseUser>: ParseAuthentication 
         /// - returns: authData dictionary.
         func makeDictionary(id: String,
                             accessToken: String,
-                            apiURL: String) -> [String: String] {
+                            apiURL: String = ParseInstagram.graphAPIBaseURL) -> [String: String] {
 
             let returnDictionary = [
                 AuthenticationKeys.id.rawValue: id,
