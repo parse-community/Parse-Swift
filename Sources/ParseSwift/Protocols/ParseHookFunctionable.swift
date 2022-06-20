@@ -19,16 +19,12 @@ public protocol ParseHookFunctionable: ParseHookable {
      The name of the function.
     */
     var functionName: String? { get set }
-    /**
-     The endpoint of the hook.
-     */
-    var url: URL? { get set }
 }
 
 // MARK: Defualt Implementation
 public extension ParseHookFunctionable {
     /**
-     Creates a new instance of a Parse hook.
+     Creates a new Parse hook function.
      - parameter name: The name of the function.
      - parameter url: The endpoint of the hook.
      */
@@ -36,6 +32,20 @@ public extension ParseHookFunctionable {
         self.init()
         functionName = name
         self.url = url
+    }
+}
+
+internal struct FunctionRequest: Encodable {
+    let functionName: String
+    let url: URL?
+
+    init<F>(hookFunction: F) throws where F: ParseHookFunctionable {
+        guard let functionName = hookFunction.functionName else {
+            throw ParseError(code: .unknownError,
+                             message: "The \"functionName\" needs to be set: \(hookFunction)")
+        }
+        self.functionName = functionName
+        self.url = hookFunction.url
     }
 }
 
@@ -55,24 +65,25 @@ extension ParseHookFunctionable {
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
-        guard let functionName = functionName else {
-            let error = ParseError(code: .unknownError,
-                                   message: "The \"functionName\" needs to be set")
-            completion(.failure(error))
-            return
-        }
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        fetchCommand(functionName).executeAsync(options: options,
-                                                      callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try fetchCommand().executeAsync(options: options,
+                                            callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
+                                                                message: error.localizedDescription)
+            completion(.failure(parseError))
         }
     }
 
-    func fetchCommand(_ functionName: String) -> API.NonParseBodyCommand<Self, Self> {
-        API.NonParseBodyCommand(method: .GET,
-                                path: .hookFunction(name: functionName)) { (data) -> Self in
+    func fetchCommand() throws -> API.NonParseBodyCommand<Self, Self> {
+        let request = try FunctionRequest(hookFunction: self)
+        return API.NonParseBodyCommand(method: .GET,
+                                       path: .hookFunction(request: request)) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
         }
     }
@@ -177,27 +188,26 @@ extension ParseHookFunctionable {
     public func update(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        guard let functionName = functionName else {
-            let error = ParseError(code: .unknownError,
-                                   message: "The \"functionName\" needs to be set")
-            completion(.failure(error))
-            return
-        }
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        updateCommand(functionName).executeAsync(options: options,
-                                                 callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try updateCommand().executeAsync(options: options,
+                                             callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
+                                                                message: error.localizedDescription)
+            completion(.failure(parseError))
         }
     }
 
-    func updateCommand(_ functionName: String) -> API.NonParseBodyCommand<Self, Self> {
-        var mutableSelf = self
-        mutableSelf.functionName = nil
+    func updateCommand() throws -> API.NonParseBodyCommand<FunctionRequest, Self> {
+        let request = try FunctionRequest(hookFunction: self)
         return API.NonParseBodyCommand(method: .PUT,
-                                       path: .hookFunction(name: functionName),
-                                       body: mutableSelf) { (data) -> Self in
+                                       path: .hookFunction(request: request),
+                                       body: request) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
         }
     }
@@ -219,31 +229,32 @@ extension ParseHookFunctionable {
     public func delete(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Void, ParseError>) -> Void) {
-        guard let functionName = functionName else {
-            let error = ParseError(code: .unknownError,
-                                   message: "The \"functionName\" needs to be set")
-            completion(.failure(error))
-            return
-        }
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        deleteCommand(functionName).executeAsync(options: options,
-                                                 callbackQueue: callbackQueue) { result in
-            switch result {
+        do {
+            try deleteCommand().executeAsync(options: options,
+                                             callbackQueue: callbackQueue) { result in
+                switch result {
 
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(error))
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
+        } catch {
+            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
+                                                                message: error.localizedDescription)
+            completion(.failure(parseError))
         }
     }
 
-    func deleteCommand(_ functionName: String) -> API.NonParseBodyCommand<Delete, NoBody> {
-        API.NonParseBodyCommand(method: .PUT,
-                                path: .hookFunction(name: functionName),
-                                body: Delete()) { (data) -> NoBody in
+    func deleteCommand() throws -> API.NonParseBodyCommand<Delete, NoBody> {
+        let request = try FunctionRequest(hookFunction: self)
+        return API.NonParseBodyCommand(method: .PUT,
+                                       path: .hookFunction(request: request),
+                                       body: Delete()) { (data) -> NoBody in
             try ParseCoding.jsonDecoder().decode(NoBody.self, from: try Self.checkHookKey(data))
         }
     }

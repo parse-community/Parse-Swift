@@ -12,6 +12,9 @@ import Foundation
  Hooks and Triggers should conform to `ParseHookable`.
  */
 public protocol ParseHookable: ParseTypeable {
+    /// The endpoint of the hook.
+    var url: URL? { get set }
+
     /// Create an empty initializer.
     init()
 }

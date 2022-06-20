@@ -49,9 +49,9 @@ public struct API {
         case purge(className: String)
         case push
         case hookFunctions
-        case hookFunction(name: String)
+        case hookFunction(request: FunctionRequest)
         case hookTriggers
-        case hookTrigger(className: String, type: ParseHookTriggerType)
+        case hookTrigger(request: TriggerRequest)
         case any(String)
 
         var urlComponent: String {
@@ -112,12 +112,12 @@ public struct API {
                 return "/push"
             case .hookFunctions:
                 return "/hooks/functions/"
-            case .hookFunction(let name):
-                return "/hooks/functions/\(name)"
+            case .hookFunction(let request):
+                return "/hooks/functions/\(request.functionName)"
             case .hookTriggers:
                 return "/hooks/triggers/"
-            case .hookTrigger(let className, let type):
-                return "/hooks/triggers/\(className)/\(type)"
+            case .hookTrigger(let request):
+                return "/hooks/triggers/\(request.className)/\(request.triggerName)"
             case .any(let path):
                 return path
             }

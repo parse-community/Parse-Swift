@@ -20,7 +20,6 @@ initializeParse()
 struct MyHookFunction: ParseHookFunctionable {
     var functionName: String?
     var url: URL?
-    var warning: String?
 }
 
 /*:
