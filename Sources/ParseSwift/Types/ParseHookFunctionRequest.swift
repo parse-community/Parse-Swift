@@ -13,6 +13,9 @@ public struct ParseHookFunctionRequest<U: ParseCloudUser, P: ParseHookParametabl
     public var masterKey: Bool
     public var user: U?
     public var installationId: String?
+    /**
+     The `ParseHookParametable` object containing the parameters passed to the function.
+     */
     public var parameters: P
     public var ipAddress: String
     public var headers: [String: String]

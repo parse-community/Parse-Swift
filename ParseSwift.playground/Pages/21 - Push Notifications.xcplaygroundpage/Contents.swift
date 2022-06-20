@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+/*:
+ The code in this Playground is intended to run at the
+ server level only. It is not intended to be run in client
+ applications as it requires the use of the master key.
+ */
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -42,7 +48,7 @@ struct Installation: ParseInstallation {
     }
 }
 
-/**
+/*:
  We will begin by creating the payload information we want to
  send in the push notification.
  */

@@ -15,11 +15,17 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
     public var installationId: String?
     public var ipAddress: String
     public var headers: [String: String]
+    /// An object from the hook call.
     public var object: T
+    /// An array of objects from the hook call.
     public var objects: [T]?
+    /// The original object from the hook call.
     public var original: T?
+    /// The query from the hook call.
     public var query: Query<T>?
+    /// The file from the hook call.
     public var file: ParseFile?
+    /// The size of the file from the hook call.
     public var fileSize: Int?
 
     enum CodingKeys: String, CodingKey {

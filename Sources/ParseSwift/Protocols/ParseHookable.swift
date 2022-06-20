@@ -8,6 +8,10 @@
 
 import Foundation
 
+/**
+ Hooks and Triggers should conform to `ParseHookable`.
+ */
 public protocol ParseHookable: ParseTypeable {
+    /// Create an empty initializer.
     init()
 }

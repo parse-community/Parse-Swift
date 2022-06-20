@@ -22,7 +22,7 @@ public protocol ParseHookRequestable: Codable, Equatable {
      */
     var user: UserType? { get set }
     /**
-     The installationId of the device that made the hook call.
+     The installationId which made the request if available.
      */
     var installationId: String? { get }
     /**
