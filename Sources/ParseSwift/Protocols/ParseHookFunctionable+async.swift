@@ -15,7 +15,10 @@ extension ParseHookFunctionable {
     /**
      Fetches the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the fetched `ParseHookFunctionable`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
      func fetch(options: API.Options = []) async throws -> Self {
          try await withCheckedThrowingContinuation { continuation in
@@ -27,7 +30,10 @@ extension ParseHookFunctionable {
     /**
      Fetches all of the Parse hook functions *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: An array of fetched `ParseHookFunctionable`'s.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
      func fetchAll(options: API.Options = []) async throws -> [Self] {
          try await withCheckedThrowingContinuation { continuation in
@@ -42,7 +48,10 @@ extension ParseHookFunctionable {
     /**
      Creates the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the created `ParseHookFunctionable`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
      func create(options: API.Options = []) async throws -> Self {
          try await withCheckedThrowingContinuation { continuation in
@@ -57,7 +66,11 @@ extension ParseHookFunctionable {
     /**
      Updates the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the updated `ParseHookFunctionable`.
      - throws: An error of type `ParseError`.
+     - warning: Do not use on Parse Server 5.3.0 and below. Instead, delete and create.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
      func update(options: API.Options = []) async throws -> Self {
          try await withCheckedThrowingContinuation { continuation in
@@ -73,6 +86,8 @@ extension ParseHookFunctionable {
      Deletes the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
      func delete(options: API.Options = []) async throws {
          let result = try await withCheckedThrowingContinuation { continuation in

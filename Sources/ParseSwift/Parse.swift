@@ -20,9 +20,6 @@ public struct ParseConfiguration {
     /// The client key for your Parse application.
     public internal(set) var clientKey: String?
 
-    /// The web hook key for your Parse application.
-    public internal(set) var hookKey: String?
-
     /// The server URL to connect to Parse Server.
     public internal(set) var serverURL: URL
 
@@ -82,7 +79,6 @@ public struct ParseConfiguration {
      - parameter clientKey: The client key for your Parse application.
      - parameter masterKey: The master key for your Parse application. This key should only be
      specified when using the SDK on a server.
-     - parameter hookKey: The web hook key for your Parse application.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
@@ -118,7 +114,7 @@ public struct ParseConfiguration {
     public init(applicationId: String,
                 clientKey: String? = nil,
                 masterKey: String? = nil,
-                hookKey: String? = nil,
+                webhookKey: String? = nil,
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
                 allowCustomObjectId: Bool = false,
@@ -139,7 +135,6 @@ public struct ParseConfiguration {
         self.applicationId = applicationId
         self.clientKey = clientKey
         self.masterKey = masterKey
-        self.hookKey = hookKey
         self.serverURL = serverURL
         self.liveQuerysServerURL = liveQueryServerURL
         self.isAllowingCustomObjectIds = allowingCustomObjectIds
@@ -252,7 +247,6 @@ public struct ParseSwift {
      - parameter clientKey: The client key for your Parse application.
      - parameter masterKey: The master key for your Parse application. This key should only be
      specified when using the SDK on a server.
-     - parameter hookKey: The web hook key for your Parse application.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
@@ -287,7 +281,6 @@ public struct ParseSwift {
         applicationId: String,
         clientKey: String? = nil,
         masterKey: String? = nil,
-        hookKey: String? = nil,
         serverURL: URL,
         liveQueryServerURL: URL? = nil,
         allowingCustomObjectIds: Bool = false,
@@ -308,7 +301,6 @@ public struct ParseSwift {
         initialize(configuration: .init(applicationId: applicationId,
                                         clientKey: clientKey,
                                         masterKey: masterKey,
-                                        hookKey: hookKey,
                                         serverURL: serverURL,
                                         liveQueryServerURL: liveQueryServerURL,
                                         allowingCustomObjectIds: allowingCustomObjectIds,
@@ -328,7 +320,6 @@ public struct ParseSwift {
     internal static func initialize(applicationId: String,
                                     clientKey: String? = nil,
                                     masterKey: String? = nil,
-                                    hookKey: String? = nil,
                                     serverURL: URL,
                                     liveQueryServerURL: URL? = nil,
                                     allowingCustomObjectIds: Bool = false,
@@ -349,7 +340,6 @@ public struct ParseSwift {
         var configuration = ParseConfiguration(applicationId: applicationId,
                                                clientKey: clientKey,
                                                masterKey: masterKey,
-                                               hookKey: hookKey,
                                                serverURL: serverURL,
                                                liveQueryServerURL: liveQueryServerURL,
                                                allowingCustomObjectIds: allowingCustomObjectIds,

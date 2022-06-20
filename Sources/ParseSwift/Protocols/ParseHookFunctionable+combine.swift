@@ -14,7 +14,10 @@ import Combine
 extension ParseHookFunctionable {
     /**
      Fetches the Parse hook function *asynchronously*. Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -27,7 +30,10 @@ extension ParseHookFunctionable {
 extension ParseHookFunctionable {
     /**
      Creates the Parse hook function *asynchronously*. Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func createPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -40,7 +46,11 @@ extension ParseHookFunctionable {
 extension ParseHookFunctionable {
     /**
      Updates the Parse hook function *asynchronously*. Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: Do not use on Parse Server 5.3.0 and below. Instead, delete and create.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func updatePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
@@ -53,7 +63,10 @@ extension ParseHookFunctionable {
 extension ParseHookFunctionable {
     /**
      Deletes the Parse hook function *asynchronously*. Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in

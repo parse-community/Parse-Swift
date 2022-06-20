@@ -58,7 +58,6 @@ extension ParseHookFunctionable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -84,7 +83,7 @@ extension ParseHookFunctionable {
         let request = try FunctionRequest(hookFunction: self)
         return API.NonParseBodyCommand(method: .GET,
                                        path: .hookFunction(request: request)) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
 
@@ -95,7 +94,6 @@ extension ParseHookFunctionable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -114,7 +112,6 @@ extension ParseHookFunctionable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -133,7 +130,7 @@ extension ParseHookFunctionable {
     static func fetchAllCommand() -> API.NonParseBodyCommand<Self, [Self]> {
         API.NonParseBodyCommand(method: .GET,
                                 path: .hookFunctions) { (data) -> [Self] in
-            try ParseCoding.jsonDecoder().decode([Self].self, from: try checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode([Self].self, from: data)
         }
     }
 }
@@ -147,7 +144,6 @@ extension ParseHookFunctionable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -167,7 +163,7 @@ extension ParseHookFunctionable {
         API.NonParseBodyCommand(method: .POST,
                                 path: .hookFunctions,
                                 body: self) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
 }
@@ -181,9 +177,9 @@ extension ParseHookFunctionable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - warning: Do not use on Parse Server 5.3.0 and below. Instead, delete and create.
     */
     public func update(options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
@@ -208,7 +204,7 @@ extension ParseHookFunctionable {
         return API.NonParseBodyCommand(method: .PUT,
                                        path: .hookFunction(request: request),
                                        body: request) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
 }
@@ -222,7 +218,6 @@ extension ParseHookFunctionable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Void, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -255,7 +250,7 @@ extension ParseHookFunctionable {
         return API.NonParseBodyCommand(method: .PUT,
                                        path: .hookFunction(request: request),
                                        body: Delete()) { (data) -> NoBody in
-            try ParseCoding.jsonDecoder().decode(NoBody.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
         }
     }
 }

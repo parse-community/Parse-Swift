@@ -67,7 +67,6 @@ extension ParseHookTriggerable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -93,7 +92,7 @@ extension ParseHookTriggerable {
         let request = try TriggerRequest(trigger: self)
         return API.NonParseBodyCommand(method: .GET,
                                        path: .hookTrigger(request: request)) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
 
@@ -142,7 +141,7 @@ extension ParseHookTriggerable {
     static func fetchAllCommand() -> API.NonParseBodyCommand<Self, [Self]> {
         API.NonParseBodyCommand(method: .GET,
                                 path: .hookTriggers) { (data) -> [Self] in
-            try ParseCoding.jsonDecoder().decode([Self].self, from: try checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode([Self].self, from: data)
         }
     }
 }
@@ -156,7 +155,6 @@ extension ParseHookTriggerable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -183,7 +181,7 @@ extension ParseHookTriggerable {
         return API.NonParseBodyCommand(method: .POST,
                                        path: .hookTriggers,
                                        body: request) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
 }
@@ -197,7 +195,6 @@ extension ParseHookTriggerable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -224,7 +221,7 @@ extension ParseHookTriggerable {
         return API.NonParseBodyCommand(method: .PUT,
                                        path: .hookTrigger(request: request),
                                        body: request) { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(Self.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
 }
@@ -238,7 +235,6 @@ extension ParseHookTriggerable {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Void, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -271,7 +267,7 @@ extension ParseHookTriggerable {
         return API.NonParseBodyCommand(method: .PUT,
                                        path: .hookTrigger(request: request),
                                        body: Delete()) { (data) -> NoBody in
-            try ParseCoding.jsonDecoder().decode(NoBody.self, from: try Self.checkHookKey(data))
+            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
         }
     }
 }

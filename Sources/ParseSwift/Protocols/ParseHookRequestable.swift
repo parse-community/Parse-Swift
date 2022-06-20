@@ -59,6 +59,8 @@ extension ParseHookRequestable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when the Cloud Code completes or fails.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func hydrateUser(options: API.Options = [],
                             callbackQueue: DispatchQueue = .main,
@@ -71,6 +73,7 @@ extension ParseHookRequestable {
         }
         let request = self
         var updatedOptions = self.options()
+        updatedOptions.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options.forEach { updatedOptions.insert($0) }
         user.fetch(options: updatedOptions,
                    callbackQueue: callbackQueue) { result in

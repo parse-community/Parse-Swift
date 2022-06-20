@@ -72,14 +72,6 @@ internal extension URLSession {
                         return .failure(ParseError(code: .unknownError, message: error.localizedDescription))
                     }
                 }
-                if let hookKey = httpResponse.value(forHTTPHeaderField: "X-Parse-Webhook-Key") {
-                    let pushStatus = HookResponse(data: responseData, hookKey: hookKey)
-                    do {
-                        responseData = try ParseCoding.jsonEncoder().encode(pushStatus)
-                    } catch {
-                        return .failure(ParseError(code: .unknownError, message: error.localizedDescription))
-                    }
-                }
             }
             do {
                 return try .success(mapper(responseData))
