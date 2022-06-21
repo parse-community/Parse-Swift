@@ -92,6 +92,18 @@ class ParseHookFunctionTests: XCTestCase {
     }
 
     @MainActor
+    func testCreateError2() async throws {
+
+        let hookFunction = TestFunction(url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookFunction.create()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
+        }
+    }
+
+    @MainActor
     func testUpdate() async throws {
 
         let hookFunction = TestFunction(name: "foo",
@@ -128,6 +140,18 @@ class ParseHookFunctionTests: XCTestCase {
     }
 
     @MainActor
+    func testUpdateError2() async throws {
+
+        let hookFunction = TestFunction(url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookFunction.update()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
+        }
+    }
+
+    @MainActor
     func testFetch() async throws {
 
         let hookFunction = TestFunction(name: "foo",
@@ -160,6 +184,18 @@ class ParseHookFunctionTests: XCTestCase {
             XCTFail("Should have thrown error")
         } catch {
             XCTAssertTrue(error.equalsTo(server.code))
+        }
+    }
+
+    @MainActor
+    func testFetchError2() async throws {
+
+        let hookFunction = TestFunction(url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookFunction.fetch()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
         }
     }
 
@@ -229,6 +265,18 @@ class ParseHookFunctionTests: XCTestCase {
             XCTFail("Should have thrown error")
         } catch {
             XCTAssertTrue(error.equalsTo(server.code))
+        }
+    }
+
+    @MainActor
+    func testDeleteError2() async throws {
+
+        let hookFunction = TestFunction(url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookFunction.delete()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
         }
     }
 }

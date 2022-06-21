@@ -21,6 +21,38 @@ class ParseHookTriggerTests: XCTestCase {
         var url: URL?
     }
 
+    struct GameScore: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var points: Int?
+
+        //: custom initializers
+        init() {}
+
+        init(objectId: String?) {
+            self.objectId = objectId
+        }
+        init(points: Int) {
+            self.points = points
+        }
+
+        //: Implement your own version of merge
+        func merge(with object: Self) throws -> Self {
+            var updated = try mergeParse(with: object)
+            if updated.shouldRestoreKey(\.points,
+                                         original: object) {
+                updated.points = object.points
+            }
+            return updated
+        }
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -50,6 +82,13 @@ class ParseHookTriggerTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected = "{\"className\":\"foo\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
         XCTAssertEqual(hookTrigger.description, expected)
+        let object = GameScore()
+        let hookTrigger2 = TestTrigger(object: object,
+                                       triggerName: .afterSave,
+                                       url: URL(string: "https://api.example.com/foo"))
+        // swiftlint:disable:next line_length
+        let expected2 = "{\"className\":\"GameScore\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
+        XCTAssertEqual(hookTrigger2.description, expected2)
     }
 
     @MainActor
@@ -87,6 +126,19 @@ class ParseHookTriggerTests: XCTestCase {
             XCTFail("Should have thrown error")
         } catch {
             XCTAssertTrue(error.equalsTo(server.code))
+        }
+    }
+
+    @MainActor
+    func testCreateError2() async throws {
+
+        let hookTrigger = TestTrigger(triggerName: .afterSave,
+                                      url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookTrigger.create()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
         }
     }
 
@@ -129,6 +181,32 @@ class ParseHookTriggerTests: XCTestCase {
     }
 
     @MainActor
+    func testUpdateError2() async throws {
+
+        let hookTrigger = TestTrigger(triggerName: .afterSave,
+                                      url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookTrigger.update()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
+        }
+    }
+
+    @MainActor
+    func testUpdateError3() async throws {
+
+        let hookTrigger = TestTrigger(className: "foo",
+                                      url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookTrigger.update()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
+        }
+    }
+
+    @MainActor
     func testFetch() async throws {
 
         let hookTrigger = TestTrigger(className: "foo",
@@ -163,6 +241,19 @@ class ParseHookTriggerTests: XCTestCase {
             XCTFail("Should have thrown error")
         } catch {
             XCTAssertTrue(error.equalsTo(server.code))
+        }
+    }
+
+    @MainActor
+    func testFetchError2() async throws {
+
+        let hookTrigger = TestTrigger(triggerName: .afterSave,
+                                      url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookTrigger.fetch()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
         }
     }
 
@@ -236,6 +327,19 @@ class ParseHookTriggerTests: XCTestCase {
             XCTFail("Should have thrown error")
         } catch {
             XCTAssertTrue(error.equalsTo(server.code))
+        }
+    }
+
+    @MainActor
+    func testDeleteError2() async throws {
+
+        let hookTrigger = TestTrigger(triggerName: .afterSave,
+                                      url: URL(string: "https://api.example.com/foo"))
+        do {
+            _ = try await hookTrigger.delete()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
         }
     }
 }

@@ -86,7 +86,6 @@ public extension ParseInstagram {
                 .makeDictionary(id: id,
                                 accessToken: accessToken,
                                 apiURL: apiURL)
-        print(instagramAuthData)
         login(authData: instagramAuthData,
               options: options,
               callbackQueue: callbackQueue,

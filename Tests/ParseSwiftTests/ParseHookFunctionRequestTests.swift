@@ -253,5 +253,28 @@ class ParseHookFunctionRequestTests: XCTestCase {
             XCTAssertTrue(error.equalsTo(server.code))
         }
     }
+
+    @MainActor
+    func testHydrateUserError3() async throws {
+        let server = ParseError(code: .commandUnavailable, message: "no delete")
+        let encoded = try ParseCoding.jsonEncoder().encode(server)
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let parameters = Parameters()
+        let installationId = "cat"
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+                                                                         installationId: installationId,
+                                                                         parameters: parameters,
+                                                                         ipAddress: "1.1.1.1",
+                                                                         headers: ["yolo": "me"])
+        do {
+            _ = try await functionRequest.hydrateUser()
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.equalsTo(.unknownError))
+        }
+    }
 }
 #endif

@@ -154,16 +154,23 @@ extension ParseHookFunctionable {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        createCommand().executeAsync(options: options,
-                                     callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try createCommand().executeAsync(options: options,
+                                             callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
+                                                                message: error.localizedDescription)
+            completion(.failure(parseError))
         }
     }
 
-    func createCommand() -> API.NonParseBodyCommand<Self, Self> {
-        API.NonParseBodyCommand(method: .POST,
-                                path: .hookFunctions,
-                                body: self) { (data) -> Self in
+    func createCommand() throws -> API.NonParseBodyCommand<FunctionRequest, Self> {
+        let request = try FunctionRequest(hookFunction: self)
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: .hookFunctions,
+                                       body: request) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
