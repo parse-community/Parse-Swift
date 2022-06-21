@@ -8,7 +8,14 @@
 
 import Foundation
 
-public protocol ParseHookRequestable: Codable, Equatable {
+/**
+ Conforming to `ParseHookRequestable` allows you to create types that
+ can decode requests when `ParseHookFunctionable` functions are called.
+ - requires: `.useMasterKey` has to be available. It is recommended to only
+ use the master key in server-side applications where the key is kept secure and not
+ exposed to the public.
+ */
+public protocol ParseHookRequestable: ParseTypeable {
     associatedtype UserType: ParseCloudUser
     /**
      Specifies if the **masterKey** was used in the
@@ -49,6 +56,8 @@ extension ParseHookRequestable {
             if let installationId = installationId {
                 options.insert(.installationId(installationId))
             }
+        } else if let installationId = installationId {
+            options.insert(.installationId(installationId))
         }
         return options
     }

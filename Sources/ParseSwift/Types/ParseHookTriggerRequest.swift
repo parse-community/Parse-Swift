@@ -8,6 +8,12 @@
 
 import Foundation
 
+/**
+ A type that can decode requests when `ParseHookTriggerable` triggers are called.
+ - requires: `.useMasterKey` has to be available. It is recommended to only
+ use the master key in server-side applications where the key is kept secure and not
+ exposed to the public.
+ */
 public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseHookRequestable {
     public typealias UserType = U
     public var masterKey: Bool
@@ -27,12 +33,43 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
     public var file: ParseFile?
     /// The size of the file from the hook call.
     public var fileSize: Int?
+    var log: AnyCodable?
+    var context: AnyCodable?
 
     enum CodingKeys: String, CodingKey {
         case masterKey = "master"
         case ipAddress = "ip"
         case user, installationId, headers,
-             object, objects, original,
-             query, file, fileSize
+             log, context, object, objects,
+             original, query, file, fileSize
+    }
+}
+
+extension ParseHookTriggerRequest {
+
+    /**
+     Get the log using any type that conforms to `Codable`.
+     - returns: The sound casted to the inferred type.
+     - throws: An error of type `ParseError`.
+     */
+    public func getLog<V>() throws -> V where V: Codable {
+        guard let log = log?.value as? V else {
+            throw ParseError(code: .unknownError,
+                             message: "Cannot be casted to the inferred type")
+        }
+        return log
+    }
+
+    /**
+     Get the context using any type that conforms to `Codable`.
+     - returns: The sound casted to the inferred type.
+     - throws: An error of type `ParseError`.
+     */
+    public func getContext<V>() throws -> V where V: Codable {
+        guard let context = context?.value as? V else {
+            throw ParseError(code: .unknownError,
+                             message: "Cannot be casted to the inferred type")
+        }
+        return context
     }
 }

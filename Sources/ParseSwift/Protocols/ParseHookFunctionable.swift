@@ -9,7 +9,8 @@
 import Foundation
 
 /**
- `ParseHookFunction` is used for handeling your schemas.
+ Conforming to `ParseHookFunctionable` allows the creation of hooks
+ which are Cloud Code functions.
  - requires: `.useMasterKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
@@ -21,7 +22,7 @@ public protocol ParseHookFunctionable: ParseHookable {
     var functionName: String? { get set }
 }
 
-// MARK: Defualt Implementation
+// MARK: Default Implementation
 public extension ParseHookFunctionable {
     /**
      Creates a new Parse hook function.

@@ -8,6 +8,13 @@
 
 import Foundation
 
+/**
+ Conforming to `ParseHookFunctionable` allows the creation of hooks which
+ are Cloud Code triggers.
+ - requires: `.useMasterKey` has to be available. It is recommended to only
+ use the master key in server-side applications where the key is kept secure and not
+ exposed to the public.
+ */
 public protocol ParseHookTriggerable: ParseHookable {
     /// The name of the `ParseObject` the trigger should act on.
     var className: String? { get set }

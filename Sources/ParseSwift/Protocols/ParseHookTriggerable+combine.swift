@@ -24,6 +24,19 @@ extension ParseHookTriggerable {
             self.fetch(options: options, completion: promise)
         }
     }
+
+    /**
+     Fetches the Parse hook triggers *asynchronously*. Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func fetchAllPublisher(options: API.Options = []) -> Future<[Self], ParseError> {
+        Future { promise in
+            self.fetchAll(options: options, completion: promise)
+        }
+    }
 }
 
 // MARK: Create

@@ -9,6 +9,7 @@
 import Foundation
 
 /**
- The parameters passed to a `ParseHookFunction` function.
+ Conforming to `ParseHookParametable` allows types that can be created
+ to decode parameters in `ParseHookFunctionRequest`'s.
  */
-public protocol ParseHookParametable: Codable, Equatable { }
+public protocol ParseHookParametable: Codable, Equatable {}

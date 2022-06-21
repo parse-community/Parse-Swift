@@ -9,7 +9,8 @@
 import Foundation
 
 /**
- Build a successful response to return from a `ParseHook`.
+ Build a successful response after processing a `ParseHookFunctionRequest`
+ or `ParseHookTriggerRequest`.
  */
 public struct ParseHookSuccessResponse<R: Codable & Equatable>: ParseTypeable {
     /// The data to return in the response.
@@ -18,7 +19,8 @@ public struct ParseHookSuccessResponse<R: Codable & Equatable>: ParseTypeable {
 
 public extension ParseHookSuccessResponse {
     /**
-     Create a successful response to a `ParseHook`.
+     Create a successful response after processing a `ParseHookFunctionRequest`
+     or `ParseHookTriggerRequest`.
      - parameter success: The data to return in the response.
      */
     init(_ success: R) {
