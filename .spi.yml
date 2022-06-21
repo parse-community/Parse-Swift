@@ -5,7 +5,7 @@ builder:
     scheme: "ParseSwift (iOS)"
   - platform: macos-xcodebuild
     scheme: "ParseSwift (macOS)"
-    documentation_targets: ["ParseSwift (iOS)", "ParseSwift (macOS)", "ParseSwift (tvOS)", "ParseSwift (watchOS)"]
+    documentation_targets: ["ParseSwift (macOS)"]
   - platform: macos-xcodebuild-arm
     scheme: "ParseSwift (macOS)"
   - platform: tvos
