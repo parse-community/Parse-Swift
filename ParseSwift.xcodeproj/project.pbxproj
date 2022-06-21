@@ -772,6 +772,15 @@
 		7C55F9F22860CEEF002A352D /* ParseSpotify+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C55F9F02860CEEF002A352D /* ParseSpotify+combine.swift */; };
 		7C55F9F32860CEEF002A352D /* ParseSpotify+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C55F9F02860CEEF002A352D /* ParseSpotify+combine.swift */; };
 		7C55F9F42860CEEF002A352D /* ParseSpotify+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C55F9F02860CEEF002A352D /* ParseSpotify+combine.swift */; };
+		7C995D252861F8330077805A /* ParseSpotifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D242861F8330077805A /* ParseSpotifyTests.swift */; };
+		7C995D262861F8330077805A /* ParseSpotifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D242861F8330077805A /* ParseSpotifyTests.swift */; };
+		7C995D272861F8330077805A /* ParseSpotifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D242861F8330077805A /* ParseSpotifyTests.swift */; };
+		7C995D292861FA0B0077805A /* ParseSpotifyAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D282861FA0B0077805A /* ParseSpotifyAsyncTests.swift */; };
+		7C995D2A2861FA0B0077805A /* ParseSpotifyAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D282861FA0B0077805A /* ParseSpotifyAsyncTests.swift */; };
+		7C995D2B2861FA0B0077805A /* ParseSpotifyAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D282861FA0B0077805A /* ParseSpotifyAsyncTests.swift */; };
+		7C995D2D2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */; };
+		7C995D2E2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */; };
+		7C995D2F2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */; };
 		7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */; };
 		7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */; };
 		7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */; };
@@ -1326,6 +1335,9 @@
 		7C55F9E62860CD6B002A352D /* ParseSpotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseSpotify.swift; sourceTree = "<group>"; };
 		7C55F9EB2860CEA6002A352D /* ParseSpotify+async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseSpotify+async.swift"; sourceTree = "<group>"; };
 		7C55F9F02860CEEF002A352D /* ParseSpotify+combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseSpotify+combine.swift"; sourceTree = "<group>"; };
+		7C995D242861F8330077805A /* ParseSpotifyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseSpotifyTests.swift; sourceTree = "<group>"; };
+		7C995D282861FA0B0077805A /* ParseSpotifyAsyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseSpotifyAsyncTests.swift; sourceTree = "<group>"; };
+		7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseSpotifyCombineTests.swift; sourceTree = "<group>"; };
 		7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodableTests.swift; sourceTree = "<group>"; };
 		7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableTests.swift; sourceTree = "<group>"; };
@@ -1623,6 +1635,9 @@
 				7050259C2843F0CF008D6624 /* ParseSchemaAsyncTests.swift */,
 				705025A02843F0E7008D6624 /* ParseSchemaCombineTests.swift */,
 				705025A4284407C4008D6624 /* ParseSchemaTests.swift */,
+				7C995D282861FA0B0077805A /* ParseSpotifyAsyncTests.swift */,
+				7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */,
+				7C995D242861F8330077805A /* ParseSpotifyTests.swift */,
 				70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */,
 				917BA4512703F55700F8D747 /* ParseTwitterAsyncTests.swift */,
 				89899D9E26045998002E2043 /* ParseTwitterCombineTests.swift */,
@@ -2789,6 +2804,7 @@
 				918CED5E268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
 				91679D6D268F261800F71809 /* ParseVersionTests.swift in Sources */,
 				917BA44E2703F2B400F8D747 /* ParseFacebookAsyncTests.swift in Sources */,
+				7C995D292861FA0B0077805A /* ParseSpotifyAsyncTests.swift in Sources */,
 				911DB13624C4FC100027F3C7 /* ParseObjectTests.swift in Sources */,
 				70C167B927305101009F4E30 /* ParsePointerAsyncTests.swift in Sources */,
 				70F03A662780EAFA00E5AFB4 /* ParseLinkedInTests.swift in Sources */,
@@ -2807,6 +2823,7 @@
 				70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				7044C24325C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
+				7C995D2D2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */,
 				70DFEA8A2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */,
 				91285B2126991EE80051B544 /* ParsePolygonTests.swift in Sources */,
 				70170A4E2656EBA50070C905 /* ParseAnalyticsTests.swift in Sources */,
@@ -2832,6 +2849,7 @@
 				70F03A562780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
 				7C4C0947285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
 				917BA4422703EAC700F8D747 /* ParseLiveQueryAsyncTests.swift in Sources */,
+				7C995D252861F8330077805A /* ParseSpotifyTests.swift in Sources */,
 				7016ED4025C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
 				91F346C3269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */,
 				917BA4262703DB4600F8D747 /* ParseQueryAsyncTests.swift in Sources */,
@@ -3097,6 +3115,7 @@
 				918CED60268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
 				91679D6F268F261A00F71809 /* ParseVersionTests.swift in Sources */,
 				917BA4502703F2B400F8D747 /* ParseFacebookAsyncTests.swift in Sources */,
+				7C995D2B2861FA0B0077805A /* ParseSpotifyAsyncTests.swift in Sources */,
 				709B98512556ECAA00507778 /* ParseEncoderExtraTests.swift in Sources */,
 				70C167BB27305101009F4E30 /* ParsePointerAsyncTests.swift in Sources */,
 				70F03A682780EAFA00E5AFB4 /* ParseLinkedInTests.swift in Sources */,
@@ -3115,6 +3134,7 @@
 				70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
 				7044C24525C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
+				7C995D2F2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */,
 				70DFEA8C2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */,
 				91285B2326991EE80051B544 /* ParsePolygonTests.swift in Sources */,
 				70170A502656EBA50070C905 /* ParseAnalyticsTests.swift in Sources */,
@@ -3140,6 +3160,7 @@
 				70F03A582780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
 				7C4C0949285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
 				917BA4442703EAC700F8D747 /* ParseLiveQueryAsyncTests.swift in Sources */,
+				7C995D272861F8330077805A /* ParseSpotifyTests.swift in Sources */,
 				7016ED4225C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
 				91F346C5269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */,
 				917BA4282703DB4600F8D747 /* ParseQueryAsyncTests.swift in Sources */,
@@ -3213,6 +3234,7 @@
 				918CED5F268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
 				91679D6E268F261900F71809 /* ParseVersionTests.swift in Sources */,
 				917BA44F2703F2B400F8D747 /* ParseFacebookAsyncTests.swift in Sources */,
+				7C995D2A2861FA0B0077805A /* ParseSpotifyAsyncTests.swift in Sources */,
 				70F2E2B6254F283000B2EA5C /* ParseACLTests.swift in Sources */,
 				70C167BA27305101009F4E30 /* ParsePointerAsyncTests.swift in Sources */,
 				70F03A672780EAFA00E5AFB4 /* ParseLinkedInTests.swift in Sources */,
@@ -3231,6 +3253,7 @@
 				70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
 				7044C24425C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
+				7C995D2E2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */,
 				70DFEA8B2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */,
 				91285B2226991EE80051B544 /* ParsePolygonTests.swift in Sources */,
 				70170A4F2656EBA50070C905 /* ParseAnalyticsTests.swift in Sources */,
@@ -3256,6 +3279,7 @@
 				70F03A572780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
 				7C4C0948285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
 				917BA4432703EAC700F8D747 /* ParseLiveQueryAsyncTests.swift in Sources */,
+				7C995D262861F8330077805A /* ParseSpotifyTests.swift in Sources */,
 				7016ED4125C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
 				91F346C4269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */,
 				917BA4272703DB4600F8D747 /* ParseQueryAsyncTests.swift in Sources */,

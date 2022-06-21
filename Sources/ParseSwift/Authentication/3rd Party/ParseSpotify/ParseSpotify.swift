@@ -22,7 +22,7 @@ public struct ParseSpotify<AuthenticatedUser: ParseUser>: ParseAuthentication {
         case id
         case accessToken = "access_token"
         case clientId = "client_id"
-        case expiresIn = "expires_in"
+        case expirationDate = "expiration_date"
         case refreshToken = "refresh_token"
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter id: Required id for the user.
@@ -49,7 +49,7 @@ public struct ParseSpotify<AuthenticatedUser: ParseUser>: ParseAuthentication {
                                                              value: expiresIn,
                                                              to: Date()) {
                 let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
-                returnDictionary[AuthenticationKeys.expiresIn.rawValue] = dateString
+                returnDictionary[AuthenticationKeys.expirationDate.rawValue] = dateString
             }
             if let refreshToken = refreshToken {
                 returnDictionary[AuthenticationKeys.refreshToken.rawValue] = refreshToken
