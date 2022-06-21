@@ -21,18 +21,39 @@ public struct ParseSpotify<AuthenticatedUser: ParseUser>: ParseAuthentication {
     enum AuthenticationKeys: String, Codable {
         case id
         case accessToken = "access_token"
-
+        case clientId = "client_id"
+        case expiresIn = "expires_in"
+        case refreshToken = "refresh_token"
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter id: Required id for the user.
         /// - parameter accessToken: Required access token for Spotify.
+        /// - parameter clientId: Optional client id for Spotify.
+        /// - parameter expiresIn: Optional expiration in seconds for Spotify.
+        /// - parameter refreshToken: Optional refresh token for Spotify.
         /// - returns: authData dictionary.
         func makeDictionary(id: String,
-                            accessToken: String) -> [String: String] {
+                            accessToken: String,
+                            clientId: String? = nil,
+                            expiresIn: Int? = nil,
+                            refreshToken: String? = nil) -> [String: String] {
 
-            let returnDictionary = [
+            var returnDictionary = [
                 AuthenticationKeys.id.rawValue: id,
                 AuthenticationKeys.accessToken.rawValue: accessToken
             ]
+            if let clientId = clientId {
+                returnDictionary[AuthenticationKeys.clientId.rawValue] = clientId
+            }
+            if let expiresIn = expiresIn,
+                let expirationDate = Calendar.current.date(byAdding: .second,
+                                                             value: expiresIn,
+                                                             to: Date()) {
+                let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
+                returnDictionary[AuthenticationKeys.expiresIn.rawValue] = dateString
+            }
+            if let refreshToken = refreshToken {
+                returnDictionary[AuthenticationKeys.refreshToken.rawValue] = refreshToken
+            }
             return returnDictionary
         }
 
@@ -62,20 +83,28 @@ public extension ParseSpotify {
      Login a `ParseUser` *asynchronously* using Spotify authentication.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
+     - parameter clientId: Optional **client_id** from **Spotify**.
+     - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
+     - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
     func login(id: String,
                accessToken: String,
+               clientId: String? = nil,
+               expiresIn: Int? = nil,
+               refreshToken: String? = nil,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
         let spotifyAuthData = AuthenticationKeys.id
                 .makeDictionary(id: id,
-                                accessToken: accessToken)
-//        print(spotifyAuthData)
+                                accessToken: accessToken,
+                                clientId: clientId,
+                                expiresIn: expiresIn,
+                                refreshToken: refreshToken)
         login(authData: spotifyAuthData,
               options: options,
               callbackQueue: callbackQueue,
@@ -108,18 +137,27 @@ public extension ParseSpotify {
      Link the *current* `ParseUser` *asynchronously* using Spotify authentication.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
+     - parameter clientId: Optional **client_id** from **Spotify**.
+     - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
+     - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
     func link(id: String,
               accessToken: String,
+              clientId: String? = nil,
+              expiresIn: Int? = nil,
+              refreshToken: String? = nil,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         let spotifyAuthData = AuthenticationKeys.id
             .makeDictionary(id: id,
-                            accessToken: accessToken)
+                            accessToken: accessToken,
+                            clientId: clientId,
+                            expiresIn: expiresIn,
+                            refreshToken: refreshToken)
         link(authData: spotifyAuthData,
              options: options,
              callbackQueue: callbackQueue,
