@@ -89,8 +89,9 @@ extension ParseHookTriggerable {
                 completion(result)
             }
         } catch {
-            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
-                                                                message: error.localizedDescription)
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             completion(.failure(parseError))
         }
     }
@@ -177,8 +178,9 @@ extension ParseHookTriggerable {
                 completion(result)
             }
         } catch {
-            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
-                                                                message: error.localizedDescription)
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             completion(.failure(parseError))
         }
     }
@@ -217,8 +219,9 @@ extension ParseHookTriggerable {
                 completion(result)
             }
         } catch {
-            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
-                                                                message: error.localizedDescription)
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             completion(.failure(parseError))
         }
     }
@@ -263,8 +266,9 @@ extension ParseHookTriggerable {
                 }
             }
         } catch {
-            let parseError = error as? ParseError ?? ParseError(code: .unknownError,
-                                                                message: error.localizedDescription)
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             completion(.failure(parseError))
         }
     }
