@@ -55,8 +55,14 @@ extension GameScore {
  */
 struct MyHookTrigger: ParseHookTriggerable {
     var className: String?
+    var type: ParseHookObjectType?
     var triggerName: ParseHookTriggerType?
     var url: URL?
+
+    enum CodingKeys: String, CodingKey {
+        case className, triggerName, url
+        case type = "__type"
+    }
 }
 
 /*:
@@ -66,7 +72,7 @@ struct MyHookTrigger: ParseHookTriggerable {
 let gameScore = GameScore()
 var myTrigger = MyHookTrigger(object: gameScore,
                               triggerName: .afterSave,
-                              url: URL(string: "https://api.example.com/bar"))
+                              url: URL(string: "https://api.example.com/bar")!)
 
 //: Then, create the trigger on the server.
 myTrigger.create { result in

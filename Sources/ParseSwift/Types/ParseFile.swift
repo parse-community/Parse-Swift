@@ -9,7 +9,11 @@ import FoundationNetworking
  */
 public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
 
-    internal let __type: String = "File" // swiftlint:disable:this identifier_name
+    internal static var type: String {
+        "File"
+    }
+
+    internal let type: String = Self.type
 
     internal var isDownloadNeeded: Bool {
         return cloudURL != nil
@@ -141,7 +145,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     enum CodingKeys: String, CodingKey {
         case url
         case name
-        case __type // swiftlint:disable:this identifier_name
+        case type = "__type"
     }
 }
 

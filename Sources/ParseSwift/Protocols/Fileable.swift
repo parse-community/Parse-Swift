@@ -9,7 +9,7 @@
 import Foundation
 
 protocol Fileable: ParseEncodable, ParseTypeable, Identifiable {
-    var __type: String { get } // swiftlint:disable:this identifier_name
+    var type: String { get }
     var name: String { get set }
     var url: URL? { get set }
 }

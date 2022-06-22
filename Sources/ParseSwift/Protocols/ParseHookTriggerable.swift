@@ -14,10 +14,14 @@ import Foundation
  - requires: `.useMasterKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
+ - note: You must add your own `CodingKeys` enum and specity
+ **type = "__type"**.
  */
 public protocol ParseHookTriggerable: ParseHookable {
     /// The name of the `ParseObject` the trigger should act on.
     var className: String? { get set }
+    /// The type  the trigger should act on.
+    var type: ParseHookObjectType? { get set }
     /// The `ParseHookTriggerType` type.
     var triggerName: ParseHookTriggerType? { get set }
 }
@@ -30,7 +34,7 @@ public extension ParseHookTriggerable {
      - parameter triggerName: The `ParseHookTriggerType` type.
      - parameter url: The endpoint of the hook.
      */
-    init(className: String, triggerName: ParseHookTriggerType, url: URL? = nil) {
+    init(className: String, triggerName: ParseHookTriggerType, url: URL) {
         self.init()
         self.className = className
         self.triggerName = triggerName
@@ -43,8 +47,21 @@ public extension ParseHookTriggerable {
      - parameter triggerName: The `ParseHookTriggerType` type.
      - parameter url: The endpoint of the hook.
      */
-    init<T>(object: T, triggerName: ParseHookTriggerType, url: URL?) where T: ParseObject {
+    init<T>(object: T, triggerName: ParseHookTriggerType, url: URL) where T: ParseObject {
         self.init(className: T.className, triggerName: triggerName, url: url)
+    }
+
+    /**
+     Creates a new `ParseFile` hook trigger.
+     - parameter type: The `ParseHookObjectType`  the trigger should act on.
+     - parameter triggerName: The `ParseHookTriggerType` type.
+     - parameter url: The endpoint of the hook.
+     */
+    init(type: ParseHookObjectType, triggerName: ParseHookTriggerType, url: URL) {
+        self.init()
+        self.type = type
+        self.triggerName = triggerName
+        self.url = url
     }
 }
 
