@@ -36,40 +36,21 @@ class ParseHookResponseTests: XCTestCase {
     func testInitializers() throws {
         let response1 = ParseHookResponse<String>(success: "test")
         XCTAssertNotNil(response1.success)
-        XCTAssertNil(response1.code)
-        XCTAssertNil(response1.message)
-        XCTAssertNil(response1.otherCode)
         XCTAssertNil(response1.error)
-        let response2 = ParseHookResponse<String>(code: .unknownError, message: "yo")
-        XCTAssertNil(response2.success)
-        XCTAssertNotNil(response2.code)
-        XCTAssertNotNil(response2.message)
-        XCTAssertNil(response2.otherCode)
-        XCTAssertNil(response2.error)
-        let response3 = ParseHookResponse<String>(otherCode: 2000, message: "yo")
-        XCTAssertNil(response3.success)
-        XCTAssertEqual(response3.code, .other)
-        XCTAssertNotNil(response3.message)
-        XCTAssertNotNil(response3.otherCode)
-        XCTAssertNil(response3.error)
         let response4 = ParseHookResponse<String>(error: .init(code: .unknownError, message: "yup"))
         XCTAssertNil(response4.success)
-        XCTAssertNotNil(response4.code)
-        XCTAssertNotNil(response4.message)
-        XCTAssertNil(response4.otherCode)
-        XCTAssertNil(response4.error)
+        XCTAssertNotNil(response4.error)
     }
 
     func testSuccess() throws {
         var response = ParseHookResponse(success: true)
         let expected = "{\"success\":true}"
         XCTAssertEqual(response.description, expected)
-        response.message = "yo"
-        response.code = .accountAlreadyLinked
+        response.error = .init(code: .accountAlreadyLinked, message: "yo")
         XCTAssertEqual(response.description, expected)
     }
 
-    func testEncode() throws {
+    func testError() throws {
         let code = -1
         let message = "testing ParseHookResponse"
         guard let encoded: Data = "{\"error\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
@@ -77,69 +58,27 @@ class ParseHookResponseTests: XCTestCase {
             return
         }
         let decoded = try ParseCoding.jsonDecoder().decode(ParseHookResponse<String>.self, from: encoded)
-        XCTAssertEqual(decoded.code?.rawValue, code)
-        XCTAssertEqual(decoded.message, message)
-        XCTAssertNil(decoded.error)
+        XCTAssertEqual(decoded.error?.code.rawValue, code)
+        XCTAssertEqual(decoded.error?.message, message)
+        XCTAssertNil(decoded.success)
         XCTAssertEqual(decoded.debugDescription, "{\"code\":\(code),\"error\":\"\(message)\"}")
         XCTAssertEqual(decoded.description, "{\"code\":\(code),\"error\":\"\(message)\"}")
         XCTAssertEqual(decoded.errorDescription, "{\"code\":\(code),\"error\":\"\(message)\"}")
-    }
-
-    func testEncodeMessage() throws {
-        let code = -1
-        let message = "testing ParseHookResponse"
-        guard let encoded: Data = "{\"message\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
-            XCTFail("Should have unwrapped")
-            return
-        }
-        let decoded = try ParseCoding.jsonDecoder().decode(ParseHookResponse<String>.self, from: encoded)
-        XCTAssertEqual(decoded.code?.rawValue, code)
-        XCTAssertEqual(decoded.message, message)
-        XCTAssertNil(decoded.error)
-        XCTAssertEqual(decoded.debugDescription, "{\"code\":\(code),\"error\":\"\(message)\"}")
-        XCTAssertEqual(decoded.description, "{\"code\":\(code),\"error\":\"\(message)\"}")
-        XCTAssertEqual(decoded.errorDescription, "{\"code\":\(code),\"error\":\"\(message)\"}")
-    }
-
-    func testEncodeOther() throws {
-        let code = 2000
-        let message = "testing ParseHookResponse"
-        guard let encoded = "{\"error\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
-            XCTFail("Should have unwrapped")
-            return
-        }
-        let decoded = try ParseCoding.jsonDecoder().decode(ParseHookResponse<String>.self, from: encoded)
-        XCTAssertEqual(decoded.code, .other)
-        XCTAssertEqual(decoded.message, message)
-        XCTAssertNil(decoded.error)
-        XCTAssertEqual(decoded.debugDescription,
-                       "{\"code\":\(code),\"error\":\"\(message)\"}")
-        XCTAssertEqual(decoded.otherCode, code)
-        var response = ParseHookResponse<String>(code: .unknownError, message: "hello")
-        response.code = nil
-        XCTAssertThrowsError(try ParseCoding.jsonEncoder().encode(response))
-    }
-
-    func testConvertError() throws {
-        var response = ParseHookResponse<String>()
-        response.code = .accountAlreadyLinked
-        XCTAssertThrowsError(try response.convertToParseError())
-        response.message = "hello"
-        XCTAssertNoThrow(try response.convertToParseError())
-        response.code = nil
-        XCTAssertThrowsError(try response.convertToParseError())
     }
 
     func testCompare() throws {
         let code = ParseError.Code.objectNotFound.rawValue
         let message = "testing ParseHookResponse"
-        guard let encoded = "{\"code\":\(code),\"error\":\"\(message)\"}".data(using: .utf8) else {
+        guard let encoded = "{\"code\":\(code),\"error\":\"\(message)\"}".data(using: .utf8),
+                let decoded = try ParseCoding
+                    .jsonDecoder()
+                    .decode(ParseHookResponse<String>.self,
+                            from: encoded).error else {
             XCTFail("Should have unwrapped")
             return
         }
-        let decoded = try ParseCoding.jsonDecoder().decode(ParseHookResponse<String>.self, from: encoded)
 
-        let error: Error = try decoded.convertToParseError()
+        let error: Error = decoded
 
         XCTAssertTrue(error.equalsTo(.objectNotFound))
         XCTAssertFalse(error.equalsTo(.invalidQuery))

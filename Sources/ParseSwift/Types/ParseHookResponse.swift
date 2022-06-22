@@ -15,18 +15,19 @@ import Foundation
 public struct ParseHookResponse<R: Codable & Equatable>: ParseTypeable {
     /// The data to return in the response.
     public var success: R?
+    /// An object with a Parse code and message.
+    public var error: ParseError?
+/*
     /// The text representing the error from the Parse Server.
     public var message: String?
     /// The value representing the error from the Parse Server.
     public var code: ParseError.Code?
     /// An error value representing a custom error from the Parse Server.
-    public var otherCode: Int?
-    var error: String?
+    public var otherCode: Int? */
+    // var error: String?
 
     enum CodingKeys: String, CodingKey {
-        case code, success, otherCode
-        case message = "error"
-        case error = "message"
+        case success, error
     }
 }
 
@@ -42,15 +43,16 @@ public extension ParseHookResponse {
     }
 
     /**
-     Create an error with a custom code and custom message.
+     Create an error reponse to a `ParseHookFunctionRequest` or
+     `ParseHookTriggerRequest`  with a `ParseError`.
      - parameter error: The `ParseError`.
      */
     init(error: ParseError) {
-        self.code = error.code
-        self.message = error.message
-        self.otherCode = error.otherCode
+        self.error = error
+        /* self.message = error.message
+        self.otherCode = error.otherCode */
     }
-
+/*
     /**
      Create an error with a known code and custom message.
      - parameter code: The known Parse code.
@@ -78,7 +80,7 @@ public extension ParseHookResponse {
      - returns: A `ParseError`.
      - throws: An error of type `ParseError`.
      */
-    func convertToParseError() throws -> ParseError {
+     func convertToParseError() throws -> ParseError {
         guard let code = code,
               let message = message else {
             throw ParseError(code: .unknownError,
@@ -88,27 +90,18 @@ public extension ParseHookResponse {
                           message: message,
                           otherCode: otherCode,
                           error: error)
-    }
+    } */
 }
 
 // MARK: Encodable
 public extension ParseHookResponse {
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
         guard let success = success else {
-            try container.encode(message, forKey: .message)
-            guard let code = code,
-                  code != .other else {
-                guard let otherCode = otherCode else {
-                    throw ParseError(code: .unknownError,
-                                     message: "A ParseError should have a \"code\" or \"otherCode\"")
-                }
-                try container.encode(otherCode, forKey: .code)
-                return
-            }
-            try container.encode(code, forKey: .code)
+            var container = encoder.singleValueContainer()
+            try container.encode(error)
             return
         }
+        var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(success, forKey: .success)
     }
 }
@@ -119,21 +112,10 @@ public extension ParseHookResponse {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
-            success = try values.decode(R.self, forKey: .success)
+            self.success = try values.decode(R.self, forKey: .success)
         } catch {
-            do {
-                code = try values.decode(ParseError.Code.self, forKey: .code)
-            } catch {
-                code = .other
-                otherCode = try values.decode(Int.self, forKey: .code)
-            }
-            // Handle when Parse Server sends "message" instead of "error".
-            do {
-                // Attempt the common case first.
-                message = try values.decode(String.self, forKey: .message)
-            } catch {
-                message = try values.decode(String.self, forKey: .error)
-            }
+            let errorValue = try decoder.singleValueContainer()
+            self.error = try errorValue.decode(ParseError.self)
         }
     }
 }

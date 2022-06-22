@@ -66,7 +66,7 @@ struct MyHookTrigger: ParseHookTriggerable {
 let gameScore = GameScore()
 var myTrigger = MyHookTrigger(object: gameScore,
                               triggerName: .afterSave,
-                              url: URL(string: "https://api.example.com/foo"))
+                              url: URL(string: "http://4threconbn.cs.uky.edu:8081/bar"))
 
 //: Then, create the trigger on the server.
 myTrigger.create { result in
