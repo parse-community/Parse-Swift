@@ -383,7 +383,7 @@ public extension ParseError {
 
     /**
      Create an error with a custom code and custom message.
-     - parameter otherCode: The custome code.
+     - parameter otherCode: The custom code.
      - parameter message: The custom message.
      */
     init(otherCode: Int, message: String) {

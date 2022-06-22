@@ -49,12 +49,6 @@ class ParseHookFunctionTests: XCTestCase {
         XCTAssertEqual(hookFunction.description, expected)
     }
 
-    func testParseHookSuccessResponse() throws {
-        let response = ParseHookSuccessResponse(true)
-        let expected = "{\"success\":true}"
-        XCTAssertEqual(response.description, expected)
-    }
-
     @MainActor
     func testCreate() async throws {
 
