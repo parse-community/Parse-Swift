@@ -68,11 +68,3 @@ public enum ParseHookTriggerType: String, Codable {
     /// Occurs after a `ParseLiveQuery` event.
     case afterEvent
 }
-
-/**
- The types of Parse Hook objects available.
- */
-public enum ParseHookObjectType: String, Codable {
-    /// An object of file type.
-    case file = "File"
-}

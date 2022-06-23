@@ -16,7 +16,6 @@ import Combine
 class ParseHookTriggerCombineTests: XCTestCase {
     struct TestTrigger: ParseHookTriggerable {
         var className: String?
-        var type: ParseHookObjectType?
         var triggerName: ParseHookTriggerType?
         var url: URL?
     }

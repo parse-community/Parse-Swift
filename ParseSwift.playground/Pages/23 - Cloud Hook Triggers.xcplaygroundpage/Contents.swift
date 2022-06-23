@@ -55,14 +55,8 @@ extension GameScore {
  */
 struct MyHookTrigger: ParseHookTriggerable {
     var className: String?
-    var type: ParseHookObjectType?
     var triggerName: ParseHookTriggerType?
     var url: URL?
-
-    enum CodingKeys: String, CodingKey {
-        case className, triggerName, url
-        case type = "__type"
-    }
 }
 
 /*:

@@ -17,14 +17,8 @@ import XCTest
 class ParseHookTriggerTests: XCTestCase {
     struct TestTrigger: ParseHookTriggerable {
         var className: String?
-        var type: ParseHookObjectType?
         var triggerName: ParseHookTriggerType?
         var url: URL?
-
-        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
-            case className, triggerName, url
-            case type = "__type"
-        }
     }
 
     struct GameScore: ParseObject {
@@ -99,12 +93,16 @@ class ParseHookTriggerTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"className\":\"GameScore\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
         XCTAssertEqual(hookTrigger2.description, expected2)
-        let hookTrigger3 = TestTrigger(type: .file,
-                                       triggerName: .afterSave,
+        let hookTrigger3 = TestTrigger(triggerName: .afterSave,
                                        url: url)
         // swiftlint:disable:next line_length
-        let expected3 = "{\"__type\":\"File\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
+        let expected3 = "{\"className\":\"File\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
         XCTAssertEqual(hookTrigger3.description, expected3)
+        let hookTrigger4 = TestTrigger(triggerName: .beforeConnect,
+                                       url: url)
+        // swiftlint:disable:next line_length
+        let expected4 = "{\"className\":\"Connect\",\"triggerName\":\"beforeConnect\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
+        XCTAssertEqual(hookTrigger4.description, expected4)
     }
 
     @MainActor
