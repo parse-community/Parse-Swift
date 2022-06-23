@@ -16,7 +16,7 @@ import Foundation
  - Updated: The object has been updated, and is still a part of the query.
  - Deleted: The object has been deleted, and is no longer included in the query.
  */
-public enum Event<T: ParseObject>: Codable, Equatable {
+public enum Event<T: ParseObject>: Equatable {
     /// The object has been updated, and is now included in the query.
     case entered(T)
 

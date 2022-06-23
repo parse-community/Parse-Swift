@@ -37,8 +37,6 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
     public var fileSize: Int?
     /// The value from Content-Length header.
     public var contentLength: Int?
-    /// The live query event that triggered the request.
-    public var event: Event<T>?
     /// The number of clients connected.
     public var clients: Int?
     /// The number of subscriptions connected.
@@ -57,8 +55,8 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
         case user, installationId, headers,
              log, context, object, objects,
              original, query, file, fileSize,
-             isGet, contentLength, event,
-             clients, subscriptions, sendEvent
+             isGet, contentLength, clients,
+             subscriptions, sendEvent
     }
 }
 
