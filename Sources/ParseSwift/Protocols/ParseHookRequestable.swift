@@ -29,15 +29,15 @@ public protocol ParseHookRequestable: ParseTypeable {
      */
     var user: UserType? { get set }
     /**
-     The installationId which made the request if available.
+     If set, the installationId triggering the request.
      */
     var installationId: String? { get }
     /**
-     The IP address the request was made from.
+     The IP address of the client making the request.
      */
     var ipAddress: String { get }
     /**
-     The headers associated with the hook call.
+     The original HTTP headers for the request.
      */
     var headers: [String: String] { get }
 }

@@ -46,18 +46,6 @@ public extension ParseHookTriggerable {
     init<T>(object: T, triggerName: ParseHookTriggerType, url: URL) where T: ParseObject {
         self.init(className: T.className, triggerName: triggerName, url: url)
     }
-
-    /**
-     Creates a new `ParseFile` or `ParseHookTriggerType.beforeConnect` hook trigger.
-     - parameter triggerName: The `ParseHookTriggerType` type.
-     - parameter url: The endpoint of the hook.
-     */
-    init(triggerName: ParseHookTriggerType, url: URL) {
-        self.init()
-        self.className = triggerName != .beforeConnect ? ParseFile.type : "Connect"
-        self.triggerName = triggerName
-        self.url = url
-    }
 }
 
 internal struct TriggerRequest: Encodable {

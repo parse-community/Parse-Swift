@@ -23,16 +23,31 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
     public var headers: [String: String]
     /// An object from the hook call.
     public var object: T
-    /// An array of objects from the hook call.
+    /// The results the query yielded..
     public var objects: [T]?
-    /// The original object from the hook call.
+    /// If set, the object, as currently stored.
     public var original: T?
     /// The query from the hook call.
     public var query: Query<T>?
-    /// The file from the hook call.
+    /// Whether the query a **get** or a **find**.
+    public var isGet: Bool?
+    /// The  from the hook call.
     public var file: ParseFile?
-    /// The size of the file from the hook call.
+    /// The size of the file in bytes.
     public var fileSize: Int?
+    /// The value from Content-Length header.
+    public var contentLength: Int?
+    /// The live query event that triggered the request.
+    public var event: Event<T>?
+    /// The number of clients connected.
+    public var clients: Int?
+    /// The number of subscriptions connected.
+    public var subscriptions: Int?
+    /**
+     If the LiveQuery event should be sent to the client. Set to false to prevent
+     LiveQuery from pushing to the client.
+     */
+    public var sendEvent: Bool?
     var log: AnyCodable?
     var context: AnyCodable?
 
@@ -41,14 +56,16 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
         case ipAddress = "ip"
         case user, installationId, headers,
              log, context, object, objects,
-             original, query, file, fileSize
+             original, query, file, fileSize,
+             isGet, contentLength, event,
+             clients, subscriptions, sendEvent
     }
 }
 
 extension ParseHookTriggerRequest {
 
     /**
-     Get the log using any type that conforms to `Codable`.
+     Get the Parse Server logger using any type that conforms to `Codable`.
      - returns: The sound casted to the inferred type.
      - throws: An error of type `ParseError`.
      */

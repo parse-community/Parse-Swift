@@ -93,16 +93,6 @@ class ParseHookTriggerTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"className\":\"GameScore\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
         XCTAssertEqual(hookTrigger2.description, expected2)
-        let hookTrigger3 = TestTrigger(triggerName: .afterSave,
-                                       url: url)
-        // swiftlint:disable:next line_length
-        let expected3 = "{\"className\":\"File\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
-        XCTAssertEqual(hookTrigger3.description, expected3)
-        let hookTrigger4 = TestTrigger(triggerName: .beforeConnect,
-                                       url: url)
-        // swiftlint:disable:next line_length
-        let expected4 = "{\"className\":\"Connect\",\"triggerName\":\"beforeConnect\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
-        XCTAssertEqual(hookTrigger4.description, expected4)
     }
 
     @MainActor
