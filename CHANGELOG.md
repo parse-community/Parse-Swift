@@ -5,7 +5,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.6.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 4.5.0
+### 4.6.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.5.0...4.6.0)
 
 __New features__
