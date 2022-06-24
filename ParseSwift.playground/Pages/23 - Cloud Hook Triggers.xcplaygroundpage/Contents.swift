@@ -53,7 +53,7 @@ extension GameScore {
  Parse Hook Triggers can be created by conforming to
  `ParseHookFunctionable`.
  */
-struct MyHookTrigger: ParseHookTriggerable {
+struct HookTrigger: ParseHookTriggerable {
     var className: String?
     var triggerName: ParseHookTriggerType?
     var url: URL?
@@ -64,9 +64,9 @@ struct MyHookTrigger: ParseHookTriggerable {
  with the name of the trigger and url for the hook.
  */
 let gameScore = GameScore()
-var myTrigger = MyHookTrigger(object: gameScore,
-                              triggerName: .afterSave,
-                              url: URL(string: "https://api.example.com/bar")!)
+var myTrigger = HookTrigger(object: gameScore,
+                            triggerName: .afterSave,
+                            url: URL(string: "https://api.example.com/bar")!)
 
 //: Then, create the trigger on the server.
 myTrigger.create { result in
@@ -94,7 +94,7 @@ myTrigger.fetch { result in
  There will be times you need to update a Hook trigger.
  You can update your hook at anytime.
  */
-myTrigger.url = URL(string: "https://api.example.com/bar")
+myTrigger.url = URL(string: "https://api.example.com/car")
 myTrigger.update { result in
     switch result {
     case .success(let updated):
@@ -133,7 +133,7 @@ myTrigger.delete { result in
  You can also use the fetchAll type method to fetch all of
  the current Hook triggers.
  */
-MyHookTrigger.fetchAll { result in
+HookTrigger.fetchAll { result in
     switch result {
     case .success(let triggers):
         print("Current: \"\(triggers)\"")

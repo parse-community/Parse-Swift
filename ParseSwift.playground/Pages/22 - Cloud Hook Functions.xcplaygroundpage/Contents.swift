@@ -17,7 +17,7 @@ initializeParse()
  Parse Hook Functions can be created by conforming to
  `ParseHookFunctionable`.
  */
-struct MyHookFunction: ParseHookFunctionable {
+struct HookFunction: ParseHookFunctionable {
     var functionName: String?
     var url: URL?
 }
@@ -26,8 +26,8 @@ struct MyHookFunction: ParseHookFunctionable {
  Lets create our first Hook function by first creating an instance
  with the name of the function and url for the hook.
  */
-var myFunction = MyHookFunction(name: "foo",
-                                url: URL(string: "https://api.example.com/foo"))
+var myFunction = HookFunction(name: "foo",
+                              url: URL(string: "https://api.example.com/foo"))
 
 //: Then, create the function on the server.
 myFunction.create { result in
@@ -94,7 +94,7 @@ myFunction.delete { result in
  You can also use the fetchAll type method to fetch all of
  the current Hook functions.
  */
-MyHookFunction.fetchAll { result in
+HookFunction.fetchAll { result in
     switch result {
     case .success(let functions):
         print("Current: \"\(functions)\"")
