@@ -10,7 +10,7 @@ import Foundation
 
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 // MARK: Fetch
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Fetches the Parse hook trigger *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -43,7 +43,7 @@ extension ParseHookTriggerable {
 }
 
 // MARK: Create
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Creates the Parse hook trigger *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -61,7 +61,7 @@ extension ParseHookTriggerable {
 }
 
 // MARK: Update
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Updates the Parse hook trigger *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -79,7 +79,7 @@ extension ParseHookTriggerable {
 }
 
 // MARK: Delete
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Deletes the Parse hook trigger *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.

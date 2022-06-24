@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 // MARK: Fetch
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Fetches the Parse hook trigger *asynchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -40,7 +40,7 @@ extension ParseHookTriggerable {
 }
 
 // MARK: Create
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Creates the Parse hook trigger *asynchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -56,7 +56,7 @@ extension ParseHookTriggerable {
 }
 
 // MARK: Update
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Updates the Parse hook trigger *asynchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -72,7 +72,7 @@ extension ParseHookTriggerable {
 }
 
 // MARK: Delete
-extension ParseHookTriggerable {
+public extension ParseHookTriggerable {
     /**
      Deletes the Parse hook trigger *asynchronously*. Publishes when complete.
      - returns: A publisher that eventually produces a single value and then finishes or fails.

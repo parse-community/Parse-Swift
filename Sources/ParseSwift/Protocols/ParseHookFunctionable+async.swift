@@ -11,7 +11,7 @@ import Foundation
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 
 // MARK: Fetch
-extension ParseHookFunctionable {
+public extension ParseHookFunctionable {
     /**
      Fetches the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -44,7 +44,7 @@ extension ParseHookFunctionable {
 }
 
 // MARK: Create
-extension ParseHookFunctionable {
+public extension ParseHookFunctionable {
     /**
      Creates the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -62,7 +62,7 @@ extension ParseHookFunctionable {
 }
 
 // MARK: Update
-extension ParseHookFunctionable {
+public extension ParseHookFunctionable {
     /**
      Updates the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -81,7 +81,7 @@ extension ParseHookFunctionable {
 }
 
 // MARK: Delete
-extension ParseHookFunctionable {
+public extension ParseHookFunctionable {
     /**
      Deletes the Parse hook function *asynchronously*  from the server.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
