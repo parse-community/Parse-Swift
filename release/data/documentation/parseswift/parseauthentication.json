@@ -150,6 +150,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGitHub",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGoogle",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstagram",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter"
@@ -564,8 +565,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " if the ",
@@ -2508,6 +2514,90 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsegoogle"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstagram": {
+  "abstract" : [
+    {
+      "text" : "Provides utility functions for working with Instagram User Authentication and ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Be sure your Parse Server is configured for ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#instagram-authdata",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "For information on acquiring Instagram sign-in credentials to use with ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseInstagram",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", refer to ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/developers.facebook.com\/docs\/instagram-basic-display-api\/overview",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseInstagram"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstagram",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseInstagram"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseInstagram",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseinstagram"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLDAP": {
   "abstract" : [
     {
@@ -2771,6 +2861,18 @@
   "type" : "link",
   "url" : "https:\/\/developers.facebook.com\/docs\/facebook-login\/limited-login"
 },
+"https://developers.facebook.com/docs/instagram-basic-display-api/overview": {
+  "identifier" : "https:\/\/developers.facebook.com\/docs\/instagram-basic-display-api\/overview",
+  "title" : "Facebook’s Documentation",
+  "titleInlineContent" : [
+    {
+      "text" : "Facebook’s Documentation",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/developers.facebook.com\/docs\/instagram-basic-display-api\/overview"
+},
 "https://developers.google.com/identity/protocols/oauth2": {
   "identifier" : "https:\/\/developers.google.com\/identity\/protocols\/oauth2",
   "title" : "Google’s Documentation",
@@ -2866,6 +2968,18 @@
   ],
   "type" : "link",
   "url" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#google-authdata"
+},
+"https://docs.parseplatform.org/parse-server/guide/#instagram-authdata": {
+  "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#instagram-authdata",
+  "title" : "sign in with Instagram",
+  "titleInlineContent" : [
+    {
+      "text" : "sign in with Instagram",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#instagram-authdata"
 },
 "https://docs.parseplatform.org/parse-server/guide/#linkedin-authdata": {
   "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#linkedin-authdata",

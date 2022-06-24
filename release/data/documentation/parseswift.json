@@ -204,21 +204,32 @@
     {
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudObservable",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudType",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Fetchable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudTypeable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudUser",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfig",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncodable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookParametable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookRequestable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushApplePayloadable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushFirebasePayloadable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatusable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseQueryScorable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRole",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSession",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryObservable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QuerySubscribable",
@@ -235,27 +246,44 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnonymous",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseApple",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseBytes",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncoder",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFacebook",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFieldOptions",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGeoPoint",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGitHub",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseGoogle",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHealth",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionRequest",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstagram",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePolygon",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePush",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushAppleAlert",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushAppleSound",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushFirebaseNotification",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadAny",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadApple",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadFirebase",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSchema",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryWhere"
       ],
       "title" : "Structures"
     },
@@ -264,16 +292,16 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/and(queries:)-4ugox",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/and(queries:)-8cafq",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedBy(key:array:)-3irrl",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedBy(key:array:)-4n26y",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedIn(key:array:)-8dz2g",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedBy(key:array:)-8m6r2",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedIn(key:array:)-36xo5",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedIn(key:array:)-f8wn",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsAll(key:array:)-4dl6",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsAll(key:array:)-1g8ks",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsAll(key:array:)-7bkbc",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsString(key:substring:modifiers:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/doesNotExist(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/doesNotMatchKeyInQuery(key:queryKey:query:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:value:usingEqComparator:)-4uyzv",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:value:usingEqComparator:)-9w5u0",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:value:usingEqComparator:)-imiz",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/exists(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasPrefix(key:prefix:modifiers:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasSuffix(key:suffix:modifiers:)",
@@ -286,8 +314,8 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/near(key:geoPoint:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/nor(queries:)-4b4r0",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/nor(queries:)-l87w",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/notContainedIn(key:array:)-12927",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/notContainedIn(key:array:)-2eqxa",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/notContainedIn(key:array:)-lma5",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/or(queries:)-1117v",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/or(queries:)-8hqvz",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/polygonContains(key:point:)",
@@ -309,21 +337,22 @@
     {
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/!=(_:_:)-4oylc",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/!=(_:_:)-55ext",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/!=(_:_:)-6f2gk",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/==(_:_:)-35foy",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/!=(_:_:)-8iwik",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/==(_:_:)-5jg5t",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/==(_:_:)-8pl0h",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/==(_:_:)-998hz",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-7h2oj",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-7v1wq",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-1scjp",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-85tti"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-35vq2",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-4bsb2",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-434pw",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-6tzg"
       ],
       "title" : "Operators"
     },
     {
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Event",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerType",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTextOption"
       ],
       "title" : "Enumerations"
@@ -441,73 +470,6 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/!=(_:_:)-4oylc"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/!=(_:_:)-55ext": {
-  "abstract" : [
-    {
-      "text" : "Add a constraint that requires that a key is not equal to a value.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "!="
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSERzlF1TL_xmfp",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
-      "text" : "QueryConstraint"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/!=(_:_:)-55ext",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "!=(_:_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/!=(_:_:)-55ext"
-},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/!=(_:_:)-6f2gk": {
   "abstract" : [
     {
@@ -591,7 +553,74 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/!=(_:_:)-6f2gk"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/==(_:_:)-35foy": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/!=(_:_:)-8iwik": {
+  "abstract" : [
+    {
+      "text" : "Add a constraint that requires that a key is not equal to a value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "!="
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSeRzSERzlF1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
+      "text" : "QueryConstraint"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/!=(_:_:)-8iwik",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "!=(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/!=(_:_:)-8iwik"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/==(_:_:)-5jg5t": {
   "abstract" : [
     {
       "text" : "Add a constraint that requires that a key is equal to a value.",
@@ -638,7 +667,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift2eeoiyAA15QueryConstraintVSS_xtSERzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift2eeoiyAA15QueryConstraintVSS_xtSeRzSERzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -651,12 +680,12 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/==(_:_:)-35foy",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/==(_:_:)-5jg5t",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "==(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/==(_:_:)-35foy"
+  "url" : "\/documentation\/parseswift\/==(_:_:)-5jg5t"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/==(_:_:)-8pl0h": {
   "abstract" : [
@@ -916,37 +945,6 @@
   "title" : "CloudObservable",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/cloudobservable"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/CloudType": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "protocol"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "CloudType"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudType",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "CloudType"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "CloudType",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/cloudtype"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/CloudViewModel": {
   "abstract" : [
@@ -1516,6 +1514,48 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsebytes"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP": {
+  "abstract" : [
+    {
+      "text" : "Class Level Permissions for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseCLP"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCLP",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
   "abstract" : [
     {
@@ -1577,6 +1617,68 @@
   "title" : "ParseCloud",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsecloud"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudTypeable": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudTypeable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudTypeable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudTypeable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCloudTypeable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsecloudtypeable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudUser": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudUser"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudUser",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudUser"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCloudUser",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclouduser"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfig": {
   "abstract" : [
@@ -1677,6 +1779,65 @@
   "title" : "ParseConfiguration",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncodable": {
+  "abstract" : [
+    {
+      "text" : "Types that conform to ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "ParseEncodable",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " should be encoded by the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseEncoder",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when necessary.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseEncodable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncodable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseEncodable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseEncodable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseencodable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder": {
   "abstract" : [
@@ -1829,6 +1990,75 @@
   "title" : "ParseFacebook",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefacebook"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseField"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseField"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseField",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFieldOptions": {
+  "abstract" : [
+    {
+      "text" : "The options for a field in ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseFieldOptions"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFieldOptions",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseFieldOptions"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseFieldOptions",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefieldoptions"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile": {
   "abstract" : [
@@ -2181,6 +2411,520 @@
   "title" : "ParseHealth",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehealth"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookFunctionRequest": {
+  "abstract" : [
+    {
+      "text" : "A type that can decode requests when ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookFunctionable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " functions are called.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookFunctionRequest"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionRequest",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookFunctionRequest"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookFunctionRequest",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookfunctionrequest"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookFunctionable": {
+  "abstract" : [
+    {
+      "text" : "Conforming to ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookFunctionable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " allows the creation of hooks",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "which are Cloud Code functions.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookFunctionable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookFunctionable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookFunctionable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookfunctionable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookParametable": {
+  "abstract" : [
+    {
+      "text" : "Conforming to ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookParametable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " allows types that can be created",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "to decode parameters in ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookFunctionRequest",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookParametable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookParametable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookParametable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookParametable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookparametable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookRequestable": {
+  "abstract" : [
+    {
+      "text" : "Conforming to ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookRequestable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " allows you to create types that",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "can decode requests when ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookFunctionable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " functions are called.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookRequestable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookRequestable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookRequestable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookRequestable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookrequestable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse": {
+  "abstract" : [
+    {
+      "text" : "Build a response after processing a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookFunctionRequest",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "or ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookTriggerRequest",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookResponse"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookResponse"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookResponse",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerRequest": {
+  "abstract" : [
+    {
+      "text" : "A type that can decode requests when ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookTriggerable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " triggers are called.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookTriggerRequest"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookTriggerRequest"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookTriggerRequest",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehooktriggerrequest"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerType": {
+  "abstract" : [
+    {
+      "text" : "The types of Parse Hook Triggers available.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookTriggerType"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerType",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookTriggerType"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookTriggerType",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehooktriggertype"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerable": {
+  "abstract" : [
+    {
+      "text" : "Conforming to ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookFunctionable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " allows the creation of hooks which",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "are Cloud Code triggers.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookTriggerable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookTriggerable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookTriggerable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehooktriggerable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookable": {
+  "abstract" : [
+    {
+      "text" : "Hooks and Triggers should conform to ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstagram": {
+  "abstract" : [
+    {
+      "text" : "Provides utility functions for working with Instagram User Authentication and ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Be sure your Parse Server is configured for ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#instagram-authdata",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "For information on acquiring Instagram sign-in credentials to use with ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseInstagram",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", refer to ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/developers.facebook.com\/docs\/instagram-basic-display-api\/overview",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseInstagram"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstagram",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseInstagram"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseInstagram",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseinstagram"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation": {
   "abstract" : [
@@ -2719,6 +3463,511 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsepolygon"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePush": {
+  "abstract" : [
+    {
+      "text" : "Send and check the status of push notificaitons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePush"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePush",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePush"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePush",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepush"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushAppleAlert": {
+  "abstract" : [
+    {
+      "text" : "An alert payload for Apple push notifications. See Apple’s ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/developer.apple.com\/documentation\/usernotifications\/setting_up_a_remote_notification_server\/generating_a_remote_notification#2943365",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "for more information.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushAppleAlert"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushAppleAlert",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushAppleAlert"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushAppleAlert",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushapplealert"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushApplePayloadable": {
+  "abstract" : [
+    {
+      "text" : "A protocol for adding the standard properties for Apple push notifications.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushApplePayloadable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushApplePayloadable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushApplePayloadable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushApplePayloadable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushapplepayloadable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushAppleSound": {
+  "abstract" : [
+    {
+      "text" : "Use these keys to configure the sound for a critical alert.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushAppleSound"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushAppleSound",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushAppleSound"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushAppleSound",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushapplesound"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushFirebaseNotification": {
+  "abstract" : [
+    {
+      "text" : "The Firebase Cloud Messaging (FCM) notification payload. For more information, see",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/firebase.google.com\/docs\/reference\/fcm\/rest\/v1\/projects.messages#Notification",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "and ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref#notification-payload-support",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushFirebaseNotification"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushFirebaseNotification",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushFirebaseNotification"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushFirebaseNotification",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushfirebasenotification"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushFirebasePayloadable": {
+  "abstract" : [
+    {
+      "text" : "A protocol for adding the standard properties for Firebase Cloud Messaging (FCM) push notifications.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushFirebasePayloadable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushFirebasePayloadable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushFirebasePayloadable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushFirebasePayloadable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushfirebasepayloadable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadAny": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadAny"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadAny",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadAny"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushPayloadAny",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushpayloadany"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadApple": {
+  "abstract" : [
+    {
+      "text" : "The payload data for an Apple push notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadApple"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadApple",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadApple"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushPayloadApple",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushpayloadapple"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadFirebase": {
+  "abstract" : [
+    {
+      "text" : "The payload data for an Firebase Cloud Messaging (FCM) push notification.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "See ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "documentation for more information.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadFirebase"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadFirebase",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadFirebase"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushPayloadFirebase",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushpayloadfirebase"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadable": {
+  "abstract" : [
+    {
+      "text" : "A protocol for making push notification payloads.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "See ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParsePushPayloadApple",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " or ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParsePushPayloadFirebase",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for examples.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushPayloadable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushpayloadable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus": {
+  "abstract" : [
+    {
+      "text" : "The PushStatus on the Parse Server.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushStatus"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushStatus"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushStatus",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushstatus"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatusable": {
+  "abstract" : [
+    {
+      "text" : "Objects that conform to the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParsePushStatusable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " protocol represent",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "PushStatus on the Parse Server.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushStatusable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatusable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushStatusable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushStatusable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushstatusable"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseQueryScorable": {
   "abstract" : [
     {
@@ -2964,6 +4213,44 @@
   "title" : "ParseRole",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parserole"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSchema": {
+  "abstract" : [
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is used for handeling your schemas.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseSchema"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSchema",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseSchema"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseSchema",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseschema"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSession": {
   "abstract" : [
@@ -3655,9 +4942,12 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsetwitter"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTypeable": {
   "abstract" : [
-
+    {
+      "text" : "A special type that is considered a Parse type.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -3670,21 +4960,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseType",
+  "title" : "ParseTypeable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsetype"
+  "url" : "\/documentation\/parseswift\/parsetypeable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
   "abstract" : [
@@ -4115,6 +5405,37 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/queryviewmodel"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryWhere": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "QueryWhere"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryWhere",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "QueryWhere"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "QueryWhere",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/querywhere"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Queryable": {
   "abstract" : [
 
@@ -4298,7 +5619,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscriptioncallback"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/_(_:_:)-7h2oj": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/_(_:_:)-35vq2": {
   "abstract" : [
     {
       "text" : "Add a constraint that requires that a key is greater than a value.",
@@ -4345,7 +5666,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift1goiyAA15QueryConstraintVSS_xtSERzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift1goiyAA15QueryConstraintVSS_xtSeRzSERzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -4358,14 +5679,14 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-7h2oj",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-35vq2",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : ">(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/_(_:_:)-7h2oj"
+  "url" : "\/documentation\/parseswift\/_(_:_:)-35vq2"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/_(_:_:)-7v1wq": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/_(_:_:)-4bsb2": {
   "abstract" : [
     {
       "text" : "Add a constraint that requires that a key is less than a value.",
@@ -4412,7 +5733,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift1loiyAA15QueryConstraintVSS_xtSERzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift1loiyAA15QueryConstraintVSS_xtSeRzSERzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -4425,81 +5746,14 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-7v1wq",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_(_:_:)-4bsb2",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "<(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/_(_:_:)-7v1wq"
+  "url" : "\/documentation\/parseswift\/_(_:_:)-4bsb2"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/_=(_:_:)-1scjp": {
-  "abstract" : [
-    {
-      "text" : "Add a constraint that requires that a key is less than or equal to a value.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "<="
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift2leoiyAA15QueryConstraintVSS_xtSERzlF1TL_xmfp",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
-      "text" : "QueryConstraint"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-1scjp",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "<=(_:_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/_=(_:_:)-1scjp"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/_=(_:_:)-85tti": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/_=(_:_:)-434pw": {
   "abstract" : [
     {
       "text" : "Add a constraint that requires that a key is greater than or equal to a value.",
@@ -4546,7 +5800,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift2geoiyAA15QueryConstraintVSS_xtSERzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift2geoiyAA15QueryConstraintVSS_xtSeRzSERzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -4559,12 +5813,79 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-85tti",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-434pw",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : ">=(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/_=(_:_:)-85tti"
+  "url" : "\/documentation\/parseswift\/_=(_:_:)-434pw"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/_=(_:_:)-6tzg": {
+  "abstract" : [
+    {
+      "text" : "Add a constraint that requires that a key is less than or equal to a value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "<="
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift2leoiyAA15QueryConstraintVSS_xtSeRzSERzlF1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
+      "text" : "QueryConstraint"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-6tzg",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "<=(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/_=(_:_:)-6tzg"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/and(queries:)-4ugox": {
   "abstract" : [
@@ -4835,7 +6156,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/containedby(key:array:)-3irrl"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/containedBy(key:array:)-4n26y": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/containedBy(key:array:)-8m6r2": {
   "abstract" : [
     {
       "text" : "Add a constraint to the query that requires a particular key’s object",
@@ -4902,7 +6223,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSeRzSERzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -4915,14 +6236,14 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedBy(key:array:)-4n26y",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedBy(key:array:)-8m6r2",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "containedBy(key:array:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/containedby(key:array:)-4n26y"
+  "url" : "\/documentation\/parseswift\/containedby(key:array:)-8m6r2"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/containedIn(key:array:)-8dz2g": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/containedIn(key:array:)-36xo5": {
   "abstract" : [
     {
       "text" : "Add a constraint to the query that requires a particular key’s object",
@@ -4989,7 +6310,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtSeRzSERzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -5002,12 +6323,12 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedIn(key:array:)-8dz2g",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedIn(key:array:)-36xo5",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "containedIn(key:array:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/containedin(key:array:)-8dz2g"
+  "url" : "\/documentation\/parseswift\/containedin(key:array:)-36xo5"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/containedIn(key:array:)-f8wn": {
   "abstract" : [
@@ -5112,7 +6433,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/containedin(key:array:)-f8wn"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/containsAll(key:array:)-4dl6": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/containsAll(key:array:)-1g8ks": {
   "abstract" : [
     {
       "text" : "Add a constraint to the query that requires a particular key’s array",
@@ -5179,7 +6500,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtSeRzSERzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -5192,12 +6513,12 @@
       "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsAll(key:array:)-4dl6",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsAll(key:array:)-1g8ks",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "containsAll(key:array:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/containsall(key:array:)-4dl6"
+  "url" : "\/documentation\/parseswift\/containsall(key:array:)-1g8ks"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/containsAll(key:array:)-7bkbc": {
   "abstract" : [
@@ -5385,7 +6706,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/doesNotExist(key:)": {
   "abstract" : [
     {
-      "text" : "Add a constraint that requires a key  to not be equal to ",
+      "text" : "Add a constraint that requires a key to be equal to ",
       "type" : "text"
     },
     {
@@ -5575,102 +6896,6 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/doesnotmatchkeyinquery(key:querykey:query:)"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/equalTo(key:value:usingEqComparator:)-4uyzv": {
-  "abstract" : [
-    {
-      "text" : "Add a constraint that requires that a key is equal to a value.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "equalTo"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "key"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "value"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSERzlF1TL_xmfp",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "usingEqComparator"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
-      "text" : "QueryConstraint"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:value:usingEqComparator:)-4uyzv",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "equalTo(key:value:usingEqComparator:)",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/equalto(key:value:usingeqcomparator:)-4uyzv"
-},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/equalTo(key:value:usingEqComparator:)-9w5u0": {
   "abstract" : [
     {
@@ -5783,10 +7008,106 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/equalto(key:value:usingeqcomparator:)-9w5u0"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/equalTo(key:value:usingEqComparator:)-imiz": {
+  "abstract" : [
+    {
+      "text" : "Add a constraint that requires that a key is equal to a value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "equalTo"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "key"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "value"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7equalTo3key5value17usingEqComparatorAA15QueryConstraintVSS_xSbtSeRzSERzlF1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingEqComparator"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
+      "text" : "QueryConstraint"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:value:usingEqComparator:)-imiz",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "equalTo(key:value:usingEqComparator:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/equalto(key:value:usingeqcomparator:)-imiz"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/exists(key:)": {
   "abstract" : [
     {
-      "text" : "Add a constraint that requires a particular key to be equal to ",
+      "text" : "Add a constraint that requires a particular key to not be equal to ",
       "type" : "text"
     },
     {
@@ -6856,93 +8177,6 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/nor(queries:)-l87w"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/notContainedIn(key:array:)-12927": {
-  "abstract" : [
-    {
-      "text" : "Add a constraint to the query that requires a particular key’s object",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "not be contained in the provided array.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "notContainedIn"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "key"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "array"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF1TL_xmfp",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : "]) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
-      "text" : "QueryConstraint"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/notContainedIn(key:array:)-12927",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "notContainedIn(key:array:)",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/notcontainedin(key:array:)-12927"
-},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/notContainedIn(key:array:)-2eqxa": {
   "abstract" : [
     {
@@ -7045,6 +8279,93 @@
   "title" : "notContainedIn(key:array:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/notcontainedin(key:array:)-2eqxa"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/notContainedIn(key:array:)-lma5": {
+  "abstract" : [
+    {
+      "text" : "Add a constraint to the query that requires a particular key’s object",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "not be contained in the provided array.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "notContainedIn"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "key"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "array"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSeRzSERzlF1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : "]) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
+      "text" : "QueryConstraint"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/notContainedIn(key:array:)-lma5",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "notContainedIn(key:array:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/notcontainedin(key:array:)-lma5"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/or(queries:)-1117v": {
   "abstract" : [
@@ -8436,6 +9757,18 @@
   "type" : "link",
   "url" : "https:\/\/developer.apple.com\/documentation\/combine\/observableobject"
 },
+"https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2943365": {
+  "identifier" : "https:\/\/developer.apple.com\/documentation\/usernotifications\/setting_up_a_remote_notification_server\/generating_a_remote_notification#2943365",
+  "title" : "documentation",
+  "titleInlineContent" : [
+    {
+      "text" : "documentation",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/developer.apple.com\/documentation\/usernotifications\/setting_up_a_remote_notification_server\/generating_a_remote_notification#2943365"
+},
 "https://developer.apple.com/videos/play/wwdc2015/408/": {
   "identifier" : "https:\/\/developer.apple.com\/videos\/play\/wwdc2015\/408\/",
   "title" : "Protocol-Oriented Programming in Swift",
@@ -8483,6 +9816,18 @@
   ],
   "type" : "link",
   "url" : "https:\/\/developers.facebook.com\/docs\/facebook-login\/limited-login"
+},
+"https://developers.facebook.com/docs/instagram-basic-display-api/overview": {
+  "identifier" : "https:\/\/developers.facebook.com\/docs\/instagram-basic-display-api\/overview",
+  "title" : "Facebook’s Documentation",
+  "titleInlineContent" : [
+    {
+      "text" : "Facebook’s Documentation",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/developers.facebook.com\/docs\/instagram-basic-display-api\/overview"
 },
 "https://developers.google.com/identity/protocols/oauth2": {
   "identifier" : "https:\/\/developers.google.com\/identity\/protocols\/oauth2",
@@ -8592,6 +9937,18 @@
   "type" : "link",
   "url" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#google-authdata"
 },
+"https://docs.parseplatform.org/parse-server/guide/#instagram-authdata": {
+  "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#instagram-authdata",
+  "title" : "sign in with Instagram",
+  "titleInlineContent" : [
+    {
+      "text" : "sign in with Instagram",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#instagram-authdata"
+},
 "https://docs.parseplatform.org/parse-server/guide/#linkedin-authdata": {
   "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#linkedin-authdata",
   "title" : "sign in with LinkedIn",
@@ -8627,6 +9984,42 @@
   ],
   "type" : "link",
   "url" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#twitter-authdata"
+},
+"https://firebase.google.com/docs/cloud-messaging/http-server-ref": {
+  "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref",
+  "title" : "Firebase Cloud Messaging",
+  "titleInlineContent" : [
+    {
+      "text" : "Firebase Cloud Messaging",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref"
+},
+"https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support": {
+  "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref#notification-payload-support",
+  "title" : "Firebase Cloud Messaging (legacy)",
+  "titleInlineContent" : [
+    {
+      "text" : "Firebase Cloud Messaging (legacy)",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref#notification-payload-support"
+},
+"https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#Notification": {
+  "identifier" : "https:\/\/firebase.google.com\/docs\/reference\/fcm\/rest\/v1\/projects.messages#Notification",
+  "title" : "Firebase Cloud Messaging",
+  "titleInlineContent" : [
+    {
+      "text" : "Firebase Cloud Messaging",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/firebase.google.com\/docs\/reference\/fcm\/rest\/v1\/projects.messages#Notification"
 },
 "https://github.com/netreconlab/parse-hipaa/tree/parse-swift": {
   "identifier" : "https:\/\/github.com\/netreconlab\/parse-hipaa\/tree\/parse-swift",

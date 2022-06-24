@@ -1,0 +1,606 @@
+{
+  "abstract" : [
+    {
+      "text" : "No overview available.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/Error-Implementations"
+  },
+  "kind" : "article",
+  "metadata" : {
+    "modules" : [
+      {
+        "name" : "ParseSwift"
+      }
+    ],
+    "role" : "collectionGroup",
+    "title" : "Error Implementations"
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/localizedDescription"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-1ahdr",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-1zvnk",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-2ui18",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-3necj",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/equalsTo(_:)-4kve4",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/equalsTo(_:)-6whsf"
+      ],
+      "title" : "Instance Methods"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/parseswift\/parsehookresponse\/error-implementations"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
+  "abstract" : [
+    {
+      "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ParseSwift",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse": {
+  "abstract" : [
+    {
+      "text" : "Build a response after processing a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookFunctionRequest",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "or ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookTriggerRequest",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookResponse"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseHookResponse"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseHookResponse",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse/containedIn(_:)-1ahdr": {
+  "abstract" : [
+    {
+      "text" : "Validates if the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " codes contains the error.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "containedIn"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV4CodeO",
+      "text" : "Code"
+    },
+    {
+      "kind" : "text",
+      "text" : "...) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-1ahdr",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "containedIn(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse\/containedin(_:)-1ahdr"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse/containedIn(_:)-1zvnk": {
+  "abstract" : [
+    {
+      "text" : "Validates if the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " codes contains the error.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "containedIn"
+    },
+    {
+      "kind" : "text",
+      "text" : "(["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV4CodeO",
+      "text" : "Code"
+    },
+    {
+      "kind" : "text",
+      "text" : "]) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-1zvnk",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "containedIn(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse\/containedin(_:)-1zvnk"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse/containedIn(_:)-2ui18": {
+  "abstract" : [
+    {
+      "text" : "Returns the respective ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Error",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is contained in the array of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " codes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "containedIn"
+    },
+    {
+      "kind" : "text",
+      "text" : "(["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV4CodeO",
+      "text" : "Code"
+    },
+    {
+      "kind" : "text",
+      "text" : "]) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-2ui18",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "containedIn(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse\/containedin(_:)-2ui18"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse/containedIn(_:)-3necj": {
+  "abstract" : [
+    {
+      "text" : "Returns the respective ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Error",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is contained in the list of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " codes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "containedIn"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV4CodeO",
+      "text" : "Code"
+    },
+    {
+      "kind" : "text",
+      "text" : "...) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/containedIn(_:)-3necj",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "containedIn(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse\/containedin(_:)-3necj"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse/equalsTo(_:)-4kve4": {
+  "abstract" : [
+    {
+      "text" : "Returns the respective ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " code is equal to the error.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "equalsTo"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV4CodeO",
+      "text" : "Code"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/equalsTo(_:)-4kve4",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "equalsTo(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse\/equalsto(_:)-4kve4"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse/equalsTo(_:)-6whsf": {
+  "abstract" : [
+    {
+      "text" : "Validates if the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " code is equal to the error.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "equalsTo"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV4CodeO",
+      "text" : "Code"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/equalsTo(_:)-6whsf",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "equalsTo(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse\/equalsto(_:)-6whsf"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookResponse/localizedDescription": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "localizedDescription"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookResponse\/localizedDescription",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "localizedDescription",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehookresponse\/localizeddescription"
+}
+}
+}

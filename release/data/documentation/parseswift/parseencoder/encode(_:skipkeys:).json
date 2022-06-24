@@ -5,7 +5,7 @@
       "type" : "text"
     },
     {
-      "code" : "ParseType",
+      "code" : "ParseEncodable",
       "type" : "codeVoice"
     },
     {
@@ -27,7 +27,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A4TypeRzlF",
+    "externalID" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A9EncodableRzlF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -55,7 +55,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A4TypeRzlF1TL_xmfp",
+        "preciseIdentifier" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A9EncodableRzlF1TL_xmfp",
         "text" : "T"
       },
       {
@@ -156,7 +156,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A4TypeRzlF1TL_xmfp",
+              "preciseIdentifier" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A9EncodableRzlF1TL_xmfp",
               "text" : "T"
             },
             {
@@ -215,10 +215,10 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncodable",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A4TypeP",
-              "text" : "ParseType"
+              "preciseIdentifier" : "s:10ParseSwift0A9EncodableP",
+              "text" : "ParseEncodable"
             }
           ]
         }
@@ -237,7 +237,7 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseType",
+                  "code" : "ParseEncodable",
                   "type" : "codeVoice"
                 },
                 {
@@ -302,6 +302,65 @@
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncodable": {
+  "abstract" : [
+    {
+      "text" : "Types that conform to ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "ParseEncodable",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " should be encoded by the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseEncoder",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when necessary.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseEncodable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncodable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseEncodable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseEncodable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseencodable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncoder": {
   "abstract" : [
@@ -378,7 +437,7 @@
       "type" : "text"
     },
     {
-      "code" : "ParseType",
+      "code" : "ParseEncodable",
       "type" : "codeVoice"
     },
     {
@@ -413,7 +472,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A4TypeRzlF1TL_xmfp",
+      "preciseIdentifier" : "s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A9EncodableRzlF1TL_xmfp",
       "text" : "T"
     },
     {
@@ -457,37 +516,6 @@
   "title" : "encode(_:skipKeys:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseencoder\/encode(_:skipkeys:)"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseType": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "protocol"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseType"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseType"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseType",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsetype"
 }
 }
 }

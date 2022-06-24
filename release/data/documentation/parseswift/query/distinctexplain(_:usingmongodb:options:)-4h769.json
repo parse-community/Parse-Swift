@@ -449,7 +449,23 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " has to be available.",
+                  "text" : " has to be available. It is recommended to only",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "use the master key in server-side applications where the key is kept secure and not",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "exposed to the public.",
                   "type" : "text"
                 }
               ],

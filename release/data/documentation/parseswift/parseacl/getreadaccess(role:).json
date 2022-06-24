@@ -13,8 +13,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the role may still be able to read it if a parent role has read access.",
@@ -197,8 +202,13 @@
               "type" : "text"
             },
             {
-              "code" : "true",
-              "type" : "codeVoice"
+              "inlineContent" : [
+                {
+                  "text" : "true",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
             },
             {
               "text" : " if the ",
@@ -213,8 +223,13 @@
               "type" : "text"
             },
             {
-              "code" : "false",
-              "type" : "codeVoice"
+              "inlineContent" : [
+                {
+                  "text" : "false",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
             },
             {
               "text" : ".",
@@ -391,8 +406,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the role may still be able to read it if a parent role has read access.",

@@ -1,0 +1,6159 @@
+{
+  "abstract" : [
+    {
+      "text" : "Class Level Permissions for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:10ParseSwift0A3CLPV",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "struct"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "ParseCLP"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "ParseSwift"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "ParseCLP"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Structure",
+    "symbolKind" : "struct",
+    "title" : "ParseCLP"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "iOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "struct"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "ParseCLP"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
+        "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
+        "doc:\/\/com.parse.ParseSwift\/Se",
+        "doc:\/\/com.parse.ParseSwift\/SE",
+        "doc:\/\/com.parse.ParseSwift\/SQ"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/init()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/init(from:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/init(requiresAuthentication:publicAccess:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/protectedFields",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/readUserFields",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/writeUserFields"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addPointerFields(_:on:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-2hwwg",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-3ld7d",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-6fcbm",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-7mmnw",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFieldsPublic(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFieldsRequiresAuthentication(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFieldsUser(_:userField:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getPointerFields(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-1ibkv",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-35eqy",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-3oyee",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-6ueex",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFieldsPublic()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFieldsRequiresAuthentication()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFieldsUser(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-37b9k",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-7qp10",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-94bwb",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-msxs",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccessPublic(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccessRequiresAuthentication(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-31rh7",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-4yuat",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-7lyeb",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-bbom",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccessPublic()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccessRequiresAuthentication()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-5ldwm",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-7ov62",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-8k62f",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-9svo4",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccessPublic(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccessRequiresAuthentication(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removePointerFields(_:on:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-4w6oa",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-7qajb",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-8it6u",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-9c9jl",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFieldsPublic(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFieldsRequiresAuthentication(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFieldsUser(_:userField:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-1fd37",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-2clcm",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-b3t7",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-z0aw",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccessPublic(_:on:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccessRequiresAuthentication(_:on:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setPointerFields(_:on:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-2fsdg",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-3ewb1",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-46xeu",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-7w0s5",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:userField:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFieldsPublic(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFieldsRequiresAuthentication(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-3nc5c",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-464o",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-4q3c9",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-6ssgv",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccessPublic(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccessRequiresAuthentication(_:canAddField:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-3axhs",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-4gvup",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-4ws0r",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-5qka",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccessPublic(_:canAddField:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccessRequiresAuthentication(_:canAddField:)"
+      ],
+      "title" : "Instance Methods"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/Action"
+      ],
+      "title" : "Enumerations"
+    },
+    {
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/CustomDebugStringConvertible-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/CustomStringConvertible-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/Equatable-Implementations"
+      ],
+      "title" : "Default Implementations"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/parseswift\/parseclp"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
+  "title" : "Swift.Encodable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
+  "title" : "Swift.Decodable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
+  "abstract" : [
+    {
+      "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ParseSwift",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP": {
+  "abstract" : [
+    {
+      "text" : "Class Level Permissions for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseCLP"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCLP",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/Action": {
+  "abstract" : [
+    {
+      "text" : "The avialable actions to perform on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Action"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/Action",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Action"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCLP.Action",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/action"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/customdebugstringconvertible-implementations"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/CustomStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/CustomStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/customstringconvertible-implementations"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/equatable-implementations"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addPointerFields(_:on:)": {
+  "abstract" : [
+    {
+      "text" : "Add access to an additional set of fields that are either of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or an array",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s for a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addPointerFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addPointerFields(_:on:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addPointerFields(_:on:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addpointerfields(_:on:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addProtectedFields(_:for:)-2hwwg": {
+  "abstract" : [
+    {
+      "text" : "Add to the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objectId should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-2hwwg",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addprotectedfields(_:for:)-2hwwg"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addProtectedFields(_:for:)-3ld7d": {
+  "abstract" : [
+    {
+      "text" : "Add to the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " pointer should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18addProtectedFields_3forACShySSG_AA7PointerVyxGtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-3ld7d",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addprotectedfields(_:for:)-3ld7d"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addProtectedFields(_:for:)-6fcbm": {
+  "abstract" : [
+    {
+      "text" : "Add to the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18addProtectedFields_3forACShySSG_xtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-6fcbm",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addprotectedfields(_:for:)-6fcbm"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addProtectedFields(_:for:)-7mmnw": {
+  "abstract" : [
+    {
+      "text" : "Add to the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18addProtectedFields_3forACShySSG_xtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFields(_:for:)-7mmnw",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addprotectedfields(_:for:)-7mmnw"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addProtectedFieldsPublic(_:)": {
+  "abstract" : [
+    {
+      "text" : "Add to the set of specific fields the public should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addProtectedFieldsPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFieldsPublic(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addProtectedFieldsPublic(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addprotectedfieldspublic(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addProtectedFieldsRequiresAuthentication(_:)": {
+  "abstract" : [
+    {
+      "text" : "Add to the set of specific fields authenticated users should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addProtectedFieldsRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFieldsRequiresAuthentication(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addProtectedFieldsRequiresAuthentication(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addprotectedfieldsrequiresauthentication(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/addProtectedFieldsUser(_:userField:)": {
+  "abstract" : [
+    {
+      "text" : "Add to the set of specific fields the given field that is either of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or an array of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "addProtectedFieldsUser"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "userField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/addProtectedFieldsUser(_:userField:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "addProtectedFieldsUser(_:userField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/addprotectedfieldsuser(_:userfield:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getPointerFields(_:)": {
+  "abstract" : [
+    {
+      "text" : "Retreive the fields in a Parse class that determine access for a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getPointerFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getPointerFields(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getPointerFields(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getpointerfields(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getProtectedFields(_:)-1ibkv": {
+  "abstract" : [
+    {
+      "text" : "Get the protected fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " cannot access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18getProtectedFieldsyShySSGxKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-1ibkv",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getProtectedFields(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getprotectedfields(_:)-1ibkv"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getProtectedFields(_:)-35eqy": {
+  "abstract" : [
+    {
+      "text" : "Get the protected fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objectId cannot access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-35eqy",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getProtectedFields(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getprotectedfields(_:)-35eqy"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getProtectedFields(_:)-3oyee": {
+  "abstract" : [
+    {
+      "text" : "Get the protected fields for the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " pointer cannot access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18getProtectedFieldsyShySSGAA7PointerVyxGAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-3oyee",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getProtectedFields(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getprotectedfields(_:)-3oyee"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getProtectedFields(_:)-6ueex": {
+  "abstract" : [
+    {
+      "text" : "Get the protected fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " cannot access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18getProtectedFieldsyShySSGxKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFields(_:)-6ueex",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getProtectedFields(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getprotectedfields(_:)-6ueex"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getProtectedFieldsPublic()": {
+  "abstract" : [
+    {
+      "text" : "Get the fields the publc cannot access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getProtectedFieldsPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFieldsPublic()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getProtectedFieldsPublic()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getprotectedfieldspublic()"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getProtectedFieldsRequiresAuthentication()": {
+  "abstract" : [
+    {
+      "text" : "Get the fields the users with authentication cannot access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getProtectedFieldsRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFieldsRequiresAuthentication()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getProtectedFieldsRequiresAuthentication()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getprotectedfieldsrequiresauthentication()"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/getProtectedFieldsUser(_:)": {
+  "abstract" : [
+    {
+      "text" : "Get the protected fields either a field of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "an array of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s in a Parse class cannot access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "getProtectedFieldsUser"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/getProtectedFieldsUser(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "getProtectedFieldsUser(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/getprotectedfieldsuser(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasAccess(_:for:)-37b9k": {
+  "abstract" : [
+    {
+      "text" : "Checks if an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class provides access to a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV9hasAccess_3forSbAC6ActionO_xtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-37b9k",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasaccess(_:for:)-37b9k"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasAccess(_:for:)-7qp10": {
+  "abstract" : [
+    {
+      "text" : "Checks if an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class provides access to a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV9hasAccess_3forSbAC6ActionO_xtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-7qp10",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasaccess(_:for:)-7qp10"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasAccess(_:for:)-94bwb": {
+  "abstract" : [
+    {
+      "text" : "Checks if an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class provides access to a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "objectId",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-94bwb",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasaccess(_:for:)-94bwb"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasAccess(_:for:)-msxs": {
+  "abstract" : [
+    {
+      "text" : "Checks if an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class provides access to a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " pointer.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV9hasAccess_3forSbAC6ActionO_AA7PointerVyxGtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccess(_:for:)-msxs",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasaccess(_:for:)-msxs"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasAccessPublic(_:)": {
+  "abstract" : [
+    {
+      "text" : "Checks if an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class has public access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasAccessPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccessPublic(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasAccessPublic(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasaccesspublic(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasAccessRequiresAuthentication(_:)": {
+  "abstract" : [
+    {
+      "text" : "Checks if an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class requires users to be authenticated to access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasAccessRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasAccessRequiresAuthentication(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasAccessRequiresAuthentication(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasaccessrequiresauthentication(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasReadAccess(_:)-31rh7": {
+  "abstract" : [
+    {
+      "text" : "Check whether the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " pointer has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV13hasReadAccessySbAA7PointerVyxGAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-31rh7",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasReadAccess(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasreadaccess(_:)-31rh7"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasReadAccess(_:)-4yuat": {
+  "abstract" : [
+    {
+      "text" : "Check whether the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV13hasReadAccessySbxKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-4yuat",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasReadAccess(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasreadaccess(_:)-4yuat"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasReadAccess(_:)-7lyeb": {
+  "abstract" : [
+    {
+      "text" : "Check whether the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objectId has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-7lyeb",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasReadAccess(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasreadaccess(_:)-7lyeb"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasReadAccess(_:)-bbom": {
+  "abstract" : [
+    {
+      "text" : "Check whether the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV13hasReadAccessySbxKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccess(_:)-bbom",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasReadAccess(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasreadaccess(_:)-bbom"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasReadAccessPublic()": {
+  "abstract" : [
+    {
+      "text" : "Check whether the public has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasReadAccessPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccessPublic()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasReadAccessPublic()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasreadaccesspublic()"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasReadAccessRequiresAuthentication()": {
+  "abstract" : [
+    {
+      "text" : "Check whether user authentication is required to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasReadAccessRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasReadAccessRequiresAuthentication()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasReadAccessRequiresAuthentication()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/hasreadaccessrequiresauthentication()"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasWriteAccess(_:checkAddField:)-5ldwm": {
+  "abstract" : [
+    {
+      "text" : "Check whether the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV14hasWriteAccess_13checkAddFieldSbx_SbtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "checkAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-5ldwm",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasWriteAccess(_:checkAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/haswriteaccess(_:checkaddfield:)-5ldwm"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasWriteAccess(_:checkAddField:)-7ov62": {
+  "abstract" : [
+    {
+      "text" : "Check whether a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objectId has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "checkAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-7ov62",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasWriteAccess(_:checkAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/haswriteaccess(_:checkaddfield:)-7ov62"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasWriteAccess(_:checkAddField:)-8k62f": {
+  "abstract" : [
+    {
+      "text" : "Check whether the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " pointer has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV14hasWriteAccess_13checkAddFieldSbAA7PointerVyxG_SbtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "checkAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-8k62f",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasWriteAccess(_:checkAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/haswriteaccess(_:checkaddfield:)-8k62f"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasWriteAccess(_:checkAddField:)-9svo4": {
+  "abstract" : [
+    {
+      "text" : "Check whether the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV14hasWriteAccess_13checkAddFieldSbx_SbtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "checkAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccess(_:checkAddField:)-9svo4",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasWriteAccess(_:checkAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/haswriteaccess(_:checkaddfield:)-9svo4"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasWriteAccessPublic(_:)": {
+  "abstract" : [
+    {
+      "text" : "Check whether the public has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasWriteAccessPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccessPublic(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasWriteAccessPublic(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/haswriteaccesspublic(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/hasWriteAccessRequiresAuthentication(_:)": {
+  "abstract" : [
+    {
+      "text" : "Check whether user authentication is required to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "hasWriteAccessRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/hasWriteAccessRequiresAuthentication(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "hasWriteAccessRequiresAuthentication(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/haswriteaccessrequiresauthentication(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/init()": {
+  "abstract" : [
+    {
+      "text" : "Creates an empty instance of CLP.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/init()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/init()"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/init(from:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s7DecoderP",
+      "text" : "Decoder"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/init(from:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/init(from:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/init(requiresAuthentication:publicAccess:)": {
+  "abstract" : [
+    {
+      "text" : "Creates an instance of CLP with particular access.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "requiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "publicAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/init(requiresAuthentication:publicAccess:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(requiresAuthentication:publicAccess:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/init(requiresauthentication:publicaccess:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/protectedFields": {
+  "abstract" : [
+    {
+      "text" : "The users, roles, and access level restrictions who cannot access particular",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "fields in a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "protectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : " : "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">]?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/protectedFields",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "protectedFields",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/protectedfields"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/readUserFields": {
+  "abstract" : [
+    {
+      "text" : "Fields of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or an array of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s that",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "can perform get\/count\/find actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "readUserFields"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/readUserFields",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "readUserFields",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/readuserfields"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removePointerFields(_:on:)": {
+  "abstract" : [
+    {
+      "text" : "Remove access for the set of fields that are either of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or an array",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s for a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removePointerFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removePointerFields(_:on:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removePointerFields(_:on:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removepointerfields(_:on:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removeProtectedFields(_:for:)-4w6oa": {
+  "abstract" : [
+    {
+      "text" : "Remove fields from the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removeProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV21removeProtectedFields_3forACShySSG_xtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-4w6oa",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removeProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removeprotectedfields(_:for:)-4w6oa"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removeProtectedFields(_:for:)-7qajb": {
+  "abstract" : [
+    {
+      "text" : "Remove fields from the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " pointer",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removeProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV21removeProtectedFields_3forACShySSG_AA7PointerVyxGtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-7qajb",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removeProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removeprotectedfields(_:for:)-7qajb"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removeProtectedFields(_:for:)-8it6u": {
+  "abstract" : [
+    {
+      "text" : "Remove fields from the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removeProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV21removeProtectedFields_3forACShySSG_xtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-8it6u",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removeProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removeprotectedfields(_:for:)-8it6u"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removeProtectedFields(_:for:)-9c9jl": {
+  "abstract" : [
+    {
+      "text" : "Remove fields from the set of specific fields the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objectId",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removeProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFields(_:for:)-9c9jl",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removeProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removeprotectedfields(_:for:)-9c9jl"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removeProtectedFieldsPublic(_:)": {
+  "abstract" : [
+    {
+      "text" : "Remove the set of specific fields the public should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removeProtectedFieldsPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFieldsPublic(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removeProtectedFieldsPublic(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removeprotectedfieldspublic(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removeProtectedFieldsRequiresAuthentication(_:)": {
+  "abstract" : [
+    {
+      "text" : "Remove the set of specific fields authenticated users should not have access to",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removeProtectedFieldsRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFieldsRequiresAuthentication(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removeProtectedFieldsRequiresAuthentication(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removeprotectedfieldsrequiresauthentication(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/removeProtectedFieldsUser(_:userField:)": {
+  "abstract" : [
+    {
+      "text" : "Remove fields from the set of specific fields the given field that is either of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "or an array of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s should not have access to on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "removeProtectedFieldsUser"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "userField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/removeProtectedFieldsUser(_:userField:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "removeProtectedFieldsUser(_:userField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/removeprotectedfieldsuser(_:userfield:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setAccess(_:on:for:)-1fd37": {
+  "abstract" : [
+    {
+      "text" : "Set\/remove access to an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for a specific user objectId on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-1fd37",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setAccess(_:on:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setaccess(_:on:for:)-1fd37"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setAccess(_:on:for:)-2clcm": {
+  "abstract" : [
+    {
+      "text" : "Set\/remove access to an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV9setAccess_2on3forACSb_AC6ActionOxtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-2clcm",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setAccess(_:on:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setaccess(_:on:for:)-2clcm"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setAccess(_:on:for:)-b3t7": {
+  "abstract" : [
+    {
+      "text" : "Set\/remove access to an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for a specific user ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV9setAccess_2on3forACSb_AC6ActionOxtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-b3t7",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setAccess(_:on:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setaccess(_:on:for:)-b3t7"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setAccess(_:on:for:)-z0aw": {
+  "abstract" : [
+    {
+      "text" : "Set\/remove access to an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for a specific user ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " pointer on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV9setAccess_2on3forACSb_AC6ActionOAA7PointerVyxGtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccess(_:on:for:)-z0aw",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setAccess(_:on:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setaccess(_:on:for:)-z0aw"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setAccessPublic(_:on:)": {
+  "abstract" : [
+    {
+      "text" : "Set\/remove public access to an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setAccessPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccessPublic(_:on:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setAccessPublic(_:on:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setaccesspublic(_:on:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setAccessRequiresAuthentication(_:on:)": {
+  "abstract" : [
+    {
+      "text" : "Set\/remove require user authentication to access an ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setAccessRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setAccessRequiresAuthentication(_:on:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setAccessRequiresAuthentication(_:on:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setaccessrequiresauthentication(_:on:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setPointerFields(_:on:)": {
+  "abstract" : [
+    {
+      "text" : "Give access to a set of fields that are either of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or an array",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s for a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "Action",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setPointerFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "on"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV6ActionO",
+      "text" : "Action"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setPointerFields(_:on:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setPointerFields(_:on:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setpointerfields(_:on:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setProtectedFields(_:for:)-2fsdg": {
+  "abstract" : [
+    {
+      "text" : "Set whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objectId should not have access to specific fields of a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-2fsdg",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setprotectedfields(_:for:)-2fsdg"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setProtectedFields(_:for:)-3ewb1": {
+  "abstract" : [
+    {
+      "text" : "Set whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should not have access to specific fields of a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18setProtectedFields_3forACShySSG_AA7PointerVyxGtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-3ewb1",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setprotectedfields(_:for:)-3ewb1"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setProtectedFields(_:for:)-46xeu": {
+  "abstract" : [
+    {
+      "text" : "Set whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should not have access to specific fields of a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18setProtectedFields_3forACShySSG_xtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-46xeu",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setprotectedfields(_:for:)-46xeu"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setProtectedFields(_:for:)-7w0s5": {
+  "abstract" : [
+    {
+      "text" : "Set whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should not have access to specific fields of a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV18setProtectedFields_3forACShySSG_xtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:for:)-7w0s5",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setProtectedFields(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setprotectedfields(_:for:)-7w0s5"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setProtectedFields(_:userField:)": {
+  "abstract" : [
+    {
+      "text" : "Set whether the given field that is either of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or an array of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "should not have access to specific fields of a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setProtectedFields"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "userField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFields(_:userField:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setProtectedFields(_:userField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setprotectedfields(_:userfield:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setProtectedFieldsPublic(_:)": {
+  "abstract" : [
+    {
+      "text" : "Set whether the public should not have access to specific fields of a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setProtectedFieldsPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFieldsPublic(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setProtectedFieldsPublic(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setprotectedfieldspublic(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setProtectedFieldsRequiresAuthentication(_:)": {
+  "abstract" : [
+    {
+      "text" : "Set whether authenticated users should not have access to specific fields of a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setProtectedFieldsRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setProtectedFieldsRequiresAuthentication(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setProtectedFieldsRequiresAuthentication(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setprotectedfieldsrequiresauthentication(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setReadAccess(_:for:)-3nc5c": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV13setReadAccess_3forACSb_xtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-3nc5c",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setReadAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setreadaccess(_:for:)-3nc5c"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setReadAccess(_:for:)-464o": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV13setReadAccess_3forACSb_AA7PointerVyxGtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-464o",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setReadAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setreadaccess(_:for:)-464o"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setReadAccess(_:for:)-4q3c9": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-4q3c9",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setReadAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setreadaccess(_:for:)-4q3c9"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setReadAccess(_:for:)-6ssgv": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setReadAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV13setReadAccess_3forACSb_xtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccess(_:for:)-6ssgv",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setReadAccess(_:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setreadaccess(_:for:)-6ssgv"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setReadAccessPublic(_:)": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the public has access to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setReadAccessPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccessPublic(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setReadAccessPublic(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setreadaccesspublic(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setReadAccessRequiresAuthentication(_:canAddField:)": {
+  "abstract" : [
+    {
+      "text" : "Sets whether authentication is required to perform get\/find\/count actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setReadAccessRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "canAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setReadAccessRequiresAuthentication(_:canAddField:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setReadAccessRequiresAuthentication(_:canAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setreadaccessrequiresauthentication(_:canaddfield:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setWriteAccess(_:for:canAddField:)-3axhs": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "pointer  has access to perform",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift7PointerV",
+      "text" : "Pointer"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV14setWriteAccess_3for11canAddFieldACSb_AA7PointerVyxGSbtAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "canAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-3axhs",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setWriteAccess(_:for:canAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setwriteaccess(_:for:canaddfield:)-3axhs"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setWriteAccess(_:for:canAddField:)-4gvup": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV14setWriteAccess_3for11canAddFieldACSb_xSbtKAA0A4UserRzlF1UL_xmfp",
+      "text" : "U"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "canAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-4gvup",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setWriteAccess(_:for:canAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setwriteaccess(_:for:canaddfield:)-4gvup"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setWriteAccess(_:for:canAddField:)-4ws0r": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objectId  has access to perform",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "canAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-4ws0r",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setWriteAccess(_:for:canAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setwriteaccess(_:for:canaddfield:)-4ws0r"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setWriteAccess(_:for:canAddField:)-5qka": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseRole",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setWriteAccess"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV14setWriteAccess_3for11canAddFieldACSb_xSbtKAA0A4RoleRzlF1RL_xmfp",
+      "text" : "R"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "canAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-5qka",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setWriteAccess(_:for:canAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setwriteaccess(_:for:canaddfield:)-5qka"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setWriteAccessPublic(_:canAddField:)": {
+  "abstract" : [
+    {
+      "text" : "Sets whether the public has access to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setWriteAccessPublic"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "canAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccessPublic(_:canAddField:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setWriteAccessPublic(_:canAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setwriteaccesspublic(_:canaddfield:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setWriteAccessRequiresAuthentication(_:canAddField:)": {
+  "abstract" : [
+    {
+      "text" : "Sets whether user authentication is required to perform create\/update\/delete\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setWriteAccessRequiresAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "canAddField"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
+      "text" : "ParseCLP"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccessRequiresAuthentication(_:canAddField:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setWriteAccessRequiresAuthentication(_:canAddField:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/setwriteaccessrequiresauthentication(_:canaddfield:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/writeUserFields": {
+  "abstract" : [
+    {
+      "text" : "Fields of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type or an array of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s that",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "can perform create\/delete\/update\/addField actions on a Parse class.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "writeUserFields"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ">?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/writeUserFields",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "writeUserFields",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclp\/writeuserfields"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTypeable": {
+  "abstract" : [
+    {
+      "text" : "A special type that is considered a Parse type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseTypeable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseTypeable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseTypeable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsetypeable"
+},
+"doc://com.parse.ParseSwift/s23CustomStringConvertibleP": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
+  "title" : "Swift.CustomStringConvertible",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
+  "type" : "unresolvable"
+}
+}
+}

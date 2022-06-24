@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "The master key of your Parse application.",
+      "text" : "The master key for your Parse application. This key should only",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "be specified when using the SDK on a server.",
       "type" : "text"
     }
   ],
@@ -172,7 +180,15 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/masterKey": {
   "abstract" : [
     {
-      "text" : "The master key of your Parse application.",
+      "text" : "The master key for your Parse application. This key should only",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "be specified when using the SDK on a server.",
       "type" : "text"
     }
   ],

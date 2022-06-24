@@ -1,0 +1,367 @@
+{
+  "abstract" : [
+    {
+      "text" : "Create a new instance of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParsePushPayloadFirebase",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadFirebase"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadFirebase\/init(notification:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:10ParseSwift0A19PushPayloadFirebaseV12notificationAcA0acE12NotificationV_tcfc",
+    "fragments" : [
+      {
+        "kind" : "identifier",
+        "text" : "init"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "notification"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A24PushFirebaseNotificationV",
+        "text" : "ParsePushFirebaseNotification"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "ParseSwift"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(notification:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "iOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "init"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "notification"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushFirebaseNotification",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A24PushFirebaseNotificationV",
+              "text" : "ParsePushFirebaseNotification"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The predefined, user-visible notification payload.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "notification"
+        }
+      ]
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/parseswift\/parsepushpayloadfirebase\/init(notification:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
+  "abstract" : [
+    {
+      "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ParseSwift",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushFirebaseNotification": {
+  "abstract" : [
+    {
+      "text" : "The Firebase Cloud Messaging (FCM) notification payload. For more information, see",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/firebase.google.com\/docs\/reference\/fcm\/rest\/v1\/projects.messages#Notification",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "and ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref#notification-payload-support",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushFirebaseNotification"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushFirebaseNotification",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushFirebaseNotification"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushFirebaseNotification",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushfirebasenotification"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadFirebase": {
+  "abstract" : [
+    {
+      "text" : "The payload data for an Firebase Cloud Messaging (FCM) push notification.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "See ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "documentation for more information.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadFirebase"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadFirebase",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePushPayloadFirebase"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePushPayloadFirebase",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushpayloadfirebase"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadFirebase/init(notification:)": {
+  "abstract" : [
+    {
+      "text" : "Create a new instance of ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParsePushPayloadFirebase",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A24PushFirebaseNotificationV",
+      "text" : "ParsePushFirebaseNotification"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadFirebase\/init(notification:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(notification:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushpayloadfirebase\/init(notification:)"
+},
+"https://firebase.google.com/docs/cloud-messaging/http-server-ref": {
+  "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref",
+  "title" : "Firebase Cloud Messaging",
+  "titleInlineContent" : [
+    {
+      "text" : "Firebase Cloud Messaging",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref"
+},
+"https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support": {
+  "identifier" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref#notification-payload-support",
+  "title" : "Firebase Cloud Messaging (legacy)",
+  "titleInlineContent" : [
+    {
+      "text" : "Firebase Cloud Messaging (legacy)",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/firebase.google.com\/docs\/cloud-messaging\/http-server-ref#notification-payload-support"
+},
+"https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#Notification": {
+  "identifier" : "https:\/\/firebase.google.com\/docs\/reference\/fcm\/rest\/v1\/projects.messages#Notification",
+  "title" : "Firebase Cloud Messaging",
+  "titleInlineContent" : [
+    {
+      "text" : "Firebase Cloud Messaging",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/firebase.google.com\/docs\/reference\/fcm\/rest\/v1\/projects.messages#Notification"
+}
+}
+}

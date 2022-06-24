@@ -173,7 +173,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server and sets an error if one occurs.",
+      "text" : " with the current data from the server.",
       "type" : "text"
     }
   ],

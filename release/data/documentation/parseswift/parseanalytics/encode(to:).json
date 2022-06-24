@@ -17,7 +17,8 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/Encodable-Implementations"
       ]
     ]
   },
@@ -27,6 +28,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
+    "extendedModule" : "ParseSwift",
     "externalID" : "s:10ParseSwift0A9AnalyticsV6encode2toys7Encoder_p_tKF",
     "fragments" : [
       {
@@ -212,6 +214,17 @@
   "title" : "ParseAnalytics",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseanalytics"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnalytics/Encodable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAnalytics\/Encodable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Encodable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseanalytics\/encodable-implementations"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseAnalytics/encode(to:)": {
   "abstract" : [

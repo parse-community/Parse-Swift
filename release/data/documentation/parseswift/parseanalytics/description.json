@@ -29,7 +29,7 @@
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A9AnalyticsV11descriptionSSvp",
+    "externalID" : "s:10ParseSwift0A8TypeablePAAE11descriptionSSvp::SYNTHESIZED::s:10ParseSwift0A9AnalyticsV",
     "fragments" : [
       {
         "kind" : "keyword",

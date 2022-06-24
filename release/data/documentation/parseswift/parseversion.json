@@ -85,9 +85,13 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
+        "doc:\/\/com.parse.ParseSwift\/SL",
         "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
-        "doc:\/\/com.parse.ParseSwift\/SE"
+        "doc:\/\/com.parse.ParseSwift\/Se",
+        "doc:\/\/com.parse.ParseSwift\/SE",
+        "doc:\/\/com.parse.ParseSwift\/SQ"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -105,6 +109,12 @@
   "topicSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/init(from:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/current"
       ],
       "title" : "Type Properties"
@@ -112,8 +122,12 @@
     {
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/Comparable-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/CustomDebugStringConvertible-Implementations",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/CustomStringConvertible-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/CustomStringConvertible-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/Equatable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -137,6 +151,21 @@
   "title" : "Swift.Encodable",
   "type" : "unresolvable"
 },
+"doc://com.parse.ParseSwift/SL": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SL",
+  "title" : "Swift.Comparable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
+  "title" : "Swift.Decodable",
+  "type" : "unresolvable"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift": {
   "abstract" : [
     {
@@ -150,6 +179,40 @@
   "title" : "ParseSwift",
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTypeable": {
+  "abstract" : [
+    {
+      "text" : "A special type that is considered a Parse type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseTypeable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseTypeable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseTypeable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsetypeable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion": {
   "abstract" : [
@@ -189,6 +252,28 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseversion"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : " Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseversion\/-implementations"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/Comparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/Comparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Comparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseversion\/comparable-implementations"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/CustomDebugStringConvertible-Implementations": {
   "abstract" : [
 
@@ -210,6 +295,17 @@
   "title" : "CustomStringConvertible Implementations",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseversion\/customstringconvertible-implementations"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseversion\/equatable-implementations"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/current": {
   "abstract" : [
@@ -259,6 +355,48 @@
   "title" : "current",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseversion\/current"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/init(from:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s7DecoderP",
+      "text" : "Decoder"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/init(from:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseversion\/init(from:)"
 },
 "doc://com.parse.ParseSwift/s23CustomStringConvertibleP": {
   "identifier" : "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",

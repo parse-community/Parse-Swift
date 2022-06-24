@@ -1,0 +1,697 @@
+{
+  "abstract" : [
+    {
+      "text" : "Field types available in ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:10ParseSwift0A5FieldV0C4TypeO",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "enum"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "FieldType"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "ParseSwift"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "FieldType"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Enumeration",
+    "symbolKind" : "enum",
+    "title" : "ParseField.FieldType"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "iOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "enum"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "FieldType"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/Se",
+        "doc:\/\/com.parse.ParseSwift\/SE",
+        "doc:\/\/com.parse.ParseSwift\/SQ",
+        "doc:\/\/com.parse.ParseSwift\/SH",
+        "doc:\/\/com.parse.ParseSwift\/SY"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/acl",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/array",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/boolean",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/bytes",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/date",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/file",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/geoPoint",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/number",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/object",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/pointer",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/polygon",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/relation",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/string"
+      ],
+      "title" : "Enumeration Cases"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/init(rawValue:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/Equatable-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/RawRepresentable-Implementations"
+      ],
+      "title" : "Default Implementations"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/parseswift\/parsefield\/fieldtype"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.parse.ParseSwift/SE": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
+  "title" : "Swift.Encodable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/SH": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SH",
+  "title" : "Swift.Hashable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/SY": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SY",
+  "title" : "Swift.RawRepresentable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
+  "title" : "Swift.Decodable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift": {
+  "abstract" : [
+    {
+      "text" : "A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ParseSwift",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseField"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseField"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseField",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType": {
+  "abstract" : [
+    {
+      "text" : "Field types available in ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FieldType"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FieldType"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseField.FieldType",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/equatable-implementations"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/RawRepresentable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/RawRepresentable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "RawRepresentable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/rawrepresentable-implementations"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/acl": {
+  "abstract" : [
+    {
+      "text" : "A acl type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "acl"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/acl",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.acl",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/acl"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/array": {
+  "abstract" : [
+    {
+      "text" : "An array type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "array"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/array",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.array",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/array"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/boolean": {
+  "abstract" : [
+    {
+      "text" : "A boolean type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "boolean"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/boolean",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.boolean",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/boolean"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/bytes": {
+  "abstract" : [
+    {
+      "text" : "A bytes type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "bytes"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/bytes",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.bytes",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/bytes"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/date": {
+  "abstract" : [
+    {
+      "text" : "A date type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "date"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/date",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.date",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/date"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/file": {
+  "abstract" : [
+    {
+      "text" : "A file type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "file"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/file",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.file",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/file"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/geoPoint": {
+  "abstract" : [
+    {
+      "text" : "A geoPoint type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "geoPoint"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/geoPoint",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.geoPoint",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/geopoint"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/init(rawValue:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "rawValue"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/init(rawValue:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(rawValue:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/init(rawvalue:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/number": {
+  "abstract" : [
+    {
+      "text" : "A number type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "number"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/number",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.number",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/number"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/object": {
+  "abstract" : [
+    {
+      "text" : "An object type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "object"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/object",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.object",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/object"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/pointer": {
+  "abstract" : [
+    {
+      "text" : "A pointer type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "pointer"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/pointer",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.pointer",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/pointer"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/polygon": {
+  "abstract" : [
+    {
+      "text" : "A polygon type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "polygon"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/polygon",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.polygon",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/polygon"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/relation": {
+  "abstract" : [
+    {
+      "text" : "A relation type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "relation"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/relation",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.relation",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/relation"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField/FieldType/string": {
+  "abstract" : [
+    {
+      "text" : "A string type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "string"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseField\/FieldType\/string",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "ParseField.FieldType.string",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefield\/fieldtype\/string"
+}
+}
+}

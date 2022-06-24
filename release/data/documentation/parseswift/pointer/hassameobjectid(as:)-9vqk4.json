@@ -186,8 +186,13 @@
               "type" : "text"
             },
             {
-              "code" : "true",
-              "type" : "codeVoice"
+              "inlineContent" : [
+                {
+                  "text" : "true",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
             },
             {
               "text" : " if the other object has the same ",
@@ -202,8 +207,13 @@
               "type" : "text"
             },
             {
-              "code" : "false",
-              "type" : "codeVoice"
+              "inlineContent" : [
+                {
+                  "text" : "false",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
             },
             {
               "text" : " if unsuccessful.",

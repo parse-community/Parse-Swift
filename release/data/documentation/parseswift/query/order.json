@@ -101,6 +101,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/Se",
         "doc:\/\/com.parse.ParseSwift\/SE",
         "doc:\/\/com.parse.ParseSwift\/SQ"
       ],
@@ -124,6 +125,12 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/descending(_:)"
       ],
       "title" : "Enumeration Cases"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/init(from:)"
+      ],
+      "title" : "Initializers"
     },
     {
       "identifiers" : [
@@ -161,6 +168,11 @@
 "doc://com.parse.ParseSwift/SQ": {
   "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
   "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/Se": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/Se",
+  "title" : "Swift.Decodable",
   "type" : "unresolvable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift": {
@@ -419,6 +431,48 @@
   "title" : "encode(to:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/query\/order\/encode(to:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Query/Order/init(from:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s7DecoderP",
+      "text" : "Decoder"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Query\/Order\/init(from:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/query\/order\/init(from:)"
 }
 }
 }

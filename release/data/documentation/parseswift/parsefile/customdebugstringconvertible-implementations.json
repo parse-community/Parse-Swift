@@ -39,7 +39,8 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/debugDescription"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/debugDescription-5c855",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/debugDescription-67efx"
       ],
       "title" : "Instance Properties"
     }
@@ -122,7 +123,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefile"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/debugDescription": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/debugDescription-5c855": {
   "abstract" : [
 
   ],
@@ -149,12 +150,46 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/debugDescription",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/debugDescription-5c855",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "debugDescription",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsefile\/debugdescription"
+  "url" : "\/documentation\/parseswift\/parsefile\/debugdescription-5c855"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/debugDescription-67efx": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "debugDescription"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/debugDescription-67efx",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "debugDescription",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefile\/debugdescription-67efx"
 }
 }
 }

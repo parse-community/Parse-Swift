@@ -189,16 +189,26 @@
               "type" : "text"
             },
             {
-              "code" : "true",
-              "type" : "codeVoice"
+              "inlineContent" : [
+                {
+                  "text" : "true",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
             },
             {
               "text" : " if updated, ",
               "type" : "text"
             },
             {
-              "code" : "false",
-              "type" : "codeVoice"
+              "inlineContent" : [
+                {
+                  "text" : "false",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
             },
             {
               "text" : " otherwise.",

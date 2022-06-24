@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Add a constraint that requires a key  to not be equal to ",
+      "text" : "Add a constraint that requires a key to be equal to ",
       "type" : "text"
     },
     {
@@ -258,7 +258,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/doesNotExist(key:)": {
   "abstract" : [
     {
-      "text" : "Add a constraint that requires a key  to not be equal to ",
+      "text" : "Add a constraint that requires a key to be equal to ",
       "type" : "text"
     },
     {

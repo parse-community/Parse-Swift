@@ -116,6 +116,7 @@
     {
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Fetchable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
         "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/Se",
@@ -303,6 +304,40 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTypeable": {
+  "abstract" : [
+    {
+      "text" : "A special type that is considered a Parse type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseTypeable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseTypeable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseTypeable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsetypeable"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Pointer": {
   "abstract" : [
     {
@@ -442,7 +477,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server and sets an error if one occurs.",
+      "text" : " with the current data from the server.",
       "type" : "text"
     }
   ],
@@ -780,7 +815,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server and sets an error if one occurs.",
+      "text" : " with the current data from the server.",
       "type" : "text"
     },
     {

@@ -134,8 +134,9 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Deletable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Fetchable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncodable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Savable",
         "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
@@ -148,6 +149,14 @@
       "kind" : "relationships",
       "title" : "Inherits From",
       "type" : "inheritsFrom"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudUser"
+      ],
+      "kind" : "relationships",
+      "title" : "Inherited By",
+      "type" : "inheritedBy"
     }
   ],
   "schemaVersion" : {
@@ -169,6 +178,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/facebook-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/github-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/google-swift.property",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/instagram-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/ldap-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/linkedin-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/password",
@@ -223,6 +233,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/facebook-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/github-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/google-swift.type.property",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/instagram-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/ldap-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/linkedin-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/twitter-swift.type.property"
@@ -425,6 +436,96 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/objectable"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudUser": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudUser"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudUser",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudUser"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCloudUser",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseclouduser"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseEncodable": {
+  "abstract" : [
+    {
+      "text" : "Types that conform to ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "ParseEncodable",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " should be encoded by the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseEncoder",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when necessary.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseEncodable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncodable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseEncodable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseEncodable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseencodable"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
@@ -475,9 +576,12 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTypeable": {
   "abstract" : [
-
+    {
+      "text" : "A special type that is considered a Parse type.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -490,21 +594,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseType",
+  "title" : "ParseTypeable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsetype"
+  "url" : "\/documentation\/parseswift\/parsetypeable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
   "abstract" : [
@@ -2063,7 +2167,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server and sets an error if one occurs.",
+      "text" : " with the current data from the server.",
       "type" : "text"
     }
   ],
@@ -2614,7 +2718,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server and sets an error if one occurs.",
+      "text" : " with the current data from the server.",
       "type" : "text"
     }
   ],
@@ -2730,7 +2834,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server and sets an error if one occurs.",
+      "text" : " with the current data from the server.",
       "type" : "text"
     }
   ],
@@ -2994,7 +3098,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server and sets an error if one occurs.",
+      "text" : " with the current data from the server.",
       "type" : "text"
     },
     {
@@ -3343,6 +3447,128 @@
   "title" : "google",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseuser\/google-swift.type.property"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/instagram-swift.property": {
+  "abstract" : [
+    {
+      "text" : "An Instagram ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "instagram"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9InstagramV",
+      "text" : "ParseInstagram"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/instagram-swift.property",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "instagram",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseuser\/instagram-swift.property"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/instagram-swift.type.property": {
+  "abstract" : [
+    {
+      "text" : "A Instagram ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "instagram"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9InstagramV",
+      "text" : "ParseInstagram"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/instagram-swift.type.property",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "instagram",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseuser\/instagram-swift.type.property"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/isLinked(with:)": {
   "abstract" : [

@@ -818,7 +818,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The application id of your Parse application.",
+                  "text" : "The application id for your Parse application.",
                   "type" : "text"
                 }
               ],
@@ -832,7 +832,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The client key of your Parse application.",
+                  "text" : "The client key for your Parse application.",
                   "type" : "text"
                 }
               ],
@@ -846,7 +846,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The master key of your Parse application.",
+                  "text" : "The master key for your Parse application. This key should only be",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "specified when using the SDK on a server.",
                   "type" : "text"
                 }
               ],
@@ -1084,16 +1092,26 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "true",
-                  "type" : "codeVoice"
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
                 },
                 {
                   "text" : " will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to ",
                   "type" : "text"
                 },
                 {
-                  "code" : "false",
-                  "type" : "codeVoice"
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
                 },
                 {
                   "text" : ".",
@@ -1122,8 +1140,13 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "false",
-                  "type" : "codeVoice"
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
                 },
                 {
                   "text" : ".",
@@ -1253,6 +1276,29 @@
                 },
                 {
                   "text" : " is experimental.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "warning",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "It is recomended to only specify ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "masterKey",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " when using the SDK on a server. Do not use this key on the client.",
                   "type" : "text"
                 }
               ],

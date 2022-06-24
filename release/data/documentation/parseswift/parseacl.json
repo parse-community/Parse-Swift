@@ -133,7 +133,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
         "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/Se",
@@ -526,8 +526,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the user may still be able to access it if ",
@@ -542,8 +547,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " ",
@@ -616,8 +626,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the role may still be able to read it if a parent role has read access.",
@@ -694,8 +709,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the role may still be able to read it if a parent role has read access.",
@@ -785,8 +805,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the user may still be able to access it if ",
@@ -801,8 +826,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " ",
@@ -912,8 +942,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " ",
@@ -986,8 +1021,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the role may still be able to write it if a parent role has write access.",
@@ -1064,8 +1104,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ", the role may still be able to write it if a parent role has write access.",
@@ -1163,8 +1208,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " ",
@@ -2007,9 +2057,12 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseacl\/setwriteaccess(user:value:)"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTypeable": {
   "abstract" : [
-
+    {
+      "text" : "A special type that is considered a Parse type.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -2022,21 +2075,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseType",
+  "title" : "ParseTypeable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsetype"
+  "url" : "\/documentation\/parseswift\/parsetypeable"
 },
 "doc://com.parse.ParseSwift/s23CustomStringConvertibleP": {
   "identifier" : "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",

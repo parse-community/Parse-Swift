@@ -5,8 +5,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " if the ",
@@ -281,8 +286,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " if the ",

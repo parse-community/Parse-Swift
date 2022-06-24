@@ -22,7 +22,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server",
+      "text" : " with the current data from the server.",
       "type" : "text"
     },
     {
@@ -30,7 +30,7 @@
       "type" : "text"
     },
     {
-      "text" : "and sets an error if one occurs. Publishes when complete.",
+      "text" : "Publishes when complete.",
       "type" : "text"
     }
   ],
@@ -666,7 +666,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with the current data from the server",
+      "text" : " with the current data from the server.",
       "type" : "text"
     },
     {
@@ -674,7 +674,7 @@
       "type" : "text"
     },
     {
-      "text" : "and sets an error if one occurs. Publishes when complete.",
+      "text" : "Publishes when complete.",
       "type" : "text"
     }
   ],

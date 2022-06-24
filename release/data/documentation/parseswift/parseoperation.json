@@ -2679,7 +2679,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " and executes the given callback block.",
+      "text" : ". Publishes when complete.",
       "type" : "text"
     }
   ],

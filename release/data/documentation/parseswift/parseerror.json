@@ -82,11 +82,12 @@
     {
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/10Foundation14LocalizedErrorP",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
         "doc:\/\/com.parse.ParseSwift\/s28CustomDebugStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",
         "doc:\/\/com.parse.ParseSwift\/Se",
         "doc:\/\/com.parse.ParseSwift\/SE",
+        "doc:\/\/com.parse.ParseSwift\/SQ",
         "doc:\/\/com.parse.ParseSwift\/s5ErrorP",
         "doc:\/\/com.parse.ParseSwift\/s8SendableP"
       ],
@@ -104,6 +105,13 @@
 
   ],
   "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/init(code:message:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/init(otherCode:message:)"
+      ],
+      "title" : "Initializers"
+    },
     {
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/code-swift.property",
@@ -125,6 +133,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/CustomStringConvertible-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Decodable-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Encodable-Implementations",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Equatable-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Error-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/LocalizedError-Implementations"
       ],
@@ -153,6 +162,11 @@
 "doc://com.parse.ParseSwift/SE": {
   "identifier" : "doc:\/\/com.parse.ParseSwift\/SE",
   "title" : "Swift.Encodable",
+  "type" : "unresolvable"
+},
+"doc://com.parse.ParseSwift/SQ": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/SQ",
+  "title" : "Swift.Equatable",
   "type" : "unresolvable"
 },
 "doc://com.parse.ParseSwift/Se": {
@@ -314,6 +328,17 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/encodable-implementations"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/equatable-implementations"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Error-Implementations": {
   "abstract" : [
 
@@ -372,6 +397,122 @@
   "title" : "code",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/code-swift.property"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/init(code:message:)": {
+  "abstract" : [
+    {
+      "text" : "Create an error with a known code and custom message.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "code"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV4CodeO",
+      "text" : "Code"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "message"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/init(code:message:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(code:message:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/init(code:message:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/init(otherCode:message:)": {
+  "abstract" : [
+    {
+      "text" : "Create an error with a custom code and custom message.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "otherCode"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "message"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError\/init(otherCode:message:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(otherCode:message:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror\/init(othercode:message:)"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/message": {
   "abstract" : [
@@ -451,9 +592,12 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror\/othercode"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTypeable": {
   "abstract" : [
-
+    {
+      "text" : "A special type that is considered a Parse type.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -466,21 +610,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTypeable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseType"
+      "text" : "ParseTypeable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseType",
+  "title" : "ParseTypeable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsetype"
+  "url" : "\/documentation\/parseswift\/parsetypeable"
 },
 "doc://com.parse.ParseSwift/s23CustomStringConvertibleP": {
   "identifier" : "doc:\/\/com.parse.ParseSwift\/s23CustomStringConvertibleP",

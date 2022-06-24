@@ -39,7 +39,8 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/description"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/description-28w87",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/description-8pkhz"
       ],
       "title" : "Instance Properties"
     }
@@ -122,7 +123,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefile"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/description": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/description-28w87": {
   "abstract" : [
 
   ],
@@ -149,12 +150,46 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/description",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/description-28w87",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "description",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsefile\/description"
+  "url" : "\/documentation\/parseswift\/parsefile\/description-28w87"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/description-8pkhz": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "description"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile\/description-8pkhz",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "description",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefile\/description-8pkhz"
 }
 }
 }

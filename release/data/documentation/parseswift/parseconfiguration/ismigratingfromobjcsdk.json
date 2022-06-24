@@ -13,8 +13,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " will attempt to migrate relevant data stored in the Keychain to",
@@ -29,8 +34,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ".",
@@ -212,8 +222,13 @@
       "type" : "text"
     },
     {
-      "code" : "true",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "true",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : " will attempt to migrate relevant data stored in the Keychain to",
@@ -228,8 +243,13 @@
       "type" : "text"
     },
     {
-      "code" : "false",
-      "type" : "codeVoice"
+      "inlineContent" : [
+        {
+          "text" : "false",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
     },
     {
       "text" : ".",

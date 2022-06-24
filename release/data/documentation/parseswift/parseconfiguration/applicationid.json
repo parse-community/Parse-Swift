@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The application id of your Parse application.",
+      "text" : "The application id for your Parse application.",
       "type" : "text"
     }
   ],
@@ -168,7 +168,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/applicationId": {
   "abstract" : [
     {
-      "text" : "The application id of your Parse application.",
+      "text" : "The application id for your Parse application.",
       "type" : "text"
     }
   ],
