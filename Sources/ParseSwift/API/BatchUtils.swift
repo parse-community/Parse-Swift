@@ -23,7 +23,7 @@ typealias ParseObjectBatchResponseEncodable<U> = [(Result<PointerType, ParseErro
 typealias RESTBatchCommandTypeEncodable<T> = API.NonParseBodyCommand<ParseObjectBatchCommandEncodable<T>, ParseObjectBatchResponseEncodable<Encodable>> where T: Encodable
  // swiftlint:enable line_length
 
-internal struct BatchCommand<T, U>: ParseType where T: ParseType {
+internal struct BatchCommand<T, U>: ParseEncodable where T: ParseEncodable {
     let requests: [API.Command<T, U>]
     var transaction: Bool
 }

@@ -11,7 +11,7 @@ import Foundation
 /**
   `ParseHealth` allows you to check the health of a Parse Server.
  */
-public struct ParseHealth: ParseType, Decodable {
+public struct ParseHealth: ParseTypeable {
 
     /**
      Calls the health check function *synchronously* and returns a result of it's execution.

@@ -16,7 +16,7 @@ import Foundation
  - Updated: The object has been updated, and is still a part of the query.
  - Deleted: The object has been deleted, and is no longer included in the query.
  */
-public enum Event<T: ParseObject> {
+public enum Event<T: ParseObject>: Equatable {
     /// The object has been updated, and is now included in the query.
     case entered(T)
 
@@ -42,15 +42,15 @@ public enum Event<T: ParseObject> {
         default: fatalError()
         }
     }
-}
 
-internal func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
-    switch (lhs, rhs) {
-    case (.entered(let obj1), .entered(let obj2)): return obj1 == obj2
-    case (.left(let obj1), .left(let obj2)):       return obj1 == obj2
-    case (.created(let obj1), .created(let obj2)): return obj1 == obj2
-    case (.updated(let obj1), .updated(let obj2)): return obj1 == obj2
-    case (.deleted(let obj1), .deleted(let obj2)): return obj1 == obj2
-    default: return false
+    public static func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
+        switch (lhs, rhs) {
+        case (.entered(let obj1), .entered(let obj2)): return obj1 == obj2
+        case (.left(let obj1), .left(let obj2)):       return obj1 == obj2
+        case (.created(let obj1), .created(let obj2)): return obj1 == obj2
+        case (.updated(let obj1), .updated(let obj2)): return obj1 == obj2
+        case (.deleted(let obj1), .deleted(let obj2)): return obj1 == obj2
+        default: return false
+        }
     }
 }

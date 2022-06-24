@@ -9,7 +9,7 @@
 import Foundation
 
 /// `ParseVersion` is used to determine the version of the SDK.
-public struct ParseVersion: Encodable {
+public struct ParseVersion: ParseTypeable, Comparable {
 
     var string: String
 
@@ -54,80 +54,65 @@ public struct ParseVersion: Encodable {
     }
 }
 
-// MARK: CustomDebugStringConvertible
-extension ParseVersion: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseVersion ()"
+public extension ParseVersion {
+
+    static func > (left: ParseVersion, right: ParseVersion) -> Bool {
+        let left = left.string.split(separator: ".").compactMap { Int($0) }
+        assert(left.count == 3, "Left version must have 3 values, \"1.1.1\".")
+        let right = right.string.split(separator: ".").compactMap { Int($0) }
+        assert(right.count == 3, "Right version must have 3 values, \"1.1.1\".")
+        if left[0] > right[0] {
+            return true
+        } else if left[0] < right[0] {
+            return false
+        } else if left[1] > right[1] {
+            return true
+        } else if left[1] < right[1] {
+            return false
+        } else if left[2] > right[2] {
+            return true
+        } else {
+            return false
         }
-        return "ParseVersion (\(descriptionString))"
     }
-}
 
-// MARK: CustomStringConvertible
-extension ParseVersion: CustomStringConvertible {
-    public var description: String {
-        debugDescription
+    static func >= (left: ParseVersion, right: ParseVersion) -> Bool {
+        if left == right || left > right {
+            return true
+        } else {
+            return false
+        }
     }
-}
 
-func > (left: ParseVersion, right: ParseVersion) -> Bool {
-    let left = left.string.split(separator: ".").compactMap { Int($0) }
-    assert(left.count == 3, "Left version must have 3 values, \"1.1.1\".")
-    let right = right.string.split(separator: ".").compactMap { Int($0) }
-    assert(right.count == 3, "Right version must have 3 values, \"1.1.1\".")
-    if left[0] > right[0] {
-        return true
-    } else if left[0] < right[0] {
-        return false
-    } else if left[1] > right[1] {
-        return true
-    } else if left[1] < right[1] {
-        return false
-    } else if left[2] > right[2] {
-        return true
-    } else {
-        return false
+    static func < (left: ParseVersion, right: ParseVersion) -> Bool {
+        let left = left.string.split(separator: ".").compactMap { Int($0) }
+        assert(left.count == 3, "Left version must have 3 values, \"1.1.1\".")
+        let right = right.string.split(separator: ".").compactMap { Int($0) }
+        assert(right.count == 3, "Right version must have 3 values, \"1.1.1\".")
+        if left[0] < right[0] {
+            return true
+        } else if left[0] > right[0] {
+            return false
+        } else if left[1] < right[1] {
+            return true
+        } else if left[1] > right[1] {
+            return false
+        } else if left[2] < right[2] {
+            return true
+        } else {
+            return false
+        }
     }
-}
 
-func >= (left: ParseVersion, right: ParseVersion) -> Bool {
-    if left == right || left > right {
-        return true
-    } else {
-        return false
+    static func <= (left: ParseVersion, right: ParseVersion) -> Bool {
+        if left == right || left < right {
+            return true
+        } else {
+            return false
+        }
     }
-}
 
-func < (left: ParseVersion, right: ParseVersion) -> Bool {
-    let left = left.string.split(separator: ".").compactMap { Int($0) }
-    assert(left.count == 3, "Left version must have 3 values, \"1.1.1\".")
-    let right = right.string.split(separator: ".").compactMap { Int($0) }
-    assert(right.count == 3, "Right version must have 3 values, \"1.1.1\".")
-    if left[0] < right[0] {
-        return true
-    } else if left[0] > right[0] {
-        return false
-    } else if left[1] < right[1] {
-        return true
-    } else if left[1] > right[1] {
-        return false
-    } else if left[2] < right[2] {
-        return true
-    } else {
-        return false
+    static func == (left: ParseVersion, right: ParseVersion) -> Bool {
+        left.string == right.string
     }
-}
-
-func <= (left: ParseVersion, right: ParseVersion) -> Bool {
-    if left == right || left < right {
-        return true
-    } else {
-        return false
-    }
-}
-
-func == (left: ParseVersion, right: ParseVersion) -> Bool {
-    left.string == right.string
 }

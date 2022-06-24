@@ -42,9 +42,9 @@ class ParseVersionTests: XCTestCase {
     func testDebug() throws {
         let version = try ParseVersion("1.0.0")
         XCTAssertEqual(version.debugDescription,
-                       "ParseVersion ({\"string\":\"1.0.0\"})")
+                       "{\"string\":\"1.0.0\"}")
         XCTAssertEqual(version.description,
-                       "ParseVersion ({\"string\":\"1.0.0\"})")
+                       "{\"string\":\"1.0.0\"}")
     }
 
     func testCantInitializeWithNil() throws {

@@ -163,7 +163,7 @@ public extension ParseUser {
 }
 
 // MARK: SignupLoginBody
-struct SignupLoginBody: ParseType {
+struct SignupLoginBody: ParseEncodable {
     var username: String?
     var password: String?
     var authData: [String: [String: String]?]?
@@ -179,7 +179,7 @@ struct SignupLoginBody: ParseType {
 }
 
 // MARK: EmailBody
-struct EmailBody: ParseType {
+struct EmailBody: ParseEncodable {
     let email: String
 }
 

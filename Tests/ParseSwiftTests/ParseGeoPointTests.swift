@@ -90,13 +90,13 @@ class ParseGeoPointTests: XCTestCase {
 
     func testDebugString() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
+        let expected = "{\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20}"
         XCTAssertEqual(point.debugDescription, expected)
     }
 
     func testDescription() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
+        let expected = "{\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20}"
         XCTAssertEqual(point.description, expected)
     }
 

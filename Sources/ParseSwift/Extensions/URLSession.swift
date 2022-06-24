@@ -64,14 +64,14 @@ internal extension URLSession {
                                          for: request)
             }
             if let httpResponse = response as? HTTPURLResponse {
-                 if let pushStatusId = httpResponse.value(forHTTPHeaderField: "X-Parse-Push-Status-Id") {
-                     let pushStatus = PushResponse(data: responseData, statusId: pushStatusId)
-                     do {
-                         responseData = try ParseCoding.jsonEncoder().encode(pushStatus)
-                     } catch {
-                         return .failure(ParseError(code: .unknownError, message: error.localizedDescription))
-                     }
-                 }
+                if let pushStatusId = httpResponse.value(forHTTPHeaderField: "X-Parse-Push-Status-Id") {
+                    let pushStatus = PushResponse(data: responseData, statusId: pushStatusId)
+                    do {
+                        responseData = try ParseCoding.jsonEncoder().encode(pushStatus)
+                    } catch {
+                        return .failure(ParseError(code: .unknownError, message: error.localizedDescription))
+                    }
+                }
             }
             do {
                 return try .success(mapper(responseData))

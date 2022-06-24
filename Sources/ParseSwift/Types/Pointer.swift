@@ -28,7 +28,7 @@ private func getObjectId(target: Objectable) throws -> String {
 }
 
 /// A Pointer referencing a ParseObject.
-public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hashable {
+public struct Pointer<T: ParseObject>: ParsePointer, ParseTypeable, Fetchable, Hashable {
 
     internal let __type: String = "Pointer" // swiftlint:disable:this identifier_name
 
@@ -144,24 +144,6 @@ public extension Pointer {
                        callbackQueue: callbackQueue) { result in
             completion(result)
         }
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension Pointer: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "Pointer ()"
-        }
-        return "Pointer (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension Pointer: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }
 

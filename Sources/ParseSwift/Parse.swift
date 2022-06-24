@@ -10,14 +10,14 @@ import FoundationNetworking
 /// SDK on a server. Do not use this key on the client.
 public struct ParseConfiguration {
 
-    /// The application id of your Parse application.
+    /// The application id for your Parse application.
     public internal(set) var applicationId: String
 
-    /// The master key of your Parse application. This key should only
+    /// The master key for your Parse application. This key should only
     /// be specified when using the SDK on a server.
     public internal(set) var masterKey: String? // swiftlint:disable:this inclusive_language
 
-    /// The client key of your Parse application.
+    /// The client key for your Parse application.
     public internal(set) var clientKey: String?
 
     /// The server URL to connect to Parse Server.
@@ -75,9 +75,9 @@ public struct ParseConfiguration {
 
     /**
      Create a Parse Swift configuration.
-     - parameter applicationId: The application id of your Parse application.
-     - parameter clientKey: The client key of your Parse application.
-     - parameter masterKey: The master key of your Parse application. This key should only be
+     - parameter applicationId: The application id for your Parse application.
+     - parameter clientKey: The client key for your Parse application.
+     - parameter masterKey: The master key for your Parse application. This key should only be
      specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
@@ -114,6 +114,7 @@ public struct ParseConfiguration {
     public init(applicationId: String,
                 clientKey: String? = nil,
                 masterKey: String? = nil,
+                webhookKey: String? = nil,
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
                 allowCustomObjectId: Bool = false,
@@ -242,9 +243,9 @@ public struct ParseSwift {
     /**
      Configure the Parse Swift client. This should only be used when starting your app. Typically in the
      `application(... didFinishLaunchingWithOptions launchOptions...)`.
-     - parameter applicationId: The application id of your Parse application.
-     - parameter clientKey: The client key of your Parse application.
-     - parameter masterKey: The master key of your Parse application. This key should only be
+     - parameter applicationId: The application id for your Parse application.
+     - parameter clientKey: The client key for your Parse application.
+     - parameter masterKey: The master key for your Parse application. This key should only be
      specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.

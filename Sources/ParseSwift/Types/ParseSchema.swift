@@ -14,7 +14,7 @@ import Foundation
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
-public struct ParseSchema<SchemaObject: ParseObject>: ParseType, Decodable, Equatable {
+public struct ParseSchema<SchemaObject: ParseObject>: ParseTypeable, Decodable, Equatable {
 
     /// The class name of the `ParseSchema`.
     public var className: String
@@ -271,10 +271,10 @@ extension ParseSchema {
                           completion: completion)
     }
 
-    func fetchCommand() -> API.Command<Self, Self> {
+    func fetchCommand() -> API.NonParseBodyCommand<Self, Self> {
 
-        return API.Command(method: .GET,
-                           path: endpoint) { (data) -> Self in
+        return API.NonParseBodyCommand(method: .GET,
+                                       path: endpoint) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
@@ -339,18 +339,16 @@ extension ParseSchema {
                           completion: completion)
     }
 
-    func createCommand() -> API.Command<Self, Self> {
-
-        return API.Command(method: .POST,
-                           path: endpoint,
-                           body: self) { (data) -> Self in
+    func createCommand() -> API.NonParseBodyCommand<Self, Self> {
+        API.NonParseBodyCommand(method: .POST,
+                                       path: endpoint,
+                                       body: self) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
 
-    func updateCommand() -> API.Command<Self, Self> {
-
-        API.Command(method: .PUT,
+    func updateCommand() -> API.NonParseBodyCommand<Self, Self> {
+        API.NonParseBodyCommand(method: .PUT,
                     path: endpoint,
                     body: self) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: data)
@@ -436,10 +434,9 @@ extension ParseSchema {
         }
     }
 
-    func purgeCommand() -> API.Command<Self, NoBody> {
-
-        API.Command(method: .DELETE,
-                    path: endpointPurge) { (data) -> NoBody in
+    func purgeCommand() -> API.NonParseBodyCommand<Self, NoBody> {
+        API.NonParseBodyCommand(method: .DELETE,
+                                path: endpointPurge) { (data) -> NoBody in
             let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
             if let error = error {
                 throw error
@@ -449,11 +446,10 @@ extension ParseSchema {
         }
     }
 
-    func deleteCommand() -> API.Command<Self, NoBody> {
-
-        API.Command(method: .DELETE,
-                    path: endpoint,
-                    body: self) { (data) -> NoBody in
+    func deleteCommand() -> API.NonParseBodyCommand<Self, NoBody> {
+        API.NonParseBodyCommand(method: .DELETE,
+                                path: endpoint,
+                                body: self) { (data) -> NoBody in
             let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
             if let error = error {
                 throw error
@@ -461,23 +457,5 @@ extension ParseSchema {
                 return NoBody()
             }
         }
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParseSchema: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseSchema ()"
-        }
-        return "ParseSchema (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseSchema: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }

@@ -8,8 +8,8 @@
 
 import Foundation
 
-protocol Fileable: ParseType, Decodable, Identifiable {
-    var __type: String { get } // swiftlint:disable:this identifier_name
+protocol Fileable: ParseEncodable, ParseTypeable, Identifiable {
+    var type: String { get }
     var name: String { get set }
     var url: URL? { get set }
 }

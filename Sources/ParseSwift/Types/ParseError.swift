@@ -11,7 +11,7 @@ import Foundation
 /**
  An object with a Parse code and message.
  */
-public struct ParseError: ParseType, Equatable, Decodable, Swift.Error {
+public struct ParseError: ParseTypeable, Swift.Error {
     /// The value representing the error from the Parse Server.
     public let code: Code
     /// The text representing the error from the Parse Server.
@@ -367,12 +367,29 @@ extension ParseError {
 }
 
 // MARK: Convenience Implementations
-extension ParseError {
+public extension ParseError {
 
+    /**
+     Create an error with a known code and custom message.
+     - parameter code: The known Parse code.
+     - parameter message: The custom message.
+     */
     init(code: Code, message: String) {
         self.code = code
         self.message = message
         self.otherCode = nil
+        self.error = nil
+    }
+
+    /**
+     Create an error with a custom code and custom message.
+     - parameter otherCode: The custom code.
+     - parameter message: The custom message.
+     */
+    init(otherCode: Int, message: String) {
+        self.code = .other
+        self.message = message
+        self.otherCode = otherCode
         self.error = nil
     }
 }
@@ -407,13 +424,6 @@ extension ParseError: CustomDebugStringConvertible {
             return "ParseError code=\(code.rawValue) error=\(message)"
         }
         return "ParseError code=\(code.rawValue) error=\(message) otherCode=\(otherCode)"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseError: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }
 

@@ -41,14 +41,13 @@ import Foundation
  - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
  `ACL` to your `ParseObject` `CodingKeys`.
 */
-public protocol ParseObject: Objectable,
+public protocol ParseObject: ParseTypeable,
+                             Objectable,
                              Fetchable,
                              Savable,
                              Deletable,
                              Identifiable,
-                             Hashable,
-                             CustomDebugStringConvertible,
-                             CustomStringConvertible {
+                             Hashable {
 
     /**
      A JSON encoded version of this `ParseObject` before `mergeable` was called and
@@ -1136,9 +1135,9 @@ extension ParseObject {
                     return
                 }
                 while waitingToBeSaved.count > 0 {
-                    var savableObjects = [ParseType]()
+                    var savableObjects = [ParseEncodable]()
                     var savableFiles = [ParseFile]()
-                    var nextBatch = [ParseType]()
+                    var nextBatch = [ParseEncodable]()
                     try waitingToBeSaved.forEach { parseType in
 
                         if let parseFile = parseType as? ParseFile {
@@ -1201,8 +1200,8 @@ extension ParseObject {
 }
 
 // MARK: Savable Encodable Version
-internal extension ParseType {
-    func saveAll(objects: [ParseType],
+internal extension ParseEncodable {
+    func saveAll(objects: [ParseEncodable],
                  transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         try API.NonParseBodyCommand<AnyCodable, PointerType>

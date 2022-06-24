@@ -14,7 +14,7 @@ import Foundation
  Use these keys to configure the sound for a critical alert.
  - warning: For Apple OS's only.
  */
-public struct ParsePushAppleSound: Codable, Equatable {
+public struct ParsePushAppleSound: ParseTypeable {
     /**
      The critical alert flag. Set to **true** to enable the critical alert.
      */
@@ -31,22 +31,4 @@ public struct ParsePushAppleSound: Codable, Equatable {
      between 0 (silent) and 1 (full volume).
      */
     var volume: Double?
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParsePushAppleSound: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePushAppleSound ()"
-        }
-        return "ParsePushAppleSound (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePushAppleSound: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
 }

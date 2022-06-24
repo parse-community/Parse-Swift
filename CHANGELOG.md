@@ -2,13 +2,17 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.5.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.6.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 4.6.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.5.0...4.6.0)
+
 __New features__
+- Add the ability to use Parse Hooks and Triggers ([#373](https://github.com/parse-community/Parse-Swift/pull/373)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add ParseInstagram authentication ([#372](https://github.com/parse-community/Parse-Swift/pull/372)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
 - Add the ability to send APN and FCM push notifications. Also adds the ability to query _PushStatus ([#371](https://github.com/parse-community/Parse-Swift/pull/371)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add ParseSchema, ParseCLP, and ParseFieldOptions. Should only be used when using the Swift SDK on a secured server ([#370](https://github.com/parse-community/Parse-Swift/pull/370)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Add ParseInstagram authentication ([#372](https://github.com/parse-community/Parse-Swift/pull/372)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
 
 ### 4.5.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.4.0...4.5.0)

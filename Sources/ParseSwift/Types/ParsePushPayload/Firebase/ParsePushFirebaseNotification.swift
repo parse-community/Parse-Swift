@@ -15,7 +15,7 @@ import Foundation
  [Firebase Cloud Messaging](https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#Notification)
  and [Firebase Cloud Messaging (legacy)](https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support).
  */
-public struct ParsePushFirebaseNotification: Codable, Equatable {
+public struct ParsePushFirebaseNotification: ParseTypeable {
     /**
      Indicates notification icon. On Android: sets value to myicon for
      drawable resource **myicon.png**.
@@ -169,23 +169,5 @@ public struct ParsePushFirebaseNotification: Codable, Equatable {
         self.title = title
         self.body = body
         self.image = image
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParsePushFirebaseNotification: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePushFirebaseNotification ()"
-        }
-        return "ParsePushFirebaseNotification (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePushFirebaseNotification: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }

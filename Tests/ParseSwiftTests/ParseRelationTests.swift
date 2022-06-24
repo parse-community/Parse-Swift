@@ -119,9 +119,9 @@ class ParseRelationTests: XCTestCase {
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
         XCTAssertEqual(relation.debugDescription,
-                       "ParseRelation ({\"__type\":\"Relation\",\"className\":\"hello\"})")
+                       "{\"__type\":\"Relation\",\"className\":\"hello\"}")
         XCTAssertEqual(relation.description,
-                       "ParseRelation ({\"__type\":\"Relation\",\"className\":\"hello\"})")
+                       "{\"__type\":\"Relation\",\"className\":\"hello\"}")
     }
 
     func testParseObjectRelation() throws {

@@ -9,7 +9,11 @@ import FoundationNetworking
  */
 public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
 
-    internal let __type: String = "File" // swiftlint:disable:this identifier_name
+    internal static var type: String {
+        "File"
+    }
+
+    internal let type: String = Self.type
 
     internal var isDownloadNeeded: Bool {
         return cloudURL != nil
@@ -141,7 +145,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     enum CodingKeys: String, CodingKey {
         case url
         case name
-        case __type // swiftlint:disable:this identifier_name
+        case type = "__type"
     }
 }
 
@@ -715,9 +719,9 @@ extension ParseFile: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseFile ()"
+            return "()"
         }
-        return "ParseFile (\(descriptionString))"
+        return "\(descriptionString)"
     }
 }
 

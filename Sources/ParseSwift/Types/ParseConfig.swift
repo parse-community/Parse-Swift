@@ -13,10 +13,7 @@ import Foundation
  When conforming to `ParseConfig`, any properties added can be retrieved by the client or updated on
  the server.
 */
-public protocol ParseConfig: ParseType,
-                             Decodable,
-                             CustomDebugStringConvertible,
-                             CustomStringConvertible { }
+public protocol ParseConfig: ParseTypeable {}
 
 // MARK: Update
 extension ParseConfig {
@@ -55,10 +52,10 @@ extension ParseConfig {
             }
     }
 
-    internal func fetchCommand() -> API.Command<Self, Self> {
+    internal func fetchCommand() -> API.NonParseBodyCommand<Self, Self> {
 
-        return API.Command(method: .GET,
-                           path: .config) { (data) -> Self in
+        return API.NonParseBodyCommand(method: .GET,
+                                       path: .config) { (data) -> Self in
             let fetched = try ParseCoding.jsonDecoder().decode(ConfigFetchResponse<Self>.self, from: data).params
             Self.updateKeychainIfNeeded(fetched)
             return fetched
@@ -103,11 +100,11 @@ extension ParseConfig {
             }
     }
 
-    internal func updateCommand() -> API.Command<ConfigUpdateBody<Self>, Bool> {
+    internal func updateCommand() -> API.NonParseBodyCommand<ConfigUpdateBody<Self>, Bool> {
         let body = ConfigUpdateBody(params: self)
-        return API.Command(method: .PUT, // MARK: Should be switched to ".PATCH" when server supports PATCH.
-                           path: .config,
-                           body: body) { (data) -> Bool in
+        return API.NonParseBodyCommand(method: .PUT, // MARK: Should be switched to ".PATCH" when server supports PATCH.
+                                       path: .config,
+                                       body: body) { (data) -> Bool in
             let updated = try ParseCoding.jsonDecoder().decode(BooleanResponse.self, from: data).result
 
             if updated {
@@ -118,7 +115,7 @@ extension ParseConfig {
     }
 }
 
-internal struct ConfigUpdateBody<T>: ParseType, Decodable where T: ParseConfig {
+internal struct ConfigUpdateBody<T>: ParseTypeable, Decodable where T: ParseConfig {
     let params: T
 }
 
@@ -183,24 +180,5 @@ public extension ParseConfig {
             }
             Self.currentContainer?.currentConfig = newValue
         }
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParseConfig {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return ""
-        }
-
-        return "\(descriptionString)"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseConfig {
-    public var description: String {
-        debugDescription
     }
 }

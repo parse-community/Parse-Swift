@@ -14,7 +14,7 @@ import Foundation
  An alert payload for Apple push notifications. See Apple's [documentation](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2943365)
  for more information.
  */
-public struct ParsePushAppleAlert: Codable, Equatable {
+public struct ParsePushAppleAlert: ParseTypeable {
     /**
      The content of the alert message.
      */
@@ -102,23 +102,5 @@ public struct ParsePushAppleAlert: Codable, Equatable {
         case locArgs = "loc-args"
         case actionLocKey = "action-loc-key"
         case title, subtitle, body, action
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParsePushAppleAlert: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePushAppleAlert ()"
-        }
-        return "ParsePushAppleAlert (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePushAppleAlert: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }

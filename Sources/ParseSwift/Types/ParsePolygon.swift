@@ -11,7 +11,7 @@
  that may be associated with a key in a ParseObject or used as a reference point
  for geo queries. This allows proximity-based queries on the key.
 */
-public struct ParsePolygon: Codable, Hashable {
+public struct ParsePolygon: ParseTypeable, Hashable {
     private let __type: String = "Polygon" // swiftlint:disable:this identifier_name
     public let coordinates: [ParseGeoPoint]
 
@@ -127,23 +127,5 @@ extension ParsePolygon {
         try coordinates.forEach {
             try nestedUnkeyedContainer.encode([$0.latitude, $0.longitude])
         }
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParsePolygon: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePolygon ()"
-        }
-        return "ParsePolygon (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePolygon: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }

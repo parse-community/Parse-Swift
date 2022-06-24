@@ -9,7 +9,7 @@ import CoreLocation
 
  - warning:Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
 */
-public struct ParseGeoPoint: Codable, Hashable {
+public struct ParseGeoPoint: ParseTypeable, Hashable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
     static let earthRadiusMiles = 3958.8
     static let earthRadiusKilometers = 6371.0
@@ -120,24 +120,6 @@ extension ParseGeoPoint {
         try container.encode(longitude, forKey: .longitude)
         try container.encode(latitude, forKey: .latitude)
         try validate()
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParseGeoPoint: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseGeoPoint ()"
-        }
-        return "ParseGeoPoint (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseGeoPoint: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }
 

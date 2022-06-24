@@ -12,7 +12,7 @@ import Foundation
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public struct Query<T>: Codable, Equatable where T: ParseObject {
+public struct Query<T>: ParseTypeable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100
@@ -1207,7 +1207,7 @@ extension Query {
                 return decoded
             }
             throw ParseError(code: .objectNotFound,
-                              message: "Object not found on the server.")
+                             message: "Object not found on the server.")
         }
     }
 
@@ -1444,24 +1444,6 @@ enum RawCodingKey: CodingKey {
     }
     init?(intValue: Int) {
         fatalError()
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension Query: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "\(className)"
-        }
-        return "\(className) (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension Query: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }
 

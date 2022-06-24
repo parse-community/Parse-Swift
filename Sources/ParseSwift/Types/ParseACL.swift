@@ -15,9 +15,7 @@ import Foundation
  "the public" so that, for example, any user could read a particular object but only a 
  particular set of users could write to that object.
 */
-public struct ParseACL: ParseType,
-                        Decodable,
-                        Equatable,
+public struct ParseACL: ParseTypeable,
                         Hashable {
     private static let publicScope = "*"
     private var acl: [String: [Access: Bool]]?
@@ -464,24 +462,6 @@ extension ParseACL {
         }
     }
 
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParseACL: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ACL ()"
-        }
-        return "ACL (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseACL: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
 }
 
 struct DefaultACL: Codable {

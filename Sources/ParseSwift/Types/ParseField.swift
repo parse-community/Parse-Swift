@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ParseField: Codable, Equatable {
+public struct ParseField: ParseTypeable {
     var __op: Operation? // swiftlint:disable:this identifier_name
     var type: FieldType?
     var required: Bool?
@@ -65,24 +65,5 @@ public struct ParseField: Codable, Equatable {
         if let defaultValue = options.defaultValue {
             self.defaultValue = AnyCodable(defaultValue)
         }
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParseField {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "ParseField ()"
-        }
-
-        return "ParseField (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseField {
-    public var description: String {
-        debugDescription
     }
 }

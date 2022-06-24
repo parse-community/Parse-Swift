@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+/*:
+ The code in this Playground is intended to run at the
+ server level only. It is not intended to be run in client
+ applications as it requires the use of the master key.
+ */
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -80,8 +86,10 @@ struct GameScore2: ParseObject {
     }
 }
 
-//: It's recommended to place custom initializers in an extension
-//: to preserve the memberwise initializer.
+/*:
+ It's recommended to place custom initializers in an extension
+ to preserve the memberwise initializer.
+ */
 extension GameScore2 {
 
     init(points: Int) {
@@ -167,6 +175,16 @@ gameScoreSchema.update { result in
         gameScoreSchema = updatedSchema
     case .failure(let error):
         print("Couldn't update schema: \(error)")
+    }
+}
+
+//: We can also fetch the schema.
+gameScoreSchema.fetch { result in
+    switch result {
+    case .success(let fetchedGameScore):
+        print("The fetched GameScore2 schema is: \(fetchedGameScore)")
+    case .failure(let error):
+        print("Couldn't fetch schema: \(error)")
     }
 }
 
