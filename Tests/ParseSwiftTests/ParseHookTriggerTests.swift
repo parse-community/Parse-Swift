@@ -105,7 +105,6 @@ class ParseHookTriggerTests: XCTestCase {
         XCTAssertEqual(hookTrigger4.description, expected4)
     }
 
-    @MainActor
     func testInitializerError() throws {
         guard let url = URL(string: "https://api.example.com/foo") else {
             XCTFail("Should have unwrapped")
