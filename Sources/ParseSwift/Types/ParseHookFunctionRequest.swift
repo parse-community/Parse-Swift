@@ -16,7 +16,7 @@ import Foundation
  */
 public struct ParseHookFunctionRequest<U: ParseCloudUser, P: ParseHookParametable>: ParseHookRequestable {
     public typealias UsertType = U
-    public var masterKey: Bool
+    public var masterKey: Bool?
     public var user: U?
     public var installationId: String?
     /**

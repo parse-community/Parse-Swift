@@ -21,7 +21,7 @@ public protocol ParseHookRequestable: ParseTypeable {
      Specifies if the **masterKey** was used in the
      Parse hook call.
      */
-    var masterKey: Bool { get }
+    var masterKey: Bool? { get }
     /**
      A `ParseUser` that contains additional attributes
      needed for Parse hook calls. If **nil** a user with
@@ -49,7 +49,8 @@ extension ParseHookRequestable {
      */
     public func options() -> API.Options {
         var options = API.Options()
-        if masterKey {
+        if let masterKey = masterKey,
+            masterKey == true {
             options.insert(.useMasterKey)
         } else if let sessionToken = user?.sessionToken {
             options.insert(.sessionToken(sessionToken))
