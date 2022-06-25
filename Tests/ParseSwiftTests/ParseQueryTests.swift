@@ -109,9 +109,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             .exclude("hello", "world")
             .include("foo", "bar")
             .select("yolo", "nolo")
+        #if !os(Linux) && !os(Android) && !os(Windows)
         XCTAssertEqual(query.debugDescription,
                        // swiftlint:disable:next line_length
                        "{\"_method\":\"GET\",\"excludeKeys\":[\"hello\",\"world\"],\"include\":[\"foo\",\"bar\"],\"keys\":[\"yolo\",\"nolo\"],\"limit\":100,\"order\":[\"points\",\"oldScore\"],\"skip\":0,\"where\":{}}")
+        #endif
         // swiftlint:disable:next line_length
         guard let encoded1 = "{\"_method\":\"GET\",\"excludeKeys\":[\"hello\",\"world\"],\"include\":[\"foo\",\"bar\"],\"keys\":[\"yolo\",\"nolo\"],\"limit\":100,\"order\":[\"points\",\"oldScore\"],\"skip\":0,\"where\":{}}".data(using: .utf8) else {
             XCTFail("Should have unwrapped")
