@@ -92,6 +92,29 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
         case pipeline
     }
 
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        `where` = try values.decode(QueryWhere.self, forKey: .`where`)
+        if let limit = try values.decodeIfPresent(Int.self, forKey: .limit) {
+            self.limit = limit
+        }
+        if let skip = try values.decodeIfPresent(Int.self, forKey: .skip) {
+            self.skip = skip
+        }
+        keys = try values.decodeIfPresent(Set<String>.self, forKey: .keys)
+        include = try values.decodeIfPresent(Set<String>.self, forKey: .include)
+        order = try values.decodeIfPresent([Order].self, forKey: .order)
+        isCount = try values.decodeIfPresent(Bool.self, forKey: .isCount)
+        explain = try values.decodeIfPresent(Bool.self, forKey: .explain)
+        hint = try values.decodeIfPresent(AnyCodable.self, forKey: .hint)
+        excludeKeys = try values.decodeIfPresent(Set<String>.self, forKey: .excludeKeys)
+        readPreference = try values.decodeIfPresent(String.self, forKey: .readPreference)
+        includeReadPreference = try values.decodeIfPresent(String.self, forKey: .includeReadPreference)
+        subqueryReadPreference = try values.decodeIfPresent(String.self, forKey: .subqueryReadPreference)
+        distinct = try values.decodeIfPresent(String.self, forKey: .distinct)
+        pipeline = try values.decodeIfPresent([[String: AnyCodable]].self, forKey: .pipeline)
+    }
+
     /**
       An enum that determines the order to sort the results based on a given key.
 
