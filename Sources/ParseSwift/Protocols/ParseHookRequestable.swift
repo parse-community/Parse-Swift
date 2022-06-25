@@ -35,11 +35,11 @@ public protocol ParseHookRequestable: ParseTypeable {
     /**
      The IP address of the client making the request.
      */
-    var ipAddress: String { get }
+    var ipAddress: String? { get }
     /**
      The original HTTP headers for the request.
      */
-    var headers: [String: String] { get }
+    var headers: [String: String]? { get }
 }
 
 extension ParseHookRequestable {

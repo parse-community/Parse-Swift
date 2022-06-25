@@ -93,15 +93,15 @@ class ParseHookFunctionRequestCombineTests: XCTestCase {
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         let requestHydrated = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          user: server,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
 
         let publisher = functionRequest.hydrateUserPublisher()
             .sink(receiveCompletion: { result in
@@ -135,9 +135,9 @@ class ParseHookFunctionRequestCombineTests: XCTestCase {
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         let publisher = functionRequest.hydrateUserPublisher()
             .sink(receiveCompletion: { result in
 

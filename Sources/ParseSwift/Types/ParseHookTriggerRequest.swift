@@ -19,10 +19,10 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
     public var masterKey: Bool?
     public var user: U?
     public var installationId: String?
-    public var ipAddress: String
-    public var headers: [String: String]
+    public var ipAddress: String?
+    public var headers: [String: String]?
     /// An object from the hook call.
-    public var object: T
+    public var object: T?
     /// The results the query yielded..
     public var objects: [T]?
     /// If set, the object, as currently stored.
