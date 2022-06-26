@@ -67,10 +67,8 @@ var query = GameScore.query("points" > 50,
 //: Query asynchronously (preferred way) - Performs work on background
 //: queue and returns to specified callbackQueue.
 //: If no callbackQueue is specified it returns to main queue.
-query.limit(2).order([.ascending("points"), .ascending("oldScore")])
-    .exclude("oldScore", "points")
-    .include("oldScore", "points")
-    .select("oldScore", "points")
+query.limit(2)
+    .order([.descending("points")])
     .find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):
