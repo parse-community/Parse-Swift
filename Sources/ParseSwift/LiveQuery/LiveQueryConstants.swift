@@ -39,7 +39,7 @@ public enum Event<T: ParseObject>: Equatable {
         case .create: self = .created(event.object)
         case .update: self = .updated(event.object)
         case .delete: self = .deleted(event.object)
-        default: fatalError()
+        default: return nil
         }
     }
 

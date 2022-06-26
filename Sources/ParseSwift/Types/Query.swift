@@ -92,6 +92,72 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
         case pipeline
     }
 
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        `where` = try values.decode(QueryWhere.self, forKey: .`where`)
+        if let limit = try values.decodeIfPresent(Int.self, forKey: .limit) {
+            self.limit = limit
+        }
+        if let skip = try values.decodeIfPresent(Int.self, forKey: .skip) {
+            self.skip = skip
+        }
+        do {
+            keys = try values.decodeIfPresent(Set<String>.self, forKey: .keys)
+        } catch {
+            if let commaString = try values.decodeIfPresent(String.self, forKey: .keys) {
+                let commaArray = commaString
+                    .split(separator: ",")
+                    .compactMap { String($0) }
+                keys = Set(commaArray)
+            }
+        }
+        do {
+            include = try values.decodeIfPresent(Set<String>.self, forKey: .include)
+        } catch {
+            if let commaString = try values.decodeIfPresent(String.self, forKey: .include) {
+                let commaArray = commaString
+                    .split(separator: ",")
+                    .compactMap { String($0) }
+                include = Set(commaArray)
+            }
+        }
+        do {
+            order = try values.decodeIfPresent([Order].self, forKey: .order)
+        } catch {
+            let orderString = try values
+                .decodeIfPresent(String.self, forKey: .order)?
+                .split(separator: ",")
+                .compactMap { String($0) }
+            order = orderString?.map {
+                var value = $0
+                if value.hasPrefix("-") {
+                    value.removeFirst()
+                    return Order.descending(value)
+                } else {
+                    return Order.ascending(value)
+                }
+            }
+        }
+        do {
+            excludeKeys = try values.decodeIfPresent(Set<String>.self, forKey: .excludeKeys)
+        } catch {
+            if let commaString = try values.decodeIfPresent(String.self, forKey: .excludeKeys) {
+                let commaArray = commaString
+                    .split(separator: ",")
+                    .compactMap { String($0) }
+                excludeKeys = Set(commaArray)
+            }
+        }
+        isCount = try values.decodeIfPresent(Bool.self, forKey: .isCount)
+        explain = try values.decodeIfPresent(Bool.self, forKey: .explain)
+        hint = try values.decodeIfPresent(AnyCodable.self, forKey: .hint)
+        readPreference = try values.decodeIfPresent(String.self, forKey: .readPreference)
+        includeReadPreference = try values.decodeIfPresent(String.self, forKey: .includeReadPreference)
+        subqueryReadPreference = try values.decodeIfPresent(String.self, forKey: .subqueryReadPreference)
+        distinct = try values.decodeIfPresent(String.self, forKey: .distinct)
+        pipeline = try values.decodeIfPresent([[String: AnyCodable]].self, forKey: .pipeline)
+    }
+
     /**
       An enum that determines the order to sort the results based on a given key.
 

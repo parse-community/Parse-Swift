@@ -93,6 +93,25 @@ class ParseHookTriggerTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"className\":\"GameScore\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
         XCTAssertEqual(hookTrigger2.description, expected2)
+        let hookTrigger3 = try TestTrigger(triggerName: .afterSave,
+                                           url: url)
+        // swiftlint:disable:next line_length
+        let expected3 = "{\"className\":\"@File\",\"triggerName\":\"afterSave\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
+        XCTAssertEqual(hookTrigger3.description, expected3)
+        let hookTrigger4 = try TestTrigger(triggerName: .beforeConnect,
+                                           url: url)
+        // swiftlint:disable:next line_length
+        let expected4 = "{\"className\":\"@Connect\",\"triggerName\":\"beforeConnect\",\"url\":\"https:\\/\\/api.example.com\\/foo\"}"
+        XCTAssertEqual(hookTrigger4.description, expected4)
+    }
+
+    func testInitializerError() throws {
+        guard let url = URL(string: "https://api.example.com/foo") else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertThrowsError(try TestTrigger(triggerName: .afterFind,
+                                             url: url))
     }
 
     @MainActor

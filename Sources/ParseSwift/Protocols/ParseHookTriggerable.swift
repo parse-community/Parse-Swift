@@ -46,6 +46,26 @@ public extension ParseHookTriggerable {
     init<T>(object: T, triggerName: ParseHookTriggerType, url: URL) where T: ParseObject {
         self.init(className: T.className, triggerName: triggerName, url: url)
     }
+
+    /**
+     Creates a new `ParseFile` or `ParseHookTriggerType.beforeConnect` hook trigger.
+     - parameter triggerName: The `ParseHookTriggerType` type.
+     - parameter url: The endpoint of the hook.
+     */
+    init(triggerName: ParseHookTriggerType, url: URL) throws {
+        self.init()
+        self.triggerName = triggerName
+        self.url = url
+        switch triggerName {
+        case .beforeSave, .afterSave, .beforeDelete, .afterDelete:
+            self.className = "@File"
+        case .beforeConnect:
+            self.className = "@Connect"
+        default:
+            throw ParseError(code: .unknownError,
+                             message: "This initializer should only be used for \"ParseFile\" and \"beforeConnect\"")
+        }
+    }
 }
 
 internal struct TriggerRequest: Encodable {

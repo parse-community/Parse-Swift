@@ -78,6 +78,11 @@ class ParseHookTriggerRequestTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected = "{\"headers\":{\"yolo\":\"me\"},\"ip\":\"1.1.1.1\",\"master\":true,\"object\":{\"objectId\":\"geez\"}}"
         XCTAssertEqual(triggerRequest.description, expected)
+        let triggerRequest2 = ParseHookTriggerRequest<User, User>(ipAddress: "1.1.1.1",
+                                                                  headers: ["yolo": "me"],
+                                                                  object: object)
+        let expected2 = "{\"headers\":{\"yolo\":\"me\"},\"ip\":\"1.1.1.1\",\"object\":{\"objectId\":\"geez\"}}"
+        XCTAssertEqual(triggerRequest2.description, expected2)
     }
 
     func testGetLog() async throws {

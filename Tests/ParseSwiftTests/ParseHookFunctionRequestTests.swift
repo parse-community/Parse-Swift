@@ -76,9 +76,9 @@ class ParseHookFunctionRequestTests: XCTestCase {
     func testCoding() async throws {
         let parameters = Parameters()
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         // swiftlint:disable:next line_length
         let expected = "{\"headers\":{\"yolo\":\"me\"},\"ip\":\"1.1.1.1\",\"master\":true,\"params\":{\"hello\":\"world\"}}"
         XCTAssertEqual(functionRequest.description, expected)
@@ -87,9 +87,9 @@ class ParseHookFunctionRequestTests: XCTestCase {
     func testGetLog() async throws {
         let parameters = Parameters()
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
+                                                                         parameters: parameters,
                                                                          log: AnyCodable("peace"))
         let log: String = try functionRequest.getLog()
         XCTAssertEqual(log, "peace")
@@ -98,9 +98,9 @@ class ParseHookFunctionRequestTests: XCTestCase {
     func testGetLogError() async throws {
         let parameters = Parameters()
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
+                                                                         parameters: parameters,
                                                                          log: AnyCodable("peace"))
         do {
             let _: Double = try functionRequest.getLog()
@@ -118,9 +118,9 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let parameters = Parameters()
         let context = ["peace": "out"]
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
+                                                                         parameters: parameters,
                                                                          context: AnyCodable(context))
         let requestContext: [String: String] = try functionRequest.getContext()
         XCTAssertEqual(requestContext, context)
@@ -130,9 +130,9 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let parameters = Parameters()
         let context = ["peace": "out"]
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
+                                                                         parameters: parameters,
                                                                          context: AnyCodable(context))
         do {
             let _: Double = try functionRequest.getContext()
@@ -154,42 +154,42 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         let options = API.Options([.useMasterKey])
         let requestOptions = functionRequest.options()
         XCTAssertEqual(requestOptions, options)
         let functionRequest2 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
                                                                           user: user,
                                                                           installationId: installationId,
-                                                                          parameters: parameters,
                                                                           ipAddress: "1.1.1.1",
-                                                                          headers: ["yolo": "me"])
+                                                                          headers: ["yolo": "me"],
+                                                                          parameters: parameters)
         let options2 = API.Options([.sessionToken(sessionToken),
             .installationId(installationId)])
         let requestOptions2 = functionRequest2.options()
         XCTAssertEqual(requestOptions2, options2)
         let functionRequest3 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
                                                                           user: user,
-                                                                          parameters: parameters,
                                                                           ipAddress: "1.1.1.1",
-                                                                          headers: ["yolo": "me"])
+                                                                          headers: ["yolo": "me"],
+                                                                          parameters: parameters)
         let options3 = API.Options([.sessionToken(sessionToken)])
         let requestOptions3 = functionRequest3.options()
         XCTAssertEqual(requestOptions3, options3)
         let functionRequest4 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
                                                                           installationId: installationId,
-                                                                          parameters: parameters,
                                                                           ipAddress: "1.1.1.1",
-                                                                          headers: ["yolo": "me"])
+                                                                          headers: ["yolo": "me"],
+                                                                          parameters: parameters)
         let options4 = API.Options([.installationId(installationId)])
         let requestOptions4 = functionRequest4.options()
         XCTAssertEqual(requestOptions4, options4)
         let functionRequest5 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
-                                                                          parameters: parameters,
                                                                           ipAddress: "1.1.1.1",
-                                                                          headers: ["yolo": "me"])
+                                                                          headers: ["yolo": "me"],
+                                                                          parameters: parameters)
         let options5 = API.Options()
         let requestOptions5 = functionRequest5.options()
         XCTAssertEqual(requestOptions5, options5)
@@ -215,15 +215,15 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         let requestHydrated = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          user: server,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         let hydrated = try await functionRequest.hydrateUser()
         XCTAssertEqual(hydrated, requestHydrated)
     }
@@ -243,9 +243,9 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         do {
             _ = try await functionRequest.hydrateUser()
             XCTFail("Should have thrown error")
@@ -266,9 +266,9 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let installationId = "cat"
         let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
                                                                          installationId: installationId,
-                                                                         parameters: parameters,
                                                                          ipAddress: "1.1.1.1",
-                                                                         headers: ["yolo": "me"])
+                                                                         headers: ["yolo": "me"],
+                                                                         parameters: parameters)
         do {
             _ = try await functionRequest.hydrateUser()
             XCTFail("Should have thrown error")

@@ -16,13 +16,13 @@ import Foundation
  */
 public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseHookRequestable {
     public typealias UserType = U
-    public var masterKey: Bool
+    public var masterKey: Bool?
     public var user: U?
     public var installationId: String?
-    public var ipAddress: String
-    public var headers: [String: String]
+    public var ipAddress: String?
+    public var headers: [String: String]?
     /// An object from the hook call.
-    public var object: T
+    public var object: T?
     /// The results the query yielded..
     public var objects: [T]?
     /// If set, the object, as currently stored.
@@ -46,6 +46,8 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
      LiveQuery from pushing to the client.
      */
     public var sendEvent: Bool?
+    /// The live query event that triggered the request.
+    public var event: String?
     var log: AnyCodable?
     var context: AnyCodable?
 

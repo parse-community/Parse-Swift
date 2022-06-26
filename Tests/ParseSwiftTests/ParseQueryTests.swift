@@ -103,6 +103,28 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query5.`where`.constraints.values.count, 0)
     }
 
+    func testDecodingQueryArrays() throws {
+        let query = GameScore.query
+            .order([.ascending("points"), .descending("oldScore")])
+            .exclude("hello", "world")
+            .include("foo", "bar")
+            .select("yolo", "nolo")
+        // swiftlint:disable:next line_length
+        guard let encoded1 = "{\"_method\":\"GET\",\"excludeKeys\":[\"hello\",\"world\"],\"include\":[\"foo\",\"bar\"],\"keys\":[\"yolo\",\"nolo\"],\"limit\":100,\"order\":[\"points\",\"-oldScore\"],\"skip\":0,\"where\":{}}".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let decoded1 = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded1)
+        XCTAssertEqual(query, decoded1)
+        // swiftlint:disable:next line_length
+        guard let encoded2 = "{\"_method\":\"GET\",\"excludeKeys\":\"hello,world\",\"include\":\"foo,bar\",\"keys\":\"yolo,nolo\",\"limit\":100,\"order\":\"points,-oldScore\",\"skip\":0,\"where\":{}}".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let decoded2 = try ParseCoding.jsonDecoder().decode(Query<GameScore>.self, from: encoded2)
+        XCTAssertEqual(query, decoded2)
+    }
+
     func testCompareQueries() {
 
         let query1 = GameScore.query("points" > 100, "createdAt" > Date())
