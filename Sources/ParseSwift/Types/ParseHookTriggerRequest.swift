@@ -46,6 +46,8 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
      LiveQuery from pushing to the client.
      */
     public var sendEvent: Bool?
+    /// The live query event that triggered the request.
+    public var event: String?
     var log: AnyCodable?
     var context: AnyCodable?
 
