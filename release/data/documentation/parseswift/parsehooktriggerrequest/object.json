@@ -19,7 +19,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A18HookTriggerRequestV6objectq_vp",
+    "externalID" : "s:10ParseSwift0A18HookTriggerRequestV6objectq_Sgvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -41,6 +41,10 @@
         "kind" : "typeIdentifier",
         "preciseIdentifier" : "s:10ParseSwift0A18HookTriggerRequestV1Tq_mfp",
         "text" : "T"
+      },
+      {
+        "kind" : "text",
+        "text" : "?"
       }
     ],
     "modules" : [
@@ -84,6 +88,10 @@
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:10ParseSwift0A18HookTriggerRequestV1Tq_mfp",
               "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : "?"
             }
           ]
         }
@@ -197,6 +205,10 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:10ParseSwift0A18HookTriggerRequestV1Tq_mfp",
       "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/object",

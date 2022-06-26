@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The IP address of the client making the request.",
+      "text" : "The live query event that triggered the request.",
       "type" : "text"
     }
   ],
@@ -9,17 +9,17 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionRequest"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionRequest\/ipAddress"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/event"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A19HookFunctionRequestV9ipAddressSSSgvp",
+    "externalID" : "s:10ParseSwift0A18HookTriggerRequestV5eventSSSgvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -31,7 +31,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "ipAddress"
+        "text" : "event"
       },
       {
         "kind" : "text",
@@ -55,7 +55,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Property",
     "symbolKind" : "property",
-    "title" : "ipAddress"
+    "title" : "event"
   },
   "primaryContentSections" : [
     {
@@ -78,7 +78,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "ipAddress"
+              "text" : "event"
             },
             {
               "kind" : "text",
@@ -110,7 +110,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsehookfunctionrequest\/ipaddress"
+        "\/documentation\/parseswift\/parsehooktriggerrequest\/event"
       ],
       "traits" : [
         {
@@ -135,18 +135,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookFunctionRequest": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerRequest": {
   "abstract" : [
     {
       "text" : "A type that can decode requests when ",
       "type" : "text"
     },
     {
-      "code" : "ParseHookFunctionable",
+      "code" : "ParseHookTriggerable",
       "type" : "codeVoice"
     },
     {
-      "text" : " functions are called.",
+      "text" : " triggers are called.",
       "type" : "text"
     }
   ],
@@ -161,26 +161,26 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseHookFunctionRequest"
+      "text" : "ParseHookTriggerRequest"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionRequest",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseHookFunctionRequest"
+      "text" : "ParseHookTriggerRequest"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseHookFunctionRequest",
+  "title" : "ParseHookTriggerRequest",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsehookfunctionrequest"
+  "url" : "\/documentation\/parseswift\/parsehooktriggerrequest"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookFunctionRequest/ipAddress": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerRequest/event": {
   "abstract" : [
     {
-      "text" : "The IP address of the client making the request.",
+      "text" : "The live query event that triggered the request.",
       "type" : "text"
     }
   ],
@@ -195,7 +195,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ipAddress"
+      "text" : "event"
     },
     {
       "kind" : "text",
@@ -211,12 +211,12 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookFunctionRequest\/ipAddress",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/event",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "ipAddress",
+  "title" : "event",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsehookfunctionrequest\/ipaddress"
+  "url" : "\/documentation\/parseswift\/parsehooktriggerrequest\/event"
 }
 }
 }

@@ -183,7 +183,8 @@
     {
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable\/init(className:triggerName:url:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable\/init(object:triggerName:url:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable\/init(object:triggerName:url:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable\/init(triggerName:url:)"
       ],
       "title" : "Initializers"
     },
@@ -1934,6 +1935,84 @@
   "title" : "init(object:triggerName:url:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehooktriggerable\/init(object:triggername:url:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerable/init(triggerName:url:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a new ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseFile",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " or ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseHookTriggerType.beforeConnect",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " hook trigger.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "triggerName"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A15HookTriggerTypeO",
+      "text" : "ParseHookTriggerType"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "url"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable\/init(triggerName:url:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(triggerName:url:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehooktriggerable\/init(triggername:url:)"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerable/triggerName": {
   "abstract" : [

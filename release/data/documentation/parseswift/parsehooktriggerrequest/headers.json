@@ -19,7 +19,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A18HookTriggerRequestV7headersSDyS2SGvp",
+    "externalID" : "s:10ParseSwift0A18HookTriggerRequestV7headersSDyS2SGSgvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -53,7 +53,7 @@
       },
       {
         "kind" : "text",
-        "text" : "]"
+        "text" : "]?"
       }
     ],
     "modules" : [
@@ -109,7 +109,7 @@
             },
             {
               "kind" : "text",
-              "text" : "]"
+              "text" : "]?"
             }
           ]
         }
@@ -235,7 +235,7 @@
     },
     {
       "kind" : "text",
-      "text" : "]"
+      "text" : "]?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/headers",

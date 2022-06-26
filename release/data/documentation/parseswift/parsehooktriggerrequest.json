@@ -232,6 +232,7 @@
       "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/clients",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/contentLength",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/event",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/file",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/fileSize",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/headers",
@@ -604,6 +605,47 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsehooktriggerrequest\/contentlength"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerRequest/event": {
+  "abstract" : [
+    {
+      "text" : "The live query event that triggered the request.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "event"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/event",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "event",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsehooktriggerrequest\/event"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseHookTriggerRequest/file": {
   "abstract" : [
     {
@@ -944,7 +986,7 @@
     },
     {
       "kind" : "text",
-      "text" : "]"
+      "text" : "]?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/headers",
@@ -1065,6 +1107,10 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:SS",
       "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/ipAddress",
@@ -1190,6 +1236,10 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:Sb",
       "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/masterKey",
@@ -1227,6 +1277,10 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:10ParseSwift0A18HookTriggerRequestV1Tq_mfp",
       "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerRequest\/object",

@@ -440,7 +440,7 @@
     },
     {
       "kind" : "text",
-      "text" : "]"
+      "text" : "]?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookRequestable\/headers",
@@ -838,6 +838,10 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:SS",
       "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookRequestable\/ipAddress",
@@ -897,6 +901,10 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:Sb",
       "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookRequestable\/masterKey",

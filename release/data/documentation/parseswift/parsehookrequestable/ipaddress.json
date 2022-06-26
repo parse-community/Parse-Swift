@@ -19,7 +19,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A15HookRequestableP9ipAddressSSvp",
+    "externalID" : "s:10ParseSwift0A15HookRequestableP9ipAddressSSSgvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -41,6 +41,10 @@
         "kind" : "typeIdentifier",
         "preciseIdentifier" : "s:SS",
         "text" : "String"
+      },
+      {
+        "kind" : "text",
+        "text" : "?"
       }
     ],
     "modules" : [
@@ -88,7 +92,7 @@
             },
             {
               "kind" : "text",
-              "text" : " { "
+              "text" : "? { "
             },
             {
               "kind" : "keyword",
@@ -226,6 +230,10 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:SS",
       "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookRequestable\/ipAddress",
