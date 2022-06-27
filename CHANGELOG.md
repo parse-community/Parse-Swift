@@ -5,6 +5,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.7.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Add ParseSpotify authentication ([#375](https://github.com/parse-community/Parse-Swift/pull/375)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
+
 __Fixes__
 - Use select for ParseLiveQuery when fields are not present ([#376](https://github.com/parse-community/Parse-Swift/pull/376)), thanks to [Corey Baker](https://github.com/cbaker6).
 
@@ -18,7 +21,6 @@ __New features__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.5.0...4.6.0)
 
 __New features__
-- Add ParseSpotify authentication ([#375](https://github.com/parse-community/Parse-Swift/pull/375)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
 - Add the ability to use Parse Hooks and Triggers ([#373](https://github.com/parse-community/Parse-Swift/pull/373)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add ParseInstagram authentication ([#372](https://github.com/parse-community/Parse-Swift/pull/372)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
 - Add the ability to send APN and FCM push notifications. Also adds the ability to query _PushStatus ([#371](https://github.com/parse-community/Parse-Swift/pull/371)), thanks to [Corey Baker](https://github.com/cbaker6).
