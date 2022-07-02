@@ -356,7 +356,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
      - parameter keys: A variadic list of keys to include in the result.
      - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
-     - note: When using the `Query` for `ParseLiveQuery`, setting`fields` will take precedence
+     - note: When using the `Query` for `ParseLiveQuery`, setting `fields` will take precedence
      over `select`. If `fields` are not set, the `select` keys will be used.
      */
     public func select(_ keys: String...) -> Query<T> {
@@ -369,7 +369,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
      - parameter keys: An array of keys to include in the result.
      - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
-     - note: When using the `Query` for `ParseLiveQuery`, setting`fields` will take precedence
+     - note: When using the `Query` for `ParseLiveQuery`, setting `fields` will take precedence
      over `select`. If `fields` are not set, the `select` keys will be used.
      */
     public func select(_ keys: [String]) -> Query<T> {
