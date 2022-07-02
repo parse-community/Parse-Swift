@@ -148,7 +148,7 @@ ParseLiveQuery.client?.sendPing { error in
 var query2 = GameScore.query("points" > 50)
 
 //: Select the fields you are interested in receiving.
-query2.fields("points")
+query2.select("points")
 
 //: Subscribe to your new query.
 let subscription2 = query2.subscribeCallback!

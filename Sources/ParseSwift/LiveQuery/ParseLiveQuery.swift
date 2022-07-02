@@ -795,7 +795,9 @@ extension ParseLiveQuery {
     public func subscribe<T>(_ handler: T) throws -> T where T: QuerySubscribable {
 
         let requestId = requestIdGenerator()
-        let message = SubscribeMessage<T.Object>(operation: .subscribe, requestId: requestId, query: handler.query)
+        let message = SubscribeMessage<T.Object>(operation: .subscribe,
+                                                 requestId: requestId,
+                                                 query: handler.query)
         guard let subscriptionRecord = SubscriptionRecord(
             query: handler.query,
             message: message,

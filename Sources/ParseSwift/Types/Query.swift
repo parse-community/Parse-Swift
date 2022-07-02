@@ -353,9 +353,11 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     /**
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
-     - parameter keys: A variadic list of keys include in the result.
+     - parameter keys: A variadic list of keys to include in the result.
      - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
+     - note: When using the `Query` for `ParseLiveQuery`, setting `fields` will take precedence
+     over `select`. If `fields` are not set, the `select` keys will be used.
      */
     public func select(_ keys: String...) -> Query<T> {
         self.select(keys)
@@ -367,6 +369,8 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
      - parameter keys: An array of keys to include in the result.
      - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
+     - note: When using the `Query` for `ParseLiveQuery`, setting `fields` will take precedence
+     over `select`. If `fields` are not set, the `select` keys will be used.
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -399,13 +403,16 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     }
 
     /**
-     A variadic list of fields to receive when receiving a `ParseLiveQuery`.
+     A variadic list of selected fields to receive updates on when the `Query` is used as a
+     `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
      If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
+     - note: Setting `fields` will take precedence over `select`. If `fields` are not set, the
+     `select` keys will be used.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
      - returns: The mutated instance of query for easy chaining.
@@ -415,13 +422,16 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     }
 
     /**
-     A list of fields to receive when receiving a `ParseLiveQuery`.
+     A list of fields to receive updates on when the `Query` is used as a
+     `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
      If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
+     - note: Setting `fields` will take precedence over `select`. If `fields` are not set, the
+     `select` keys will be used.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
      - returns: The mutated instance of query for easy chaining.
