@@ -411,7 +411,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
-     - note: Setting`fields` will take precedence over `select`. If `fields` are not set, the
+     - note: Setting `fields` will take precedence over `select`. If `fields` are not set, the
      `select` keys will be used.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
@@ -430,7 +430,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
-     - note: Setting`fields` will take precedence over `select`. If `fields` are not set, the
+     - note: Setting `fields` will take precedence over `select`. If `fields` are not set, the
      `select` keys will be used.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
