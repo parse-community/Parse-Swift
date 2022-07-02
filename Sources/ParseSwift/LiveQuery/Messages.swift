@@ -57,7 +57,9 @@ struct SubscribeMessage<T: ParseObject>: LiveQueryable, Encodable {
         self.op = operation
         self.requestId = requestId.value
         if let query = query {
-            self.query = SubscribeQuery(className: query.className, where: query.where, fields: query.fields)
+            self.query = SubscribeQuery(className: query.className,
+                                        where: query.where,
+                                        fields: query.fields ?? query.keys)
         }
         self.sessionToken = BaseParseUser.currentContainer?.sessionToken
     }
