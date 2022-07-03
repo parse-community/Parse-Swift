@@ -444,6 +444,9 @@
 		7085DDB326D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
 		7085DDB426D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
 		7085DDB526D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
+		708CADCF2872263D0066C279 /* ParseKeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708CADCE2872263D0066C279 /* ParseKeychainTests.swift */; };
+		708CADD02872263D0066C279 /* ParseKeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708CADCE2872263D0066C279 /* ParseKeychainTests.swift */; };
+		708CADD12872263D0066C279 /* ParseKeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708CADCE2872263D0066C279 /* ParseKeychainTests.swift */; };
 		708D035225215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035325215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035425215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
@@ -1222,6 +1225,7 @@
 		7085DD9326CBF3A70033B977 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		7085DDA226CC8A470033B977 /* ParseHealth+combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseHealth+combine.swift"; sourceTree = "<group>"; };
 		7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthenticationCombineTests.swift; sourceTree = "<group>"; };
+		708CADCE2872263D0066C279 /* ParseKeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseKeychainTests.swift; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
 		709A147C283949D100BF85E5 /* ParseSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSchema.swift; sourceTree = "<group>"; };
 		709A148128395ED100BF85E5 /* ParseSchema+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseSchema+async.swift"; sourceTree = "<group>"; };
@@ -1573,6 +1577,7 @@
 				703B092626BE0719005A112F /* ParseInstallationAsyncTests.swift */,
 				7044C1BA25C52E410011F6E7 /* ParseInstallationCombineTests.swift */,
 				70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */,
+				708CADCE2872263D0066C279 /* ParseKeychainTests.swift */,
 				917BA4552703F75E00F8D747 /* ParseLDAPAsyncTests.swift */,
 				70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */,
 				70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */,
@@ -2866,6 +2871,7 @@
 				911DB13324C494390027F3C7 /* MockURLProtocol.swift in Sources */,
 				917BA44A2703F10400F8D747 /* ParseAppleAsyncTests.swift in Sources */,
 				705025A5284407C4008D6624 /* ParseSchemaTests.swift in Sources */,
+				708CADCF2872263D0066C279 /* ParseKeychainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3171,6 +3177,7 @@
 				709B98542556ECAA00507778 /* ParseInstallationTests.swift in Sources */,
 				917BA44C2703F10400F8D747 /* ParseAppleAsyncTests.swift in Sources */,
 				705025A7284407C4008D6624 /* ParseSchemaTests.swift in Sources */,
+				708CADD12872263D0066C279 /* ParseKeychainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3287,6 +3294,7 @@
 				70F2E2B9254F283000B2EA5C /* KeychainStoreTests.swift in Sources */,
 				917BA44B2703F10400F8D747 /* ParseAppleAsyncTests.swift in Sources */,
 				705025A6284407C4008D6624 /* ParseSchemaTests.swift in Sources */,
+				708CADD02872263D0066C279 /* ParseKeychainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,6 +5,7 @@
 //  Created by Florent Vilmart on 17-09-25.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
+
 #if !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 import XCTest

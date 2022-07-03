@@ -67,7 +67,7 @@ extension KeychainStore: ParseKeyValueStore {
     }
 
     func deleteAll() throws {
-        if !removeAllObjects() {
+        if !removeAllObjects(accessGroup: ParseSwift.configuration.accessGroup) {
             throw ParseError(code: .objectNotFound, message: "Couldn't delete all objects in Keychain")
         }
     }
