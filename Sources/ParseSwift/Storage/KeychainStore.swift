@@ -13,13 +13,16 @@ import Security
 
 #if !os(Linux) && !os(Android) && !os(Windows)
 
-func getKeychainQueryTemplate(forService service: String) -> [String: String] {
-    var query = [String: String]()
-    if service.count > 0 {
+func getKeychainQueryTemplate(forService service: String) -> [String: Any] {
+    var query = [String: Any]()
+    if !service.isEmpty {
         query[kSecAttrService as String] = service
     }
     query[kSecClass as String] = kSecClassGenericPassword as String
-    query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
+    query[kSecUseDataProtectionKeychain as String] = kCFBooleanTrue
+    if let accessGroup = ParseSwift.configuration.accessGroup {
+        query[kSecAttrAccessGroup as String] = accessGroup
+    }
     return query
 }
 
@@ -30,7 +33,7 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
  */
 struct KeychainStore: SecureStorage {
     let synchronizationQueue: DispatchQueue
-    private let keychainQueryTemplate: [String: String]
+    private let keychainQueryTemplate: [String: Any]
     static var shared = KeychainStore()
     // This Keychain was used by SDK <= 1.9.7
     static var old = KeychainStore(service: "shared")
@@ -73,6 +76,15 @@ struct KeychainStore: SecureStorage {
     private func keychainQuery(forKey key: String) -> [String: Any] {
         var query: [String: Any] = keychainQueryTemplate
         query[kSecAttrAccount as String] = key
+        if ParseSwift.configuration.isSyncingKeychainAcrossDevices {
+            query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock as String
+            if key != ParseStorage.Keys.currentInstallation {
+                query[kSecAttrSynchronizable as String] = kCFBooleanTrue
+            }
+        } else {
+            query[kSecAttrSynchronizable as String] = kCFBooleanFalse
+            query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
+        }
         return query
     }
 
@@ -161,9 +173,21 @@ struct KeychainStore: SecureStorage {
 
     private func set(_ data: Data, forKey key: String) throws -> Bool {
         let query = keychainQuery(forKey: key)
-        let update = [
+        var update: [String: Any] = [
             kSecValueData as String: data
         ]
+        if let accessGroup = ParseSwift.configuration.accessGroup {
+            update[kSecAttrAccessGroup as String] = accessGroup
+        }
+        if ParseSwift.configuration.isSyncingKeychainAcrossDevices {
+            update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock as String
+            if key != ParseStorage.Keys.currentInstallation {
+                update[kSecAttrSynchronizable as String] = kCFBooleanTrue
+            }
+        } else {
+            update[kSecAttrSynchronizable as String] = kCFBooleanFalse
+            update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
+        }
 
         let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
             if self.data(forKey: key) != nil {

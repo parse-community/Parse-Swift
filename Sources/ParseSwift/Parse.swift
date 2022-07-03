@@ -37,6 +37,9 @@ public struct ParseConfiguration {
     /// - warning: This is known not to work for LiveQuery on Parse Servers <= 5.0.0.
     public internal(set) var isUsingEqualQueryConstraint = false
 
+    public internal(set) var accessGroup: String?
+    public internal(set) var isSyncingKeychainAcrossDevices = false
+
     /// The default caching policy for all http requests that determines when to
     /// return a response from the cache. Defaults to `useProtocolCachePolicy`.
     /// See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
@@ -178,6 +181,7 @@ public struct ParseSwift {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
             let currentSDKVersion = try ParseVersion(ParseConstants.version)
             let oneNineEightSDKVersion = try ParseVersion("1.9.8")
+            let fourEightZeroSDKVersion = try ParseVersion("4.8.0")
 
             // All migrations from previous versions to current should occur here:
             #if !os(Linux) && !os(Android) && !os(Windows)
@@ -187,6 +191,8 @@ public struct ParseSwift {
                 KeychainStore.shared.copy(keychain: KeychainStore.old)
                 // Need to delete the old Keychain because a new one is created with bundleId.
                 try? KeychainStore.old.deleteAll()
+            } else if previousSDKVersion < fourEightZeroSDKVersion {
+                KeychainStore.shared.copy(keychain: KeychainStore.shared)
             }
             #endif
             if currentSDKVersion > previousSDKVersion {

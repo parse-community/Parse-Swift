@@ -14,12 +14,24 @@ class KeychainStoreTests: XCTestCase {
     var testStore: KeychainStore!
     override func setUpWithError() throws {
         try super.setUpWithError()
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url, testing: true)
         testStore = KeychainStore(service: "test")
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         _ = testStore.removeAllObjects()
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        try KeychainStore.shared.deleteAll()
+        #endif
+        try ParseStorage.shared.deleteAll()
     }
 
     func testSetObject() {
