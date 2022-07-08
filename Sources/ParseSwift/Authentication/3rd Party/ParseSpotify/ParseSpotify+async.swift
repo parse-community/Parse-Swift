@@ -16,7 +16,6 @@ public extension ParseSpotify {
      Login a `ParseUser` *asynchronously* using Spotify authentication.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
-     - parameter clientId: Optional **client_id** from **Spotify**.
      - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
      - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -25,14 +24,12 @@ public extension ParseSpotify {
      */
     func login(id: String,
                accessToken: String,
-               clientId: String? = nil,
                expiresIn: Int? = nil,
                refreshToken: String? = nil,
                options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
             self.login(id: id,
                        accessToken: accessToken,
-                       clientId: clientId,
                        expiresIn: expiresIn,
                        refreshToken: refreshToken,
                        options: options,
@@ -62,7 +59,6 @@ public extension ParseSpotify {
      Link the *current* `ParseUser` *asynchronously* using Spotify authentication.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
-     - parameter clientId: Optional **client_id** from **Spotify**.
      - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
      - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -71,14 +67,12 @@ public extension ParseSpotify {
      */
     func link(id: String,
               accessToken: String,
-              clientId: String? = nil,
               expiresIn: Int? = nil,
               refreshToken: String? = nil,
               options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
             self.link(id: id,
                       accessToken: accessToken,
-                      clientId: clientId,
                       expiresIn: expiresIn,
                       refreshToken: refreshToken,
                       options: options,

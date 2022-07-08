@@ -21,19 +21,16 @@ public struct ParseSpotify<AuthenticatedUser: ParseUser>: ParseAuthentication {
     enum AuthenticationKeys: String, Codable {
         case id
         case accessToken = "access_token"
-        case clientId = "client_id"
         case expirationDate = "expiration_date"
         case refreshToken = "refresh_token"
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter id: Required id for the user.
         /// - parameter accessToken: Required access token for Spotify.
-        /// - parameter clientId: Optional client id for Spotify.
         /// - parameter expiresIn: Optional expiration in seconds for Spotify.
         /// - parameter refreshToken: Optional refresh token for Spotify.
         /// - returns: authData dictionary.
         func makeDictionary(id: String,
                             accessToken: String,
-                            clientId: String? = nil,
                             expiresIn: Int? = nil,
                             refreshToken: String? = nil) -> [String: String] {
 
@@ -41,9 +38,6 @@ public struct ParseSpotify<AuthenticatedUser: ParseUser>: ParseAuthentication {
                 AuthenticationKeys.id.rawValue: id,
                 AuthenticationKeys.accessToken.rawValue: accessToken
             ]
-            if let clientId = clientId {
-                returnDictionary[AuthenticationKeys.clientId.rawValue] = clientId
-            }
             if let expiresIn = expiresIn,
                 let expirationDate = Calendar.current.date(byAdding: .second,
                                                              value: expiresIn,
@@ -83,7 +77,6 @@ public extension ParseSpotify {
      Login a `ParseUser` *asynchronously* using Spotify authentication.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
-     - parameter clientId: Optional **client_id** from **Spotify**.
      - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
      - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -92,7 +85,6 @@ public extension ParseSpotify {
      */
     func login(id: String,
                accessToken: String,
-               clientId: String? = nil,
                expiresIn: Int? = nil,
                refreshToken: String? = nil,
                options: API.Options = [],
@@ -102,7 +94,6 @@ public extension ParseSpotify {
         let spotifyAuthData = AuthenticationKeys.id
                 .makeDictionary(id: id,
                                 accessToken: accessToken,
-                                clientId: clientId,
                                 expiresIn: expiresIn,
                                 refreshToken: refreshToken)
         login(authData: spotifyAuthData,
@@ -137,7 +128,6 @@ public extension ParseSpotify {
      Link the *current* `ParseUser` *asynchronously* using Spotify authentication.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
-     - parameter clientId: Optional **client_id** from **Spotify**.
      - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
      - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -146,7 +136,6 @@ public extension ParseSpotify {
      */
     func link(id: String,
               accessToken: String,
-              clientId: String? = nil,
               expiresIn: Int? = nil,
               refreshToken: String? = nil,
               options: API.Options = [],
@@ -155,7 +144,6 @@ public extension ParseSpotify {
         let spotifyAuthData = AuthenticationKeys.id
             .makeDictionary(id: id,
                             accessToken: accessToken,
-                            clientId: clientId,
                             expiresIn: expiresIn,
                             refreshToken: refreshToken)
         link(authData: spotifyAuthData,

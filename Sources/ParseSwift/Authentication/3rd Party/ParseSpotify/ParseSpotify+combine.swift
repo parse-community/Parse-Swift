@@ -16,7 +16,6 @@ public extension ParseSpotify {
      Login a `ParseUser` *asynchronously* using Spotify authentication. Publishes when complete.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
-     - parameter clientId: Optional **client_id** from **Spotify**.
      - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
      - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -24,14 +23,12 @@ public extension ParseSpotify {
      */
     func loginPublisher(id: String,
                         accessToken: String,
-                        clientId: String? = nil,
                         expiresIn: Int? = nil,
                         refreshToken: String? = nil,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
             self.login(id: id,
                        accessToken: accessToken,
-                       clientId: clientId,
                        expiresIn: expiresIn,
                        refreshToken: refreshToken,
                        options: options,
@@ -60,7 +57,6 @@ public extension ParseSpotify {
      Publishes when complete.
      - parameter id: The **Spotify profile id** from **Spotify**.
      - parameter accessToken: Required **access_token** from **Spotify**.
-     - parameter clientId: Optional **client_id** from **Spotify**.
      - parameter expiresIn: Optional **expires_in** in seconds from **Spotify**.
      - parameter refreshToken: Optional **refresh_token** from **Spotify**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -68,14 +64,12 @@ public extension ParseSpotify {
      */
     func linkPublisher(id: String,
                        accessToken: String,
-                       clientId: String? = nil,
                        expiresIn: Int? = nil,
                        refreshToken: String? = nil,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
             self.link(id: id,
                       accessToken: accessToken,
-                      clientId: clientId,
                       expiresIn: expiresIn,
                       refreshToken: refreshToken,
                       options: options,

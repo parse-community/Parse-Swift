@@ -108,7 +108,6 @@ class ParseSpotifyTests: XCTestCase {
         let authData = ParseSpotify<User>
             .AuthenticationKeys.id.makeDictionary(id: "testing",
                                                   accessToken: "access_token",
-                                                  clientId: "client_id",
                                                   expiresIn: 10,
                                                   refreshToken: "refresh_token")
         guard let dateString = authData["expiration_date"] else {
@@ -117,7 +116,6 @@ class ParseSpotifyTests: XCTestCase {
         }
         XCTAssertEqual(authData, ["id": "testing",
                                   "access_token": "access_token",
-                                  "client_id": "client_id",
                                   "expiration_date": dateString,
                                   "refresh_token": "refresh_token"])
     }
