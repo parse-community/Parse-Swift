@@ -2927,13 +2927,17 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     // swiftlint:disable:next function_body_length
     func testWhereKeyWithinPolygonPoints() throws {
         let expected: [String: AnyCodable] = [
-            "yolo": ["$geoWithin": ["$polygon": [
-                                        [10.1, 20.1],
-                                        [20.1, 30.1],
-                                        [30.1, 40.1]]
-                                ]
+            "yolo":
+                ["$geoWithin":
+                    ["$polygon":
+                        [
+                            try ParseGeoPoint(latitude: 10.1, longitude: 20.1),
+                            try ParseGeoPoint(latitude: 20.1, longitude: 30.1),
+                            try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
+                        ]
+                    ]
+                ]
             ]
-        ]
         let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
         let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
         let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
@@ -2944,16 +2948,16 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         do {
             let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
-            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            let decodedDictionary = try JSONDecoder().decode([String: [String: [ParseGeoPoint]]].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
-            guard let expectedValues = expected.values.first?.value as? [String: [String: [[Double]]]],
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [ParseGeoPoint]]],
                   let expectedBox = expectedValues["$geoWithin"]?["$polygon"] else {
                 XCTFail("Should have casted")
                 return
             }
 
-            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[Double]]]],
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [ParseGeoPoint]]],
                   let decodedBox = decodedValues["$geoWithin"]?["$polygon"] else {
                 XCTFail("Should have casted")
                 return
