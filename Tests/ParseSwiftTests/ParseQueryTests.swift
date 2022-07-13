@@ -2924,6 +2924,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
     // swiftlint:disable:next function_body_length
     func testWhereKeyWithinPolygonPoints() throws {
         // swiftlint:disable:next line_length
@@ -2949,6 +2950,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query(constraint)
         XCTAssertEqual(query.where.description, expected)
     }
+    #endif
 
     func testWhereKeyPolygonContains() throws {
         let expected: [String: AnyCodable] = [
