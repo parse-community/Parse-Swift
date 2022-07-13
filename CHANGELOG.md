@@ -5,6 +5,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.7.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Add ParseSpotify authentication ([#375](https://github.com/parse-community/Parse-Swift/pull/375)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
+
 __Fixes__
 - Use select for ParseLiveQuery when fields are not present ([#376](https://github.com/parse-community/Parse-Swift/pull/376)), thanks to [Corey Baker](https://github.com/cbaker6).
 
