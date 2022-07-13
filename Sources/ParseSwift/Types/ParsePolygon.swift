@@ -105,8 +105,8 @@ extension ParsePolygon {
         let points = try values.decode([[Double]].self, forKey: .coordinates)
         try points.forEach {
             if $0.count == 2 {
-                guard let latitude = $0.first,
-                      let longitude = $0.last else {
+                guard let latitude = $0.last,
+                      let longitude = $0.first else {
                     throw ParseError(code: .unknownError, message: "Could not decode ParsePolygon: \(points)")
                 }
                 decodedCoordinates.append(try ParseGeoPoint(latitude: latitude,
@@ -125,7 +125,7 @@ extension ParsePolygon {
         try container.encode(__type, forKey: .__type)
         var nestedUnkeyedContainer = container.nestedUnkeyedContainer(forKey: .coordinates)
         try coordinates.forEach {
-            try nestedUnkeyedContainer.encode([$0.latitude, $0.longitude])
+            try nestedUnkeyedContainer.encode([$0.longitude, $0.latitude])
         }
     }
 }

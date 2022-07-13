@@ -2940,7 +2940,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     // swiftlint:disable:next function_body_length
     func testWhereKeyWithinPolygon() throws {
         // swiftlint:disable:next line_length
-        let expected = "{\"yolo\":{\"$geoWithin\":{\"$polygon\":{\"__type\":\"Polygon\",\"coordinates\":[[10.1,20.100000000000001],[20.100000000000001,30.100000000000001],[30.100000000000001,40.100000000000001]]}}}}"
+        let expected = "{\"yolo\":{\"$geoWithin\":{\"$polygon\":{\"__type\":\"Polygon\",\"coordinates\":[[20.100000000000001,10.1],[30.100000000000001,20.100000000000001],[40.100000000000001,30.100000000000001]]}}}}"
         let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
         let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
         let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
