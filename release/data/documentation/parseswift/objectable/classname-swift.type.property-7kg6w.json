@@ -8,8 +8,8 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable\/className-swift.type.property-499yb",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable\/className-swift.property"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable\/className-swift.property",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable\/className-swift.type.property-499yb"
       ],
       "title" : "Objectable Implementations"
     }

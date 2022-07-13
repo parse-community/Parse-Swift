@@ -4269,7 +4269,19 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Query/fields(_:)-2q1ez": {
   "abstract" : [
     {
-      "text" : "A variadic list of fields to receive when receiving a ",
+      "text" : "A variadic list of selected fields to receive updates on when the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Query",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is used as a",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
       "type" : "text"
     },
     {
@@ -4336,7 +4348,19 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Query/fields(_:)-71x3d": {
   "abstract" : [
     {
-      "text" : "A list of fields to receive when receiving a ",
+      "text" : "A list of fields to receive updates on when the ",
+      "type" : "text"
+    },
+    {
+      "code" : "Query",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is used as a",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
       "type" : "text"
     },
     {

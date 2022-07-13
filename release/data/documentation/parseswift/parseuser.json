@@ -183,6 +183,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/linkedin-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/password",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/sessionToken",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/spotify-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/twitter-swift.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/username"
       ],
@@ -236,6 +237,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/instagram-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/ldap-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/linkedin-swift.type.property",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/spotify-swift.type.property",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/twitter-swift.type.property"
       ],
       "title" : "Type Properties"
@@ -8692,6 +8694,128 @@
   "title" : "signupPublisher(username:password:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseuser\/signuppublisher(username:password:options:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/spotify-swift.property": {
+  "abstract" : [
+    {
+      "text" : "An Spotify ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "spotify"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A7SpotifyV",
+      "text" : "ParseSpotify"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/spotify-swift.property",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "spotify",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseuser\/spotify-swift.property"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/spotify-swift.type.property": {
+  "abstract" : [
+    {
+      "text" : "A Spotify ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "spotify"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A7SpotifyV",
+      "text" : "ParseSpotify"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/spotify-swift.type.property",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "spotify",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseuser\/spotify-swift.type.property"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/strip(_:)": {
   "abstract" : [

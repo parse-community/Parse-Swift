@@ -153,6 +153,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstagram",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLDAP",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLinkedIn",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSpotify",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter"
       ],
       "kind" : "relationships",
@@ -2741,6 +2742,82 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselinkedin"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSpotify": {
+  "abstract" : [
+    {
+      "text" : "Provides utility functions for working with Spotify User Authentication and ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Be sure your Parse Server is configured for ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#spotify-authdata",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "For information on acquiring Spotify sign-in credentials to use with ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSpotify",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", refer to ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/developer.spotify.com\/documentation\/general\/guides\/authorization\/",
+      "isActive" : true,
+      "type" : "reference"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseSpotify"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSpotify",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseSpotify"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseSpotify",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsespotify"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTwitter": {
   "abstract" : [
     {
@@ -2836,6 +2913,18 @@
   ],
   "type" : "link",
   "url" : "https:\/\/developer.apple.com\/documentation\/authenticationservices\/implementing_user_authentication_with_sign_in_with_apple"
+},
+"https://developer.spotify.com/documentation/general/guides/authorization/": {
+  "identifier" : "https:\/\/developer.spotify.com\/documentation\/general\/guides\/authorization\/",
+  "title" : "Spotify’s Documentation",
+  "titleInlineContent" : [
+    {
+      "text" : "Spotify’s Documentation",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/developer.spotify.com\/documentation\/general\/guides\/authorization\/"
 },
 "https://developer.twitter.com/en/docs/authentication/guides/log-in-with-twitter": {
   "identifier" : "https:\/\/developer.twitter.com\/en\/docs\/authentication\/guides\/log-in-with-twitter",
@@ -3004,6 +3093,18 @@
   ],
   "type" : "link",
   "url" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#oauth-and-3rd-party-authentication"
+},
+"https://docs.parseplatform.org/parse-server/guide/#spotify-authdata": {
+  "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#spotify-authdata",
+  "title" : "sign in with Spotify",
+  "titleInlineContent" : [
+    {
+      "text" : "sign in with Spotify",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#spotify-authdata"
 },
 "https://docs.parseplatform.org/parse-server/guide/#twitter-authdata": {
   "identifier" : "https:\/\/docs.parseplatform.org\/parse-server\/guide\/#twitter-authdata",

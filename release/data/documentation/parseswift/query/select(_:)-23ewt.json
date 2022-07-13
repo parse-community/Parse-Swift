@@ -195,7 +195,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A variadic list of keys include in the result.",
+                  "text" : "A variadic list of keys to include in the result.",
                   "type" : "text"
                 }
               ],
@@ -227,6 +227,77 @@
             }
           ],
           "style" : "warning",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "When using the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "Query",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " for ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseLiveQuery",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ", setting ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "fields",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " will take precedence",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "over ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "select",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ". If ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "fields",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " are not set, the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "select",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " keys will be used.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "note",
           "type" : "aside"
         }
       ],
