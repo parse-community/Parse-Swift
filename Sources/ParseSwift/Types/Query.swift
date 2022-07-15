@@ -1523,4 +1523,40 @@ enum RawCodingKey: CodingKey {
     }
 }
 
+internal extension Query {
+    func getQueryItems() throws -> [URLQueryItem] {
+        var dictionary = [String: String]()
+        dictionary["limit"] = try encodeAsString(\.limit)
+        dictionary["skip"] = try encodeAsString(\.skip)
+        dictionary["keys"] = try encodeAsString(\.keys)
+        dictionary["include"] = try encodeAsString(\.include)
+        dictionary["order"] = try encodeAsString(\.order)
+        dictionary["count"] = try encodeAsString(\.isCount)
+        dictionary["explain"] = try encodeAsString(\.explain)
+        dictionary["hint"] = try encodeAsString(\.hint)
+        dictionary["where"] = try encodeAsString(\.`where`)
+        dictionary["excludeKeys"] = try encodeAsString(\.excludeKeys)
+        dictionary["readPreference"] = try encodeAsString(\.readPreference)
+        dictionary["includeReadPreference"] = try encodeAsString(\.includeReadPreference)
+        dictionary["subqueryReadPreference"] = try encodeAsString(\.subqueryReadPreference)
+        dictionary["distinct"] = try encodeAsString(\.distinct)
+        dictionary["pipeline"] = try encodeAsString(\.pipeline)
+        return dictionary.map { (key, value) -> URLQueryItem in
+            return URLQueryItem(name: key, value: value)
+        }
+    }
+
+    func encodeAsString<W>(_ key: KeyPath<Self, W?>) throws -> String? where W: Encodable {
+        guard let value = self[keyPath: key] else {
+            return nil
+        }
+        let encoded = try ParseCoding.jsonEncoder().encode(value)
+        return String(data: encoded, encoding: .utf8)
+    }
+
+    func encodeAsString<W>(_ key: KeyPath<Self, W>) throws -> String? where W: Encodable {
+        let encoded = try ParseCoding.jsonEncoder().encode(self[keyPath: key])
+        return String(data: encoded, encoding: .utf8)
+    }
+}
 // swiftlint:disable:this file_length
