@@ -65,13 +65,14 @@ currentInstallation?.save { results in
     }
 }
 
-/*: Update your `ParseInstallation` `customKey` value.
+/*: Update your `ParseInstallation` `customKey` and `channels` values.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
  */
 var installationToUpdate = Installation.current?.mergeable
 installationToUpdate?.customKey = "myCustomInstallationKey2"
+installationToUpdate?.channels = ["newDevices"]
 installationToUpdate?.save { results in
 
     switch results {
@@ -80,6 +81,18 @@ installationToUpdate?.save { results in
     case .failure(let error):
         print("Failed to update installation: \(error)")
     }
+}
+
+//: You can fetch your installation at anytime.
+Installation.current?.fetch { results in
+
+    switch results {
+    case .success(let fetchedInstallation):
+        print("Successfully fetched installation from ParseServer: \(fetchedInstallation)")
+    case .failure(let error):
+        print("Failed to fetch installation: \(error)")
+    }
+
 }
 
 PlaygroundPage.current.finishExecution()

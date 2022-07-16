@@ -9,7 +9,11 @@ import FoundationNetworking
  */
 public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
 
-    internal let __type: String = "File" // swiftlint:disable:this identifier_name
+    internal static var type: String {
+        "File"
+    }
+
+    internal let type: String = Self.type
 
     internal var isDownloadNeeded: Bool {
         return cloudURL != nil
@@ -141,7 +145,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     enum CodingKeys: String, CodingKey {
         case url
         case name
-        case __type // swiftlint:disable:this identifier_name
+        case type = "__type"
     }
 }
 
@@ -158,7 +162,9 @@ extension ParseFile {
 extension ParseFile {
     /**
      Deletes the file from the Parse cloud.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available.  It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after synchronous completion.
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
@@ -177,7 +183,9 @@ extension ParseFile {
 
     /**
      Deletes the file from the Parse cloud.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
      */
@@ -711,9 +719,9 @@ extension ParseFile: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseFile ()"
+            return "()"
         }
-        return "ParseFile (\(descriptionString))"
+        return "\(descriptionString)"
     }
 }
 

@@ -2,8 +2,61 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+__New features__
+- Add ParseSpotify authentication ([#375](https://github.com/parse-community/Parse-Swift/pull/375)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
+
+__Fixes__
+- Encode withinPolygon Queryconstraint correctly ([#381](https://github.com/parse-community/Parse-Swift/pull/381)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Use select for ParseLiveQuery when fields are not present ([#376](https://github.com/parse-community/Parse-Swift/pull/376)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.7.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.6.0...4.7.0)
+
+__New features__
+- Add support for ParseFile and beforeConnect triggers ([#376](https://github.com/parse-community/Parse-Swift/pull/376)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.6.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.5.0...4.6.0)
+
+__New features__
+- Add the ability to use Parse Hooks and Triggers ([#373](https://github.com/parse-community/Parse-Swift/pull/373)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add ParseInstagram authentication ([#372](https://github.com/parse-community/Parse-Swift/pull/372)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
+- Add the ability to send APN and FCM push notifications. Also adds the ability to query _PushStatus ([#371](https://github.com/parse-community/Parse-Swift/pull/371)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add ParseSchema, ParseCLP, and ParseFieldOptions. Should only be used when using the Swift SDK on a secured server ([#370](https://github.com/parse-community/Parse-Swift/pull/370)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.5.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.4.0...4.5.0)
+
+__New features__
+- Add toCLLocation and toCLLocationCoordinate2D computed properties to ParseGeoPoint, deprecate toCLLocation() and toCLLocationCoordinate2D() ([#366](https://github.com/parse-community/Parse-Swift/pull/366)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add query computed property to ParseObject ([#365](https://github.com/parse-community/Parse-Swift/pull/365)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add macCatalyst to SPM ([#363](https://github.com/parse-community/Parse-Swift/pull/363)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add an order() method to Query that excepts a variadic list as input ([#362](https://github.com/parse-community/Parse-Swift/pull/362)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Allow includeAll key to be sent with additional include keys. When fetching, if the include argument is specified, convert it to a Set to prevent duplicate keys from being sent to the server ([#367](https://github.com/parse-community/Parse-Swift/pull/367)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Allow LiveQuery client to be set using ParseLiveQuery.defaultClient and deprecate ParseLiveQuery.setDefault(). Show usage of deprecated code as warnings during compile time and suggest changes ([#360](https://github.com/parse-community/Parse-Swift/pull/360)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.4.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.1...4.4.0)
+
+__Improvements__
+- Drop support for Swift 5.2 as App Store requires apps to be built in Xcode 12 ([#356](https://github.com/parse-community/Parse-Swift/pull/356)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.3.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.3.0...4.3.1)
+
+__Fixes__
+- Fix links to API documentation ([#354](https://github.com/parse-community/Parse-Swift/pull/354)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.3.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.2.0...4.3.0)
+
+__Improvements__
+- Use DocC for documentation instead of jazzy. Improved documentation ([#350](https://github.com/parse-community/Parse-Swift/pull/350)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.1.0...4.2.0)
@@ -12,7 +65,7 @@ __New features__
 - Add variadic QueryConstraint methods for or, nor, and ([#345](https://github.com/parse-community/Parse-Swift/pull/345)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
-- Add clientDefault static property to ParseLiveQuery which replaces the getDefault() method. getDefault() is still avaiable, but will be deprecated in ParseSwift 5.0.0 so it is recommended to switch to clientDefault ([#342](https://github.com/parse-community/Parse-Swift/pull/342)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add clientDefault static property to ParseLiveQuery which replaces the getDefault() method. getDefault() is still avaiable, but will be deprecated in ParseSwift 5.0.0 so it is recommended to switch to defaultClient ([#342](https://github.com/parse-community/Parse-Swift/pull/342)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.1...4.1.0)

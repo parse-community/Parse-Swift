@@ -47,7 +47,7 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // MARK: ParseEncoder
 /** An object that encodes Parse instances of a data type as JSON objects.
  - note: `JSONEncoder` facilitates the encoding of `Encodable` values into JSON.
- `ParseEncoder` facilitates the encoding of `ParseType` values into JSON.
+ `ParseEncoder` facilitates the encoding of `ParseEncodable` values into JSON.
  All Credit to Apple, this is a custom encoder with capability of skipping keys at runtime.
  ParseEncoder matches the features of the [Swift 5.4 JSONEncoder ](https://github.com/apple/swift/blob/main/stdlib/public/Darwin/Foundation/JSONEncoder.swift).
  Update commits as needed for improvement.
@@ -120,12 +120,12 @@ public struct ParseEncoder {
     }
 
     /**
-     Encodes an instance of the indicated `ParseType`.
-     - parameter value: The `ParseType` instance to encode.
+     Encodes an instance of the indicated `ParseEncodable`.
+     - parameter value: The `ParseEncodable` instance to encode.
      - parameter skipKeys: The set of keys to skip during encoding.
      */
-    public func encode<T: ParseType>(_ value: T,
-                                     skipKeys: SkipKeys) throws -> Data {
+    public func encode<T: ParseEncodable>(_ value: T,
+                                          skipKeys: SkipKeys) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skipKeys.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
@@ -143,7 +143,9 @@ public struct ParseEncoder {
     // swiftlint:disable large_tuple
     internal func encode<T: ParseObject>(_ value: T,
                                          objectsSavedBeforeThisOne: [String: PointerType]?,
-                                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
+                                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data,
+                                                                                                 unique: PointerType?,
+                                                                                                 unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
         if !ParseSwift.configuration.isAllowingCustomObjectIds {
             keysToSkip = SkipKeys.object.keys()
@@ -165,7 +167,7 @@ public struct ParseEncoder {
     }
 
     // swiftlint:disable large_tuple
-    internal func encode(_ value: ParseType,
+    internal func encode(_ value: ParseEncodable,
                          collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
@@ -233,7 +235,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
 
     /// Returns whether a new element can be encoded at this coding path.
     ///
-    /// `true` if an element has not yet been encoded at this coding path; `false` otherwise.
+    /// **true** if an element has not yet been encoded at this coding path; **false** otherwise.
     var canEncodeNewValue: Bool {
         // Every time a new value gets encoded, the key it's encoded for is pushed onto the coding path (even if it's a nil key from an unkeyed container).
         // At the same time, every time a container is requested, a new value gets pushed onto the storage stack.

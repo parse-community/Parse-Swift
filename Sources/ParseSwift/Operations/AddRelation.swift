@@ -9,7 +9,7 @@
 import Foundation
 
 internal struct AddRelation<T>: Encodable where T: ParseObject {
-    let __op: String = "AddRelation" // swiftlint:disable:this identifier_name
+    let __op: Operation = .addRelation // swiftlint:disable:this identifier_name
     let objects: [Pointer<T>]
 
     init(objects: [T]) throws {

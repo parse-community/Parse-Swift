@@ -9,7 +9,7 @@
 import Foundation
 
 internal struct RemoveRelation<T>: Encodable where T: ParseObject {
-    let __op: String = "RemoveRelation" // swiftlint:disable:this identifier_name
+    let __op: Operation = .removeRelation // swiftlint:disable:this identifier_name
     let objects: [Pointer<T>]
 
     init(objects: [T]) throws {

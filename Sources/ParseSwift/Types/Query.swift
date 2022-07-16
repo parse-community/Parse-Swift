@@ -12,7 +12,7 @@ import Foundation
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public struct Query<T>: Encodable, Equatable where T: ParseObject {
+public struct Query<T>: ParseTypeable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100
@@ -22,19 +22,32 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     internal var order: [Order]?
     internal var isCount: Bool?
     internal var explain: Bool?
-    internal var hint: AnyEncodable?
+    internal var hint: AnyCodable?
     internal var `where` = QueryWhere()
     internal var excludeKeys: Set<String>?
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
     internal var distinct: String?
-    internal var pipeline: [[String: AnyEncodable]]?
+    internal var pipeline: [[String: AnyCodable]]?
     internal var fields: Set<String>?
+    var endpoint: API.Endpoint {
+        .objects(className: T.className)
+    }
 
-    struct AggregateBody<T>: Encodable where T: ParseObject {
-        let pipeline: [[String: AnyEncodable]]?
-        let hint: AnyEncodable?
+    /// The className of the `ParseObject` to query.
+    public static var className: String {
+        T.className
+    }
+
+    /// The className of the `ParseObject` to query.
+    public var className: String {
+        Self.className
+    }
+
+    struct AggregateBody<T>: Codable where T: ParseObject {
+        let pipeline: [[String: AnyCodable]]?
+        let hint: AnyCodable?
         let explain: Bool?
         let includeReadPreference: String?
 
@@ -46,8 +59,8 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         }
     }
 
-    struct DistinctBody<T>: Encodable where T: ParseObject {
-        let hint: AnyEncodable?
+    struct DistinctBody<T>: Codable where T: ParseObject {
+        let hint: AnyCodable?
         let explain: Bool?
         let includeReadPreference: String?
         let distinct: String?
@@ -60,12 +73,97 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         }
     }
 
+    enum CodingKeys: String, CodingKey {
+        case `where`
+        case method = "_method"
+        case limit
+        case skip
+        case include
+        case isCount = "count"
+        case keys
+        case order
+        case explain
+        case hint
+        case excludeKeys
+        case readPreference
+        case includeReadPreference
+        case subqueryReadPreference
+        case distinct
+        case pipeline
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        `where` = try values.decode(QueryWhere.self, forKey: .`where`)
+        if let limit = try values.decodeIfPresent(Int.self, forKey: .limit) {
+            self.limit = limit
+        }
+        if let skip = try values.decodeIfPresent(Int.self, forKey: .skip) {
+            self.skip = skip
+        }
+        do {
+            keys = try values.decodeIfPresent(Set<String>.self, forKey: .keys)
+        } catch {
+            if let commaString = try values.decodeIfPresent(String.self, forKey: .keys) {
+                let commaArray = commaString
+                    .split(separator: ",")
+                    .compactMap { String($0) }
+                keys = Set(commaArray)
+            }
+        }
+        do {
+            include = try values.decodeIfPresent(Set<String>.self, forKey: .include)
+        } catch {
+            if let commaString = try values.decodeIfPresent(String.self, forKey: .include) {
+                let commaArray = commaString
+                    .split(separator: ",")
+                    .compactMap { String($0) }
+                include = Set(commaArray)
+            }
+        }
+        do {
+            order = try values.decodeIfPresent([Order].self, forKey: .order)
+        } catch {
+            let orderString = try values
+                .decodeIfPresent(String.self, forKey: .order)?
+                .split(separator: ",")
+                .compactMap { String($0) }
+            order = orderString?.map {
+                var value = $0
+                if value.hasPrefix("-") {
+                    value.removeFirst()
+                    return Order.descending(value)
+                } else {
+                    return Order.ascending(value)
+                }
+            }
+        }
+        do {
+            excludeKeys = try values.decodeIfPresent(Set<String>.self, forKey: .excludeKeys)
+        } catch {
+            if let commaString = try values.decodeIfPresent(String.self, forKey: .excludeKeys) {
+                let commaArray = commaString
+                    .split(separator: ",")
+                    .compactMap { String($0) }
+                excludeKeys = Set(commaArray)
+            }
+        }
+        isCount = try values.decodeIfPresent(Bool.self, forKey: .isCount)
+        explain = try values.decodeIfPresent(Bool.self, forKey: .explain)
+        hint = try values.decodeIfPresent(AnyCodable.self, forKey: .hint)
+        readPreference = try values.decodeIfPresent(String.self, forKey: .readPreference)
+        includeReadPreference = try values.decodeIfPresent(String.self, forKey: .includeReadPreference)
+        subqueryReadPreference = try values.decodeIfPresent(String.self, forKey: .subqueryReadPreference)
+        distinct = try values.decodeIfPresent(String.self, forKey: .distinct)
+        pipeline = try values.decodeIfPresent([[String: AnyCodable]].self, forKey: .pipeline)
+    }
+
     /**
       An enum that determines the order to sort the results based on a given key.
 
       - parameter key: The key to order by.
     */
-    public enum Order: Encodable, Equatable {
+    public enum Order: Codable, Equatable {
         /// Sort in ascending order based on `key`.
         case ascending(String)
         /// Sort in descending order based on `key`.
@@ -78,6 +176,17 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
                 try container.encode(value)
             case .descending(let value):
                 try container.encode("-\(value)")
+            }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.singleValueContainer()
+            var value = try values.decode(String.self)
+            if value.hasPrefix("-") {
+                value.removeFirst()
+                self = .descending(value)
+            } else {
+                self = .ascending(value)
             }
         }
     }
@@ -98,31 +207,10 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         constraints.forEach({ self.where.add($0) })
     }
 
-    public static func == (lhs: Query<T>, rhs: Query<T>) -> Bool {
-        guard lhs.limit == rhs.limit,
-              lhs.skip == rhs.skip,
-              lhs.keys == rhs.keys,
-              lhs.include == rhs.include,
-              lhs.order == rhs.order,
-              lhs.isCount == rhs.isCount,
-              lhs.explain == rhs.explain,
-              lhs.hint == rhs.hint,
-              lhs.`where` == rhs.`where`,
-              lhs.excludeKeys == rhs.excludeKeys,
-              lhs.readPreference == rhs.readPreference,
-              lhs.includeReadPreference == rhs.includeReadPreference,
-              lhs.subqueryReadPreference == rhs.subqueryReadPreference,
-              lhs.distinct == rhs.distinct,
-              lhs.pipeline == rhs.pipeline,
-              lhs.fields == rhs.fields else {
-            return false
-        }
-        return true
-    }
-
     /**
       Add any amount of variadic constraints.
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
+     - returns: The current instance of query for easy chaining.
      */
     public func `where`(_ constraints: QueryConstraint...) -> Query<T> {
         self.`where`(constraints)
@@ -131,6 +219,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
       Add an array of variadic constraints.
      - parameter constraints: An array of zero or more `QueryConstraint`'s.
+     - returns: The current instance of query for easy chaining.
      */
     public func `where`(_ constraints: [QueryConstraint]) -> Query<T> {
         var mutableQuery = self
@@ -139,11 +228,12 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      A limit on the number of objects to return. The default limit is `100`, with a
-      maximum of 1000 results being returned at a time.
+     A limit on the number of objects to return. The default limit is `100`, with a
+     maximum of 1000 results being returned at a time.
 
-      - parameter value: `n` number of results to limit to.
-      - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
+     - parameter value: `n` number of results to limit to.
+     - returns: The mutated instance of query for easy chaining.
+     - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
     */
     public func limit(_ value: Int) -> Query<T> {
         var mutableQuery = self
@@ -152,9 +242,10 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      The number of objects to skip before returning any.
-      This is useful for pagination. Default is to skip zero results.
-      - parameter value: `n` number of results to skip.
+     The number of objects to skip before returning any.
+     This is useful for pagination. Default is to skip zero results.
+     - parameter value: `n` number of results to skip.
+     - returns: The mutated instance of query for easy chaining.
     */
     public func skip(_ value: Int) -> Query<T> {
         var mutableQuery = self
@@ -165,10 +256,11 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
       Adds a hint to force index selection.
       - parameter value: String or Object of index that should be used when executing query.
+      - returns: The mutated instance of query for easy chaining.
     */
     public func hint<U: Encodable>(_ value: U) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.hint = AnyEncodable(value)
+        mutableQuery.hint = AnyCodable(value)
         return mutableQuery
     }
 
@@ -177,6 +269,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter readPreference: The read preference for the main query.
       - parameter includeReadPreference: The read preference for the queries to include pointers.
       - parameter subqueryReadPreference: The read preference for the sub queries.
+      - returns: The mutated instance of query for easy chaining.
     */
     public func readPreference(_ readPreference: String?,
                                includeReadPreference: String? = nil,
@@ -192,6 +285,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func include(_ keys: String...) -> Query<T> {
         self.include(keys)
@@ -201,6 +295,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to load child `ParseObject`s for.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func include(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -215,10 +310,15 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Includes all nested `ParseObject`s one level deep.
      - warning: Requires Parse Server 3.0.0+.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func includeAll() -> Query<T> {
         var mutableQuery = self
-        mutableQuery.include = ["*"]
+        if mutableQuery.include != nil {
+            mutableQuery.include?.insert(ParseConstants.includeAllKey)
+        } else {
+            mutableQuery.include = [ParseConstants.includeAllKey]
+        }
         return mutableQuery
     }
 
@@ -226,6 +326,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Exclude specific keys for a `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
      - parameter keys: A variadic list of keys include in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
      */
     public func exclude(_ keys: String...) -> Query<T> {
@@ -236,6 +337,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Exclude specific keys for a `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
      - parameter keys: An array of keys to exclude in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
     */
     public func exclude(_ keys: [String]) -> Query<T> {
@@ -251,8 +353,11 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
-     - parameter keys: A variadic list of keys include in the result.
+     - parameter keys: A variadic list of keys to include in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
+     - note: When using the `Query` for `ParseLiveQuery`, setting `fields` will take precedence
+     over `select`. If `fields` are not set, the `select` keys will be used.
      */
     public func select(_ keys: String...) -> Query<T> {
         self.select(keys)
@@ -262,7 +367,10 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to include in the result.
+     - returns: The mutated instance of query for easy chaining.
      - warning: Requires Parse Server 5.0.0+.
+     - note: When using the `Query` for `ParseLiveQuery`, setting `fields` will take precedence
+     over `select`. If `fields` are not set, the `select` keys will be used.
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -275,8 +383,18 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-       An enum that determines the order to sort the results based on a given key.
+     Sort the results of the query based on the `Order` enum.
+      - parameter keys: A variadic list of keys to order by.
+      - returns: The mutated instance of query for easy chaining.
+    */
+    public func order(_ keys: Order...) -> Query<T> {
+        self.order(keys)
+    }
+
+    /**
+     Sort the results of the query based on the `Order` enum.
       - parameter keys: An array of keys to order by.
+      - returns: The mutated instance of query for easy chaining.
     */
     public func order(_ keys: [Order]?) -> Query<T> {
         var mutableQuery = self
@@ -285,30 +403,38 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-     A variadic list of fields to receive when receiving a `ParseLiveQuery`.
+     A variadic list of selected fields to receive updates on when the `Query` is used as a
+     `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
      If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
+     - note: Setting `fields` will take precedence over `select`. If `fields` are not set, the
+     `select` keys will be used.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func fields(_ keys: String...) -> Query<T> {
         self.fields(keys)
     }
 
     /**
-     A list of fields to receive when receiving a `ParseLiveQuery`.
+     A list of fields to receive updates on when the `Query` is used as a
+     `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
      If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be received.
+     - note: Setting `fields` will take precedence over `select`. If `fields` are not set, the
+     `select` keys will be used.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
+     - returns: The mutated instance of query for easy chaining.
      */
     public func fields(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -318,39 +444,6 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
             mutableQuery.fields = Set(keys)
         }
         return mutableQuery
-    }
-
-    /// The className of the `ParseObject` to query.
-    public var className: String {
-        return Self.className
-    }
-
-    /// The className of the `ParseObject` to query.
-    public static var className: String {
-        return T.className
-    }
-
-    var endpoint: API.Endpoint {
-        return .objects(className: T.className)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case `where`
-        case method = "_method"
-        case limit
-        case skip
-        case include
-        case isCount = "count"
-        case keys
-        case order
-        case explain
-        case hint
-        case excludeKeys
-        case readPreference
-        case includeReadPreference
-        case subqueryReadPreference
-        case distinct
-        case pipeline
     }
 }
 
@@ -817,7 +910,9 @@ extension Query: Queryable {
 
     /**
      Executes an aggregate query *synchronously*.
-      - requires: `.useMasterKey` has to be available.
+      - requires: `.useMasterKey` has to be available. It is recommended to only
+        use the master key in server-side applications where the key is kept secure and not
+        exposed to the public.
       - parameter pipeline: A pipeline of stages to process query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
@@ -832,8 +927,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -844,7 +939,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -857,7 +952,9 @@ extension Query: Queryable {
 
     /**
       Executes an aggregate query *asynchronously*.
-        - requires: `.useMasterKey` has to be available.
+        - requires: `.useMasterKey` has to be available. It is recommended to only
+        use the master key in server-side applications where the key is kept secure and not
+        exposed to the public.
         - parameter pipeline: A pipeline of stages to process query.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
@@ -878,8 +975,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -895,7 +992,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -911,7 +1008,9 @@ extension Query: Queryable {
 
     /**
      Query plan information for  executing an aggregate query *synchronously*.
-      - requires: `.useMasterKey` has to be available.
+      - requires: `.useMasterKey` has to be available. It is recommended to only
+      use the master key in server-side applications where the key is kept secure and not
+      exposed to the public.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -934,8 +1033,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -946,7 +1045,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -963,7 +1062,9 @@ extension Query: Queryable {
 
     /**
      Query plan information for executing an aggregate query *asynchronously*.
-        - requires: `.useMasterKey` has to be available.
+        - requires: `.useMasterKey` has to be available. It is recommended to only
+        use the master key in server-side applications where the key is kept secure and not
+        exposed to the public.
         - note: An explain query will have many different underlying types. Since Swift is a strongly
         typed language, a developer should specify the type expected to be decoded which will be
         different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -992,8 +1093,8 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
 
-        var updatedPipeline = [[String: AnyEncodable]]()
-        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+        var updatedPipeline = [[String: AnyCodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -1009,7 +1110,7 @@ extension Query: Queryable {
         query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyCodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
             query.pipeline = finishedPipeline
         } else {
@@ -1030,7 +1131,9 @@ extension Query: Queryable {
 
     /**
      Executes an aggregate query *synchronously* and calls the given.
-      - requires: `.useMasterKey` has to be available.
+      - requires: `.useMasterKey` has to be available. It is recommended to only
+      use the master key in server-side applications where the key is kept secure and not
+      exposed to the public.
       - parameter key: A field to find distinct values.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
@@ -1050,7 +1153,9 @@ extension Query: Queryable {
 
     /**
      Executes a distinct query *asynchronously* and returns unique values.
-        - requires: `.useMasterKey` has to be available.
+        - requires: `.useMasterKey` has to be available. It is recommended to only
+        use the master key in server-side applications where the key is kept secure and not
+        exposed to the public.
         - parameter key: A field to find distinct values.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
@@ -1079,7 +1184,9 @@ extension Query: Queryable {
 
     /**
      Query plan information for executing an aggregate query *synchronously* and calls the given.
-      - requires: `.useMasterKey` has to be available.
+      - requires: `.useMasterKey` has to be available. It is recommended to only
+      use the master key in server-side applications where the key is kept secure and not
+      exposed to the public.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -1113,7 +1220,9 @@ extension Query: Queryable {
 
     /**
      Query plan information for executing a distinct query *asynchronously* and returns unique values.
-        - requires: `.useMasterKey` has to be available.
+        - requires: `.useMasterKey` has to be available. It is recommended to only
+        use the master key in server-side applications where the key is kept secure and not
+        exposed to the public.
         - note: An explain query will have many different underlying types. Since Swift is a strongly
         typed language, a developer should specify the type expected to be decoded which will be
         different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -1174,7 +1283,7 @@ extension Query {
                 return decoded
             }
             throw ParseError(code: .objectNotFound,
-                              message: "Object not found on the server.")
+                             message: "Object not found on the server.")
         }
     }
 
@@ -1342,15 +1451,14 @@ extension Query {
 public extension ParseObject {
 
     /**
-      Create an instance with no constraints.
-     - returns: An instance of query for easy chaining.
+      Create a query with no constraints.
      */
-    static func query() -> Query<Self> {
+    static var query: Query<Self> {
         Query<Self>()
     }
 
     /**
-      Create an instance with a variadic amount constraints.
+      Create a query with a variadic amount constraints.
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      - returns: An instance of query for easy chaining.
      */
@@ -1359,11 +1467,11 @@ public extension ParseObject {
     }
 
     /**
-      Create an instance with an array of constraints.
+      Create a query with an array of constraints.
      - parameter constraints: An array of `QueryConstraint`'s.
      - returns: An instance of query for easy chaining.
      */
-    static func query(_ constraints: [QueryConstraint]) -> Query<Self> {
+    static func query(_ constraints: [QueryConstraint] = []) -> Query<Self> {
         Query<Self>(constraints)
     }
 }
@@ -1405,31 +1513,13 @@ enum RawCodingKey: CodingKey {
         }
     }
     var intValue: Int? {
-        fatalError()
+        nil
     }
     init?(stringValue: String) {
         self = .key(stringValue)
     }
     init?(intValue: Int) {
         fatalError()
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension Query: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "\(className)"
-        }
-        return "\(className) (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension Query: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }
 

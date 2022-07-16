@@ -41,7 +41,7 @@ class ParseBytesTests: XCTestCase {
 
     func testDebugString() {
         let bytes = ParseBytes(base64: "ZnJveW8=")
-        let expected = "ParseBytes ({\"__type\":\"Bytes\",\"base64\":\"ZnJveW8=\"})"
+        let expected = "{\"__type\":\"Bytes\",\"base64\":\"ZnJveW8=\"}"
         XCTAssertEqual(bytes.debugDescription, expected)
         guard let data = Data(base64Encoded: "ZnJveW8=") else {
             XCTFail("Should have unwrapped")
@@ -53,7 +53,7 @@ class ParseBytesTests: XCTestCase {
 
     func testDescription() {
         let bytes = ParseBytes(base64: "ZnJveW8=")
-        let expected = "ParseBytes ({\"__type\":\"Bytes\",\"base64\":\"ZnJveW8=\"})"
+        let expected = "{\"__type\":\"Bytes\",\"base64\":\"ZnJveW8=\"}"
         XCTAssertEqual(bytes.description, expected)
         guard let data = Data(base64Encoded: "ZnJveW8=") else {
             XCTFail("Should have unwrapped")

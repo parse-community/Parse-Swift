@@ -90,7 +90,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.findPublisher()
             .sink(receiveCompletion: { result in
@@ -134,7 +134,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.withCountPublisher()
             .sink(receiveCompletion: { result in
@@ -177,7 +177,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return nil
             }
         }
-        let query = GameScore.query()
+        let query = GameScore.query
         let publisher = query.findAllPublisher()
             .sink(receiveCompletion: { result in
 
@@ -217,7 +217,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.findExplainPublisher()
             .sink(receiveCompletion: { result in
@@ -253,7 +253,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.withCountExplainPublisher()
             .sink(receiveCompletion: { result in
@@ -292,7 +292,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.firstPublisher()
             .sink(receiveCompletion: { result in
@@ -329,7 +329,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.firstExplainPublisher()
             .sink(receiveCompletion: { result in
@@ -368,7 +368,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.countPublisher()
             .sink(receiveCompletion: { result in
@@ -405,7 +405,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let publisher = query.countExplainPublisher()
             .sink(receiveCompletion: { result in
@@ -443,7 +443,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let pipeline = [[String: AnyEncodable]]()
         let publisher = query.aggregatePublisher(pipeline)
             .sink(receiveCompletion: { result in
@@ -484,7 +484,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let pipeline = [[String: String]]()
         let publisher = query.aggregateExplainPublisher(pipeline)
             .sink(receiveCompletion: { result in
@@ -522,7 +522,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let publisher = query.distinctPublisher("hello")
             .sink(receiveCompletion: { result in
 
@@ -562,7 +562,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let publisher = query.distinctExplainPublisher("hello")
             .sink(receiveCompletion: { result in
 

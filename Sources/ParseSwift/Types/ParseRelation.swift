@@ -15,7 +15,7 @@ import Foundation
  In most cases, you do not need to create an instance of `ParseRelation` directly as it can be
  indirectly created from any `ParseObject` by using the respective `relation` property.
  */
-public struct ParseRelation<T>: Codable, Hashable where T: ParseObject {
+public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
     internal let __type: String = "Relation" // swiftlint:disable:this identifier_name
 
     /// The parent `ParseObject`
@@ -467,23 +467,5 @@ public extension ParseObject {
                                   key: String,
                                   with parent: T) throws -> ParseRelation<T> {
         try self.relation(relation, key: key, with: try parent.toPointer())
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParseRelation: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseRelation ()"
-        }
-        return "ParseRelation (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseRelation: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }

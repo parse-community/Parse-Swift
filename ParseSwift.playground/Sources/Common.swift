@@ -1,19 +1,11 @@
 import Foundation
 import ParseSwift
 
-public func initializeParse() {
+public func initializeParse(customObjectId: Bool = false) {
     ParseSwift.initialize(applicationId: "applicationId",
                           clientKey: "clientKey",
                           masterKey: "masterKey",
                           serverURL: URL(string: "http://localhost:1337/1")!,
-                          usingTransactions: false,
-                          usingEqualQueryConstraint: false)
-}
-
-public func initializeParseCustomObjectId() {
-    ParseSwift.initialize(applicationId: "applicationId",
-                          clientKey: "clientKey",
-                          serverURL: URL(string: "http://localhost:1337/1")!,
-                          allowingCustomObjectIds: true,
+                          allowingCustomObjectIds: customObjectId,
                           usingEqualQueryConstraint: false)
 }

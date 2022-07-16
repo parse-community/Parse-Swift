@@ -91,7 +91,9 @@ public extension ParseFile {
 
     /**
      Deletes the file from the Parse Server.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      */

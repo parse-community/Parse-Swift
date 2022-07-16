@@ -11,7 +11,7 @@
  that may be associated with a key in a ParseObject or used as a reference point
  for geo queries. This allows proximity-based queries on the key.
 */
-public struct ParsePolygon: Codable, Hashable {
+public struct ParsePolygon: ParseTypeable, Hashable {
     private let __type: String = "Polygon" // swiftlint:disable:this identifier_name
     public let coordinates: [ParseGeoPoint]
 
@@ -105,8 +105,8 @@ extension ParsePolygon {
         let points = try values.decode([[Double]].self, forKey: .coordinates)
         try points.forEach {
             if $0.count == 2 {
-                guard let latitude = $0.first,
-                      let longitude = $0.last else {
+                guard let latitude = $0.last,
+                      let longitude = $0.first else {
                     throw ParseError(code: .unknownError, message: "Could not decode ParsePolygon: \(points)")
                 }
                 decodedCoordinates.append(try ParseGeoPoint(latitude: latitude,
@@ -125,25 +125,7 @@ extension ParsePolygon {
         try container.encode(__type, forKey: .__type)
         var nestedUnkeyedContainer = container.nestedUnkeyedContainer(forKey: .coordinates)
         try coordinates.forEach {
-            try nestedUnkeyedContainer.encode([$0.latitude, $0.longitude])
+            try nestedUnkeyedContainer.encode([$0.longitude, $0.latitude])
         }
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParsePolygon: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParsePolygon ()"
-        }
-        return "ParsePolygon (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParsePolygon: CustomStringConvertible {
-    public var description: String {
-        debugDescription
     }
 }

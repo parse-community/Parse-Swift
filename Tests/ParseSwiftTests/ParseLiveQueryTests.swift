@@ -204,11 +204,27 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testSubscribeMessageEncoding() throws {
+    func testSubscribeMessageFieldsEncoding() throws {
         // swiftlint:disable:next line_length
         let expected = "{\"op\":\"subscribe\",\"query\":{\"className\":\"GameScore\",\"fields\":[\"points\"],\"where\":{\"points\":{\"$gt\":9}}},\"requestId\":1}"
         let query = GameScore.query("points" > 9)
             .fields(["points"])
+            .select(["talk"])
+        let message = SubscribeMessage(operation: .subscribe,
+                                       requestId: RequestId(value: 1),
+                                       query: query,
+                                       additionalProperties: true)
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(message)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testSubscribeMessageSelectEncoding() throws {
+        // swiftlint:disable:next line_length
+        let expected = "{\"op\":\"subscribe\",\"query\":{\"className\":\"GameScore\",\"fields\":[\"points\"],\"where\":{\"points\":{\"$gt\":9}}},\"requestId\":1}"
+        let query = GameScore.query("points" > 9)
+            .select(["points"])
         let message = SubscribeMessage(operation: .subscribe,
                                        requestId: RequestId(value: 1),
                                        query: query,
@@ -220,10 +236,10 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testFieldKeys() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.keys)
 
-        var query2 = GameScore.query().fields(["yolo"])
+        var query2 = GameScore.query.fields(["yolo"])
         XCTAssertEqual(query2.fields?.count, 1)
         XCTAssertEqual(query2.fields?.first, "yolo")
 
@@ -233,10 +249,10 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testFieldKeysVariadic() throws {
-        let query = GameScore.query()
+        let query = GameScore.query
         XCTAssertNil(query.keys)
 
-        var query2 = GameScore.query().fields("yolo")
+        var query2 = GameScore.query.fields("yolo")
         XCTAssertEqual(query2.fields?.count, 1)
         XCTAssertEqual(query2.fields?.first, "yolo")
 

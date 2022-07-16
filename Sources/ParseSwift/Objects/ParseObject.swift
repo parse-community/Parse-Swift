@@ -41,14 +41,13 @@ import Foundation
  - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
  `ACL` to your `ParseObject` `CodingKeys`.
 */
-public protocol ParseObject: Objectable,
+public protocol ParseObject: ParseTypeable,
+                             Objectable,
                              Fetchable,
                              Savable,
                              Deletable,
                              Identifiable,
-                             Hashable,
-                             CustomDebugStringConvertible,
-                             CustomStringConvertible {
+                             Hashable {
 
     /**
      A JSON encoded version of this `ParseObject` before `mergeable` was called and
@@ -85,7 +84,7 @@ public protocol ParseObject: Objectable,
      Determines if a `KeyPath` of the current `ParseObject` should be restored
      by comparing it to another `ParseObject`.
      - parameter original: The original `ParseObject`.
-     - returns: Returns a `true` if the keyPath should be restored  or `false` otherwise.
+     - returns: Returns a **true** if the keyPath should be restored  or **false** otherwise.
     */
     func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
                              original: Self) -> Bool where W: Equatable
@@ -146,6 +145,10 @@ public protocol ParseObject: Objectable,
 // MARK: Default Implementations
 public extension ParseObject {
 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+
     /**
     A computed property that is the same value as `objectId` and makes it easy to use `ParseObject`'s
      as models in MVVM and SwiftUI.
@@ -169,14 +172,14 @@ public extension ParseObject {
     /**
      Determines if two objects have the same objectId.
      - parameter as: Object to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil
     }
 
     /**
-     Gets a Pointer referencing this object.
+     Converts this `ParseObject` to a Parse Pointer.
      - returns: Pointer<Self>
     */
     func toPointer() throws -> Pointer<Self> {
@@ -584,7 +587,7 @@ transactions for this call.
     /**
      Fetches a collection of objects *synchronously* all at once and throws an error if necessary.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns an array of Result enums with the object if a fetch was successful or a
@@ -625,7 +628,7 @@ transactions for this call.
     /**
      Fetches a collection of objects all at once *asynchronously* and executes the completion block when done.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -817,9 +820,9 @@ extension ParseObject {
 extension ParseObject {
 
     /**
-     Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseObject` *synchronously* with the current data from the server.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
@@ -837,7 +840,7 @@ extension ParseObject {
     /**
      Fetches the `ParseObject` *asynchronously* and executes the given callback block.
      - parameter includeKeys: The name(s) of the key(s) to include. Use `["*"]` to include
-     all keys.
+     all keys one level deep.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
@@ -1132,9 +1135,9 @@ extension ParseObject {
                     return
                 }
                 while waitingToBeSaved.count > 0 {
-                    var savableObjects = [ParseType]()
+                    var savableObjects = [ParseEncodable]()
                     var savableFiles = [ParseFile]()
-                    var nextBatch = [ParseType]()
+                    var nextBatch = [ParseEncodable]()
                     try waitingToBeSaved.forEach { parseType in
 
                         if let parseFile = parseType as? ParseFile {
@@ -1197,8 +1200,8 @@ extension ParseObject {
 }
 
 // MARK: Savable Encodable Version
-internal extension ParseType {
-    func saveAll(objects: [ParseType],
+internal extension ParseEncodable {
+    func saveAll(objects: [ParseEncodable],
                  transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         try API.NonParseBodyCommand<AnyCodable, PointerType>
@@ -1211,7 +1214,7 @@ internal extension ParseType {
 // MARK: Deletable
 extension ParseObject {
     /**
-     Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     Deletes the `ParseObject` *synchronously* with the current data from the server.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.

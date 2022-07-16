@@ -25,7 +25,7 @@ public protocol ParseAuthentication: Codable {
     /// The type of authentication.
     static var __type: String { get } // swiftlint:disable:this identifier_name
 
-    /// Returns `true` if the *current* user is linked to the respective authentication type.
+    /// Returns **true** if the *current* user is linked to the respective authentication type.
     var isLinked: Bool { get }
 
     /// The default initializer for this authentication type.
@@ -58,8 +58,8 @@ public protocol ParseAuthentication: Codable {
     /**
      Whether the `ParseUser` is logged in with the respective authentication type.
      - parameter user: The `ParseUser` to check authentication type. The user must be logged in on this device.
-     - returns: `true` if the `ParseUser` is logged in via the repective
-     authentication type. `false` if the user is not.
+     - returns: **true** if the `ParseUser` is logged in via the repective
+     authentication type. **false** if the user is not.
      */
     func isLinked(with user: AuthenticatedUser) -> Bool
 
@@ -306,8 +306,8 @@ public extension ParseUser {
     /**
      Whether the `ParseUser` is logged in with the respective authentication string type.
      - parameter type: The authentication type to check. The user must be logged in on this device.
-     - returns: `true` if the `ParseUser` is logged in via the repective
-     authentication type. `false` if the user is not.
+     - returns: **true** if the `ParseUser` is logged in via the repective
+     authentication type. **false** if the user is not.
      */
     func isLinked(with type: String) -> Bool {
         guard let authData = self.authData?[type] else {

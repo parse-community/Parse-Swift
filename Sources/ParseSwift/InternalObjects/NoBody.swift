@@ -6,4 +6,4 @@
 //  Copyright © 2020 Parse. All rights reserved.
 //
 
-internal struct NoBody: ParseType, Codable {}
+internal struct NoBody: ParseEncodable, Decodable {}

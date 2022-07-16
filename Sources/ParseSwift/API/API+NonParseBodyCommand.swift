@@ -143,7 +143,7 @@ internal extension API.NonParseBodyCommand {
 
 internal extension API.NonParseBodyCommand {
     // MARK: Batch - Child Objects
-    static func batch(objects: [ParseType],
+    static func batch(objects: [ParseEncodable],
                       transaction: Bool) throws -> RESTBatchCommandTypeEncodable<AnyCodable> {
         let batchCommands = try objects.compactMap { (object) -> API.BatchCommand<AnyCodable, PointerType>? in
             guard var objectable = object as? Objectable else {

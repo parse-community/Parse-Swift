@@ -6,15 +6,18 @@ import FoundationNetworking
 // swiftlint:disable line_length
 
 /// The Configuration for a Parse client.
+/// - warning: It is recomended to only specify `masterKey` when using the
+/// SDK on a server. Do not use this key on the client.
 public struct ParseConfiguration {
 
-    /// The application id of your Parse application.
+    /// The application id for your Parse application.
     public internal(set) var applicationId: String
 
-    /// The master key of your Parse application.
+    /// The master key for your Parse application. This key should only
+    /// be specified when using the SDK on a server.
     public internal(set) var masterKey: String? // swiftlint:disable:this inclusive_language
 
-    /// The client key of your Parse application.
+    /// The client key for your Parse application.
     public internal(set) var clientKey: String?
 
     /// The server URL to connect to Parse Server.
@@ -52,12 +55,12 @@ public struct ParseConfiguration {
     public internal(set) var cacheDiskCapacity = 10_000_000
 
     /// If your app previously used the iOS Objective-C SDK, setting this value
-    /// to `true` will attempt to migrate relevant data stored in the Keychain to
-    /// ParseSwift. Defaults to `false`.
+    /// to **true** will attempt to migrate relevant data stored in the Keychain to
+    /// ParseSwift. Defaults to **false**.
     public internal(set) var isMigratingFromObjcSDK: Bool = false
 
     /// Deletes the Parse Keychain when the app is running for the first time.
-    /// Defaults to `false`.
+    /// Defaults to **false**.
     public internal(set) var isDeletingKeychainIfNeeded: Bool = false
 
     /// Maximum number of times to try to connect to Parse Server.
@@ -72,9 +75,10 @@ public struct ParseConfiguration {
 
     /**
      Create a Parse Swift configuration.
-     - parameter applicationId: The application id of your Parse application.
-     - parameter clientKey: The client key of your Parse application.
-     - parameter masterKey: The master key of your Parse application.
+     - parameter applicationId: The application id for your Parse application.
+     - parameter clientKey: The client key for your Parse application.
+     - parameter masterKey: The master key for your Parse application. This key should only be
+     specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
@@ -91,9 +95,9 @@ public struct ParseConfiguration {
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
      - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
-     to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
+     to **true** will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to **false**.
      - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
-     Defaults to `false`.
+     Defaults to **false**.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
      [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
      for more info.
@@ -105,10 +109,12 @@ public struct ParseConfiguration {
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
      - warning: `usingTransactions` is experimental.
+     - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
                 masterKey: String? = nil,
+                webhookKey: String? = nil,
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
                 allowCustomObjectId: Bool = false,
@@ -237,9 +243,10 @@ public struct ParseSwift {
     /**
      Configure the Parse Swift client. This should only be used when starting your app. Typically in the
      `application(... didFinishLaunchingWithOptions launchOptions...)`.
-     - parameter applicationId: The application id of your Parse application.
-     - parameter clientKey: The client key of your Parse application.
-     - parameter masterKey: The master key of your Parse application.
+     - parameter applicationId: The application id for your Parse application.
+     - parameter clientKey: The client key for your Parse application.
+     - parameter masterKey: The master key for your Parse application. This key should only be
+     specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
@@ -256,9 +263,9 @@ public struct ParseSwift {
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
      - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
-     to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
+     to **true** will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to **false**.
      - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
-     Defaults to `false`.
+     Defaults to **false**.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
      [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
      for more info.
@@ -268,6 +275,7 @@ public struct ParseSwift {
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
      - warning: `usingTransactions` is experimental.
+     - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
      */
     static public func initialize(
         applicationId: String,

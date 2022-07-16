@@ -13,7 +13,7 @@ extension ParsePointer {
     /**
      Determines if two objects have the same objectId.
      - parameter as: Object to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId(as other: ParsePointer) -> Bool {
         return other.className == className && other.objectId == objectId
@@ -28,7 +28,7 @@ private func getObjectId(target: Objectable) throws -> String {
 }
 
 /// A Pointer referencing a ParseObject.
-public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hashable {
+public struct Pointer<T: ParseObject>: ParsePointer, ParseTypeable, Fetchable, Hashable {
 
     internal let __type: String = "Pointer" // swiftlint:disable:this identifier_name
 
@@ -81,7 +81,7 @@ public extension Pointer {
     /**
      Determines if a `ParseObject` and `Pointer`have the same `objectId`.
      - parameter as: `ParseObject` to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId
@@ -90,14 +90,14 @@ public extension Pointer {
     /**
      Determines if two `Pointer`'s have the same `objectId`.
      - parameter as: `Pointer` to compare.
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+     - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
     */
     func hasSameObjectId(as other: Self) -> Bool {
         return other.className == className && other.objectId == objectId
     }
 
     /**
-     Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseObject` *synchronously* with the current data from the server.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
@@ -147,27 +147,9 @@ public extension Pointer {
     }
 }
 
-// MARK: CustomDebugStringConvertible
-extension Pointer: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "PointerType ()"
-        }
-        return "PointerType (\(descriptionString))"
-    }
-}
+internal struct PointerType: ParsePointer, Codable {
 
-// MARK: CustomStringConvertible
-extension Pointer: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}
-
-internal struct PointerType: ParsePointer, Encodable {
-
-    let __type: String = "Pointer" // swiftlint:disable:this identifier_name
+    var __type: String = "Pointer" // swiftlint:disable:this identifier_name
     var objectId: String
     var className: String
 

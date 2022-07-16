@@ -11,14 +11,16 @@ import Foundation
 import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 
-/*: start parse-server with
-npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
+/*:
+ start parse-server with
+ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
 */
 
-/*: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
+/*:
+ In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
  */
 
-initializeParseCustomObjectId()
+initializeParse(customObjectId: true)
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {

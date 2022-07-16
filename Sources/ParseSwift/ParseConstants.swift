@@ -10,13 +10,14 @@ import Foundation
 
 enum ParseConstants {
     static let sdk = "swift"
-    static let version = "4.2.0"
+    static let version = "4.8.0"
     static let fileManagementDirectory = "parse/"
     static let fileManagementPrivateDocumentsDirectory = "Private Documents/"
     static let fileManagementLibraryDirectory = "Library/"
     static let fileDownloadsDirectory = "Downloads"
     static let bundlePrefix = "com.parse.ParseSwift"
     static let batchLimit = 50
+    static let includeAllKey = "*"
     #if os(iOS)
     static let deviceType = "ios"
     #elseif os(macOS)
@@ -36,4 +37,34 @@ enum ParseConstants {
 
 enum Method: String {
     case save, create, replace, update
+}
+
+/**
+ The types of Parse Hook Triggers available.
+ */
+public enum ParseHookTriggerType: String, Codable {
+    /// Occurs before login of a `ParseUser`.
+    case beforeLogin
+    /// Occurs after login of a `ParseUser`.
+    case afterLogin
+    /// Occurs after logout of a `ParseUser`.
+    case afterLogout
+    /// Occurs before saving a `ParseObject` or `ParseFile`.
+    case beforeSave
+    /// Occurs after saving a `ParseObject` or `ParseFile`.
+    case afterSave
+    /// Occurs before deleting a `ParseObject` or `ParseFile`.
+    case beforeDelete
+    /// Occurs after deleting a `ParseObject` or `ParseFile`.
+    case afterDelete
+    /// Occurs before finding a `ParseObject`.
+    case beforeFind
+    /// Occurs after finding a `ParseObject`.
+    case afterFind
+    /// Occurs before a `ParseLiveQuery` connection is made.
+    case beforeConnect
+    /// Occurs before a `ParseLiveQuery` subscription is made.
+    case beforeSubscribe
+    /// Occurs after a `ParseLiveQuery` event.
+    case afterEvent
 }

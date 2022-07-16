@@ -134,16 +134,17 @@ public extension ParseUser {
      Publishes when complete.
      - parameter password: The password to be verified.
      - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
-     otherwise. Defaults to **true**.
+     otherwise. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
-     `userPost = false`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - warning: `usingPost == true` requires the
+     [issue](https://github.com/parse-community/parse-server/issues/7784) to be addressed on
+     the Parse Server, othewise you should set `usingPost = false`.
     */
     static func verifyPasswordPublisher(password: String,
-                                        usingPost: Bool = true,
+                                        usingPost: Bool = false,
                                         options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
             Self.verifyPassword(password: password,
@@ -170,10 +171,10 @@ public extension ParseUser {
     }
 
     /**
-     Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseUser` *aynchronously* with the current data from the server.
      Publishes when complete.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -288,7 +289,7 @@ public extension Sequence where Element: ParseUser {
      Fetches a collection of users *aynchronously* with the current data from the server and sets
      an error if one occurs. Publishes when complete.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces an an array of Result enums with the object if a fetch was

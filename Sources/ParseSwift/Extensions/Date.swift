@@ -10,11 +10,11 @@ import Foundation
 
 // MARK: Date
 internal extension Date {
-    func parseFormatted() -> String {
-        return ParseCoding.dateFormatter.string(from: self)
+    var parseFormatted: String {
+        ParseCoding.dateFormatter.string(from: self)
     }
 
     var parseRepresentation: [String: String] {
-        return ["__type": "Date", "iso": parseFormatted()]
+        ["__type": "Date", "iso": parseFormatted]
     }
 }

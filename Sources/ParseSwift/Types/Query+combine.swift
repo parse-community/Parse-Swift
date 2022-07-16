@@ -172,7 +172,9 @@ public extension Query {
 
     /**
      Executes an aggregate query *asynchronously* and publishes when complete.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -188,7 +190,9 @@ public extension Query {
 
     /**
      Query plan information for executing an aggregate query *asynchronously* and publishes when complete.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -214,7 +218,9 @@ public extension Query {
 
     /**
      Executes a distinct query *asynchronously* and publishes unique values when complete.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -230,7 +236,9 @@ public extension Query {
 
     /**
      Query plan information for executing a distinct query *asynchronously* and publishes unique values when complete.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.useMasterKey` has to be available. It is recommended to only
+     use the master key in server-side applications where the key is kept secure and not
+     exposed to the public.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper

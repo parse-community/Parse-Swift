@@ -14,14 +14,15 @@ import UIKit
 /**
  `ParseAnalytics` provides an interface to Parse's logging and analytics backend.
  */
-public struct ParseAnalytics: ParseType, Hashable {
+public struct ParseAnalytics: ParseTypeable, Hashable {
 
     /// The name of the custom event to report to Parse as having happened.
     public var name: String
 
     /// Explicitly set the time associated with a given event. If not provided the server
     /// time will be used.
-    /// - warning: This will be deprecated in ParseSwift 5.0.0 in favor of `date`.
+    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `date`.
+    @available(*, deprecated, renamed: "date")
     public var at: Date? { // swiftlint:disable:this identifier_name
         get {
             date
@@ -66,23 +67,6 @@ public struct ParseAnalytics: ParseType, Hashable {
         self.name = name
         self.dimensionsAnyCodable = convertToAnyCodable(dimensions)
         self.date = date
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(date, forKey: .date)
-        try container.encodeIfPresent(dimensionsAnyCodable, forKey: .dimensions)
-        if !(encoder is _ParseEncoder) {
-            try container.encode(name, forKey: .name)
-        }
-    }
-
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.debugDescription == rhs.debugDescription
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.debugDescription)
     }
 
     // MARK: Helpers
@@ -264,21 +248,21 @@ public struct ParseAnalytics: ParseType, Hashable {
     }
 }
 
-// MARK: CustomDebugStringConvertible
-extension ParseAnalytics: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "\(name)"
-        }
-
-        return "\(descriptionString)"
+// MARK: Codable
+public extension ParseAnalytics {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
+        date = try values.decodeIfPresent(Date.self, forKey: .date)
+        dimensionsAnyCodable = try values.decodeIfPresent([String: AnyCodable].self, forKey: .dimensions)
     }
-}
 
-// MARK: CustomStringConvertible
-extension ParseAnalytics: CustomStringConvertible {
-    public var description: String {
-        debugDescription
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(date, forKey: .date)
+        try container.encodeIfPresent(dimensionsAnyCodable, forKey: .dimensions)
+        if !(encoder is _ParseEncoder) {
+            try container.encode(name, forKey: .name)
+        }
     }
 }

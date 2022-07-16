@@ -163,7 +163,7 @@ public extension ParseUser {
 }
 
 // MARK: SignupLoginBody
-struct SignupLoginBody: ParseType {
+struct SignupLoginBody: ParseEncodable {
     var username: String?
     var password: String?
     var authData: [String: [String: String]?]?
@@ -179,7 +179,7 @@ struct SignupLoginBody: ParseType {
 }
 
 // MARK: EmailBody
-struct EmailBody: ParseType {
+struct EmailBody: ParseEncodable {
     let email: String
 }
 
@@ -478,17 +478,18 @@ extension ParseUser {
      Verifies *asynchronously* whether the specified password associated with the user account is valid.
         - parameter password: The password to be verified.
         - parameter usingPost: Set to **true** to use **POST** for sending. Will use **GET**
-        otherwise. Defaults to **true**.
+        otherwise. Defaults to **false**.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when the verification request completes or fails.
         - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
         desires a different policy, it should be inserted in `options`.
-        - warning: `usePost == true` requires Parse Server > 5.0.0. Othewise you should set
-        `userPost = false`.
+        - warning: `usingPost == true` requires the
+        [issue](https://github.com/parse-community/parse-server/issues/7784) to be addressed on
+        the Parse Server, othewise you should set `usingPost = false`.
     */
     public static func verifyPassword(password: String,
-                                      usingPost: Bool = true,
+                                      usingPost: Bool = false,
                                       options: API.Options = [],
                                       callbackQueue: DispatchQueue = .main,
                                       completion: @escaping (Result<Self, ParseError>) -> Void) {
@@ -832,9 +833,9 @@ extension ParseUser {
     }
 
     /**
-     Fetches the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseUser` *synchronously* with the current data from the server.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
@@ -855,7 +856,7 @@ extension ParseUser {
     /**
      Fetches the `ParseUser` *asynchronously* and executes the given callback block.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
@@ -874,7 +875,7 @@ extension ParseUser {
     ) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-         do {
+        do {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
@@ -915,7 +916,7 @@ extension ParseUser {
 
         var params: [String: String]?
         if let includeParams = include {
-            params = ["include": "\(includeParams)"]
+            params = ["include": "\(Set(includeParams))"]
         }
 
         return API.Command(method: .GET,
@@ -1244,7 +1245,7 @@ extension ParseUser {
 // MARK: Deletable
 extension ParseUser {
     /**
-     Deletes the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
+     Deletes the `ParseUser` *synchronously* with the current data from the server.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
@@ -1691,7 +1692,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *synchronously* all at once and throws an error if necessary.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
@@ -1734,7 +1735,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users all at once *asynchronously* and executes the completion block when done.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.

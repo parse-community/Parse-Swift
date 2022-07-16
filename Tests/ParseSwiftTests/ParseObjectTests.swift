@@ -156,7 +156,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
 
-         - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+         - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
         */
         public static func == (lhs: ParseObjectTests.GameScoreClass,
                                rhs: ParseObjectTests.GameScoreClass) -> Bool {
@@ -174,7 +174,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         */
         public func hash(into hasher: inout Hasher) {
-            hasher.combine(self.objectId)
+            hasher.combine(self.id)
         }
     }
 
@@ -213,7 +213,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
 
-         - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+         - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
         */
         public static func == (lhs: ParseObjectTests.GameClass, rhs: ParseObjectTests.GameClass) -> Bool {
             lhs.hasSameObjectId(as: rhs)
@@ -230,7 +230,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         */
         public func hash(into hasher: inout Hasher) {
-            hasher.combine(self.objectId)
+            hasher.combine(self.id)
         }
     }
 
@@ -456,21 +456,14 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
-            XCTAssertEqual(command.params, includeExpected)
+            XCTAssertEqual(command.params?.keys.first, includeExpected.keys.first)
+            if let value = command.params?.values.first,
+                let includeValue = value {
+                XCTAssertTrue(includeValue.contains("\"yolo\""))
+            } else {
+                XCTFail("Should have unwrapped value")
+            }
             XCTAssertNil(command.body)
-
-            // swiftlint:disable:next line_length
-            guard let urlExpected = URL(string: "http://localhost:1337/1/classes/GameScore/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
-                XCTFail("Should have unwrapped")
-                return
-            }
-            let request = command.prepareURLRequest(options: [])
-            switch request {
-            case .success(let url):
-                XCTAssertEqual(url.url, urlExpected)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
         } catch {
             XCTFail(error.localizedDescription)
         }

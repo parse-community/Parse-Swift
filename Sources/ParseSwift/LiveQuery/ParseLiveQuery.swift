@@ -211,7 +211,7 @@ Not attempting to open ParseLiveQuery socket anymore
                                                     taskDelegate: self)
         self.resumeTask { _ in }
         if isDefault {
-            Self.setDefault(self)
+            Self.defaultClient = self
         }
     }
 
@@ -268,19 +268,27 @@ extension ParseLiveQuery {
 
     /// The default `ParseLiveQuery` client for all LiveQuery connections.
     class public var defaultClient: ParseLiveQuery? {
-        Self.client
+        get {
+            Self.client
+        }
+        set {
+            Self.client = nil
+            Self.client = newValue
+        }
     }
 
     /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
     /// - parameter client: The client to set as the default.
+    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `defaultClient`.
+    @available(*, deprecated, renamed: "defaultClient")
     class public func setDefault(_ client: ParseLiveQuery) {
-        Self.client = nil
-        Self.client = client
+        Self.defaultClient = client
     }
 
     /// Get the default `ParseLiveQuery` client for all LiveQuery connections.
     /// - returns: The default `ParseLiveQuery` client.
-    /// - warning: This will be deprecated in ParseSwift 5.0.0 in favor of `defaultClient`.
+    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `defaultClient`.
+    @available(*, deprecated, renamed: "defaultClient")
     class public func getDefault() -> ParseLiveQuery? {
         Self.defaultClient
     }
@@ -592,7 +600,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 extension ParseLiveQuery {
 
     /// Manually establish a connection to the `ParseLiveQuery` Server.
-    /// - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
+    /// - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to **true**.
     /// - parameter completion: Returns `nil` if successful, an `Error` otherwise.
     public func open(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) {
         synchronizationQueue.sync {
@@ -787,7 +795,9 @@ extension ParseLiveQuery {
     public func subscribe<T>(_ handler: T) throws -> T where T: QuerySubscribable {
 
         let requestId = requestIdGenerator()
-        let message = SubscribeMessage<T.Object>(operation: .subscribe, requestId: requestId, query: handler.query)
+        let message = SubscribeMessage<T.Object>(operation: .subscribe,
+                                                 requestId: requestId,
+                                                 query: handler.query)
         guard let subscriptionRecord = SubscriptionRecord(
             query: handler.query,
             message: message,

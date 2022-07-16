@@ -9,7 +9,7 @@ import CoreLocation
 
  - warning:Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
 */
-public struct ParseGeoPoint: Codable, Hashable {
+public struct ParseGeoPoint: ParseTypeable, Hashable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
     static let earthRadiusMiles = 3958.8
     static let earthRadiusKilometers = 6371.0
@@ -123,27 +123,23 @@ extension ParseGeoPoint {
     }
 }
 
-// MARK: CustomDebugStringConvertible
-extension ParseGeoPoint: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            return "ParseGeoPoint ()"
-        }
-        return "ParseGeoPoint (\(descriptionString))"
-    }
-}
-
-// MARK: CustomStringConvertible
-extension ParseGeoPoint: CustomStringConvertible {
-    public var description: String {
-        debugDescription
-    }
-}
-
 #if canImport(CoreLocation)
 // MARK: CoreLocation
 public extension ParseGeoPoint {
+
+    /**
+     A `CLLocation` instance created from the current `ParseGeoPoint`.
+     */
+    var toCLLocation: CLLocation {
+        CLLocation(latitude: latitude, longitude: longitude)
+    }
+
+    /**
+     A `CLLocationCoordinate2D` instance created from the current `ParseGeoPoint`.
+     */
+    var toCLLocationCoordinate2D: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
 
     /**
      Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
@@ -168,21 +164,21 @@ public extension ParseGeoPoint {
     }
 
     /**
-     Creates a new `CLLocation` instance for the given `ParseGeoPoint`, set to the location's coordinates.
-     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     A `CLLocation` instance created from the current `ParseGeoPoint`.
      - returns: Returns a `CLLocation`.
      */
-    func toCLLocation() -> CLLocation {
-        CLLocation(latitude: latitude, longitude: longitude)
+    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
+    func toCLLocation(_ geoPoint: ParseGeoPoint? = nil) -> CLLocation {
+        toCLLocation
     }
 
     /**
-     Creates a new `CLLocationCoordinate2D` instance for the given `ParseGeoPoint`, set to the location's coordinates.
-     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     A `CLLocationCoordinate2D` instance created from the current `ParseGeoPoint`.
      - returns: Returns a `CLLocationCoordinate2D`.
      */
-    func toCLLocationCoordinate2D() -> CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
+    func toCLLocationCoordinate2D(_ geoPoint: ParseGeoPoint? = nil) -> CLLocationCoordinate2D {
+        toCLLocationCoordinate2D
     }
 }
 #endif

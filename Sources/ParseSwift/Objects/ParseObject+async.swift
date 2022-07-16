@@ -13,9 +13,9 @@ public extension ParseObject {
 
     // MARK: Async/Await
     /**
-     Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseObject` *aynchronously* with the current data from the server.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseObject`.
@@ -111,7 +111,7 @@ public extension Sequence where Element: ParseObject {
      Fetches a collection of objects *aynchronously* with the current data from the server and sets
      an error if one occurs.
      - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `ParseObject`s. Use `["*"]` to include all keys one level deep. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns an array of Result enums with the object if a fetch was successful or a

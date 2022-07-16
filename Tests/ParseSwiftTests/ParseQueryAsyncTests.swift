@@ -91,7 +91,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let found = try await query.find()
         guard let object = found.first else {
@@ -121,7 +121,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let found = try await query.withCount()
         guard let object = found.0.first else {
@@ -152,7 +152,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let found = try await query.withCount()
         guard let object = found.0.first else {
@@ -166,7 +166,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     @MainActor
     func testWithCountLimitZero() async throws {
 
-        var query = GameScore.query()
+        var query = GameScore.query
         query.limit = 0
         let found = try await query.withCount()
         XCTAssertEqual(found.0.count, 0)
@@ -192,7 +192,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let found = try await GameScore.query().findAll()
+        let found = try await GameScore.query.findAll()
         guard let object = found.first else {
             XCTFail("Should have unwrapped")
             return
@@ -217,7 +217,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.findExplain()
         XCTAssertEqual(queryResult, json.results)
     }
@@ -239,7 +239,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.findExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
@@ -261,7 +261,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.withCountExplain()
         XCTAssertEqual(queryResult, json.results)
     }
@@ -283,7 +283,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.withCountExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
@@ -291,7 +291,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     @MainActor
     func testWithCountExplainLimitZero() async throws {
 
-        var query = GameScore.query()
+        var query = GameScore.query
         query.limit = 0
         let found: [[String: String]] = try await query.withCountExplain()
         XCTAssertEqual(found.count, 0)
@@ -317,7 +317,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let found = try await query.first()
         XCTAssert(found.hasSameObjectId(as: scoreOnServer))
     }
@@ -339,7 +339,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let queryResult: [String: String] = try await query.firstExplain()
         XCTAssertEqual(queryResult, json.results.first)
@@ -362,7 +362,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let queryResult: [String: String] = try await query.firstExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, json.results)
@@ -388,7 +388,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
 
         let found = try await query.count()
         XCTAssertEqual(found, 1)
@@ -411,7 +411,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.countExplain()
         XCTAssertEqual(queryResult, json.results)
     }
@@ -433,7 +433,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.countExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
@@ -457,7 +457,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let pipeline = [[String: AnyEncodable]]()
         let found = try await query.aggregate(pipeline)
         guard let object = found.first else {
@@ -484,7 +484,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let pipeline = [[String: String]]()
         let queryResult: [[String: String]] = try await query.aggregateExplain(pipeline)
         XCTAssertEqual(queryResult, json.results)
@@ -507,7 +507,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let pipeline = [[String: String]]()
         let queryResult: [[String: String]] = try await query.aggregateExplain(pipeline,
                                                                                usingMongoDB: true)
@@ -533,7 +533,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             }
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let found = try await query.distinct("hello")
         guard let object = found.first else {
             XCTFail("Should have unwrapped")
@@ -559,7 +559,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.distinctExplain("hello")
         XCTAssertEqual(queryResult, json.results)
     }
@@ -581,7 +581,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query()
+        let query = GameScore.query
         let queryResult: [[String: String]] = try await query.distinctExplain("hello",
                                                                               usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
