@@ -23,8 +23,8 @@ public extension ParseObject {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func fetch(includeKeys: [String]? = nil,
-               options: API.Options = []) async throws -> Self {
+    @discardableResult func fetch(includeKeys: [String]? = nil,
+                                  options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(includeKeys: includeKeys,
                        options: options,
@@ -41,8 +41,8 @@ public extension ParseObject {
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
     */
-    func save(ignoringCustomObjectIdConfig: Bool = false,
-              options: API.Options = []) async throws -> Self {
+    @discardableResult func save(ignoringCustomObjectIdConfig: Bool = false,
+                                 options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                       options: options,
@@ -56,7 +56,7 @@ public extension ParseObject {
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
     */
-    func create(options: API.Options = []) async throws -> Self {
+    @discardableResult func create(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.create(options: options,
                         completion: continuation.resume)
@@ -69,7 +69,7 @@ public extension ParseObject {
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
     */
-    func replace(options: API.Options = []) async throws -> Self {
+    @discardableResult func replace(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.replace(options: options,
                          completion: continuation.resume)
@@ -82,7 +82,7 @@ public extension ParseObject {
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
     */
-    internal func update(options: API.Options = []) async throws -> Self {
+    @discardableResult internal func update(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.update(options: options,
                         completion: continuation.resume)
@@ -118,8 +118,8 @@ public extension Sequence where Element: ParseObject {
      `ParseError` if it failed.
      - throws: An error of type `ParseError`.
     */
-    func fetchAll(includeKeys: [String]? = nil,
-                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func fetchAll(includeKeys: [String]? = nil,
+                                     options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.fetchAll(includeKeys: includeKeys,
                           options: options,
@@ -156,10 +156,10 @@ public extension Sequence where Element: ParseObject {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func saveAll(batchLimit limit: Int? = nil,
-                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                 ignoringCustomObjectIdConfig: Bool = false,
-                 options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func saveAll(batchLimit limit: Int? = nil,
+                                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                    ignoringCustomObjectIdConfig: Bool = false,
+                                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
@@ -186,9 +186,9 @@ public extension Sequence where Element: ParseObject {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func createAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                   options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func createAll(batchLimit limit: Int? = nil,
+                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.createAll(batchLimit: limit,
                            transaction: transaction,
@@ -214,9 +214,9 @@ public extension Sequence where Element: ParseObject {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func replaceAll(batchLimit limit: Int? = nil,
-                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func replaceAll(batchLimit limit: Int? = nil,
+                                       transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                       options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.replaceAll(batchLimit: limit,
                             transaction: transaction,
@@ -267,9 +267,9 @@ public extension Sequence where Element: ParseObject {
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
-    func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                   options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
+    @discardableResult func deleteAll(batchLimit limit: Int? = nil,
+                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
                            transaction: transaction,
