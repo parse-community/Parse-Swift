@@ -54,6 +54,7 @@ internal extension URLSession {
             return .failure(parseError)
         }
         if var responseData = responseData {
+            print("responseData Error: \(String(decoding: responseData, as: UTF8.self))")
             if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
                 return .failure(error)
             }
