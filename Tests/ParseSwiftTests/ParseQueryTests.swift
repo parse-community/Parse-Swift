@@ -64,6 +64,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                               masterKey: "masterKey",
                               serverURL: url,
                               usingEqualQueryConstraint: false,
+                              usingPostForQuery: true,
                               testing: true)
     }
 
@@ -402,7 +403,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFindCommand() throws {
         let query = GameScore.query
-        let command = query.findCommand()
+        let command = try query.findCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -750,7 +751,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFirstCommand() throws {
         let query = GameScore.query()
-        let command = query.firstCommand()
+        let command = try query.firstCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"limit\":1,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -996,7 +997,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCountCommand() throws {
         let query = GameScore.query()
-        let command = query.countCommand()
+        let command = try query.countCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"count\":true,\"limit\":1,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()

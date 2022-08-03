@@ -511,9 +511,15 @@ extension Query: Queryable {
             }
             return
         }
-        findCommand().executeAsync(options: options,
-                                   callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try findCommand().executeAsync(options: options,
+                                           callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            completion(.failure(parseError))
         }
     }
 
@@ -696,9 +702,15 @@ extension Query: Queryable {
             }
             return
         }
-        firstCommand().executeAsync(options: options,
-                                    callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try firstCommand().executeAsync(options: options,
+                                            callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            completion(.failure(parseError))
         }
     }
 
@@ -802,9 +814,15 @@ extension Query: Queryable {
             }
             return
         }
-        countCommand().executeAsync(options: options,
-                                    callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try countCommand().executeAsync(options: options,
+                                            callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            completion(.failure(parseError))
         }
     }
 
@@ -1268,33 +1286,63 @@ extension Query: Queryable {
 
 extension Query {
 
-    func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
+    func findCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
         let query = self
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            }
         }
     }
 
-    func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType> {
+    func firstCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, ResultType> {
         var query = self
         query.limit = 1
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
-                return decoded
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try getQueryParameters()) {
+                if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
+                    return decoded
+                }
+                throw ParseError(code: .objectNotFound,
+                                 message: "Object not found on the server.")
             }
-            throw ParseError(code: .objectNotFound,
-                             message: "Object not found on the server.")
+        } else {
+            return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
+                if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
+                    return decoded
+                }
+                throw ParseError(code: .objectNotFound,
+                                 message: "Object not found on the server.")
+            }
         }
     }
 
-    func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
+    func countCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, Int> {
         var query = self
         query.limit = 1
         query.isCount = true
-        return API.NonParseBodyCommand(method: .POST,
-                                       path: query.endpoint,
-                                       body: query) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
+            }
         }
     }
 
@@ -1524,7 +1572,7 @@ enum RawCodingKey: CodingKey {
 }
 
 internal extension Query {
-    func getQueryItems() throws -> [URLQueryItem] {
+    func getQueryParameters() throws -> [String: String] {
         var dictionary = [String: String]()
         dictionary["limit"] = try encodeAsString(\.limit)
         dictionary["skip"] = try encodeAsString(\.skip)
@@ -1541,9 +1589,7 @@ internal extension Query {
         dictionary["subqueryReadPreference"] = try encodeAsString(\.subqueryReadPreference)
         dictionary["distinct"] = try encodeAsString(\.distinct)
         dictionary["pipeline"] = try encodeAsString(\.pipeline)
-        return dictionary.map { (key, value) -> URLQueryItem in
-            return URLQueryItem(name: key, value: value)
-        }
+        return dictionary
     }
 
     func encodeAsString<W>(_ key: KeyPath<Self, W?>) throws -> String? where W: Encodable {

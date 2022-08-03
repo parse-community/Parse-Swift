@@ -59,6 +59,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
+                              usingPostForQuery: true,
                               testing: true)
     }
 
