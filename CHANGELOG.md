@@ -2,6 +2,9 @@
 
 ### main
 
+__Improvements__
+- Added discardableResult to allow developers to choose whether or not certain functions should return a result ([#385](https://github.com/parse-community/Parse-Swift/pull/385)), thanks to [Damian Van de Kauter](https://github.com/vdkdamian).
+
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
