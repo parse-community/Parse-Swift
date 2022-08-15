@@ -85,7 +85,7 @@ internal extension API {
 
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options) -> Result<URLRequest, ParseError> {
-            let params = self.params?.getQueryItems()
+            let params = self.params?.getURLQueryItems()
             var headers = API.getHeaders(options: options)
             if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")

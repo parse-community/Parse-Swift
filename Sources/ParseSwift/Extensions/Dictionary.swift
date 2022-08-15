@@ -9,8 +9,8 @@
 import Foundation
 
 internal extension Dictionary where Key == String, Value == String? {
-    func getQueryItems() -> [URLQueryItem] {
-        map { (key, value) -> URLQueryItem in
+    func getURLQueryItems() -> [URLQueryItem] {
+        sorted { $0.key < $1.key }.map { (key, value) -> URLQueryItem in
             URLQueryItem(name: key, value: value)
         }
     }
