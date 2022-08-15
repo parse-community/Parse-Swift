@@ -255,12 +255,15 @@ public extension ParseInstallation {
         }
     }
 
-    internal static func updateInternalFieldsCorrectly() {
+    internal static func updateInternalFieldsCorrectly() throws {
+        guard let currentContainerInstallationId = Self.currentContainer.installationId else {
+            throw ParseError(code: .unknownError, message: "Installation is missing an installationId")
+        }
         if Self.currentContainer.currentInstallation?.installationId !=
-            Self.currentContainer.installationId! {
+            currentContainerInstallationId {
             //If the user made changes, set back to the original
             Self.currentContainer.currentInstallation?.installationId =
-                Self.currentContainer.installationId!
+            currentContainerInstallationId
         }
         //Always pull automatic info to ensure user made no changes to immutable values
         Self.currentContainer.currentInstallation?.updateAutomaticInfo()
@@ -293,7 +296,7 @@ public extension ParseInstallation {
         }
         set {
             Self.currentContainer.currentInstallation = newValue
-            Self.updateInternalFieldsCorrectly()
+            try? Self.updateInternalFieldsCorrectly()
         }
     }
 }
