@@ -256,13 +256,17 @@ public extension ParseInstallation {
     }
 
     internal static func updateInternalFieldsCorrectly() {
-        if Self.currentContainer.currentInstallation?.installationId !=
-            Self.currentContainer.installationId! {
-            //If the user made changes, set back to the original
+
+        if let currentContainerInstallationId = Self.currentContainer.installationId,
+            Self.currentContainer.currentInstallation?.installationId !=
+            currentContainerInstallationId {
+
+            // If the user made changes, set back to the original
             Self.currentContainer.currentInstallation?.installationId =
-                Self.currentContainer.installationId!
+            currentContainerInstallationId
         }
-        //Always pull automatic info to ensure user made no changes to immutable values
+
+        // Always pull automatic info to ensure user made no changes to immutable values
         Self.currentContainer.currentInstallation?.updateAutomaticInfo()
     }
 
