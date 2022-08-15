@@ -1171,52 +1171,52 @@ public extension Sequence where Element: ParseInstallation {
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
             var commands = [API.Command<Self.Element, Self.Element>]()
+            let installations = map { $0 }
 
-            do {
-                try forEach {
-                    let installation = $0
-                    let group = DispatchGroup()
-                    group.enter()
-                    installation
-                        .ensureDeepSave(options: options,
-                                        // swiftlint:disable:next line_length
-                                        isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                        // If an error occurs, everything should be skipped
-                        if parseError != nil {
-                            error = parseError
-                        }
-                        savedChildObjects.forEach {(key, value) in
-                            if error != nil {
-                                return
-                            }
-                            if childObjects[key] == nil {
-                                childObjects[key] = value
-                            } else {
-                                error = ParseError(code: .unknownError, message: "circular dependency")
-                                return
-                            }
-                        }
-                        savedChildFiles.forEach {(key, value) in
-                            if error != nil {
-                                return
-                            }
-                            if childFiles[key] == nil {
-                                childFiles[key] = value
-                            } else {
-                                error = ParseError(code: .unknownError, message: "circular dependency")
-                                return
-                            }
-                        }
-                        group.leave()
+            for installation in installations {
+                let group = DispatchGroup()
+                group.enter()
+                installation
+                    .ensureDeepSave(options: options,
+                                    // swiftlint:disable:next line_length
+                                    isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                    // If an error occurs, everything should be skipped
+                    if parseError != nil {
+                        error = parseError
                     }
-                    group.wait()
-                    if let error = error {
-                        callbackQueue.async {
-                            completion(.failure(error))
+                    savedChildObjects.forEach {(key, value) in
+                        if error != nil {
+                            return
                         }
-                        return
+                        if childObjects[key] == nil {
+                            childObjects[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
                     }
+                    savedChildFiles.forEach {(key, value) in
+                        if error != nil {
+                            return
+                        }
+                        if childFiles[key] == nil {
+                            childFiles[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
+                    }
+                    group.leave()
+                }
+                group.wait()
+                if let error = error {
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
+                    return
+                }
 
+                do {
                     switch method {
                     case .save:
                         commands.append(
@@ -1229,16 +1229,16 @@ public extension Sequence where Element: ParseInstallation {
                     case .update:
                         commands.append(try installation.updateCommand())
                     }
-                }
-            } catch {
-                callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                } catch {
+                    callbackQueue.async {
+                        if let parseError = error as? ParseError {
+                            completion(.failure(parseError))
+                        } else {
+                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                        }
                     }
+                    return
                 }
-                return
             }
 
             do {

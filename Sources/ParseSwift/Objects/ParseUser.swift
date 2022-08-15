@@ -1587,78 +1587,77 @@ public extension Sequence where Element: ParseUser {
                                   attributes: .concurrent,
                                   autoreleaseFrequency: .inherit,
                                   target: nil)
+        let users = map { $0 }
         queue.sync {
             var childObjects = [String: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
             var commands = [API.Command<Self.Element, Self.Element>]()
 
-            do {
-                try forEach {
-                    let user = $0
-                    let group = DispatchGroup()
-                    group.enter()
-                    user.ensureDeepSave(options: options,
-                                        // swiftlint:disable:next line_length
-                                        isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                        //If an error occurs, everything should be skipped
-                        if parseError != nil {
-                            error = parseError
-                        }
-                        savedChildObjects.forEach {(key, value) in
-                            if error != nil {
-                                return
-                            }
-                            if childObjects[key] == nil {
-                                childObjects[key] = value
-                            } else {
-                                error = ParseError(code: .unknownError, message: "circular dependency")
-                                return
-                            }
-                        }
-                        savedChildFiles.forEach {(key, value) in
-                            if error != nil {
-                                return
-                            }
-                            if childFiles[key] == nil {
-                                childFiles[key] = value
-                            } else {
-                                error = ParseError(code: .unknownError, message: "circular dependency")
-                                return
-                            }
-                        }
-                        group.leave()
+            for user in users {
+                let group = DispatchGroup()
+                group.enter()
+                user.ensureDeepSave(options: options,
+                                    // swiftlint:disable:next line_length
+                                    isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                    // If an error occurs, everything should be skipped
+                    if parseError != nil {
+                        error = parseError
                     }
-                    group.wait()
-                    if let error = error {
-                        callbackQueue.async {
-                            completion(.failure(error))
+                    savedChildObjects.forEach {(key, value) in
+                        if error != nil {
+                            return
                         }
-                        return
+                        if childObjects[key] == nil {
+                            childObjects[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
                     }
-
+                    savedChildFiles.forEach {(key, value) in
+                        if error != nil {
+                            return
+                        }
+                        if childFiles[key] == nil {
+                            childFiles[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
+                    }
+                    group.leave()
+                }
+                group.wait()
+                if let error = error {
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                do {
                     switch method {
                     case .save:
                         commands.append(
-                            try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+                            try user.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
                         )
                     case .create:
-                        commands.append($0.createCommand())
+                        commands.append(user.createCommand())
                     case .replace:
-                        commands.append(try $0.replaceCommand())
+                        commands.append(try user.replaceCommand())
                     case .update:
-                        commands.append(try $0.updateCommand())
+                        commands.append(try user.updateCommand())
                     }
-                }
-            } catch {
-                callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                } catch {
+                    callbackQueue.async {
+                        if let parseError = error as? ParseError {
+                            completion(.failure(parseError))
+                        } else {
+                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                        }
                     }
+                    return
                 }
-                return
             }
 
             do {
