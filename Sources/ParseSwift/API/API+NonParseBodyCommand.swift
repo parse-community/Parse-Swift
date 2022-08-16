@@ -144,7 +144,7 @@ internal extension API.NonParseBodyCommand {
 internal extension API.NonParseBodyCommand {
     // MARK: Batch - Child Objects
     static func batch(objects: [ParseEncodable],
-                      transaction: Bool) throws -> RESTBatchCommandTypeEncodable<AnyCodable> {
+                      transaction: Bool) throws -> RESTBatchCommandTypeEncodablePointer<AnyCodable> {
         let batchCommands = try objects.compactMap { (object) -> API.BatchCommand<AnyCodable, PointerType>? in
             guard var objectable = object as? Objectable else {
                 return nil
@@ -185,7 +185,6 @@ internal extension API.NonParseBodyCommand {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))
                         }
-
                         return .failure(parseError)
                     }
                 })
@@ -198,7 +197,7 @@ internal extension API.NonParseBodyCommand {
         }
         let batchCommand = BatchChildCommand(requests: batchCommands,
                                               transaction: transaction)
-        return RESTBatchCommandTypeEncodable<AnyCodable>(method: .POST,
+        return RESTBatchCommandTypeEncodablePointer<AnyCodable>(method: .POST,
                                                          path: .batch,
                                                          body: batchCommand,
                                                          mapper: mapper)

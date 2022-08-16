@@ -1373,7 +1373,7 @@ public extension Sequence where Element: ParseUser {
             group.enter()
             user.ensureDeepSave(options: options,
                                 // swiftlint:disable:next line_length
-                                isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                                isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                 //If an error occurs, everything should be skipped
                 if parseError != nil {
                     error = parseError
@@ -1599,7 +1599,7 @@ public extension Sequence where Element: ParseUser {
                 group.enter()
                 user.ensureDeepSave(options: options,
                                     // swiftlint:disable:next line_length
-                                    isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                                    isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                     // If an error occurs, everything should be skipped
                     if parseError != nil {
                         error = parseError

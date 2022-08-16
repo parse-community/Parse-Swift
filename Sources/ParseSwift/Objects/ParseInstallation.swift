@@ -952,7 +952,9 @@ public extension Sequence where Element: ParseInstallation {
             let installation = $0
             let group = DispatchGroup()
             group.enter()
-            installation.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+            installation.ensureDeepSave(options: options,
+                                        // swiftlint:disable:next line_length
+                                        isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                 // If an error occurs, everything should be skipped
                 if parseError != nil {
                     error = parseError
@@ -1179,7 +1181,7 @@ public extension Sequence where Element: ParseInstallation {
                 installation
                     .ensureDeepSave(options: options,
                                     // swiftlint:disable:next line_length
-                                    isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                                    isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                     // If an error occurs, everything should be skipped
                     if parseError != nil {
                         error = parseError
