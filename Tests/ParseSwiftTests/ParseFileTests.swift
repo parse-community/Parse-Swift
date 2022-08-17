@@ -959,7 +959,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Cache policy flakey on older Swift versions
         #if compiler(>=5.5.0)
-        // Remove URL so we can check cache
+        // Remove URL mocker so we can check cache
         MockURLProtocol.removeAll()
 
         let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])

@@ -37,6 +37,12 @@ public struct ParseConfiguration {
     /// - warning: This is known not to work for LiveQuery on Parse Servers <= 5.0.0.
     public internal(set) var isUsingEqualQueryConstraint = false
 
+    /// Use **POST** instead of **GET** when making query calls.
+    /// Defaults to **false**.
+    /// - warning: **POST** calls are not cached and will require all queries to access the
+    /// server instead of following the `requestCachePolicy`.
+    public internal(set) var isUsingPostForQuery = false
+
     /// The default caching policy for all http requests that determines when to
     /// return a response from the cache. Defaults to `useProtocolCachePolicy`.
     /// See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
@@ -85,6 +91,8 @@ public struct ParseConfiguration {
      side for each object. Must be enabled on the server to work.
      - parameter usingTransactions: Use transactions when saving/updating multiple objects.
      - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
+     - parameter usingPostForQuery: Use **POST** instead of **GET** when making query calls.
+     Defaults to **false**.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -110,6 +118,7 @@ public struct ParseConfiguration {
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
      - warning: `usingTransactions` is experimental.
      - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -121,6 +130,7 @@ public struct ParseConfiguration {
                 allowingCustomObjectIds: Bool = false,
                 usingTransactions: Bool = false,
                 usingEqualQueryConstraint: Bool = false,
+                usingPostForQuery: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
@@ -140,6 +150,7 @@ public struct ParseConfiguration {
         self.isAllowingCustomObjectIds = allowingCustomObjectIds
         self.isUsingTransactions = usingTransactions
         self.isUsingEqualQueryConstraint = usingEqualQueryConstraint
+        self.isUsingPostForQuery = usingPostForQuery
         self.mountPath = "/" + serverURL.pathComponents
             .filter { $0 != "/" }
             .joined(separator: "/")
@@ -253,6 +264,8 @@ public struct ParseSwift {
      side for each object. Must be enabled on the server to work.
      - parameter usingTransactions: Use transactions when saving/updating multiple objects.
      - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
+     - parameter usingPostForQuery: Use **POST** instead of **GET** when making query calls.
+     Defaults to **false**.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -276,6 +289,7 @@ public struct ParseSwift {
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
      - warning: `usingTransactions` is experimental.
      - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
      */
     static public func initialize(
         applicationId: String,
@@ -286,6 +300,7 @@ public struct ParseSwift {
         allowingCustomObjectIds: Bool = false,
         usingTransactions: Bool = false,
         usingEqualQueryConstraint: Bool = false,
+        usingPostForQuery: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
         cacheMemoryCapacity: Int = 512_000,
@@ -306,6 +321,7 @@ public struct ParseSwift {
                                         allowingCustomObjectIds: allowingCustomObjectIds,
                                         usingTransactions: usingTransactions,
                                         usingEqualQueryConstraint: usingEqualQueryConstraint,
+                                        usingPostForQuery: usingPostForQuery,
                                         keyValueStore: keyValueStore,
                                         requestCachePolicy: requestCachePolicy,
                                         cacheMemoryCapacity: cacheMemoryCapacity,
@@ -325,6 +341,7 @@ public struct ParseSwift {
                                     allowingCustomObjectIds: Bool = false,
                                     usingTransactions: Bool = false,
                                     usingEqualQueryConstraint: Bool = false,
+                                    usingPostForQuery: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
                                     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                                     cacheMemoryCapacity: Int = 512_000,
@@ -345,6 +362,7 @@ public struct ParseSwift {
                                                allowingCustomObjectIds: allowingCustomObjectIds,
                                                usingTransactions: usingTransactions,
                                                usingEqualQueryConstraint: usingEqualQueryConstraint,
+                                               usingPostForQuery: usingPostForQuery,
                                                keyValueStore: keyValueStore,
                                                requestCachePolicy: requestCachePolicy,
                                                cacheMemoryCapacity: cacheMemoryCapacity,
