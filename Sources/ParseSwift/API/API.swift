@@ -254,11 +254,3 @@ public struct API {
         ParseConstants.sdk+ParseConstants.version
     }
 }
-
-internal extension Dictionary where Key == String, Value == String? {
-    func getQueryItems() -> [URLQueryItem] {
-        return map { (key, value) -> URLQueryItem in
-            return URLQueryItem(name: key, value: value)
-        }
-    }
-}
