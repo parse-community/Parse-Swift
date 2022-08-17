@@ -74,11 +74,6 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
             let encoded = try ParseCoding.jsonEncoder().encode(value)
             return String(data: encoded, encoding: .utf8)
         }
-
-        func encodeAsString<W>(_ key: KeyPath<Self, W>) throws -> String? where W: Encodable {
-            let encoded = try ParseCoding.jsonEncoder().encode(self[keyPath: key])
-            return String(data: encoded, encoding: .utf8)
-        }
     }
 
     struct DistinctBody<T>: Codable where T: ParseObject {
@@ -108,11 +103,6 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
                 return nil
             }
             let encoded = try ParseCoding.jsonEncoder().encode(value)
-            return String(data: encoded, encoding: .utf8)
-        }
-
-        func encodeAsString<W>(_ key: KeyPath<Self, W>) throws -> String? where W: Encodable {
-            let encoded = try ParseCoding.jsonEncoder().encode(self[keyPath: key])
             return String(data: encoded, encoding: .utf8)
         }
     }
