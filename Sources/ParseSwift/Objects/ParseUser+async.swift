@@ -120,7 +120,7 @@ public extension ParseUser {
         }
     }
 #endif
-    
+
     /**
      Logs out the currently logged in user *asynchronously*.
 
