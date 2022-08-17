@@ -97,6 +97,25 @@ public extension ParseUser {
     }
 
     /**
+     Logs in a `ParseUser` *asynchronously* using the session token from the Parse Objective-C SDK Keychain.
+     Publishes an instance of the successfully logged in `ParseUser`. The Parse Objective-C SDK Keychain is not
+     modified in any way when calling this method; allowing developers to revert their applications back to the older
+     SDK if desired.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+    */
+    func loginUsingObjCKeychainPublisher(options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            self.loginUsingObjCKeychain(options: options, completion: promise)
+        }
+    }
+
+    /**
      Logs out the currently logged in user *asynchronously*. Publishes when complete.
 
      This will also remove the session from the Keychain, log out of linked services

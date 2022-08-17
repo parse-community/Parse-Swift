@@ -320,6 +320,73 @@ extension ParseUser {
         }
     }
 
+#if !os(Linux) && !os(Android) && !os(Windows)
+    /**
+     Logs in a `ParseUser` *asynchronously* using the session token from the Parse Objective-C SDK Keychain.
+     Returns an instance of the successfully logged in `ParseUser`. The Parse Objective-C SDK Keychain is not
+     modified in any way when calling this method; allowing developers to revert their applications back to the older
+     SDK if desired.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+    */
+    public func loginUsingObjCKeychain(options: API.Options = [],
+                                       callbackQueue: DispatchQueue = .main,
+                                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+
+        guard let identifier = Bundle.main.bundleIdentifier else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Could not find a bundle identifier for this application.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+
+        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
+        let objcParseSessionToken: String? = objcParseKeychain.object(forKey: "sessionToken") ??
+        objcParseKeychain.object(forKey: "session_token")
+
+        guard let sessionToken = objcParseSessionToken else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Could not find a session token in the Parse Objective-C SDK Keychain.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+
+        guard let currentUser = Self.current else {
+            become(sessionToken: sessionToken,
+                   options: options,
+                   callbackQueue: callbackQueue,
+                   completion: completion)
+            return
+        }
+
+        guard currentUser.sessionToken == sessionToken else {
+            let error = ParseError(code: .unknownError,
+                                   message: """
+                                   Currently logged in as a Parse User who has a different
+                                   session token than the Objetctive-C Parse SDK session token. Please log out before
+                                   calling this method.
+            """)
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        completion(.success(currentUser))
+    }
+#endif
+
     internal func meCommand(sessionToken: String) throws -> API.Command<Self, Self> {
 
         return API.Command(method: .GET,
