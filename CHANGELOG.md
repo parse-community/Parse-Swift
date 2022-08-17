@@ -1,15 +1,24 @@
 # Parse-Swift Changelog
 
 ### main
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.0...main)
+* _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.9.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...4.9.0)
 
 __New features__
 - Enable query caching by using GET instead of POST. GET is now used by default. To switch back to POST, set usingPostForQuery = true when initializing the SDK which will automatically disable all query caching ([#386](https://github.com/parse-community/Parse-Swift/pull/386)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
+- Add more details to error messages related when decoding errors occur ([#388](https://github.com/parse-community/Parse-Swift/pull/388)), thanks to [Daniel Blyth](https://github.com/dblythy).
 - Added discardableResult to allow developers to choose whether or not certain functions should return a result ([#385](https://github.com/parse-community/Parse-Swift/pull/385)), thanks to [Damian Van de Kauter](https://github.com/vdkdamian).
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...main)
-* _Contributing to this repo? Add info about your change here to be included in the next release_
+__Fixes__
+- Ensure properties that are already saved ParseObject's are converted to Parse pointers when using saveAll ([#390](https://github.com/parse-community/Parse-Swift/pull/390)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 4.8.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.7.0...4.8.0)
 
 __New features__
 - Add ParseSpotify authentication ([#375](https://github.com/parse-community/Parse-Swift/pull/375)), thanks to [Ulaş Sancak](https://github.com/rocxteady).
