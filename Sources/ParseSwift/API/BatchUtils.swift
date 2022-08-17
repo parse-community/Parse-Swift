@@ -13,14 +13,14 @@ typealias ParseObjectBatchResponse<T> = [(Result<T, ParseError>)]
 // swiftlint:disable line_length
 typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ParseObject
 
-typealias ParseObjectBatchCommandNoBody<T> = BatchCommandNoBody<NoBody, NoBody>
+typealias ParseObjectBatchCommandNoBody<T> = BatchCommandEncodable<NoBody, NoBody>
 typealias ParseObjectBatchResponseNoBody<NoBody> = [(Result<Void, ParseError>)]
 typealias RESTBatchCommandNoBodyType<T> = API.NonParseBodyCommand<ParseObjectBatchCommandNoBody<T>, ParseObjectBatchResponseNoBody<T>> where T: Encodable
 
-typealias ParseObjectBatchCommandEncodable<T> = BatchChildCommand<T, PointerType> where T: Encodable
-typealias ParseObjectBatchResponseEncodable<U> = [(Result<PointerType, ParseError>)]
+typealias ParseObjectBatchCommandEncodablePointer<T> = BatchChildCommand<T, PointerType> where T: Encodable
+typealias ParseObjectBatchResponseEncodablePointer<U> = [(Result<PointerType, ParseError>)]
 // swiftlint:disable line_length
-typealias RESTBatchCommandTypeEncodable<T> = API.NonParseBodyCommand<ParseObjectBatchCommandEncodable<T>, ParseObjectBatchResponseEncodable<Encodable>> where T: Encodable
+typealias RESTBatchCommandTypeEncodablePointer<T> = API.NonParseBodyCommand<ParseObjectBatchCommandEncodablePointer<T>, ParseObjectBatchResponseEncodablePointer<Encodable>> where T: Encodable
  // swiftlint:enable line_length
 
 internal struct BatchCommand<T, U>: ParseEncodable where T: ParseEncodable {
@@ -28,7 +28,7 @@ internal struct BatchCommand<T, U>: ParseEncodable where T: ParseEncodable {
     var transaction: Bool
 }
 
-internal struct BatchCommandNoBody<T, U>: Encodable where T: Encodable {
+internal struct BatchCommandEncodable<T, U>: Encodable where T: Encodable {
     let requests: [API.NonParseBodyCommand<T, U>]
     var transaction: Bool
 }

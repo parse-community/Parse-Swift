@@ -267,14 +267,15 @@ transactions for this call.
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
 
-        let objects = map { $0 }
-        for object in objects {
+        var commands = [API.Command<Self.Element, Self.Element>]()
+        try forEach {
+            let object = $0
             let group = DispatchGroup()
             group.enter()
             object.ensureDeepSave(options: options,
                                   // swiftlint:disable:next line_length
-                                  isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                //If an error occurs, everything should be skipped
+                                  isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                // If an error occurs, everything should be skipped
                 if parseError != nil {
                     error = parseError
                 }
@@ -306,10 +307,10 @@ transactions for this call.
             if let error = error {
                 throw error
             }
+            commands.append(try object.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig))
         }
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = try map { try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig) }
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
@@ -482,19 +483,18 @@ transactions for this call.
                                   autoreleaseFrequency: .inherit,
                                   target: nil)
         queue.sync {
-
             var childObjects = [String: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
-
+            var commands = [API.Command<Self.Element, Self.Element>]()
             let objects = map { $0 }
             for object in objects {
                 let group = DispatchGroup()
                 group.enter()
                 object.ensureDeepSave(options: options,
                                       // swiftlint:disable:next line_length
-                                      isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                    //If an error occurs, everything should be skipped
+                                      isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                    // If an error occurs, everything should be skipped
                     if parseError != nil {
                         error = parseError
                     }
@@ -529,23 +529,34 @@ transactions for this call.
                     }
                     return
                 }
+
+                do {
+                    switch method {
+                    case .save:
+                        commands.append(
+                            try object.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+                        )
+                    case .create:
+                        commands.append(object.createCommand())
+                    case .replace:
+                        commands.append(try object.replaceCommand())
+                    case .update:
+                        commands.append(try object.updateCommand())
+                    }
+                } catch {
+                    callbackQueue.async {
+                        if let parseError = error as? ParseError {
+                            completion(.failure(parseError))
+                        } else {
+                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                        }
+                    }
+                    return
+                }
             }
 
             do {
                 var returnBatch = [(Result<Self.Element, ParseError>)]()
-                let commands: [API.Command<Self.Element, Self.Element>]!
-                switch method {
-                case .save:
-                    commands = try map {
-                        try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
-                    }
-                case .create:
-                    commands = map { $0.createCommand() }
-                case .replace:
-                    commands = try map { try $0.replaceCommand() }
-                case .update:
-                    commands = try map { try $0.updateCommand() }
-                }
 
                 let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
                 try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)

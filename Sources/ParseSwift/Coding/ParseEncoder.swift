@@ -340,11 +340,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                 throw ParseError(code: .unknownError,
                                  message: "Found a circular dependency when encoding.")
             }
-            if !self.collectChildren && codingPath.count > 0 {
-                valueToEncode = value
-            } else {
-                valueToEncode = pointer
-            }
+            valueToEncode = pointer
         } else if let object = value as? Objectable {
             if let pointer = try? PointerType(object) {
                 if let uniquePointer = self.uniquePointer,
@@ -352,11 +348,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                     throw ParseError(code: .unknownError,
                                      message: "Found a circular dependency when encoding.")
                 }
-                if !self.collectChildren && codingPath.count > 0 {
-                    valueToEncode = value
-                } else {
-                    valueToEncode = pointer
-                }
+                valueToEncode = pointer
             } else {
                 var object = object
                 if object.ACL == nil,
@@ -959,7 +951,7 @@ extension _ParseEncoder {
             // swiftlint:disable:next force_cast
             return (value as! NSDecimalNumber)
         } else if value is _JSONStringDictionaryEncodableMarker {
-            //COREY: DON'T remove the force unwrap, it will crash the app
+            // COREY: DON'T remove the force cast, it will crash the app
             // swiftlint:disable:next force_cast
             return try self.box(value as! [String : Encodable])
         } else if value is ParsePointer {

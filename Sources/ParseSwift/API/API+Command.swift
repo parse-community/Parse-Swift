@@ -576,7 +576,7 @@ internal extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommandNoBody(requests: commands, transaction: transaction)
+        let batchCommand = BatchCommandEncodable(requests: commands, transaction: transaction)
         return RESTBatchCommandNoBodyType<NoBody>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }
