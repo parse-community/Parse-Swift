@@ -96,6 +96,7 @@ public extension ParseUser {
         }
     }
 
+#if !os(Linux) && !os(Android) && !os(Windows)
     /**
      Logs in a `ParseUser` *asynchronously* using the session token from the Parse Objective-C SDK Keychain.
      Publishes an instance of the successfully logged in `ParseUser`. The Parse Objective-C SDK Keychain is not
@@ -114,6 +115,7 @@ public extension ParseUser {
             self.loginUsingObjCKeychain(options: options, completion: promise)
         }
     }
+#endif
 
     /**
      Logs out the currently logged in user *asynchronously*. Publishes when complete.
