@@ -300,6 +300,7 @@ public extension Sequence where Element: ParseInstallation {
     }
 }
 
+#if !os(Linux) && !os(Android) && !os(Windows)
 // MARK: Migrate from Objective-C SDK
 public extension ParseInstallation {
     /**
@@ -348,5 +349,5 @@ public extension ParseInstallation {
         }
     }
 }
-
+#endif
 #endif

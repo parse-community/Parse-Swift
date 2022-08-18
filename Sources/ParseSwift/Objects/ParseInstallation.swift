@@ -1511,9 +1511,10 @@ public extension Sequence where Element: ParseInstallation {
     }
 }
 
+#if !os(Linux) && !os(Android) && !os(Windows)
 // MARK: Migrate from Objective-C SDK
 public extension ParseInstallation {
-#if !os(Linux) && !os(Android) && !os(Windows)
+
     /**
      Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain.
 
@@ -1631,5 +1632,5 @@ public extension ParseInstallation {
             return
         }
     }
-#endif
-} // swiftlint:disable:this file_length
+}
+#endif // swiftlint:disable:this file_length
