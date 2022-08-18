@@ -300,4 +300,53 @@ public extension Sequence where Element: ParseInstallation {
     }
 }
 
+// MARK: Migrate from Objective-C SDK
+public extension ParseInstallation {
+    /**
+     Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain.
+
+     - parameter copyInstallation: When **true**, copies the
+     entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
+     **false**, only the `channels` and `deviceToken` are copied from the Objective-C
+     SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
+     Defaults to **false**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns saved `ParseInstallation`.
+     - throws: An error of type `ParseError`.
+     - warning: Setting `copyInstallation == true` is known to prevent successful login when using
+     `ParseUser.loginUsingObjCKeychain` as a different `installationId` is needed.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    @discardableResult func migrateFromObjCKeychain(copyInstallation: Bool = false,
+                                                    deleteObjectiveCKeychain: Bool = false,
+                                                    options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            self.migrateFromObjCKeychain(copyInstallation: copyInstallation,
+                                         options: options,
+                                         completion: continuation.resume)
+        }
+    }
+
+    /**
+     Deletes the Objective-C Keychain along with the Objective-C `ParseInstallation`
+     from the Parse Server *asynchronously*.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns saved `ParseInstallation`.
+     - throws: An error of type `ParseError`.
+     - warning: It is recommended to only use this method after a succesfful migration. Calling this
+     method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
+     Server.
+    */
+    func deleteObjCKeychain(options: API.Options = []) async throws {
+        let result = try await withCheckedThrowingContinuation { continuation in
+            self.deleteObjCKeychain(options: options, completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
+        }
+    }
+}
+
 #endif

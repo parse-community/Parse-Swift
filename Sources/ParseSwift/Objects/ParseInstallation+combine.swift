@@ -293,4 +293,50 @@ public extension Sequence where Element: ParseInstallation {
     }
 }
 
+#if !os(Linux) && !os(Android) && !os(Windows)
+// MARK: Migrate from Objective-C SDK
+public extension ParseInstallation {
+
+    /**
+     Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain
+     and publishes when complete.
+
+     - parameter copyInstallation: When **true**, copies the
+     entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
+     **false**, only the `channels` and `deviceToken` are copied from the Objective-C
+     SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
+     Defaults to **false**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: Setting `copyInstallation == true` is known to prevent successful login when using
+     `ParseUser.loginUsingObjCKeychain` as a different `installationId` is needed.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func migrateFromObjCKeychainPublisher(copyInstallation: Bool = false,
+                                          options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            self.migrateFromObjCKeychain(copyInstallation: copyInstallation,
+                                         options: options,
+                                         completion: promise)
+        }
+    }
+
+    /**
+     Deletes the Objective-C Keychain along with the Objective-C `ParseInstallation`
+     from the Parse Server *asynchronously* and publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: It is recommended to only use this method after a succesfful migration. Calling this
+     method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
+     Server.
+    */
+    func deleteObjCKeychainPublisher(options: API.Options = []) -> Future<Void, ParseError> {
+        Future { promise in
+            self.deleteObjCKeychain(options: options, completion: promise)
+        }
+    }
+}
+#endif
 #endif

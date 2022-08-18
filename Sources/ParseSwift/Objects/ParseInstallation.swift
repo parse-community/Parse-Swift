@@ -1509,4 +1509,127 @@ public extension Sequence where Element: ParseInstallation {
             }
         }
     }
+}
+
+// MARK: Migrate from Objective-C SDK
+public extension ParseInstallation {
+#if !os(Linux) && !os(Android) && !os(Windows)
+    /**
+     Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain.
+
+     - parameter copyInstallation: When **true**, copies the
+     entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
+     **false**, only the `channels` and `deviceToken` are copied from the Objective-C
+     SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
+     Defaults to **false**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - warning: Setting `copyInstallation == true` is known to prevent successful login when using
+     `ParseUser.loginUsingObjCKeychain` as a different `installationId` is needed.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func migrateFromObjCKeychain(copyInstallation: Bool = false,
+                                 options: API.Options = [],
+                                 callbackQueue: DispatchQueue = .main,
+                                 completion: @escaping (Result<Self, ParseError>) -> Void) {
+        guard let objcParseKeychain = KeychainStore.objectiveC,
+              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Could not find Installation in the Objective-C SDK Keychain")
+            completion(.failure(error))
+            return
+        }
+        guard var currentInstallation = Self.current else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Current installation does not exist")
+            completion(.failure(error))
+            return
+        }
+        guard currentInstallation.installationId != oldInstallationId else {
+            // If the installationId's are the same, assume successful migration already occured.
+            completion(.success(currentInstallation))
+            return
+        }
+        currentInstallation.installationId = oldInstallationId
+        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success(let updatedInstallation):
+                if copyInstallation {
+                    Self.currentContainer.installationId = installationId
+                    Self.currentContainer.currentInstallation = updatedInstallation
+                } else {
+                    Self.currentContainer.currentInstallation?.channels = updatedInstallation.channels
+                    if Self.currentContainer.currentInstallation?.deviceToken == nil {
+                        Self.currentContainer.currentInstallation?.deviceToken = updatedInstallation.deviceToken
+                    }
+                }
+                Self.saveCurrentContainerToKeychain()
+                guard let latestInstallation = Self.currentContainer.currentInstallation else {
+                    let error = ParseError(code: .unknownError,
+                                           message: "Had trouble migrating the installation")
+                    completion(.failure(error))
+                    return
+                }
+                latestInstallation.save(options: options,
+                                        callbackQueue: callbackQueue,
+                                        completion: completion)
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    /**
+     Deletes the Objective-C Keychain along with the Objective-C `ParseInstallation`
+     from the Parse Server *asynchronously* and executes the given callback block.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - warning: It is recommended to only use this method after a succesfful migration. Calling this
+     method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
+     Server.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func deleteObjCKeychain(options: API.Options = [],
+                            callbackQueue: DispatchQueue = .main,
+                            completion: @escaping (Result<Void, ParseError>) -> Void) {
+        guard let objcParseKeychain = KeychainStore.objectiveC,
+              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Could not find the Objective-C SDK Keychain")
+            completion(.failure(error))
+            return
+        }
+        guard var currentInstallation = Self.current else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Current installation does not exist")
+            completion(.failure(error))
+            return
+        }
+        currentInstallation.installationId = oldInstallationId
+        do {
+            try ParseSwift.deleteObjectiveCKeychain()
+            // Only delete the `ParseInstation` on Parse Server if it's not current.
+            guard Self.current?.installationId == oldInstallationId else {
+                currentInstallation.delete(options: options,
+                                           callbackQueue: callbackQueue,
+                                           completion: completion)
+                return
+            }
+            completion(.success(()))
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            completion(.failure(parseError))
+            return
+        }
+    }
+#endif
 } // swiftlint:disable:this file_length
