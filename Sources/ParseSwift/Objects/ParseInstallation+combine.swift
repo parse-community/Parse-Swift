@@ -305,15 +305,13 @@ public extension ParseInstallation {
      entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
      **false**, only the `channels` and `deviceToken` are copied from the Objective-C
      SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
-     Defaults to **false**.
+     Defaults to **true**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - warning: Setting `copyInstallation == true` is known to prevent successful login when using
-     `ParseUser.loginUsingObjCKeychain` as a different `installationId` is needed.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func migrateFromObjCKeychainPublisher(copyInstallation: Bool = false,
+    func migrateFromObjCKeychainPublisher(copyInstallation: Bool = true,
                                           options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
             self.migrateFromObjCKeychain(copyInstallation: copyInstallation,
