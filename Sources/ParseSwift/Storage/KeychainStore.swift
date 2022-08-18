@@ -32,6 +32,13 @@ struct KeychainStore: SecureStorage {
     let synchronizationQueue: DispatchQueue
     private let keychainQueryTemplate: [String: String]
     static var shared = KeychainStore()
+    static var objectiveC: KeychainStore? {
+        if let identifier = Bundle.main.bundleIdentifier {
+            return KeychainStore(service: "\(identifier).com.parse.sdk")
+        } else {
+            return nil
+        }
+    }
     // This Keychain was used by SDK <= 1.9.7
     static var old = KeychainStore(service: "shared")
 

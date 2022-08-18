@@ -235,8 +235,7 @@ public struct ParseSwift {
 
         #if !os(Linux) && !os(Android) && !os(Windows)
         if configuration.isMigratingFromObjcSDK {
-            if let identifier = Bundle.main.bundleIdentifier {
-                let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
+            if let objcParseKeychain = KeychainStore.objectiveC {
                 guard let installationId: String = objcParseKeychain.object(forKey: "installationId"),
                       BaseParseInstallation.current?.installationId != installationId else {
                     return
@@ -415,10 +414,7 @@ public struct ParseSwift {
      - warning: The keychain cannot be recovered after deletion.
      */
     static public func deleteObjectiveCKeychain() throws {
-        if let identifier = Bundle.main.bundleIdentifier {
-            let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
-            try objcParseKeychain.deleteAll()
-        }
+        try KeychainStore.objectiveC?.deleteAll()
     }
     #endif
 

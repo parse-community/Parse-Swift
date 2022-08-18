@@ -341,7 +341,7 @@ extension ParseUser {
                                        callbackQueue: DispatchQueue = .main,
                                        completion: @escaping (Result<Self, ParseError>) -> Void) {
 
-        guard let identifier = Bundle.main.bundleIdentifier else {
+        guard let objcParseKeychain = KeychainStore.objectiveC else {
             let error = ParseError(code: .unknownError,
                                    message: "Could not find a bundle identifier for this application.")
             callbackQueue.async {
@@ -350,7 +350,6 @@ extension ParseUser {
             return
         }
 
-        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
         let objcParseSessionToken: String? = objcParseKeychain.object(forKey: "sessionToken") ??
         objcParseKeychain.object(forKey: "session_token")
 

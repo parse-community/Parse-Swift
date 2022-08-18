@@ -204,10 +204,10 @@ internal extension API.NonParseBodyCommand {
             }
         }
         let batchCommand = BatchChildCommand(requests: batchCommands,
-                                              transaction: transaction)
+                                             transaction: transaction)
         return RESTBatchCommandTypeEncodablePointer<AnyCodable>(method: .POST,
-                                                         path: .batch,
-                                                         body: batchCommand,
-                                                         mapper: mapper)
+                                                                path: .batch,
+                                                                body: batchCommand,
+                                                                mapper: mapper)
     }
 }

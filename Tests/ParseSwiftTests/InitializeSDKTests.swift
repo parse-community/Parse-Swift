@@ -44,9 +44,7 @@ class InitializeSDKTests: XCTestCase {
         try super.tearDownWithError()
         #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
-        if let identifier = Bundle.main.bundleIdentifier {
-            try KeychainStore(service: "\(identifier).com.parse.sdk").deleteAll()
-        }
+        try KeychainStore.objectiveC?.deleteAll()
         URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -513,13 +511,12 @@ class InitializeSDKTests: XCTestCase {
 
     func testMigrateObjcSDK() {
 
-        //Set keychain the way objc sets keychain
-        guard let identifier = Bundle.main.bundleIdentifier else {
+        // Set keychain the way objc sets keychain
+        guard let objcParseKeychain = KeychainStore.objectiveC else {
             XCTFail("Should have unwrapped")
             return
         }
         let objcInstallationId = "helloWorld"
-        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
         _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
 
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -542,12 +539,11 @@ class InitializeSDKTests: XCTestCase {
     func testDeleteObjcSDKKeychain() throws {
 
         //Set keychain the way objc sets keychain
-        guard let identifier = Bundle.main.bundleIdentifier else {
+        guard let objcParseKeychain = KeychainStore.objectiveC else {
             XCTFail("Should have unwrapped")
             return
         }
         let objcInstallationId = "helloWorld"
-        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
         _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
 
         guard let retrievedInstallationId: String? = try objcParseKeychain.get(valueFor: "installationId") else {
@@ -573,12 +569,11 @@ class InitializeSDKTests: XCTestCase {
     func testMigrateObjcSDKMissingInstallation() {
 
         //Set keychain the way objc sets keychain
-        guard let identifier = Bundle.main.bundleIdentifier else {
+        guard let objcParseKeychain = KeychainStore.objectiveC else {
             XCTFail("Should have unwrapped")
             return
         }
         let objcInstallationId = "helloWorld"
-        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
         _ = objcParseKeychain.set(object: objcInstallationId, forKey: "anotherPlace")
 
         guard let url = URL(string: "http://localhost:1337/1") else {
