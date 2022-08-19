@@ -40,6 +40,7 @@ To learn how to use or experiment with ParseSwift, you can run and edit the [Par
     - [SwiftUI View Models Using Combine](#swiftui-view-models-using-combine)
     - [Traditional Callbacks](#traditional-callbacks)
   - [Advanced Usage](#advanced-usage)
+- [Migration from Parse ObjC SDK](#migration-from-parse-objc-sdk)
 
 ## Installation
 
@@ -241,3 +242,7 @@ You are not limited to a single Live Query Client - you can create multiple inst
 [docs]: https://docs.parseplatform.org
 [license-link]: LICENSE
 [open-collective-link]: https://opencollective.com/parse-server
+
+## Migration from Parse ObjC SDK
+
+See the [Migration Guide](MIGRATION.md) to help you migrate from the Parse ObjC SDK.
