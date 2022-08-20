@@ -89,11 +89,11 @@ internal extension URLSession {
                         }
                         return .failure(ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length
-                                                   message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
+                                                   message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
                     }
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
+                                               message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
                 }
                 return .failure(parseError)
             }
@@ -131,7 +131,7 @@ internal extension URLSession {
                 guard let parseError = error as? ParseError else {
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription)"))
+                                               message: "Error decoding parse-server response: \(response) with error: \(String(describing: error))"))
                 }
                 return .failure(parseError)
             }

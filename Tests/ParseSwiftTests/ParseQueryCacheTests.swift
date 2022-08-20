@@ -1,21 +1,42 @@
 //
-//  ParseQueryAsyncTests.swift
+//  ParseQueryCacheTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 9/28/21.
-//  Copyright © 2021 Parse Community. All rights reserved.
+//  Created by Corey Baker on 8/4/22.
+//  Copyright © 2022 Parse Community. All rights reserved.
 //
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 import XCTest
 @testable import ParseSwift
 
-class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
-    struct GameScore: ParseObject {
+// swiftlint:disable line_length
+
+class ParseQueryCacheTests: XCTestCase { // swiftlint:disable:this type_body_length
+
+    struct GameScore: ParseObject, ParseQueryScorable {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var score: Double?
+        var originalData: Data?
+
+        //: Your own properties
+        var points: Int
+        var isCounts: Bool?
+
+        //: a custom initializer
+        init() {
+            self.points = 5
+        }
+        init(points: Int) {
+            self.points = points
+        }
+    }
+
+    struct GameScoreBroken: ParseObject {
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
@@ -23,22 +44,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         var ACL: ParseACL?
         var originalData: Data?
 
-        //: Your own properties
         var points: Int?
-        var player: String?
-        init() { }
-        //custom initializers
-        init (objectId: String?) {
-            self.objectId = objectId
-        }
-        init(points: Int) {
-            self.points = points
-            self.player = "Jen"
-        }
-        init(points: Int, name: String) {
-            self.points = points
-            self.player = name
-        }
     }
 
     struct AnyResultsResponse<U: Codable>: Codable {
@@ -59,19 +65,88 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              usingPostForQuery: true,
+                              usingEqualQueryConstraint: false,
+                              usingPostForQuery: false,
                               testing: true)
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
+        ParseSwift.clearCache()
         #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
     }
 
+    func testQueryParameters() throws {
+        let query = GameScore.query
+            .order([.ascending("points"), .descending("oldScore")])
+            .exclude("hello", "world")
+            .include("foo", "bar")
+            .select("yolo", "nolo")
+            .hint("right")
+            .readPreference("now")
+
+        let queryParameters = try query.getQueryParameters()
+        guard let whereParameter = queryParameters["where"],
+            let orderParameter = queryParameters["order"],
+            let skipParameter = queryParameters["skip"],
+            let excludeKeysParameter = queryParameters["excludeKeys"],
+            let limitParameter = queryParameters["limit"],
+            let keysParameter = queryParameters["keys"],
+            let includeParameter = queryParameters["include"],
+            let hintParameter = queryParameters["hint"],
+            let readPreferenceParameter = queryParameters["readPreference"] else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(whereParameter.contains("{}"))
+        XCTAssertTrue(orderParameter.contains("\"points"))
+        XCTAssertTrue(orderParameter.contains("\"-oldScore"))
+        XCTAssertTrue(skipParameter.contains("0"))
+        XCTAssertTrue(excludeKeysParameter.contains("\"hello"))
+        XCTAssertTrue(excludeKeysParameter.contains("\"world"))
+        XCTAssertTrue(limitParameter.contains("100"))
+        XCTAssertTrue(keysParameter.contains("\"nolo"))
+        XCTAssertTrue(keysParameter.contains("\"yolo"))
+        XCTAssertTrue(includeParameter.contains("\"foo\""))
+        XCTAssertTrue(includeParameter.contains("\"bar\""))
+        XCTAssertTrue(hintParameter.contains("\"right\""))
+        XCTAssertTrue(readPreferenceParameter.contains("\"now\""))
+    }
+
+    func testAggregateQueryParameters() throws {
+        var query = GameScore.query
+            .order([.ascending("points"), .descending("oldScore")])
+            .exclude("hello", "world")
+            .include("foo", "bar")
+            .select("yolo", "nolo")
+            .hint("right")
+
+        query.includeReadPreference = "now"
+        query.explain = true
+        query.pipeline = [["yo": "no"]]
+
+        let aggregate = Query<GameScore>.AggregateBody(query: query)
+
+        let queryParameters = try aggregate.getQueryParameters()
+        guard let explainParameter = queryParameters["explain"],
+            let pipelineParameter = queryParameters["pipeline"],
+            let hintParameter = queryParameters["hint"],
+            let readPreferenceParameter = queryParameters["includeReadPreference"] else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(explainParameter.contains("true"))
+        XCTAssertTrue(pipelineParameter.contains("\"yo"))
+        XCTAssertTrue(pipelineParameter.contains("\"no"))
+        XCTAssertTrue(hintParameter.contains("\"right\""))
+        XCTAssertTrue(readPreferenceParameter.contains("\"now\""))
+    }
+
+#if compiler(>=5.5.2) && canImport(_Concurrency)
     @MainActor
     func testFind() async throws {
 
@@ -131,6 +206,16 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
         XCTAssertTrue(object.hasSameObjectId(as: scoreOnServer))
         XCTAssertEqual(found.1, 1)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let found2 = try await query.withCount(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        guard let object2 = found2.0.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(object2.hasSameObjectId(as: scoreOnServer))
+        XCTAssertEqual(found2.1, 1)
     }
 
     @MainActor
@@ -162,16 +247,16 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
         XCTAssertTrue(object.hasSameObjectId(as: scoreOnServer))
         XCTAssertEqual(found.1, 0)
-    }
 
-    @MainActor
-    func testWithCountLimitZero() async throws {
-
-        var query = GameScore.query
-        query.limit = 0
-        let found = try await query.withCount()
-        XCTAssertEqual(found.0.count, 0)
-        XCTAssertEqual(found.1, 0)
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let found2 = try await query.withCount(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        guard let object2 = found2.0.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(object2.hasSameObjectId(as: scoreOnServer))
+        XCTAssertEqual(found2.1, 0)
     }
 
     @MainActor
@@ -199,6 +284,15 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return
         }
         XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let found2 = try await GameScore.query.findAll(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        guard let object2 = found2.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssert(object2.hasSameObjectId(as: scoreOnServer))
     }
 
     @MainActor
@@ -221,6 +315,11 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let queryResult: [[String: String]] = try await query.findExplain()
         XCTAssertEqual(queryResult, json.results)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.findExplain(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, json.results)
     }
 
     @MainActor
@@ -243,6 +342,12 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let queryResult: [[String: String]] = try await query.findExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.findExplain(usingMongoDB: true,
+                                                                           options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, [json.results])
     }
 
     @MainActor
@@ -265,6 +370,11 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let queryResult: [[String: String]] = try await query.withCountExplain()
         XCTAssertEqual(queryResult, json.results)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.withCountExplain(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, json.results)
     }
 
     @MainActor
@@ -287,15 +397,12 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let queryResult: [[String: String]] = try await query.withCountExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
-    }
 
-    @MainActor
-    func testWithCountExplainLimitZero() async throws {
-
-        var query = GameScore.query
-        query.limit = 0
-        let found: [[String: String]] = try await query.withCountExplain()
-        XCTAssertEqual(found.count, 0)
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.withCountExplain(usingMongoDB: true,
+                                                                                options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, [json.results])
     }
 
     @MainActor
@@ -321,6 +428,11 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let found = try await query.first()
         XCTAssert(found.hasSameObjectId(as: scoreOnServer))
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let found2 = try await query.first(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssert(found2.hasSameObjectId(as: scoreOnServer))
     }
 
     @MainActor
@@ -341,9 +453,13 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let query = GameScore.query
-
         let queryResult: [String: String] = try await query.firstExplain()
         XCTAssertEqual(queryResult, json.results.first)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [String: String] = try await query.firstExplain(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, json.results.first)
     }
 
     @MainActor
@@ -364,9 +480,14 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let query = GameScore.query
-
         let queryResult: [String: String] = try await query.firstExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, json.results)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [String: String] = try await query.firstExplain(usingMongoDB: true,
+                                                                          options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, json.results)
     }
 
     @MainActor
@@ -390,9 +511,13 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let query = GameScore.query
-
         let found = try await query.count()
         XCTAssertEqual(found, 1)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let found2 = try await query.count(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(found2, 1)
     }
 
     @MainActor
@@ -415,6 +540,11 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let queryResult: [[String: String]] = try await query.countExplain()
         XCTAssertEqual(queryResult, json.results)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.countExplain(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, json.results)
     }
 
     @MainActor
@@ -437,6 +567,12 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let queryResult: [[String: String]] = try await query.countExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.countExplain(usingMongoDB: true,
+                                                                            options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, [json.results])
     }
 
     @MainActor
@@ -466,6 +602,16 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return
         }
         XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let found2 = try await query.aggregate(pipeline,
+                                               options: [.cachePolicy(.returnCacheDataDontLoad)])
+        guard let object2 = found2.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssert(object2.hasSameObjectId(as: scoreOnServer))
     }
 
     @MainActor
@@ -489,6 +635,12 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let pipeline = [[String: String]]()
         let queryResult: [[String: String]] = try await query.aggregateExplain(pipeline)
         XCTAssertEqual(queryResult, json.results)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.aggregateExplain(pipeline,
+                                                                                options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, json.results)
     }
 
     @MainActor
@@ -513,6 +665,13 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let queryResult: [[String: String]] = try await query.aggregateExplain(pipeline,
                                                                                usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.aggregateExplain(pipeline,
+                                                                                usingMongoDB: true,
+                                                                                options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, [json.results])
     }
 
     @MainActor
@@ -541,6 +700,16 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
             return
         }
         XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let found2 = try await query.distinct("hello",
+                                              options: [.cachePolicy(.returnCacheDataDontLoad)])
+        guard let object2 = found2.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssert(object2.hasSameObjectId(as: scoreOnServer))
     }
 
     @MainActor
@@ -563,6 +732,12 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query
         let queryResult: [[String: String]] = try await query.distinctExplain("hello")
         XCTAssertEqual(queryResult, json.results)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.distinctExplain("hello",
+                                                                               options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, json.results)
     }
 
     @MainActor
@@ -586,6 +761,13 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let queryResult: [[String: String]] = try await query.distinctExplain("hello",
                                                                               usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let queryResult2: [[String: String]] = try await query.distinctExplain("hello",
+                                                                               usingMongoDB: true,
+                                                                               options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(queryResult2, [json.results])
     }
-}
 #endif
+}

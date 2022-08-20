@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -66,6 +66,9 @@
 		7004C24D25B69207005E0AD9 /* ParseRoleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7004C22D25B69077005E0AD9 /* ParseRoleTests.swift */; };
 		7004C25725B6920A005E0AD9 /* ParseRoleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7004C22D25B69077005E0AD9 /* ParseRoleTests.swift */; };
 		7004C26125B6920B005E0AD9 /* ParseRoleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7004C22D25B69077005E0AD9 /* ParseRoleTests.swift */; };
+		700AFE03289C3508006C1CD9 /* ParseQueryCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700AFE02289C3508006C1CD9 /* ParseQueryCacheTests.swift */; };
+		700AFE04289C3508006C1CD9 /* ParseQueryCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700AFE02289C3508006C1CD9 /* ParseQueryCacheTests.swift */; };
+		700AFE05289C3508006C1CD9 /* ParseQueryCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700AFE02289C3508006C1CD9 /* ParseQueryCacheTests.swift */; };
 		70110D52250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
 		70110D53250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
 		70110D54250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
@@ -519,6 +522,10 @@
 		70BDA2B4250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
 		70BDA2B5250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
 		70BDA2B6250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
+		70C048C12880D7E600401689 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C048C02880D7E500401689 /* Dictionary.swift */; };
+		70C048C22880D7E600401689 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C048C02880D7E500401689 /* Dictionary.swift */; };
+		70C048C32880D7E600401689 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C048C02880D7E500401689 /* Dictionary.swift */; };
+		70C048C42880D7E600401689 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C048C02880D7E500401689 /* Dictionary.swift */; };
 		70C167AF27304EE4009F4E30 /* Pointer+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C167AE27304EE4009F4E30 /* Pointer+combine.swift */; };
 		70C167B027304EE4009F4E30 /* Pointer+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C167AE27304EE4009F4E30 /* Pointer+combine.swift */; };
 		70C167B127304EE4009F4E30 /* Pointer+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C167AE27304EE4009F4E30 /* Pointer+combine.swift */; };
@@ -1134,6 +1141,7 @@
 		7003972925A3B0130052CB31 /* ParseURLSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseURLSessionDelegate.swift; sourceTree = "<group>"; };
 		7004C21F25B63C7A005E0AD9 /* ParseRelation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseRelation.swift; sourceTree = "<group>"; };
 		7004C22D25B69077005E0AD9 /* ParseRoleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseRoleTests.swift; sourceTree = "<group>"; };
+		700AFE02289C3508006C1CD9 /* ParseQueryCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseQueryCacheTests.swift; sourceTree = "<group>"; };
 		70110D51250680140091CC1D /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
@@ -1261,6 +1269,7 @@
 		70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGeoPointTests.swift; sourceTree = "<group>"; };
 		70BC988F252A5B5C00FF3074 /* Objectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objectable.swift; sourceTree = "<group>"; };
 		70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallation.swift; sourceTree = "<group>"; };
+		70C048C02880D7E500401689 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		70C167AE27304EE4009F4E30 /* Pointer+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pointer+combine.swift"; sourceTree = "<group>"; };
 		70C167B327304F09009F4E30 /* Pointer+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pointer+async.swift"; sourceTree = "<group>"; };
 		70C167B827305101009F4E30 /* ParsePointerAsyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePointerAsyncTests.swift; sourceTree = "<group>"; };
@@ -1610,8 +1619,8 @@
 				7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */,
 				703B091A26BDE774005A112F /* ParseObjectAsyncTests.swift */,
 				70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */,
-				7044C1DE25C5C70D0011F6E7 /* ParseObjectCombineTests.swift */,
 				70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */,
+				7044C1DE25C5C70D0011F6E7 /* ParseObjectCombineTests.swift */,
 				911DB13524C4FC100027F3C7 /* ParseObjectTests.swift */,
 				917BA43D2703E84000F8D747 /* ParseOperationAsyncTests.swift */,
 				7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */,
@@ -1627,6 +1636,7 @@
 				70385E6328563FD10084D306 /* ParsePushPayloadFirebaseTests.swift */,
 				70212D172855256F00386163 /* ParsePushTests.swift */,
 				917BA4252703DB4600F8D747 /* ParseQueryAsyncTests.swift */,
+				700AFE02289C3508006C1CD9 /* ParseQueryCacheTests.swift */,
 				7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
 				91BB8FD32690D586005A6BA5 /* ParseQueryViewModelTests.swift */,
@@ -1635,10 +1645,10 @@
 				7050259C2843F0CF008D6624 /* ParseSchemaAsyncTests.swift */,
 				705025A02843F0E7008D6624 /* ParseSchemaCombineTests.swift */,
 				705025A4284407C4008D6624 /* ParseSchemaTests.swift */,
+				70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */,
 				7C995D282861FA0B0077805A /* ParseSpotifyAsyncTests.swift */,
 				7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */,
 				7C995D242861F8330077805A /* ParseSpotifyTests.swift */,
-				70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */,
 				917BA4512703F55700F8D747 /* ParseTwitterAsyncTests.swift */,
 				89899D9E26045998002E2043 /* ParseTwitterCombineTests.swift */,
 				89899CDC2603CE73002E2043 /* ParseTwitterTests.swift */,
@@ -1892,6 +1902,7 @@
 			children = (
 				70386A0525D9718C0048EC1B /* Data.swift */,
 				706436A827341FD0007C6461 /* Date.swift */,
+				70C048C02880D7E500401689 /* Dictionary.swift */,
 				706436A327341F6E007C6461 /* Encodable.swift */,
 				9116F66E26A35D600082F6D6 /* URLCache.swift */,
 				F97B462C24D9C74400F4A88B /* URLSession.swift */,
@@ -2541,6 +2552,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		4A6511541F49D53C005237DF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2555,6 +2567,7 @@
 		};
 		4A6511551F49D544005237DF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2569,6 +2582,7 @@
 		};
 		918CED61268A23A700CFDC83 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2587,6 +2601,7 @@
 		};
 		918CED62268A23E600CFDC83 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2647,6 +2662,7 @@
 				7085DDA326CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
 				70CE0AC1285FD59B00DAEA86 /* ParseHookFunctionable+async.swift in Sources */,
 				F97B465224D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				70C048C12880D7E600401689 /* Dictionary.swift in Sources */,
 				91B79AC826EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
 				70385E712858D2DD0084D306 /* ParseHookTriggerable.swift in Sources */,
 				91679D64268E596300F71809 /* ParseVersion.swift in Sources */,
@@ -2834,6 +2850,7 @@
 				70E6B02A28614C5F0043EC4A /* ParseHookFunctionRequestCombineTests.swift in Sources */,
 				7044C1DF25C5C70D0011F6E7 /* ParseObjectCombineTests.swift in Sources */,
 				70212D2E2855266400386163 /* ParsePushCombineTests.swift in Sources */,
+				700AFE03289C3508006C1CD9 /* ParseQueryCacheTests.swift in Sources */,
 				70E6B026286132BC0043EC4A /* ParseHookFunctionRequestTests.swift in Sources */,
 				70F03A622780EADD00E5AFB4 /* ParseLinkedInCombineTests.swift in Sources */,
 				89899D9F26045998002E2043 /* ParseTwitterCombineTests.swift in Sources */,
@@ -2949,6 +2966,7 @@
 				7085DDA426CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
 				70CE0AC2285FD59B00DAEA86 /* ParseHookFunctionable+async.swift in Sources */,
 				F97B465324D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				70C048C22880D7E600401689 /* Dictionary.swift in Sources */,
 				91B79AC926EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
 				70385E722858D2DD0084D306 /* ParseHookTriggerable.swift in Sources */,
 				91679D65268E596300F71809 /* ParseVersion.swift in Sources */,
@@ -3145,6 +3163,7 @@
 				70E6B02C28614C5F0043EC4A /* ParseHookFunctionRequestCombineTests.swift in Sources */,
 				7044C1E125C5C70D0011F6E7 /* ParseObjectCombineTests.swift in Sources */,
 				70212D362855266600386163 /* ParsePushCombineTests.swift in Sources */,
+				700AFE05289C3508006C1CD9 /* ParseQueryCacheTests.swift in Sources */,
 				70E6B028286132BC0043EC4A /* ParseHookFunctionRequestTests.swift in Sources */,
 				70F03A642780EADD00E5AFB4 /* ParseLinkedInCombineTests.swift in Sources */,
 				89899DA126045998002E2043 /* ParseTwitterCombineTests.swift in Sources */,
@@ -3264,6 +3283,7 @@
 				70E6B02B28614C5F0043EC4A /* ParseHookFunctionRequestCombineTests.swift in Sources */,
 				7044C1E025C5C70D0011F6E7 /* ParseObjectCombineTests.swift in Sources */,
 				70212D322855266500386163 /* ParsePushCombineTests.swift in Sources */,
+				700AFE04289C3508006C1CD9 /* ParseQueryCacheTests.swift in Sources */,
 				70E6B027286132BC0043EC4A /* ParseHookFunctionRequestTests.swift in Sources */,
 				70F03A632780EADD00E5AFB4 /* ParseLinkedInCombineTests.swift in Sources */,
 				89899DA026045998002E2043 /* ParseTwitterCombineTests.swift in Sources */,
@@ -3379,6 +3399,7 @@
 				703B090026BD953B005A112F /* ParseHealth+async.swift in Sources */,
 				70CE0AC4285FD59B00DAEA86 /* ParseHookFunctionable+async.swift in Sources */,
 				7085DDA626CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
+				70C048C42880D7E600401689 /* Dictionary.swift in Sources */,
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				70385E742858D2DD0084D306 /* ParseHookTriggerable.swift in Sources */,
 				91B79ACB26EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
@@ -3562,6 +3583,7 @@
 				703B08FF26BD953B005A112F /* ParseHealth+async.swift in Sources */,
 				70CE0AC3285FD59B00DAEA86 /* ParseHookFunctionable+async.swift in Sources */,
 				7085DDA526CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
+				70C048C32880D7E600401689 /* Dictionary.swift in Sources */,
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				70385E732858D2DD0084D306 /* ParseHookTriggerable.swift in Sources */,
 				91B79ACA26EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
@@ -3787,7 +3809,10 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = TestHost/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -3804,7 +3829,10 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = TestHost/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -3929,7 +3957,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3949,7 +3978,11 @@
 				INFOPLIST_FILE = "ParseSwift-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
@@ -3974,7 +4007,11 @@
 				INFOPLIST_FILE = "ParseSwift-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
@@ -3998,7 +4035,11 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = Tests/ParseSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4020,7 +4061,11 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = Tests/ParseSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4044,7 +4089,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "ParseSwift-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
@@ -4071,7 +4120,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "ParseSwift-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
@@ -4095,7 +4148,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = TestHostTV/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHostTV;
@@ -4117,7 +4173,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = TestHostTV/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHostTV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4137,7 +4196,11 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = ParseSwiftTeststvOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.cs.netrecon.ParseSwiftTeststvOS;
@@ -4160,7 +4223,11 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = ParseSwiftTeststvOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.cs.netrecon.ParseSwiftTeststvOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4184,7 +4251,11 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = ParseSwiftTestsmacOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -4207,7 +4278,11 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = ParseSwiftTestsmacOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.cs.netrecon.ParseSwiftTestsmacOS;
@@ -4232,7 +4307,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.8.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -4262,7 +4341,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.8.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-watchOS";
@@ -4290,7 +4373,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.8.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -4319,7 +4406,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.8.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-tvOS";

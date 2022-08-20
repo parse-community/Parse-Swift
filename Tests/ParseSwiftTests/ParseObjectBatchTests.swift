@@ -23,6 +23,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         // Custom properties
         var points: Int = 0
         var other: Game2?
+        var otherArray: [Game2]?
 
         //custom initializers
         init() {
@@ -118,7 +119,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let encoded: Data!
         do {
            encoded = try scoreOnServer.getJSONEncoder().encode(response)
-           //Get dates in correct format from ParseDecoding strategy
+           // Get dates in correct format from ParseDecoding strategy
            let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
@@ -210,6 +211,122 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         } catch {
             XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testSaveAllWithPointer() { // swiftlint:disable:this function_body_length cyclomatic_complexity
+        var score = GameScore(points: 10)
+        score.other = Game2()
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+        let encoded: Data!
+        do {
+           encoded = try scoreOnServer.getJSONEncoder().encode(response)
+           // Get dates in correct format from ParseDecoding strategy
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+
+            let saved = try [score].saveAll()
+
+            XCTAssertEqual(saved.count, 1)
+            switch saved[0] {
+
+            case .success(let first):
+                XCTAssert(first.hasSameObjectId(as: scoreOnServer))
+                guard let savedCreatedAt = first.createdAt,
+                    let savedUpdatedAt = first.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
+                XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
+                XCTAssertNil(first.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            _ = try [score].saveAll(transaction: true,
+                                    options: [.installationId("hello")])
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.localizedDescription.contains("originally"))
+        }
+    }
+
+    func testSaveAllWithPointerArray() { // swiftlint:disable:this function_body_length cyclomatic_complexity
+        var score = GameScore(points: 10)
+        score.otherArray = [Game2()]
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+        let encoded: Data!
+        do {
+           encoded = try scoreOnServer.getJSONEncoder().encode(response)
+           // Get dates in correct format from ParseDecoding strategy
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+
+            let saved = try [score].saveAll()
+
+            XCTAssertEqual(saved.count, 1)
+            switch saved[0] {
+
+            case .success(let first):
+                XCTAssert(first.hasSameObjectId(as: scoreOnServer))
+                guard let savedCreatedAt = first.createdAt,
+                    let savedUpdatedAt = first.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
+                XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
+                XCTAssertNil(first.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            _ = try [score].saveAll(transaction: true,
+                                    options: [.installationId("hello")])
+            XCTFail("Should have thrown error")
+        } catch {
+            XCTAssertTrue(error.localizedDescription.contains("originally"))
         }
     }
 
@@ -391,7 +508,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"body\":{\"points\":10},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yarr\"},{\"body\":{\"points\":20},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yarr\"},{\"body\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false}"
 
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
@@ -799,6 +916,71 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    func saveAllAsyncPointer(scores: [GameScore], // swiftlint:disable:this function_body_length cyclomatic_complexity
+                             transaction: Bool = false,
+                             scoresOnServer: [GameScore], callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Save object1")
+        guard let scoreOnServer = scoresOnServer.first else {
+            XCTFail("Should unwrap")
+            expectation1.fulfill()
+            return
+        }
+
+        scores.saveAll(transaction: transaction,
+                       callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success(let saved):
+                XCTAssertEqual(saved.count, 1)
+                guard let firstObject = saved.first else {
+                    XCTFail("Should unwrap")
+                    expectation1.fulfill()
+                    return
+                }
+
+                switch firstObject {
+
+                case .success(let first):
+                    XCTAssert(first.hasSameObjectId(as: scoreOnServer))
+                    guard let savedCreatedAt = first.createdAt,
+                        let savedUpdatedAt = first.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
+                            return
+                    }
+                    XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
+                    XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
+                    XCTAssertNil(first.ACL)
+
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+
+        let expectation2 = XCTestExpectation(description: "Save object2")
+        scores.saveAll(transaction: true,
+                       options: [.useMasterKey],
+                       callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have thrown error")
+            case .failure(let error):
+                XCTAssertTrue(error.localizedDescription.contains("originally"))
+            }
+            expectation2.fulfill()
+        }
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeSaveAllAsync() {
         let score = GameScore(points: 10)
@@ -874,6 +1056,62 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         self.saveAllAsync(scores: [score, score2], scoresOnServer: [scoreOnServer, scoreOnServer2],
                           callbackQueue: .main)
+    }
+
+    func testSaveAllAsyncPointer() {
+        var score = GameScore(points: 10)
+        score.other = Game2()
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+        let encoded: Data!
+        do {
+           encoded = try ParseCoding.jsonEncoder().encode(response)
+           // Get dates in correct format from ParseDecoding strategy
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
+
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        self.saveAllAsyncPointer(scores: [score], scoresOnServer: [scoreOnServer],
+                                 callbackQueue: .main)
+    }
+
+    func testSaveAllAsyncPointerArray() {
+        var score = GameScore(points: 10)
+        score.otherArray = [Game2()]
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+        let encoded: Data!
+        do {
+           encoded = try ParseCoding.jsonEncoder().encode(response)
+           // Get dates in correct format from ParseDecoding strategy
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
+
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        self.saveAllAsyncPointer(scores: [score], scoresOnServer: [scoreOnServer],
+                                 callbackQueue: .main)
     }
 
     func testSaveAllAsyncTransaction() { // swiftlint:disable:this function_body_length cyclomatic_complexity

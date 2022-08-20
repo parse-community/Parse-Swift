@@ -267,7 +267,7 @@ internal extension API {
         func prepareURLRequest(options: API.Options,
                                childObjects: [String: PointerType]? = nil,
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
-            let params = self.params?.getQueryItems()
+            let params = self.params?.getURLQueryItems()
             var headers = API.getHeaders(options: options)
             if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
@@ -583,7 +583,7 @@ internal extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommandNoBody(requests: commands, transaction: transaction)
+        let batchCommand = BatchCommandEncodable(requests: commands, transaction: transaction)
         return RESTBatchCommandNoBodyType<NoBody>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }

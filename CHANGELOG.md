@@ -2,6 +2,9 @@
 
 ### main
 
+__New features__
+- Enable query caching by using GET instead of POST. GET is now used by default. To switch back to POST, set usingPostForQuery = true when initializing the SDK which will automatically disable all query caching ([#386](https://github.com/parse-community/Parse-Swift/pull/386)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 __Improvements__
 - Added discardableResult to allow developers to choose whether or not certain functions should return a result ([#385](https://github.com/parse-community/Parse-Swift/pull/385)), thanks to [Damian Van de Kauter](https://github.com/vdkdamian).
 

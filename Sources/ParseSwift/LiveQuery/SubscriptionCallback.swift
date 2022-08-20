@@ -82,11 +82,8 @@ open class SubscriptionCallback<T: ParseObject>: QuerySubscribable {
         }
     }
 
-}
+    // MARK: QuerySubscribable
 
-// MARK: QuerySubscribable
-
-extension SubscriptionCallback {
     open func didReceive(_ eventData: Data) throws {
         // Need to decode the event with respect to the `ParseObject`.
         let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)

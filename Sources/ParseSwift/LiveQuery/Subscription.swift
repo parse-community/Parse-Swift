@@ -67,11 +67,9 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
         self.event = nil
         self.unsubscribed = nil
     }
-}
 
-// MARK: QuerySubscribable
+    // MARK: QuerySubscribable
 
-extension Subscription {
     open func didReceive(_ eventData: Data) throws {
         // Need to decode the event with respect to the `ParseObject`.
         let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)
@@ -89,4 +87,5 @@ extension Subscription {
         self.unsubscribed = query
     }
 }
+
 #endif
