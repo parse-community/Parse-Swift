@@ -1653,7 +1653,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
                         if installationFromKeychain.installationId == oldInstallationId
                             || installationFromKeychain.installationId == nil {
-                            XCTFail("\(installationFromKeychain) was not deleted then created in Keychain during logout")
+                            XCTFail("""
+                                "\(installationFromKeychain) was not deleted then created in
+                                Keychain during logout
+                            """)
                         }
 
                 } else {
