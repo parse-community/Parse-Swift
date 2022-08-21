@@ -33,7 +33,7 @@ public extension ParseFile {
     /**
      Fetches a file with given url *synchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -70,7 +70,7 @@ public extension ParseFile {
      A name will be assigned to it by the server. If the file has not been downloaded, it will automatically
      be downloaded before saved. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A publisher that eventually produces a single value and then finishes or fails.

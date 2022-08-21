@@ -190,7 +190,7 @@ gameScoreSchema.fetch { result in
 
 /*:
  Fields can also be deleted on a schema. Lets remove
- the **data** field since it's not going being used.
+ the **data** field since it is not going being used.
 */
 gameScoreSchema = gameScoreSchema.deleteField("data")
 

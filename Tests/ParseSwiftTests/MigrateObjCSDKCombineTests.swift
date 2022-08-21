@@ -1,5 +1,5 @@
 //
-//  MergeObjCSDKCombineTests.swift
+//  MigrateObjCSDKCombineTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 8/21/22.
@@ -13,7 +13,7 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-class MergeObjCSDKCombineTests: XCTestCase {
+class MigrateObjCSDKCombineTests: XCTestCase {
     struct User: ParseUser {
 
         //: These are required by ParseObject

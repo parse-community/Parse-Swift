@@ -359,7 +359,7 @@ internal extension API.Command {
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
             let fileLocation = downloadDirectoryPath.appendingPathComponent(object.name)
             if tempFileLocation != fileLocation {
-                try? FileManager.default.removeItem(at: fileLocation) //Remove file if it's already present
+                try? FileManager.default.removeItem(at: fileLocation) //Remove file if it is already present
                 try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
             }
             var object = object

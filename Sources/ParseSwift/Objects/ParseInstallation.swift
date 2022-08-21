@@ -1530,10 +1530,10 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func migrateFromObjCKeychain(copyInstallation: Bool = true,
-                                 options: API.Options = [],
-                                 callbackQueue: DispatchQueue = .main,
-                                 completion: @escaping (Result<Self, ParseError>) -> Void) {
+    static func migrateFromObjCKeychain(copyInstallation: Bool = true,
+                                        options: API.Options = [],
+                                        callbackQueue: DispatchQueue = .main,
+                                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let objcParseKeychain = KeychainStore.objectiveC,
               let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
             let error = ParseError(code: .unknownError,
@@ -1555,9 +1555,10 @@ public extension ParseInstallation {
         currentInstallation.installationId = oldInstallationId
         currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
             switch result {
-            case .success(let updatedInstallation):
+            case .success(var updatedInstallation):
                 if copyInstallation {
-                    Self.currentContainer.installationId = installationId
+                    updatedInstallation.updateAutomaticInfo()
+                    Self.currentContainer.installationId = updatedInstallation.installationId
                     Self.currentContainer.currentInstallation = updatedInstallation
                 } else {
                     Self.currentContainer.currentInstallation?.channels = updatedInstallation.channels
@@ -1596,9 +1597,9 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func deleteObjCKeychain(options: API.Options = [],
-                            callbackQueue: DispatchQueue = .main,
-                            completion: @escaping (Result<Void, ParseError>) -> Void) {
+    static func deleteObjCKeychain(options: API.Options = [],
+                                   callbackQueue: DispatchQueue = .main,
+                                   completion: @escaping (Result<Void, ParseError>) -> Void) {
         guard let objcParseKeychain = KeychainStore.objectiveC,
               let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
             let error = ParseError(code: .unknownError,
@@ -1615,7 +1616,7 @@ public extension ParseInstallation {
         currentInstallation.installationId = oldInstallationId
         do {
             try ParseSwift.deleteObjectiveCKeychain()
-            // Only delete the `ParseInstation` on Parse Server if it's not current.
+            // Only delete the `ParseInstallation` on Parse Server if it is not current.
             guard Self.current?.installationId == oldInstallationId else {
                 currentInstallation.delete(options: options,
                                            callbackQueue: callbackQueue,

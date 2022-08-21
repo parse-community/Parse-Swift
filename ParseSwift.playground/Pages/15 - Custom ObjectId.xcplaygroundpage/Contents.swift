@@ -75,7 +75,7 @@ score.save { result in
         assert(savedScore.updatedAt != nil)
         assert(savedScore.points == 10)
 
-        //: Now that this object has a `createdAt`, it's properly saved to the server.
+        //: Now that this object has a `createdAt`, it is properly saved to the server.
         //: Any changes to `createdAt` and `objectId` will not be saved to the server.
         print("Saved score: \(savedScore)")
 
@@ -126,7 +126,7 @@ query.first { result in
 //: Now we will attempt to fetch a ParseObject that is not saved.
 let scoreToFetch = GameScore(objectId: "hello")
 
-//: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
+//: Asynchronously (preferred way) fetch this GameScore based on it is objectId alone.
 scoreToFetch.fetch { result in
     switch result {
     case .success(let fetchedScore):

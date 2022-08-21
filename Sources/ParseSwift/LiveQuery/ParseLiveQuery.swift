@@ -44,7 +44,7 @@ import FoundationNetworking
  the default.
  3. You want to change the default url for all LiveQuery connections when the app is already
  running. Initializing new instances will create a new task/connection to the `ParseLiveQuery` server.
- When an instance is deinitialized it will automatically close it's connection gracefully.
+ When an instance is deinitialized it will automatically close it is connection gracefully.
  */
 public final class ParseLiveQuery: NSObject {
     // Queues

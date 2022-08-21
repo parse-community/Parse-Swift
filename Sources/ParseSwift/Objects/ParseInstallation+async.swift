@@ -317,11 +317,11 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    @discardableResult func migrateFromObjCKeychain(copyInstallation: Bool = true,
-                                                    deleteObjectiveCKeychain: Bool = false,
-                                                    options: API.Options = []) async throws -> Self {
+    @discardableResult static func migrateFromObjCKeychain(copyInstallation: Bool = true,
+                                                           deleteObjectiveCKeychain: Bool = false,
+                                                           options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.migrateFromObjCKeychain(copyInstallation: copyInstallation,
+            Self.migrateFromObjCKeychain(copyInstallation: copyInstallation,
                                          options: options,
                                          completion: continuation.resume)
         }
@@ -338,9 +338,9 @@ public extension ParseInstallation {
      method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
      Server.
     */
-    func deleteObjCKeychain(options: API.Options = []) async throws {
+    static func deleteObjCKeychain(options: API.Options = []) async throws {
         let result = try await withCheckedThrowingContinuation { continuation in
-            self.deleteObjCKeychain(options: options, completion: continuation.resume)
+            Self.deleteObjCKeychain(options: options, completion: continuation.resume)
         }
         if case let .failure(error) = result {
             throw error

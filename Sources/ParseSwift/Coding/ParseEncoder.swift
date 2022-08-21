@@ -237,7 +237,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
     ///
     /// **true** if an element has not yet been encoded at this coding path; **false** otherwise.
     var canEncodeNewValue: Bool {
-        // Every time a new value gets encoded, the key it's encoded for is pushed onto the coding path (even if it's a nil key from an unkeyed container).
+        // Every time a new value gets encoded, the key it is encoded for is pushed onto the coding path (even if it is a nil key from an unkeyed container).
         // At the same time, every time a container is requested, a new value gets pushed onto the storage stack.
         // If there are more values on the storage stack than on the coding path, it means the value is requesting more than one container, which violates the precondition.
         //
@@ -984,7 +984,7 @@ extension _ParseEncoder {
 // MARK: - _ParseReferencingEncoder
 // swiftlint:disable line_length
 /// __JSONReferencingEncoder is a special subclass of __JSONEncoder which has its own storage, but references the contents of a different encoder.
-/// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it's created in, but it does not necessarily know when it's done being used (to write to the original container).
+/// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it is created in, but it does not necessarily know when it is done being used (to write to the original container).
 private class _ParseReferencingEncoder: _ParseEncoder {
     // MARK: Reference types.
 

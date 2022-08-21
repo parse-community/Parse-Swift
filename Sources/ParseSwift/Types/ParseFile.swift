@@ -263,7 +263,7 @@ extension ParseFile {
            }
       
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - parameter stream: An input file stream.
@@ -358,7 +358,7 @@ extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after synchronous completion.
      Defailts to .main.
-     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A saved `ParseFile`.
@@ -430,7 +430,7 @@ extension ParseFile {
       
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - parameter completion: A block that will be called when file saves or fails.
@@ -615,7 +615,7 @@ extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after synchronous completion.
      Defaults to .main.
-     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A saved `ParseFile`.
@@ -678,7 +678,7 @@ extension ParseFile {
       
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - parameter completion: A block that will be called when file fetches or fails.

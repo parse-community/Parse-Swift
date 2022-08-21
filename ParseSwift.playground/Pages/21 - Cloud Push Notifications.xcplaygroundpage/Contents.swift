@@ -80,7 +80,7 @@ push.send { result in
     }
 }
 
-//: You can fetch the status of notificaiton if you know it's id.
+//: You can fetch the status of notificaiton if you know it is id.
 push.fetchStatus(pushStatusId) { result in
     switch result {
     case .success(let pushStatus):

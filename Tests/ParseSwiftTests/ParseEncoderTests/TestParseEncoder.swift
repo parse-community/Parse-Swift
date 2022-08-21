@@ -834,7 +834,7 @@ class TestParseEncoder: XCTestCase {
     let expectedJSON = "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000".data(using: .utf8)!
 
     // Want to make sure we write out a JSON number, not the keyed encoding here.
-    // 1e127 is too big to fit natively in a Double, too, so want to make sure it's encoded as a Decimal.
+    // 1e127 is too big to fit natively in a Double, too, so want to make sure it is encoded as a Decimal.
     let decimal = Decimal(sign: .plus, exponent: 127, significand: Decimal(1))
     _testRoundTrip(of: decimal, expectedJSON: expectedJSON)
 

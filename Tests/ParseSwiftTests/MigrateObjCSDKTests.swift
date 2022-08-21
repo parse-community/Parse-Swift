@@ -1,5 +1,5 @@
 //
-//  MergeObjCSDKTests.swift
+//  MigrateObjCSDKTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 8/19/22.
@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class MergeObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_length
+class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
 

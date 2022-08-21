@@ -37,7 +37,7 @@ import Foundation
  It is important to note that for unsaved `ParseObject`'s, you will not be able to rely on `objectId` for
  `Equatable` and `Hashable` as your unsaved objects will not have this value yet and is nil. A possible way to
  address this is by creating a `UUID` for your objects locally and relying on that for `Equatable` and `Hashable`,
- otherwise it's possible you will get "circular dependency errors" depending on your implementation.
+ otherwise it is possible you will get "circular dependency errors" depending on your implementation.
  - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
  `ACL` to your `ParseObject` `CodingKeys`.
 */
@@ -98,7 +98,7 @@ public protocol ParseObject: ParseTypeable,
      - note: This is used in combination with `merge` to only send updated
      properties to the server and then merge those changes with the original object.
      - warning: You should only call this method and should not implement it directly
-     as it's already implemented for developers to use.
+     as it is already implemented for developers to use.
     */
     func mergeParse(with object: Self) throws -> Self
 
@@ -1167,7 +1167,7 @@ extension ParseObject {
                                 //If this ParseObject has no additional children, it can be saved now
                                 savableObjects.append(parseObject)
                             } else {
-                                //Else this ParseObject needs to wait until it's children are saved
+                                //Else this ParseObject needs to wait until it is children are saved
                                 nextBatch.append(parseObject)
                             }
                         }
