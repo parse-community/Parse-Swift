@@ -15,7 +15,7 @@ public extension ParseUser {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
@@ -40,7 +40,7 @@ public extension ParseUser {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -114,9 +114,9 @@ public extension ParseUser {
      - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
      when calling this method.
     */
-    @discardableResult func loginUsingObjCKeychain(options: API.Options = []) async throws -> Self {
+    @discardableResult static func loginUsingObjCKeychain(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.loginUsingObjCKeychain(options: options, completion: continuation.resume)
+            Self.loginUsingObjCKeychain(options: options, completion: continuation.resume)
         }
     }
 #endif

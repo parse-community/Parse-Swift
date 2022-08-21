@@ -26,12 +26,12 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter user: Required id for the user.
         /// - parameter identityToken: Required identity token for the user.
         /// - returns: authData dictionary.
-        /// - throws: `ParseError` if the **identityToken** can't be converted
+        /// - throws: `ParseError` if the **identityToken** cannot be converted
         /// to a string.
         func makeDictionary(user: String,
                             identityToken: Data) throws -> [String: String] {
             guard let identityTokenString = String(data: identityToken, encoding: .utf8) else {
-                throw ParseError(code: .unknownError, message: "Couldn't convert identityToken to String")
+                throw ParseError(code: .unknownError, message: "Could not convert identityToken to String")
             }
             return [AuthenticationKeys.id.rawValue: user,
              AuthenticationKeys.token.rawValue: identityTokenString]
@@ -75,7 +75,7 @@ public extension ParseApple {
         guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
             callbackQueue.async {
                 completion(.failure(.init(code: .unknownError,
-                                          message: "Couldn't create authData.")))
+                                          message: "Could not create authData.")))
             }
             return
         }
@@ -123,7 +123,7 @@ public extension ParseApple {
         guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
             callbackQueue.async {
                 completion(.failure(.init(code: .unknownError,
-                                          message: "Couldn't create authData.")))
+                                          message: "Could not create authData.")))
             }
             return
         }

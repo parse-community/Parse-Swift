@@ -76,7 +76,7 @@ push.send { result in
         //: Update the stored property with the lastest status id.
         pushStatusId = statusId
     case .failure(let error):
-        print("Couldn't create push: \(error)")
+        print("Could not create push: \(error)")
     }
 }
 
@@ -86,7 +86,7 @@ push.fetchStatus(pushStatusId) { result in
     case .success(let pushStatus):
         print("The push status is: \"\(pushStatus)\"")
     case .failure(let error):
-        print("Couldn't fetch push status: \(error)")
+        print("Could not fetch push status: \(error)")
     }
 }
 
@@ -110,7 +110,7 @@ push2.send { result in
         //: Update the stored property with the lastest status id.
         pushStatusId = statusId
     case .failure(let error):
-        print("Couldn't create push: \(error)")
+        print("Could not create push: \(error)")
     }
 }
 
@@ -123,7 +123,7 @@ push2.fetchStatus(pushStatusId) { result in
     case .success(let pushStatus):
         print("The push status is: \"\(pushStatus)\"")
     case .failure(let error):
-        print("Couldn't fetch push status: \(error)")
+        print("Could not fetch push status: \(error)")
     }
 }
 
@@ -143,7 +143,7 @@ push3.send { result in
         //: Update the stored property with the lastest status id.
         pushStatusId = statusId
     case .failure(let error):
-        print("Couldn't create push: \(error)")
+        print("Could not create push: \(error)")
     }
 }
 
@@ -156,7 +156,7 @@ push3.fetchStatus(pushStatusId) { result in
     case .success(let pushStatus):
         print("The Firebase push status is: \"\(pushStatus)\"")
     case .failure(let error):
-        print("Couldn't fetch push status: \(error)")
+        print("Could not fetch push status: \(error)")
     }
 }
 
@@ -177,7 +177,7 @@ query.findAll(options: [.useMasterKey]) { result in
     case .success(let pushStatus):
         print("All matching statuses: \"\(pushStatus)\"")
     case .failure(let error):
-        print("Couldn't perform query: \(error)")
+        print("Could not perform query: \(error)")
     }
 }
 

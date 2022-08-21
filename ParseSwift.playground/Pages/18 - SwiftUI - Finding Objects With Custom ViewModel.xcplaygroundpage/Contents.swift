@@ -4,7 +4,7 @@
 //: For this page, make sure your build target is set to ParseSwift (iOS) and targeting
 //: an iPhone, iPod, or iPad. Also be sure your `Playground Settings`
 //: in the `File Inspector` is `Platform = iOS`. This is because
-//: SwiftUI in macOS Playgrounds doesn't seem to build correctly
+//: SwiftUI in macOS Playgrounds does not seem to build correctly
 //: Be sure to switch your target and `Playground Settings` back to
 //: macOS after leaving this page.
 

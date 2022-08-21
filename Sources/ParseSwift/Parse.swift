@@ -193,7 +193,7 @@ public struct ParseSwift {
             // All migrations from previous versions to current should occur here:
             #if !os(Linux) && !os(Android) && !os(Windows)
             if previousSDKVersion < oneNineEightSDKVersion {
-                // Old macOS Keychain can't be used because it's global to all apps.
+                // Old macOS Keychain cannot be used because it's global to all apps.
                 _ = KeychainStore.old
                 KeychainStore.shared.copy(keychain: KeychainStore.old)
                 // Need to delete the old Keychain because a new one is created with bundleId.

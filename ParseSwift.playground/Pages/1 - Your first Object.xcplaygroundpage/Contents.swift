@@ -121,7 +121,7 @@ score.save { result in
         assert(savedScore.points == 10)
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `mutable`
+            was initialized as immutable. Using `mergeable`
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
@@ -195,7 +195,7 @@ var score2ForFetchedLater: GameScore?
     }
 }*/
 
-//: Save synchronously (not preferred - all operations on main queue).
+//: Save synchronously (not preferred - all operations on current queue).
 let savedScore: GameScore?
 do {
     savedScore = try score.save()
@@ -211,7 +211,7 @@ assert(savedScore?.updatedAt != nil)
 assert(savedScore?.points == 10)
 
 /*:  To modify, need to make it a var as the value type
-    was initialized as immutable. Using `mutable`
+    was initialized as immutable. Using `mergeable`
     allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */

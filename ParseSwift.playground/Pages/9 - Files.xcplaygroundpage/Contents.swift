@@ -128,7 +128,7 @@ let helloFile = ParseFile(name: "hello.txt", data: sampleData)
 var score2 = GameScore(points: 105)
 score2.myData = helloFile
 
-//: Save synchronously (not preferred - all operations on main queue).
+//: Save synchronously (not preferred - all operations on current queue).
 do {
     let savedScore = try score2.save()
     print("Your hello file has been successfully saved")
@@ -154,16 +154,16 @@ do {
              the data from the file.
             */
             guard let dataFromParseFile = try? Data(contentsOf: fetchedFile.localURL!) else {
-                fatalError("Error: couldn't get data from file.")
+                fatalError("Error: Could not get data from file.")
             }
 
             //: Checking to make sure the data saved on the Parse Server is the same as the original
             if dataFromParseFile != sampleData {
-                assertionFailure("Data isn't the same. Something went wrong.")
+                assertionFailure("Data is not the same. Something went wrong.")
             }
 
             guard let parseFileString = String(data: dataFromParseFile, encoding: .utf8) else {
-                fatalError("Error: couldn't create String from data.")
+                fatalError("Error: Could not create String from data.")
             }
             print("The data saved on parse is: \"\(parseFileString)\"")
         } else {

@@ -56,7 +56,7 @@ extension Objectable {
     static func createHash(_ object: Encodable) throws -> String {
         let encoded = try ParseCoding.parseEncoder().encode(object)
         guard let hashString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Couldn't create hash")
+            throw ParseError(code: .unknownError, message: "Could not create hash")
         }
         return hashString
     }

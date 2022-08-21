@@ -53,7 +53,7 @@ public extension ParseFile {
 
     /**
      Creates a file with given data *asynchronously* and executes the given callback block.
-     A name will be assigned to it by the server. If the file hasn't been downloaded, it will automatically
+     A name will be assigned to it by the server. If the file has not been downloaded, it will automatically
      be downloaded before saved.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A saved `ParseFile`.
@@ -68,7 +68,7 @@ public extension ParseFile {
 
     /**
      Creates a file with given data *asynchronously* and executes the given callback block.
-     A name will be assigned to it by the server. If the file hasn't been downloaded, it will automatically
+     A name will be assigned to it by the server. If the file has not been downloaded, it will automatically
      be downloaded before saved.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it's progress.

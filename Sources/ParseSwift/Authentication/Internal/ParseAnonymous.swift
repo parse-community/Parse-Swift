@@ -12,7 +12,7 @@ import Foundation
  Provides utility functions for working with Anonymously logged-in users.
  
  Anonymous users have some unique characteristics:
- - Anonymous users don't need a user name or password.
+ - Anonymous users do not need a user name or password.
  - Once logged out, an anonymous user cannot be recovered.
  - When the current user is anonymous, the following methods can be used to switch
  to a different user or convert the anonymous user into a regular one:

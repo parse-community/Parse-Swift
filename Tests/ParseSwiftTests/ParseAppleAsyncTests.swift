@@ -114,7 +114,7 @@ class ParseAppleAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -162,7 +162,7 @@ class ParseAppleAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         XCTAssertTrue(user.apple.isLinked)
     }
 
-    func loginNormally() throws -> User {
+    func loginNormally() async throws -> User {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
@@ -173,12 +173,12 @@ class ParseAppleAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
                 return nil
             }
         }
-        return try User.login(username: "parse", password: "user")
+        return try await User.login(username: "parse", password: "user")
     }
 
     @MainActor
     func testLink() async throws {
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
@@ -200,7 +200,7 @@ class ParseAppleAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -215,7 +215,7 @@ class ParseAppleAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
 
     @MainActor
     func testLinkAuthData() async throws {
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
@@ -248,11 +248,11 @@ class ParseAppleAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
 
     @MainActor
     func testUnlink() async throws {
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 

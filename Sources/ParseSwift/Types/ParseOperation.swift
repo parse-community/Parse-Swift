@@ -82,7 +82,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
 
     /**
      An operation that adds a new element to an array field,
-     only if it wasn't already present.
+     only if it was not already present.
      - Parameters:
         - key: The key of the object.
         - objects: The field of objects.
@@ -96,7 +96,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
 
     /**
      An operation that adds a new element to an array field,
-     only if it wasn't already present.
+     only if it was not already present.
      - Parameters:
         - key: A tuple consisting of the key and the respective KeyPath of the object.
         - objects: The field of objects.
@@ -114,7 +114,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
 
     /**
      An operation that adds a new element to an array field,
-     only if it wasn't already present.
+     only if it was not already present.
      - Parameters:
         - key: A tuple consisting of the key and the respective KeyPath of the object.
         - objects: The field of objects.
@@ -378,7 +378,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
 // MARK: Savable
 extension ParseOperation {
     /**
-     Saves the operations on the `ParseObject` *synchronously* and throws an error if there's an issue.
+     Saves the operations on the `ParseObject` *synchronously* and throws an error if there is an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
@@ -387,7 +387,7 @@ extension ParseOperation {
     */
     public func save(options: API.Options = []) throws -> T {
         guard target.objectId != nil else {
-            throw ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
+            throw ParseError(code: .missingObjectId, message: "ParseObject is not saved.")
         }
         return try saveCommand()
             .execute(options: options)
@@ -408,7 +408,7 @@ extension ParseOperation {
     ) {
         guard target.objectId != nil else {
             callbackQueue.async {
-                let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
+                let error = ParseError(code: .missingObjectId, message: "ParseObject is not saved.")
                 completion(.failure(error))
             }
             return
@@ -420,7 +420,7 @@ extension ParseOperation {
             }
         } catch {
             callbackQueue.async {
-                let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
+                let error = ParseError(code: .missingObjectId, message: "ParseObject is not saved.")
                 completion(.failure(error))
             }
         }

@@ -68,7 +68,7 @@ extension KeychainStore: ParseKeyValueStore {
 
     func deleteAll() throws {
         if !removeAllObjects() {
-            throw ParseError(code: .objectNotFound, message: "Couldn't delete all objects in Keychain")
+            throw ParseError(code: .objectNotFound, message: "Could not delete all objects in Keychain")
         }
     }
 
@@ -79,7 +79,7 @@ extension KeychainStore: ParseKeyValueStore {
     func set<T>(_ object: T, for key: String) throws where T: Encodable {
         if !set(object: object, forKey: key) {
             throw ParseError(code: .unknownError,
-                             message: "Couldn't save object: \(object) key \"\(key)\" in Keychain")
+                             message: "Could not save object: \(object) key \"\(key)\" in Keychain")
         }
     }
 }

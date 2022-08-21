@@ -13,7 +13,7 @@ import XCTest
 /**
  For testing _PushStatus response of at least Parse Server 5.2.1 and below.
  - warning: This struct should be kept inline with `ParsePushStatus`
- so tests don't break.
+ so tests do not break.
 */
 internal struct ParsePushStatusResponse: ParseObject {
 

@@ -632,6 +632,9 @@
 		70D1BE7425BB43EB00A42E7C /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1BE7225BB43EB00A42E7C /* BaseConfig.swift */; };
 		70D1BE7525BB43EB00A42E7C /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1BE7225BB43EB00A42E7C /* BaseConfig.swift */; };
 		70D1BE7625BB43EB00A42E7C /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1BE7225BB43EB00A42E7C /* BaseConfig.swift */; };
+		70D41D6728B0235100613510 /* MergeObjCSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D6628B0235100613510 /* MergeObjCSDKTests.swift */; };
+		70D41D6828B0235100613510 /* MergeObjCSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D6628B0235100613510 /* MergeObjCSDKTests.swift */; };
+		70D41D6928B0235100613510 /* MergeObjCSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D6628B0235100613510 /* MergeObjCSDKTests.swift */; };
 		70DFEA8A2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
 		70DFEA8B2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
 		70DFEA8C2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
@@ -1303,6 +1306,7 @@
 		70D1BDB925BB17A600A42E7C /* ParseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConfig.swift; sourceTree = "<group>"; };
 		70D1BE0625BB2BF400A42E7C /* ParseConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConfigTests.swift; sourceTree = "<group>"; };
 		70D1BE7225BB43EB00A42E7C /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
+		70D41D6628B0235100613510 /* MergeObjCSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeObjCSDKTests.swift; sourceTree = "<group>"; };
 		70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializeSDKTests.swift; sourceTree = "<group>"; };
 		70E09E1B262F0634002DD451 /* ParsePointerCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePointerCombineTests.swift; sourceTree = "<group>"; };
 		70E6B015286120E00043EC4A /* ParseHookFunctionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHookFunctionTests.swift; sourceTree = "<group>"; };
@@ -1556,6 +1560,7 @@
 				70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */,
 				709B40C0268F999000ED2EAC /* IOS13Tests.swift */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
+				70D41D6628B0235100613510 /* MergeObjCSDKTests.swift */,
 				9194657724F16E330070296B /* ParseACLTests.swift */,
 				917BA4292703E03F00F8D747 /* ParseAnalyticsAsyncTests.swift */,
 				91CB9536265966DF0043E5D6 /* ParseAnalyticsCombineTests.swift */,
@@ -2887,6 +2892,7 @@
 				7037DAB226384DE1005D7E62 /* TestParseEncoder.swift in Sources */,
 				7004C24D25B69207005E0AD9 /* ParseRoleTests.swift in Sources */,
 				917BA42E2703E20E00F8D747 /* ParseCloudAsyncTests.swift in Sources */,
+				70D41D6728B0235100613510 /* MergeObjCSDKTests.swift in Sources */,
 				91678706259BC5D400BB5B4E /* ParseCloudTests.swift in Sources */,
 				70386A5C25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
 				70D1BD8725B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
@@ -3200,6 +3206,7 @@
 				7037DAB426384DE1005D7E62 /* TestParseEncoder.swift in Sources */,
 				7004C26125B6920B005E0AD9 /* ParseRoleTests.swift in Sources */,
 				917BA4302703E20E00F8D747 /* ParseCloudAsyncTests.swift in Sources */,
+				70D41D6928B0235100613510 /* MergeObjCSDKTests.swift in Sources */,
 				9167871A259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				70386A5E25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
 				70D1BD8925B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
@@ -3320,6 +3327,7 @@
 				7037DAB326384DE1005D7E62 /* TestParseEncoder.swift in Sources */,
 				7004C25725B6920A005E0AD9 /* ParseRoleTests.swift in Sources */,
 				917BA42F2703E20E00F8D747 /* ParseCloudAsyncTests.swift in Sources */,
+				70D41D6828B0235100613510 /* MergeObjCSDKTests.swift in Sources */,
 				91678710259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				70386A5D25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
 				70D1BD8825B8C37200A42E7C /* ParseRelationTests.swift in Sources */,

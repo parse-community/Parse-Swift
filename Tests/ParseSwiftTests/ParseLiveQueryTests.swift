@@ -446,7 +446,7 @@ class ParseLiveQueryTests: XCTestCase {
         client.close()
         let expectation1 = XCTestExpectation(description: "Response delegate")
         client.open(isUserWantsToConnect: true) { error in
-            XCTAssertNotNil(error) //Should always fail since WS isn't intercepted.
+            XCTAssertNotNil(error) //Should always fail since WS is not intercepted.
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -604,7 +604,7 @@ class ParseLiveQueryTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Send Ping")
         client.sendPing { error in
             XCTAssertEqual(client.isSocketEstablished, true)
-            XCTAssertNotNil(error) // Should have error because testcases don't intercept websocket
+            XCTAssertNotNil(error) // Should have error because testcases do not intercept websocket
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -833,7 +833,7 @@ class ParseLiveQueryTests: XCTestCase {
             if let socketEstablished = ParseLiveQuery.client?.isSocketEstablished {
                 XCTAssertFalse(socketEstablished)
             } else {
-                XCTFail("Should have socket that isn't established")
+                XCTFail("Should have socket that is not established")
                 expectation2.fulfill()
                 return
             }

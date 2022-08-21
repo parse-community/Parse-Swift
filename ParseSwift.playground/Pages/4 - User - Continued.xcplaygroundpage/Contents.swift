@@ -149,7 +149,7 @@ currentUser?.save { result in
 
     switch result {
     case .success(let updatedUser):
-        print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
+        print("Successfully saved custom fields of User to ParseServer: \(updatedUser)")
     case .failure(let error):
         print("Failed to update user: \(error)")
     }

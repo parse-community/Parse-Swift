@@ -30,7 +30,7 @@ import Foundation
  stored in `ParseInstallation.badge` before saving/updating the installation.
 
  - warning: Linux developers should set `appName`, `appIdentifier`, and `appVersion`
- manually as `ParseSwift` doesn't have access to Bundle.main.
+ manually as `ParseSwift` does not have access to Bundle.main.
 */
 public protocol ParseInstallation: ParseObject {
 
@@ -99,7 +99,7 @@ public extension ParseInstallation {
     func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) == true else {
             throw ParseError(code: .unknownError,
-                             message: "objectId's of objects don't match")
+                             message: "objectId's of objects do not match")
         }
         var updatedInstallation = self
         if shouldRestoreKey(\.ACL,
@@ -221,7 +221,7 @@ public extension ParseInstallation {
                     guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                             try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                     else {
-                        // Couldn't create container correctly, return empty one.
+                        // Could not create container correctly, return empty one.
                         return CurrentInstallationContainer<Self>()
                     }
                     try? ParseStorage.shared.set(installationFromKeyChain, for: ParseStorage.Keys.currentInstallation)
@@ -242,7 +242,7 @@ public extension ParseInstallation {
                 guard let installationFromMemory: CurrentInstallationContainer<Self> =
                         try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                 else {
-                    // Couldn't create container correctly, return empty one.
+                    // Could not create container correctly, return empty one.
                     return CurrentInstallationContainer<Self>()
                 }
                 return installationFromMemory
@@ -339,7 +339,7 @@ extension ParseInstallation {
         // If using an Xcode new enough to know about Mac Catalyst:
         // Mac Catalyst Apps use a prefix to the bundle ID. This should not be transmitted
         // to Parse Server. Catalyst apps should look like iOS apps otherwise
-        // push and other services don't work properly.
+        // push and other services do not work properly.
         if let currentAppIdentifier = appInfo[String(kCFBundleIdentifierKey)] as? String {
             let macCatalystBundleIdPrefix = "maccatalyst."
             if currentAppIdentifier.hasPrefix(macCatalystBundleIdPrefix) {
@@ -381,7 +381,7 @@ extension ParseInstallation {
      The country codes are two-letter uppercase ISO country codes (such as "US") as defined by
      <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO 3166-1</a>.
 
-     Many iOS locale identifiers don't contain the country code -> inconsistencies with Android/Windows Phone.
+     Many iOS locale identifiers do not contain the country code -> inconsistencies with Android/Windows Phone.
     */
     mutating func updateLocaleIdentifierFromDevice() {
         guard let language = Locale.current.languageCode else {
@@ -526,7 +526,7 @@ extension ParseInstallation {
 extension ParseInstallation {
 
     /**
-     Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseInstallation` *synchronously* and throws an error if there is an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
@@ -539,7 +539,7 @@ extension ParseInstallation {
     }
 
     /**
-     Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseInstallation` *synchronously* and throws an error if there is an issue.
 
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
@@ -1296,7 +1296,7 @@ public extension Sequence where Element: ParseInstallation {
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: An error of type `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which installations are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which installations are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(includeKeys: [String]? = nil,
@@ -1341,7 +1341,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which installations are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which installations are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(

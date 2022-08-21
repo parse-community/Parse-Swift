@@ -45,6 +45,7 @@ class InitializeSDKTests: XCTestCase {
         #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         try KeychainStore.objectiveC?.deleteAll()
+        try KeychainStore.old.deleteAll()
         URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
         #endif
         try ParseStorage.shared.deleteAll()

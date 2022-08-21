@@ -123,7 +123,7 @@ query.first { result in
     }
 }
 
-//: Now we will attempt to fetch a ParseObject that isn't saved.
+//: Now we will attempt to fetch a ParseObject that is not saved.
 let scoreToFetch = GameScore(objectId: "hello")
 
 //: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
