@@ -6,8 +6,7 @@
 //  Copyright © 2022 Parse Community. All rights reserved.
 //
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-#if !os(Linux) && !os(Android) && !os(Windows)
+#if compiler(>=5.5.2) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -379,5 +378,4 @@ class MergeObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 }
-#endif
 #endif
