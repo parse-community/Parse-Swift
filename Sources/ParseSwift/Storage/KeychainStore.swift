@@ -70,41 +70,46 @@ struct KeychainStore: SecureStorage {
     func copy(_ keychain: KeychainStore,
               oldAccessGroup: String?,
               newAccessGroup: String?,
-              syncingAcrossDevices: Bool) {
-        if let user = keychain.data(forKey: ParseStorage.Keys.currentUser) {
-            _ = try? set(user,
-                         forKey: ParseStorage.Keys.currentUser,
-                         oldAccessGroup: oldAccessGroup,
-                         newAccessGroup: newAccessGroup,
-                         syncingAcrossDevices: syncingAcrossDevices)
+              syncingAcrossDevices: Bool) throws {
+        if let user = keychain.data(forKey: ParseStorage.Keys.currentUser,
+                                    accessGroup: oldAccessGroup) {
+            try set(user,
+                    forKey: ParseStorage.Keys.currentUser,
+                    oldAccessGroup: oldAccessGroup,
+                    newAccessGroup: newAccessGroup,
+                    syncingAcrossDevices: syncingAcrossDevices)
         }
-        if let installation = keychain.data(forKey: ParseStorage.Keys.currentInstallation) {
-            _ = try? set(installation,
-                         forKey: ParseStorage.Keys.currentInstallation,
-                         oldAccessGroup: oldAccessGroup,
-                         newAccessGroup: newAccessGroup,
-                         syncingAcrossDevices: syncingAcrossDevices)
+        if let installation = keychain.data(forKey: ParseStorage.Keys.currentInstallation,
+                                            accessGroup: oldAccessGroup) {
+            try set(installation,
+                    forKey: ParseStorage.Keys.currentInstallation,
+                    oldAccessGroup: oldAccessGroup,
+                    newAccessGroup: newAccessGroup,
+                    syncingAcrossDevices: syncingAcrossDevices)
         }
-        if let version = keychain.data(forKey: ParseStorage.Keys.currentVersion) {
-            _ = try? set(version,
-                         forKey: ParseStorage.Keys.currentVersion,
-                         oldAccessGroup: oldAccessGroup,
-                         newAccessGroup: newAccessGroup,
-                         syncingAcrossDevices: syncingAcrossDevices)
+        if let version = keychain.data(forKey: ParseStorage.Keys.currentVersion,
+                                       accessGroup: oldAccessGroup) {
+            try set(version,
+                    forKey: ParseStorage.Keys.currentVersion,
+                    oldAccessGroup: oldAccessGroup,
+                    newAccessGroup: newAccessGroup,
+                    syncingAcrossDevices: syncingAcrossDevices)
         }
-        if let config = keychain.data(forKey: ParseStorage.Keys.currentConfig) {
-            _ = try? set(config,
-                         forKey: ParseStorage.Keys.currentConfig,
-                         oldAccessGroup: oldAccessGroup,
-                         newAccessGroup: newAccessGroup,
-                         syncingAcrossDevices: syncingAcrossDevices)
+        if let config = keychain.data(forKey: ParseStorage.Keys.currentConfig,
+                                      accessGroup: oldAccessGroup) {
+            try set(config,
+                    forKey: ParseStorage.Keys.currentConfig,
+                    oldAccessGroup: oldAccessGroup,
+                    newAccessGroup: newAccessGroup,
+                    syncingAcrossDevices: syncingAcrossDevices)
         }
-        if let acl = keychain.data(forKey: ParseStorage.Keys.defaultACL) {
-            _ = try? set(acl,
-                         forKey: ParseStorage.Keys.defaultACL,
-                         oldAccessGroup: oldAccessGroup,
-                         newAccessGroup: newAccessGroup,
-                         syncingAcrossDevices: syncingAcrossDevices)
+        if let acl = keychain.data(forKey: ParseStorage.Keys.defaultACL,
+                                   accessGroup: oldAccessGroup) {
+            try set(acl,
+                    forKey: ParseStorage.Keys.defaultACL,
+                    oldAccessGroup: oldAccessGroup,
+                    newAccessGroup: newAccessGroup,
+                    syncingAcrossDevices: syncingAcrossDevices)
         }
     }
 
@@ -135,11 +140,12 @@ struct KeychainStore: SecureStorage {
         }
         do {
             let data = try ParseCoding.jsonEncoder().encode(object)
-            return try set(data,
-                           forKey: key,
-                           oldAccessGroup: ParseSwift.configuration.accessGroup,
-                           newAccessGroup: ParseSwift.configuration.accessGroup,
-                           syncingAcrossDevices: ParseSwift.configuration.isSyncingKeychainAcrossDevices)
+            try set(data,
+                    forKey: key,
+                    oldAccessGroup: ParseSwift.configuration.accessGroup,
+                    newAccessGroup: ParseSwift.configuration.accessGroup,
+                    syncingAcrossDevices: ParseSwift.configuration.isSyncingKeychainAcrossDevices)
+            return true
         } catch {
             return false
         }
@@ -210,7 +216,7 @@ struct KeychainStore: SecureStorage {
                      forKey key: String,
                      oldAccessGroup: String?,
                      newAccessGroup: String?,
-                     syncingAcrossDevices: Bool) throws -> Bool {
+                     syncingAcrossDevices: Bool) throws {
         var query = keychainQuery(forKey: key,
                                   accessGroup: oldAccessGroup)
         var update: [String: Any] = [
@@ -222,7 +228,8 @@ struct KeychainStore: SecureStorage {
         } else {
             query.removeValue(forKey: kSecAttrAccessGroup as String)
         }
-        if syncingAcrossDevices && key != ParseStorage.Keys.currentInstallation {
+        if syncingAcrossDevices &&
+            (key != ParseStorage.Keys.currentInstallation || key != ParseStorage.Keys.currentVersion) {
             update[kSecAttrSynchronizable as String] = kCFBooleanTrue
             update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock as String
         } else {
@@ -238,7 +245,10 @@ struct KeychainStore: SecureStorage {
             return SecItemAdd(mergedQuery as CFDictionary, nil)
         }
 
-        return status == errSecSuccess
+        guard status == errSecSuccess else {
+            throw ParseError(code: .unknownError,
+                             message: "Could not save to Keychain, OSStatus: \(status)")
+        }
     }
 
     private func removeObject(forKeyUnsafe key: String, accessGroup: String?) -> Bool {

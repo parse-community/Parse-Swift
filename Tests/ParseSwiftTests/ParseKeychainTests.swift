@@ -141,6 +141,8 @@ class ParseKeychainTests: XCTestCase {
                                                accessGroup: nil))
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
                                                   accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
     }
 
     func testUserNoAccessGroupNoSync() throws {
@@ -149,14 +151,48 @@ class ParseKeychainTests: XCTestCase {
                                                   accessGroup: nil))
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
                                                   accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
     }
 
     func testSetSyncWithNoAccessGroup() throws {
         try userLogin()
-        XCTAssertThrowsError(try ParseSwift.setSynchronizeKeychainAcrossDevices(true))
+        do {
+            try ParseSwift.setSynchronizeKeychainAcrossDevices(true)
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("must be set using"))
+        }
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                                   accessGroup: nil))
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
+    }
+
+    func testSetSyncWithAccessGroup() throws {
+        try userLogin()
+        ParseSwift.configuration.accessGroup = group
+        do {
+            try ParseSwift.setSynchronizeKeychainAcrossDevices(true)
+            XCTFail("Should have thrown error due to entitlements")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("The configured accessGroup"))
+        }
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
                                                   accessGroup: nil))
     }
 
@@ -167,6 +203,8 @@ class ParseKeychainTests: XCTestCase {
                                                   accessGroup: nil))
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
                                                   accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
     }
 
     func testSetAccessGroupWithNoSync() throws {
@@ -175,19 +213,97 @@ class ParseKeychainTests: XCTestCase {
                                                   accessGroup: nil))
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
                                                   accessGroup: nil))
-        XCTAssertTrue(try ParseSwift.setAccessGroup(group, synchronizeAccrossDevices: false))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
+        do {
+            try ParseSwift.setAccessGroup(group, synchronizeAccrossDevices: false)
+            XCTFail("Should have thrown error due to entitlements")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("-34018"))
+        }
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                                accessGroup: "hello"))
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
                                                accessGroup: "hello"))
+        XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                               accessGroup: "hello"))
+        // Since error was thrown, original Keychain should be left intact
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                                  accessGroup: group))
+                                                  accessGroup: nil))
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
-                                                  accessGroup: group))
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
     }
 
-    func testSetNoSyncWithAccessGroup() throws {
+    func testSetAccessGroupWithSync() throws {
         try userLogin()
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
+        do {
+            try ParseSwift.setAccessGroup(group, synchronizeAccrossDevices: true)
+            XCTFail("Should have thrown error due to entitlements")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("-34018"))
+        }
+        XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                               accessGroup: "hello"))
+        XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                               accessGroup: "hello"))
+        XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                               accessGroup: "hello"))
+        // Since error was thrown, original Keychain should be left intact
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
+    }
+
+    func testSetAccessNilGroupWithSync() throws {
+        try userLogin()
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
+        do {
+            try ParseSwift.setAccessGroup(nil, synchronizeAccrossDevices: true)
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("must be set using"))
+        }
+        XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                               accessGroup: "hello"))
+        XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                               accessGroup: "hello"))
+        XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                               accessGroup: "hello"))
+        // Since error was thrown, original Keychain should be left intact
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
+                                                  accessGroup: nil))
+        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
+                                                  accessGroup: nil))
     }
 }
 #endif

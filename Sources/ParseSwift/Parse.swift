@@ -321,17 +321,17 @@ public struct ParseSwift {
             if previousSDKVersion < oneNineEightSDKVersion {
                 // Old macOS Keychain cannot be used because it is global to all apps.
                 _ = KeychainStore.old
-                KeychainStore.shared.copy(KeychainStore.old,
-                                          oldAccessGroup: configuration.accessGroup,
-                                          newAccessGroup: configuration.accessGroup,
-                                          syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
+                try? KeychainStore.shared.copy(KeychainStore.old,
+                                               oldAccessGroup: configuration.accessGroup,
+                                               newAccessGroup: configuration.accessGroup,
+                                               syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
                 // Need to delete the old Keychain because a new one is created with bundleId.
                 try? KeychainStore.old.deleteAll()
             } else if previousSDKVersion < fourEightZeroSDKVersion {
-                KeychainStore.shared.copy(KeychainStore.shared,
-                                          oldAccessGroup: configuration.accessGroup,
-                                          newAccessGroup: configuration.accessGroup,
-                                          syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
+                try? KeychainStore.shared.copy(KeychainStore.shared,
+                                               oldAccessGroup: configuration.accessGroup,
+                                               newAccessGroup: configuration.accessGroup,
+                                               syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
             }
             #endif
             if currentSDKVersion > previousSDKVersion {
@@ -622,28 +622,28 @@ public struct ParseSwift {
      devices using iCloud. See Apple's
      [documentation](https://developer.apple.com/documentation/security/ksecattrsynchronizable)
       for more information.
-     - parameter synchronize: **true** to synchronize, **false** to turn off synchronization.
+     - parameter synchronize: **true** to synchronize, **false** to disable synchronization.
      - throws: An error of type `ParseError`.
      - note: `ParseInstallation` is not synchronized as these objects are intended to be unique
      per device/installation.
      - warning: Setting `synchronize == true` requires `accessGroup` to be
      set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
      */
-    static public func setSynchronizeKeychainAcrossDevices(_ synchronize: Bool) throws {
+    static internal func setSynchronizeKeychainAcrossDevices(_ synchronize: Bool) throws {
         if synchronize && configuration.accessGroup == nil {
             throw ParseError(code: .unknownError,
-                             message: "\"accessGroup\" must be set using \"setAccessGroup()\" before calling \"setSynchronizeKeychainAcrossDevices().\"")
+                             message: "\"accessGroup\" must be set using \"setAccessGroup()\" before calling \"setSynchronizeKeychainAcrossDevices()\"")
         }
         guard KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                        accessGroup: configuration.accessGroup) == nil else {
-            return
+                                        accessGroup: configuration.accessGroup) != nil else {
+            throw ParseError(code: .unknownError,
+                             message: "The configured accessGroup does not have any data in the Keychain")
         }
-        let currentKeychain = KeychainStore.shared
         configuration.isSyncingKeychainAcrossDevices = synchronize
-        KeychainStore.shared.copy(currentKeychain,
-                                  oldAccessGroup: configuration.accessGroup,
-                                  newAccessGroup: configuration.accessGroup,
-                                  syncingAcrossDevices: synchronize)
+        try KeychainStore.shared.copy(KeychainStore.shared,
+                                      oldAccessGroup: configuration.accessGroup,
+                                      newAccessGroup: configuration.accessGroup,
+                                      syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
     }
 
     /**
@@ -652,27 +652,36 @@ public struct ParseSwift {
       [documentation](https://developer.apple.com/documentation/security/ksecattraccessgroup)
       for more information.
      - parameter accessGroup: The name of the access group.
+     - parameter synchronizeAccrossDevices: **true** to synchronize, **false** to disable synchronization.
+     - throws: An error of type `ParseError`.
      - returns: **true** if the Keychain was moved to the new `accessGroup`, **false** otherwise.
      - warning: Setting `synchronizeAccrossDevices == true` requires `accessGroup` to be
      set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
      */
-    static public func setAccessGroup(_ accessGroup: String?,
-                                      synchronizeAccrossDevices: Bool) throws -> Bool {
+    @discardableResult static public func setAccessGroup(_ accessGroup: String?,
+                                                         synchronizeAccrossDevices: Bool) throws -> Bool {
         if synchronizeAccrossDevices && accessGroup == nil {
             throw ParseError(code: .unknownError,
                              message: "\"accessGroup\" must be set using \"setAccessGroup()\" before calling \"setSynchronizeKeychainAcrossDevices().\"")
         }
         guard KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                        accessGroup: accessGroup) == nil else {
+                                        accessGroup: accessGroup) == nil,
+              accessGroup != configuration.accessGroup else {
+            configuration.accessGroup = accessGroup
+            configuration.isSyncingKeychainAcrossDevices = synchronizeAccrossDevices
+            try KeychainStore.shared.copy(KeychainStore.shared,
+                                          oldAccessGroup: accessGroup,
+                                          newAccessGroup: accessGroup,
+                                          syncingAcrossDevices: synchronizeAccrossDevices)
             return true
         }
         let oldAccessGroup = configuration.accessGroup
-        KeychainStore.shared.copy(KeychainStore.shared,
-                                  oldAccessGroup: oldAccessGroup,
-                                  newAccessGroup: accessGroup,
-                                  syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
         configuration.accessGroup = accessGroup
-        try setSynchronizeKeychainAcrossDevices(synchronizeAccrossDevices)
+        configuration.isSyncingKeychainAcrossDevices = synchronizeAccrossDevices
+        try KeychainStore.shared.copy(KeychainStore.shared,
+                                      oldAccessGroup: oldAccessGroup,
+                                      newAccessGroup: accessGroup,
+                                      syncingAcrossDevices: synchronizeAccrossDevices)
         return KeychainStore.shared.removeAllObjects(accessGroup: oldAccessGroup)
     }
 #endif
