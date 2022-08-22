@@ -38,6 +38,12 @@ class InitializeSDKTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.configuration = .init(applicationId: "applicationId",
+                                         serverURL: url)
     }
 
     override func tearDownWithError() throws {

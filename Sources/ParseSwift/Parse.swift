@@ -322,13 +322,15 @@ public struct ParseSwift {
                 // Old macOS Keychain cannot be used because it is global to all apps.
                 _ = KeychainStore.old
                 KeychainStore.shared.copy(KeychainStore.old,
-                                          accessGroup: configuration.accessGroup,
+                                          oldAccessGroup: configuration.accessGroup,
+                                          newAccessGroup: configuration.accessGroup,
                                           syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
                 // Need to delete the old Keychain because a new one is created with bundleId.
                 try? KeychainStore.old.deleteAll()
             } else if previousSDKVersion < fourEightZeroSDKVersion {
                 KeychainStore.shared.copy(KeychainStore.shared,
-                                          accessGroup: configuration.accessGroup,
+                                          oldAccessGroup: configuration.accessGroup,
+                                          newAccessGroup: configuration.accessGroup,
                                           syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
             }
             #endif
@@ -640,7 +642,8 @@ public struct ParseSwift {
         let currentKeychain = KeychainStore.shared
         configuration.isSyncingKeychainAcrossDevices = synchronize
         KeychainStore.shared.copy(currentKeychain,
-                                  accessGroup: configuration.accessGroup,
+                                  oldAccessGroup: configuration.accessGroup,
+                                  newAccessGroup: configuration.accessGroup,
                                   syncingAcrossDevices: synchronize)
     }
 
@@ -659,7 +662,8 @@ public struct ParseSwift {
         }
         let oldAccessGroup = configuration.accessGroup
         KeychainStore.shared.copy(KeychainStore.shared,
-                                  accessGroup: accessGroup,
+                                  oldAccessGroup: oldAccessGroup,
+                                  newAccessGroup: accessGroup,
                                   syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
         configuration.accessGroup = accessGroup
         return KeychainStore.shared.removeAllObjects(accessGroup: oldAccessGroup)
