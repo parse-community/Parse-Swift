@@ -24,8 +24,8 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func fetch(includeKeys: [String]? = nil,
-               options: API.Options = []) async throws -> Self {
+    @discardableResult func fetch(includeKeys: [String]? = nil,
+                                  options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(includeKeys: includeKeys,
                        options: options,
@@ -54,8 +54,8 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func save(ignoringCustomObjectIdConfig: Bool = false,
-              options: API.Options = []) async throws -> Self {
+    @discardableResult func save(ignoringCustomObjectIdConfig: Bool = false,
+                                 options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                       options: options,
@@ -69,7 +69,7 @@ public extension ParseInstallation {
      - returns: Returns saved `ParseInstallation`.
      - throws: An error of type `ParseError`.
     */
-    func create(options: API.Options = []) async throws -> Self {
+    @discardableResult func create(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.create(options: options,
                         completion: continuation.resume)
@@ -83,7 +83,7 @@ public extension ParseInstallation {
      - throws: An error of type `ParseError`.
      - important: If an object replaced has the same objectId as current, it will automatically replace the current.
     */
-    func replace(options: API.Options = []) async throws -> Self {
+    @discardableResult func replace(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.replace(options: options,
                          completion: continuation.resume)
@@ -97,7 +97,7 @@ public extension ParseInstallation {
      - throws: An error of type `ParseError`.
      - important: If an object updated has the same objectId as current, it will automatically update the current.
     */
-    internal func update(options: API.Options = []) async throws -> Self {
+    @discardableResult internal func update(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.update(options: options,
                         completion: continuation.resume)
@@ -135,8 +135,8 @@ public extension Sequence where Element: ParseInstallation {
      - throws: An error of type `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
-    func fetchAll(includeKeys: [String]? = nil,
-                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func fetchAll(includeKeys: [String]? = nil,
+                                     options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.fetchAll(includeKeys: includeKeys,
                           options: options,
@@ -174,10 +174,10 @@ public extension Sequence where Element: ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func saveAll(batchLimit limit: Int? = nil,
-                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                 ignoringCustomObjectIdConfig: Bool = false,
-                 options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func saveAll(batchLimit limit: Int? = nil,
+                                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                    ignoringCustomObjectIdConfig: Bool = false,
+                                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
@@ -204,9 +204,9 @@ public extension Sequence where Element: ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func createAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                   options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func createAll(batchLimit limit: Int? = nil,
+                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.createAll(batchLimit: limit,
                            transaction: transaction,
@@ -233,9 +233,9 @@ public extension Sequence where Element: ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func replaceAll(batchLimit limit: Int? = nil,
-                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func replaceAll(batchLimit limit: Int? = nil,
+                                       transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                       options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.replaceAll(batchLimit: limit,
                             transaction: transaction,
@@ -288,9 +288,9 @@ public extension Sequence where Element: ParseInstallation {
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
-    func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                   options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
+    @discardableResult func deleteAll(batchLimit limit: Int? = nil,
+                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
                            transaction: transaction,
@@ -300,4 +300,56 @@ public extension Sequence where Element: ParseInstallation {
     }
 }
 
+#if !os(Linux) && !os(Android) && !os(Windows)
+// MARK: Migrate from Objective-C SDK
+public extension ParseInstallation {
+    /**
+     Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain.
+
+     - parameter copyEntireInstallation: When **true**, copies the
+     entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
+     **false**, only the `channels` and `deviceToken` are copied from the Objective-C
+     SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
+     Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns saved `ParseInstallation`.
+     - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+     - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
+     Parse Server before calling this method.
+    */
+    @discardableResult static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
+                                                           deleteObjectiveCKeychain: Bool = false,
+                                                           options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            Self.migrateFromObjCKeychain(copyEntireInstallation: copyEntireInstallation,
+                                         options: options,
+                                         completion: continuation.resume)
+        }
+    }
+
+    /**
+     Deletes the Objective-C Keychain along with the Objective-C `ParseInstallation`
+     from the Parse Server *asynchronously*.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns saved `ParseInstallation`.
+     - throws: An error of type `ParseError`.
+     - warning: It is recommended to only use this method after a succesfful migration. Calling this
+     method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
+     Server.
+    */
+    static func deleteObjCKeychain(options: API.Options = []) async throws {
+        let result = try await withCheckedThrowingContinuation { continuation in
+            Self.deleteObjCKeychain(options: options, completion: continuation.resume)
+        }
+        if case let .failure(error) = result {
+            throw error
+        }
+    }
+}
+#endif
 #endif

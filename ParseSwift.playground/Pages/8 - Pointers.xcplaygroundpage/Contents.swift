@@ -113,6 +113,7 @@ let otherBook1 = Book(title: "I like this book")
 let otherBook2 = Book(title: "I like this book also")
 var author2 = Author(name: "Bruce", book: newBook)
 author2.otherBooks = [otherBook1, otherBook2]
+
 author2.save { result in
     switch result {
     case .success(let savedAuthorAndBook):
@@ -121,7 +122,10 @@ author2.save { result in
         assert(savedAuthorAndBook.updatedAt != nil)
         assert(savedAuthorAndBook.otherBooks?.count == 2)
 
-        //: Notice the pointer objects haven't been updated on the client.
+        /*:
+         Notice the pointer objects have not been updated on the
+         client.If you want the latest pointer objects, fetch and include them.
+         */
         print("Saved \(savedAuthorAndBook)")
 
     case .failure(let error):
@@ -260,6 +264,69 @@ do {
     }
 } catch {
     print("\(error)")
+}
+
+//: Batching saves with saved and unsaved pointer items.
+var author3 = Author(name: "Logan", book: newBook)
+let otherBook3 = Book(title: "I like this book")
+let otherBook4 = Book(title: "I like this book also")
+author3.otherBooks = [otherBook3, otherBook4]
+
+[author3].saveAll { result in
+    switch result {
+    case .success(let savedAuthorsAndBook):
+        savedAuthorsAndBook.forEach { eachResult in
+            switch eachResult {
+            case .success(let savedAuthorAndBook):
+                assert(savedAuthorAndBook.objectId != nil)
+                assert(savedAuthorAndBook.createdAt != nil)
+                assert(savedAuthorAndBook.updatedAt != nil)
+                assert(savedAuthorAndBook.otherBooks?.count == 2)
+
+                /*:
+                 Notice the pointer objects have not been updated on the
+                 client.If you want the latest pointer objects, fetch and include them.
+                 */
+                print("Saved \(savedAuthorAndBook)")
+            case .failure(let error):
+                assertionFailure("Error saving: \(error)")
+            }
+        }
+
+    case .failure(let error):
+        assertionFailure("Error saving: \(error)")
+    }
+}
+
+//: Batching saves with unsaved pointer items.
+var newBook2 = Book(title: "world")
+var author4 = Author(name: "Scott", book: newBook2)
+author4.otherBooks = [otherBook3, otherBook4]
+
+[author4].saveAll { result in
+    switch result {
+    case .success(let savedAuthorsAndBook):
+        savedAuthorsAndBook.forEach { eachResult in
+            switch eachResult {
+            case .success(let savedAuthorAndBook):
+                assert(savedAuthorAndBook.objectId != nil)
+                assert(savedAuthorAndBook.createdAt != nil)
+                assert(savedAuthorAndBook.updatedAt != nil)
+                assert(savedAuthorAndBook.otherBooks?.count == 2)
+
+                /*:
+                 Notice the pointer objects have not been updated on the
+                 client.If you want the latest pointer objects, fetch and include them.
+                 */
+                print("Saved \(savedAuthorAndBook)")
+            case .failure(let error):
+                assertionFailure("Error saving: \(error)")
+            }
+        }
+
+    case .failure(let error):
+        assertionFailure("Error saving: \(error)")
+    }
 }
 
 PlaygroundPage.current.finishExecution()

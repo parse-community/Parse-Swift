@@ -55,7 +55,7 @@ config.save { result in
     }
 }
 
-//: Fetch the updated config to make sure it's saved.
+//: Fetch the updated config to make sure it is saved.
 config.fetch { result in
     switch result {
     case .success(let currentConfig):
@@ -65,7 +65,7 @@ config.fetch { result in
     }
 }
 
-//: Anytime you fetch or update your Config successfully, it's automatically saved to your Keychain.
+//: Anytime you fetch or update your Config successfully, it is automatically saved to your Keychain.
 print(Config.current ?? "No config")
 
 PlaygroundPage.current.finishExecution()

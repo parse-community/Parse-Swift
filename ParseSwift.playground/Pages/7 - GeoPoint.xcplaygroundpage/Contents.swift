@@ -105,7 +105,7 @@ do {
 }
 
 /*: If you only want to query for points in descending order, use the order enum.
-Notice the "var", the query has to be mutable since it's a value type.
+Notice the "var", the query has to be mutable since it is a value type.
 */
 var querySorted = query
 querySorted.order([.descending("points")])
@@ -249,6 +249,58 @@ query8.findAll { result in
     case .failure(let error):
         print(error.localizedDescription)
     }
+}
+
+do {
+    let points: [ParseGeoPoint] = [
+        try .init(latitude: 35.0, longitude: -28.0),
+        try .init(latitude: 45.0, longitude: -28.0),
+        try .init(latitude: 39.0, longitude: -35.0)
+    ]
+    let query9 = GameScore.query(withinPolygon(key: "location", points: points))
+    query9.find { results in
+        switch results {
+        case .success(let scores):
+
+            scores.forEach { (score) in
+                print("""
+                    Someone has a points value of \"\(String(describing: score.points))\"
+                    with a geolocation \(String(describing: score.location)) within the
+                    polygon using points: \(points)
+                """)
+            }
+        case .failure(let error):
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+} catch {
+    print("Could not create geopoints: \(error)")
+}
+
+do {
+    let points: [ParseGeoPoint] = [
+        try .init(latitude: 35.0, longitude: -28.0),
+        try .init(latitude: 45.0, longitude: -28.0),
+        try .init(latitude: 39.0, longitude: -35.0)
+    ]
+    let polygon = try ParsePolygon(points)
+    let query10 = GameScore.query(withinPolygon(key: "location", polygon: polygon))
+    query10.find { results in
+        switch results {
+        case .success(let scores):
+            scores.forEach { (score) in
+                print("""
+                    Someone has a points value of \"\(String(describing: score.points))\"
+                    with a geolocation \(String(describing: score.location)) within the
+                    polygon: \(polygon)
+                """)
+            }
+        case .failure(let error):
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+} catch {
+    print("Could not create geopoints: \(error)")
 }
 
 //: Hint of the previous query (asynchronous)

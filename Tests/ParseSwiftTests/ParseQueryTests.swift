@@ -64,6 +64,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                               masterKey: "masterKey",
                               serverURL: url,
                               usingEqualQueryConstraint: false,
+                              usingPostForQuery: true,
                               testing: true)
     }
 
@@ -402,7 +403,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFindCommand() throws {
         let query = GameScore.query
-        let command = query.findCommand()
+        let command = try query.findCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -421,7 +422,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testFindExplainCommand() throws {
         let query = GameScore.query()
         let command: API.NonParseBodyCommand<Query<ParseQueryTests.GameScore>,
-                                             [GameScore]> = query.findExplainCommand()
+                                             [GameScore]> = try query.findExplainCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"explain\":true,\"limit\":100,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -750,7 +751,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFirstCommand() throws {
         let query = GameScore.query()
-        let command = query.firstCommand()
+        let command = try query.firstCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"limit\":1,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -762,7 +763,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testFirstExplainCommand() throws {
         let query = GameScore.query()
         let command: API.NonParseBodyCommand<Query<ParseQueryTests.GameScore>,
-                                             GameScore> = query.firstExplainCommand()
+                                             GameScore> = try query.firstExplainCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"explain\":true,\"limit\":1,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -996,7 +997,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCountCommand() throws {
         let query = GameScore.query()
-        let command = query.countCommand()
+        let command = try query.countCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"count\":true,\"limit\":1,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -1008,7 +1009,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testCountExplainCommand() throws {
         let query = GameScore.query()
         let command: API.NonParseBodyCommand<Query<ParseQueryTests.GameScore>,
-                                             [Int]> = query.countExplainCommand()
+                                             [Int]> = try query.countExplainCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"_method\":\"GET\",\"count\":true,\"explain\":true,\"limit\":1,\"skip\":0,\"where\":{}},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -2924,89 +2925,33 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
     // swiftlint:disable:next function_body_length
     func testWhereKeyWithinPolygonPoints() throws {
-        let expected: [String: AnyCodable] = [
-            "yolo": ["$geoWithin": ["$polygon": [
-                                        [10.1, 20.1],
-                                        [20.1, 30.1],
-                                        [30.1, 40.1]]
-                                ]
-            ]
-        ]
+        // swiftlint:disable:next line_length
+        let expected = "{\"yolo\":{\"$geoWithin\":{\"$polygon\":[{\"__type\":\"GeoPoint\",\"latitude\":10.1,\"longitude\":20.100000000000001},{\"__type\":\"GeoPoint\",\"latitude\":20.100000000000001,\"longitude\":30.100000000000001},{\"__type\":\"GeoPoint\",\"latitude\":30.100000000000001,\"longitude\":40.100000000000001}]}}}"
         let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
         let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
         let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
         let polygon = [geoPoint1, geoPoint2, geoPoint3]
         let constraint = withinPolygon(key: "yolo", points: polygon)
         let query = GameScore.query(constraint)
-        let queryWhere = query.`where`
-
-        do {
-            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
-            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
-            XCTAssertEqual(expected.keys, decodedDictionary.keys)
-
-            guard let expectedValues = expected.values.first?.value as? [String: [String: [[Double]]]],
-                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"] else {
-                XCTFail("Should have casted")
-                return
-            }
-
-            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[Double]]]],
-                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"] else {
-                XCTFail("Should have casted")
-                return
-            }
-            XCTAssertEqual(expectedBox, decodedBox)
-
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
+        XCTAssertEqual(query.where.description, expected)
     }
 
     // swiftlint:disable:next function_body_length
     func testWhereKeyWithinPolygon() throws {
-        let expected: [String: AnyCodable] = [
-            "yolo": ["$geoWithin": ["$polygon": [
-                                        [10.1, 20.1],
-                                        [20.1, 30.1],
-                                        [30.1, 40.1]]
-                                ]
-            ]
-        ]
+        // swiftlint:disable:next line_length
+        let expected = "{\"yolo\":{\"$geoWithin\":{\"$polygon\":{\"__type\":\"Polygon\",\"coordinates\":[[20.100000000000001,10.1],[30.100000000000001,20.100000000000001],[40.100000000000001,30.100000000000001]]}}}}"
         let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
         let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
         let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
         let polygon = try ParsePolygon(geoPoint1, geoPoint2, geoPoint3)
         let constraint = withinPolygon(key: "yolo", polygon: polygon)
         let query = GameScore.query(constraint)
-        let queryWhere = query.`where`
-
-        do {
-            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
-            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
-            XCTAssertEqual(expected.keys, decodedDictionary.keys)
-
-            guard let expectedValues = expected.values.first?.value as? [String: [String: [[Double]]]],
-                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"] else {
-                XCTFail("Should have casted")
-                return
-            }
-
-            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[Double]]]],
-                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"] else {
-                XCTFail("Should have casted")
-                return
-            }
-            XCTAssertEqual(expectedBox, decodedBox)
-
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
+        XCTAssertEqual(query.where.description, expected)
     }
+    #endif
 
     func testWhereKeyPolygonContains() throws {
         let expected: [String: AnyCodable] = [
@@ -3552,7 +3497,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var query = GameScore.query()
         let value = AnyCodable("world")
         query.pipeline = [["hello": value]]
-        let aggregate = query.aggregateCommand()
+        let aggregate = try query.aggregateCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"pipeline\":[{\"hello\":\"\(value)\"}]},\"method\":\"POST\",\"path\":\"\\/aggregate\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -3564,7 +3509,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testAggregateExplainCommand() throws {
         let query = GameScore.query()
         let command: API.NonParseBodyCommand<Query<GameScore>.AggregateBody<GameScore>,
-                                             [String]> = query.aggregateExplainCommand()
+                                             [String]> = try query.aggregateExplainCommand()
         let expected = "{\"body\":{\"explain\":true},\"method\":\"POST\",\"path\":\"\\/aggregate\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
             .encode(command)
@@ -3574,7 +3519,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDistinctCommand() throws {
         let query = GameScore.query()
-        let aggregate = query.distinctCommand(key: "hello")
+        let aggregate = try query.distinctCommand(key: "hello")
         let expected = "{\"body\":{\"distinct\":\"hello\"},\"method\":\"POST\",\"path\":\"\\/aggregate\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()
             .encode(aggregate)
@@ -3585,7 +3530,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testDistinctExplainCommand() throws {
         let query = GameScore.query()
         let command: API.NonParseBodyCommand<Query<GameScore>.DistinctBody<GameScore>,
-                                             [String]> = query.distinctExplainCommand(key: "hello")
+                                             [String]> = try query.distinctExplainCommand(key: "hello")
         // swiftlint:disable:next line_length
         let expected = "{\"body\":{\"distinct\":\"hello\",\"explain\":true},\"method\":\"POST\",\"path\":\"\\/aggregate\\/GameScore\"}"
         let encoded = try ParseCoding.jsonEncoder()

@@ -15,7 +15,7 @@ public extension ParseUser {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
@@ -26,9 +26,9 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    static func signup(username: String,
-                       password: String,
-                       options: API.Options = []) async throws -> Self {
+    @discardableResult static func signup(username: String,
+                                          password: String,
+                                          options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.signup(username: username,
                         password: password,
@@ -40,7 +40,7 @@ public extension ParseUser {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -49,7 +49,7 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func signup(options: API.Options = []) async throws -> Self {
+    @discardableResult func signup(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.signup(options: options,
                         completion: continuation.resume)
@@ -69,9 +69,9 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    static func login(username: String,
-                      password: String,
-                      options: API.Options = []) async throws -> Self {
+    @discardableResult static func login(username: String,
+                                         password: String,
+                                         options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.login(username: username,
                        password: password,
@@ -93,12 +93,35 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func become(sessionToken: String,
-                options: API.Options = []) async throws -> Self {
+    @discardableResult func become(sessionToken: String,
+                                   options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.become(sessionToken: sessionToken, options: options, completion: continuation.resume)
         }
     }
+
+#if !os(Linux) && !os(Android) && !os(Windows)
+    /**
+     Logs in a `ParseUser` *asynchronously* using the session token from the Parse Objective-C SDK Keychain.
+     Returns an instance of the successfully logged in `ParseUser`. The Parse Objective-C SDK Keychain is not
+     modified in any way when calling this method; allowing developers to revert their applications back to the older
+     SDK if desired.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the logged in `ParseUser`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+     - warning: The latest **PFUser** from the Objective-C SDK should be saved to your
+     Parse Server before calling this method.
+    */
+    @discardableResult static func loginUsingObjCKeychain(options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            Self.loginUsingObjCKeychain(options: options, completion: continuation.resume)
+        }
+    }
+#endif
 
     /**
      Logs out the currently logged in user *asynchronously*.
@@ -152,9 +175,9 @@ public extension ParseUser {
      [issue](https://github.com/parse-community/parse-server/issues/7784) to be addressed on
      the Parse Server, othewise you should set `usingPost = false`.
     */
-    static func verifyPassword(password: String,
-                               usingPost: Bool = false,
-                               options: API.Options = []) async throws -> Self {
+    @discardableResult static func verifyPassword(password: String,
+                                                  usingPost: Bool = false,
+                                                  options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.verifyPassword(password: password,
                                 usingPost: usingPost,
@@ -193,8 +216,8 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func fetch(includeKeys: [String]? = nil,
-               options: API.Options = []) async throws -> Self {
+    @discardableResult func fetch(includeKeys: [String]? = nil,
+                                  options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(includeKeys: includeKeys,
                        options: options,
@@ -223,8 +246,8 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func save(ignoringCustomObjectIdConfig: Bool = false,
-              options: API.Options = []) async throws -> Self {
+    @discardableResult func save(ignoringCustomObjectIdConfig: Bool = false,
+                                 options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                       options: options,
@@ -240,7 +263,7 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func create(options: API.Options = []) async throws -> Self {
+    @discardableResult func create(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.create(options: options,
                         completion: continuation.resume)
@@ -256,7 +279,7 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func replace(options: API.Options = []) async throws -> Self {
+    @discardableResult func replace(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.replace(options: options,
                          completion: continuation.resume)
@@ -272,7 +295,7 @@ public extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    internal func update(options: API.Options = []) async throws -> Self {
+    @discardableResult internal func update(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.update(options: options,
                         completion: continuation.resume)
@@ -313,8 +336,8 @@ public extension Sequence where Element: ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func fetchAll(includeKeys: [String]? = nil,
-                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func fetchAll(includeKeys: [String]? = nil,
+                                     options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.fetchAll(includeKeys: includeKeys,
                           options: options,
@@ -352,10 +375,10 @@ public extension Sequence where Element: ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func saveAll(batchLimit limit: Int? = nil,
-                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                 ignoringCustomObjectIdConfig: Bool = false,
-                 options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func saveAll(batchLimit limit: Int? = nil,
+                                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                    ignoringCustomObjectIdConfig: Bool = false,
+                                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
@@ -382,9 +405,9 @@ public extension Sequence where Element: ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func createAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                   options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func createAll(batchLimit limit: Int? = nil,
+                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.createAll(batchLimit: limit,
                            transaction: transaction,
@@ -411,9 +434,9 @@ public extension Sequence where Element: ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func replaceAll(batchLimit limit: Int? = nil,
-                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+    @discardableResult func replaceAll(batchLimit limit: Int? = nil,
+                                       transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                       options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.replaceAll(batchLimit: limit,
                             transaction: transaction,
@@ -468,9 +491,9 @@ public extension Sequence where Element: ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                   options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
+    @discardableResult func deleteAll(batchLimit limit: Int? = nil,
+                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
                            transaction: transaction,

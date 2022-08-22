@@ -30,7 +30,7 @@ import Foundation
  stored in `ParseInstallation.badge` before saving/updating the installation.
 
  - warning: Linux developers should set `appName`, `appIdentifier`, and `appVersion`
- manually as `ParseSwift` doesn't have access to Bundle.main.
+ manually as `ParseSwift` does not have access to Bundle.main.
 */
 public protocol ParseInstallation: ParseObject {
 
@@ -99,7 +99,7 @@ public extension ParseInstallation {
     func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) == true else {
             throw ParseError(code: .unknownError,
-                             message: "objectId's of objects don't match")
+                             message: "objectId's of objects do not match")
         }
         var updatedInstallation = self
         if shouldRestoreKey(\.ACL,
@@ -221,7 +221,7 @@ public extension ParseInstallation {
                     guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                             try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                     else {
-                        // Couldn't create container correctly, return empty one.
+                        // Could not create container correctly, return empty one.
                         return CurrentInstallationContainer<Self>()
                     }
                     try? ParseStorage.shared.set(installationFromKeyChain, for: ParseStorage.Keys.currentInstallation)
@@ -242,7 +242,7 @@ public extension ParseInstallation {
                 guard let installationFromMemory: CurrentInstallationContainer<Self> =
                         try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                 else {
-                    // Couldn't create container correctly, return empty one.
+                    // Could not create container correctly, return empty one.
                     return CurrentInstallationContainer<Self>()
                 }
                 return installationFromMemory
@@ -256,13 +256,17 @@ public extension ParseInstallation {
     }
 
     internal static func updateInternalFieldsCorrectly() {
-        if Self.currentContainer.currentInstallation?.installationId !=
-            Self.currentContainer.installationId! {
-            //If the user made changes, set back to the original
+
+        if let currentContainerInstallationId = Self.currentContainer.installationId,
+            Self.currentContainer.currentInstallation?.installationId !=
+            currentContainerInstallationId {
+
+            // If the user made changes, set back to the original
             Self.currentContainer.currentInstallation?.installationId =
-                Self.currentContainer.installationId!
+            currentContainerInstallationId
         }
-        //Always pull automatic info to ensure user made no changes to immutable values
+
+        // Always pull automatic info to ensure user made no changes to immutable values
         Self.currentContainer.currentInstallation?.updateAutomaticInfo()
     }
 
@@ -278,7 +282,7 @@ public extension ParseInstallation {
         #if !os(Linux) && !os(Android) && !os(Windows)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
         #endif
-        //Prepare new installation
+        // Prepare new installation
         BaseParseInstallation.createNewInstallationIfNeeded()
     }
 
@@ -335,7 +339,7 @@ extension ParseInstallation {
         // If using an Xcode new enough to know about Mac Catalyst:
         // Mac Catalyst Apps use a prefix to the bundle ID. This should not be transmitted
         // to Parse Server. Catalyst apps should look like iOS apps otherwise
-        // push and other services don't work properly.
+        // push and other services do not work properly.
         if let currentAppIdentifier = appInfo[String(kCFBundleIdentifierKey)] as? String {
             let macCatalystBundleIdPrefix = "maccatalyst."
             if currentAppIdentifier.hasPrefix(macCatalystBundleIdPrefix) {
@@ -377,7 +381,7 @@ extension ParseInstallation {
      The country codes are two-letter uppercase ISO country codes (such as "US") as defined by
      <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO 3166-1</a>.
 
-     Many iOS locale identifiers don't contain the country code -> inconsistencies with Android/Windows Phone.
+     Many iOS locale identifiers do not contain the country code -> inconsistencies with Android/Windows Phone.
     */
     mutating func updateLocaleIdentifierFromDevice() {
         guard let language = Locale.current.languageCode else {
@@ -522,7 +526,7 @@ extension ParseInstallation {
 extension ParseInstallation {
 
     /**
-     Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseInstallation` *synchronously* and throws an error if there is an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
@@ -535,7 +539,7 @@ extension ParseInstallation {
     }
 
     /**
-     Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseInstallation` *synchronously* and throws an error if there is an issue.
 
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
@@ -941,14 +945,17 @@ public extension Sequence where Element: ParseInstallation {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
+        var commands = [API.Command<Self.Element, Self.Element>]()
         var error: ParseError?
 
-        let installations = map { $0 }
-        for installation in installations {
+        try forEach {
+            let installation = $0
             let group = DispatchGroup()
             group.enter()
-            installation.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                //If an error occurs, everything should be skipped
+            installation.ensureDeepSave(options: options,
+                                        // swiftlint:disable:next line_length
+                                        isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                // If an error occurs, everything should be skipped
                 if parseError != nil {
                     error = parseError
                 }
@@ -980,12 +987,10 @@ public extension Sequence where Element: ParseInstallation {
             if let error = error {
                 throw error
             }
+            commands.append(try installation.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig))
         }
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = try map {
-            try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
-        }
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
@@ -1167,16 +1172,17 @@ public extension Sequence where Element: ParseInstallation {
             var childObjects = [String: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
-
+            var commands = [API.Command<Self.Element, Self.Element>]()
             let installations = map { $0 }
+
             for installation in installations {
                 let group = DispatchGroup()
                 group.enter()
                 installation
                     .ensureDeepSave(options: options,
                                     // swiftlint:disable:next line_length
-                                    isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                    //If an error occurs, everything should be skipped
+                                    isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                    // If an error occurs, everything should be skipped
                     if parseError != nil {
                         error = parseError
                     }
@@ -1211,23 +1217,34 @@ public extension Sequence where Element: ParseInstallation {
                     }
                     return
                 }
+
+                do {
+                    switch method {
+                    case .save:
+                        commands.append(
+                            try installation.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+                        )
+                    case .create:
+                        commands.append(installation.createCommand())
+                    case .replace:
+                        commands.append(try installation.replaceCommand())
+                    case .update:
+                        commands.append(try installation.updateCommand())
+                    }
+                } catch {
+                    callbackQueue.async {
+                        if let parseError = error as? ParseError {
+                            completion(.failure(parseError))
+                        } else {
+                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                        }
+                    }
+                    return
+                }
             }
 
             do {
                 var returnBatch = [(Result<Self.Element, ParseError>)]()
-                let commands: [API.Command<Self.Element, Self.Element>]!
-                switch method {
-                case .save:
-                    commands = try map {
-                        try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
-                    }
-                case .create:
-                    commands = map { $0.createCommand() }
-                case .replace:
-                    commands = try map { try $0.replaceCommand() }
-                case .update:
-                    commands = try map { try $0.updateCommand() }
-                }
 
                 let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
                 try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
@@ -1279,7 +1296,7 @@ public extension Sequence where Element: ParseInstallation {
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: An error of type `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which installations are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which installations are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(includeKeys: [String]? = nil,
@@ -1324,7 +1341,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which installations are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which installations are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(
@@ -1492,4 +1509,149 @@ public extension Sequence where Element: ParseInstallation {
             }
         }
     }
-} // swiftlint:disable:this file_length
+}
+
+#if !os(Linux) && !os(Android) && !os(Windows)
+// MARK: Migrate from Objective-C SDK
+public extension ParseInstallation {
+
+    /**
+     Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain.
+
+     - parameter copyEntireInstallation: When **true**, copies the
+     entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
+     **false**, only the `channels` and `deviceToken` are copied from the Objective-C
+     SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
+     Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+     - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
+     Parse Server before calling this method.
+    */
+    static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
+                                        options: API.Options = [],
+                                        callbackQueue: DispatchQueue = .main,
+                                        completion: @escaping (Result<Self, ParseError>) -> Void) {
+        guard let objcParseKeychain = KeychainStore.objectiveC,
+              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Could not find Installation in the Objective-C SDK Keychain")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        guard var currentInstallation = Self.current else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Current installation does not exist")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        guard currentInstallation.installationId != oldInstallationId else {
+            // If the installationId's are the same, assume successful migration already occured.
+            callbackQueue.async {
+                completion(.success(currentInstallation))
+            }
+            return
+        }
+        currentInstallation.installationId = oldInstallationId
+        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success(var updatedInstallation):
+                if copyEntireInstallation {
+                    updatedInstallation.updateAutomaticInfo()
+                    Self.currentContainer.installationId = updatedInstallation.installationId
+                    Self.currentContainer.currentInstallation = updatedInstallation
+                } else {
+                    Self.current?.channels = updatedInstallation.channels
+                    if Self.current?.deviceToken == nil {
+                        Self.current?.deviceToken = updatedInstallation.deviceToken
+                    }
+                }
+                Self.saveCurrentContainerToKeychain()
+                guard let latestInstallation = Self.current else {
+                    let error = ParseError(code: .unknownError,
+                                           message: "Had trouble migrating the installation")
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                latestInstallation.save(options: options,
+                                        callbackQueue: callbackQueue,
+                                        completion: completion)
+            case .failure(let error):
+                callbackQueue.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    /**
+     Deletes the Objective-C Keychain along with the Objective-C `ParseInstallation`
+     from the Parse Server *asynchronously* and executes the given callback block.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - warning: It is recommended to only use this method after a succesfful migration. Calling this
+     method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
+     Server.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    static func deleteObjCKeychain(options: API.Options = [],
+                                   callbackQueue: DispatchQueue = .main,
+                                   completion: @escaping (Result<Void, ParseError>) -> Void) {
+        guard let objcParseKeychain = KeychainStore.objectiveC,
+              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Could not find Installation in the Objective-C SDK Keychain")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        guard var currentInstallation = Self.current else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Current installation does not exist")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        currentInstallation.installationId = oldInstallationId
+        do {
+            try ParseSwift.deleteObjectiveCKeychain()
+            // Only delete the `ParseInstallation` on Parse Server if it is not current.
+            guard Self.current?.installationId == oldInstallationId else {
+                currentInstallation.delete(options: options,
+                                           callbackQueue: callbackQueue,
+                                           completion: completion)
+                return
+            }
+            callbackQueue.async {
+                completion(.success(()))
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
+            return
+        }
+    }
+}
+#endif // swiftlint:disable:this file_length

@@ -16,7 +16,7 @@ public extension ParseUser {
     /**
      Signs up the user *asynchronously* and publishes value.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
@@ -40,7 +40,7 @@ public extension ParseUser {
     /**
      Signs up the user *asynchronously* and publishes value.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -95,6 +95,29 @@ public extension ParseUser {
             self.become(sessionToken: sessionToken, options: options, completion: promise)
         }
     }
+
+#if !os(Linux) && !os(Android) && !os(Windows)
+    /**
+     Logs in a `ParseUser` *asynchronously* using the session token from the Parse Objective-C SDK Keychain.
+     Publishes an instance of the successfully logged in `ParseUser`. The Parse Objective-C SDK Keychain is not
+     modified in any way when calling this method; allowing developers to revert their applications back to the older
+     SDK if desired.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+     - warning: The latest **PFUser** from the Objective-C SDK should be saved to your
+     Parse Server before calling this method.
+    */
+    static func loginUsingObjCKeychainPublisher(options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            Self.loginUsingObjCKeychain(options: options, completion: promise)
+        }
+    }
+#endif
 
     /**
      Logs out the currently logged in user *asynchronously*. Publishes when complete.

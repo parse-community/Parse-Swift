@@ -34,10 +34,10 @@ import Foundation
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
  for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
  your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
- It is important to note that for unsaved `ParseObject`'s, you won't be able to rely on `objectId` for
- `Equatable` and `Hashable` as your unsaved objects won't have this value yet and is nil. A possible way to
+ It is important to note that for unsaved `ParseObject`'s, you will not be able to rely on `objectId` for
+ `Equatable` and `Hashable` as your unsaved objects will not have this value yet and is nil. A possible way to
  address this is by creating a `UUID` for your objects locally and relying on that for `Equatable` and `Hashable`,
- otherwise it's possible you will get "circular dependency errors" depending on your implementation.
+ otherwise it is possible you will get "circular dependency errors" depending on your implementation.
  - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
  `ACL` to your `ParseObject` `CodingKeys`.
 */
@@ -97,8 +97,8 @@ public protocol ParseObject: ParseTypeable,
      - throws: An error of type `ParseError`.
      - note: This is used in combination with `merge` to only send updated
      properties to the server and then merge those changes with the original object.
-     - warning: You should only call this method and shouldn't implement it directly
-     as it's already implemented for developers to use.
+     - warning: You should only call this method and should not implement it directly
+     as it is already implemented for developers to use.
     */
     func mergeParse(with object: Self) throws -> Self
 
@@ -194,7 +194,7 @@ public extension ParseObject {
     func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) == true else {
             throw ParseError(code: .unknownError,
-                             message: "objectId's of objects don't match")
+                             message: "objectId's of objects do not match")
         }
         var updated = self
         if shouldRestoreKey(\.ACL,
@@ -219,7 +219,7 @@ public extension Sequence where Element: ParseObject {
             if objectCount > batchLimit {
                 let error = ParseError(code: .unknownError,
                                        message: """
-The amount of objects (\(objectCount)) can't exceed the batch size(\(batchLimit)).
+The amount of objects (\(objectCount)) cannot exceed the batch size(\(batchLimit)).
 Either decrease the amount of objects, increase the batch size, or disable
 transactions for this call.
 """)
@@ -267,14 +267,15 @@ transactions for this call.
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
 
-        let objects = map { $0 }
-        for object in objects {
+        var commands = [API.Command<Self.Element, Self.Element>]()
+        try forEach {
+            let object = $0
             let group = DispatchGroup()
             group.enter()
             object.ensureDeepSave(options: options,
                                   // swiftlint:disable:next line_length
-                                  isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                //If an error occurs, everything should be skipped
+                                  isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                // If an error occurs, everything should be skipped
                 if parseError != nil {
                     error = parseError
                 }
@@ -306,10 +307,10 @@ transactions for this call.
             if let error = error {
                 throw error
             }
+            commands.append(try object.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig))
         }
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = try map { try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig) }
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
@@ -482,19 +483,18 @@ transactions for this call.
                                   autoreleaseFrequency: .inherit,
                                   target: nil)
         queue.sync {
-
             var childObjects = [String: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
-
+            var commands = [API.Command<Self.Element, Self.Element>]()
             let objects = map { $0 }
             for object in objects {
                 let group = DispatchGroup()
                 group.enter()
                 object.ensureDeepSave(options: options,
                                       // swiftlint:disable:next line_length
-                                      isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                    //If an error occurs, everything should be skipped
+                                      isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                    // If an error occurs, everything should be skipped
                     if parseError != nil {
                         error = parseError
                     }
@@ -529,23 +529,34 @@ transactions for this call.
                     }
                     return
                 }
+
+                do {
+                    switch method {
+                    case .save:
+                        commands.append(
+                            try object.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+                        )
+                    case .create:
+                        commands.append(object.createCommand())
+                    case .replace:
+                        commands.append(try object.replaceCommand())
+                    case .update:
+                        commands.append(try object.updateCommand())
+                    }
+                } catch {
+                    callbackQueue.async {
+                        if let parseError = error as? ParseError {
+                            completion(.failure(parseError))
+                        } else {
+                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                        }
+                    }
+                    return
+                }
             }
 
             do {
                 var returnBatch = [(Result<Self.Element, ParseError>)]()
-                let commands: [API.Command<Self.Element, Self.Element>]!
-                switch method {
-                case .save:
-                    commands = try map {
-                        try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
-                    }
-                case .create:
-                    commands = map { $0.createCommand() }
-                case .replace:
-                    commands = try map { try $0.replaceCommand() }
-                case .update:
-                    commands = try map { try $0.updateCommand() }
-                }
 
                 let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
                 try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
@@ -593,7 +604,7 @@ transactions for this call.
      - returns: Returns an array of Result enums with the object if a fetch was successful or a
      `ParseError` if it failed.
      - throws: An error of type `ParseError`.
-     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which objects are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(includeKeys: [String]? = nil,
@@ -634,7 +645,7 @@ transactions for this call.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
-     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which objects are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(
@@ -884,7 +895,7 @@ extension ParseObject {
 extension ParseObject {
 
     /**
-     Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseObject` *synchronously* and throws an error if there is an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
@@ -896,7 +907,7 @@ extension ParseObject {
     }
 
     /**
-     Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseObject` *synchronously* and throws an error if there is an issue.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
@@ -1156,7 +1167,7 @@ extension ParseObject {
                                 //If this ParseObject has no additional children, it can be saved now
                                 savableObjects.append(parseObject)
                             } else {
-                                //Else this ParseObject needs to wait until it's children are saved
+                                //Else this ParseObject needs to wait until it is children are saved
                                 nextBatch.append(parseObject)
                             }
                         }

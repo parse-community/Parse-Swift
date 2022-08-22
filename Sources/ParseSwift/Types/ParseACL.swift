@@ -323,14 +323,14 @@ extension ParseACL {
             aclController = controller
         } else {
             throw ParseError(code: .unknownError,
-                             message: "Default ACL can't be found in Keychain. You should `setDefaultACL` first")
+                             message: "Default ACL cannot be found in Keychain. You should `setDefaultACL` first")
         }
         #else
         if let controller: DefaultACL = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
             aclController = controller
         } else {
             throw ParseError(code: .unknownError,
-                             message: "Default ACL can't be found in Keychain. You should `setDefaultACL` first")
+                             message: "Default ACL cannot be found in Keychain. You should `setDefaultACL` first")
         }
         #endif
 
@@ -382,7 +382,7 @@ extension ParseACL {
 
         guard let currentUser = BaseParseUser.current,
             let currentUserObjectId = currentUser.objectId else {
-            throw ParseError(code: .missingObjectId, message: "Can't set defaultACL with no current user")
+            throw ParseError(code: .missingObjectId, message: "Cannot set defaultACL with no current user")
         }
 
         let modifiedACL: ParseACL?

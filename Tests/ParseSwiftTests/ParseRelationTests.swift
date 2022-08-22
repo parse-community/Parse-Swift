@@ -129,7 +129,7 @@ class ParseRelationTests: XCTestCase {
         var level = Level(level: 1)
         level.objectId = "nice"
 
-        // Shouldn't produce a relation without an objectId.
+        // Should not produce a relation without an objectId.
         XCTAssertThrowsError(try score.relation("yolo", child: level))
 
         let objectId = "hello"
@@ -247,7 +247,7 @@ class ParseRelationTests: XCTestCase {
         level.objectId = "nice"
         relation.className = level.className
 
-        // Shouldn't produce a relation without an objectId.
+        // Should not produce a relation without an objectId.
         XCTAssertThrowsError(try relation.add([level]))
         XCTAssertThrowsError(try relation.add("yolo", objects: [level]))
     }
@@ -366,7 +366,7 @@ class ParseRelationTests: XCTestCase {
         level.objectId = "nice"
         relation.className = level.className
 
-        // Shouldn't produce a relation without an objectId.
+        // Should not produce a relation without an objectId.
         XCTAssertThrowsError(try relation.remove([level]))
         XCTAssertThrowsError(try relation.remove("yolo", objects: [level]))
     }
@@ -492,7 +492,7 @@ class ParseRelationTests: XCTestCase {
         level.objectId = "nice"
         relation.className = level.className
 
-        // Shouldn't produce a relation without an objectId.
+        // Should not produce a relation without an objectId.
         do {
             let _: Query<Level> = try relation.query()
             XCTFail("Should have thrown error")

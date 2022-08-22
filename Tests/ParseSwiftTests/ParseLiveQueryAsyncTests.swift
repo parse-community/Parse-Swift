@@ -49,7 +49,7 @@ class ParseLiveQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body
 
         do {
             _ = try await client.open(isUserWantsToConnect: true)
-            XCTFail("Should always fail since WS isn't intercepted.")
+            XCTFail("Should always fail since WS is not intercepted.")
         } catch {
             XCTAssertNotNil(error)
         }
@@ -94,7 +94,7 @@ class ParseLiveQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body
             XCTFail("Should have produced error")
         } catch {
             XCTAssertEqual(client.isSocketEstablished, true)
-            XCTAssertNotNil(error) // Should have error because testcases don't intercept websocket
+            XCTAssertNotNil(error) // Should have error because testcases do not intercept websocket
         }
     }
 }

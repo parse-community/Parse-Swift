@@ -58,7 +58,7 @@ extension LiveQuerySocket {
                                     additionalProperties: true))
         guard let encodedAsString = String(data: encoded, encoding: .utf8) else {
             let error = ParseError(code: .unknownError,
-                                   message: "Couldn't encode connect message: \(encoded)")
+                                   message: "Could not encode connect message: \(encoded)")
             completion(error)
             return
         }
@@ -101,7 +101,7 @@ extension LiveQuerySocket {
                     self.delegates[task]?.received(data)
                 } else {
                     let parseError = ParseError(code: .unknownError,
-                                                message: "Couldn't encode LiveQuery string as data")
+                                                message: "Could not encode LiveQuery string as data")
                     self.delegates[task]?.receivedError(parseError)
                 }
                 self.receive(task)

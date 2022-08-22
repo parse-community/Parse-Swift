@@ -588,8 +588,7 @@ public func withinGeoBox(key: String, fromSouthWest southwest: ParseGeoPoint,
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func withinPolygon(key: String, points: [ParseGeoPoint]) -> QueryConstraint {
-    let polygon = points.flatMap { [[$0.latitude, $0.longitude]]}
-    let dictionary = [QueryConstraint.Comparator.polygon.rawValue: polygon]
+    let dictionary = [QueryConstraint.Comparator.polygon.rawValue: points]
     return .init(key: key, value: dictionary, comparator: .geoWithin)
 }
 
@@ -604,7 +603,6 @@ public func withinPolygon(key: String, points: [ParseGeoPoint]) -> QueryConstrai
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func withinPolygon(key: String, polygon: ParsePolygon) -> QueryConstraint {
-    let polygon = polygon.coordinates.flatMap { [[$0.latitude, $0.longitude]]}
     let dictionary = [QueryConstraint.Comparator.polygon.rawValue: polygon]
     return .init(key: key, value: dictionary, comparator: .geoWithin)
 }

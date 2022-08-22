@@ -198,7 +198,7 @@ class ParseFacebookAsyncTests: XCTestCase { // swiftlint:disable:this type_body_
         XCTAssertTrue(user.facebook.isLinked)
     }
 
-    func loginNormally() throws -> User {
+    func loginNormally() async throws -> User {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
@@ -209,13 +209,13 @@ class ParseFacebookAsyncTests: XCTestCase { // swiftlint:disable:this type_body_
                 return nil
             }
         }
-        return try User.login(username: "parse", password: "user")
+        return try await User.login(username: "parse", password: "user")
     }
 
     @MainActor
     func testLinkLimitedLogin() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
@@ -249,7 +249,7 @@ class ParseFacebookAsyncTests: XCTestCase { // swiftlint:disable:this type_body_
     @MainActor
     func testLinkGraphAPILogin() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
@@ -283,7 +283,7 @@ class ParseFacebookAsyncTests: XCTestCase { // swiftlint:disable:this type_body_
     @MainActor
     func testLinkAuthData() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
@@ -321,7 +321,7 @@ class ParseFacebookAsyncTests: XCTestCase { // swiftlint:disable:this type_body_
     @MainActor
     func testUnlinkLimitedLogin() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         let authData = ParseFacebook<User>
@@ -360,7 +360,7 @@ class ParseFacebookAsyncTests: XCTestCase { // swiftlint:disable:this type_body_
     @MainActor
     func testUnlinkGraphAPILogin() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         let authData = ParseFacebook<User>

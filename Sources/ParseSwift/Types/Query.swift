@@ -57,6 +57,23 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
             explain = query.explain
             includeReadPreference = query.includeReadPreference
         }
+
+        func getQueryParameters() throws -> [String: String] {
+            var dictionary = [String: String]()
+            dictionary["explain"] = try encodeAsString(\.explain)
+            dictionary["hint"] = try encodeAsString(\.hint)
+            dictionary["includeReadPreference"] = try encodeAsString(\.includeReadPreference)
+            dictionary["pipeline"] = try encodeAsString(\.pipeline)
+            return dictionary
+        }
+
+        func encodeAsString<W>(_ key: KeyPath<Self, W?>) throws -> String? where W: Encodable {
+            guard let value = self[keyPath: key] else {
+                return nil
+            }
+            let encoded = try ParseCoding.jsonEncoder().encode(value)
+            return String(data: encoded, encoding: .utf8)
+        }
     }
 
     struct DistinctBody<T>: Codable where T: ParseObject {
@@ -70,6 +87,23 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
             hint = query.hint
             explain = query.explain
             includeReadPreference = query.includeReadPreference
+        }
+
+        func getQueryParameters() throws -> [String: String] {
+            var dictionary = [String: String]()
+            dictionary["explain"] = try encodeAsString(\.explain)
+            dictionary["hint"] = try encodeAsString(\.hint)
+            dictionary["includeReadPreference"] = try encodeAsString(\.includeReadPreference)
+            dictionary["distinct"] = try encodeAsString(\.distinct)
+            return dictionary
+        }
+
+        func encodeAsString<W>(_ key: KeyPath<Self, W?>) throws -> String? where W: Encodable {
+            guard let value = self[keyPath: key] else {
+                return nil
+            }
+            let encoded = try ParseCoding.jsonEncoder().encode(value)
+            return String(data: encoded, encoding: .utf8)
         }
     }
 
@@ -511,9 +545,17 @@ extension Query: Queryable {
             }
             return
         }
-        findCommand().executeAsync(options: options,
-                                   callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try findCommand().executeAsync(options: options,
+                                           callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -543,14 +585,30 @@ extension Query: Queryable {
             return
         }
         if !usingMongoDB {
-            findExplainCommand().executeAsync(options: options,
-                                              callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try findExplainCommand().executeAsync(options: options,
+                                                      callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         } else {
-            findExplainMongoCommand().executeAsync(options: options,
-                                                   callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try findExplainMongoCommand().executeAsync(options: options,
+                                                           callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -696,9 +754,17 @@ extension Query: Queryable {
             }
             return
         }
-        firstCommand().executeAsync(options: options,
-                                    callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try firstCommand().executeAsync(options: options,
+                                            callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -732,14 +798,30 @@ extension Query: Queryable {
             return
         }
         if !usingMongoDB {
-            firstExplainCommand().executeAsync(options: options,
-                                               callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try firstExplainCommand().executeAsync(options: options,
+                                                       callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         } else {
-            firstExplainMongoCommand().executeAsync(options: options,
-                                                    callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try firstExplainMongoCommand().executeAsync(options: options,
+                                                            callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -802,9 +884,17 @@ extension Query: Queryable {
             }
             return
         }
-        countCommand().executeAsync(options: options,
-                                    callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try countCommand().executeAsync(options: options,
+                                            callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -834,14 +924,30 @@ extension Query: Queryable {
             return
         }
         if !usingMongoDB {
-            countExplainCommand().executeAsync(options: options,
-                                               callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try countExplainCommand().executeAsync(options: options,
+                                                       callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         } else {
-            countExplainMongoCommand().executeAsync(options: options,
-                                                    callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try countExplainMongoCommand().executeAsync(options: options,
+                                                            callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -864,9 +970,17 @@ extension Query: Queryable {
             }
             return
         }
-        withCountCommand().executeAsync(options: options,
-                                        callbackQueue: callbackQueue) { result in
-            completion(result)
+        do {
+            try withCountCommand().executeAsync(options: options,
+                                                callbackQueue: callbackQueue) { result in
+                completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -896,14 +1010,30 @@ extension Query: Queryable {
             return
         }
         if !usingMongoDB {
-            withCountExplainCommand().executeAsync(options: options,
-                                                   callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try withCountExplainCommand().executeAsync(options: options,
+                                                           callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         } else {
-            withCountExplainMongoCommand().executeAsync(options: options,
-                                                        callbackQueue: callbackQueue) { result in
-                completion(result)
+            do {
+                try withCountExplainMongoCommand().executeAsync(options: options,
+                                                            callbackQueue: callbackQueue) { result in
+                    completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -916,7 +1046,7 @@ extension Query: Queryable {
       - parameter pipeline: A pipeline of stages to process query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
-      - warning: This hasn't been tested thoroughly.
+      - warning: This has not been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
     */
     public func aggregate(_ pipeline: [[String: Encodable]],
@@ -933,7 +1063,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Can't decode where to String.")
+            throw ParseError(code: .unknownError, message: "Cannot decode where to String.")
         }
         var query = self
         query.`where` = QueryWhere()
@@ -960,7 +1090,7 @@ extension Query: Queryable {
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
-        - warning: This hasn't been tested thoroughly.
+        - warning: This has not been tested thoroughly.
     */
     public func aggregate(_ pipeline: [[String: Encodable]],
                           options: API.Options = [],
@@ -981,7 +1111,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            let error = ParseError(code: .unknownError, message: "Can't decode where to String.")
+            let error = ParseError(code: .unknownError, message: "Cannot decode where to String.")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -998,11 +1128,18 @@ extension Query: Queryable {
         } else {
             query.pipeline = updatedPipeline
         }
-
-        query.aggregateCommand()
-            .executeAsync(options: options,
-                          callbackQueue: callbackQueue) { result in
-                completion(result)
+        do {
+            try query.aggregateCommand()
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                    completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -1039,7 +1176,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Can't decode where to String.")
+            throw ParseError(code: .unknownError, message: "Cannot decode where to String.")
         }
         var query = self
         query.`where` = QueryWhere()
@@ -1099,7 +1236,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            let error = ParseError(code: .unknownError, message: "Can't decode where to String.")
+            let error = ParseError(code: .unknownError, message: "Cannot decode where to String.")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -1117,14 +1254,30 @@ extension Query: Queryable {
             query.pipeline = updatedPipeline
         }
         if !usingMongoDB {
-            query.aggregateExplainCommand()
-                .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                    completion(result)
+            do {
+                try query.aggregateExplainCommand()
+                    .executeAsync(options: options, callbackQueue: callbackQueue) { result in
+                        completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         } else {
-            query.aggregateExplainMongoCommand()
-                .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                    completion(result)
+            do {
+                try query.aggregateExplainMongoCommand()
+                    .executeAsync(options: options, callbackQueue: callbackQueue) { result in
+                        completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -1137,7 +1290,7 @@ extension Query: Queryable {
       - parameter key: A field to find distinct values.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
-      - warning: This hasn't been tested thoroughly.
+      - warning: This has not been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
     */
     public func distinct(_ key: String,
@@ -1161,7 +1314,7 @@ extension Query: Queryable {
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
-        - warning: This hasn't been tested thoroughly.
+        - warning: This has not been tested thoroughly.
     */
     public func distinct(_ key: String,
                          options: API.Options = [],
@@ -1175,10 +1328,18 @@ extension Query: Queryable {
         }
         var options = options
         options.insert(.useMasterKey)
-        distinctCommand(key: key)
-            .executeAsync(options: options,
-                          callbackQueue: callbackQueue) { result in
-                completion(result)
+        do {
+            try distinctCommand(key: key)
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                    completion(result)
+            }
+        } catch {
+            let parseError = ParseError(code: .unknownError,
+                                        message: error.localizedDescription)
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -1195,7 +1356,7 @@ extension Query: Queryable {
       - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
-      - warning: This hasn't been tested thoroughly.
+      - warning: This has not been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
       `usingMongoDB` flag needs to be set for MongoDB users. See more
@@ -1251,16 +1412,32 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
         if !usingMongoDB {
-            distinctExplainCommand(key: key)
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                    completion(result)
+            do {
+                try distinctExplainCommand(key: key)
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue) { result in
+                        completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         } else {
-            distinctExplainMongoCommand(key: key)
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                    completion(result)
+            do {
+                try distinctExplainMongoCommand(key: key)
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue) { result in
+                        completion(result)
+                }
+            } catch {
+                let parseError = ParseError(code: .unknownError,
+                                            message: error.localizedDescription)
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -1268,181 +1445,373 @@ extension Query: Queryable {
 
 extension Query {
 
-    func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
-        let query = self
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
-        }
-    }
-
-    func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType> {
-        var query = self
-        query.limit = 1
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
-                return decoded
+    func findCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: endpoint,
+                                           params: try getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
             }
-            throw ParseError(code: .objectNotFound,
-                             message: "Object not found on the server.")
-        }
-    }
-
-    func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
-        var query = self
-        query.limit = 1
-        query.isCount = true
-        return API.NonParseBodyCommand(method: .POST,
-                                       path: query.endpoint,
-                                       body: query) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
-        }
-    }
-
-    func withCountCommand() -> API.NonParseBodyCommand<Query<ResultType>, ([ResultType], Int)> {
-        var query = self
-        query.isCount = true
-        return API.NonParseBodyCommand(method: .POST,
-                                       path: query.endpoint,
-                                       body: query) {
-            let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0)
-            return (decoded.results, decoded.count ?? 0)
-        }
-    }
-
-    func aggregateCommand() -> API.NonParseBodyCommand<AggregateBody<ResultType>, [ResultType]> {
-        let query = self
-        let body = AggregateBody(query: query)
-        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
-        }
-    }
-
-    func distinctCommand(key: String) -> API.NonParseBodyCommand<DistinctBody<ResultType>, [ResultType]> {
-        var query = self
-        query.distinct = key
-        let body = DistinctBody(query: query)
-        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
-        }
-    }
-
-    func findExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
-        var query = self
-        query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
-        }
-    }
-
-    func firstExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, U> {
-        var query = self
-        query.limit = 1
-        query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            if let decoded = try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results.first {
-                return decoded
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: endpoint,
+                                           body: self) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
             }
-            throw ParseError(code: .objectNotFound,
-                             message: "Object not found on the server.")
         }
     }
 
-    func countExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+    func firstCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, ResultType> {
         var query = self
         query.limit = 1
-        query.isCount = true
-        query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
-        }
-    }
-
-    func withCountExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
-        var query = self
-        query.isCount = true
-        query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
-        }
-    }
-
-    func aggregateExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<AggregateBody<ResultType>, [U]> {
-        var query = self
-        query.explain = true
-        let body = AggregateBody(query: query)
-        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
-            try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
-        }
-    }
-
-    func distinctExplainCommand<U: Decodable>(key: String) -> API.NonParseBodyCommand<DistinctBody<ResultType>, [U]> {
-        var query = self
-        query.explain = true
-        query.distinct = key
-        let body = DistinctBody(query: query)
-        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
-            try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
-        }
-    }
-
-    func findExplainMongoCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
-        var query = self
-        query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
-        }
-    }
-
-    func firstExplainMongoCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, U> {
-        var query = self
-        query.limit = 1
-        query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            do {
-                return try ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results
-            } catch {
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try getQueryParameters()) {
+                if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
+                    return decoded
+                }
                 throw ParseError(code: .objectNotFound,
-                                 message: "Object not found on the server. Error: \(error)")
+                                 message: "Object not found on the server.")
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
+                if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
+                    return decoded
+                }
+                throw ParseError(code: .objectNotFound,
+                                 message: "Object not found on the server.")
             }
         }
     }
 
-    func countExplainMongoCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+    func countCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, Int> {
+        var query = self
+        query.limit = 1
+        query.isCount = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
+            }
+        }
+    }
+
+    func withCountCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, ([ResultType], Int)> {
+        var query = self
+        query.isCount = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try getQueryParameters()) {
+                let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0)
+                return (decoded.results, decoded.count ?? 0)
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0)
+                return (decoded.results, decoded.count ?? 0)
+            }
+        }
+    }
+
+    func aggregateCommand() throws -> API.NonParseBodyCommand<AggregateBody<ResultType>, [ResultType]> {
+        let body = AggregateBody(query: self)
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: .aggregate(className: T.className),
+                                           params: try body.getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: .aggregate(className: T.className),
+                                           body: body) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            }
+        }
+    }
+
+    func distinctCommand(key: String) throws -> API.NonParseBodyCommand<DistinctBody<ResultType>, [ResultType]> {
+        var query = self
+        query.distinct = key
+        let body = DistinctBody(query: query)
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: .aggregate(className: T.className),
+                                           params: try body.getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: .aggregate(className: T.className),
+                                           body: body) {
+                try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            }
+        }
+    }
+
+    func findExplainCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+        var query = self
+        query.explain = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
+        }
+    }
+
+    func firstExplainCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, U> {
+        var query = self
+        query.limit = 1
+        query.explain = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                if let decoded = try ParseCoding
+                    .jsonDecoder()
+                    .decode(AnyResultsResponse<U>.self, from: $0)
+                    .results.first {
+                    return decoded
+                }
+                throw ParseError(code: .objectNotFound,
+                                 message: "Object not found on the server.")
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                if let decoded = try ParseCoding
+                    .jsonDecoder()
+                    .decode(AnyResultsResponse<U>.self, from: $0)
+                    .results.first {
+                    return decoded
+                }
+                throw ParseError(code: .objectNotFound,
+                                 message: "Object not found on the server.")
+            }
+        }
+    }
+
+    func countExplainCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.limit = 1
         query.isCount = true
         query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
         }
     }
 
-    func withCountExplainMongoCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+    func withCountExplainCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.isCount = true
         query.explain = true
-        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
         }
     }
 
-    func aggregateExplainMongoCommand<U: Decodable>() -> API.NonParseBodyCommand<AggregateBody<ResultType>, [U]> {
+    func aggregateExplainCommand<U: Decodable>() throws -> API.NonParseBodyCommand<AggregateBody<ResultType>, [U]> {
         var query = self
         query.explain = true
         let body = AggregateBody(query: query)
-        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
-            try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: .aggregate(className: T.className),
+                                           params: try body.getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: .aggregate(className: T.className),
+                                           body: body) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
         }
     }
 
     // swiftlint:disable:next line_length
-    func distinctExplainMongoCommand<U: Decodable>(key: String) -> API.NonParseBodyCommand<DistinctBody<ResultType>, [U]> {
+    func distinctExplainCommand<U: Decodable>(key: String) throws -> API.NonParseBodyCommand<DistinctBody<ResultType>, [U]> {
         var query = self
         query.explain = true
         query.distinct = key
         let body = DistinctBody(query: query)
-        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
-            try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: .aggregate(className: T.className),
+                                           params: try body.getQueryParameters()) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
+                try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+            }
+        }
+    }
+
+    func findExplainMongoCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+        var query = self
+        query.explain = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        }
+    }
+
+    func firstExplainMongoCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, U> {
+        var query = self
+        query.limit = 1
+        query.explain = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                do {
+                    return try ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results
+                } catch {
+                    throw ParseError(code: .objectNotFound,
+                                     message: "Object not found on the server. Error: \(error)")
+                }
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                do {
+                    return try ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results
+                } catch {
+                    throw ParseError(code: .objectNotFound,
+                                     message: "Object not found on the server. Error: \(error)")
+                }
+            }
+        }
+    }
+
+    func countExplainMongoCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+        var query = self
+        query.limit = 1
+        query.isCount = true
+        query.explain = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        }
+    }
+
+    func withCountExplainMongoCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+        var query = self
+        query.isCount = true
+        query.explain = true
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: query.endpoint,
+                                           params: try query.getQueryParameters()) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: query.endpoint,
+                                           body: query) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        }
+    }
+
+    // swiftlint:disable:next line_length
+    func aggregateExplainMongoCommand<U: Decodable>() throws -> API.NonParseBodyCommand<AggregateBody<ResultType>, [U]> {
+        var query = self
+        query.explain = true
+        let body = AggregateBody(query: query)
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: .aggregate(className: T.className),
+                                           params: try body.getQueryParameters()) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: .aggregate(className: T.className),
+                                           body: body) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        }
+    }
+
+    // swiftlint:disable:next line_length
+    func distinctExplainMongoCommand<U: Decodable>(key: String) throws -> API.NonParseBodyCommand<DistinctBody<ResultType>, [U]> {
+        var query = self
+        query.explain = true
+        query.distinct = key
+        let body = DistinctBody(query: query)
+        if !ParseSwift.configuration.isUsingPostForQuery {
+            return API.NonParseBodyCommand(method: .GET,
+                                           path: .aggregate(className: T.className),
+                                           params: try body.getQueryParameters()) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
+        } else {
+            return API.NonParseBodyCommand(method: .POST,
+                                           path: .aggregate(className: T.className),
+                                           body: body) {
+                try [ParseCoding.jsonDecoder().decode(AnyResultsMongoResponse<U>.self, from: $0).results]
+            }
         }
     }
 }
@@ -1523,4 +1892,38 @@ enum RawCodingKey: CodingKey {
     }
 }
 
+internal extension Query {
+    func getQueryParameters() throws -> [String: String] {
+        var dictionary = [String: String]()
+        dictionary["limit"] = try encodeAsString(\.limit)
+        dictionary["skip"] = try encodeAsString(\.skip)
+        dictionary["keys"] = try encodeAsString(\.keys)
+        dictionary["include"] = try encodeAsString(\.include)
+        dictionary["order"] = try encodeAsString(\.order)
+        dictionary["count"] = try encodeAsString(\.isCount)
+        dictionary["explain"] = try encodeAsString(\.explain)
+        dictionary["hint"] = try encodeAsString(\.hint)
+        dictionary["where"] = try encodeAsString(\.`where`)
+        dictionary["excludeKeys"] = try encodeAsString(\.excludeKeys)
+        dictionary["readPreference"] = try encodeAsString(\.readPreference)
+        dictionary["includeReadPreference"] = try encodeAsString(\.includeReadPreference)
+        dictionary["subqueryReadPreference"] = try encodeAsString(\.subqueryReadPreference)
+        dictionary["distinct"] = try encodeAsString(\.distinct)
+        dictionary["pipeline"] = try encodeAsString(\.pipeline)
+        return dictionary
+    }
+
+    func encodeAsString<W>(_ key: KeyPath<Self, W?>) throws -> String? where W: Encodable {
+        guard let value = self[keyPath: key] else {
+            return nil
+        }
+        let encoded = try ParseCoding.jsonEncoder().encode(value)
+        return String(data: encoded, encoding: .utf8)
+    }
+
+    func encodeAsString<W>(_ key: KeyPath<Self, W>) throws -> String? where W: Encodable {
+        let encoded = try ParseCoding.jsonEncoder().encode(self[keyPath: key])
+        return String(data: encoded, encoding: .utf8)
+    }
+}
 // swiftlint:disable:this file_length
