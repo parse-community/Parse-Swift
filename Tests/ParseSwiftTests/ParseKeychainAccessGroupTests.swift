@@ -1,5 +1,5 @@
 //
-//  ParseKeychainTests.swift
+//  ParseKeychainAccessGroupTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 7/3/22.
@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseKeychainTests: XCTestCase {
+class ParseKeychainAccessGroupTests: XCTestCase {
 
     struct User: ParseUser {
 

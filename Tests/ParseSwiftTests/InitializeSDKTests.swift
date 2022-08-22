@@ -554,6 +554,51 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertEqual(Installation.currentContainer.installationId, objcInstallationId)
     }
 
+    #if !os(macOS)
+    func testMigrateObjcSDKNoTest() {
+
+        // Set keychain the way objc sets keychain
+        guard let objcParseKeychain = KeychainStore.objectiveC else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let objcInstallationId = "helloWorld"
+        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
+
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              migratingFromObjcSDK: true)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertEqual(installation.installationId, objcInstallationId)
+        XCTAssertEqual(Installation.currentContainer.installationId, objcInstallationId)
+    }
+
+    func testInitializeSDKNoTest() {
+
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url)
+        guard Installation.current != nil else {
+            XCTFail("Should have installation")
+            return
+        }
+    }
+    #endif
+
     func testDeleteObjcSDKKeychain() throws {
 
         //Set keychain the way objc sets keychain
