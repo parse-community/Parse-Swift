@@ -626,18 +626,17 @@ public struct ParseSwift {
      - throws: An error of type `ParseError`.
      - note: `ParseInstallation` is not synchronized as these objects are intended to be unique
      per device/installation.
-     - warning: Setting `isSyncingKeychainAcrossDevices == true` requires `accessGroup` to be
-     set to a **non-nil** value.
+     - warning: Setting `synchronize == true` requires `accessGroup` to be
+     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
      */
     static public func setSynchronizeKeychainAcrossDevices(_ synchronize: Bool) throws {
-        guard KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                        accessGroup: configuration.accessGroup,
-                                        syncingAcrossDevices: synchronize) == nil else {
-            return
-        }
         if synchronize && configuration.accessGroup == nil {
             throw ParseError(code: .unknownError,
                              message: "\"accessGroup\" must be set using \"setAccessGroup()\" before calling \"setSynchronizeKeychainAcrossDevices().\"")
+        }
+        guard KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
+                                        accessGroup: configuration.accessGroup) == nil else {
+            return
         }
         let currentKeychain = KeychainStore.shared
         configuration.isSyncingKeychainAcrossDevices = synchronize
@@ -654,8 +653,15 @@ public struct ParseSwift {
       for more information.
      - parameter accessGroup: The name of the access group.
      - returns: **true** if the Keychain was moved to the new `accessGroup`, **false** otherwise.
+     - warning: Setting `synchronizeAccrossDevices == true` requires `accessGroup` to be
+     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
      */
-    static public func setAccessGroup(_ accessGroup: String?) -> Bool {
+    static public func setAccessGroup(_ accessGroup: String?,
+                                      synchronizeAccrossDevices: Bool) throws -> Bool {
+        if synchronizeAccrossDevices && accessGroup == nil {
+            throw ParseError(code: .unknownError,
+                             message: "\"accessGroup\" must be set using \"setAccessGroup()\" before calling \"setSynchronizeKeychainAcrossDevices().\"")
+        }
         guard KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                         accessGroup: accessGroup) == nil else {
             return true
@@ -666,6 +672,7 @@ public struct ParseSwift {
                                   newAccessGroup: accessGroup,
                                   syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
         configuration.accessGroup = accessGroup
+        try setSynchronizeKeychainAcrossDevices(synchronizeAccrossDevices)
         return KeychainStore.shared.removeAllObjects(accessGroup: oldAccessGroup)
     }
 #endif

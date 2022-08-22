@@ -19,6 +19,7 @@ import Security
  first device unlock and are not backed up.
  */
 struct KeychainStore: SecureStorage {
+
     let synchronizationQueue: DispatchQueue
     private let service: String
     static var shared = KeychainStore()
@@ -108,17 +109,9 @@ struct KeychainStore: SecureStorage {
     }
 
     private func keychainQuery(forKey key: String,
-                               accessGroup: String?,
-                               syncingAcrossDevices: Bool) -> [String: Any] {
+                               accessGroup: String?) -> [String: Any] {
         var query: [String: Any] = getKeychainQueryTemplate(accessGroup)
         query[kSecAttrAccount as String] = key
-        if syncingAcrossDevices && key != ParseStorage.Keys.currentInstallation {
-            query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock as String
-            query[kSecAttrSynchronizable as String] = kCFBooleanTrue
-        } else {
-            query[kSecAttrSynchronizable as String] = kCFBooleanFalse
-            query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
-        }
         return query
     }
 
@@ -194,11 +187,9 @@ struct KeychainStore: SecureStorage {
     }
 
     func data(forKey key: String,
-              accessGroup: String? = ParseSwift.configuration.accessGroup,
-              syncingAcrossDevices: Bool = ParseSwift.configuration.isSyncingKeychainAcrossDevices) -> Data? {
+              accessGroup: String? = ParseSwift.configuration.accessGroup) -> Data? {
         var query: [String: Any] = keychainQuery(forKey: key,
-                                                 accessGroup: accessGroup,
-                                                 syncingAcrossDevices: syncingAcrossDevices)
+                                                 accessGroup: accessGroup)
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnData as String] = kCFBooleanTrue
 
@@ -220,25 +211,27 @@ struct KeychainStore: SecureStorage {
                      oldAccessGroup: String?,
                      newAccessGroup: String?,
                      syncingAcrossDevices: Bool) throws -> Bool {
-        let query = keychainQuery(forKey: key,
-                                  accessGroup: oldAccessGroup,
-                                  syncingAcrossDevices: syncingAcrossDevices)
+        var query = keychainQuery(forKey: key,
+                                  accessGroup: oldAccessGroup)
         var update: [String: Any] = [
             kSecValueData as String: data
         ]
+
         if let newAccessGroup = newAccessGroup {
             update[kSecAttrAccessGroup as String] = newAccessGroup
+        } else {
+            query.removeValue(forKey: kSecAttrAccessGroup as String)
         }
-        if ParseSwift.configuration.isSyncingKeychainAcrossDevices && key != ParseStorage.Keys.currentInstallation {
-            update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock as String
+        if syncingAcrossDevices && key != ParseStorage.Keys.currentInstallation {
             update[kSecAttrSynchronizable as String] = kCFBooleanTrue
+            update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock as String
         } else {
             update[kSecAttrSynchronizable as String] = kCFBooleanFalse
             update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
         }
 
         let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
-            if self.data(forKey: key) != nil {
+            if self.data(forKey: key, accessGroup: newAccessGroup) != nil {
                 return SecItemUpdate(query as CFDictionary, update as CFDictionary)
             }
             let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
@@ -251,9 +244,7 @@ struct KeychainStore: SecureStorage {
     private func removeObject(forKeyUnsafe key: String, accessGroup: String?) -> Bool {
         dispatchPrecondition(condition: .onQueue(synchronizationQueue))
         let query = keychainQuery(forKey: key,
-                                  accessGroup: accessGroup,
-                                  // swiftlint:disable:next line_length
-                                  syncingAcrossDevices: ParseSwift.configuration.isSyncingKeychainAcrossDevices) as CFDictionary
+                                  accessGroup: accessGroup) as CFDictionary
         return SecItemDelete(query) == errSecSuccess
     }
 }
@@ -278,4 +269,5 @@ extension KeychainStore {
         }
     }
 }
+
 #endif
