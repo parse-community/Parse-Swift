@@ -347,7 +347,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
-    func testSaveCurrentInstallation() throws {
+    func saveCurrentInstallation() throws {
         guard var installation = Installation.current else {
             XCTFail("Should unwrap")
             return
@@ -389,7 +389,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testMigrateInstallation() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -461,7 +461,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testMigrateInstallationServerError() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         setupObjcKeychainSDK(installationId: objcInstallationId)
@@ -493,7 +493,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testMigrateInstallationNoObjcKeychain() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -537,7 +537,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testMigrateInstallationDontCopyEntire() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -609,7 +609,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testMigrateInstallationAlreadyMigrated() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -656,7 +656,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testDeleteObjCKeychain() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -706,7 +706,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testDeleteObjCKeychainAlreadyMigrated() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -736,7 +736,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
     @MainActor
     func testDeleteObjCKeychainNoObjcKeychain() async throws {
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,

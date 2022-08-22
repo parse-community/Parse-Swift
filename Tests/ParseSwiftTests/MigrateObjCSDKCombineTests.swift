@@ -424,7 +424,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testSaveCurrentInstallation() throws {
+    func saveCurrentInstallation() throws {
         guard var installation = Installation.current else {
             XCTFail("Should unwrap")
             return
@@ -468,7 +468,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Migrate Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -554,7 +554,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Migrate Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -640,7 +640,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Migrate Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -701,7 +701,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Migrate Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         setupObjcKeychainSDK(installationId: objcInstallationId)
@@ -741,7 +741,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Migrate Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -801,7 +801,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Delete ObjC Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -864,7 +864,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Delete ObjC Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -907,7 +907,7 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Delete ObjC Installation")
 
-        try testSaveCurrentInstallation()
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
