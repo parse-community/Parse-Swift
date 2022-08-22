@@ -163,6 +163,7 @@ class ParseKeychainTests: XCTestCase {
                                                   accessGroup: nil))
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
                                                   accessGroup: nil))
+        #if !os(macOS)
         do {
             try ParseSwift.setAccessGroup(group, synchronizeAccrossDevices: false)
             XCTFail("Should have thrown error due to entitlements")
@@ -179,6 +180,7 @@ class ParseKeychainTests: XCTestCase {
                                                accessGroup: "hello"))
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
                                                accessGroup: "hello"))
+        #endif
         // Since error was thrown, original Keychain should be left intact
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                                   accessGroup: nil))
@@ -206,12 +208,14 @@ class ParseKeychainTests: XCTestCase {
             }
             XCTAssertTrue(parseError.message.contains("-34018"))
         }
+        #if !os(macOS)
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                                accessGroup: "hello"))
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
                                                accessGroup: "hello"))
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
                                                accessGroup: "hello"))
+        #endif
         // Since error was thrown, original Keychain should be left intact
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                                   accessGroup: nil))
@@ -239,12 +243,14 @@ class ParseKeychainTests: XCTestCase {
             }
             XCTAssertTrue(parseError.message.contains("must be set using"))
         }
+        #if !os(macOS)
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                                accessGroup: "hello"))
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
                                                accessGroup: "hello"))
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
                                                accessGroup: "hello"))
+        #endif
         // Since error was thrown, original Keychain should be left intact
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                                   accessGroup: nil))

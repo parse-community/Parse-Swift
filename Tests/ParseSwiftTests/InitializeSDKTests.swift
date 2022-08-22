@@ -44,6 +44,7 @@ class InitializeSDKTests: XCTestCase {
         }
         ParseSwift.configuration = .init(applicationId: "applicationId",
                                          serverURL: url)
+        ParseSwift.configuration.isTestingSDK = true
     }
 
     override func tearDownWithError() throws {
@@ -157,7 +158,8 @@ class InitializeSDKTests: XCTestCase {
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url) { (_, credential) in
+                              serverURL: url,
+                              testing: true) { (_, credential) in
             credential(.performDefaultHandling, nil)
         }
 
@@ -268,7 +270,8 @@ class InitializeSDKTests: XCTestCase {
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url) { (_, credential) in
+                              serverURL: url,
+                              testing: true) { (_, credential) in
             credential(.performDefaultHandling, nil)
         }
         XCTAssertNotNil(ParseSwift.sessionDelegate.authentication)
@@ -296,7 +299,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory)
+                              keyValueStore: memory,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -331,7 +335,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory)
+                              keyValueStore: memory,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -366,7 +371,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory)
+                              keyValueStore: memory,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -402,7 +408,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory)
+                              keyValueStore: memory,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -437,7 +444,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory)
+                              keyValueStore: memory,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -454,7 +462,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migratingFromObjcSDK: true)
+                              migratingFromObjcSDK: true,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -503,7 +512,8 @@ class InitializeSDKTests: XCTestCase {
             ParseSwift.initialize(applicationId: "applicationId",
                                   clientKey: "clientKey",
                                   masterKey: "masterKey",
-                                  serverURL: url)
+                                  serverURL: url,
+                                  testing: true)
             XCTAssertEqual(ParseVersion.current, ParseConstants.version)
             XCTAssertEqual(BaseParseUser.current, user)
             XCTAssertEqual(Installation.current, installation)
@@ -534,7 +544,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migratingFromObjcSDK: true)
+                              migratingFromObjcSDK: true,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -570,7 +581,8 @@ class InitializeSDKTests: XCTestCase {
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
+                              serverURL: url,
+                              testing: true)
     }
 
     func testMigrateObjcSDKMissingInstallation() {
@@ -591,7 +603,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migratingFromObjcSDK: true)
+                              migratingFromObjcSDK: true,
+                              testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
