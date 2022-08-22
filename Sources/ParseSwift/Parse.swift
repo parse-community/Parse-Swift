@@ -57,7 +57,7 @@ public struct ParseConfiguration {
      - note: `ParseInstallation` is not synchronized as these objects are intended to be unique
      per device/installation.
      - warning: Setting `isSyncingKeychainAcrossDevices == true` requires `accessGroup` to be
-     set to a **non-nil** value.
+     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
      */
     public internal(set) var isSyncingKeychainAcrossDevices = false
 
@@ -146,7 +146,7 @@ public struct ParseConfiguration {
      - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
      - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
      - warning: Setting `isSyncingKeychainAcrossDevices == true` requires `accessGroup` to be
-     set to a **non-nil** value.
+     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -314,7 +314,6 @@ public struct ParseSwift {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
             let currentSDKVersion = try ParseVersion(ParseConstants.version)
             let oneNineEightSDKVersion = try ParseVersion("1.9.8")
-            let fourEightZeroSDKVersion = try ParseVersion("4.8.0")
 
             // All migrations from previous versions to current should occur here:
             #if !os(Linux) && !os(Android) && !os(Windows)
@@ -327,11 +326,6 @@ public struct ParseSwift {
                                                syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
                 // Need to delete the old Keychain because a new one is created with bundleId.
                 try? KeychainStore.old.deleteAll()
-            } else if previousSDKVersion < fourEightZeroSDKVersion {
-                try? KeychainStore.shared.copy(KeychainStore.shared,
-                                               oldAccessGroup: configuration.accessGroup,
-                                               newAccessGroup: configuration.accessGroup,
-                                               syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
             }
             #endif
             if currentSDKVersion > previousSDKVersion {
