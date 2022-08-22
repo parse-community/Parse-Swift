@@ -168,7 +168,7 @@ class ParseTwitterAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertTrue(user.twitter.isLinked)
     }
 
-    func loginNormally() throws -> User {
+    func loginNormally() async throws -> User {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
@@ -179,13 +179,13 @@ class ParseTwitterAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return nil
             }
         }
-        return try User.login(username: "parse", password: "user")
+        return try await User.login(username: "parse", password: "user")
     }
 
     @MainActor
     func testLink() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
@@ -223,7 +223,7 @@ class ParseTwitterAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
     @MainActor
     func testLinkAuthData() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
@@ -263,7 +263,7 @@ class ParseTwitterAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
     @MainActor
     func testUnlink() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         let authData = ParseTwitter<User>

@@ -123,7 +123,7 @@ author2.save { result in
         assert(savedAuthorAndBook.otherBooks?.count == 2)
 
         /*:
-         Notice the pointer objects haven't been updated on the
+         Notice the pointer objects have not been updated on the
          client.If you want the latest pointer objects, fetch and include them.
          */
         print("Saved \(savedAuthorAndBook)")
@@ -284,7 +284,7 @@ author3.otherBooks = [otherBook3, otherBook4]
                 assert(savedAuthorAndBook.otherBooks?.count == 2)
 
                 /*:
-                 Notice the pointer objects haven't been updated on the
+                 Notice the pointer objects have not been updated on the
                  client.If you want the latest pointer objects, fetch and include them.
                  */
                 print("Saved \(savedAuthorAndBook)")
@@ -315,7 +315,7 @@ author4.otherBooks = [otherBook3, otherBook4]
                 assert(savedAuthorAndBook.otherBooks?.count == 2)
 
                 /*:
-                 Notice the pointer objects haven't been updated on the
+                 Notice the pointer objects have not been updated on the
                  client.If you want the latest pointer objects, fetch and include them.
                  */
                 print("Saved \(savedAuthorAndBook)")

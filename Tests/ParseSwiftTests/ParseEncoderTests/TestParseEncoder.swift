@@ -559,7 +559,7 @@ class TestParseEncoder: XCTestCase {
       ("singleCharacterAtEndX", "single_character_at_end_x"),
       ("thisIsAnXMLProperty", "this_is_an_xml_property"),
       ("single", "single"), // no underscore
-      ("", ""), // don't die on empty string
+      ("", ""), // do not die on empty string
       ("a", "a"), // single character
       ("aA", "a_a"), // two characters
       ("version4Thing", "version4_thing"), // numerics
@@ -757,7 +757,7 @@ class TestParseEncoder: XCTestCase {
   }
 
   func testKeyStrategyDuplicateKeys() {
-    // This test is mostly to make sure we don't assert on duplicate keys
+    // This test is mostly to make sure we do not assert on duplicate keys
     struct DecodeMe5: Codable {
         var oneTwo: String
         var numberOfKeys: Int
@@ -834,7 +834,7 @@ class TestParseEncoder: XCTestCase {
     let expectedJSON = "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000".data(using: .utf8)!
 
     // Want to make sure we write out a JSON number, not the keyed encoding here.
-    // 1e127 is too big to fit natively in a Double, too, so want to make sure it's encoded as a Decimal.
+    // 1e127 is too big to fit natively in a Double, too, so want to make sure it is encoded as a Decimal.
     let decimal = Decimal(sign: .plus, exponent: 127, significand: Decimal(1))
     _testRoundTrip(of: decimal, expectedJSON: expectedJSON)
 
@@ -1481,7 +1481,7 @@ private struct FloatNaNPlaceholder: Codable, Equatable {
     let container = try decoder.singleValueContainer()
     let float = try container.decode(Float.self)
     if !float.isNaN {
-      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Couldn't decode NaN."))
+      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Could not decode NaN."))
     }
   }
 
@@ -1502,7 +1502,7 @@ private struct DoubleNaNPlaceholder: Codable, Equatable {
     let container = try decoder.singleValueContainer()
     let double = try container.decode(Double.self)
     if !double.isNaN {
-      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Couldn't decode NaN."))
+      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Could not decode NaN."))
     }
   }
 

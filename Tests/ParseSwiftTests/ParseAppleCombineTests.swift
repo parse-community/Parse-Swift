@@ -116,7 +116,7 @@ class ParseAppleCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -232,7 +232,7 @@ class ParseAppleCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -314,7 +314,7 @@ class ParseAppleCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         MockURLProtocol.removeAll()
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 

@@ -104,7 +104,7 @@ internal struct BatchResponse: Codable {
         case .PATCH:
             return try asUpdateResponse().apply(to: object)
         case .GET:
-            fatalError("Parse-server doesn't support batch fetching like this. Try \"fetchAll\".")
+            fatalError("Parse-server does not support batch fetching like this. Try \"fetchAll\".")
         default:
             fatalError("There is no configured way to apply for method: \(method)")
         }

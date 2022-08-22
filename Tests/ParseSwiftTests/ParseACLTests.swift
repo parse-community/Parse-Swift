@@ -253,7 +253,7 @@ class ParseACLTests: XCTestCase {
             XCTAssertNotEqual(newACL, defaultACL)
             defaultACL = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
             if defaultACL.getReadAccess(objectId: userId) {
-                XCTFail("Shouldn't have set read access because there's no current user")
+                XCTFail("Should not have set read access because there is no current user")
             }
         } catch {
             return
@@ -263,7 +263,7 @@ class ParseACLTests: XCTestCase {
             _ = try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
             let defaultACL = try ParseACL.defaultACL()
             if !defaultACL.getReadAccess(objectId: userId) {
-                XCTFail("Should have set defaultACL with read access even though there's no current user")
+                XCTFail("Should have set defaultACL with read access even though there is no current user")
             }
         } catch {
             return
@@ -291,11 +291,11 @@ class ParseACLTests: XCTestCase {
         do {
             _ = try User.signup(username: loginUserName, password: loginPassword)
         } catch {
-            XCTFail("Couldn't signUp user: \(error)")
+            XCTFail("Could not signUp user: \(error)")
         }
 
         guard let userObjectId = User.current?.objectId else {
-            XCTFail("Couldn't get objectId of currentUser")
+            XCTFail("Could not get objectId of currentUser")
             return
         }
 
@@ -332,11 +332,11 @@ class ParseACLTests: XCTestCase {
         do {
             _ = try User.signup(username: loginUserName, password: loginPassword)
         } catch {
-            XCTFail("Couldn't signUp user: \(error.localizedDescription)")
+            XCTFail("Could not signUp user: \(error.localizedDescription)")
         }
 
         guard let userObjectId = User.current?.objectId else {
-            XCTFail("Couldn't get objectId of currentUser")
+            XCTFail("Could not get objectId of currentUser")
             return
         }
 

@@ -99,7 +99,7 @@ internal extension API {
 
             guard let response = responseResult else {
                 throw ParseError(code: .unknownError,
-                                 message: "couldn't unrwrap server response")
+                                 message: "Could not unrwrap server response")
             }
             return try response.get()
         }
@@ -231,7 +231,7 @@ internal extension API {
                             }
                         }
                     } else if let otherURL = self.otherURL {
-                        //Non-parse servers don't receive any parse dedicated request info
+                        //Non-parse servers do not receive any parse dedicated request info
                         var request = URLRequest(url: otherURL)
                         request.cachePolicy = requestCachePolicy(options: options)
                         URLSession.parse.downloadTask(with: request, mapper: mapper) { result in
@@ -249,7 +249,7 @@ internal extension API {
                         callbackQueue.async {
                             completion(.failure(ParseError(code: .unknownError,
                                                            // swiftlint:disable:next line_length
-                                                           message: "Can't download the file without specifying the url")))
+                                                           message: "Cannot download the file without specifying the url")))
                         }
                     }
                 }
@@ -270,13 +270,13 @@ internal extension API {
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't unrwrap url components for \(url)"))
+                                           message: "Could not unrwrap url components for \(url)"))
             }
             components.queryItems = params
 
             guard let urlComponents = components.url else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't create url from components for \(components)"))
+                                           message: "Could not create url from components for \(components)"))
             }
 
             var urlRequest = URLRequest(url: urlComponents)
@@ -285,7 +285,7 @@ internal extension API {
                 if (urlBody as? ParseCloudTypeable) != nil {
                     guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody, skipKeys: .cloud) else {
                         return .failure(ParseError(code: .unknownError,
-                                                       message: "couldn't encode body \(urlBody)"))
+                                                       message: "Could not encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData
                 } else {
@@ -295,7 +295,7 @@ internal extension API {
                                     objectsSavedBeforeThisOne: childObjects,
                                     filesSavedBeforeThisOne: childFiles) else {
                             return .failure(ParseError(code: .unknownError,
-                                                       message: "couldn't encode body \(urlBody)"))
+                                                       message: "Could not encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData.encoded
                 }
@@ -352,14 +352,14 @@ internal extension API.Command {
             let tempFileLocation = try ParseCoding.jsonDecoder().decode(URL.self, from: data)
             guard let fileManager = ParseFileManager(),
                   let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
-                throw ParseError(code: .unknownError, message: "Can't create fileManager")
+                throw ParseError(code: .unknownError, message: "Cannot create fileManager")
             }
             let downloadDirectoryPath = defaultDirectoryPath
                 .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
             let fileLocation = downloadDirectoryPath.appendingPathComponent(object.name)
             if tempFileLocation != fileLocation {
-                try? FileManager.default.removeItem(at: fileLocation) //Remove file if it's already present
+                try? FileManager.default.removeItem(at: fileLocation) //Remove file if it is already present
                 try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
             }
             var object = object

@@ -57,7 +57,7 @@ class ParseEncoderTests: XCTestCase {
         encoder.outputFormatting = .sortedKeys
 
         guard let encoding = try? encoder.encode(object) else {
-            XCTFail("Couldn't get a reference encoding.")
+            XCTFail("Could not get a reference encoding.")
             return Data()
         }
 

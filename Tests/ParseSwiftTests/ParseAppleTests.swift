@@ -120,7 +120,7 @@ class ParseAppleTests: XCTestCase {
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -176,7 +176,7 @@ class ParseAppleTests: XCTestCase {
     func testLoginAuthData() throws {
         var serverResponse = LoginSignupResponse()
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -287,7 +287,7 @@ class ParseAppleTests: XCTestCase {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -364,7 +364,7 @@ class ParseAppleTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Login")
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -412,7 +412,7 @@ class ParseAppleTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Login")
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -461,7 +461,7 @@ class ParseAppleTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Login")
 
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 
@@ -510,7 +510,7 @@ class ParseAppleTests: XCTestCase {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
         guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
+            XCTFail("Could not convert token data to string")
             return
         }
 

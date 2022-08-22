@@ -682,7 +682,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
 
-    //URL Mocker is not able to mock this in linux and tests fail, so don't run.
+    //URL Mocker is not able to mock this in linux and tests fail, so do not run.
     func testFetchFileCancelAsync() throws {
         // swiftlint:disable:next line_length
         guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/7793939a2e59b98138c1bbf2412a060c_logo.svg") else {

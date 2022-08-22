@@ -24,7 +24,7 @@ public protocol CloudObservable: ObservableObject {
 
     /**
      Calls a Cloud Code function *asynchronously* and updates the view model
-     when the result of it's execution.
+     when the result of it is execution.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
     func runFunction(options: API.Options)

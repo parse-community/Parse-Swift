@@ -57,7 +57,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
                 case .finished:
                     XCTFail("Should have produced failure")
                 case .failure(let error):
-                    XCTAssertNotNil(error) //Should always fail since WS isn't intercepted.
+                    XCTAssertNotNil(error) //Should always fail since WS is not intercepted.
                 }
                 expectation1.fulfill()
 
@@ -124,7 +124,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
                     XCTFail("Should have produced failure")
                 case .failure(let error):
                     XCTAssertEqual(client.isSocketEstablished, true)
-                    XCTAssertNotNil(error) // Should have error because testcases don't intercept websocket
+                    XCTAssertNotNil(error) // Should have error because testcases do not intercept websocket
                 }
                 expectation1.fulfill()
 

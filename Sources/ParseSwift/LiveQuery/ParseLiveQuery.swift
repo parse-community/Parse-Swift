@@ -44,7 +44,7 @@ import FoundationNetworking
  the default.
  3. You want to change the default url for all LiveQuery connections when the app is already
  running. Initializing new instances will create a new task/connection to the `ParseLiveQuery` server.
- When an instance is deinitialized it will automatically close it's connection gracefully.
+ When an instance is deinitialized it will automatically close it is connection gracefully.
  */
 public final class ParseLiveQuery: NSObject {
     // Queues
@@ -202,7 +202,7 @@ Not attempting to open ParseLiveQuery socket anymore
         guard var components = URLComponents(url: url,
                                              resolvingAgainstBaseURL: false) else {
             let error = ParseError(code: .unknownError,
-                                   message: "ParseLiveQuery Error: couldn't create components from url: \(url!)")
+                                   message: "ParseLiveQuery Error: Could not create components from url: \(url!)")
             throw error
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
@@ -381,7 +381,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             //Check if this is an error response
             if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
                 if !error.reconnect {
-                    //Treat this as a user disconnect because the server doesn't want to hear from us anymore
+                    //Treat this as a user disconnect because the server does not want to hear from us anymore
                     self.close()
                 }
                 guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
@@ -402,13 +402,13 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 //Check if this is a connected response
                 guard let response = try? ParseCoding.jsonDecoder().decode(ConnectionResponse.self, from: data),
                       response.op == .connected else {
-                    //If not connected, shouldn't receive anything other than a connection response
+                    //If not connected, should not receive anything other than a connection response
                     guard let outOfOrderMessage = try? ParseCoding
                             .jsonDecoder()
                             .decode(AnyCodable.self, from: data) else {
                         let error = ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "ParseLiveQuery Error: Received message out of order, but couldn't decode it")
+                                               message: "ParseLiveQuery Error: Received message out of order, but could not decode it")
                         self.notificationQueue.async {
                             self.receiveDelegate?.received(error)
                         }
@@ -803,7 +803,7 @@ extension ParseLiveQuery {
             message: message,
             handler: handler
         ) else {
-            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: Couldn't create subscription.")
+            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: Could not create subscription.")
         }
 
         self.send(record: subscriptionRecord, requestId: requestId) { _ in }

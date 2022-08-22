@@ -71,7 +71,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     }
 
     #if !os(Linux) && !os(Android) && !os(Windows)
-    //URL Mocker is not able to mock this in linux and tests fail, so don't run.
+    //URL Mocker is not able to mock this in linux and tests fail, so do not run.
     @MainActor
     func testFetch() async throws {
 

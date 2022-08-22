@@ -217,7 +217,7 @@ internal extension URLSession {
                                            mapper: mapper))
             }
         } else {
-            completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
+            completion(.failure(ParseError(code: .unknownError, message: "data and file both cannot be nil")))
         }
         if let task = task {
             ParseSwift.sessionDelegate.uploadDelegates[task] = progress

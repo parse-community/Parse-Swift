@@ -34,7 +34,7 @@ private protocol _JSONStringDictionaryEncodableMarker { }
 #endif
 extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, Value: Encodable { }
 
-// This rule doesn't allow types with underscores in their names.
+// This rule does not allow types with underscores in their names.
 // swiftlint:disable type_name
 // swiftlint:disable colon
 // swiftlint:disable force_cast
@@ -237,18 +237,18 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
     ///
     /// **true** if an element has not yet been encoded at this coding path; **false** otherwise.
     var canEncodeNewValue: Bool {
-        // Every time a new value gets encoded, the key it's encoded for is pushed onto the coding path (even if it's a nil key from an unkeyed container).
+        // Every time a new value gets encoded, the key it is encoded for is pushed onto the coding path (even if it is a nil key from an unkeyed container).
         // At the same time, every time a container is requested, a new value gets pushed onto the storage stack.
         // If there are more values on the storage stack than on the coding path, it means the value is requesting more than one container, which violates the precondition.
         //
         // This means that anytime something that can request a new container goes onto the stack, we MUST push a key onto the coding path.
-        // Things which will not request containers do not need to have the coding path extended for them (but it doesn't matter if it is, because they will not reach here).
+        // Things which will not request containers do not need to have the coding path extended for them (but it does not matter if it is, because they will not reach here).
         return self.storage.count == self.codingPath.count
     }
 
     @available(*, unavailable)
     override func encode<T : Encodable>(_ value: T) throws -> Data {
-        throw ParseError(code: .unknownError, message: "This method shouldn't be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
+        throw ParseError(code: .unknownError, message: "This method should not be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
     func encodeObject(_ value: Encodable,
@@ -289,7 +289,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
         // If an existing keyed container was already requested, return that one.
         let topContainer: NSMutableDictionary
         if self.canEncodeNewValue {
-            // We haven't yet pushed a container at this level; do so here.
+            // We have not yet pushed a container at this level; do so here.
             topContainer = self.storage.pushKeyedContainer()
         } else {
             guard let container = self.storage.containers.last as? NSMutableDictionary else {
@@ -315,7 +315,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
         // If an existing unkeyed container was already requested, return that one.
         let topContainer: NSMutableArray
         if self.canEncodeNewValue {
-            // We haven't yet pushed a container at this level; do so here.
+            // We have not yet pushed a container at this level; do so here.
             topContainer = self.storage.pushUnkeyedContainer()
         } else {
             guard let container = self.storage.containers.last as? NSMutableArray else {
@@ -364,7 +364,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                     self.newObjects.append(object)
                 } else if dictionary.count > 0 {
                     // Only top level objects can be saved without a pointer
-                    throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
+                    throw ParseError(code: .unknownError, message: "Error. Could not resolve unsaved object while encoding.")
                 }
             }
         }
@@ -393,7 +393,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                 valueToEncode = currentFile
             } else if dictionary.count > 0 {
                 //Only top level objects can be saved without a pointer
-                throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved file while encoding.")
+                throw ParseError(code: .unknownError, message: "Error. Could not resolve unsaved file while encoding.")
             }
         }
         return valueToEncode
@@ -807,7 +807,7 @@ extension _ParseEncoder {
         switch self.options.dateEncodingStrategy {
         case .deferredToDate:
             // Must be called with a surrounding with(pushedKey:) call.
-            // Dates encode as single-value objects; this can't both throw and push a container, so no need to catch the error.
+            // Dates encode as single-value objects; this cannot both throw and push a container, so no need to catch the error.
             try date.encode(to: self)
             return self.storage.popContainer()
 
@@ -841,7 +841,7 @@ extension _ParseEncoder {
             }
 
             guard self.storage.count > depth else {
-                // The closure didn't encode anything. Return the default keyed container.
+                // The closure did not encode anything. Return the default keyed container.
                 return NSDictionary()
             }
 
@@ -861,7 +861,7 @@ extension _ParseEncoder {
                 try data.encode(to: self)
             } catch {
                 // If the value pushed a container before throwing, pop it back off to restore state.
-                // This shouldn't be possible for Data (which encodes as an array of bytes), but it can't hurt to catch a failure.
+                // This should not be possible for Data (which encodes as an array of bytes), but it cannot hurt to catch a failure.
                 if self.storage.count > depth {
                     let _ = self.storage.popContainer()
                 }
@@ -888,7 +888,7 @@ extension _ParseEncoder {
             }
 
             guard self.storage.count > depth else {
-                // The closure didn't encode anything. Return the default keyed container.
+                // The closure did not encode anything. Return the default keyed container.
                 return NSDictionary()
             }
 
@@ -984,7 +984,7 @@ extension _ParseEncoder {
 // MARK: - _ParseReferencingEncoder
 // swiftlint:disable line_length
 /// __JSONReferencingEncoder is a special subclass of __JSONEncoder which has its own storage, but references the contents of a different encoder.
-/// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it's created in, but it doesn't necessarily know when it's done being used (to write to the original container).
+/// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it is created in, but it does not necessarily know when it is done being used (to write to the original container).
 private class _ParseReferencingEncoder: _ParseEncoder {
     // MARK: Reference types.
 

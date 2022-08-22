@@ -51,7 +51,7 @@ internal extension API {
 
             guard let response = responseResult else {
                 throw ParseError(code: .unknownError,
-                                 message: "couldn't unrwrap server response")
+                                 message: "Could not unrwrap server response")
             }
             return try response.get()
         }
@@ -94,13 +94,13 @@ internal extension API {
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't unrwrap url components for \(url)"))
+                                           message: "Could not unrwrap url components for \(url)"))
             }
             components.queryItems = params
 
             guard let urlComponents = components.url else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't create url from components for \(components)"))
+                                           message: "Could not create url from components for \(components)"))
             }
 
             var urlRequest = URLRequest(url: urlComponents)
@@ -108,7 +108,7 @@ internal extension API {
             if let urlBody = body {
                 guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
                     return .failure(ParseError(code: .unknownError,
-                                                   message: "couldn't encode body \(urlBody)"))
+                                                   message: "Could not encode body \(urlBody)"))
                 }
                 urlRequest.httpBody = bodyData
             }
@@ -204,10 +204,10 @@ internal extension API.NonParseBodyCommand {
             }
         }
         let batchCommand = BatchChildCommand(requests: batchCommands,
-                                              transaction: transaction)
+                                             transaction: transaction)
         return RESTBatchCommandTypeEncodablePointer<AnyCodable>(method: .POST,
-                                                         path: .batch,
-                                                         body: batchCommand,
-                                                         mapper: mapper)
+                                                                path: .batch,
+                                                                body: batchCommand,
+                                                                mapper: mapper)
     }
 }

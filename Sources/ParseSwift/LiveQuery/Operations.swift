@@ -24,7 +24,7 @@ enum OperationErrorResponse: String, Codable {
     case error
 }
 
-// An opaque placeholder structed used to ensure that we type-safely create request IDs and don't shoot ourself in
+// An opaque placeholder structed used to ensure that we type-safely create request IDs and do not shoot ourself in
 // the foot with array indexes.
 struct RequestId: Hashable, Equatable, Codable {
     let value: Int

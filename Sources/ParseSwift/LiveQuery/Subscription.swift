@@ -19,7 +19,7 @@ import Foundation
  */
 open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
 
-    /// Updates and notifies when there's a new event related to a specific query.
+    /// Updates and notifies when there is a new event related to a specific query.
     open var event: (query: Query<T>, event: Event<T>)? {
         willSet {
             if newValue != nil {
@@ -74,7 +74,7 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
         // Need to decode the event with respect to the `ParseObject`.
         let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)
         guard let event = Event(event: eventMessage) else {
-            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: couldn't create event.")
+            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: Could not create event.")
         }
         self.event = (query, event)
     }

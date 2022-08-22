@@ -105,7 +105,7 @@ do {
 }
 
 /*: If you only want to query for points in descending order, use the order enum.
-Notice the "var", the query has to be mutable since it's a value type.
+Notice the "var", the query has to be mutable since it is a value type.
 */
 var querySorted = query
 querySorted.order([.descending("points")])
