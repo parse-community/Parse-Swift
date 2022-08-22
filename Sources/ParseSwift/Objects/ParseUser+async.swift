@@ -113,6 +113,8 @@ public extension ParseUser {
      desires a different policy, it should be inserted in `options`.
      - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
      when calling this method.
+     - warning: The latest **PFUser** from the Objective-C SDK should be saved to your
+     Parse Server before calling this method.
     */
     @discardableResult static func loginUsingObjCKeychain(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in

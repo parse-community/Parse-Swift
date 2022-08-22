@@ -306,7 +306,7 @@ public extension ParseInstallation {
     /**
      Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain.
 
-     - parameter copyInstallation: When **true**, copies the
+     - parameter copyEntireInstallation: When **true**, copies the
      entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
      **false**, only the `channels` and `deviceToken` are copied from the Objective-C
      SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
@@ -316,12 +316,16 @@ public extension ParseInstallation {
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+     - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
+     Parse Server before calling this method.
     */
-    @discardableResult static func migrateFromObjCKeychain(copyInstallation: Bool = true,
+    @discardableResult static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
                                                            deleteObjectiveCKeychain: Bool = false,
                                                            options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            Self.migrateFromObjCKeychain(copyInstallation: copyInstallation,
+            Self.migrateFromObjCKeychain(copyEntireInstallation: copyEntireInstallation,
                                          options: options,
                                          completion: continuation.resume)
         }

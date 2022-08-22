@@ -8,6 +8,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...4.9.0)
 
 __New features__
+- Add methods for migrating users and installations from the Parse Objective-C SDK to the Swift SDK ([#391](https://github.com/parse-community/Parse-Swift/pull/391)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Enable query caching by using GET instead of POST. GET is now used by default. To switch back to POST, set usingPostForQuery = true when initializing the SDK which will automatically disable all query caching ([#386](https://github.com/parse-community/Parse-Swift/pull/386)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
