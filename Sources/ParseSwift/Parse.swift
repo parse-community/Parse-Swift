@@ -212,6 +212,14 @@ public struct ParseConfiguration {
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
      encrypted one.
+     - parameter accessGroup: Sets all of the items in the Parse Keychain to a specific access group.
+     Apps in the same access group can share Keychain items. See Apple's
+      [documentation](https://developer.apple.com/documentation/security/ksecattraccessgroup)
+      for more information.
+     - parameter syncingKeychainAcrossDevices: Synchronize all necessary Parse Keychain
+     items to other devices using iCloud. See Apple's
+     [documentation](https://developer.apple.com/documentation/security/ksecattrsynchronizable)
+      for more information.
      - parameter requestCachePolicy: The default caching policy for all http requests that determines
      when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
      for more info.
@@ -247,6 +255,8 @@ public struct ParseConfiguration {
                 usingEqualQueryConstraint: Bool = false,
                 usingPostForQuery: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
+                accessGroup: String? = nil,
+                syncingKeychainAcrossDevices: Bool = false,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
                 cacheDiskCapacity: Int = 10_000_000,
@@ -268,6 +278,8 @@ public struct ParseConfiguration {
                   usingEqualQueryConstraint: usingEqualQueryConstraint,
                   usingPostForQuery: usingPostForQuery,
                   keyValueStore: keyValueStore,
+                  accessGroup: accessGroup,
+                  syncingKeychainAcrossDevices: syncingKeychainAcrossDevices,
                   requestCachePolicy: requestCachePolicy,
                   cacheMemoryCapacity: cacheMemoryCapacity,
                   cacheDiskCapacity: cacheDiskCapacity,
@@ -389,6 +401,14 @@ public struct ParseSwift {
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
      encrypted one.
+     - parameter accessGroup: Sets all of the items in the Parse Keychain to a specific access group.
+     Apps in the same access group can share Keychain items. See Apple's
+      [documentation](https://developer.apple.com/documentation/security/ksecattraccessgroup)
+      for more information.
+     - parameter syncingKeychainAcrossDevices: Synchronize all necessary Parse Keychain
+     items to other devices using iCloud. See Apple's
+     [documentation](https://developer.apple.com/documentation/security/ksecattrsynchronizable)
+      for more information.
      - parameter requestCachePolicy: The default caching policy for all http requests that determines
      when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
      for more info.
@@ -419,6 +439,8 @@ public struct ParseSwift {
         usingEqualQueryConstraint: Bool = false,
         usingPostForQuery: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
+        accessGroup: String? = nil,
+        syncingKeychainAcrossDevices: Bool = false,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
         cacheMemoryCapacity: Int = 512_000,
         cacheDiskCapacity: Int = 10_000_000,
@@ -439,6 +461,8 @@ public struct ParseSwift {
                                                usingEqualQueryConstraint: usingEqualQueryConstraint,
                                                usingPostForQuery: usingPostForQuery,
                                                keyValueStore: keyValueStore,
+                                               accessGroup: accessGroup,
+                                               syncingKeychainAcrossDevices: syncingKeychainAcrossDevices,
                                                requestCachePolicy: requestCachePolicy,
                                                cacheMemoryCapacity: cacheMemoryCapacity,
                                                cacheDiskCapacity: cacheDiskCapacity,
@@ -631,10 +655,8 @@ public struct ParseSwift {
     static public func setAccessGroup(_ accessGroup: String?) -> Bool {
         guard KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
                                         accessGroup: accessGroup) == nil else {
-            print("1111")
             return true
         }
-        print("2222")
         let oldAccessGroup = configuration.accessGroup
         KeychainStore.shared.copy(KeychainStore.shared,
                                   accessGroup: accessGroup,
