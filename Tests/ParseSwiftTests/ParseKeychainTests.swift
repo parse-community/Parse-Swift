@@ -165,7 +165,7 @@ class ParseKeychainTests: XCTestCase {
                                                   accessGroup: nil))
         #if !os(macOS)
         do {
-            try ParseSwift.setAccessGroup(group, synchronizeAccrossDevices: false)
+            try ParseSwift.setAccessGroup(group, synchronizeAcrossDevices: false)
             XCTFail("Should have thrown error due to entitlements")
         } catch {
             guard let parseError = error as? ParseError else {
@@ -199,7 +199,7 @@ class ParseKeychainTests: XCTestCase {
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
                                                   accessGroup: nil))
         do {
-            try ParseSwift.setAccessGroup(group, synchronizeAccrossDevices: true)
+            try ParseSwift.setAccessGroup(group, synchronizeAcrossDevices: true)
             XCTFail("Should have thrown error due to entitlements")
         } catch {
             guard let parseError = error as? ParseError else {
@@ -234,7 +234,7 @@ class ParseKeychainTests: XCTestCase {
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
                                                   accessGroup: nil))
         do {
-            try ParseSwift.setAccessGroup(nil, synchronizeAccrossDevices: true)
+            try ParseSwift.setAccessGroup(nil, synchronizeAcrossDevices: true)
             XCTFail("Should have thrown error")
         } catch {
             guard let parseError = error as? ParseError else {
