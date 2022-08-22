@@ -155,58 +155,6 @@ class ParseKeychainTests: XCTestCase {
                                                   accessGroup: nil))
     }
 
-    func testSetSyncWithNoAccessGroup() throws {
-        try userLogin()
-        do {
-            try ParseSwift.setSynchronizeKeychainAcrossDevices(true)
-            XCTFail("Should have thrown error")
-        } catch {
-            guard let parseError = error as? ParseError else {
-                XCTFail("Should have casted to ParseError")
-                return
-            }
-            XCTAssertTrue(parseError.message.contains("must be set using"))
-        }
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                                  accessGroup: nil))
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
-                                                  accessGroup: nil))
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
-                                                  accessGroup: nil))
-    }
-
-    func testSetSyncWithAccessGroup() throws {
-        try userLogin()
-        ParseSwift.configuration.accessGroup = group
-        do {
-            try ParseSwift.setSynchronizeKeychainAcrossDevices(true)
-            XCTFail("Should have thrown error due to entitlements")
-        } catch {
-            guard let parseError = error as? ParseError else {
-                XCTFail("Should have casted to ParseError")
-                return
-            }
-            XCTAssertTrue(parseError.message.contains("The configured accessGroup"))
-        }
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                                  accessGroup: nil))
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
-                                                  accessGroup: nil))
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
-                                                  accessGroup: nil))
-    }
-
-    func testSetNoSyncWithNoAccessGroup() throws {
-        try userLogin()
-        XCTAssertNoThrow(try ParseSwift.setSynchronizeKeychainAcrossDevices(false))
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                                  accessGroup: nil))
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentInstallation,
-                                                  accessGroup: nil))
-        XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentVersion,
-                                                  accessGroup: nil))
-    }
-
     func testSetAccessGroupWithNoSync() throws {
         try userLogin()
         XCTAssertNotNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,

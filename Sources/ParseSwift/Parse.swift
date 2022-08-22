@@ -617,34 +617,6 @@ public struct ParseSwift {
     }
 
 #if !os(Linux) && !os(Android) && !os(Windows)
-    /**
-     Sets whether to synchronize all necessary Parse Keychain items to other
-     devices using iCloud. See Apple's
-     [documentation](https://developer.apple.com/documentation/security/ksecattrsynchronizable)
-      for more information.
-     - parameter synchronize: **true** to synchronize, **false** to disable synchronization.
-     - throws: An error of type `ParseError`.
-     - note: `ParseInstallation` is not synchronized as these objects are intended to be unique
-     per device/installation.
-     - warning: Setting `synchronize == true` requires `accessGroup` to be
-     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
-     */
-    static internal func setSynchronizeKeychainAcrossDevices(_ synchronize: Bool) throws {
-        if synchronize && configuration.accessGroup == nil {
-            throw ParseError(code: .unknownError,
-                             message: "\"accessGroup\" must be set using \"setAccessGroup()\" before calling \"setSynchronizeKeychainAcrossDevices()\"")
-        }
-        guard KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                        accessGroup: configuration.accessGroup) != nil else {
-            throw ParseError(code: .unknownError,
-                             message: "The configured accessGroup does not have any data in the Keychain")
-        }
-        configuration.isSyncingKeychainAcrossDevices = synchronize
-        try KeychainStore.shared.copy(KeychainStore.shared,
-                                      oldAccessGroup: configuration.accessGroup,
-                                      newAccessGroup: configuration.accessGroup,
-                                      syncingAcrossDevices: configuration.isSyncingKeychainAcrossDevices)
-    }
 
     /**
      Sets all of the items in the Parse Keychain to a specific access group.
