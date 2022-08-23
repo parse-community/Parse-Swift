@@ -42,24 +42,6 @@ public struct ParseConfiguration {
     /// - warning: **POST** calls are not cached and will require all queries to access the
     /// server instead of following the `requestCachePolicy`.
     public internal(set) var isUsingPostForQuery = false
-    /**
-     Sets all of the items in the Parse Keychain to a specific access group. Apps in the same
-     access group can share Keychain items. See Apple's
-     [documentation](https://developer.apple.com/documentation/security/ksecattraccessgroup)
-     for more information.
-     */
-    // public internal(set) var accessGroup: String?
-
-    /**
-     Synchronize all necessary Parse Keychain items to other devices using iCloud. See Apple's
-     [documentation](https://developer.apple.com/documentation/security/ksecattrsynchronizable)
-     for more information.
-     - note: `ParseInstallation` is not synchronized as these objects are intended to be unique
-     per device/installation.
-     - warning: Setting `isSyncingKeychainAcrossDevices == true` requires `accessGroup` to be
-     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
-     */
-    // public internal(set) var isSyncingKeychainAcrossDevices = false
 
     /// The default caching policy for all http requests that determines when to
     /// return a response from the cache. Defaults to `useProtocolCachePolicy`.
@@ -96,7 +78,9 @@ public struct ParseConfiguration {
                                     URLCredential?) -> Void) -> Void)?
     internal var mountPath: String
     internal var isTestingSDK = false // Enable this only for certain tests like ParseFile
+    #if !os(Linux) && !os(Android) && !os(Windows)
     internal var keychainAccessGroup = ParseKeychainAccessGroup()
+    #endif
     /**
      Create a Parse Swift configuration.
      - parameter applicationId: The application id for your Parse application.
@@ -137,8 +121,6 @@ public struct ParseConfiguration {
      - warning: `usingTransactions` is experimental.
      - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
      - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
-     - warning: Setting `isSyncingKeychainAcrossDevices == true` requires `accessGroup` to be
-     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
