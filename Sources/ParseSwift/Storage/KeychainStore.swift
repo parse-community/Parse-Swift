@@ -229,7 +229,8 @@ struct KeychainStore: SecureStorage {
             query.removeValue(forKey: kSecAttrAccessGroup as String)
         }
         if syncingAcrossDevices &&
-            (key != ParseStorage.Keys.currentInstallation || key != ParseStorage.Keys.currentVersion) {
+            key != ParseStorage.Keys.currentInstallation &&
+            key != ParseStorage.Keys.currentVersion {
             update[kSecAttrSynchronizable as String] = kCFBooleanTrue
             update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock as String
         } else {
