@@ -14,5 +14,5 @@ protocol SecureStorage {
     func set<T>(object: T?, forKey: String) -> Bool where T: Encodable
     subscript <T>(key: String) -> T? where T: Codable { get }
     func removeObject(forKey: String) -> Bool
-    func removeAllObjects(accessGroup: String?) -> Bool
+    func removeAllObjects() -> Bool
 }

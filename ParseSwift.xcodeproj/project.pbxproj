@@ -641,6 +641,10 @@
 		70D41D6B28B294C100613510 /* MigrateObjCSDKCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D6A28B294C100613510 /* MigrateObjCSDKCombineTests.swift */; };
 		70D41D6C28B294C100613510 /* MigrateObjCSDKCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D6A28B294C100613510 /* MigrateObjCSDKCombineTests.swift */; };
 		70D41D6D28B294C100613510 /* MigrateObjCSDKCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D6A28B294C100613510 /* MigrateObjCSDKCombineTests.swift */; };
+		70D41D8028B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D7F28B520E200613510 /* ParseKeychainAccessGroup.swift */; };
+		70D41D8128B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D7F28B520E200613510 /* ParseKeychainAccessGroup.swift */; };
+		70D41D8228B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D7F28B520E200613510 /* ParseKeychainAccessGroup.swift */; };
+		70D41D8328B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D41D7F28B520E200613510 /* ParseKeychainAccessGroup.swift */; };
 		70DFEA8A2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
 		70DFEA8B2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
 		70DFEA8C2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
@@ -1315,6 +1319,7 @@
 		70D1BE7225BB43EB00A42E7C /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
 		70D41D6628B0235100613510 /* MigrateObjCSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrateObjCSDKTests.swift; sourceTree = "<group>"; };
 		70D41D6A28B294C100613510 /* MigrateObjCSDKCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrateObjCSDKCombineTests.swift; sourceTree = "<group>"; };
+		70D41D7F28B520E200613510 /* ParseKeychainAccessGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseKeychainAccessGroup.swift; sourceTree = "<group>"; };
 		70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializeSDKTests.swift; sourceTree = "<group>"; };
 		70E09E1B262F0634002DD451 /* ParsePointerCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePointerCombineTests.swift; sourceTree = "<group>"; };
 		70E6B015286120E00043EC4A /* ParseHookFunctionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHookFunctionTests.swift; sourceTree = "<group>"; };
@@ -2120,6 +2125,7 @@
 				70385E7F2858EAA90084D306 /* ParseHookFunctionRequest.swift */,
 				70CE0A9328590A0A00DAEA86 /* ParseHookResponse.swift */,
 				70CE0AB1285963A300DAEA86 /* ParseHookTriggerRequest.swift */,
+				70D41D7F28B520E200613510 /* ParseKeychainAccessGroup.swift */,
 				F97B464024D9C78B00F4A88B /* ParseOperation.swift */,
 				703B091026BD992E005A112F /* ParseOperation+async.swift */,
 				7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */,
@@ -2788,6 +2794,7 @@
 				7045769D26BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B463324D9C74400F4A88B /* URLSession.swift in Sources */,
 				F97B464E24D9C78B00F4A88B /* Add.swift in Sources */,
+				70D41D8028B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */,
 				70385E762858E1000084D306 /* ParseHookFunctionable.swift in Sources */,
 				703B095326BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70CE0ABC285F8FF900DAEA86 /* ParseTypeable.swift in Sources */,
@@ -3095,6 +3102,7 @@
 				7045769E26BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B463424D9C74400F4A88B /* URLSession.swift in Sources */,
 				F97B464F24D9C78B00F4A88B /* Add.swift in Sources */,
+				70D41D8128B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */,
 				70385E772858E1000084D306 /* ParseHookFunctionable.swift in Sources */,
 				703B095426BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70CE0ABD285F8FF900DAEA86 /* ParseTypeable.swift in Sources */,
@@ -3534,6 +3542,7 @@
 				704576A026BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B464924D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				F97B45D124D9C6F200F4A88B /* ParseCoding.swift in Sources */,
+				70D41D8328B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */,
 				70385E792858E1000084D306 /* ParseHookFunctionable.swift in Sources */,
 				703B095626BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70CE0ABF285F8FF900DAEA86 /* ParseTypeable.swift in Sources */,
@@ -3718,6 +3727,7 @@
 				7045769F26BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B464824D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				F97B45D024D9C6F200F4A88B /* ParseCoding.swift in Sources */,
+				70D41D8228B520E200613510 /* ParseKeychainAccessGroup.swift in Sources */,
 				70385E782858E1000084D306 /* ParseHookFunctionable.swift in Sources */,
 				703B095526BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70CE0ABE285F8FF900DAEA86 /* ParseTypeable.swift in Sources */,
