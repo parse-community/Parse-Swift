@@ -600,6 +600,7 @@ public struct ParseSwift {
                 try? KeychainStore.old.deleteAll()
                 try? KeychainStore.shared.deleteAll()
             }
+            ParseSwift.configuration.keychainAccessGroup = .init()
             clearCache()
             // This is no longer the first run
             UserDefaults.standard.setValue(String(ParseConstants.bundlePrefix),

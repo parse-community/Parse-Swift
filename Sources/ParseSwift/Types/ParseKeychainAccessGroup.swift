@@ -37,5 +37,13 @@ struct ParseKeychainAccessGroup: ParseTypeable, Hashable {
             }
         }
     }
+
+    static func deleteCurrentContainerFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentAccessGroup)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentAccessGroup)
+        ParseSwift.configuration.keychainAccessGroup = Self()
+        #endif
+    }
 }
 #endif

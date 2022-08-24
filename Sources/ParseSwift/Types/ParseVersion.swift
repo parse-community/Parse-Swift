@@ -52,6 +52,13 @@ public struct ParseVersion: ParseTypeable, Comparable {
         }
         self.string = newString
     }
+
+    static func deleteCurrentContainerFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentVersion)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentVersion)
+        #endif
+    }
 }
 
 public extension ParseVersion {
