@@ -59,6 +59,7 @@ class ParseVersionTests: XCTestCase {
         XCTAssertEqual(ParseVersion.current, "1.0.0")
     }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testCanRetrieveFromKeychain() throws {
         guard let original = ParseVersion.current else {
             XCTFail("Should have unwrapped")
@@ -67,6 +68,7 @@ class ParseVersionTests: XCTestCase {
         try ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentVersion)
         XCTAssertEqual(ParseVersion.current, original)
     }
+    #endif
 
     func testEqualTo() throws {
         let version1 = try ParseVersion("1.0.0")
