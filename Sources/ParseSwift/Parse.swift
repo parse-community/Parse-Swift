@@ -81,6 +81,7 @@ public struct ParseConfiguration {
     #if !os(Linux) && !os(Android) && !os(Windows)
     internal var keychainAccessGroup = ParseKeychainAccessGroup()
     #endif
+
     /**
      Create a Parse Swift configuration.
      - parameter applicationId: The application id for your Parse application.
@@ -269,7 +270,9 @@ public struct ParseSwift {
         deleteKeychainIfNeeded()
 
         #if !os(Linux) && !os(Android) && !os(Windows)
-        if ParseKeychainAccessGroup.current == nil {
+        if let keychainAccessGroup = ParseKeychainAccessGroup.current {
+            ParseSwift.configuration.keychainAccessGroup = keychainAccessGroup
+        } else {
             ParseKeychainAccessGroup.current = ParseKeychainAccessGroup()
         }
         #endif
