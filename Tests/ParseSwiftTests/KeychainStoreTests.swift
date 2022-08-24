@@ -181,5 +181,78 @@ class KeychainStoreTests: XCTestCase {
             XCTAssertTrue(testStore.removeAllObjects(), "Should set value")
         }
     }
+
+    func testQueryTemplate() throws {
+        let query = KeychainStore.shared.getKeychainQueryTemplate()
+        XCTAssertEqual(query.count, 2)
+        XCTAssertEqual(query[kSecAttrService as String] as? String, KeychainStore.shared.service)
+        XCTAssertEqual(query[kSecClass as String] as? String, kSecClassGenericPassword as String)
+    }
+
+    func testQueryNoAccessGroup() throws {
+        let accessGroup = ParseKeychainAccessGroup()
+        let query = KeychainStore.shared.keychainQuery(forKey: "hello", accessGroup: accessGroup)
+        XCTAssertEqual(query.count, 5)
+        XCTAssertEqual(query[kSecAttrService as String] as? String, KeychainStore.shared.service)
+        XCTAssertEqual(query[kSecClass as String] as? String, kSecClassGenericPassword as String)
+        XCTAssertEqual(query[kSecAttrAccount as String] as? String, "hello")
+        XCTAssertEqual(query[kSecAttrSynchronizable as String] as? Bool, kCFBooleanFalse as? Bool)
+        XCTAssertEqual(query[kSecAttrAccessible as String] as? String,
+                       kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String)
+    }
+
+    func testQueryAccessGroupSyncableKeyTrue() throws {
+        let accessGroup = ParseKeychainAccessGroup(accessGroup: "world", isSyncingKeychainAcrossDevices: true)
+        let query = KeychainStore.shared.keychainQuery(forKey: "hello", accessGroup: accessGroup)
+        XCTAssertEqual(query.count, 6)
+        XCTAssertEqual(query[kSecAttrService as String] as? String, KeychainStore.shared.service)
+        XCTAssertEqual(query[kSecClass as String] as? String, kSecClassGenericPassword as String)
+        XCTAssertEqual(query[kSecAttrAccount as String] as? String, "hello")
+        XCTAssertEqual(query[kSecAttrAccessGroup as String] as? String, "world")
+        XCTAssertEqual(query[kSecAttrSynchronizable as String] as? Bool, kCFBooleanTrue as? Bool)
+        XCTAssertEqual(query[kSecAttrAccessible as String] as? String,
+                       kSecAttrAccessibleAfterFirstUnlock as String)
+    }
+
+    func testQueryAccessGroupSyncableKeyFalse() throws {
+        let accessGroup = ParseKeychainAccessGroup(accessGroup: "world", isSyncingKeychainAcrossDevices: false)
+        let query = KeychainStore.shared.keychainQuery(forKey: "hello", accessGroup: accessGroup)
+        XCTAssertEqual(query.count, 6)
+        XCTAssertEqual(query[kSecAttrService as String] as? String, KeychainStore.shared.service)
+        XCTAssertEqual(query[kSecClass as String] as? String, kSecClassGenericPassword as String)
+        XCTAssertEqual(query[kSecAttrAccount as String] as? String, "hello")
+        XCTAssertEqual(query[kSecAttrAccessGroup as String] as? String, "world")
+        XCTAssertEqual(query[kSecAttrSynchronizable as String] as? Bool, kCFBooleanFalse as? Bool)
+        XCTAssertEqual(query[kSecAttrAccessible as String] as? String,
+                       kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String)
+    }
+
+    func testQueryAccessGroupNoSyncableKeyTrue() throws {
+        let key = ParseStorage.Keys.currentInstallation
+        let accessGroup = ParseKeychainAccessGroup(accessGroup: "world", isSyncingKeychainAcrossDevices: true)
+        let query = KeychainStore.shared.keychainQuery(forKey: key, accessGroup: accessGroup)
+        XCTAssertEqual(query.count, 6)
+        XCTAssertEqual(query[kSecAttrService as String] as? String, KeychainStore.shared.service)
+        XCTAssertEqual(query[kSecClass as String] as? String, kSecClassGenericPassword as String)
+        XCTAssertEqual(query[kSecAttrAccount as String] as? String, key)
+        XCTAssertEqual(query[kSecAttrAccessGroup as String] as? String, "world")
+        XCTAssertEqual(query[kSecAttrSynchronizable as String] as? Bool, kCFBooleanFalse as? Bool)
+        XCTAssertEqual(query[kSecAttrAccessible as String] as? String,
+                       kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String)
+    }
+
+    func testQueryAccessGroupNoSyncableKeyFalse() throws {
+        let key = ParseStorage.Keys.currentInstallation
+        let accessGroup = ParseKeychainAccessGroup(accessGroup: "world", isSyncingKeychainAcrossDevices: false)
+        let query = KeychainStore.shared.keychainQuery(forKey: key, accessGroup: accessGroup)
+        XCTAssertEqual(query.count, 6)
+        XCTAssertEqual(query[kSecAttrService as String] as? String, KeychainStore.shared.service)
+        XCTAssertEqual(query[kSecClass as String] as? String, kSecClassGenericPassword as String)
+        XCTAssertEqual(query[kSecAttrAccount as String] as? String, key)
+        XCTAssertEqual(query[kSecAttrAccessGroup as String] as? String, "world")
+        XCTAssertEqual(query[kSecAttrSynchronizable as String] as? Bool, kCFBooleanFalse as? Bool)
+        XCTAssertEqual(query[kSecAttrAccessible as String] as? String,
+                       kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String)
+    }
 }
 #endif

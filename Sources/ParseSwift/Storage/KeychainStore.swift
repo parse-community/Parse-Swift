@@ -21,7 +21,7 @@ import Security
 struct KeychainStore: SecureStorage {
 
     let synchronizationQueue: DispatchQueue
-    private let service: String
+    let service: String
     static var shared = KeychainStore()
     static var objectiveC: KeychainStore? {
         if let identifier = Bundle.main.bundleIdentifier {
@@ -112,8 +112,8 @@ struct KeychainStore: SecureStorage {
         key != ParseStorage.Keys.currentAccessGroup
     }
 
-    private func keychainQuery(forKey key: String,
-                               accessGroup: ParseKeychainAccessGroup) -> [String: Any] {
+    func keychainQuery(forKey key: String,
+                       accessGroup: ParseKeychainAccessGroup) -> [String: Any] {
         var query: [String: Any] = getKeychainQueryTemplate()
         query[kSecAttrAccount as String] = key
         if let keychainAccessGroup = accessGroup.accessGroup {

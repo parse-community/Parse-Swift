@@ -193,7 +193,7 @@ extension ParseInstallation {
 }
 
 // MARK: CurrentInstallationContainer
-struct CurrentInstallationContainer<T: ParseInstallation>: Codable {
+struct CurrentInstallationContainer<T: ParseInstallation>: Codable, Hashable {
     var currentInstallation: T?
     var installationId: String?
 }

@@ -28,22 +28,23 @@ struct ParseKeychainAccessGroup: ParseTypeable, Hashable {
             return versionInMemory
         }
         set {
-            try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentAccessGroup)
-            try? KeychainStore.shared.set(newValue, for: ParseStorage.Keys.currentAccessGroup)
-            if let updatedKeychainAccessGroup = newValue {
-                ParseSwift.configuration.keychainAccessGroup = updatedKeychainAccessGroup
-            } else {
-                ParseSwift.configuration.keychainAccessGroup = Self()
+            guard let updatedKeychainAccessGroup = newValue else {
+                let defaultKeychainAccessGroup = Self()
+                try? ParseStorage.shared.set(defaultKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
+                try? KeychainStore.shared.set(defaultKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
+                ParseSwift.configuration.keychainAccessGroup = defaultKeychainAccessGroup
+                return
             }
+            try? ParseStorage.shared.set(updatedKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
+            try? KeychainStore.shared.set(updatedKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
+            ParseSwift.configuration.keychainAccessGroup = updatedKeychainAccessGroup
         }
     }
 
     static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentAccessGroup)
-        #if !os(Linux) && !os(Android) && !os(Windows)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentAccessGroup)
         ParseSwift.configuration.keychainAccessGroup = Self()
-        #endif
     }
 }
 #endif

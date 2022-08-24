@@ -95,6 +95,11 @@ class ParseKeychainAccessGroupTests: XCTestCase {
         }
     }
 
+    struct Config: ParseConfig {
+        var welcomeMessage: String?
+        var winningNumber: Int?
+    }
+
     let group = "TEAM.com.parse.parseswift"
     let keychainAccessGroup = ParseKeychainAccessGroup(accessGroup: "TEAM.com.parse.parseswift",
                                                        isSyncingKeychainAcrossDevices: false)
@@ -140,6 +145,120 @@ class ParseKeychainAccessGroupTests: XCTestCase {
         }
         _ = try User.login(username: loginUserName, password: loginPassword)
         MockURLProtocol.removeAll()
+    }
+
+    func testKeychainAccessGroupCreatedOnServerInit() throws {
+        XCTAssertNotNil(ParseKeychainAccessGroup.current)
+        XCTAssertNil(ParseSwift.configuration.keychainAccessGroup.accessGroup)
+        XCTAssertFalse(ParseSwift.configuration.keychainAccessGroup.isSyncingKeychainAcrossDevices)
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, ParseKeychainAccessGroup.current)
+    }
+
+    func testUpdateKeychainAccessGroup() throws {
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, ParseKeychainAccessGroup.current)
+        ParseKeychainAccessGroup.current = keychainAccessGroupSync
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, ParseKeychainAccessGroup.current)
+        ParseKeychainAccessGroup.current = nil
+        XCTAssertEqual(ParseKeychainAccessGroup.current, noKeychainAccessGroup)
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, noKeychainAccessGroup)
+        ParseKeychainAccessGroup.current = keychainAccessGroupSync
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, ParseKeychainAccessGroup.current)
+    }
+
+    func testCanGetKeychainAccessGroupFromKeychain() throws {
+        guard let currentAccessGroup = ParseKeychainAccessGroup.current else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        try ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentAccessGroup)
+        XCTAssertEqual(currentAccessGroup, ParseKeychainAccessGroup.current)
+    }
+
+    func testDeleteKeychainAccessGroup() throws {
+        XCTAssertEqual(ParseKeychainAccessGroup.current, noKeychainAccessGroup)
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, noKeychainAccessGroup)
+        ParseKeychainAccessGroup.deleteCurrentContainerFromKeychain()
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, noKeychainAccessGroup)
+        XCTAssertNil(ParseKeychainAccessGroup.current)
+        ParseKeychainAccessGroup.current = keychainAccessGroup
+        XCTAssertEqual(ParseKeychainAccessGroup.current, keychainAccessGroup)
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, keychainAccessGroup)
+    }
+
+    func testCanCopyEntireKeychain() throws {
+        try userLogin()
+        Config.current = .init(welcomeMessage: "yolo", winningNumber: 1)
+        _ = try ParseACL.setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
+        guard let user: CurrentUserContainer<User> =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let installation: CurrentInstallationContainer<Installation> =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let version: String =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentVersion) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let accessGroup: ParseKeychainAccessGroup =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentAccessGroup) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let config: CurrentConfigContainer<Config> =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let acl: DefaultACL =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let otherKeychain = KeychainStore(service: "other")
+        try otherKeychain.copy(KeychainStore.shared,
+                               oldAccessGroup: ParseSwift.configuration.keychainAccessGroup,
+                               newAccessGroup: ParseSwift.configuration.keychainAccessGroup)
+        guard let otherUser: CurrentUserContainer<User> =
+                try? otherKeychain.get(valueFor: ParseStorage.Keys.currentUser) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let otherInstallation: CurrentInstallationContainer<Installation> =
+                try? otherKeychain.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let otherVersion: String =
+                try? otherKeychain.get(valueFor: ParseStorage.Keys.currentVersion) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let otherAccessGroup: ParseKeychainAccessGroup =
+                try? otherKeychain.get(valueFor: ParseStorage.Keys.currentAccessGroup) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let otherConfig: CurrentConfigContainer<Config> =
+                try? otherKeychain.get(valueFor: ParseStorage.Keys.currentConfig) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        guard let otherAcl: DefaultACL =
+                try? otherKeychain.get(valueFor: ParseStorage.Keys.defaultACL) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(user, otherUser)
+        XCTAssertEqual(installation, otherInstallation)
+        XCTAssertEqual(version, otherVersion)
+        XCTAssertEqual(accessGroup, otherAccessGroup)
+        XCTAssertEqual(config, otherConfig)
+        XCTAssertEqual(acl, otherAcl)
     }
 
     func testNoUserNoAccessGroupNoSync() throws {
