@@ -224,8 +224,8 @@ struct KeychainStore: SecureStorage {
                       isSyncableKey(key) == true else {
                     continue
                 }
-                if !self.removeObject(forKey: key,
-                                      accessGroup: accessGroup) {
+                guard self.removeObject(forKey: key,
+                                        accessGroup: accessGroup) == true else {
                     return false
                 }
             }

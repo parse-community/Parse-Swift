@@ -570,7 +570,7 @@ public struct ParseSwift {
                                                          synchronizeAcrossDevices: Bool) throws -> Bool {
         if synchronizeAcrossDevices && accessGroup == nil {
             throw ParseError(code: .unknownError,
-                             message: "\"accessGroup\" must be set using \"setAccessGroup()\" before calling \"setSynchronizeKeychainAcrossDevices().\"")
+                             message: "\"accessGroup\" must be set to a valid string when \"synchronizeAcrossDevices == true\"")
         }
         guard let currentAccessGroup = ParseKeychainAccessGroup.current else {
             throw ParseError(code: .unknownError,
