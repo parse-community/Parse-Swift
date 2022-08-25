@@ -474,5 +474,13 @@ class ParseKeychainAccessGroupTests: XCTestCase {
                                       synchronizeAcrossDevices: noKeychainAccessGroup.isSyncingKeychainAcrossDevices)
         XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, noKeychainAccessGroup)
     }
+
+    func testSetAccessGroupChangeInAccessGroup() throws {
+        try userLogin()
+        ParseKeychainAccessGroup.current = keychainAccessGroup
+        try ParseSwift.setAccessGroup(helloKeychainAccessGroup.accessGroup,
+                                      synchronizeAcrossDevices: helloKeychainAccessGroup.isSyncingKeychainAcrossDevices)
+        XCTAssertEqual(ParseSwift.configuration.keychainAccessGroup, helloKeychainAccessGroup)
+    }
 }
 #endif

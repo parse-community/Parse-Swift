@@ -183,11 +183,15 @@ struct KeychainStore: SecureStorage {
         }
 
         let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
+            let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
             if self.data(forKey: key,
                          accessGroup: newAccessGroup) != nil {
-                return SecItemUpdate(query as CFDictionary, update as CFDictionary)
+                let updateStatus = SecItemUpdate(query as CFDictionary, update as CFDictionary)
+                guard updateStatus == errSecDuplicateItem,
+                      SecItemDelete(mergedQuery as CFDictionary) == errSecSuccess else {
+                    return updateStatus
+                }
             }
-            let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
             return SecItemAdd(mergedQuery as CFDictionary, nil)
         }
 
