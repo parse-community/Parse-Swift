@@ -10,6 +10,7 @@
 __New features__
 - Add methods for migrating users and installations from the Parse Objective-C SDK to the Swift SDK ([#391](https://github.com/parse-community/Parse-Swift/pull/391)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Enable query caching by using GET instead of POST. GET is now used by default. To switch back to POST, set usingPostForQuery = true when initializing the SDK which will automatically disable all query caching ([#386](https://github.com/parse-community/Parse-Swift/pull/386)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add setAccessGroup method which allows the Parse Keychain to be shared with app extensions and iCloud accounts ([#378](https://github.com/parse-community/Parse-Swift/pull/378)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - Add more details to error messages related when decoding errors occur ([#388](https://github.com/parse-community/Parse-Swift/pull/388)), thanks to [Daniel Blyth](https://github.com/dblythy).

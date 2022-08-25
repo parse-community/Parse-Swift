@@ -44,7 +44,7 @@ public extension ParseUser {
     }
 
     func mergeParse(with object: Self) throws -> Self {
-        guard hasSameObjectId(as: object) == true else {
+        guard hasSameObjectId(as: object) else {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects do not match")
         }
@@ -101,7 +101,7 @@ extension ParseUser {
 }
 
 // MARK: CurrentUserContainer
-struct CurrentUserContainer<T: ParseUser>: Codable {
+struct CurrentUserContainer<T: ParseUser>: Codable, Hashable {
     var currentUser: T?
     var sessionToken: String?
 }
@@ -399,7 +399,9 @@ extension ParseUser {
             }
             return
         }
-        completion(.success(currentUser))
+        callbackQueue.async {
+            completion(.success(currentUser))
+        }
     }
 #endif
 
@@ -439,9 +441,9 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let error = try? logoutCommand().execute(options: options)
-        //Always let user logout locally, no matter the error.
+        // Always let user logout locally, no matter the error.
         deleteCurrentKeychain()
-        //Wait to throw error
+        // Wait to throw error
         if let parseError = error {
             throw parseError
         }
@@ -465,7 +467,7 @@ extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         logoutCommand().executeAsync(options: options,
                                      callbackQueue: callbackQueue) { result in
-            //Always let user logout locally, no matter the error.
+            // Always let user logout locally, no matter the error.
             deleteCurrentKeychain()
 
             switch result {

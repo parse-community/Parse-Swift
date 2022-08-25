@@ -120,7 +120,7 @@ internal struct ConfigUpdateBody<T>: ParseTypeable, Decodable where T: ParseConf
 }
 
 // MARK: Current
-struct CurrentConfigContainer<T: ParseConfig>: Codable {
+struct CurrentConfigContainer<T: ParseConfig>: Codable, Equatable {
     var currentConfig: T?
 }
 
@@ -140,22 +140,18 @@ public extension ParseConfig {
         }
         set {
             try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentConfig)
+            #if !os(Linux) && !os(Android) && !os(Windows)
+            try? KeychainStore.shared.set(newValue, for: ParseStorage.Keys.currentConfig)
+            #endif
         }
     }
 
     internal static func updateKeychainIfNeeded(_ result: Self, deleting: Bool = false) {
         if !deleting {
             Self.current = result
-            Self.saveCurrentContainerToKeychain()
         } else {
             Self.deleteCurrentContainerFromKeychain()
         }
-    }
-
-    internal static func saveCurrentContainerToKeychain() {
-        #if !os(Linux) && !os(Android) && !os(Windows)
-        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentConfig)
-        #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {

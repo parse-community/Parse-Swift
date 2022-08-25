@@ -31,6 +31,7 @@ struct ParseStorage {
         static let currentConfig = "_currentConfig"
         static let defaultACL = "_defaultACL"
         static let currentVersion = "_currentVersion"
+        static let currentAccessGroup = "_currentAccessGroup"
     }
 }
 

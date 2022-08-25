@@ -464,7 +464,7 @@ extension ParseACL {
 
 }
 
-struct DefaultACL: Codable {
+struct DefaultACL: Codable, Hashable {
     var defaultACL: ParseACL
     var lastCurrentUserObjectId: String?
     var useCurrentUser: Bool

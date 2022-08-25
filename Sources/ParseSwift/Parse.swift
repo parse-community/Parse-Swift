@@ -77,7 +77,10 @@ public struct ParseConfiguration {
                                    (URLSession.AuthChallengeDisposition,
                                     URLCredential?) -> Void) -> Void)?
     internal var mountPath: String
-    internal var isTestingSDK = false //Enable this only for certain tests like ParseFile
+    internal var isTestingSDK = false // Enable this only for certain tests like ParseFile
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    internal var keychainAccessGroup = ParseKeychainAccessGroup()
+    #endif
 
     /**
      Create a Parse Swift configuration.
@@ -266,6 +269,14 @@ public struct ParseSwift {
                                                        authentication: configuration.authentication)
         deleteKeychainIfNeeded()
 
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        if let keychainAccessGroup = ParseKeychainAccessGroup.current {
+            ParseSwift.configuration.keychainAccessGroup = keychainAccessGroup
+        } else {
+            ParseKeychainAccessGroup.current = ParseKeychainAccessGroup()
+        }
+        #endif
+
         do {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
             let currentSDKVersion = try ParseVersion(ParseConstants.version)
@@ -276,7 +287,9 @@ public struct ParseSwift {
             if previousSDKVersion < oneNineEightSDKVersion {
                 // Old macOS Keychain cannot be used because it is global to all apps.
                 _ = KeychainStore.old
-                KeychainStore.shared.copy(keychain: KeychainStore.old)
+                try? KeychainStore.shared.copy(KeychainStore.old,
+                                               oldAccessGroup: configuration.keychainAccessGroup,
+                                               newAccessGroup: configuration.keychainAccessGroup)
                 // Need to delete the old Keychain because a new one is created with bundleId.
                 try? KeychainStore.old.deleteAll()
             }
@@ -537,6 +550,51 @@ public struct ParseSwift {
         initialize(configuration: configuration)
     }
 
+#if !os(Linux) && !os(Android) && !os(Windows)
+
+    /**
+     Sets all of the items in the Parse Keychain to a specific access group.
+     Apps in the same access group can share Keychain items. See Apple's
+      [documentation](https://developer.apple.com/documentation/security/ksecattraccessgroup)
+      for more information.
+     - parameter accessGroup: The name of the access group.
+     - parameter synchronizeAcrossDevices: **true** to synchronize all necessary Parse Keychain items to
+     other devices using iCloud. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecattrsynchronizable)
+     for more information. **false** to disable synchronization.
+     - throws: An error of type `ParseError`.
+     - returns: **true** if the Keychain was moved to the new `accessGroup`, **false** otherwise.
+     - warning: Setting `synchronizeAcrossDevices == true` requires `accessGroup` to be
+     set to a valid [keychain group](https://developer.apple.com/documentation/security/ksecattraccessgroup).
+     */
+    @discardableResult static public func setAccessGroup(_ accessGroup: String?,
+                                                         synchronizeAcrossDevices: Bool) throws -> Bool {
+        if synchronizeAcrossDevices && accessGroup == nil {
+            throw ParseError(code: .unknownError,
+                             message: "\"accessGroup\" must be set to a valid string when \"synchronizeAcrossDevices == true\"")
+        }
+        guard let currentAccessGroup = ParseKeychainAccessGroup.current else {
+            throw ParseError(code: .unknownError,
+                             message: "Problem unwrapping the current access group. Did you initialize the SDK before calling this method?")
+        }
+        let newKeychainAccessGroup = ParseKeychainAccessGroup(accessGroup: accessGroup,
+                                                              isSyncingKeychainAcrossDevices: synchronizeAcrossDevices)
+        guard newKeychainAccessGroup != currentAccessGroup else {
+            ParseKeychainAccessGroup.current = newKeychainAccessGroup
+            return true
+        }
+        do {
+            try KeychainStore.shared.copy(KeychainStore.shared,
+                                          oldAccessGroup: currentAccessGroup,
+                                          newAccessGroup: newKeychainAccessGroup)
+            ParseKeychainAccessGroup.current = newKeychainAccessGroup
+        } catch {
+            ParseKeychainAccessGroup.current = currentAccessGroup
+            throw error
+        }
+        return true
+    }
+#endif
+
     static internal func deleteKeychainIfNeeded() {
         #if !os(Linux) && !os(Android) && !os(Windows)
         // Clear items out of the Keychain on app first run.
@@ -545,6 +603,7 @@ public struct ParseSwift {
                 try? KeychainStore.old.deleteAll()
                 try? KeychainStore.shared.deleteAll()
             }
+            ParseSwift.configuration.keychainAccessGroup = .init()
             clearCache()
             // This is no longer the first run
             UserDefaults.standard.setValue(String(ParseConstants.bundlePrefix),

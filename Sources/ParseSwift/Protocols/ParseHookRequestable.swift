@@ -50,7 +50,7 @@ extension ParseHookRequestable {
     public func options() -> API.Options {
         var options = API.Options()
         if let masterKey = masterKey,
-            masterKey == true {
+            masterKey {
             options.insert(.useMasterKey)
         } else if let sessionToken = user?.sessionToken {
             options.insert(.sessionToken(sessionToken))

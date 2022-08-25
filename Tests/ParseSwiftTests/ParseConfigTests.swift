@@ -112,6 +112,15 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testUpdateKeyChainIfNeeded() throws {
+        userLogin()
+        let config = Config()
+        XCTAssertNil(Config.current)
+
+        Config.updateKeychainIfNeeded(config, deleting: true)
+        XCTAssertNil(Config.current)
+    }
+
     func testDeleteFromKeychainOnLogout() throws {
         userLogin()
         var config = Config()
