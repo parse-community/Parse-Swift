@@ -578,31 +578,20 @@ public struct ParseSwift {
         }
         let newKeychainAccessGroup = ParseKeychainAccessGroup(accessGroup: accessGroup,
                                                               isSyncingKeychainAcrossDevices: synchronizeAcrossDevices)
-        ParseKeychainAccessGroup.current = newKeychainAccessGroup
-        guard currentAccessGroup.accessGroup != nil,
-              newKeychainAccessGroup != currentAccessGroup else {
-            guard newKeychainAccessGroup != currentAccessGroup else {
-                return true
-            }
-            try moveToNewKeychainAccessGroup(currentAccessGroup,
-                                             newAccessGroup: newKeychainAccessGroup)
+        guard newKeychainAccessGroup != currentAccessGroup else {
+            ParseKeychainAccessGroup.current = newKeychainAccessGroup
             return true
         }
-        try moveToNewKeychainAccessGroup(currentAccessGroup,
-                                         newAccessGroup: newKeychainAccessGroup)
-        return KeychainStore.shared.removeOldObjects(accessGroup: currentAccessGroup)
-    }
-
-    static func moveToNewKeychainAccessGroup(_ oldAccessGroup: ParseKeychainAccessGroup,
-                                             newAccessGroup: ParseKeychainAccessGroup) throws {
         do {
             try KeychainStore.shared.copy(KeychainStore.shared,
-                                          oldAccessGroup: oldAccessGroup,
-                                          newAccessGroup: newAccessGroup)
+                                          oldAccessGroup: currentAccessGroup,
+                                          newAccessGroup: newKeychainAccessGroup)
+            ParseKeychainAccessGroup.current = newKeychainAccessGroup
         } catch {
-            ParseKeychainAccessGroup.current = oldAccessGroup
+            ParseKeychainAccessGroup.current = currentAccessGroup
             throw error
         }
+        return true
     }
 #endif
 
