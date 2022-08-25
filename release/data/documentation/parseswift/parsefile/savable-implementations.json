@@ -189,7 +189,7 @@
       "type" : "text"
     },
     {
-      "text" : "If the file hasn’t been downloaded, it will automatically be downloaded before saved.",
+      "text" : "If the file has not been downloaded, it will automatically be downloaded before saved.",
       "type" : "text"
     }
   ],

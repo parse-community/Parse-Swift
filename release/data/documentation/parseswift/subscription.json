@@ -201,11 +201,12 @@
       "title" : "Instance Properties"
     },
     {
-      "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/QuerySubscribable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didReceive(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didSubscribe(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didUnsubscribe()"
       ],
-      "title" : "Default Implementations"
+      "title" : "Instance Methods"
     }
   ],
   "variants" : [
@@ -569,21 +570,136 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscription"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/QuerySubscribable-Implementations": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/didReceive(_:)": {
   "abstract" : [
-
+    {
+      "text" : "Tells the handler that an event has been received from the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseLiveQuery",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " Server.",
+      "type" : "text"
+    }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/QuerySubscribable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "QuerySubscribable Implementations",
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "didReceive"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didReceive(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "didReceive(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/subscription\/querysubscribable-implementations"
+  "url" : "\/documentation\/parseswift\/subscription\/didreceive(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/didSubscribe(_:)": {
+  "abstract" : [
+    {
+      "text" : "Tells the handler that a query has been successfully registered with the server.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "didSubscribe"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didSubscribe(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "didSubscribe(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/subscription\/didsubscribe(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/didUnsubscribe()": {
+  "abstract" : [
+    {
+      "text" : "Tells the handler that a query has been successfully deregistered from the server.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "didUnsubscribe"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/didUnsubscribe()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "didUnsubscribe()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/subscription\/didunsubscribe()"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/event": {
   "abstract" : [
     {
-      "text" : "Updates and notifies when there’s a new event related to a specific query.",
+      "text" : "Updates and notifies when there is a new event related to a specific query.",
       "type" : "text"
     }
   ],

@@ -83,7 +83,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "If an instance can’t be created, nil is returned.",
+              "text" : "If an instance cannot be created, nil is returned.",
               "type" : "text"
             }
           ],

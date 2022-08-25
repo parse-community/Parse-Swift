@@ -1,15 +1,19 @@
 {
   "abstract" : [
     {
-      "text" : "Logs in a ",
+      "text" : "Deletes the Objective-C Keychain along with the Objective-C ",
       "type" : "text"
     },
     {
-      "code" : "ParseUser",
+      "code" : "ParseInstallation",
       "type" : "codeVoice"
     },
     {
       "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "from the Parse Server ",
       "type" : "text"
     },
     {
@@ -22,28 +26,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with a session token. On success, this saves the session",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "to the keychain, so you can retrieve the currently logged in user using ",
-      "type" : "text"
-    },
-    {
-      "inlineContent" : [
-        {
-          "text" : "current",
-          "type" : "text"
-        }
-      ],
-      "type" : "emphasis"
-    },
-    {
-      "text" : ".",
+      "text" : " and executes the given callback block.",
       "type" : "text"
     }
   ],
@@ -51,19 +34,27 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/become(sessionToken:options:callbackQueue:completion:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/deleteObjCKeychain(options:callbackQueue:completion:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A4UserPAAE6become12sessionToken7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF",
+    "externalID" : "s:10ParseSwift0A12InstallationPAAE18deleteObjCKeychain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyytAA0A5ErrorVGctFZ",
     "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "static"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
       {
         "kind" : "keyword",
         "text" : "func"
@@ -74,28 +65,11 @@
       },
       {
         "kind" : "identifier",
-        "text" : "become"
+        "text" : "deleteObjCKeychain"
       },
       {
         "kind" : "text",
         "text" : "("
-      },
-      {
-        "kind" : "externalParam",
-        "text" : "sessionToken"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
-      },
-      {
-        "kind" : "text",
-        "text" : ", "
       },
       {
         "kind" : "externalParam",
@@ -159,7 +133,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "text" : "Self"
+        "preciseIdentifier" : "s:s4Voida",
+        "text" : "Void"
       },
       {
         "kind" : "text",
@@ -190,9 +165,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Instance Method",
+    "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "become(sessionToken:options:callbackQueue:completion:)"
+    "title" : "deleteObjCKeychain(options:callbackQueue:completion:)"
   },
   "primaryContentSections" : [
     {
@@ -207,6 +182,14 @@
           "tokens" : [
             {
               "kind" : "keyword",
+              "text" : "static"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
               "text" : "func"
             },
             {
@@ -215,28 +198,11 @@
             },
             {
               "kind" : "identifier",
-              "text" : "become"
+              "text" : "deleteObjCKeychain"
             },
             {
               "kind" : "text",
               "text" : "("
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "sessionToken"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
-            },
-            {
-              "kind" : "text",
-              "text" : ", "
             },
             {
               "kind" : "externalParam",
@@ -310,7 +276,8 @@
             },
             {
               "kind" : "typeIdentifier",
-              "text" : "Self"
+              "preciseIdentifier" : "s:s4Voida",
+              "text" : "Void"
             },
             {
               "kind" : "text",
@@ -343,20 +310,6 @@
     {
       "kind" : "parameters",
       "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The sessionToken of the user to login.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "sessionToken"
-        },
         {
           "content" : [
             {
@@ -410,7 +363,7 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "(Result<Self, ParseError>)",
+                  "code" : "(Result<Void, ParseError>)",
                   "type" : "codeVoice"
                 },
                 {
@@ -432,6 +385,45 @@
           "level" : 2,
           "text" : "Discussion",
           "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "It is recommended to only use this method after a succesfful migration. Calling this",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "method will destroy the entire Objective-C Keychain and ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseInstallation",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " on the Parse",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Server.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "warning",
+          "type" : "aside"
         },
         {
           "content" : [
@@ -487,7 +479,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseuser\/become(sessiontoken:options:callbackqueue:completion:)"
+        "\/documentation\/parseswift\/parseinstallation\/deleteobjckeychain(options:callbackqueue:completion:)"
       ],
       "traits" : [
         {
@@ -614,18 +606,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseerror"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseUser",
+      "code" : "ParseInstallation",
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of a user persisted to the Parse Data.",
+      "text" : " protocol have a local representation of an",
       "type" : "text"
     },
     {
@@ -633,7 +625,11 @@
       "type" : "text"
     },
     {
-      "text" : "This protocol inherits from the ",
+      "text" : "installation persisted to the Parse cloud. This protocol inherits from the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
       "type" : "text"
     },
     {
@@ -649,7 +645,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ",",
+      "text" : ", but also extends",
       "type" : "text"
     },
     {
@@ -657,7 +653,15 @@
       "type" : "text"
     },
     {
-      "text" : "but also extends it with various user specific methods, like authentication, signing up, and validation uniqueness.",
+      "text" : "it with installation-specific fields and related immutability and validity",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "checks.",
       "type" : "text"
     }
   ],
@@ -672,34 +676,38 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseUser"
+      "text" : "ParseInstallation"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseUser"
+      "text" : "ParseInstallation"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseUser",
+  "title" : "ParseInstallation",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseuser"
+  "url" : "\/documentation\/parseswift\/parseinstallation"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/become(sessionToken:options:callbackQueue:completion:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation/deleteObjCKeychain(options:callbackQueue:completion:)": {
   "abstract" : [
     {
-      "text" : "Logs in a ",
+      "text" : "Deletes the Objective-C Keychain along with the Objective-C ",
       "type" : "text"
     },
     {
-      "code" : "ParseUser",
+      "code" : "ParseInstallation",
       "type" : "codeVoice"
     },
     {
       "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "from the Parse Server ",
       "type" : "text"
     },
     {
@@ -712,32 +720,19 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with a session token. On success, this saves the session",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "to the keychain, so you can retrieve the currently logged in user using ",
-      "type" : "text"
-    },
-    {
-      "inlineContent" : [
-        {
-          "text" : "current",
-          "type" : "text"
-        }
-      ],
-      "type" : "emphasis"
-    },
-    {
-      "text" : ".",
+      "text" : " and executes the given callback block.",
       "type" : "text"
     }
   ],
   "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
     {
       "kind" : "keyword",
       "text" : "func"
@@ -748,28 +743,11 @@
     },
     {
       "kind" : "identifier",
-      "text" : "become"
+      "text" : "deleteObjCKeychain"
     },
     {
       "kind" : "text",
       "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "sessionToken"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
     },
     {
       "kind" : "externalParam",
@@ -833,7 +811,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "text" : "Self"
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
     },
     {
       "kind" : "text",
@@ -858,12 +837,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/become(sessionToken:options:callbackQueue:completion:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/deleteObjCKeychain(options:callbackQueue:completion:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "become(sessionToken:options:callbackQueue:completion:)",
+  "title" : "deleteObjCKeychain(options:callbackQueue:completion:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseuser\/become(sessiontoken:options:callbackqueue:completion:)"
+  "url" : "\/documentation\/parseswift\/parseinstallation\/deleteobjckeychain(options:callbackqueue:completion:)"
 }
 }
 }

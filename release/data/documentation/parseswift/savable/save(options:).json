@@ -299,7 +299,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " and throws an error if there’s an issue.",
+      "text" : " and throws an error if there is an issue.",
       "type" : "text"
     }
   ],

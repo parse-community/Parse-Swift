@@ -22,7 +22,7 @@
       "type" : "text"
     },
     {
-      "text" : "A name will be assigned to it by the server. If the file hasn’t been downloaded, it will automatically",
+      "text" : "A name will be assigned to it by the server. If the file has not been downloaded, it will automatically",
       "type" : "text"
     },
     {
@@ -468,7 +468,7 @@
       "type" : "text"
     },
     {
-      "text" : "A name will be assigned to it by the server. If the file hasn’t been downloaded, it will automatically",
+      "text" : "A name will be assigned to it by the server. If the file has not been downloaded, it will automatically",
       "type" : "text"
     },
     {

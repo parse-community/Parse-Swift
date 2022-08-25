@@ -502,7 +502,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "This hasn’t been tested thoroughly.",
+                  "text" : "This has not been tested thoroughly.",
                   "type" : "text"
                 }
               ],

@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Updates and notifies when there’s a new event related to a specific query.",
+      "text" : "Updates and notifies when there is a new event related to a specific query.",
       "type" : "text"
     }
   ],
@@ -397,7 +397,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/event": {
   "abstract" : [
     {
-      "text" : "Updates and notifies when there’s a new event related to a specific query.",
+      "text" : "Updates and notifies when there is a new event related to a specific query.",
       "type" : "text"
     }
   ],

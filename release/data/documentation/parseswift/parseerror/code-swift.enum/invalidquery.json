@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "You tried to find values matching a datatype that doesn’t",
+      "text" : "You tried to find values matching a datatype that does not",
       "type" : "text"
     },
     {
@@ -217,7 +217,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/invalidQuery": {
   "abstract" : [
     {
-      "text" : "You tried to find values matching a datatype that doesn’t",
+      "text" : "You tried to find values matching a datatype that does not",
       "type" : "text"
     },
     {

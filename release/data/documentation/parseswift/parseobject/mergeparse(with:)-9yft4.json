@@ -288,7 +288,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "You should only call this method and shouldn’t implement it directly",
+                  "text" : "You should only call this method and should not implement it directly",
                   "type" : "text"
                 },
                 {
@@ -296,7 +296,7 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "as it’s already implemented for developers to use.",
+                  "text" : "as it is already implemented for developers to use.",
                   "type" : "text"
                 }
               ],

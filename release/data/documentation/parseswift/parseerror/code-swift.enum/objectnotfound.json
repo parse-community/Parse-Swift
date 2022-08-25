@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Object doesn’t exist, or has an incorrect password.",
+      "text" : "Object does not exist, or has an incorrect password.",
       "type" : "text"
     }
   ],
@@ -209,7 +209,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/objectNotFound": {
   "abstract" : [
     {
-      "text" : "Object doesn’t exist, or has an incorrect password.",
+      "text" : "Object does not exist, or has an incorrect password.",
       "type" : "text"
     }
   ],

@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/QuerySubscribable-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription"
       ]
     ]
   },
@@ -28,39 +27,6 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "conformance" : {
-      "availabilityPrefix" : [
-        {
-          "text" : "Available when",
-          "type" : "text"
-        }
-      ],
-      "conformancePrefix" : [
-        {
-          "text" : "Conforms when",
-          "type" : "text"
-        }
-      ],
-      "constraints" : [
-        {
-          "code" : "T",
-          "type" : "codeVoice"
-        },
-        {
-          "text" : " conforms to ",
-          "type" : "text"
-        },
-        {
-          "code" : "ParseObject",
-          "type" : "codeVoice"
-        },
-        {
-          "text" : ".",
-          "type" : "text"
-        }
-      ]
-    },
-    "extendedModule" : "ParseSwift",
     "externalID" : "s:10ParseSwift12SubscriptionC10didReceiveyy10Foundation4DataVKF",
     "fragments" : [
       {
@@ -299,17 +265,6 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/subscription"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/QuerySubscribable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Subscription\/QuerySubscribable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "QuerySubscribable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/subscription\/querysubscribable-implementations"
-},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/Subscription/didReceive(_:)": {
   "abstract" : [
     {
@@ -325,38 +280,6 @@
       "type" : "text"
     }
   ],
-  "conformance" : {
-    "availabilityPrefix" : [
-      {
-        "text" : "Available when",
-        "type" : "text"
-      }
-    ],
-    "conformancePrefix" : [
-      {
-        "text" : "Conforms when",
-        "type" : "text"
-      }
-    ],
-    "constraints" : [
-      {
-        "code" : "T",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : " conforms to ",
-        "type" : "text"
-      },
-      {
-        "code" : "ParseObject",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : ".",
-        "type" : "text"
-      }
-    ]
-  },
   "fragments" : [
     {
       "kind" : "keyword",

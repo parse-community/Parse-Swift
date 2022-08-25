@@ -135,7 +135,7 @@
                 {
                   "inlineContent" : [
                     {
-                      "text" : "Anonymous users don’t need a user name or password.",
+                      "text" : "Anonymous users do not need a user name or password.",
                       "type" : "text"
                     }
                   ],

@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "That operation isn’t allowed for clients.",
+      "text" : "That operation is not allowed for clients.",
       "type" : "text"
     }
   ],
@@ -209,7 +209,7 @@
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError/Code-swift.enum/operationForbidden": {
   "abstract" : [
     {
-      "text" : "That operation isn’t allowed for clients.",
+      "text" : "That operation is not allowed for clients.",
       "type" : "text"
     }
   ],

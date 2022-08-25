@@ -492,7 +492,7 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : "‘s, you won’t be able to rely on ",
+                  "text" : "’s, you will not be able to rely on ",
                   "type" : "text"
                 },
                 {
@@ -520,7 +520,7 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " as your unsaved objects won’t have this value yet and is nil. A possible way to",
+                  "text" : " as your unsaved objects will not have this value yet and is nil. A possible way to",
                   "type" : "text"
                 },
                 {
@@ -560,7 +560,7 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "otherwise it’s possible you will get “circular dependency errors” depending on your implementation.",
+                  "text" : "otherwise it is possible you will get “circular dependency errors” depending on your implementation.",
                   "type" : "text"
                 }
               ],
@@ -4627,7 +4627,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " and throws an error if there’s an issue.",
+      "text" : " and throws an error if there is an issue.",
       "type" : "text"
     }
   ],

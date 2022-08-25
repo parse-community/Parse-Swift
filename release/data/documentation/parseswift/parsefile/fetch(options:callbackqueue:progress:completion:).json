@@ -411,7 +411,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A block that will be called when file updates it’s progress.",
+                  "text" : "A block that will be called when file updates it is progress.",
                   "type" : "text"
                 },
                 {

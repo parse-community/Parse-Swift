@@ -9,7 +9,7 @@
       "type" : "text"
     },
     {
-      "text" : "only if it wasn’t already present.",
+      "text" : "only if it was not already present.",
       "type" : "text"
     }
   ],
@@ -418,7 +418,7 @@
       "type" : "text"
     },
     {
-      "text" : "only if it wasn’t already present.",
+      "text" : "only if it was not already present.",
       "type" : "text"
     }
   ],
