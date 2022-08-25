@@ -578,22 +578,30 @@ public struct ParseSwift {
         }
         let newKeychainAccessGroup = ParseKeychainAccessGroup(accessGroup: accessGroup,
                                                               isSyncingKeychainAcrossDevices: synchronizeAcrossDevices)
-        if KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,
-                                     accessGroup: newKeychainAccessGroup) == nil ||
-            newKeychainAccessGroup != currentAccessGroup {
-            do {
-                try KeychainStore.shared.copy(KeychainStore.shared,
-                                              oldAccessGroup: currentAccessGroup,
-                                              newAccessGroup: newKeychainAccessGroup)
-                ParseKeychainAccessGroup.current = newKeychainAccessGroup
-            } catch {
-                ParseKeychainAccessGroup.current = currentAccessGroup
-                throw error
+        ParseKeychainAccessGroup.current = newKeychainAccessGroup
+        guard currentAccessGroup.accessGroup != nil,
+              newKeychainAccessGroup != currentAccessGroup else {
+            guard newKeychainAccessGroup != currentAccessGroup else {
+                return true
             }
-            return KeychainStore.shared.removeOldObjects(accessGroup: currentAccessGroup)
-        } else {
-            ParseKeychainAccessGroup.current = newKeychainAccessGroup
+            try moveToNewKeychainAccessGroup(currentAccessGroup,
+                                             newAccessGroup: newKeychainAccessGroup)
             return true
+        }
+        try moveToNewKeychainAccessGroup(currentAccessGroup,
+                                         newAccessGroup: newKeychainAccessGroup)
+        return KeychainStore.shared.removeOldObjects(accessGroup: currentAccessGroup)
+    }
+
+    static func moveToNewKeychainAccessGroup(_ oldAccessGroup: ParseKeychainAccessGroup,
+                                             newAccessGroup: ParseKeychainAccessGroup) throws {
+        do {
+            try KeychainStore.shared.copy(KeychainStore.shared,
+                                          oldAccessGroup: oldAccessGroup,
+                                          newAccessGroup: newAccessGroup)
+        } catch {
+            ParseKeychainAccessGroup.current = oldAccessGroup
+            throw error
         }
     }
 #endif
