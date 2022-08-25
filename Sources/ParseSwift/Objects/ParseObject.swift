@@ -192,7 +192,7 @@ public extension ParseObject {
     }
 
     func mergeParse(with object: Self) throws -> Self {
-        guard hasSameObjectId(as: object) == true else {
+        guard hasSameObjectId(as: object) else {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects do not match")
         }

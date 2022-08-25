@@ -221,11 +221,11 @@ struct KeychainStore: SecureStorage {
 
             for item in results {
                 guard let key = item[kSecAttrAccount as String] as? String,
-                      isSyncableKey(key) == true else {
+                      isSyncableKey(key) else {
                     continue
                 }
                 guard self.removeObject(forKey: key,
-                                        accessGroup: accessGroup) == true else {
+                                        accessGroup: accessGroup) else {
                     return false
                 }
             }
