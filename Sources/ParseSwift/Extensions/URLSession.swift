@@ -220,9 +220,17 @@ internal extension URLSession {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both cannot be nil")))
         }
         if let task = task {
+            #if compiler(>=5.5.2) && canImport(_Concurrency)
+            Task {
+                await ParseSwift.sessionDelegate.delegates.insertUpload(task, callback: progress)
+                await ParseSwift.sessionDelegate.delegates.insertTask(task, queue: notificationQueue)
+                task.resume()
+            }
+            #else
             ParseSwift.sessionDelegate.uploadDelegates[task] = progress
             ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
             task.resume()
+            #endif
         }
     }
 
@@ -255,9 +263,17 @@ internal extension URLSession {
             }
             completion(result)
         }
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            await ParseSwift.sessionDelegate.delegates.insertDownload(task, callback: progress)
+            await ParseSwift.sessionDelegate.delegates.insertTask(task, queue: notificationQueue)
+            task.resume()
+        }
+        #else
         ParseSwift.sessionDelegate.downloadDelegates[task] = progress
         ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
         task.resume()
+        #endif
     }
 
     func downloadTask<U>(
