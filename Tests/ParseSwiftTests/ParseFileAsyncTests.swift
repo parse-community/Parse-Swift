@@ -22,36 +22,6 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         let url: URL
     }
 
-    struct User: ParseUser {
-
-        //: These are required by ParseObject
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-        var originalData: Data?
-
-        // These are required by ParseUser
-        var username: String?
-        var email: String?
-        var emailVerified: Bool?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-
-        //: Implement your own version of merge
-        func merge(with object: Self) throws -> Self {
-            var updated = try mergeParse(with: object)
-            if updated.shouldRestoreKey(\.customKey,
-                                         original: object) {
-                updated.customKey = object.customKey
-            }
-            return updated
-        }
-    }
-
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -291,53 +261,5 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertEqual(error.message, serverResponse.message)
         }
     }
-/*
-    func testDownloadFileWithThrowingTaskGroup() async throws {
-        try await User.login(username: "hello", password: "world")
-        guard let parseFileURL = URL(string: "https://www.jmir.org/2022/4/e29492/PDF") else {
-            XCTFail("Should create URL")
-            return
-        }
-        /*
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }*/
-        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
-        parseFile.url = parseFileURL
-/*
-        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
-                                          url: parseFileURL)
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        } */
-        // let immutableParseFile = parseFile
-        let files = try await withThrowingTaskGroup(of: ParseFile.self) { group -> [ParseFile] in
-            var files = [ParseFile]()
-
-            for index in 0..<20 {
-                let parseFile = ParseFile(name: "\(index)_d3a37aed0672a024595b766f97133615_logo.svg",
-                                          cloudURL: parseFileURL)
-                group.addTask {
-                    return try await parseFile.save()
-                }
-            }
-
-            for try await file in group {
-                files.append(file)
-            }
-
-            return files
-        }
-    }
-    */
 }
 #endif
