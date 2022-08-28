@@ -715,6 +715,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         // swiftlint:disable:next line_length
         let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
         let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
 
         let expectation1 = XCTestExpectation(description: "Call delegate 1")
         let expectation2 = XCTestExpectation(description: "Call delegate 2")
@@ -740,7 +741,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Add tasks
         ParseSwift.sessionDelegate.uploadDelegates[task] = uploadCompletion
-        ParseSwift.sessionDelegate.taskCallbackQueues[task] = DispatchQueue.main
+        ParseSwift.sessionDelegate.taskCallbackQueues[task] = queue
 
         ParseSwift.sessionDelegate.urlSession(URLSession.parse,
                                               task: task,
@@ -754,6 +755,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         // swiftlint:disable:next line_length
         let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
         let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
         guard let fileManager = ParseFileManager(),
               let filePath = fileManager.dataItemPathForPathComponent("test.txt") else {
             XCTFail("Should have unwrapped")
@@ -786,7 +788,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Add tasks
         ParseSwift.sessionDelegate.downloadDelegates[downloadTask] = downloadCompletion
-        ParseSwift.sessionDelegate.taskCallbackQueues[task] = DispatchQueue.main
+        ParseSwift.sessionDelegate.taskCallbackQueues[task] = queue
 
         ParseSwift.sessionDelegate.urlSession(URLSession.parse,
                                               downloadTask: downloadTask,
@@ -800,6 +802,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         // swiftlint:disable:next line_length
         let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
         let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
 
         let expectation1 = XCTestExpectation(description: "Call delegate 1")
         let expectation2 = XCTestExpectation(description: "Call delegate 2")
@@ -822,7 +825,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Add tasks
         ParseSwift.sessionDelegate.streamDelegates[task] = .init(data: .init())
-        ParseSwift.sessionDelegate.taskCallbackQueues[task] = DispatchQueue.main
+        ParseSwift.sessionDelegate.taskCallbackQueues[task] = queue
 
         ParseSwift.sessionDelegate.urlSession(URLSession.parse, task: task, needNewBodyStream: streamCompletion)
         wait(for: [expectation1, expectation2], timeout: 20.0)

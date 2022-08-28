@@ -17,12 +17,11 @@ class ParseURLSessionDelegate: NSObject
     var authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
                            URLCredential?) -> Void) -> Void)?
-
+    var streamDelegates = [URLSessionTask: InputStream]()
     #if compiler(>=5.5.2) && canImport(_Concurrency)
-    actor SessionDelegate {
+    actor SessionDelegate: Sendable {
         var downloadDelegates = [URLSessionDownloadTask: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)]()
         var uploadDelegates = [URLSessionTask: ((URLSessionTask, Int64, Int64, Int64) -> Void)]()
-        var streamDelegates = [URLSessionTask: InputStream]()
         var taskCallbackQueues = [URLSessionTask: DispatchQueue]()
 
         func updateDownload(_ task: URLSessionDownloadTask,
@@ -45,16 +44,6 @@ class ParseURLSessionDelegate: NSObject
             taskCallbackQueues.removeValue(forKey: task)
         }
 
-        func updateStream(_ task: URLSessionTask,
-                          stream: InputStream) {
-            streamDelegates[task] = stream
-        }
-
-        func removeStream(_ task: URLSessionTask) {
-            streamDelegates.removeValue(forKey: task)
-            taskCallbackQueues.removeValue(forKey: task)
-        }
-
         func updateTask(_ task: URLSessionTask,
                         queue: DispatchQueue) {
             taskCallbackQueues[task] = queue
@@ -70,7 +59,6 @@ class ParseURLSessionDelegate: NSObject
     #else
     var downloadDelegates = [URLSessionDownloadTask: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)]()
     var uploadDelegates = [URLSessionTask: ((URLSessionTask, Int64, Int64, Int64) -> Void)]()
-    var streamDelegates = [URLSessionTask: InputStream]()
     var taskCallbackQueues = [URLSessionTask: DispatchQueue]()
     #endif
 
@@ -127,31 +115,22 @@ extension ParseURLSessionDelegate: URLSessionDataDelegate {
     func urlSession(_ session: URLSession,
                     task: URLSessionTask,
                     needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
-        #if compiler(>=5.5.2) && canImport(_Concurrency)
-        Task {
-            if let stream = await delegates.streamDelegates[task] {
-                completionHandler(stream)
-            }
-        }
-        #else
         if let stream = streamDelegates[task] {
             completionHandler(stream)
         }
-        #endif
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        streamDelegates.removeValue(forKey: task)
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             await delegates.removeUpload(task)
-            await delegates.removeStream(task)
             if let downloadTask = task as? URLSessionDownloadTask {
                 await delegates.removeDownload(downloadTask)
             }
         }
         #else
         uploadDelegates.removeValue(forKey: task)
-        streamDelegates.removeValue(forKey: task)
         taskCallbackQueues.removeValue(forKey: task)
         if let downloadTask = task as? URLSessionDownloadTask {
             downloadDelegates.removeValue(forKey: downloadTask)
