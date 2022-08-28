@@ -1,8 +1,13 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.9.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.0...4.9.1)
+__Fixes__
+- Use an actor for the url session delegates to ensure thread safety when making async calls in parallel ([#394](https://github.com/parse-community/Parse-Swift/pull/394)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...4.9.0)
