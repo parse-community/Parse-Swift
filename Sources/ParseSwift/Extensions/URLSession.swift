@@ -27,8 +27,6 @@ internal extension URLSession {
         } else {
             let session = URLSession.shared
             session.configuration.urlCache = URLCache.parse
-            session.configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
-            session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
             Self.parse = URLSession.shared
         }
     }
