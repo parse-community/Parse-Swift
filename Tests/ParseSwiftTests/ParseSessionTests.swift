@@ -103,6 +103,7 @@ class ParseSessionTests: XCTestCase {
         XCTAssertEqual(session.endpoint.urlComponent, "/sessions/me")
     }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testParseURLSession() throws {
         XCTAssertEqual(URLSession.parse.configuration.requestCachePolicy,
                        ParseSwift.configuration.requestCachePolicy)
@@ -163,4 +164,5 @@ class ParseSessionTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 10.0)
     }
+    #endif
 }
