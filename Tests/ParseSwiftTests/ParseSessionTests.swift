@@ -76,6 +76,7 @@ class ParseSessionTests: XCTestCase {
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
+        ParseSwift.configuration = nil
     }
 
     func testFetchCommand() throws {
@@ -100,5 +101,66 @@ class ParseSessionTests: XCTestCase {
         XCTAssertEqual(session.endpoint.urlComponent, "/sessions")
         session.objectId = "me"
         XCTAssertEqual(session.endpoint.urlComponent, "/sessions/me")
+    }
+
+    func testParseURLSession() throws {
+        XCTAssertEqual(URLSession.parse.configuration.requestCachePolicy,
+                       ParseSwift.configuration.requestCachePolicy)
+        XCTAssertEqual(URLSession.parse.configuration.httpAdditionalHeaders?.count,
+                       ParseSwift.configuration.httpAdditionalHeaders?.count)
+        guard let delegate = URLSession.parse.delegate as? ParseURLSessionDelegate else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(delegate, ParseSwift.sessionDelegate)
+    }
+
+    func testParseURLSessionDefaultCertificatePinning() throws {
+        let expectation1 = XCTestExpectation(description: "Authentication")
+        URLSession.parse.delegate?.urlSession?(URLSession.parse,
+                                               didReceive: .init()) { (challenge, credential) -> Void in
+            XCTAssertEqual(challenge, .performDefaultHandling)
+            XCTAssertNil(credential)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testParseURLSessionCustomCertificatePinning() throws {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              // swiftlint:disable:next line_length
+                              testing: false) {(_: URLAuthenticationChallenge, completion: (_: URLSession.AuthChallengeDisposition, _: URLCredential?) -> Void) in
+            completion(.cancelAuthenticationChallenge, .none)
+        }
+        let expectation1 = XCTestExpectation(description: "Authentication")
+        URLSession.parse.delegate?.urlSession?(URLSession.parse,
+                                               didReceive: .init()) { (challenge, credential) -> Void in
+            XCTAssertEqual(challenge, .cancelAuthenticationChallenge)
+            XCTAssertEqual(credential, .none)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testParseURLSessionUpdateCertificatePinning() throws {
+        // swiftlint:disable:next line_length
+        ParseSwift.updateAuthentication({(_: URLAuthenticationChallenge, completion: (_: URLSession.AuthChallengeDisposition, _: URLCredential?) -> Void) in
+            completion(.cancelAuthenticationChallenge, .none)
+        })
+        let expectation1 = XCTestExpectation(description: "Authentication")
+        URLSession.parse.delegate?.urlSession?(URLSession.parse,
+                                               didReceive: .init()) { (challenge, credential) -> Void in
+            XCTAssertEqual(challenge, .cancelAuthenticationChallenge)
+            XCTAssertEqual(credential, .none)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
     }
 }

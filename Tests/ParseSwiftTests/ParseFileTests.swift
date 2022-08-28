@@ -680,9 +680,41 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    #if compiler(<5.5.2)
+    func testParseURLSessionDelegates() throws {
+        // swiftlint:disable:next line_length
+        let dowloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = dowloadTask as URLSessionTask
+        // swiftlint:disable:next line_length
+        let uploadCompletion: ((URLSessionTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionTask, _: Int64, _: Int64, _: Int64) -> Void in }
+        // swiftlint:disable:next line_length
+        let dowbloadCompletion: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionDownloadTask, _: Int64, _: Int64, _: Int64) -> Void in }
+
+        // Add tasks
+        ParseSwift.sessionDelegate.taskCallbackQueues[task] = DispatchQueue.main
+        XCTAssertEqual(ParseSwift.sessionDelegate.taskCallbackQueues[task]?.count, 1)
+        ParseSwift.sessionDelegate.streamDelegates[task] = .init(data: .init())
+        XCTAssertEqual(ParseSwift.sessionDelegate.streamDelegates[task]?.count, 1)
+        ParseSwift.sessionDelegate.uploadDelegates[task] = uploadCompletion
+        XCTAssertEqual(ParseSwift.sessionDelegate.uploadDelegates[task]?.count, 1)
+        ParseSwift.sessionDelegate.downloadDelegates[task] = dowbloadCompletion
+        XCTAssertEqual(ParseSwift.sessionDelegate.downloadDelegates[task]?.count, 1)
+
+        // Remove tasks
+        ParseSwift.sessionDelegate.taskCallbackQueues.removeValue(forKey: task)
+        XCTAssertEqual(ParseSwift.sessionDelegate.taskCallbackQueues[task]?.count, 0)
+        ParseSwift.sessionDelegate.streamDelegates.removeValue(forKey: task)
+        XCTAssertEqual(ParseSwift.sessionDelegate.streamDelegates[task]?.count, 0)
+        ParseSwift.sessionDelegate.uploadDelegates.removeValue(forKey: task)
+        XCTAssertEqual(ParseSwift.sessionDelegate.uploadDelegates[task]?.count, 0)
+        ParseSwift.sessionDelegate.downloadDelegates.removeValue(forKey: dowloadTask)
+        XCTAssertEqual(ParseSwift.sessionDelegate.downloadDelegates[dowloadTask]?.count, 0)
+    }
+    #endif
+
     #if !os(Linux) && !os(Android) && !os(Windows)
 
-    //URL Mocker is not able to mock this in linux and tests fail, so do not run.
+    // URL Mocker is not able to mock this in linux and tests fail, so do not run.
     func testFetchFileCancelAsync() throws {
         // swiftlint:disable:next line_length
         guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/7793939a2e59b98138c1bbf2412a060c_logo.svg") else {

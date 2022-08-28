@@ -267,6 +267,7 @@ public struct ParseSwift {
         Self.configuration = configuration
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: configuration.authentication)
+        URLSession.updateParseURLSession()
         deleteKeychainIfNeeded()
 
         #if !os(Linux) && !os(Android) && !os(Windows)
@@ -626,6 +627,7 @@ public struct ParseSwift {
                                                           URLCredential?) -> Void) -> Void)?) {
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: authentication)
+        URLSession.updateParseURLSession()
     }
 
     #if !os(Linux) && !os(Android) && !os(Windows)

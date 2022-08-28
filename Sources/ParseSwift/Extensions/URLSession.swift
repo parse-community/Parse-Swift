@@ -13,21 +13,25 @@ import FoundationNetworking
 #endif
 
 internal extension URLSession {
-    static let parse: URLSession = {
+    static var parse = URLSession.shared
+
+    static func updateParseURLSession() {
         if !ParseSwift.configuration.isTestingSDK {
             let configuration = URLSessionConfiguration.default
             configuration.urlCache = URLCache.parse
             configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
             configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
-            return URLSession(configuration: configuration,
-                              delegate: ParseSwift.sessionDelegate,
-                              delegateQueue: nil)
+            Self.parse = URLSession(configuration: configuration,
+                                    delegate: ParseSwift.sessionDelegate,
+                                    delegateQueue: nil)
         } else {
             let session = URLSession.shared
             session.configuration.urlCache = URLCache.parse
-            return URLSession.shared
+            session.configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            Self.parse = URLSession.shared
         }
-    }()
+    }
 
     static func reconnectInterval(_ maxExponent: Int) -> Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, maxExponent) - 1))
