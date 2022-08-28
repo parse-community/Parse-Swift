@@ -785,7 +785,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         // Add tasks
-        ParseSwift.sessionDelegate.downloadDelegates[task] = downloadCompletion
+        ParseSwift.sessionDelegate.downloadDelegates[downloadTask] = downloadCompletion
         ParseSwift.sessionDelegate.taskCallbackQueues[task] = DispatchQueue.main
 
         ParseSwift.sessionDelegate.urlSession(URLSession.parse,
