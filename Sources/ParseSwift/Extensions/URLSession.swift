@@ -13,9 +13,25 @@ import FoundationNetworking
 #endif
 
 internal extension URLSession {
-    static var parse = URLSession.shared
+    static var parse: URLSession = /* URLSession.shared */ {
+        if !ParseSwift.configuration.isTestingSDK {
+            let configuration = URLSessionConfiguration.default
+            configuration.urlCache = URLCache.parse
+            configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            return URLSession(configuration: configuration,
+                              delegate: ParseSwift.sessionDelegate,
+                              delegateQueue: nil)
+        } else {
+            let session = URLSession.shared
+            session.configuration.urlCache = URLCache.parse
+            session.configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            return session
+        }
+    }()
 
-    static func updateParseURLSession() {
+    static func updateParseURLSession() { /*
         #if !os(Linux) && !os(Android) && !os(Windows)
         if !ParseSwift.configuration.isTestingSDK {
             let configuration = URLSessionConfiguration.default
@@ -41,7 +57,7 @@ internal extension URLSession {
         } else {
             Self.parse = URLSession.shared
         }
-        #endif
+        #endif */
     }
 
     static func reconnectInterval(_ maxExponent: Int) -> Int {
