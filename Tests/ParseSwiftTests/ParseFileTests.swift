@@ -692,23 +692,23 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Add tasks
         ParseSwift.sessionDelegate.taskCallbackQueues[task] = DispatchQueue.main
-        XCTAssertEqual(ParseSwift.sessionDelegate.taskCallbackQueues[task]?.count, 1)
+        XCTAssertEqual(ParseSwift.sessionDelegate.taskCallbackQueues.count, 1)
         ParseSwift.sessionDelegate.streamDelegates[task] = .init(data: .init())
-        XCTAssertEqual(ParseSwift.sessionDelegate.streamDelegates[task]?.count, 1)
+        XCTAssertEqual(ParseSwift.sessionDelegate.streamDelegates.count, 1)
         ParseSwift.sessionDelegate.uploadDelegates[task] = uploadCompletion
-        XCTAssertEqual(ParseSwift.sessionDelegate.uploadDelegates[task]?.count, 1)
+        XCTAssertEqual(ParseSwift.sessionDelegate.uploadDelegates.count, 1)
         ParseSwift.sessionDelegate.downloadDelegates[task] = dowbloadCompletion
-        XCTAssertEqual(ParseSwift.sessionDelegate.downloadDelegates[task]?.count, 1)
+        XCTAssertEqual(ParseSwift.sessionDelegate.downloadDelegates.count, 1)
 
         // Remove tasks
         ParseSwift.sessionDelegate.taskCallbackQueues.removeValue(forKey: task)
-        XCTAssertEqual(ParseSwift.sessionDelegate.taskCallbackQueues[task]?.count, 0)
+        XCTAssertEqual(ParseSwift.sessionDelegate.taskCallbackQueues.count, 0)
         ParseSwift.sessionDelegate.streamDelegates.removeValue(forKey: task)
-        XCTAssertEqual(ParseSwift.sessionDelegate.streamDelegates[task]?.count, 0)
+        XCTAssertEqual(ParseSwift.sessionDelegate.streamDelegates.count, 0)
         ParseSwift.sessionDelegate.uploadDelegates.removeValue(forKey: task)
-        XCTAssertEqual(ParseSwift.sessionDelegate.uploadDelegates[task]?.count, 0)
+        XCTAssertEqual(ParseSwift.sessionDelegate.uploadDelegates.count, 0)
         ParseSwift.sessionDelegate.downloadDelegates.removeValue(forKey: dowloadTask)
-        XCTAssertEqual(ParseSwift.sessionDelegate.downloadDelegates[dowloadTask]?.count, 0)
+        XCTAssertEqual(ParseSwift.sessionDelegate.downloadDelegates.count, 0)
     }
     #endif
 
