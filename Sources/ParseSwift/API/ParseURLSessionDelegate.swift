@@ -154,7 +154,7 @@ extension ParseURLSessionDelegate: URLSessionDataDelegate {
         streamDelegates.removeValue(forKey: task)
         taskCallbackQueues.removeValue(forKey: task)
         if let downloadTask = task as? URLSessionDownloadTask {
-            await downloadDelegates.removeValue(forKey: downloadTask)
+            downloadDelegates.removeValue(forKey: downloadTask)
         }
         #endif
     }
