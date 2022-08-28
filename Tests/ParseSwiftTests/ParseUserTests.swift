@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 7/21/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if !os(Linux) && !os(Android) && !os(Windows)
+
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -2766,4 +2766,3 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 }
 // swiftlint:disable:this file_length
-#endif
