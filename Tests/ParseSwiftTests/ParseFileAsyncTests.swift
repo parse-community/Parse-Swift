@@ -319,7 +319,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                     XCTAssertEqual(taskCount, 1)
                     expectation1.fulfill()
                     ParseSwift.sessionDelegate.urlSession(URLSession.parse, task: task, didCompleteWithError: nil)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                         Task {
                             let uploadCount = await ParseSwift.sessionDelegate.delegates.uploadDelegates.count
                             let taskCount = await ParseSwift.sessionDelegate.delegates.taskCallbackQueues.count
@@ -369,7 +369,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                     ParseSwift.sessionDelegate.urlSession(URLSession.parse,
                                                           downloadTask: downloadTask,
                                                           didFinishDownloadingTo: filePath)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                         Task {
                             let downloadCount = await ParseSwift.sessionDelegate.delegates.downloadDelegates.count
                             let taskCount = await ParseSwift.sessionDelegate.delegates.taskCallbackQueues.count
@@ -410,7 +410,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertEqual(taskCount, 1)
                 expectation1.fulfill()
                 ParseSwift.sessionDelegate.urlSession(URLSession.parse, task: task, didCompleteWithError: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                     Task {
                         let streamCount = await ParseSwift.sessionDelegate.delegates.streamDelegates.count
                         let taskCount = await ParseSwift.sessionDelegate.delegates.taskCallbackQueues.count
