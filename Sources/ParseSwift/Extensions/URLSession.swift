@@ -16,6 +16,7 @@ internal extension URLSession {
     static var parse = URLSession.shared
 
     static func updateParseURLSession() {
+        #if !os(Linux) && !os(Android) && !os(Windows)
         if !ParseSwift.configuration.isTestingSDK {
             let configuration = URLSessionConfiguration.default
             configuration.urlCache = URLCache.parse
@@ -31,6 +32,16 @@ internal extension URLSession {
             session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
             Self.parse = session
         }
+        #else
+        if !ParseSwift.configuration.isTestingSDK {
+            let configuration = URLSessionConfiguration.default
+            Self.parse = URLSession(configuration: configuration,
+                                    delegate: ParseSwift.sessionDelegate,
+                                    delegateQueue: nil)
+        } else {
+            Self.parse = URLSession.shared
+        }
+        #endif
     }
 
     static func reconnectInterval(_ maxExponent: Int) -> Int {
