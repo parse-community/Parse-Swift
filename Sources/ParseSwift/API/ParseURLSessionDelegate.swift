@@ -32,6 +32,7 @@ class ParseURLSessionDelegate: NSObject
 
         func removeDownload(_ task: URLSessionDownloadTask) {
             downloadDelegates.removeValue(forKey: task)
+            taskCallbackQueues.removeValue(forKey: task)
         }
 
         func updateUpload(_ task: URLSessionTask,
@@ -41,6 +42,7 @@ class ParseURLSessionDelegate: NSObject
 
         func removeUpload(_ task: URLSessionTask) {
             uploadDelegates.removeValue(forKey: task)
+            taskCallbackQueues.removeValue(forKey: task)
         }
 
         func updateStream(_ task: URLSessionTask,
@@ -50,6 +52,7 @@ class ParseURLSessionDelegate: NSObject
 
         func removeStream(_ task: URLSessionTask) {
             streamDelegates.removeValue(forKey: task)
+            taskCallbackQueues.removeValue(forKey: task)
         }
 
         func updateTask(_ task: URLSessionTask,
@@ -106,9 +109,6 @@ extension ParseURLSessionDelegate: URLSessionDataDelegate {
         Task {
             if let callback = await delegates.uploadDelegates[task],
                let queue = await delegates.taskCallbackQueues[task] {
-                if totalBytesSent == totalBytesExpectedToSend {
-                    await delegates.removeUpload(task)
-                }
                 queue.async {
                     callback(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
                 }
@@ -117,9 +117,6 @@ extension ParseURLSessionDelegate: URLSessionDataDelegate {
         #else
         if let callback = uploadDelegates[task],
            let queue = taskCallbackQueues[task] {
-            if totalBytesSent == totalBytesExpectedToSend {
-                uploadDelegates.removeValue(forKey: task)
-            }
             queue.async {
                 callback(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
             }
@@ -148,12 +145,17 @@ extension ParseURLSessionDelegate: URLSessionDataDelegate {
         Task {
             await delegates.removeUpload(task)
             await delegates.removeStream(task)
-            await delegates.removeTask(task)
+            if let downloadTask = task as? URLSessionDownloadTask {
+                await delegates.removeDownload(downloadTask)
+            }
         }
         #else
         uploadDelegates.removeValue(forKey: task)
         streamDelegates.removeValue(forKey: task)
         taskCallbackQueues.removeValue(forKey: task)
+        if let downloadTask = task as? URLSessionDownloadTask {
+            await downloadDelegates.removeValue(forKey: downloadTask)
+        }
         #endif
     }
 }
@@ -168,9 +170,6 @@ extension ParseURLSessionDelegate: URLSessionDownloadDelegate {
         Task {
             if let callback = await delegates.downloadDelegates[downloadTask],
                let queue = await delegates.taskCallbackQueues[downloadTask] {
-                if totalBytesWritten == totalBytesExpectedToWrite {
-                    await delegates.removeDownload(downloadTask)
-                }
                 queue.async {
                     callback(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
                 }
@@ -179,9 +178,6 @@ extension ParseURLSessionDelegate: URLSessionDownloadDelegate {
         #else
         if let callback = downloadDelegates[downloadTask],
            let queue = taskCallbackQueues[downloadTask] {
-            if totalBytesWritten == totalBytesExpectedToWrite {
-                downloadDelegates.removeValue(forKey: downloadTask)
-            }
             queue.async {
                 callback(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
             }
@@ -195,7 +191,6 @@ extension ParseURLSessionDelegate: URLSessionDownloadDelegate {
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             await delegates.removeDownload(downloadTask)
-            await delegates.removeTask(downloadTask)
         }
         #else
         downloadDelegates.removeValue(forKey: downloadTask)
