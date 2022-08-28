@@ -62,9 +62,9 @@ internal extension API {
                     let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
                     #if compiler(>=5.5.2) && canImport(_Concurrency)
                     Task {
-                        await ParseSwift.sessionDelegate.delegates.insertUpload(task, callback: uploadProgress)
-                        await ParseSwift.sessionDelegate.delegates.insertStream(task, stream: stream)
-                        await ParseSwift.sessionDelegate.delegates.insertTask(task, queue: callbackQueue)
+                        await ParseSwift.sessionDelegate.delegates.updateUpload(task, callback: uploadProgress)
+                        await ParseSwift.sessionDelegate.delegates.updateStream(task, stream: stream)
+                        await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: callbackQueue)
                         task.resume()
                     }
                     #else

@@ -222,8 +222,8 @@ internal extension URLSession {
         if let task = task {
             #if compiler(>=5.5.2) && canImport(_Concurrency)
             Task {
-                await ParseSwift.sessionDelegate.delegates.insertUpload(task, callback: progress)
-                await ParseSwift.sessionDelegate.delegates.insertTask(task, queue: notificationQueue)
+                await ParseSwift.sessionDelegate.delegates.updateUpload(task, callback: progress)
+                await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
                 task.resume()
             }
             #else
@@ -265,8 +265,8 @@ internal extension URLSession {
         }
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
-            await ParseSwift.sessionDelegate.delegates.insertDownload(task, callback: progress)
-            await ParseSwift.sessionDelegate.delegates.insertTask(task, queue: notificationQueue)
+            await ParseSwift.sessionDelegate.delegates.updateDownload(task, callback: progress)
+            await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
             task.resume()
         }
         #else

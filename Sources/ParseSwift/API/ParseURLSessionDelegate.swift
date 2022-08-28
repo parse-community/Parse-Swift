@@ -17,19 +17,15 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
     var authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
                            URLCredential?) -> Void) -> Void)?
-    var downloadDelegates = [URLSessionDownloadTask: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)]()
-    var uploadDelegates = [URLSessionTask: ((URLSessionTask, Int64, Int64, Int64) -> Void)]()
-    var streamDelegates = [URLSessionTask: InputStream]()
-    var taskCallbackQueues = [URLSessionTask: DispatchQueue]()
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
+    #if compiler(>=5.5.2) && canImport(_Concurrency)
     actor SessionDelegate {
         var downloadDelegates = [URLSessionDownloadTask: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)]()
         var uploadDelegates = [URLSessionTask: ((URLSessionTask, Int64, Int64, Int64) -> Void)]()
         var streamDelegates = [URLSessionTask: InputStream]()
         var taskCallbackQueues = [URLSessionTask: DispatchQueue]()
 
-        func insertDownload(_ task: URLSessionDownloadTask,
+        func updateDownload(_ task: URLSessionDownloadTask,
                             callback: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?) {
             downloadDelegates[task] = callback
         }
@@ -38,7 +34,7 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
             downloadDelegates.removeValue(forKey: task)
         }
 
-        func insertUpload(_ task: URLSessionTask,
+        func updateUpload(_ task: URLSessionTask,
                           callback: ((URLSessionTask, Int64, Int64, Int64) -> Void)?) {
             uploadDelegates[task] = callback
         }
@@ -47,7 +43,7 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
             uploadDelegates.removeValue(forKey: task)
         }
 
-        func insertStream(_ task: URLSessionTask,
+        func updateStream(_ task: URLSessionTask,
                           stream: InputStream) {
             streamDelegates[task] = stream
         }
@@ -56,7 +52,7 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
             streamDelegates.removeValue(forKey: task)
         }
 
-        func insertTask(_ task: URLSessionTask,
+        func updateTask(_ task: URLSessionTask,
                         queue: DispatchQueue) {
             taskCallbackQueues[task] = queue
         }
@@ -67,7 +63,13 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
     }
 
     var delegates = SessionDelegate()
-#endif
+
+    #else
+    var downloadDelegates = [URLSessionDownloadTask: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)]()
+    var uploadDelegates = [URLSessionTask: ((URLSessionTask, Int64, Int64, Int64) -> Void)]()
+    var streamDelegates = [URLSessionTask: InputStream]()
+    var taskCallbackQueues = [URLSessionTask: DispatchQueue]()
+    #endif
 
     init (callbackQueue: DispatchQueue,
           authentication: ((URLAuthenticationChallenge,
