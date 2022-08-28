@@ -697,7 +697,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(ParseSwift.sessionDelegate.streamDelegates.count, 1)
         ParseSwift.sessionDelegate.uploadDelegates[task] = uploadCompletion
         XCTAssertEqual(ParseSwift.sessionDelegate.uploadDelegates.count, 1)
-        ParseSwift.sessionDelegate.downloadDelegates[task] = dowbloadCompletion
+        ParseSwift.sessionDelegate.downloadDelegates[dowloadTask] = dowbloadCompletion
         XCTAssertEqual(ParseSwift.sessionDelegate.downloadDelegates.count, 1)
 
         // Remove tasks

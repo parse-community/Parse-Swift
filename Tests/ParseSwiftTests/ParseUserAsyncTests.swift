@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-
+#if !os(Linux) && !os(Android) && !os(Windows)
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
 #if canImport(FoundationNetworking)
@@ -1513,4 +1513,5 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     }
 }
 
+#endif
 #endif
