@@ -6,6 +6,7 @@
 
 ### 4.9.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.0...4.9.1)
+
 __Fixes__
 - Corrects a memory leak where multiple Parse URLSessions can get created. Use an actor for the url session delegates to ensure thread safety when making async calls in parallel ([#394](https://github.com/parse-community/Parse-Swift/pull/394)), thanks to [Corey Baker](https://github.com/cbaker6).
 

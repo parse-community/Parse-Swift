@@ -67,14 +67,14 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
      Creates a file with given data and name.
      - parameter name: The name of the new `ParseFile`. The file name must begin with and
      alphanumeric character, and consist of alphanumeric characters, periods, spaces, underscores,
-     or dashes. The default value is "file".
+     or dashes. The default value is **file**.
      - parameter data: The contents of the new `ParseFile`.
      - parameter mimeType: Specify the Content-Type header to use for the file,  for example
-     "application/pdf". The default is nil. If no value is specified the file type will be inferred from the file
+     **application/pdf**. The default is nil. If no value is specified the file type will be inferred from the file
      extention of `name`.
      - parameter metadata: Optional key value pairs to be stored with file object
      - parameter tags: Optional key value pairs to be stored with file object
-     - note: `metadata` and `tags` is file adapter specific and not supported by all file adapters.
+     - note: `metadata` and `tags` are file adapter specific and not supported by all file adapters.
      For more, see details on the
      [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags)
      */
@@ -94,14 +94,14 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
      Creates a file from a local file path and name.
      - parameter name: The name of the new `ParseFile`. The file name must begin with and
      alphanumeric character, and consist of alphanumeric characters, periods, spaces, underscores,
-     or dashes. The default value is "file".
+     or dashes. The default value is **file**.
      - parameter localURL: The local file path of the`ParseFile`.
      - parameter mimeType: Specify the Content-Type header to use for the file,  for example
-     "application/pdf". The default is nil. If no value is specified the file type will be inferred from the file
+     **application/pdf**. The default is nil. If no value is specified the file type will be inferred from the file
      extention of `name`.
      - parameter metadata: Optional key value pairs to be stored with file object.
      - parameter tags: Optional key value pairs to be stored with file object.
-     - note: `metadata` and `tags` is file adapter specific and not supported by all file adapters.
+     - note: `metadata` and `tags` are file adapter specific and not supported by all file adapters.
      For more, see details on the
      [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags).
      */
@@ -120,14 +120,14 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
      Creates a file from a link online and name.
      - parameter name: The name of the new `ParseFile`. The file name must begin with and
      alphanumeric character, and consist of alphanumeric characters, periods, spaces, underscores,
-     or dashes. The default value is "file".
+     or dashes. The default value is **file**.
      - parameter cloudURL: The online link of the`ParseFile`.
      - parameter mimeType: Specify the Content-Type header to use for the file,  for example
-     "application/pdf". The default is nil. If no value is specified the file type will be inferred from the file
+     **application/pdf**. The default is nil. If no value is specified the file type will be inferred from the file
      extention of `name`.
      - parameter metadata: Optional key value pairs to be stored with file object.
      - parameter tags: Optional key value pairs to be stored with file object.
-     - note: `metadata` and `tags` is file adapter specific and not supported by all file adapters.
+     - note: `metadata` and `tags` are file adapter specific and not supported by all file adapters.
      For more, see details on the
      [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags).
      */
