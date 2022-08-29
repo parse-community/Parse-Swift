@@ -299,6 +299,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(downloadCount2, 0)
     }
 
+    #if !os(iOS)
     func testParseURLSessionDelegateUpload() async throws {
         // swiftlint:disable:next line_length
         let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
@@ -436,5 +437,6 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         ParseSwift.sessionDelegate.urlSession(URLSession.parse, task: task, needNewBodyStream: streamCompletion)
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
+    #endif
 }
 #endif
