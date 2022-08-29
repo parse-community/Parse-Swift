@@ -13,7 +13,10 @@ import FoundationNetworking
 #endif
 
 internal extension URLSession {
-    static let parse: URLSession = {
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    static var parse = URLSession.shared
+    #else
+    static var parse: URLSession = /* URLSession.shared */ {
         if !ParseSwift.configuration.isTestingSDK {
             let configuration = URLSessionConfiguration.default
             configuration.urlCache = URLCache.parse
@@ -25,9 +28,32 @@ internal extension URLSession {
         } else {
             let session = URLSession.shared
             session.configuration.urlCache = URLCache.parse
-            return URLSession.shared
+            session.configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            return session
         }
     }()
+    #endif
+
+    static func updateParseURLSession() {
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        if !ParseSwift.configuration.isTestingSDK {
+            let configuration = URLSessionConfiguration.default
+            configuration.urlCache = URLCache.parse
+            configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            Self.parse = URLSession(configuration: configuration,
+                                    delegate: ParseSwift.sessionDelegate,
+                                    delegateQueue: nil)
+        } else {
+            let session = URLSession.shared
+            session.configuration.urlCache = URLCache.parse
+            session.configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            Self.parse = session
+        }
+        #endif
+    }
 
     static func reconnectInterval(_ maxExponent: Int) -> Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, maxExponent) - 1))
@@ -220,9 +246,17 @@ internal extension URLSession {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both cannot be nil")))
         }
         if let task = task {
+            #if compiler(>=5.5.2) && canImport(_Concurrency)
+            Task {
+                await ParseSwift.sessionDelegate.delegates.updateUpload(task, callback: progress)
+                await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
+                task.resume()
+            }
+            #else
             ParseSwift.sessionDelegate.uploadDelegates[task] = progress
             ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
             task.resume()
+            #endif
         }
     }
 
@@ -255,9 +289,17 @@ internal extension URLSession {
             }
             completion(result)
         }
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            await ParseSwift.sessionDelegate.delegates.updateDownload(task, callback: progress)
+            await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
+            task.resume()
+        }
+        #else
         ParseSwift.sessionDelegate.downloadDelegates[task] = progress
         ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
         task.resume()
+        #endif
     }
 
     func downloadTask<U>(

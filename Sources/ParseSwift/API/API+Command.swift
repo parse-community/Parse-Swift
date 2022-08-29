@@ -60,10 +60,18 @@ internal extension API {
             case .success(let urlRequest):
                 if method == .POST || method == .PUT || method == .PATCH {
                     let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
-                    ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
                     ParseSwift.sessionDelegate.streamDelegates[task] = stream
+                    #if compiler(>=5.5.2) && canImport(_Concurrency)
+                    Task {
+                        await ParseSwift.sessionDelegate.delegates.updateUpload(task, callback: uploadProgress)
+                        await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: callbackQueue)
+                        task.resume()
+                    }
+                    #else
+                    ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
                     ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
                     task.resume()
+                    #endif
                     return
                 }
             case .failure(let error):
