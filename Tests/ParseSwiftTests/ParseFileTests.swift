@@ -207,6 +207,20 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
                        "{\"__type\":\"File\",\"name\":\"sampleData.txt\"}")
     }
 
+    func testDebugStringWithFolderInName() throws {
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        let parseFile = ParseFile(name: "myFolder/sampleData.txt",
+                                  data: sampleData,
+                                  metadata: ["Testing": "123"],
+                                  tags: ["Hey": "now"])
+        XCTAssertEqual(parseFile.debugDescription,
+                       "{\"__type\":\"File\",\"name\":\"myFolder\\/sampleData.txt\"}")
+        XCTAssertEqual(parseFile.description,
+                       "{\"__type\":\"File\",\"name\":\"myFolder\\/sampleData.txt\"}")
+    }
+
     func testSave() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
             throw ParseError(code: .unknownError, message: "Should have converted to data")
