@@ -17,30 +17,32 @@
       "type" : "text"
     }
   ],
+  "deprecationSummary" : [
+    {
+      "inlineContent" : [
+        {
+          "text" : "Remove the migratingFromObjcSDK argument",
+          "type" : "text"
+        }
+      ],
+      "type" : "paragraph"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwiftAAV10initialize13applicationId9clientKey06masterG09serverURL015liveQueryServerJ023allowingCustomObjectIds17usingTransactions0r5EqualL10Constraint0r7PostForL013keyValueStore18requestCachePolicy19cacheMemoryCapacity17cacheDiskCapacity24deletingKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts14authenticationySS_SSSgAU10Foundation0J0VAXSgS4bAA0agyZ0_pSgSo23NSURLRequestCachePolicyVS2iSbSDys11AnyHashableVypGSgSiySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtFZ",
+    "externalID" : "s:10ParseSwift10initialize13applicationId9clientKey06masterG09serverURL015liveQueryServerJ023allowingCustomObjectIds17usingTransactions0r5EqualL10Constraint0r7PostForL013keyValueStore18requestCachePolicy19cacheMemoryCapacity17cacheDiskCapacity20migratingFromObjcSDK24deletingKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts14authenticationySS_SSSgAU10Foundation0J0VAXSgS4bAA0agyZ0_pSgSo23NSURLRequestCachePolicyVS2iS2bSDys11AnyHashableVypGSgSiySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtF",
     "fragments" : [
-      {
-        "kind" : "keyword",
-        "text" : "static"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
       {
         "kind" : "keyword",
         "text" : "func"
@@ -289,6 +291,23 @@
       },
       {
         "kind" : "externalParam",
+        "text" : "migratingFromObjcSDK"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Sb",
+        "text" : "Bool"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
         "text" : "deletingKeychainIfNeeded"
       },
       {
@@ -414,10 +433,13 @@
         "name" : "ParseSwift"
       }
     ],
+    "platforms" : [
+
+    ],
     "role" : "symbol",
-    "roleHeading" : "Type Method",
-    "symbolKind" : "method",
-    "title" : "initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
+    "roleHeading" : "Function",
+    "symbolKind" : "func",
+    "title" : "initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
   },
   "primaryContentSections" : [
     {
@@ -430,14 +452,6 @@
             "iOS"
           ],
           "tokens" : [
-            {
-              "kind" : "keyword",
-              "text" : "static"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
             {
               "kind" : "keyword",
               "text" : "func"
@@ -684,6 +698,23 @@
             {
               "kind" : "text",
               "text" : " = 10_000_000, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "migratingFromObjcSDK"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sb",
+              "text" : "Bool"
+            },
+            {
+              "kind" : "text",
+              "text" : " = false, "
             },
             {
               "kind" : "externalParam",
@@ -1142,6 +1173,54 @@
             {
               "inlineContent" : [
                 {
+                  "text" : "If your app previously used the iOS Objective-C SDK, setting this value",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "migratingFromObjcSDK"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
                   "text" : "Deletes the Parse Keychain when the app is running for the first time.",
                   "type" : "text"
                 },
@@ -1381,7 +1460,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:deletingk-5az3n"
+        "\/documentation\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migrating-774e4"
       ],
       "traits" : [
         {
@@ -1448,45 +1527,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsekeyvaluestore"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
-  "abstract" : [
-    {
-      "code" : "ParseSwift",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " contains static methods to handle global configuration for the Parse framework.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseSwift",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
   "abstract" : [
     {
       "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
@@ -1505,15 +1546,8 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
     {
       "kind" : "keyword",
       "text" : "func"
@@ -1762,6 +1796,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "migratingFromObjcSDK"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "deletingKeychainIfNeeded"
     },
     {
@@ -1882,12 +1933,12 @@
       "text" : ")?)"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "title" : "initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:deletingk-5az3n"
+  "url" : "\/documentation\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migrating-774e4"
 },
 "https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data": {
   "identifier" : "https:\/\/developer.apple.com\/documentation\/foundation\/url_loading_system\/accessing_cached_data",

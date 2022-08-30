@@ -8,8 +8,8 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-798hl",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-1f3yl"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-1f3yl",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate\/received(_:)-798hl"
       ],
       "title" : "ParseLiveQueryDelegate Implementations"
     }

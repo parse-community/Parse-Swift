@@ -112,7 +112,18 @@
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField": {
   "abstract" : [
-
+    {
+      "text" : "A type used to create internal fields for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

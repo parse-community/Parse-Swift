@@ -195,7 +195,7 @@
             },
             {
               "kind" : "text",
-              "text" : " = ParseSwift.configuration.isUsingEqualQueryConstraint) -> "
+              "text" : " = configuration.isUsingEqualQueryConstraint) -> "
             },
             {
               "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",

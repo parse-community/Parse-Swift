@@ -1,37 +1,40 @@
 {
   "abstract" : [
     {
-      "text" : "No overview available.",
+      "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "application(... didFinishLaunchingWithOptions launchOptions...)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/configuration"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(configuration:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwiftAAV13configurationAA0A13ConfigurationVSgvpZ",
+    "externalID" : "s:10ParseSwift10initialize13configurationyAA0A13ConfigurationV_tF",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "static"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
-      {
-        "kind" : "keyword",
-        "text" : "var"
+        "text" : "func"
       },
       {
         "kind" : "text",
@@ -39,6 +42,14 @@
       },
       {
         "kind" : "identifier",
+        "text" : "initialize"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
         "text" : "configuration"
       },
       {
@@ -52,7 +63,7 @@
       },
       {
         "kind" : "text",
-        "text" : "!"
+        "text" : ")"
       }
     ],
     "modules" : [
@@ -61,9 +72,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Type Property",
-    "symbolKind" : "property",
-    "title" : "configuration"
+    "roleHeading" : "Function",
+    "symbolKind" : "func",
+    "title" : "initialize(configuration:)"
   },
   "primaryContentSections" : [
     {
@@ -78,15 +89,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "static"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "var"
+              "text" : "func"
             },
             {
               "kind" : "text",
@@ -94,6 +97,14 @@
             },
             {
               "kind" : "identifier",
+              "text" : "initialize"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
               "text" : "configuration"
             },
             {
@@ -108,12 +119,31 @@
             },
             {
               "kind" : "text",
-              "text" : "! { get }"
+              "text" : ")"
             }
           ]
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The Parse configuration.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "configuration"
+        }
+      ]
     }
   ],
   "schemaVersion" : {
@@ -127,7 +157,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseswift\/configuration"
+        "\/documentation\/parseswift\/initialize(configuration:)"
       ],
       "traits" : [
         {
@@ -186,21 +216,29 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/initialize(configuration:)": {
   "abstract" : [
     {
-      "code" : "ParseSwift",
+      "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "application(... didFinishLaunchingWithOptions launchOptions...)",
       "type" : "codeVoice"
     },
     {
-      "text" : " contains static methods to handle global configuration for the Parse framework.",
+      "text" : ".",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "struct"
+      "text" : "func"
     },
     {
       "kind" : "text",
@@ -208,45 +246,14 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseSwift",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/configuration": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
+      "text" : "initialize"
     },
     {
       "kind" : "text",
-      "text" : " "
+      "text" : "("
     },
     {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
+      "kind" : "externalParam",
       "text" : "configuration"
     },
     {
@@ -260,15 +267,15 @@
     },
     {
       "kind" : "text",
-      "text" : "!"
+      "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/configuration",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(configuration:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "configuration",
+  "title" : "initialize(configuration:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift\/configuration"
+  "url" : "\/documentation\/parseswift\/initialize(configuration:)"
 }
 }
 }

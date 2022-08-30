@@ -186,12 +186,6 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(configuration:)"
-      ],
-      "title" : "Initialize the SDK"
-    },
-    {
-      "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
@@ -277,7 +271,6 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseRelation",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSchema",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSpotify",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseTwitter",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Pointer",
@@ -289,8 +282,15 @@
     },
     {
       "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/configuration"
+      ],
+      "title" : "Variables"
+    },
+    {
+      "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/and(queries:)-4ugox",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/and(queries:)-8cafq",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/clearCache()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedBy(key:array:)-3irrl",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedBy(key:array:)-8m6r2",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containedIn(key:array:)-36xo5",
@@ -298,6 +298,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsAll(key:array:)-1g8ks",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsAll(key:array:)-7bkbc",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/containsString(key:substring:modifiers:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/deleteObjectiveCKeychain()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/doesNotExist(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/doesNotMatchKeyInQuery(key:queryKey:query:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:value:usingEqComparator:)-9w5u0",
@@ -305,6 +306,9 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/exists(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasPrefix(key:prefix:modifiers:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasSuffix(key:suffix:modifiers:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(configuration:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/isNotNull(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/isNull(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/matchesKeyInQuery(key:queryKey:query:)",
@@ -325,6 +329,8 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/related(object:)-3ndwf",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/related(object:)-9ex2g",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/relative(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/setAccessGroup(_:synchronizeAcrossDevices:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/updateAuthentication(_:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/withinGeoBox(key:fromSouthWest:toNortheast:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/withinKilometers(key:geoPoint:distance:sorted:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/withinMiles(key:geoPoint:distance:sorted:)",
@@ -1993,7 +1999,18 @@
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseField": {
   "abstract" : [
-
+    {
+      "text" : "A type used to create internal fields for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseSchema",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -3708,7 +3725,30 @@
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadAny": {
   "abstract" : [
-
+    {
+      "text" : "The payload data for both a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParsePushPayloadApple",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " and",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParsePushPayloadFirebase",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " push notification.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -4390,113 +4430,6 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsespotify"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
-  "abstract" : [
-    {
-      "code" : "ParseSwift",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " contains static methods to handle global configuration for the Parse framework.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseSwift",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/initialize(configuration:)": {
-  "abstract" : [
-    {
-      "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "code" : "application(... didFinishLaunchingWithOptions launchOptions...)",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "initialize"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "configuration"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
-      "text" : "ParseConfiguration"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/initialize(configuration:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "initialize(configuration:)",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift\/initialize(configuration:)"
-},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseTextOption": {
   "abstract" : [
     {
@@ -5080,7 +5013,31 @@
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/QueryWhere": {
   "abstract" : [
-
+    {
+      "text" : "The ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "where",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " of a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Query",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -5717,6 +5674,83 @@
   "title" : "and(queries:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/and(queries:)-8cafq"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/clearCache()": {
+  "abstract" : [
+    {
+      "text" : "Manually remove all stored cache.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "clearCache"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/clearCache()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "clearCache()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/clearcache()"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/configuration": {
+  "abstract" : [
+    {
+      "text" : "The current ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseConfiguration",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for the ParseSwift client.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "configuration"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
+      "text" : "ParseConfiguration"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/configuration",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "configuration",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/configuration"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/containedBy(key:array:)-3irrl": {
   "abstract" : [
@@ -6376,6 +6410,42 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/containsstring(key:substring:modifiers:)"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/deleteObjectiveCKeychain()": {
+  "abstract" : [
+    {
+      "text" : "Delete the Parse iOS Objective-C SDK Keychain from the device.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "deleteObjectiveCKeychain"
+    },
+    {
+      "kind" : "text",
+      "text" : "() "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/deleteObjectiveCKeychain()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "deleteObjectiveCKeychain()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/deleteobjectiveckeychain()"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/doesNotExist(key:)": {
   "abstract" : [
     {
@@ -7027,6 +7097,875 @@
   "title" : "hasSuffix(key:suffix:modifiers:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/hassuffix(key:suffix:modifiers:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+  "abstract" : [
+    {
+      "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "application(... didFinishLaunchingWithOptions launchOptions...)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "initialize"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "applicationId"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "clientKey"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "masterKey"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "serverURL"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "liveQueryServerURL"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "allowingCustomObjectIds"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingTransactions"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingEqualQueryConstraint"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingPostForQuery"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "keyValueStore"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
+      "text" : "ParseKeyValueStore"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "requestCachePolicy"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation10URLRequestV",
+      "text" : "URLRequest"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation10URLRequestV11CachePolicya",
+      "text" : "CachePolicy"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "cacheMemoryCapacity"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "cacheDiskCapacity"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "deletingKeychainIfNeeded"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "httpAdditionalHeaders"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s11AnyHashableV",
+      "text" : "AnyHashable"
+    },
+    {
+      "kind" : "text",
+      "text" : " : "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "maxConnectionAttempts"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "authentication"
+    },
+    {
+      "kind" : "text",
+      "text" : ": (("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLAuthenticationChallenge",
+      "text" : "URLAuthenticationChallenge"
+    },
+    {
+      "kind" : "text",
+      "text" : ", ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLSession",
+      "text" : "URLSession"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@E@NSURLSessionAuthChallengeDisposition",
+      "text" : "AuthChallengeDisposition"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLCredential",
+      "text" : "URLCredential"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ")?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:deletingk-5az3n"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+  "abstract" : [
+    {
+      "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "application(... didFinishLaunchingWithOptions launchOptions...)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "deprecated" : true,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "initialize"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "applicationId"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "clientKey"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "masterKey"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "serverURL"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "liveQueryServerURL"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "allowingCustomObjectIds"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingTransactions"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingEqualQueryConstraint"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingPostForQuery"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "keyValueStore"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
+      "text" : "ParseKeyValueStore"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "requestCachePolicy"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation10URLRequestV",
+      "text" : "URLRequest"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation10URLRequestV11CachePolicya",
+      "text" : "CachePolicy"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "cacheMemoryCapacity"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "cacheDiskCapacity"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "migratingFromObjcSDK"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "deletingKeychainIfNeeded"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "httpAdditionalHeaders"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s11AnyHashableV",
+      "text" : "AnyHashable"
+    },
+    {
+      "kind" : "text",
+      "text" : " : "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "maxConnectionAttempts"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "authentication"
+    },
+    {
+      "kind" : "text",
+      "text" : ": (("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLAuthenticationChallenge",
+      "text" : "URLAuthenticationChallenge"
+    },
+    {
+      "kind" : "text",
+      "text" : ", ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLSession",
+      "text" : "URLSession"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@E@NSURLSessionAuthChallengeDisposition",
+      "text" : "AuthChallengeDisposition"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLCredential",
+      "text" : "URLCredential"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ")?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migrating-774e4"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/initialize(configuration:)": {
+  "abstract" : [
+    {
+      "text" : "Configure the Parse Swift client. This should only be used when starting your app. Typically in the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "application(... didFinishLaunchingWithOptions launchOptions...)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "initialize"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "configuration"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
+      "text" : "ParseConfiguration"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(configuration:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "initialize(configuration:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/initialize(configuration:)"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/isNotNull(key:)": {
   "abstract" : [
@@ -8717,6 +9656,188 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/relative(_:)"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/setAccessGroup(_:synchronizeAcrossDevices:)": {
+  "abstract" : [
+    {
+      "text" : "Sets all of the items in the Parse Keychain to a specific access group.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Apps in the same access group can share Keychain items. See Apple’s",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "https:\/\/developer.apple.com\/documentation\/security\/ksecattraccessgroup",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "for more information.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "setAccessGroup"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "synchronizeAcrossDevices"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/setAccessGroup(_:synchronizeAcrossDevices:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "setAccessGroup(_:synchronizeAcrossDevices:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/setaccessgroup(_:synchronizeacrossdevices:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/updateAuthentication(_:)": {
+  "abstract" : [
+    {
+      "text" : "Update the authentication callback.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "updateAuthentication"
+    },
+    {
+      "kind" : "text",
+      "text" : "((("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLAuthenticationChallenge",
+      "text" : "URLAuthenticationChallenge"
+    },
+    {
+      "kind" : "text",
+      "text" : ", ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLSession",
+      "text" : "URLSession"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@E@NSURLSessionAuthChallengeDisposition",
+      "text" : "AuthChallengeDisposition"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLCredential",
+      "text" : "URLCredential"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ")?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/updateAuthentication(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "updateAuthentication(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/updateauthentication(_:)"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/withinGeoBox(key:fromSouthWest:toNortheast:)": {
   "abstract" : [
     {
@@ -9429,6 +10550,18 @@
   ],
   "type" : "link",
   "url" : "https:\/\/developer.apple.com\/documentation\/combine\/observableobject"
+},
+"https://developer.apple.com/documentation/security/ksecattraccessgroup": {
+  "identifier" : "https:\/\/developer.apple.com\/documentation\/security\/ksecattraccessgroup",
+  "title" : "documentation",
+  "titleInlineContent" : [
+    {
+      "text" : "documentation",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/developer.apple.com\/documentation\/security\/ksecattraccessgroup"
 },
 "https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification#2943365": {
   "identifier" : "https:\/\/developer.apple.com\/documentation\/usernotifications\/setting_up_a_remote_notification_server\/generating_a_remote_notification#2943365",

@@ -8,27 +8,18 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/updateAuthentication(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/updateAuthentication(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwiftAAV20updateAuthenticationyyySo28NSURLAuthenticationChallengeC_ySo016NSURLSessionAuthF11DispositionV_So15NSURLCredentialCSgtXEtcSgFZ",
+    "externalID" : "s:10ParseSwift20updateAuthenticationyyySo28NSURLAuthenticationChallengeC_ySo016NSURLSessionAuthF11DispositionV_So15NSURLCredentialCSgtXEtcSgF",
     "fragments" : [
-      {
-        "kind" : "keyword",
-        "text" : "static"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
       {
         "kind" : "keyword",
         "text" : "func"
@@ -106,8 +97,8 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Type Method",
-    "symbolKind" : "method",
+    "roleHeading" : "Function",
+    "symbolKind" : "func",
     "title" : "updateAuthentication(_:)"
   },
   "primaryContentSections" : [
@@ -121,14 +112,6 @@
             "iOS"
           ],
           "tokens" : [
-            {
-              "kind" : "keyword",
-              "text" : "static"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
             {
               "kind" : "keyword",
               "text" : "func"
@@ -300,7 +283,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseswift\/updateauthentication(_:)"
+        "\/documentation\/parseswift\/updateauthentication(_:)"
       ],
       "traits" : [
         {
@@ -325,45 +308,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
-  "abstract" : [
-    {
-      "code" : "ParseSwift",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " contains static methods to handle global configuration for the Parse framework.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseSwift",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/updateAuthentication(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/updateAuthentication(_:)": {
   "abstract" : [
     {
       "text" : "Update the authentication callback.",
@@ -371,14 +316,6 @@
     }
   ],
   "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
     {
       "kind" : "keyword",
       "text" : "func"
@@ -450,12 +387,12 @@
       "text" : ")?)"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/updateAuthentication(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/updateAuthentication(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "updateAuthentication(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift\/updateauthentication(_:)"
+  "url" : "\/documentation\/parseswift\/updateauthentication(_:)"
 },
 "https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession": {
   "identifier" : "https:\/\/developer.apple.com\/documentation\/foundation\/urlsessiontaskdelegate\/1411595-urlsession",

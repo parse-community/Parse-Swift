@@ -1,29 +1,36 @@
 {
   "abstract" : [
     {
-      "text" : "Creates an empty payload.",
+      "text" : "Manually remove all stored cache.",
       "type" : "text"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadAny"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadAny\/init()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/clearCache()"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A14PushPayloadAnyVACycfc",
+    "externalID" : "s:10ParseSwift10clearCacheyyF",
     "fragments" : [
       {
+        "kind" : "keyword",
+        "text" : "func"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
         "kind" : "identifier",
-        "text" : "init"
+        "text" : "clearCache"
       },
       {
         "kind" : "text",
@@ -36,9 +43,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Initializer",
-    "symbolKind" : "init",
-    "title" : "init()"
+    "roleHeading" : "Function",
+    "symbolKind" : "func",
+    "title" : "clearCache()"
   },
   "primaryContentSections" : [
     {
@@ -53,7 +60,15 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "init"
+              "text" : "func"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "clearCache"
             },
             {
               "kind" : "text",
@@ -63,6 +78,32 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The OS typically handles this automatically.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -76,7 +117,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsepushpayloadany\/init()"
+        "\/documentation\/parseswift\/clearcache()"
       ],
       "traits" : [
         {
@@ -101,37 +142,17 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadAny": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/clearCache()": {
   "abstract" : [
     {
-      "text" : "The payload data for both a ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParsePushPayloadApple",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " and",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParsePushPayloadFirebase",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " push notification.",
+      "text" : "Manually remove all stored cache.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "struct"
+      "text" : "func"
     },
     {
       "kind" : "text",
@@ -139,45 +160,19 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParsePushPayloadAny"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadAny",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParsePushPayloadAny"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParsePushPayloadAny",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsepushpayloadany"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushPayloadAny/init()": {
-  "abstract" : [
-    {
-      "text" : "Creates an empty payload.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
+      "text" : "clearCache"
     },
     {
       "kind" : "text",
       "text" : "()"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadAny\/init()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/clearCache()",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init()",
+  "title" : "clearCache()",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsepushpayloadany\/init()"
+  "url" : "\/documentation\/parseswift\/clearcache()"
 }
 }
 }

@@ -211,7 +211,7 @@
             },
             {
               "kind" : "text",
-              "text" : " = ParseSwift.configuration.isUsingEqualQueryConstraint) "
+              "text" : " = configuration.isUsingEqualQueryConstraint) "
             },
             {
               "kind" : "keyword",

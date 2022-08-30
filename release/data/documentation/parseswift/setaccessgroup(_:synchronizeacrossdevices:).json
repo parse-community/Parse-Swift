@@ -33,27 +33,18 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/setAccessGroup(_:synchronizeAcrossDevices:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/setAccessGroup(_:synchronizeAcrossDevices:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwiftAAV14setAccessGroup_24synchronizeAcrossDevicesSbSSSg_SbtKFZ",
+    "externalID" : "s:10ParseSwift14setAccessGroup_24synchronizeAcrossDevicesSbSSSg_SbtKF",
     "fragments" : [
-      {
-        "kind" : "keyword",
-        "text" : "static"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
       {
         "kind" : "keyword",
         "text" : "func"
@@ -116,8 +107,8 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Type Method",
-    "symbolKind" : "method",
+    "roleHeading" : "Function",
+    "symbolKind" : "func",
     "title" : "setAccessGroup(_:synchronizeAcrossDevices:)"
   },
   "primaryContentSections" : [
@@ -134,14 +125,6 @@
             {
               "kind" : "attribute",
               "text" : "@discardableResult"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "static"
             },
             {
               "kind" : "text",
@@ -452,7 +435,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseswift\/setaccessgroup(_:synchronizeacrossdevices:)"
+        "\/documentation\/parseswift\/setaccessgroup(_:synchronizeacrossdevices:)"
       ],
       "traits" : [
         {
@@ -477,45 +460,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
-  "abstract" : [
-    {
-      "code" : "ParseSwift",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " contains static methods to handle global configuration for the Parse framework.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseSwift",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/setAccessGroup(_:synchronizeAcrossDevices:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/setAccessGroup(_:synchronizeAcrossDevices:)": {
   "abstract" : [
     {
       "text" : "Sets all of the items in the Parse Keychain to a specific access group.",
@@ -548,14 +493,6 @@
     }
   ],
   "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
     {
       "kind" : "keyword",
       "text" : "func"
@@ -612,12 +549,12 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/setAccessGroup(_:synchronizeAcrossDevices:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/setAccessGroup(_:synchronizeAcrossDevices:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "setAccessGroup(_:synchronizeAcrossDevices:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift\/setaccessgroup(_:synchronizeacrossdevices:)"
+  "url" : "\/documentation\/parseswift\/setaccessgroup(_:synchronizeacrossdevices:)"
 },
 "https://developer.apple.com/documentation/security/ksecattraccessgroup": {
   "identifier" : "https:\/\/developer.apple.com\/documentation\/security\/ksecattraccessgroup",

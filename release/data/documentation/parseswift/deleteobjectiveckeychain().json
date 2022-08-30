@@ -8,27 +8,18 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/deleteObjectiveCKeychain()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/deleteObjectiveCKeychain()"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwiftAAV24deleteObjectiveCKeychainyyKFZ",
+    "externalID" : "s:10ParseSwift24deleteObjectiveCKeychainyyKF",
     "fragments" : [
-      {
-        "kind" : "keyword",
-        "text" : "static"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
       {
         "kind" : "keyword",
         "text" : "func"
@@ -56,8 +47,8 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Type Method",
-    "symbolKind" : "method",
+    "roleHeading" : "Function",
+    "symbolKind" : "func",
     "title" : "deleteObjectiveCKeychain()"
   },
   "primaryContentSections" : [
@@ -71,14 +62,6 @@
             "iOS"
           ],
           "tokens" : [
-            {
-              "kind" : "keyword",
-              "text" : "static"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
             {
               "kind" : "keyword",
               "text" : "func"
@@ -157,7 +140,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseswift\/deleteobjectiveckeychain()"
+        "\/documentation\/parseswift\/deleteobjectiveckeychain()"
       ],
       "traits" : [
         {
@@ -182,45 +165,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
-  "abstract" : [
-    {
-      "code" : "ParseSwift",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " contains static methods to handle global configuration for the Parse framework.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseSwift"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseSwift",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/deleteObjectiveCKeychain()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/deleteObjectiveCKeychain()": {
   "abstract" : [
     {
       "text" : "Delete the Parse iOS Objective-C SDK Keychain from the device.",
@@ -228,14 +173,6 @@
     }
   ],
   "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
     {
       "kind" : "keyword",
       "text" : "func"
@@ -257,12 +194,12 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/deleteObjectiveCKeychain()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/deleteObjectiveCKeychain()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "deleteObjectiveCKeychain()",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift\/deleteobjectiveckeychain()"
+  "url" : "\/documentation\/parseswift\/deleteobjectiveckeychain()"
 }
 }
 }

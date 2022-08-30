@@ -1,37 +1,36 @@
 {
   "abstract" : [
     {
-      "text" : "Manually remove all stored cache.",
+      "text" : "The current ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseConfiguration",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for the ParseSwift client.",
       "type" : "text"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/clearCache()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/configuration"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwiftAAV10clearCacheyyFZ",
+    "externalID" : "s:10ParseSwift13configurationAA0A13ConfigurationVvp",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "static"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
-      {
-        "kind" : "keyword",
-        "text" : "func"
+        "text" : "var"
       },
       {
         "kind" : "text",
@@ -39,11 +38,16 @@
       },
       {
         "kind" : "identifier",
-        "text" : "clearCache"
+        "text" : "configuration"
       },
       {
         "kind" : "text",
-        "text" : "()"
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
+        "text" : "ParseConfiguration"
       }
     ],
     "modules" : [
@@ -52,9 +56,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Type Method",
-    "symbolKind" : "method",
-    "title" : "clearCache()"
+    "roleHeading" : "Global Variable",
+    "symbolKind" : "var",
+    "title" : "configuration"
   },
   "primaryContentSections" : [
     {
@@ -69,15 +73,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "static"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "func"
+              "text" : "var"
             },
             {
               "kind" : "text",
@@ -85,42 +81,34 @@
             },
             {
               "kind" : "identifier",
-              "text" : "clearCache"
+              "text" : "configuration"
             },
             {
               "kind" : "text",
-              "text" : "()"
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
+              "text" : "ParseConfiguration"
+            },
+            {
+              "kind" : "text",
+              "text" : " { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The OS typically handles this automatically.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "style" : "note",
-          "type" : "aside"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -134,7 +122,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseswift\/clearcache()"
+        "\/documentation\/parseswift\/configuration"
       ],
       "traits" : [
         {
@@ -159,14 +147,10 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration": {
   "abstract" : [
     {
-      "code" : "ParseSwift",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " contains static methods to handle global configuration for the Parse framework.",
+      "text" : "The Configuration for a Parse client.",
       "type" : "text"
     }
   ],
@@ -181,41 +165,41 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseSwift"
+      "text" : "ParseConfiguration"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseSwift"
+      "text" : "ParseConfiguration"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseSwift",
+  "title" : "ParseConfiguration",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift"
+  "url" : "\/documentation\/parseswift\/parseconfiguration"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseSwift/clearCache()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/configuration": {
   "abstract" : [
     {
-      "text" : "Manually remove all stored cache.",
+      "text" : "The current ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseConfiguration",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for the ParseSwift client.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
+      "text" : "var"
     },
     {
       "kind" : "text",
@@ -223,19 +207,24 @@
     },
     {
       "kind" : "identifier",
-      "text" : "clearCache"
+      "text" : "configuration"
     },
     {
       "kind" : "text",
-      "text" : "()"
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A13ConfigurationV",
+      "text" : "ParseConfiguration"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseSwift\/clearCache()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/configuration",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "clearCache()",
+  "title" : "configuration",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseswift\/clearcache()"
+  "url" : "\/documentation\/parseswift\/configuration"
 }
 }
 }

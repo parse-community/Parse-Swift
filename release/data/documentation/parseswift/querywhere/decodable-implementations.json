@@ -74,7 +74,31 @@
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/QueryWhere": {
   "abstract" : [
-
+    {
+      "text" : "The ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "where",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " of a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Query",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

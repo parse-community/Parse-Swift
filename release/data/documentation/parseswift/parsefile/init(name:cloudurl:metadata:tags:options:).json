@@ -322,7 +322,20 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "or dashes. The default value is “file”.",
+                  "text" : "or dashes. The default value is ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "file",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ".",
                   "type" : "text"
                 }
               ],
@@ -366,7 +379,16 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "“application\/pdf”. The default is nil. If no value is specified the file type will be inferred from the file",
+                  "inlineContent" : [
+                    {
+                      "text" : "application\/pdf",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ". The default is nil. If no value is specified the file type will be inferred from the file",
                   "type" : "text"
                 },
                 {
@@ -450,7 +472,7 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " is file adapter specific and not supported by all file adapters.",
+                  "text" : " are file adapter specific and not supported by all file adapters.",
                   "type" : "text"
                 },
                 {
