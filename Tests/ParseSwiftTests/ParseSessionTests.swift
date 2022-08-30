@@ -76,7 +76,7 @@ class ParseSessionTests: XCTestCase {
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
-        ParseSwift.configuration = nil
+        Parse.configuration = nil
     }
 
     func testFetchCommand() throws {
@@ -113,7 +113,7 @@ class ParseSessionTests: XCTestCase {
             XCTFail("Should have casted")
             return
         }
-        XCTAssertEqual(delegate, ParseSwift.sessionDelegate)
+        XCTAssertEqual(delegate, Parse.sessionDelegate)
     }
 
     func testParseURLSessionDefaultCertificatePinning() throws {

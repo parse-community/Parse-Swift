@@ -156,7 +156,7 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Codable {
 public func equalTo <T>(key: String,
                         value: T,
                         //swiftlint:disable:next line_length
-                        usingEqComparator: Bool = ParseSwift.configuration.isUsingEqualQueryConstraint) -> QueryConstraint where T: Codable {
+                        usingEqComparator: Bool = configuration.isUsingEqualQueryConstraint) -> QueryConstraint where T: Codable {
     if !usingEqComparator {
         return QueryConstraint(key: key, value: value)
     } else {
@@ -195,7 +195,7 @@ public func == <T>(key: String, value: T) throws -> QueryConstraint where T: Par
 public func equalTo <T>(key: String,
                         value: T,
                         //swiftlint:disable:next line_length
-                        usingEqComparator: Bool = ParseSwift.configuration.isUsingEqualQueryConstraint) throws -> QueryConstraint where T: ParseObject {
+                        usingEqComparator: Bool = configuration.isUsingEqualQueryConstraint) throws -> QueryConstraint where T: ParseObject {
     if !usingEqComparator {
         return try QueryConstraint(key: key, value: value.toPointer())
     } else {

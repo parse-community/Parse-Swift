@@ -41,7 +41,7 @@ class ExtensionsTests: XCTestCase {
     func testURLSession() throws {
         let headerKey = "User-Agent"
         let headerValue = "ParseSwift/\(ParseConstants.version) (\(ParseConstants.deviceType)"
-        ParseSwift.configuration.httpAdditionalHeaders = [headerKey: headerValue]
+        Parse.configuration.httpAdditionalHeaders = [headerKey: headerValue]
         let session = URLSession.parse
         XCTAssertNotNil(session.configuration.urlCache)
         XCTAssertEqual(session.configuration.requestCachePolicy, ParseSwift.configuration.requestCachePolicy)

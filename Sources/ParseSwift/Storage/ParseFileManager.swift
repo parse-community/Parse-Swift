@@ -88,7 +88,7 @@ public struct ParseFileManager {
     /// - returns: If an instance cannot be created, nil is returned.
     public init?() {
         #if os(Linux) || os(Android) || os(Windows)
-        let applicationId = ParseSwift.configuration.applicationId
+        let applicationId = Parse.configuration.applicationId
         applicationIdentifier = "\(ParseConstants.bundlePrefix).\(applicationId)"
         #else
         if let identifier = Bundle.main.bundleIdentifier {

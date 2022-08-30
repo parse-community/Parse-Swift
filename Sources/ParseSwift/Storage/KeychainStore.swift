@@ -130,7 +130,7 @@ struct KeychainStore: SecureStorage {
             query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
         }
         #if os(macOS)
-        if !ParseSwift.configuration.isTestingSDK {
+        if !Parse.configuration.isTestingSDK {
             query[kSecUseDataProtectionKeychain as String] = kCFBooleanTrue
         }
         #endif
@@ -243,7 +243,7 @@ extension KeychainStore {
     func object<T>(forKey key: String) -> T? where T: Decodable {
         guard let data = synchronizationQueue.sync(execute: { () -> Data? in
             return self.data(forKey: key,
-                             accessGroup: ParseSwift.configuration.keychainAccessGroup)
+                             accessGroup: Parse.configuration.keychainAccessGroup)
         }) else {
             return nil
         }
@@ -263,8 +263,8 @@ extension KeychainStore {
             let data = try ParseCoding.jsonEncoder().encode(object)
             try set(data,
                     forKey: key,
-                    oldAccessGroup: ParseSwift.configuration.keychainAccessGroup,
-                    newAccessGroup: ParseSwift.configuration.keychainAccessGroup)
+                    oldAccessGroup: Parse.configuration.keychainAccessGroup,
+                    newAccessGroup: Parse.configuration.keychainAccessGroup)
             return true
         } catch {
             return false
@@ -283,7 +283,7 @@ extension KeychainStore {
     func removeObject(forKey key: String) -> Bool {
         return synchronizationQueue.sync {
             return removeObject(forKey: key,
-                                accessGroup: ParseSwift.configuration.keychainAccessGroup)
+                                accessGroup: Parse.configuration.keychainAccessGroup)
         }
     }
 
@@ -306,8 +306,8 @@ extension KeychainStore {
                     continue
                 }
                 let removedDefaultObject = self.removeObject(forKey: key,
-                                                             accessGroup: ParseSwift.configuration.keychainAccessGroup)
-                var mutatedKeychainAccessGroup = ParseSwift.configuration.keychainAccessGroup
+                                                             accessGroup: Parse.configuration.keychainAccessGroup)
+                var mutatedKeychainAccessGroup = Parse.configuration.keychainAccessGroup
                 mutatedKeychainAccessGroup.isSyncingKeychainAcrossDevices.toggle()
                 let removedToggledObject = self.removeObject(forKey: key,
                                                              accessGroup: mutatedKeychainAccessGroup)

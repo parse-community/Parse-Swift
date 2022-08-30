@@ -60,16 +60,16 @@ internal extension API {
             case .success(let urlRequest):
                 if method == .POST || method == .PUT || method == .PATCH {
                     let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
-                    ParseSwift.sessionDelegate.streamDelegates[task] = stream
+                    Parse.sessionDelegate.streamDelegates[task] = stream
                     #if compiler(>=5.5.2) && canImport(_Concurrency)
                     Task {
-                        await ParseSwift.sessionDelegate.delegates.updateUpload(task, callback: uploadProgress)
-                        await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: callbackQueue)
+                        await Parse.sessionDelegate.delegates.updateUpload(task, callback: uploadProgress)
+                        await Parse.sessionDelegate.delegates.updateTask(task, queue: callbackQueue)
                         task.resume()
                     }
                     #else
-                    ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
-                    ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
+                    Parse.sessionDelegate.uploadDelegates[task] = uploadProgress
+                    Parse.sessionDelegate.taskCallbackQueues[task] = callbackQueue
                     task.resume()
                     #endif
                     return
@@ -274,7 +274,7 @@ internal extension API {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = parseURL == nil ?
-                ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
+                Parse.configuration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
@@ -319,7 +319,7 @@ internal extension API {
     }
 
     static func requestCachePolicy(options: API.Options) -> URLRequest.CachePolicy {
-        var policy: URLRequest.CachePolicy = ParseSwift.configuration.requestCachePolicy
+        var policy: URLRequest.CachePolicy = Parse.configuration.requestCachePolicy
         options.forEach { option in
             if case .cachePolicy(let updatedPolicy) = option {
                 policy = updatedPolicy
@@ -395,7 +395,7 @@ internal extension API.Command {
     static func save<T>(_ object: T,
                         original data: Data?,
                         ignoringCustomObjectIdConfig: Bool) throws -> API.Command<T, T> where T: ParseObject {
-        if ParseSwift.configuration.isAllowingCustomObjectIds
+        if Parse.configuration.isAllowingCustomObjectIds
             && object.objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
@@ -501,7 +501,7 @@ internal extension API.Command where T: ParseObject {
     static func batch(commands: [API.Command<T, T>],
                       transaction: Bool) -> RESTBatchCommandType<T> {
         let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in
-            let path = ParseSwift.configuration.mountPath + command.path.urlComponent
+            let path = Parse.configuration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }
@@ -553,7 +553,7 @@ internal extension API.Command where T: ParseObject {
     static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>],
                       transaction: Bool) -> RESTBatchCommandNoBodyType<NoBody> {
         let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in
-            let path = ParseSwift.configuration.mountPath + command.path.urlComponent
+            let path = Parse.configuration.mountPath + command.path.urlComponent
             return API.NonParseBodyCommand<NoBody, NoBody>(
                 method: command.method,
                 path: .any(path), mapper: command.mapper)

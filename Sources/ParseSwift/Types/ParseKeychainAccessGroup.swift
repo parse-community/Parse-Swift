@@ -32,19 +32,19 @@ struct ParseKeychainAccessGroup: ParseTypeable, Hashable {
                 let defaultKeychainAccessGroup = Self()
                 try? ParseStorage.shared.set(defaultKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
                 try? KeychainStore.shared.set(defaultKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
-                ParseSwift.configuration.keychainAccessGroup = defaultKeychainAccessGroup
+                Parse.configuration.keychainAccessGroup = defaultKeychainAccessGroup
                 return
             }
             try? ParseStorage.shared.set(updatedKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
             try? KeychainStore.shared.set(updatedKeychainAccessGroup, for: ParseStorage.Keys.currentAccessGroup)
-            ParseSwift.configuration.keychainAccessGroup = updatedKeychainAccessGroup
+            Parse.configuration.keychainAccessGroup = updatedKeychainAccessGroup
         }
     }
 
     static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentAccessGroup)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentAccessGroup)
-        ParseSwift.configuration.keychainAccessGroup = Self()
+        Parse.configuration.keychainAccessGroup = Self()
     }
 }
 #endif

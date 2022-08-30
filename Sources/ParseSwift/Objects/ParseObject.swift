@@ -258,7 +258,7 @@ transactions for this call.
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
-                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                 transaction: Bool = configuration.isUsingTransactions,
                  ignoringCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var options = options
@@ -356,7 +356,7 @@ transactions for this call.
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         ignoringCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
@@ -390,7 +390,7 @@ transactions for this call.
     */
     func createAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -422,7 +422,7 @@ transactions for this call.
     */
     func replaceAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -454,7 +454,7 @@ transactions for this call.
     */
     internal func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -716,7 +716,7 @@ transactions for this call.
      desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                   transaction: Bool = configuration.isUsingTransactions,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -762,7 +762,7 @@ transactions for this call.
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
@@ -1213,7 +1213,7 @@ extension ParseObject {
 // MARK: Savable Encodable Version
 internal extension ParseEncodable {
     func saveAll(objects: [ParseEncodable],
-                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                 transaction: Bool = configuration.isUsingTransactions,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         try API.NonParseBodyCommand<AnyCodable, PointerType>
                 .batch(objects: objects,

@@ -42,9 +42,9 @@ class InitializeSDKTests: XCTestCase {
             XCTFail("Should create valid URL")
             return
         }
-        ParseSwift.configuration = .init(applicationId: "applicationId",
-                                         serverURL: url)
-        ParseSwift.configuration.isTestingSDK = true
+        Parse.configuration = .init(applicationId: "applicationId",
+                                    serverURL: url)
+        Parse.configuration.isTestingSDK = true
     }
 
     override func tearDownWithError() throws {
@@ -90,7 +90,7 @@ class InitializeSDKTests: XCTestCase {
             XCTFail("Should have unwrapped")
             return
         }
-        ParseSwift.configuration = ParseConfiguration(applicationId: "yo",
+        Parse.configuration = ParseConfiguration(applicationId: "yo",
                                                       serverURL: server,
                                                       isDeletingKeychainIfNeeded: false)
         let key = "Hello"
@@ -274,9 +274,9 @@ class InitializeSDKTests: XCTestCase {
                               testing: true) { (_, credential) in
             credential(.performDefaultHandling, nil)
         }
-        XCTAssertNotNil(ParseSwift.sessionDelegate.authentication)
+        XCTAssertNotNil(Parse.sessionDelegate.authentication)
         ParseSwift.updateAuthentication(nil)
-        XCTAssertNil(ParseSwift.sessionDelegate.authentication)
+        XCTAssertNil(Parse.sessionDelegate.authentication)
     }
 
     #if !os(Linux) && !os(Android) && !os(Windows)
