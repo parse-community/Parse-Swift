@@ -8,6 +8,10 @@
 
 import Foundation
 
+/**
+ The payload data for both a `ParsePushPayloadApple` and
+ `ParsePushPayloadFirebase` push notification.
+ */
 public struct ParsePushPayloadAny: ParsePushApplePayloadable, ParsePushFirebasePayloadable {
     public var topic: String?
     public var collapseId: String?
