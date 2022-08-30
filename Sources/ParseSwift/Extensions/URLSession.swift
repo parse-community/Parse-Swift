@@ -17,19 +17,19 @@ internal extension URLSession {
     static var parse = URLSession.shared
     #else
     static var parse: URLSession = /* URLSession.shared */ {
-        if !ParseSwift.configuration.isTestingSDK {
+        if !Parse.configuration.isTestingSDK {
             let configuration = URLSessionConfiguration.default
             configuration.urlCache = URLCache.parse
-            configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
-            configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            configuration.requestCachePolicy = Parse.configuration.requestCachePolicy
+            configuration.httpAdditionalHeaders = Parse.configuration.httpAdditionalHeaders
             return URLSession(configuration: configuration,
-                              delegate: ParseSwift.sessionDelegate,
+                              delegate: Parse.sessionDelegate,
                               delegateQueue: nil)
         } else {
             let session = URLSession.shared
             session.configuration.urlCache = URLCache.parse
-            session.configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
-            session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            session.configuration.requestCachePolicy = Parse.configuration.requestCachePolicy
+            session.configuration.httpAdditionalHeaders = Parse.configuration.httpAdditionalHeaders
             return session
         }
     }()
@@ -37,19 +37,19 @@ internal extension URLSession {
 
     static func updateParseURLSession() {
         #if !os(Linux) && !os(Android) && !os(Windows)
-        if !ParseSwift.configuration.isTestingSDK {
+        if !Parse.configuration.isTestingSDK {
             let configuration = URLSessionConfiguration.default
             configuration.urlCache = URLCache.parse
-            configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
-            configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            configuration.requestCachePolicy = Parse.configuration.requestCachePolicy
+            configuration.httpAdditionalHeaders = Parse.configuration.httpAdditionalHeaders
             Self.parse = URLSession(configuration: configuration,
-                                    delegate: ParseSwift.sessionDelegate,
+                                    delegate: Parse.sessionDelegate,
                                     delegateQueue: nil)
         } else {
             let session = URLSession.shared
             session.configuration.urlCache = URLCache.parse
-            session.configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
-            session.configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            session.configuration.requestCachePolicy = Parse.configuration.requestCachePolicy
+            session.configuration.httpAdditionalHeaders = Parse.configuration.httpAdditionalHeaders
             Self.parse = session
         }
         #endif
@@ -186,7 +186,7 @@ internal extension URLSession {
             let statusCode = httpResponse.statusCode
             guard (200...299).contains(statusCode) else {
                 guard statusCode >= 500,
-                      attempts <= ParseSwift.configuration.maxConnectionAttempts + 1,
+                      attempts <= Parse.configuration.maxConnectionAttempts + 1,
                       responseData == nil else {
                           completion(self.makeResult(request: request,
                                                      responseData: responseData,
@@ -248,13 +248,13 @@ internal extension URLSession {
         if let task = task {
             #if compiler(>=5.5.2) && canImport(_Concurrency)
             Task {
-                await ParseSwift.sessionDelegate.delegates.updateUpload(task, callback: progress)
-                await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
+                await Parse.sessionDelegate.delegates.updateUpload(task, callback: progress)
+                await Parse.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
                 task.resume()
             }
             #else
-            ParseSwift.sessionDelegate.uploadDelegates[task] = progress
-            ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
+            Parse.sessionDelegate.uploadDelegates[task] = progress
+            Parse.sessionDelegate.taskCallbackQueues[task] = notificationQueue
             task.resume()
             #endif
         }
@@ -291,13 +291,13 @@ internal extension URLSession {
         }
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
-            await ParseSwift.sessionDelegate.delegates.updateDownload(task, callback: progress)
-            await ParseSwift.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
+            await Parse.sessionDelegate.delegates.updateDownload(task, callback: progress)
+            await Parse.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
             task.resume()
         }
         #else
-        ParseSwift.sessionDelegate.downloadDelegates[task] = progress
-        ParseSwift.sessionDelegate.taskCallbackQueues[task] = notificationQueue
+        Parse.sessionDelegate.downloadDelegates[task] = progress
+        Parse.sessionDelegate.taskCallbackQueues[task] = notificationQueue
         task.resume()
         #endif
     }

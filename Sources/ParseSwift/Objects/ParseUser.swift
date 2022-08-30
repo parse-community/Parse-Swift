@@ -84,7 +84,7 @@ extension ParseUser {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !ParseSwift.configuration.isAllowingCustomObjectIds || method != .POST {
+        if !Parse.configuration.isAllowingCustomObjectIds || method != .POST {
             return endpoint
         } else {
             return .users
@@ -96,7 +96,7 @@ extension ParseUser {
         BaseParseInstallation.deleteCurrentContainerFromKeychain()
         ParseACL.deleteDefaultFromKeychain()
         BaseConfig.deleteCurrentContainerFromKeychain()
-        ParseSwift.clearCache()
+        clearCache()
     }
 }
 
@@ -1224,7 +1224,7 @@ extension ParseUser {
     }
 
     func saveCommand(ignoringCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        if ParseSwift.configuration.isAllowingCustomObjectIds && objectId == nil && !ignoringCustomObjectIdConfig {
+        if Parse.configuration.isAllowingCustomObjectIds && objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
@@ -1442,7 +1442,7 @@ public extension Sequence where Element: ParseUser {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
-                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                 transaction: Bool = configuration.isUsingTransactions,
                  ignoringCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var childObjects = [String: PointerType]()
@@ -1542,7 +1542,7 @@ public extension Sequence where Element: ParseUser {
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         ignoringCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
@@ -1576,7 +1576,7 @@ public extension Sequence where Element: ParseUser {
     */
     func createAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1609,7 +1609,7 @@ public extension Sequence where Element: ParseUser {
     */
     func replaceAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1642,7 +1642,7 @@ public extension Sequence where Element: ParseUser {
     */
     internal func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1910,7 +1910,7 @@ public extension Sequence where Element: ParseUser {
      desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                   transaction: Bool = configuration.isUsingTransactions,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -1958,7 +1958,7 @@ public extension Sequence where Element: ParseUser {
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void

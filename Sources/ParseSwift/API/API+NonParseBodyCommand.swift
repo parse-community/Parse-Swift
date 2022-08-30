@@ -90,7 +90,7 @@ internal extension API {
             if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
-            let url = ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent)
+            let url = Parse.configuration.serverURL.appendingPathComponent(path.urlComponent)
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
@@ -169,7 +169,7 @@ internal extension API.NonParseBodyCommand {
                 return try objectable.toPointer()
             }
 
-            let path = ParseSwift.configuration.mountPath + objectable.endpoint.urlComponent
+            let path = Parse.configuration.mountPath + objectable.endpoint.urlComponent
             let encoded = try ParseCoding.parseEncoder().encode(object)
             let body = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: encoded)
             return API.BatchCommand<AnyCodable, PointerType>(method: method,

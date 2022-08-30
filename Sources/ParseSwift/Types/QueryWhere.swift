@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// The **where** of a `Query`.
 public struct QueryWhere: ParseTypeable {
     var constraints = [String: Set<QueryConstraint>]()
 

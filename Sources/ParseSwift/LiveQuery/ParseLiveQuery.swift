@@ -193,10 +193,10 @@ Not attempting to open ParseLiveQuery socket anymore
 
         if let userSuppliedURL = serverURL {
             url = userSuppliedURL
-        } else if let liveQueryConfigURL = ParseSwift.configuration.liveQuerysServerURL {
+        } else if let liveQueryConfigURL = Parse.configuration.liveQuerysServerURL {
             url = liveQueryConfigURL
         } else {
-            url = ParseSwift.configuration.serverURL
+            url = Parse.configuration.serverURL
         }
 
         guard var components = URLComponents(url: url,
@@ -579,7 +579,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
         notificationQueue.async {
             if let delegate = self.authenticationDelegate {
                 delegate.received(challenge, completionHandler: completionHandler)
-            } else if let parseAuthentication = ParseSwift.sessionDelegate.authentication {
+            } else if let parseAuthentication = Parse.sessionDelegate.authentication {
                 parseAuthentication(challenge, completionHandler)
             } else {
                 completionHandler(.performDefaultHandling, nil)

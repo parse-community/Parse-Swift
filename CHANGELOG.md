@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.9.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.1...4.9.2)
+
+__Fixes__
+- Allow fully qualified ParseSwift types to be used externally by fixing clash with module name ([#397](https://github.com/parse-community/Parse-Swift/pull/397)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.0...4.9.1)

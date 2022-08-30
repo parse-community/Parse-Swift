@@ -21,9 +21,9 @@ struct StandardMessage: LiveQueryable, Codable {
     init(operation: ClientOperation, additionalProperties: Bool = false) {
         self.op = operation
         if additionalProperties {
-            self.applicationId = ParseSwift.configuration.applicationId
-            self.masterKey = ParseSwift.configuration.masterKey
-            self.clientKey = ParseSwift.configuration.clientKey
+            self.applicationId = Parse.configuration.applicationId
+            self.masterKey = Parse.configuration.masterKey
+            self.clientKey = Parse.configuration.clientKey
             self.sessionToken = BaseParseUser.currentContainer?.sessionToken
             self.installationId = BaseParseInstallation.currentContainer.installationId
         }
