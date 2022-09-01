@@ -149,6 +149,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     }
 }
 
+// MARK: Coding
 extension ParseFile {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -156,6 +157,13 @@ extension ParseFile {
         name = try values.decode(String.self, forKey: .name)
         id = UUID()
     }
+/*
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type, forKey: .type)
+        try container.encode(name, forKey: .name)
+        try container.encode(url, forKey: .url)
+    } */
 }
 
 // MARK: Deleting
