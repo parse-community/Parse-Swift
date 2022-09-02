@@ -77,6 +77,13 @@ public struct ParseConfiguration {
     /// Defaults to **false**.
     public internal(set) var isDeletingKeychainIfNeeded: Bool = false
 
+    /// Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
+    /// for more info.
+    /// Defaults to **false**.
+    ///  - warning: This is known to cause issues in Playgrounds or in situtations when
+    ///  apps do not have credentials to setup a Keychain.
+    public internal(set) var isUsingDataProtectionKeychain: Bool = false
+
     /// Maximum number of times to try to connect to Parse Server.
     /// Defaults to 5.
     public internal(set) var maxConnectionAttempts: Int = 5
@@ -115,6 +122,8 @@ public struct ParseConfiguration {
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
      - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to **true** will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to **false**.
+     - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
+     for more info. Defaults to **false**.
      - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
      Defaults to **false**.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
@@ -127,9 +136,11 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `usingTransactions` is experimental.
      - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - warning: `usingTransactions` is experimental.
      - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
+     - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
+     situtations when apps do not have credentials to setup a Keychain.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -145,6 +156,7 @@ public struct ParseConfiguration {
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
                 cacheDiskCapacity: Int = 10_000_000,
+                usingDataProtectionKeychain: Bool = false,
                 deletingKeychainIfNeeded: Bool = false,
                 httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                 maxConnectionAttempts: Int = 5,
@@ -167,6 +179,7 @@ public struct ParseConfiguration {
         self.requestCachePolicy = requestCachePolicy
         self.cacheMemoryCapacity = cacheMemoryCapacity
         self.cacheDiskCapacity = cacheDiskCapacity
+        self.isUsingDataProtectionKeychain = usingDataProtectionKeychain
         self.isDeletingKeychainIfNeeded = deletingKeychainIfNeeded
         self.httpAdditionalHeaders = httpAdditionalHeaders
         self.maxConnectionAttempts = maxConnectionAttempts
@@ -198,6 +211,8 @@ public struct ParseConfiguration {
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
      - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to **true** will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to **false**.
+     - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
+     for more info. Defaults to **false**.
      - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
      Defaults to **false**.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
@@ -210,9 +225,11 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `usingTransactions` is experimental.
      - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - warning: `usingTransactions` is experimental.
      - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
+     - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
+     situtations when apps do not have credentials to setup a Keychain.
      */
     @available(*, deprecated, message: "Remove the migratingFromObjcSDK argument")
     public init(applicationId: String,
@@ -230,6 +247,7 @@ public struct ParseConfiguration {
                 cacheMemoryCapacity: Int = 512_000,
                 cacheDiskCapacity: Int = 10_000_000,
                 migratingFromObjcSDK: Bool = false,
+                usingDataProtectionKeychain: Bool = false,
                 deletingKeychainIfNeeded: Bool = false,
                 httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                 maxConnectionAttempts: Int = 5,
@@ -250,6 +268,7 @@ public struct ParseConfiguration {
                   requestCachePolicy: requestCachePolicy,
                   cacheMemoryCapacity: cacheMemoryCapacity,
                   cacheDiskCapacity: cacheDiskCapacity,
+                  usingDataProtectionKeychain: usingDataProtectionKeychain,
                   deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                   httpAdditionalHeaders: httpAdditionalHeaders,
                   maxConnectionAttempts: maxConnectionAttempts,
