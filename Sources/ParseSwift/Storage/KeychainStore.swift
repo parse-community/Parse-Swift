@@ -130,7 +130,7 @@ struct KeychainStore: SecureStorage {
             query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
         }
         #if os(macOS)
-        if !Parse.configuration.isTestingSDK {
+        if Parse.configuration.isUsingDataProtectionKeychain {
             query[kSecUseDataProtectionKeychain as String] = kCFBooleanTrue
         }
         #endif
