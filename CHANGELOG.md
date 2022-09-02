@@ -6,7 +6,9 @@
 
 ### 4.9.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.2...4.9.3)
+
 __Fixes__
+- When saving ParseFiles locally, files that have a directory in their filename save correctly instead of throwing an error on the client ([#399](https://github.com/parse-community/Parse-Swift/pull/399)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Default to not setting kSecUseDataProtectionKeychain to true as this can cause issues with querying the Keychain in Swift Playgrounds or other apps that cannot setup the Keychain on macOS. This behavior can be changed by setting usingDataProtectionKeychain to true when initializing the SDK ([#398](https://github.com/parse-community/Parse-Swift/pull/398)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.2

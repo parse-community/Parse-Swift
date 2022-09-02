@@ -365,10 +365,8 @@ internal extension API.Command {
             let downloadDirectoryPath = defaultDirectoryPath
                 .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
-            guard let fileNameSubstring = object.name.split(separator: "/").last else {
-                throw ParseError(code: .unknownError, message: "Cannot get file name")
-            }
-            let fileLocation = downloadDirectoryPath.appendingPathComponent(String(fileNameSubstring))
+            let fileNameURL = URL(fileURLWithPath: object.name)
+            let fileLocation = downloadDirectoryPath.appendingPathComponent(fileNameURL.lastPathComponent)
             if tempFileLocation != fileLocation {
                 try? FileManager.default.removeItem(at: fileLocation) // Remove file if it is already present
                 try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
