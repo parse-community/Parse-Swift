@@ -26,6 +26,7 @@ internal func initialize(applicationId: String,
                          cacheMemoryCapacity: Int = 512_000,
                          cacheDiskCapacity: Int = 10_000_000,
                          migratingFromObjcSDK: Bool = false,
+                         usingDataProtectionKeychain: Bool = false,
                          deletingKeychainIfNeeded: Bool = false,
                          httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                          maxConnectionAttempts: Int = 5,
@@ -46,6 +47,7 @@ internal func initialize(applicationId: String,
                                            requestCachePolicy: requestCachePolicy,
                                            cacheMemoryCapacity: cacheMemoryCapacity,
                                            cacheDiskCapacity: cacheDiskCapacity,
+                                           usingDataProtectionKeychain: usingDataProtectionKeychain,
                                            deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                                            httpAdditionalHeaders: httpAdditionalHeaders,
                                            maxConnectionAttempts: maxConnectionAttempts,
@@ -191,6 +193,8 @@ public func initialize(configuration: ParseConfiguration) {
  for more info.
  - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
  - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
+ - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
+ for more info. Defaults to **false**.
  - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
  Defaults to **false**.
  - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
@@ -201,9 +205,11 @@ public func initialize(configuration: ParseConfiguration) {
  It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
  completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
  See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
- - warning: `usingTransactions` is experimental.
  - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+ - warning: `usingTransactions` is experimental.
  - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
+ - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
+ situtations when apps do not have credentials to setup a Keychain.
  */
 public func initialize(
     applicationId: String,
@@ -219,6 +225,7 @@ public func initialize(
     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     cacheMemoryCapacity: Int = 512_000,
     cacheDiskCapacity: Int = 10_000_000,
+    usingDataProtectionKeychain: Bool = false,
     deletingKeychainIfNeeded: Bool = false,
     httpAdditionalHeaders: [AnyHashable: Any]? = nil,
     maxConnectionAttempts: Int = 5,
@@ -239,6 +246,7 @@ public func initialize(
                                            requestCachePolicy: requestCachePolicy,
                                            cacheMemoryCapacity: cacheMemoryCapacity,
                                            cacheDiskCapacity: cacheDiskCapacity,
+                                           usingDataProtectionKeychain: usingDataProtectionKeychain,
                                            deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                                            httpAdditionalHeaders: httpAdditionalHeaders,
                                            maxConnectionAttempts: maxConnectionAttempts,
@@ -272,6 +280,8 @@ public func initialize(
  - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
  - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
  to **true** will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to **false**.
+ - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
+ for more info. Defaults to **false**.
  - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
  Defaults to **false**.
  - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
@@ -282,9 +292,11 @@ public func initialize(
  It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
  completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
  See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
- - warning: `usingTransactions` is experimental.
  - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+ - warning: `usingTransactions` is experimental.
  - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
+ - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
+ situtations when apps do not have credentials to setup a Keychain.
  */
 @available(*, deprecated, message: "Remove the migratingFromObjcSDK argument")
 public func initialize(
@@ -302,6 +314,7 @@ public func initialize(
     cacheMemoryCapacity: Int = 512_000,
     cacheDiskCapacity: Int = 10_000_000,
     migratingFromObjcSDK: Bool = false,
+    usingDataProtectionKeychain: Bool = false,
     deletingKeychainIfNeeded: Bool = false,
     httpAdditionalHeaders: [AnyHashable: Any]? = nil,
     maxConnectionAttempts: Int = 5,
@@ -322,6 +335,7 @@ public func initialize(
                                            requestCachePolicy: requestCachePolicy,
                                            cacheMemoryCapacity: cacheMemoryCapacity,
                                            cacheDiskCapacity: cacheDiskCapacity,
+                                           usingDataProtectionKeychain: usingDataProtectionKeychain,
                                            deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                                            httpAdditionalHeaders: httpAdditionalHeaders,
                                            maxConnectionAttempts: maxConnectionAttempts,

@@ -1,8 +1,13 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.3...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.9.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.2...4.9.3)
+__Fixes__
+- Default to not setting kSecUseDataProtectionKeychain to true as this can cause issues with querying the Keychain in Swift Playgrounds or other apps that cannot setup the Keychain on macOS. This behavior can be changed by setting usingDataProtectionKeychain to true when initializing the SDK ([#398](https://github.com/parse-community/Parse-Swift/pull/398)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.1...4.9.2)
