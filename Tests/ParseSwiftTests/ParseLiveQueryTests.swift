@@ -1672,6 +1672,8 @@ class ParseLiveQueryTests: XCTestCase {
             guard let isSubscribed = try? client.isSubscribed(query),
                   let isPending = try? client.isPendingSubscription(query) else {
                 XCTFail("Shound unwrap")
+                expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             XCTAssertTrue(isSubscribed)
@@ -1685,6 +1687,8 @@ class ParseLiveQueryTests: XCTestCase {
                                                                installationId: "naw")
             guard let encoded = try? ParseCoding.jsonEncoder().encode(response) else {
                 XCTFail("Should encode")
+                expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             client.received(encoded)
@@ -1754,6 +1758,8 @@ class ParseLiveQueryTests: XCTestCase {
                                                                installationId: "naw")
             guard let encoded = try? ParseCoding.jsonEncoder().encode(response) else {
                 XCTFail("Should have encoded")
+                expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             client.received(encoded)
