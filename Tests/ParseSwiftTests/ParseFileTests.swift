@@ -1150,6 +1150,64 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         #endif
     }
 
+    func testFetchFileWithDirInName() throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "myFolder/d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = FileUploadResponse(name: "myFolder/d3a37aed0672a024595b766f97133615_logo.svg",
+                                          url: parseFileURL)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let fetchedFile = try parseFile.fetch()
+        XCTAssertEqual(fetchedFile.name, response.name)
+        XCTAssertEqual(fetchedFile.url, response.url)
+        guard let localURL = fetchedFile.localURL else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertFalse(localURL.pathComponents.contains("myFolder"))
+
+        // Cache policy flakey on older Swift versions
+        #if compiler(>=5.5.0)
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+
+        let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
+        XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
+        XCTAssertNotNil(fetchedFile2.localURL)
+
+        // More cache tests
+        guard let currentMemoryUsage = URLSession.parse.configuration.urlCache?.currentMemoryUsage,
+                let currentDiskUsage = URLSession.parse.configuration.urlCache?.currentDiskUsage else {
+                    XCTFail("Should have unwrapped")
+                    return
+        }
+        XCTAssertGreaterThan(currentMemoryUsage, 0)
+        XCTAssertGreaterThan(currentDiskUsage, 0)
+        ParseSwift.clearCache()
+        guard let updatedMemoryUsage = URLSession.parse.configuration.urlCache?.currentMemoryUsage else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertLessThan(updatedMemoryUsage, currentMemoryUsage)
+        #endif
+    }
+
     func testFetchFileProgress() throws {
         // swiftlint:disable:next line_length
         guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {

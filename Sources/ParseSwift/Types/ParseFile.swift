@@ -149,6 +149,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     }
 }
 
+// MARK: Coding
 extension ParseFile {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
