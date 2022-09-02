@@ -86,6 +86,11 @@ public var configuration: ParseConfiguration {
  Configure the Parse Swift client. This should only be used when starting your app. Typically in the
  `application(... didFinishLaunchingWithOptions launchOptions...)`.
  - parameter configuration: The Parse configuration.
+ - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+ - warning: `usingTransactions` is experimental.
+ - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
+ - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
+ situtations when apps do not have credentials to setup a Keychain.
  */
 public func initialize(configuration: ParseConfiguration) {
     Parse.configuration = configuration
