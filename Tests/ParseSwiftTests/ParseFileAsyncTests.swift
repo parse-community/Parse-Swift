@@ -71,7 +71,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     }
 
     #if !os(Linux) && !os(Android) && !os(Windows)
-    //URL Mocker is not able to mock this in linux and tests fail, so don't run.
+    //URL Mocker is not able to mock this in linux and tests fail, so do not run.
     @MainActor
     func testFetch() async throws {
 
@@ -261,5 +261,182 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertEqual(error.message, serverResponse.message)
         }
     }
+
+    @MainActor
+    func testParseURLSessionDelegates() async throws {
+        // swiftlint:disable:next line_length
+        let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = downloadTask as URLSessionTask
+        // swiftlint:disable:next line_length
+        let uploadCompletion: ((URLSessionTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionTask, _: Int64, _: Int64, _: Int64) -> Void in }
+        // swiftlint:disable:next line_length
+        let downloadCompletion: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionDownloadTask, _: Int64, _: Int64, _: Int64) -> Void in }
+
+        // Add tasks
+        Parse.sessionDelegate.streamDelegates[task] = .init(data: .init())
+        XCTAssertEqual(Parse.sessionDelegate.streamDelegates.count, 1)
+        await Parse.sessionDelegate.delegates.updateTask(task, queue: DispatchQueue.main)
+        let taskCount = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+        XCTAssertEqual(taskCount, 1)
+        await Parse.sessionDelegate.delegates.updateUpload(task, callback: uploadCompletion)
+        let uploadCount = await Parse.sessionDelegate.delegates.uploadDelegates.count
+        XCTAssertEqual(uploadCount, 1)
+        await Parse.sessionDelegate.delegates.updateDownload(downloadTask, callback: downloadCompletion)
+        let downloadCount = await Parse.sessionDelegate.delegates.downloadDelegates.count
+        XCTAssertEqual(downloadCount, 1)
+
+        // Remove tasks
+        Parse.sessionDelegate.streamDelegates.removeValue(forKey: task)
+        XCTAssertEqual(Parse.sessionDelegate.streamDelegates.count, 0)
+        await Parse.sessionDelegate.delegates.removeTask(task)
+        let taskCount2 = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+        XCTAssertEqual(taskCount2, 0)
+        await Parse.sessionDelegate.delegates.removeUpload(task)
+        let uploadCount2 = await Parse.sessionDelegate.delegates.uploadDelegates.count
+        XCTAssertEqual(uploadCount2, 0)
+        await Parse.sessionDelegate.delegates.removeDownload(downloadTask)
+        let downloadCount2 = await Parse.sessionDelegate.delegates.downloadDelegates.count
+        XCTAssertEqual(downloadCount2, 0)
+    }
+
+    #if !os(iOS)
+    func testParseURLSessionDelegateUpload() async throws {
+        // swiftlint:disable:next line_length
+        let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
+
+        let expectation1 = XCTestExpectation(description: "Call delegate 1")
+        let expectation2 = XCTestExpectation(description: "Call delegate 2")
+
+        // swiftlint:disable:next line_length
+        let uploadCompletion: ((URLSessionTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionTask, _: Int64, sent: Int64, total: Int64) -> Void in
+            if sent < total {
+                Task {
+                    let uploadCount = await Parse.sessionDelegate.delegates.uploadDelegates.count
+                    let taskCount = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+                    Parse.sessionDelegate.urlSession(URLSession.parse,
+                                                          task: task,
+                                                          didCompleteWithError: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                        XCTAssertEqual(uploadCount, 1)
+                        XCTAssertEqual(taskCount, 1)
+                        expectation1.fulfill()
+
+                        Task {
+                            let uploadCount = await Parse.sessionDelegate.delegates.uploadDelegates.count
+                            let taskCount = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+                            XCTAssertEqual(uploadCount, 0)
+                            XCTAssertEqual(taskCount, 0)
+                            expectation2.fulfill()
+                        }
+                    }
+                }
+            }
+        }
+
+        // Add tasks
+        await Parse.sessionDelegate.delegates.updateUpload(task, callback: uploadCompletion)
+        await Parse.sessionDelegate.delegates.updateTask(task, queue: queue)
+
+        Parse.sessionDelegate.urlSession(URLSession.parse,
+                                              task: task,
+                                              didSendBodyData: 0,
+                                              totalBytesSent: 0,
+                                              totalBytesExpectedToSend: 10)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testParseURLSessionDelegateDownload() async throws {
+        // swiftlint:disable:next line_length
+        let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
+        guard let fileManager = ParseFileManager(),
+              let filePath = fileManager.dataItemPathForPathComponent("test.txt") else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        let expectation1 = XCTestExpectation(description: "Call delegate 1")
+        let expectation2 = XCTestExpectation(description: "Call delegate 2")
+
+        // swiftlint:disable:next line_length
+        let downloadCompletion: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionDownloadTask, _: Int64, sent: Int64, total: Int64) -> Void in
+            if sent < total {
+                Task {
+                    let downloadCount = await Parse.sessionDelegate.delegates.downloadDelegates.count
+                    let taskCount = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+                    Parse.sessionDelegate.urlSession(URLSession.parse,
+                                                          downloadTask: downloadTask,
+                                                          didFinishDownloadingTo: filePath)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                        XCTAssertEqual(downloadCount, 1)
+                        XCTAssertEqual(taskCount, 1)
+                        expectation1.fulfill()
+
+                        Task {
+                            let downloadCount = await Parse.sessionDelegate.delegates.downloadDelegates.count
+                            let taskCount = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+                            XCTAssertEqual(downloadCount, 0)
+                            XCTAssertEqual(taskCount, 0)
+                            expectation2.fulfill()
+                        }
+                    }
+                }
+            }
+        }
+
+        // Add tasks
+        await Parse.sessionDelegate.delegates.updateDownload(downloadTask, callback: downloadCompletion)
+        await Parse.sessionDelegate.delegates.updateTask(task, queue: queue)
+
+        Parse.sessionDelegate.urlSession(URLSession.parse,
+                                              downloadTask: downloadTask,
+                                              didWriteData: 0,
+                                              totalBytesWritten: 0,
+                                              totalBytesExpectedToWrite: 10)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testParseURLSessionDelegateStream() async throws {
+        // swiftlint:disable:next line_length
+        let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
+
+        let expectation1 = XCTestExpectation(description: "Call delegate 1")
+        let expectation2 = XCTestExpectation(description: "Call delegate 2")
+
+        let streamCompletion: ((InputStream?) -> Void) = { (_: InputStream?) -> Void in
+            Task {
+                let streamCount = Parse.sessionDelegate.streamDelegates.count
+                let taskCount = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+                Parse.sessionDelegate.urlSession(URLSession.parse, task: task, didCompleteWithError: nil)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                    XCTAssertEqual(streamCount, 1)
+                    XCTAssertEqual(taskCount, 1)
+                    expectation1.fulfill()
+
+                    Task {
+                        let streamCount = Parse.sessionDelegate.streamDelegates.count
+                        let taskCount = await Parse.sessionDelegate.delegates.taskCallbackQueues.count
+                        XCTAssertEqual(streamCount, 0)
+                        XCTAssertEqual(taskCount, 0)
+                        expectation2.fulfill()
+                    }
+                }
+            }
+        }
+
+        // Add tasks
+        Parse.sessionDelegate.streamDelegates[task] = .init(data: .init())
+        await Parse.sessionDelegate.delegates.updateTask(task, queue: queue)
+
+        Parse.sessionDelegate.urlSession(URLSession.parse, task: task, needNewBodyStream: streamCompletion)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+    #endif
 }
 #endif

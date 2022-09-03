@@ -352,7 +352,11 @@ class ParseLiveQueryTests: XCTestCase {
         client.attempts = 5
         client.clientId = "yolo"
         client.isDisconnectedByUser = false
-        XCTAssertEqual(URLSession.liveQuery.receivingTasks[task], true)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[task] else {
+            throw XCTSkip("Skip this test when the receiving task is nil")
+        }
+        XCTAssertEqual(receivingTask, true)
         XCTAssertEqual(client.isSocketEstablished, true)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.clientId, "yolo")
@@ -382,7 +386,11 @@ class ParseLiveQueryTests: XCTestCase {
         client.isConnecting = true
         client.isConnected = true
         client.clientId = "yolo"
-        XCTAssertEqual(URLSession.liveQuery.receivingTasks[task], true)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[task] else {
+            throw XCTSkip("Skip this test when the receiving task is nil")
+        }
+        XCTAssertEqual(receivingTask, true)
         XCTAssertEqual(client.isConnected, true)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.clientId, "yolo")
@@ -446,7 +454,7 @@ class ParseLiveQueryTests: XCTestCase {
         client.close()
         let expectation1 = XCTestExpectation(description: "Response delegate")
         client.open(isUserWantsToConnect: true) { error in
-            XCTAssertNotNil(error) //Should always fail since WS isn't intercepted.
+            XCTAssertNotNil(error) //Should always fail since WS is not intercepted.
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -461,7 +469,11 @@ class ParseLiveQueryTests: XCTestCase {
         client.receiveDelegate = delegate
         client.task = URLSession.liveQuery.createTask(client.url,
                                                       taskDelegate: client)
-        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[client.task] else {
+            throw XCTSkip("Skip this test when the receiving task is nil")
+        }
+        XCTAssertEqual(receivingTask, true)
         client.status(.closed, closeCode: .goingAway, reason: nil)
         let expectation1 = XCTestExpectation(description: "Response delegate")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -476,12 +488,15 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testCloseExternal() throws {
         let client = try ParseLiveQuery()
-        guard let originalTask = client.task else {
-            XCTFail("Should not be nil")
-            return
+        guard let originalTask = client.task,
+              client.task.state == .running else {
+            throw XCTSkip("Skip this test when state is not running")
         }
-        XCTAssertTrue(client.task.state == .running)
-        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[client.task] else {
+            throw XCTSkip("Skip this test when the receiving task is nil")
+        }
+        XCTAssertEqual(receivingTask, true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.close()
@@ -501,12 +516,15 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testCloseInternalUseQueue() throws {
         let client = try ParseLiveQuery()
-        guard let originalTask = client.task else {
-            XCTFail("Should not be nil")
-            return
+        guard let originalTask = client.task,
+              client.task.state == .running else {
+            throw XCTSkip("Skip this test when state is not running")
         }
-        XCTAssertTrue(client.task.state == .running)
-        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[client.task] else {
+            throw XCTSkip("Skip this test when the receiving task is nil")
+        }
+        XCTAssertEqual(receivingTask, true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.close(useDedicatedQueue: true)
@@ -526,12 +544,15 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testCloseInternalDoNotUseQueue() throws {
         let client = try ParseLiveQuery()
-        guard let originalTask = client.task else {
-            XCTFail("Should not be nil")
-            return
+        guard let originalTask = client.task,
+              client.task.state == .running else {
+            throw XCTSkip("Skip this test when state is not running")
         }
-        XCTAssertTrue(client.task.state == .running)
-        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[client.task] else {
+            throw XCTSkip("Skip this test when the receiving task is nil")
+        }
+        XCTAssertEqual(receivingTask, true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.close(useDedicatedQueue: false)
@@ -546,12 +567,15 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testCloseAll() throws {
         let client = try ParseLiveQuery()
-        guard let originalTask = client.task else {
-            XCTFail("Should not be nil")
-            return
+        guard let originalTask = client.task,
+              client.task.state == .running else {
+            throw XCTSkip("Skip this test when state is not running")
         }
-        XCTAssertTrue(client.task.state == .running)
-        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[client.task] else {
+            throw XCTSkip("Skip this test when the receiving task is nil")
+        }
+        XCTAssertEqual(receivingTask, true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.closeAll()
@@ -604,7 +628,7 @@ class ParseLiveQueryTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Send Ping")
         client.sendPing { error in
             XCTAssertEqual(client.isSocketEstablished, true)
-            XCTAssertNotNil(error) // Should have error because testcases don't intercept websocket
+            XCTAssertNotNil(error) // Should have error because testcases do not intercept websocket
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -651,6 +675,11 @@ class ParseLiveQueryTests: XCTestCase {
         let response = ConnectionResponse(op: .connected, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder().encode(response)
         client.received(encoded)
+        // Only continue test if this is not nil, otherwise skip
+        guard let receivingTask = URLSession.liveQuery.receivingTasks[client.task],
+            receivingTask == true else {
+            throw XCTSkip("Skip this test when the receiving task is nil or not true")
+        }
     }
 
     func testSubscribeConnected() throws {
@@ -833,7 +862,7 @@ class ParseLiveQueryTests: XCTestCase {
             if let socketEstablished = ParseLiveQuery.client?.isSocketEstablished {
                 XCTAssertFalse(socketEstablished)
             } else {
-                XCTFail("Should have socket that isn't established")
+                XCTFail("Should have socket that is not established")
                 expectation2.fulfill()
                 return
             }
@@ -1643,6 +1672,8 @@ class ParseLiveQueryTests: XCTestCase {
             guard let isSubscribed = try? client.isSubscribed(query),
                   let isPending = try? client.isPendingSubscription(query) else {
                 XCTFail("Shound unwrap")
+                expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             XCTAssertTrue(isSubscribed)
@@ -1656,6 +1687,8 @@ class ParseLiveQueryTests: XCTestCase {
                                                                installationId: "naw")
             guard let encoded = try? ParseCoding.jsonEncoder().encode(response) else {
                 XCTFail("Should encode")
+                expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             client.received(encoded)
@@ -1725,6 +1758,8 @@ class ParseLiveQueryTests: XCTestCase {
                                                                installationId: "naw")
             guard let encoded = try? ParseCoding.jsonEncoder().encode(response) else {
                 XCTFail("Should have encoded")
+                expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             client.received(encoded)

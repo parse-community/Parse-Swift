@@ -17,7 +17,10 @@ struct ParseStorage {
 
     private mutating func requireBackingStore() {
         guard backingStore != nil else {
-            print("You can't use ParseStorage without a backing store. An in-memory store is being used as a fallback.")
+            print("""
+                You cannot use ParseStorage without a backing store.
+                An in-memory store is being used as a fallback.
+            """)
             return
         }
     }
@@ -28,6 +31,7 @@ struct ParseStorage {
         static let currentConfig = "_currentConfig"
         static let defaultACL = "_defaultACL"
         static let currentVersion = "_currentVersion"
+        static let currentAccessGroup = "_currentAccessGroup"
     }
 }
 

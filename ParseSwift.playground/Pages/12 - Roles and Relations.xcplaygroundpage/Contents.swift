@@ -109,10 +109,10 @@ var savedRole: Role<User>?
 
 //: Now we will create the Role.
 guard let currentUser = User.current else {
-    fatalError("User currently isn't signed in")
+    fatalError("User currently is not signed in")
 }
 
-//: Every Role requires an ACL that can't be changed after saving.
+//: Every Role requires an ACL that cannot be changed after saving.
 var acl = ParseACL()
 acl.setReadAccess(user: currentUser, value: true)
 acl.setWriteAccess(user: currentUser, value: true)
@@ -312,7 +312,7 @@ let score2 = GameScore(points: 57)
             print(error)
         }
     case .failure(let error):
-        print("Couldn't save scores. \(error)")
+        print("Could not save scores. \(error)")
     }
 }
 

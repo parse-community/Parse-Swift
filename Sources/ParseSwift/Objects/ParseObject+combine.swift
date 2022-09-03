@@ -160,7 +160,7 @@ public extension Sequence where Element: ParseObject {
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
-                          transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                          transaction: Bool = configuration.isUsingTransactions,
                           ignoringCustomObjectIdConfig: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
@@ -187,7 +187,7 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
     */
     func createAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                            transaction: Bool = configuration.isUsingTransactions,
                             options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.createAll(batchLimit: limit,
@@ -212,7 +212,7 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
     */
     func replaceAllPublisher(batchLimit limit: Int? = nil,
-                             transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                             transaction: Bool = configuration.isUsingTransactions,
                              options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.replaceAll(batchLimit: limit,
@@ -237,7 +237,7 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
     */
     internal func updateAllPublisher(batchLimit limit: Int? = nil,
-                                     transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                     transaction: Bool = configuration.isUsingTransactions,
                                      options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)],
                                                                             ParseError> {
         Future { promise in
@@ -263,7 +263,7 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
     */
     func deleteAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                            transaction: Bool = configuration.isUsingTransactions,
                             options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
             self.deleteAll(batchLimit: limit,

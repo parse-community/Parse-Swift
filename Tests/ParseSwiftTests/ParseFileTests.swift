@@ -207,6 +207,20 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
                        "{\"__type\":\"File\",\"name\":\"sampleData.txt\"}")
     }
 
+    func testDebugStringWithFolderInName() throws {
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        let parseFile = ParseFile(name: "myFolder/sampleData.txt",
+                                  data: sampleData,
+                                  metadata: ["Testing": "123"],
+                                  tags: ["Hey": "now"])
+        XCTAssertEqual(parseFile.debugDescription,
+                       "{\"__type\":\"File\",\"name\":\"myFolder\\/sampleData.txt\"}")
+        XCTAssertEqual(parseFile.description,
+                       "{\"__type\":\"File\",\"name\":\"myFolder\\/sampleData.txt\"}")
+    }
+
     func testSave() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
             throw ParseError(code: .unknownError, message: "Should have converted to data")
@@ -680,9 +694,161 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    #if compiler(<5.5.2)
+    func testParseURLSessionDelegates() throws {
+        // swiftlint:disable:next line_length
+        let dowloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = dowloadTask as URLSessionTask
+        // swiftlint:disable:next line_length
+        let uploadCompletion: ((URLSessionTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionTask, _: Int64, _: Int64, _: Int64) -> Void in }
+        // swiftlint:disable:next line_length
+        let dowbloadCompletion: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionDownloadTask, _: Int64, _: Int64, _: Int64) -> Void in }
+
+        // Add tasks
+        Parse.sessionDelegate.taskCallbackQueues[task] = DispatchQueue.main
+        XCTAssertEqual(Parse.sessionDelegate.taskCallbackQueues.count, 1)
+        Parse.sessionDelegate.streamDelegates[task] = .init(data: .init())
+        XCTAssertEqual(Parse.sessionDelegate.streamDelegates.count, 1)
+        Parse.sessionDelegate.uploadDelegates[task] = uploadCompletion
+        XCTAssertEqual(Parse.sessionDelegate.uploadDelegates.count, 1)
+        Parse.sessionDelegate.downloadDelegates[dowloadTask] = dowbloadCompletion
+        XCTAssertEqual(Parse.sessionDelegate.downloadDelegates.count, 1)
+
+        // Remove tasks
+        Parse.sessionDelegate.taskCallbackQueues.removeValue(forKey: task)
+        XCTAssertEqual(Parse.sessionDelegate.taskCallbackQueues.count, 0)
+        Parse.sessionDelegate.streamDelegates.removeValue(forKey: task)
+        XCTAssertEqual(Parse.sessionDelegate.streamDelegates.count, 0)
+        Parse.sessionDelegate.uploadDelegates.removeValue(forKey: task)
+        XCTAssertEqual(Parse.sessionDelegate.uploadDelegates.count, 0)
+        Parse.sessionDelegate.downloadDelegates.removeValue(forKey: dowloadTask)
+        XCTAssertEqual(Parse.sessionDelegate.downloadDelegates.count, 0)
+    }
+
+    func testParseURLSessionDelegateUpload() throws {
+        // swiftlint:disable:next line_length
+        let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
+
+        let expectation1 = XCTestExpectation(description: "Call delegate 1")
+        let expectation2 = XCTestExpectation(description: "Call delegate 2")
+
+        // swiftlint:disable:next line_length
+        let uploadCompletion: ((URLSessionTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionTask, _: Int64, sent: Int64, total: Int64) -> Void in
+            if sent < total {
+                let uploadCount = Parse.sessionDelegate.uploadDelegates.count
+                let taskCount = Parse.sessionDelegate.taskCallbackQueues.count
+                XCTAssertEqual(uploadCount, 1)
+                XCTAssertEqual(taskCount, 1)
+                expectation1.fulfill()
+                Parse.sessionDelegate.urlSession(URLSession.parse, task: task, didCompleteWithError: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    let uploadCount = Parse.sessionDelegate.uploadDelegates.count
+                    let taskCount = Parse.sessionDelegate.taskCallbackQueues.count
+                    XCTAssertEqual(uploadCount, 0)
+                    XCTAssertEqual(taskCount, 0)
+                    expectation2.fulfill()
+                }
+            }
+        }
+
+        // Add tasks
+        Parse.sessionDelegate.uploadDelegates[task] = uploadCompletion
+        Parse.sessionDelegate.taskCallbackQueues[task] = queue
+
+        Parse.sessionDelegate.urlSession(URLSession.parse,
+                                              task: task,
+                                              didSendBodyData: 0,
+                                              totalBytesSent: 0,
+                                              totalBytesExpectedToSend: 10)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testParseURLSessionDelegateDownload() throws {
+        // swiftlint:disable:next line_length
+        let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
+        guard let fileManager = ParseFileManager(),
+              let filePath = fileManager.dataItemPathForPathComponent("test.txt") else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        let expectation1 = XCTestExpectation(description: "Call delegate 1")
+        let expectation2 = XCTestExpectation(description: "Call delegate 2")
+
+        // swiftlint:disable:next line_length
+        let downloadCompletion: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void) = { (_: URLSessionDownloadTask, _: Int64, sent: Int64, total: Int64) -> Void in
+            if sent < total {
+                let downloadCount = Parse.sessionDelegate.downloadDelegates.count
+                let taskCount = Parse.sessionDelegate.taskCallbackQueues.count
+                XCTAssertEqual(downloadCount, 1)
+                XCTAssertEqual(taskCount, 1)
+                expectation1.fulfill()
+                Parse.sessionDelegate.urlSession(URLSession.parse,
+                                                      downloadTask: downloadTask,
+                                                      didFinishDownloadingTo: filePath)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    let downloadCount = Parse.sessionDelegate.downloadDelegates.count
+                    let taskCount = Parse.sessionDelegate.taskCallbackQueues.count
+                    XCTAssertEqual(downloadCount, 0)
+                    XCTAssertEqual(taskCount, 0)
+                    expectation2.fulfill()
+                }
+            }
+        }
+
+        // Add tasks
+        Parse.sessionDelegate.downloadDelegates[downloadTask] = downloadCompletion
+        Parse.sessionDelegate.taskCallbackQueues[task] = queue
+
+        Parse.sessionDelegate.urlSession(URLSession.parse,
+                                              downloadTask: downloadTask,
+                                              didWriteData: 0,
+                                              totalBytesWritten: 0,
+                                              totalBytesExpectedToWrite: 10)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testParseURLSessionDelegateStream() throws {
+        // swiftlint:disable:next line_length
+        let downloadTask = URLSession.shared.downloadTask(with: .init(fileURLWithPath: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg"))
+        let task = downloadTask as URLSessionTask
+        let queue = DispatchQueue.global(qos: .utility)
+
+        let expectation1 = XCTestExpectation(description: "Call delegate 1")
+        let expectation2 = XCTestExpectation(description: "Call delegate 2")
+
+        let streamCompletion: ((InputStream?) -> Void) = { (_: InputStream?) -> Void in
+            let streamCount = Parse.sessionDelegate.streamDelegates.count
+            let taskCount = Parse.sessionDelegate.taskCallbackQueues.count
+            XCTAssertEqual(streamCount, 1)
+            XCTAssertEqual(taskCount, 1)
+            expectation1.fulfill()
+            Parse.sessionDelegate.urlSession(URLSession.parse, task: task, didCompleteWithError: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                let streamCount = Parse.sessionDelegate.streamDelegates.count
+                let taskCount = Parse.sessionDelegate.taskCallbackQueues.count
+                XCTAssertEqual(streamCount, 0)
+                XCTAssertEqual(taskCount, 0)
+                expectation2.fulfill()
+            }
+        }
+
+        // Add tasks
+        Parse.sessionDelegate.streamDelegates[task] = .init(data: .init())
+        Parse.sessionDelegate.taskCallbackQueues[task] = queue
+
+        Parse.sessionDelegate.urlSession(URLSession.parse, task: task, needNewBodyStream: streamCompletion)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+    #endif
+
     #if !os(Linux) && !os(Android) && !os(Windows)
 
-    //URL Mocker is not able to mock this in linux and tests fail, so don't run.
+    // URL Mocker is not able to mock this in linux and tests fail, so do not run.
     func testFetchFileCancelAsync() throws {
         // swiftlint:disable:next line_length
         guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/7793939a2e59b98138c1bbf2412a060c_logo.svg") else {
@@ -956,6 +1122,64 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile.name, response.name)
         XCTAssertEqual(fetchedFile.url, response.url)
         XCTAssertNotNil(fetchedFile.localURL)
+
+        // Cache policy flakey on older Swift versions
+        #if compiler(>=5.5.0)
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+
+        let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
+        XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
+        XCTAssertNotNil(fetchedFile2.localURL)
+
+        // More cache tests
+        guard let currentMemoryUsage = URLSession.parse.configuration.urlCache?.currentMemoryUsage,
+                let currentDiskUsage = URLSession.parse.configuration.urlCache?.currentDiskUsage else {
+                    XCTFail("Should have unwrapped")
+                    return
+        }
+        XCTAssertGreaterThan(currentMemoryUsage, 0)
+        XCTAssertGreaterThan(currentDiskUsage, 0)
+        ParseSwift.clearCache()
+        guard let updatedMemoryUsage = URLSession.parse.configuration.urlCache?.currentMemoryUsage else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertLessThan(updatedMemoryUsage, currentMemoryUsage)
+        #endif
+    }
+
+    func testFetchFileWithDirInName() throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "myFolder/d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = FileUploadResponse(name: "myFolder/d3a37aed0672a024595b766f97133615_logo.svg",
+                                          url: parseFileURL)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let fetchedFile = try parseFile.fetch()
+        XCTAssertEqual(fetchedFile.name, response.name)
+        XCTAssertEqual(fetchedFile.url, response.url)
+        guard let localURL = fetchedFile.localURL else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertFalse(localURL.pathComponents.contains("myFolder"))
 
         // Cache policy flakey on older Swift versions
         #if compiler(>=5.5.0)

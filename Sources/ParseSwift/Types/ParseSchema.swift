@@ -104,7 +104,7 @@ public extension ParseSchema {
             return addRelation(name, options: options)
         default:
             throw ParseError(code: .unknownError,
-                             message: "The type \"\(type)\" isn't supported by this method")
+                             message: "The type \"\(type)\" is not supported by this method")
         }
     }
 

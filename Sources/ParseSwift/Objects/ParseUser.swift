@@ -44,7 +44,7 @@ public extension ParseUser {
     }
 
     func mergeParse(with object: Self) throws -> Self {
-        guard hasSameObjectId(as: object) == true else {
+        guard hasSameObjectId(as: object) else {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects do not match")
         }
@@ -84,7 +84,7 @@ extension ParseUser {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !ParseSwift.configuration.isAllowingCustomObjectIds || method != .POST {
+        if !Parse.configuration.isAllowingCustomObjectIds || method != .POST {
             return endpoint
         } else {
             return .users
@@ -96,12 +96,12 @@ extension ParseUser {
         BaseParseInstallation.deleteCurrentContainerFromKeychain()
         ParseACL.deleteDefaultFromKeychain()
         BaseConfig.deleteCurrentContainerFromKeychain()
-        ParseSwift.clearCache()
+        clearCache()
     }
 }
 
 // MARK: CurrentUserContainer
-struct CurrentUserContainer<T: ParseUser>: Codable {
+struct CurrentUserContainer<T: ParseUser>: Codable, Hashable {
     var currentUser: T?
     var sessionToken: String?
 }
@@ -294,7 +294,30 @@ extension ParseUser {
                        options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        var newUser = self
+        Self.become(sessionToken: sessionToken,
+                    options: options,
+                    callbackQueue: callbackQueue,
+                    completion: completion)
+    }
+
+    /**
+     Logs in a `ParseUser` *asynchronously* with a session token. On success, this saves the session
+     to the keychain, so you can retrieve the currently logged in user using *current*.
+
+     - parameter sessionToken: The sessionToken of the user to login.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    public static func become(sessionToken: String,
+                              options: API.Options = [],
+                              callbackQueue: DispatchQueue = .main,
+                              completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var newUser = Self()
         newUser.objectId = "me"
         var options = options
         options.insert(.sessionToken(sessionToken))
@@ -319,6 +342,68 @@ extension ParseUser {
             }
         }
     }
+
+#if !os(Linux) && !os(Android) && !os(Windows)
+    /**
+     Logs in a `ParseUser` *asynchronously* using the session token from the Parse Objective-C SDK Keychain.
+     Returns an instance of the successfully logged in `ParseUser`. The Parse Objective-C SDK Keychain is not
+     modified in any way when calling this method; allowing developers to revert their applications back to the older
+     SDK if desired.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
+     - warning: The latest **PFUser** from the Objective-C SDK should be saved to your
+     Parse Server before calling this method.
+    */
+    public static func loginUsingObjCKeychain(options: API.Options = [],
+                                              callbackQueue: DispatchQueue = .main,
+                                              completion: @escaping (Result<Self, ParseError>) -> Void) {
+
+        let objcParseKeychain = KeychainStore.objectiveC
+        let objcParseSessionToken: String? = objcParseKeychain?.object(forKey: "sessionToken") ??
+        objcParseKeychain?.object(forKey: "session_token")
+
+        guard let sessionToken = objcParseSessionToken else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Could not find a session token in the Parse Objective-C SDK Keychain.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+
+        guard let currentUser = Self.current else {
+            become(sessionToken: sessionToken,
+                   options: options,
+                   callbackQueue: callbackQueue,
+                   completion: completion)
+            return
+        }
+
+        guard currentUser.sessionToken == sessionToken else {
+            let error = ParseError(code: .unknownError,
+                                   message: """
+                                   Currently logged in as a ParseUser who has a different
+                                   session token than the Objective-C Parse SDK session token. Please log out before
+                                   calling this method.
+            """)
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        callbackQueue.async {
+            completion(.success(currentUser))
+        }
+    }
+#endif
 
     internal func meCommand(sessionToken: String) throws -> API.Command<Self, Self> {
 
@@ -356,9 +441,9 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let error = try? logoutCommand().execute(options: options)
-        //Always let user logout locally, no matter the error.
+        // Always let user logout locally, no matter the error.
         deleteCurrentKeychain()
-        //Wait to throw error
+        // Wait to throw error
         if let parseError = error {
             throw parseError
         }
@@ -382,7 +467,7 @@ extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         logoutCommand().executeAsync(options: options,
                                      callbackQueue: callbackQueue) { result in
-            //Always let user logout locally, no matter the error.
+            // Always let user logout locally, no matter the error.
             deleteCurrentKeychain()
 
             switch result {
@@ -606,7 +691,7 @@ extension ParseUser {
     /**
      Signs up the user *synchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
@@ -635,7 +720,7 @@ extension ParseUser {
     /**
      Signs up the user *synchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -658,7 +743,7 @@ extension ParseUser {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -713,7 +798,7 @@ extension ParseUser {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
@@ -931,7 +1016,7 @@ extension ParseUser {
 extension ParseUser {
 
     /**
-     Saves the `ParseUser` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseUser` *synchronously* and throws an error if there is an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
@@ -943,7 +1028,7 @@ extension ParseUser {
     }
 
     /**
-     Saves the `ParseUser` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseUser` *synchronously* and throws an error if there is an issue.
 
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
@@ -1139,7 +1224,7 @@ extension ParseUser {
     }
 
     func saveCommand(ignoringCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        if ParseSwift.configuration.isAllowingCustomObjectIds && objectId == nil && !ignoringCustomObjectIdConfig {
+        if Parse.configuration.isAllowingCustomObjectIds && objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
@@ -1357,7 +1442,7 @@ public extension Sequence where Element: ParseUser {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
-                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                 transaction: Bool = configuration.isUsingTransactions,
                  ignoringCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var childObjects = [String: PointerType]()
@@ -1457,7 +1542,7 @@ public extension Sequence where Element: ParseUser {
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         ignoringCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
@@ -1491,7 +1576,7 @@ public extension Sequence where Element: ParseUser {
     */
     func createAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1524,7 +1609,7 @@ public extension Sequence where Element: ParseUser {
     */
     func replaceAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1557,7 +1642,7 @@ public extension Sequence where Element: ParseUser {
     */
     internal func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1709,7 +1794,7 @@ public extension Sequence where Element: ParseUser {
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: An error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which users are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which users are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(includeKeys: [String]? = nil,
@@ -1752,7 +1837,7 @@ public extension Sequence where Element: ParseUser {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which users are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which users are returned are not guarenteed. You should not expect results in
      any particular order.
     */
     func fetchAll(
@@ -1825,7 +1910,7 @@ public extension Sequence where Element: ParseUser {
      desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                   transaction: Bool = configuration.isUsingTransactions,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -1873,7 +1958,7 @@ public extension Sequence where Element: ParseUser {
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+        transaction: Bool = configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void

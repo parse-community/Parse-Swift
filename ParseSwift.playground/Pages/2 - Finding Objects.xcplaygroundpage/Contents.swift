@@ -89,7 +89,7 @@ query.limit(2)
     }
 }
 
-//: Query synchronously (not preferred - all operations on main queue).
+//: Query synchronously (not preferred - all operations on current queue).
 let results = try query.find()
 assert(results.count >= 1)
 results.forEach { score in

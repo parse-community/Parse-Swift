@@ -157,7 +157,7 @@ class APICommandTests: XCTestCase {
 
     //This is how errors from the server should typically come in
     func testErrorFromParseServer() {
-        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
+        let originalError = ParseError(code: .unknownError, message: "Could not decode")
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try JSONEncoder().encode(originalError)
@@ -266,7 +266,7 @@ class APICommandTests: XCTestCase {
     }
 
     func testErrorHTTPReturns400NoDataFromServer() {
-        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
+        let originalError = ParseError(code: .unknownError, message: "Could not decode")
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(error: originalError) // Status code defaults to 400
         }
@@ -288,7 +288,7 @@ class APICommandTests: XCTestCase {
     }
 
     func testErrorHTTPReturns500NoDataFromServer() {
-        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
+        let originalError = ParseError(code: .unknownError, message: "Could not decode")
         MockURLProtocol.mockRequests { _ in
             var response = MockURLResponse(error: originalError)
             response.statusCode = 500

@@ -29,7 +29,7 @@ public protocol ParseCloud: ParseCloudTypeable, Hashable {
 extension ParseCloud {
 
     /**
-     Calls a Cloud Code function *synchronously* and returns a result of it's execution.
+     Calls a Cloud Code function *synchronously* and returns a result of it is execution.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: Returns a `Decodable` type.
         - throws: An error of type `ParseError`.
@@ -39,7 +39,7 @@ extension ParseCloud {
     }
 
     /**
-     Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
+     Calls a Cloud Code function *asynchronously* and returns a result of it is execution.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when the Cloud Code completes or fails.

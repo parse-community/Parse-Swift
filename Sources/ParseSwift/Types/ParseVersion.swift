@@ -48,9 +48,16 @@ public struct ParseVersion: ParseTypeable, Comparable {
     init(_ string: String?) throws {
         guard let newString = string else {
             throw ParseError(code: .unknownError,
-                             message: "Can't initialize with nil value.")
+                             message: "Cannot initialize with nil value.")
         }
         self.string = newString
+    }
+
+    static func deleteCurrentContainerFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentVersion)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentVersion)
+        #endif
     }
 }
 

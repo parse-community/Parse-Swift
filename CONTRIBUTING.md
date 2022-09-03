@@ -27,7 +27,7 @@ Together we will plan out the best conceptual approach for your contribution, so
 
 When you are ready to code, you can find more information about opening a pull request in the [GitHub docs](https://help.github.com/articles/creating-a-pull-request/).
 
-Whether this is your first contribution or you are already an experienced contributor, the Parse Community has your back – don't hesitate to ask for help!
+Whether this is your first contribution or you are already an experienced contributor, the Parse Community has your back – do not hesitate to ask for help!
 
 ## Why Contributing?
 

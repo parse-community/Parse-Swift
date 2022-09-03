@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A type used to create internal fields for `ParseSchema`.
 public struct ParseField: ParseTypeable {
     var __op: Operation? // swiftlint:disable:this identifier_name
     var type: FieldType?

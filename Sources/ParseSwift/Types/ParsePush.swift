@@ -34,7 +34,7 @@ public struct ParsePush<V: ParsePushPayloadable>: ParseTypeable {
      If the notification cannot be delivered to the device, will retry until it expires.
      An expiry of **0** indicates that the notification expires immediately, therefore
      no retries will be attempted.
-     - note: This shouldn't be set directly using a **Date** type. Instead it should
+     - note: This should not be set directly using a **Date** type. Instead it should
      be set using `expirationDate`.
      - warning: Cannot send a notification with this valuel and `expirationInterval` both set.
      */

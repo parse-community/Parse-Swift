@@ -51,7 +51,7 @@ internal extension API {
 
             guard let response = responseResult else {
                 throw ParseError(code: .unknownError,
-                                 message: "couldn't unrwrap server response")
+                                 message: "Could not unrwrap server response")
             }
             return try response.get()
         }
@@ -90,17 +90,17 @@ internal extension API {
             if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
-            let url = ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent)
+            let url = Parse.configuration.serverURL.appendingPathComponent(path.urlComponent)
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't unrwrap url components for \(url)"))
+                                           message: "Could not unrwrap url components for \(url)"))
             }
             components.queryItems = params
 
             guard let urlComponents = components.url else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't create url from components for \(components)"))
+                                           message: "Could not create url from components for \(components)"))
             }
 
             var urlRequest = URLRequest(url: urlComponents)
@@ -108,7 +108,7 @@ internal extension API {
             if let urlBody = body {
                 guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
                     return .failure(ParseError(code: .unknownError,
-                                                   message: "couldn't encode body \(urlBody)"))
+                                                   message: "Could not encode body \(urlBody)"))
                 }
                 urlRequest.httpBody = bodyData
             }
@@ -169,7 +169,7 @@ internal extension API.NonParseBodyCommand {
                 return try objectable.toPointer()
             }
 
-            let path = ParseSwift.configuration.mountPath + objectable.endpoint.urlComponent
+            let path = Parse.configuration.mountPath + objectable.endpoint.urlComponent
             let encoded = try ParseCoding.parseEncoder().encode(object)
             let body = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: encoded)
             return API.BatchCommand<AnyCodable, PointerType>(method: method,
@@ -204,10 +204,10 @@ internal extension API.NonParseBodyCommand {
             }
         }
         let batchCommand = BatchChildCommand(requests: batchCommands,
-                                              transaction: transaction)
+                                             transaction: transaction)
         return RESTBatchCommandTypeEncodablePointer<AnyCodable>(method: .POST,
-                                                         path: .batch,
-                                                         body: batchCommand,
-                                                         mapper: mapper)
+                                                                path: .batch,
+                                                                body: batchCommand,
+                                                                mapper: mapper)
     }
 }

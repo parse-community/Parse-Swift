@@ -1046,7 +1046,7 @@ extension Query: Queryable {
       - parameter pipeline: A pipeline of stages to process query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
-      - warning: This hasn't been tested thoroughly.
+      - warning: This has not been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
     */
     public func aggregate(_ pipeline: [[String: Encodable]],
@@ -1063,7 +1063,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Can't decode where to String.")
+            throw ParseError(code: .unknownError, message: "Cannot decode where to String.")
         }
         var query = self
         query.`where` = QueryWhere()
@@ -1090,7 +1090,7 @@ extension Query: Queryable {
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
-        - warning: This hasn't been tested thoroughly.
+        - warning: This has not been tested thoroughly.
     */
     public func aggregate(_ pipeline: [[String: Encodable]],
                           options: API.Options = [],
@@ -1111,7 +1111,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            let error = ParseError(code: .unknownError, message: "Can't decode where to String.")
+            let error = ParseError(code: .unknownError, message: "Cannot decode where to String.")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -1176,7 +1176,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Can't decode where to String.")
+            throw ParseError(code: .unknownError, message: "Cannot decode where to String.")
         }
         var query = self
         query.`where` = QueryWhere()
@@ -1236,7 +1236,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            let error = ParseError(code: .unknownError, message: "Can't decode where to String.")
+            let error = ParseError(code: .unknownError, message: "Cannot decode where to String.")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -1290,7 +1290,7 @@ extension Query: Queryable {
       - parameter key: A field to find distinct values.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
-      - warning: This hasn't been tested thoroughly.
+      - warning: This has not been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
     */
     public func distinct(_ key: String,
@@ -1314,7 +1314,7 @@ extension Query: Queryable {
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
-        - warning: This hasn't been tested thoroughly.
+        - warning: This has not been tested thoroughly.
     */
     public func distinct(_ key: String,
                          options: API.Options = [],
@@ -1356,7 +1356,7 @@ extension Query: Queryable {
       - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
-      - warning: This hasn't been tested thoroughly.
+      - warning: This has not been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
       `usingMongoDB` flag needs to be set for MongoDB users. See more
@@ -1446,7 +1446,7 @@ extension Query: Queryable {
 extension Query {
 
     func findCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: endpoint,
                                            params: try getQueryParameters()) {
@@ -1464,7 +1464,7 @@ extension Query {
     func firstCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, ResultType> {
         var query = self
         query.limit = 1
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try getQueryParameters()) {
@@ -1489,7 +1489,7 @@ extension Query {
         var query = self
         query.limit = 1
         query.isCount = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try getQueryParameters()) {
@@ -1507,7 +1507,7 @@ extension Query {
     func withCountCommand() throws -> API.NonParseBodyCommand<Query<ResultType>, ([ResultType], Int)> {
         var query = self
         query.isCount = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try getQueryParameters()) {
@@ -1526,7 +1526,7 @@ extension Query {
 
     func aggregateCommand() throws -> API.NonParseBodyCommand<AggregateBody<ResultType>, [ResultType]> {
         let body = AggregateBody(query: self)
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: .aggregate(className: T.className),
                                            params: try body.getQueryParameters()) {
@@ -1545,7 +1545,7 @@ extension Query {
         var query = self
         query.distinct = key
         let body = DistinctBody(query: query)
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: .aggregate(className: T.className),
                                            params: try body.getQueryParameters()) {
@@ -1563,7 +1563,7 @@ extension Query {
     func findExplainCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1582,7 +1582,7 @@ extension Query {
         var query = self
         query.limit = 1
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1616,7 +1616,7 @@ extension Query {
         query.limit = 1
         query.isCount = true
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1635,7 +1635,7 @@ extension Query {
         var query = self
         query.isCount = true
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1654,7 +1654,7 @@ extension Query {
         var query = self
         query.explain = true
         let body = AggregateBody(query: query)
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: .aggregate(className: T.className),
                                            params: try body.getQueryParameters()) {
@@ -1675,7 +1675,7 @@ extension Query {
         query.explain = true
         query.distinct = key
         let body = DistinctBody(query: query)
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: .aggregate(className: T.className),
                                            params: try body.getQueryParameters()) {
@@ -1691,7 +1691,7 @@ extension Query {
     func findExplainMongoCommand<U: Decodable>() throws -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1710,7 +1710,7 @@ extension Query {
         var query = self
         query.limit = 1
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1740,7 +1740,7 @@ extension Query {
         query.limit = 1
         query.isCount = true
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1759,7 +1759,7 @@ extension Query {
         var query = self
         query.isCount = true
         query.explain = true
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: query.endpoint,
                                            params: try query.getQueryParameters()) {
@@ -1779,7 +1779,7 @@ extension Query {
         var query = self
         query.explain = true
         let body = AggregateBody(query: query)
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: .aggregate(className: T.className),
                                            params: try body.getQueryParameters()) {
@@ -1800,7 +1800,7 @@ extension Query {
         query.explain = true
         query.distinct = key
         let body = DistinctBody(query: query)
-        if !ParseSwift.configuration.isUsingPostForQuery {
+        if !Parse.configuration.isUsingPostForQuery {
             return API.NonParseBodyCommand(method: .GET,
                                            path: .aggregate(className: T.className),
                                            params: try body.getQueryParameters()) {

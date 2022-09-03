@@ -48,12 +48,12 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case connectionFailed = 100
 
         /**
-         Object doesn't exist, or has an incorrect password.
+         Object does not exist, or has an incorrect password.
          */
         case objectNotFound = 101
 
         /**
-         You tried to find values matching a datatype that doesn't
+         You tried to find values matching a datatype that does not
          support exact database matching, like an array or a dictionary.
          */
         case invalidQuery = 102
@@ -117,7 +117,7 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case objectTooLarge = 116
 
         /**
-         That operation isn't allowed for clients.
+         That operation is not allowed for clients.
          */
         case operationForbidden = 119
 

@@ -121,7 +121,7 @@ score.save { result in
         assert(savedScore.points == 10)
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `mutable`
+            was initialized as immutable. Using `mergeable`
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
@@ -195,7 +195,7 @@ var score2ForFetchedLater: GameScore?
     }
 }*/
 
-//: Save synchronously (not preferred - all operations on main queue).
+//: Save synchronously (not preferred - all operations on current queue).
 let savedScore: GameScore?
 do {
     savedScore = try score.save()
@@ -211,7 +211,7 @@ assert(savedScore?.updatedAt != nil)
 assert(savedScore?.points == 10)
 
 /*:  To modify, need to make it a var as the value type
-    was initialized as immutable. Using `mutable`
+    was initialized as immutable. Using `mergeable`
     allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
@@ -274,7 +274,7 @@ do {
 //: Now we will fetch a ParseObject that has already been saved based on its' objectId.
 let scoreToFetch = GameScore(objectId: savedScore?.objectId)
 
-//: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
+//: Asynchronously (preferred way) fetch this GameScore based on it is objectId alone.
 scoreToFetch.fetch { result in
     switch result {
     case .success(let fetchedScore):
@@ -284,7 +284,7 @@ scoreToFetch.fetch { result in
     }
 }
 
-//: Synchronously fetch this GameScore based on it's objectId alone.
+//: Synchronously fetch this GameScore based on it is objectId alone.
 do {
     let fetchedScore = try scoreToFetch.fetch()
     print("Successfully fetched: \(fetchedScore)")
@@ -295,7 +295,7 @@ do {
 //: Now we will fetch `ParseObject`'s in batch that have already been saved based on its' objectId.
 let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
 
-//: Asynchronously (preferred way) fetch GameScores based on it's objectId alone.
+//: Asynchronously (preferred way) fetch GameScores based on it is objectId alone.
 [scoreToFetch, score2ToFetch].fetchAll { result in
     switch result {
     case .success(let fetchedScores):
@@ -315,7 +315,7 @@ let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
 
 var fetchedScore: GameScore!
 
-//: Synchronously fetchAll GameScore's based on it's objectId's alone.
+//: Synchronously fetchAll GameScore's based on it is objectId's alone.
 do {
     let fetchedScores = try [scoreToFetch, score2ToFetch].fetchAll()
     fetchedScores.forEach { result in
@@ -331,7 +331,7 @@ do {
     assertionFailure("Error fetching: \(error)")
 }
 
-//: Asynchronously (preferred way) deleteAll GameScores based on it's objectId alone.
+//: Asynchronously (preferred way) deleteAll GameScores based on it is objectId alone.
 [scoreToFetch, score2ToFetch].deleteAll { result in
     switch result {
     case .success(let deletedScores):
@@ -348,7 +348,7 @@ do {
     }
 }
 
-//: Synchronously deleteAll GameScore's based on it's objectId's alone.
+//: Synchronously deleteAll GameScore's based on it is objectId's alone.
 //: Commented out because the async above deletes the items already.
 /* do {
     let fetchedScores = try [scoreToFetch, score2ToFetch].deleteAll()

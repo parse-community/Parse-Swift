@@ -178,7 +178,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         XCTAssertEqual(user.authData, serverResponse.authData)
     }
 
-    func loginNormally() throws -> User {
+    func loginNormally() async throws -> User {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
@@ -189,13 +189,13 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
                 return nil
             }
         }
-        return try User.login(username: "parse", password: "user")
+        return try await User.login(username: "parse", password: "user")
     }
 
     @MainActor
     func testLink() async throws {
 
-        _ = try loginNormally()
+        _ = try await loginNormally()
         MockURLProtocol.removeAll()
 
         let type = TestAuth<User>.__type

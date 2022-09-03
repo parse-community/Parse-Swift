@@ -60,10 +60,18 @@ internal extension API {
             case .success(let urlRequest):
                 if method == .POST || method == .PUT || method == .PATCH {
                     let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
-                    ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
-                    ParseSwift.sessionDelegate.streamDelegates[task] = stream
-                    ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
+                    Parse.sessionDelegate.streamDelegates[task] = stream
+                    #if compiler(>=5.5.2) && canImport(_Concurrency)
+                    Task {
+                        await Parse.sessionDelegate.delegates.updateUpload(task, callback: uploadProgress)
+                        await Parse.sessionDelegate.delegates.updateTask(task, queue: callbackQueue)
+                        task.resume()
+                    }
+                    #else
+                    Parse.sessionDelegate.uploadDelegates[task] = uploadProgress
+                    Parse.sessionDelegate.taskCallbackQueues[task] = callbackQueue
                     task.resume()
+                    #endif
                     return
                 }
             case .failure(let error):
@@ -99,7 +107,7 @@ internal extension API {
 
             guard let response = responseResult else {
                 throw ParseError(code: .unknownError,
-                                 message: "couldn't unrwrap server response")
+                                 message: "Could not unrwrap server response")
             }
             return try response.get()
         }
@@ -231,7 +239,7 @@ internal extension API {
                             }
                         }
                     } else if let otherURL = self.otherURL {
-                        //Non-parse servers don't receive any parse dedicated request info
+                        //Non-parse servers do not receive any parse dedicated request info
                         var request = URLRequest(url: otherURL)
                         request.cachePolicy = requestCachePolicy(options: options)
                         URLSession.parse.downloadTask(with: request, mapper: mapper) { result in
@@ -249,7 +257,7 @@ internal extension API {
                         callbackQueue.async {
                             completion(.failure(ParseError(code: .unknownError,
                                                            // swiftlint:disable:next line_length
-                                                           message: "Can't download the file without specifying the url")))
+                                                           message: "Cannot download the file without specifying the url")))
                         }
                     }
                 }
@@ -266,17 +274,17 @@ internal extension API {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = parseURL == nil ?
-                ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
+                Parse.configuration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't unrwrap url components for \(url)"))
+                                           message: "Could not unrwrap url components for \(url)"))
             }
             components.queryItems = params
 
             guard let urlComponents = components.url else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't create url from components for \(components)"))
+                                           message: "Could not create url from components for \(components)"))
             }
 
             var urlRequest = URLRequest(url: urlComponents)
@@ -285,7 +293,7 @@ internal extension API {
                 if (urlBody as? ParseCloudTypeable) != nil {
                     guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody, skipKeys: .cloud) else {
                         return .failure(ParseError(code: .unknownError,
-                                                       message: "couldn't encode body \(urlBody)"))
+                                                       message: "Could not encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData
                 } else {
@@ -295,7 +303,7 @@ internal extension API {
                                     objectsSavedBeforeThisOne: childObjects,
                                     filesSavedBeforeThisOne: childFiles) else {
                             return .failure(ParseError(code: .unknownError,
-                                                       message: "couldn't encode body \(urlBody)"))
+                                                       message: "Could not encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData.encoded
                 }
@@ -311,7 +319,7 @@ internal extension API {
     }
 
     static func requestCachePolicy(options: API.Options) -> URLRequest.CachePolicy {
-        var policy: URLRequest.CachePolicy = ParseSwift.configuration.requestCachePolicy
+        var policy: URLRequest.CachePolicy = Parse.configuration.requestCachePolicy
         options.forEach { option in
             if case .cachePolicy(let updatedPolicy) = option {
                 policy = updatedPolicy
@@ -352,14 +360,15 @@ internal extension API.Command {
             let tempFileLocation = try ParseCoding.jsonDecoder().decode(URL.self, from: data)
             guard let fileManager = ParseFileManager(),
                   let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
-                throw ParseError(code: .unknownError, message: "Can't create fileManager")
+                throw ParseError(code: .unknownError, message: "Cannot create fileManager")
             }
             let downloadDirectoryPath = defaultDirectoryPath
                 .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
-            let fileLocation = downloadDirectoryPath.appendingPathComponent(object.name)
+            let fileNameURL = URL(fileURLWithPath: object.name)
+            let fileLocation = downloadDirectoryPath.appendingPathComponent(fileNameURL.lastPathComponent)
             if tempFileLocation != fileLocation {
-                try? FileManager.default.removeItem(at: fileLocation) //Remove file if it's already present
+                try? FileManager.default.removeItem(at: fileLocation) // Remove file if it is already present
                 try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
             }
             var object = object
@@ -387,7 +396,7 @@ internal extension API.Command {
     static func save<T>(_ object: T,
                         original data: Data?,
                         ignoringCustomObjectIdConfig: Bool) throws -> API.Command<T, T> where T: ParseObject {
-        if ParseSwift.configuration.isAllowingCustomObjectIds
+        if Parse.configuration.isAllowingCustomObjectIds
             && object.objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
@@ -493,7 +502,7 @@ internal extension API.Command where T: ParseObject {
     static func batch(commands: [API.Command<T, T>],
                       transaction: Bool) -> RESTBatchCommandType<T> {
         let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in
-            let path = ParseSwift.configuration.mountPath + command.path.urlComponent
+            let path = Parse.configuration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }
@@ -545,7 +554,7 @@ internal extension API.Command where T: ParseObject {
     static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>],
                       transaction: Bool) -> RESTBatchCommandNoBodyType<NoBody> {
         let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in
-            let path = ParseSwift.configuration.mountPath + command.path.urlComponent
+            let path = Parse.configuration.mountPath + command.path.urlComponent
             return API.NonParseBodyCommand<NoBody, NoBody>(
                 method: command.method,
                 path: .any(path), mapper: command.mapper)

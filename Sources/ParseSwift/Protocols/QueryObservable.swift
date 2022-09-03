@@ -68,7 +68,7 @@ public protocol QueryObservable: ObservableObject {
         exposed to the public.
         - parameter pipeline: A pipeline of stages to process query.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - warning: This hasn't been tested thoroughly.
+        - warning: This has not been tested thoroughly.
     */
     func aggregate(_ pipeline: [[String: Encodable]],
                    options: API.Options)

@@ -157,7 +157,7 @@ public extension Sequence where Element: ParseObject {
      desires a different policy, it should be inserted in `options`.
     */
     @discardableResult func saveAll(batchLimit limit: Int? = nil,
-                                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                    transaction: Bool = configuration.isUsingTransactions,
                                     ignoringCustomObjectIdConfig: Bool = false,
                                     options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
@@ -187,7 +187,7 @@ public extension Sequence where Element: ParseObject {
      desires a different policy, it should be inserted in `options`.
     */
     @discardableResult func createAll(batchLimit limit: Int? = nil,
-                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      transaction: Bool = configuration.isUsingTransactions,
                                       options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.createAll(batchLimit: limit,
@@ -215,7 +215,7 @@ public extension Sequence where Element: ParseObject {
      desires a different policy, it should be inserted in `options`.
     */
     @discardableResult func replaceAll(batchLimit limit: Int? = nil,
-                                       transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                       transaction: Bool = configuration.isUsingTransactions,
                                        options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.replaceAll(batchLimit: limit,
@@ -243,7 +243,7 @@ public extension Sequence where Element: ParseObject {
      desires a different policy, it should be inserted in `options`.
     */
     internal func updateAll(batchLimit limit: Int? = nil,
-                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                            transaction: Bool = configuration.isUsingTransactions,
                             options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.updateAll(batchLimit: limit,
@@ -268,7 +268,7 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
     */
     @discardableResult func deleteAll(batchLimit limit: Int? = nil,
-                                      transaction: Bool = ParseSwift.configuration.isUsingTransactions,
+                                      transaction: Bool = configuration.isUsingTransactions,
                                       options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,

@@ -127,7 +127,7 @@ do {
                   type: .array,
                   options: ParseFieldOptions<[User]>(required: false, defauleValue: nil))
 } catch {
-    print("Can't add field: \(gameScoreSchema)")
+    print("Cannot add field: \(gameScoreSchema)")
 }
 
 //: Now lets create the schema on the server.
@@ -136,7 +136,7 @@ gameScoreSchema.create { result in
     case .success(let savedSchema):
         print("Check GameScore2 in Dashboard. \nThe created schema:  \(savedSchema)")
     case .failure(let error):
-        print("Couldn't save schema: \(error)")
+        print("Could not save schema: \(error)")
     }
 }
 
@@ -157,7 +157,7 @@ gameScoreSchema.update { result in
          */
         gameScoreSchema = updatedSchema
     case .failure(let error):
-        print("Couldn't update schema: \(error)")
+        print("Could not update schema: \(error)")
     }
 }
 
@@ -174,7 +174,7 @@ gameScoreSchema.update { result in
          */
         gameScoreSchema = updatedSchema
     case .failure(let error):
-        print("Couldn't update schema: \(error)")
+        print("Could not update schema: \(error)")
     }
 }
 
@@ -184,13 +184,13 @@ gameScoreSchema.fetch { result in
     case .success(let fetchedGameScore):
         print("The fetched GameScore2 schema is: \(fetchedGameScore)")
     case .failure(let error):
-        print("Couldn't fetch schema: \(error)")
+        print("Could not fetch schema: \(error)")
     }
 }
 
 /*:
  Fields can also be deleted on a schema. Lets remove
- the **data** field since it's not going being used.
+ the **data** field since it is not going being used.
 */
 gameScoreSchema = gameScoreSchema.deleteField("data")
 
@@ -204,7 +204,7 @@ gameScoreSchema.update { result in
          */
         gameScoreSchema = updatedSchema
     case .failure(let error):
-        print("Couldn't update schema: \(error)")
+        print("Could not update schema: \(error)")
     }
 }
 
@@ -228,7 +228,7 @@ gameScoreSchema.update { result in
          */
         gameScoreSchema = updatedSchema
     case .failure(let error):
-        print("Couldn't update schema: \(error)")
+        print("Could not update schema: \(error)")
     }
 }
 
@@ -242,7 +242,7 @@ gameScore.save { result in
     case .success(let savedGameScore):
         print("The saved GameScore is: \(savedGameScore)")
     case .failure(let error):
-        print("Couldn't save schema: \(error)")
+        print("Could not save schema: \(error)")
     }
 }
 
@@ -252,12 +252,12 @@ gameScoreSchema.purge { result in
     case .success:
         print("All objects have been purged from this schema.")
     case .failure(let error):
-        print("Couldn't purge schema: \(error)")
+        print("Could not purge schema: \(error)")
     }
 }
 
 /*:
- As long as there's no data in your `ParseSchema` you can
+ As long as there is no data in your `ParseSchema` you can
  delete the schema.
 */
  gameScoreSchema.delete { result in
@@ -265,7 +265,7 @@ gameScoreSchema.purge { result in
     case .success:
         print("The schema has been deleted.")
     case .failure(let error):
-        print("Couldn't delete the schema: \(error)")
+        print("Could not delete the schema: \(error)")
     }
 }
 

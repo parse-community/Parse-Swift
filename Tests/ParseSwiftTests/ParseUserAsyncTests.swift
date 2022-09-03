@@ -179,7 +179,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(signedUp.ACL)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -223,7 +223,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(signedUp.ACL)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -262,7 +262,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(signedUp.ACL)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -336,7 +336,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(signedUp.ACL)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -375,14 +375,14 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         _ = try await User.logout()
 
         if let userFromKeychain = BaseParseUser.current {
-            XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+            XCTFail("\(userFromKeychain) was not deleted from Keychain during logout")
         }
 
         if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
             if installationFromMemory.installationId == oldInstallationId
                 || installationFromMemory.installationId == nil {
-                XCTFail("\(installationFromMemory) wasn't deleted and recreated in memory during logout")
+                XCTFail("\(installationFromMemory) was not deleted and recreated in memory during logout")
             }
         } else {
             XCTFail("Should have a new installation")
@@ -393,7 +393,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
             if installationFromKeychain.installationId == oldInstallationId
                 || installationFromKeychain.installationId == nil {
-                XCTFail("\(installationFromKeychain) wasn't deleted & recreated in Keychain during logout")
+                XCTFail("\(installationFromKeychain) was not deleted & recreated in Keychain during logout")
             }
         } else {
             XCTFail("Should have a new installation")
@@ -435,14 +435,14 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
 
         if let userFromKeychain = BaseParseUser.current {
-            XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+            XCTFail("\(userFromKeychain) was not deleted from Keychain during logout")
         }
 
         if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                 if installationFromMemory.installationId == oldInstallationId
                     || installationFromMemory.installationId == nil {
-                    XCTFail("\(installationFromMemory) wasn't deleted & recreated in memory during logout")
+                    XCTFail("\(installationFromMemory) was not deleted & recreated in memory during logout")
                 }
         } else {
             XCTFail("Should have a new installation")
@@ -453,7 +453,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                 if installationFromKeychain.installationId == oldInstallationId
                     || installationFromKeychain.installationId == nil {
-                    XCTFail("\(installationFromKeychain) wasn't deleted & recreated in Keychain during logout")
+                    XCTFail("\(installationFromKeychain) was not deleted & recreated in Keychain during logout")
                 }
         } else {
             XCTFail("Should have a new installation")
@@ -532,7 +532,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(currentUser.ACL)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -576,7 +576,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(currentUser.ACL)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -616,7 +616,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(currentUser.ACL)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -729,7 +729,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(fetched.objectId, serverResponse.objectId)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -764,7 +764,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(saved.objectId, serverResponse.objectId)
 
         guard let userFromKeychain = BaseParseUser.current else {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
             return
         }
 
@@ -1100,7 +1100,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         _ = try await user.delete()
         if BaseParseUser.current != nil {
-            XCTFail("Couldn't get CurrentUser from Keychain")
+            XCTFail("Could not get CurrentUser from Keychain")
         }
     }
 

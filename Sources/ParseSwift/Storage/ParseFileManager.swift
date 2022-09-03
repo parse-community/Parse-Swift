@@ -85,10 +85,10 @@ public struct ParseFileManager {
     }
 
     /// Creates an instance of `ParseFileManager`.
-    /// - returns: If an instance can't be created, nil is returned.
+    /// - returns: If an instance cannot be created, nil is returned.
     public init?() {
         #if os(Linux) || os(Android) || os(Windows)
-        let applicationId = ParseSwift.configuration.applicationId
+        let applicationId = Parse.configuration.applicationId
         applicationIdentifier = "\(ParseConstants.bundlePrefix).\(applicationId)"
         #else
         if let identifier = Bundle.main.bundleIdentifier {
@@ -113,7 +113,7 @@ public struct ParseFileManager {
         synchronizationQueue.async {
             do {
                 guard let data = string.data(using: .utf8) else {
-                    completion(ParseError(code: .unknownError, message: "Couldn't convert string to utf8"))
+                    completion(ParseError(code: .unknownError, message: "Could not convert string to utf8"))
                     return
                 }
                 try data.write(to: filePath, options: self.defaultDataWritingOptions)

@@ -56,7 +56,7 @@ extension Objectable {
     static func createHash(_ object: Encodable) throws -> String {
         let encoded = try ParseCoding.parseEncoder().encode(object)
         guard let hashString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Couldn't create hash")
+            throw ParseError(code: .unknownError, message: "Could not create hash")
         }
         return hashString
     }
@@ -74,7 +74,7 @@ extension Objectable {
 
     /// Specifies if a `ParseObject` has been saved.
     public var isSaved: Bool {
-        if !ParseSwift.configuration.isAllowingCustomObjectIds {
+        if !Parse.configuration.isAllowingCustomObjectIds {
             return objectId != nil
         } else {
             return objectId != nil && createdAt != nil
@@ -86,7 +86,7 @@ extension Objectable {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !ParseSwift.configuration.isAllowingCustomObjectIds || method != .POST {
+        if !Parse.configuration.isAllowingCustomObjectIds || method != .POST {
             return endpoint
         } else {
             return .objects(className: className)
