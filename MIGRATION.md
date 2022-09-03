@@ -22,22 +22,16 @@ The Parse ObjC SDK will be phased out in the future in favor of the more modern 
 
 # Behavioral Differences
 
-- x
-- x
-- x
-
-# Known Issues
-
-The issues below are important to consider before migrating.
-
-- ⚠️ Partially updating an object sends the complete object (including unchanged properties) to the server if you follow the familiar syntax from the Parse ObjC SDK or any other Parse SDK. This can have a significant impact on data transfer costs depending on your use case and architecture. All other Parse SDKs, including the Parse ObjC SDK, only send the changed properties to the server. The Parse Swift SDK requires a different syntax with additional overhead to achieve the same behavior. For details see [GitHub issue #242](https://github.com/parse-community/Parse-Swift/issues/242).
+- ⚠️ Partially updating an object sends the complete object (including unchanged properties) to the server if you follow the familiar syntax from the Parse ObjC SDK or any other Parse SDK. This can have a significant impact on data transfer costs depending on your use case and architecture. All other Parse SDKs, including the Parse ObjC SDK, only send the changed properties to the server. The Parse Swift SDK requires a different syntax with additional overhead to achieve the same behavior. See [#401](https://github.com/parse-community/Parse-Swift/issues/401), [#242](https://github.com/parse-community/Parse-Swift/issues/242).
 
   <details>
     <summary>Code Examples</summary>
   
     ```swift
-    // The following examples compare how to update a saved object in the Parse ObjC SDK
-    // vs. the Parse Swift SDK. For simplicity, the examples use synchonrous methods.
+    // The following examples compare how to update a saved object in the Parse ObjC SDK vs. the
+    // Parse Swift SDK. For simplicity, the examples show how to migrate synchonrous methods. If
+    // you are migrating asynchronous methods your code looks slightly differently, but the same
+    // approach applies.
 
     // Parse ObjC SDK
     PFObject *obj = [PFObject objectWithClassName:@"Example"];
@@ -119,6 +113,12 @@ The issues below are important to consider before migrating.
     objMergable.save()
     ```
   </details>
+
+# Known Issues
+
+These issues below are especially important to consider before migrating.
+
+- (none)
 
 # Feature Comparison
 
