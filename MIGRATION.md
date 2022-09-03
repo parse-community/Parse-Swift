@@ -35,7 +35,7 @@ The issues below are important to consider before migrating.
   <details>
     <summary>Code Examples</summary>
   
-    ```
+    ```swift
     // The following examples compare how to update a saved object in the Parse ObjC SDK
     // vs. the Parse Swift SDK. For simplicity, the examples use synchonrous methods.
 
