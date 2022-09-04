@@ -21,6 +21,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     var target: T
     var operations = [String: Encodable]()
     var keysToNull = Set<String>()
+    var keyPathsToNull = Set<PartialKeyPath<T>>()
 
     public init(target: T) {
         self.target = target
