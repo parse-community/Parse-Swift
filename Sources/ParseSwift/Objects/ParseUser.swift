@@ -765,14 +765,11 @@ extension ParseUser {
                         completion(result)
                     }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        let parseError = ParseError(code: .unknownError,
-                                                    message: error.localizedDescription)
-                        completion(.failure(parseError))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         } else {
@@ -783,13 +780,11 @@ extension ParseUser {
                         completion(result)
                 }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                        completion(.failure(parseError))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         }
@@ -834,13 +829,11 @@ extension ParseUser {
                         completion(result)
                 }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                        completion(.failure(parseError))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         }
@@ -969,13 +962,10 @@ extension ParseUser {
                             try Self.updateKeychainIfNeeded([foundResult])
                             completion(.success(foundResult))
                         } catch {
-                            let returnError: ParseError!
-                            if let parseError = error as? ParseError {
-                                returnError = parseError
-                            } else {
-                                returnError = ParseError(code: .unknownError, message: error.localizedDescription)
-                            }
-                            completion(.failure(returnError))
+                            let defaultError = ParseError(code: .unknownError,
+                                                          message: error.localizedDescription)
+                            let parseError = error as? ParseError ?? defaultError
+                            completion(.failure(parseError))
                         }
                     } else {
                         completion(result)
@@ -1023,6 +1013,7 @@ extension ParseUser {
      - returns: Returns saved `ParseUser`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
+    @discardableResult
     public func save(options: API.Options = []) throws -> Self {
         try save(ignoringCustomObjectIdConfig: false, options: options)
     }
@@ -1049,6 +1040,7 @@ extension ParseUser {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
+    @discardableResult
     public func save(ignoringCustomObjectIdConfig: Bool,
                      options: API.Options = []) throws -> Self {
         var childObjects: [String: PointerType]?
@@ -1207,12 +1199,11 @@ extension ParseUser {
                             completion(result)
                     }
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        if let parseError = error as? ParseError {
-                            completion(.failure(parseError))
-                        } else {
-                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                        }
+                        completion(.failure(parseError))
                     }
                 }
                 return
@@ -1734,12 +1725,11 @@ public extension Sequence where Element: ParseUser {
                         commands.append(try user.updateCommand())
                     }
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        if let parseError = error as? ParseError {
-                            completion(.failure(parseError))
-                        } else {
-                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                        }
+                        completion(.failure(parseError))
                     }
                     return
                 }
@@ -1774,12 +1764,11 @@ public extension Sequence where Element: ParseUser {
                     }
                 }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         }
@@ -1994,12 +1983,10 @@ public extension Sequence where Element: ParseUser {
                 }
             }
         } catch {
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
-                guard let parseError = error as? ParseError else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)))
-                    return
-                }
                 completion(.failure(parseError))
             }
         }

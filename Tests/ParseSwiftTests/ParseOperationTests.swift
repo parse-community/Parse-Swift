@@ -90,7 +90,7 @@ class ParseOperationTests: XCTestCase {
             .increment("points", by: 1)
         let className = score.className
 
-        let command = try operations.saveCommand()
+        let command = operations.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
@@ -151,6 +151,24 @@ class ParseOperationTests: XCTestCase {
         }
     }
 
+    func testSaveNoObjectId() {
+        var score = GameScore()
+        score.points = 10
+        let operations = score.operation
+            .increment("points", by: 1)
+
+        do {
+            try operations.save()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(parseError.code, .missingObjectId)
+        }
+    }
+
     func testSaveKeyPath() throws { // swiftlint:disable:this function_body_length
         var score = GameScore()
         score.objectId = "yarr"
@@ -182,6 +200,44 @@ class ParseOperationTests: XCTestCase {
             XCTAssertEqual(saved, scoreOnServer)
         } catch {
             XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testSaveKeyPathOtherTypeOperationsExist() throws { // swiftlint:disable:this function_body_length
+        var score = GameScore()
+        score.objectId = "yarr"
+        let operations = try score.operation
+            .set(\.points, value: 15)
+            .set(("levels", \.levels), value: ["hello"])
+
+        do {
+            try operations.save()
+            XCTFail("Should have failed")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("Cannot combine"))
+        }
+    }
+
+    func testSaveKeyPathNilOperationsExist() throws { // swiftlint:disable:this function_body_length
+        var score = GameScore()
+        score.objectId = "yarr"
+        let operations = try score.operation
+            .set(\.points, value: 15)
+            .set(("points", \.points), value: nil)
+
+        do {
+            try operations.save()
+            XCTFail("Should have failed")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("Cannot combine"))
         }
     }
 

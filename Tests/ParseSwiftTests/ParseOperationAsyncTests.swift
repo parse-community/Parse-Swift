@@ -104,5 +104,133 @@ class ParseOperationAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
         XCTAssertNil(saved.ACL)
     }
+
+    @MainActor
+    func testSaveServerError() async throws {
+
+        var score = GameScore(points: 10)
+        score.objectId = "yarr"
+        let operations = score.operation
+            .increment("points", by: 1)
+
+        let serverError = ParseError(code: .operationForbidden, message: "Test error")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            try await operations.save()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(parseError, serverError)
+        }
+    }
+
+    @MainActor
+    func testSaveNoObjectId() async throws {
+        var score = GameScore()
+        score.points = 10
+        let operations = score.operation
+            .increment("points", by: 1)
+
+        do {
+            try await operations.save()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(parseError.code, .missingObjectId)
+        }
+    }
+
+    @MainActor
+    func testSaveKeyPath() async throws { // swiftlint:disable:this function_body_length
+        var score = GameScore()
+        score.objectId = "yarr"
+        let operations = try score.operation
+            .set(\.points, value: 15)
+            .set(\.player, value: "hello")
+
+        var scoreOnServer = score
+        scoreOnServer.points = 15
+        scoreOnServer.player = "hello"
+        scoreOnServer.updatedAt = Date()
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let saved = try await operations.save()
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
+            XCTAssertEqual(saved, scoreOnServer)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    @MainActor
+    func testSaveKeyPathOtherTypeOperationsExist() async throws { // swiftlint:disable:this function_body_length
+        var score = GameScore()
+        score.objectId = "yarr"
+        let operations = try score.operation
+            .set(\.points, value: 15)
+            .set(("player", \.player), value: "hello")
+
+        do {
+            try await operations.save()
+            XCTFail("Should have failed")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("Cannot combine"))
+        }
+    }
+
+    @MainActor
+    func testSaveKeyPathNilOperationsExist() async throws { // swiftlint:disable:this function_body_length
+        var score = GameScore()
+        score.objectId = "yarr"
+        let operations = try score.operation
+            .set(\.points, value: 15)
+            .set(("points", \.points), value: nil)
+
+        do {
+            try await operations.save()
+            XCTFail("Should have failed")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("Cannot combine"))
+        }
+    }
 }
 #endif

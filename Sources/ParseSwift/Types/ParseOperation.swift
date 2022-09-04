@@ -383,7 +383,7 @@ extension ParseOperation {
      - throws: An error of type `ParseError`.
      - returns: Returns saved `ParseObject`.
     */
-    public func save(options: API.Options = []) throws -> T {
+    @discardableResult public func save(options: API.Options = []) throws -> T {
         guard target.objectId != nil else {
             throw ParseError(code: .missingObjectId,
                              message: "ParseObject is not saved.")
@@ -427,41 +427,33 @@ extension ParseOperation {
             }
             return
         }
-        do {
-            guard target.originalData == nil else {
-                guard operations.isEmpty,
-                      keysToNull.isEmpty else {
-                    let error = ParseError(code: .unknownError,
-                                           message: """
-                                                Cannot combine operations with the \"set\" method that uses
-                                                just the KeyPath with other operations such as: add, increment,
-                                                forceSet, etc., that use the KeyPath and/or key String. Use the
-                                                \"set\" method that takes the (String, WritableKeyPath) tuple
-                                                as an argument instead to combine multiple types of operations.
-                                            """)
-                    callbackQueue.async {
-                        completion(.failure(error))
-                    }
-                    return
+        guard target.originalData == nil else {
+            guard operations.isEmpty,
+                  keysToNull.isEmpty else {
+                let error = ParseError(code: .unknownError,
+                                       message: """
+                                            Cannot combine operations with the \"set\" method that uses
+                                            just the KeyPath with other operations such as: add, increment,
+                                            forceSet, etc., that use the KeyPath and/or key String. Use the
+                                            \"set\" method that takes the (String, WritableKeyPath) tuple
+                                            as an argument instead to combine multiple types of operations.
+                                        """)
+                callbackQueue.async {
+                    completion(.failure(error))
                 }
-                target.save(options: options,
-                            callbackQueue: callbackQueue,
-                            completion: completion)
                 return
             }
-            try self.saveCommand().executeAsync(options: options,
-                                                callbackQueue: callbackQueue,
-                                                completion: completion)
-        } catch {
-            let error = ParseError(code: .missingObjectId,
-                                   message: "ParseObject is not saved.")
-            callbackQueue.async {
-                completion(.failure(error))
-            }
+            target.save(options: options,
+                        callbackQueue: callbackQueue,
+                        completion: completion)
+            return
         }
+        self.saveCommand().executeAsync(options: options,
+                                        callbackQueue: callbackQueue,
+                                        completion: completion)
     }
 
-    func saveCommand() throws -> API.NonParseBodyCommand<ParseOperation<T>, T> {
+    func saveCommand() -> API.NonParseBodyCommand<ParseOperation<T>, T> {
         // MARK: Should be switched to ".PATCH" when server supports PATCH.
         API.NonParseBodyCommand(method: .PUT, path: target.endpoint, body: self) {
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: $0).apply(to: self.target)

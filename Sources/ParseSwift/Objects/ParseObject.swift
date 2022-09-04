@@ -603,12 +603,11 @@ transactions for this call.
                         commands.append(try object.updateCommand())
                     }
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        if let parseError = error as? ParseError {
-                            completion(.failure(parseError))
-                        } else {
-                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                        }
+                        completion(.failure(parseError))
                     }
                     return
                 }
@@ -643,12 +642,11 @@ transactions for this call.
                     }
                 }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         }
@@ -855,12 +853,10 @@ transactions for this call.
                 }
             }
         } catch {
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
-                guard let parseError = error as? ParseError else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)))
-                    return
-                }
                 completion(.failure(parseError))
             }
         }
@@ -961,6 +957,7 @@ extension ParseObject {
 
      - returns: Returns saved `ParseObject`.
     */
+    @discardableResult
     public func save(options: API.Options = []) throws -> Self {
         try save(ignoringCustomObjectIdConfig: false, options: options)
     }
@@ -986,6 +983,7 @@ extension ParseObject {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
+    @discardableResult
     public func save(ignoringCustomObjectIdConfig: Bool = false,
                      options: API.Options = []) throws -> Self {
         var childObjects: [String: PointerType]?
@@ -1129,13 +1127,10 @@ extension ParseObject {
                                       childFiles: savedChildFiles,
                                       completion: completion)
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        guard let parseError = error as? ParseError else {
-                            let error = ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)
-                            completion(.failure(error))
-                            return
-                        }
                         completion(.failure(parseError))
                     }
                 }
@@ -1257,12 +1252,9 @@ extension ParseObject {
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)
             } catch {
-                guard let parseError = error as? ParseError else {
-                    completion(objectsFinishedSaving, filesFinishedSaving,
-                               ParseError(code: .unknownError,
-                                          message: error.localizedDescription))
-                    return
-                }
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 completion(objectsFinishedSaving, filesFinishedSaving, parseError)
             }
         }

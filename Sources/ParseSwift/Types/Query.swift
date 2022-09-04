@@ -669,12 +669,10 @@ extension Query: Queryable {
                         finished = true
                     }
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        guard let parseError = error as? ParseError else {
-                            completion(.failure(ParseError(code: .unknownError,
-                                                           message: error.localizedDescription)))
-                            return
-                        }
                         completion(.failure(parseError))
                     }
                     return

@@ -467,13 +467,11 @@ extension ParseFile {
                                 completion(result)
                             }
                     } catch {
+                        let defaultError = ParseError(code: .unknownError,
+                                                      message: error.localizedDescription)
+                        let parseError = error as? ParseError ?? defaultError
                         callbackQueue.async {
-                            if let parseError = error as? ParseError {
-                                completion(.failure(parseError))
-                            } else {
-                                let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                                completion(.failure(parseError))
-                            }
+                            completion(.failure(parseError))
                         }
                     }
                 case .failure(let error):
@@ -491,13 +489,11 @@ extension ParseFile {
                         completion(result)
                     }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                        completion(.failure(parseError))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         }
