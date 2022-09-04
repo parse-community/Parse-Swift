@@ -149,7 +149,7 @@ public protocol ParseObject: ParseTypeable,
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
      been populated by calling `mergeable` or some other means.
     */
-    mutating func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws where W: Equatable
+    func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable
 
     /**
      Reverts the `ParseObject` back to the original object before mutations began.
@@ -157,7 +157,7 @@ public protocol ParseObject: ParseTypeable,
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
      been populated by calling `mergeable` or some other means.
     */
-    mutating func revertObject() throws
+    func revertObject() throws -> Self
 }
 
 // MARK: Default Implementations
@@ -226,7 +226,7 @@ public extension ParseObject {
         return try mergeParse(with: object)
     }
 
-    mutating func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws where W: Equatable {
+    func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {
         guard let originalData = originalData else {
             throw ParseError(code: .unknownError,
                              message: "Missing original data to revert to")
@@ -237,13 +237,15 @@ public extension ParseObject {
             throw ParseError(code: .unknownError,
                              message: "The current object does not have the same objectId as the original")
         }
+        var updated = self
         if shouldRevertKey(keyPath,
                            original: original) {
-            self[keyPath: keyPath] = original[keyPath: keyPath]
+            updated[keyPath: keyPath] = original[keyPath: keyPath]
         }
+        return updated
     }
 
-    mutating func revertObject() throws {
+    func revertObject() throws -> Self {
         guard let originalData = originalData else {
             throw ParseError(code: .unknownError,
                              message: "Missing original data to revert to")
@@ -254,7 +256,7 @@ public extension ParseObject {
             throw ParseError(code: .unknownError,
                              message: "The current object does not have the same objectId as the original")
         }
-        self = original
+        return original
     }
 }
 
