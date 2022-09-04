@@ -21,20 +21,19 @@ class ParseOperationTests: XCTestCase {
 
         //: Your own properties
         var points: Int?
-        var members: [String] = [String]()
+        var members: [String]?
         var levels: [String]?
         var previous: [Level]?
-        var next: [Level]
+        var next: [Level]?
 
-        //custom initializers
         init() {
-            self.points = 5
-            self.next = [Level()]
         }
 
+        // custom initializers
         init(points: Int) {
             self.points = points
-            self.next = [Level()]
+            self.next = [Level(level: 5)]
+            self.members = [String]()
         }
     }
 
@@ -47,15 +46,16 @@ class ParseOperationTests: XCTestCase {
         var originalData: Data?
 
         //: Your own properties
-        var level: Int
-        var members = [String]()
+        var level: Int?
+        var members: [String]?
+
+        init() {
+        }
 
         //custom initializers
-        init() {
-            self.level = 5
-        }
         init(level: Int) {
             self.level = level
+            self.members = [String]()
         }
     }
 
@@ -82,7 +82,8 @@ class ParseOperationTests: XCTestCase {
     }
 
     func testSaveCommand() throws {
-        var score = GameScore(points: 10)
+        var score = GameScore()
+        score.points = 10
         let objectId = "hello"
         score.objectId = objectId
         let operations = score.operation
@@ -107,7 +108,8 @@ class ParseOperationTests: XCTestCase {
     }
 
     func testSave() { // swiftlint:disable:this function_body_length
-        var score = GameScore(points: 10)
+        var score = GameScore()
+        score.points = 10
         score.objectId = "yarr"
         let operations = score.operation
             .increment("points", by: 1)
@@ -149,8 +151,43 @@ class ParseOperationTests: XCTestCase {
         }
     }
 
+    func testSaveKeyPath() throws { // swiftlint:disable:this function_body_length
+        var score = GameScore()
+        score.objectId = "yarr"
+        let operations = try score.operation
+            .set(\.points, value: 15)
+            .set(\.levels, value: ["hello"])
+
+        var scoreOnServer = score
+        scoreOnServer.points = 15
+        scoreOnServer.levels = ["hello"]
+        scoreOnServer.updatedAt = Date()
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let saved = try operations.save()
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
+            XCTAssertEqual(saved, scoreOnServer)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testSaveAsyncMainQueue() {
-        var score = GameScore(points: 10)
+        var score = GameScore()
+        score.points = 10
         score.objectId = "yarr"
         let operations = score.operation
             .increment("points", by: 1)
@@ -204,7 +241,8 @@ class ParseOperationTests: XCTestCase {
     }
 
     func testSaveSet() throws { // swiftlint:disable:this function_body_length
-        var score = GameScore(points: 10)
+        var score = GameScore()
+        score.points = 10
         score.objectId = "yarr"
         let operations = score.operation
             .set(("points", \.points), value: 15)
@@ -246,7 +284,8 @@ class ParseOperationTests: XCTestCase {
     }
 
     func testSaveSetToNull() throws { // swiftlint:disable:this function_body_length
-        var score = GameScore(points: 10)
+        var score = GameScore()
+        score.points = 10
         score.objectId = "yarr"
         let operations = score.operation
             .set(("points", \.points), value: nil)
@@ -288,7 +327,8 @@ class ParseOperationTests: XCTestCase {
     }
 
     func testSaveSetAsyncMainQueue() throws {
-        var score = GameScore(points: 10)
+        var score = GameScore()
+        score.points = 10
         score.objectId = "yarr"
         let operations = score.operation
             .set(("points", \.points), value: 15)
@@ -561,6 +601,54 @@ class ParseOperationTests: XCTestCase {
         let decoded3 = try XCTUnwrap(String(data: encoded3, encoding: .utf8))
         XCTAssertEqual(decoded3, expected3)
         XCTAssertNil(operations3.target.points)
+    }
+
+    func testSetKeyPath() throws {
+        var score = GameScore()
+        score.points = 10
+        var operations = try score.operation.set(\.points, value: 15)
+            .set(\.levels, value: ["hello"])
+        var expected = GameScore()
+        expected.points = 15
+        expected.levels = ["hello"]
+        XCTAssertNotNil(operations.target.originalData)
+        XCTAssertNotEqual(operations.target, expected)
+        operations.target.originalData = nil
+        XCTAssertEqual(operations.target, expected)
+    }
+
+    func testSetKeyPathOtherTypeOperationsExist() throws {
+        var score = GameScore()
+        score.points = 10
+        var operations = score.operation
+            .set(("levels", \.levels), value: ["hello"])
+        do {
+            operations = try operations.set(\.points, value: 15)
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("Cannot combine"))
+        }
+    }
+
+    func testSetKeyPathNilOperationsExist() throws {
+        var score = GameScore()
+        score.points = 10
+        var operations = score.operation
+            .set(("points", \.points), value: nil)
+        do {
+            operations = try operations.set(\.points, value: 15)
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("Cannot combine"))
+        }
     }
 
     func testObjectIdSet() throws {

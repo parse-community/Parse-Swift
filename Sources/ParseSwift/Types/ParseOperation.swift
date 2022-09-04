@@ -21,7 +21,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     var target: T
     var operations = [String: Encodable]()
     var keysToNull = Set<String>()
-    var keyPathsToNull = Set<PartialKeyPath<T>>()
 
     public init(target: T) {
         self.target = target
@@ -30,18 +29,18 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     /**
      An operation that sets a field's value if it has changed from its previous value.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
-        - value: The value to set it to.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
+        - value: The value to set the `KeyPath` to.
         - returns: The updated operations.
      - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
      */
     public func set<W>(_ key: (String, WritableKeyPath<T, W?>),
-                       value: W?) -> Self where W: Encodable {
+                       value: W?) -> Self where W: Encodable & Equatable {
         var mutableOperation = self
         if value == nil && target[keyPath: key.1] != nil {
             mutableOperation.keysToNull.insert(key.0)
             mutableOperation.target[keyPath: key.1] = value
-        } else if !target[keyPath: key.1].isEqual(value) {
+        } else if target[keyPath: key.1] != value {
             mutableOperation.operations[key.0] = value
             mutableOperation.target[keyPath: key.1] = value
         }
@@ -51,8 +50,8 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     /**
      An operation that force sets a field's value.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
-        - value: The value to set it to.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
+        - value: The value to set the `KeyPath` to.
         - returns: The updated operations.
      - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
      */
@@ -99,7 +98,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that adds a new element to an array field,
      only if it was not already present.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -117,7 +116,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that adds a new element to an array field,
      only if it was not already present.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -147,7 +146,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     /**
      An operation that adds a new element to an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -164,7 +163,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     /**
      An operation that adds a new element to an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -194,7 +193,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     /**
      An operation that adds a new relation to an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -211,7 +210,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     /**
      An operation that adds a new relation to an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -243,7 +242,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that removes every instance of an element from
      an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -264,7 +263,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that removes every instance of an element from
      an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -299,7 +298,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that removes every instance of a relation from
      an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -320,7 +319,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that removes every instance of a relation from
      an array field.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - objects: The field of objects.
         - returns: The updated operations.
      */
@@ -351,7 +350,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     /**
      An operation where a field is deleted from the object.
      - Parameters:
-        - key: A tuple consisting of the key and the respective KeyPath of the object.
+        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
         - returns: The updated operations.
      */
     public func unset<V>(_ key: (String, WritableKeyPath<T, V?>)) -> Self where V: Encodable {
@@ -363,8 +362,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
-        try operations.forEach { pair in
-            let (key, value) = pair
+        try operations.forEach { key, value in
             let encoder = container.superEncoder(forKey: .key(key))
             try value.encode(to: encoder)
         }
@@ -383,12 +381,26 @@ extension ParseOperation {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
-
      - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> T {
         guard target.objectId != nil else {
-            throw ParseError(code: .missingObjectId, message: "ParseObject is not saved.")
+            throw ParseError(code: .missingObjectId,
+                             message: "ParseObject is not saved.")
+        }
+        guard target.originalData == nil else {
+            guard operations.isEmpty,
+                  keysToNull.isEmpty else {
+                throw ParseError(code: .unknownError,
+                                 message: """
+                                    Cannot combine operations with the \"set\" method that uses
+                                    just the KeyPath with other operations such as: add, increment,
+                                    forceSet, etc., that use the KeyPath and/or key String. Use the
+                                    \"set\" method that takes the (String, WritableKeyPath) tuple
+                                    as an argument instead to combine multiple types of operations.
+                                    """)
+            }
+            return try target.save(options: options)
         }
         return try saveCommand()
             .execute(options: options)
@@ -408,20 +420,42 @@ extension ParseOperation {
         completion: @escaping (Result<T, ParseError>) -> Void
     ) {
         guard target.objectId != nil else {
+            let error = ParseError(code: .missingObjectId,
+                                   message: "ParseObject is not saved.")
             callbackQueue.async {
-                let error = ParseError(code: .missingObjectId, message: "ParseObject is not saved.")
                 completion(.failure(error))
             }
             return
         }
         do {
-            try self.saveCommand().executeAsync(options: options,
-                                                callbackQueue: callbackQueue) { result in
-                completion(result)
+            guard target.originalData == nil else {
+                guard operations.isEmpty,
+                      keysToNull.isEmpty else {
+                    let error = ParseError(code: .unknownError,
+                                           message: """
+                                                Cannot combine operations with the \"set\" method that uses
+                                                just the KeyPath with other operations such as: add, increment,
+                                                forceSet, etc., that use the KeyPath and/or key String. Use the
+                                                \"set\" method that takes the (String, WritableKeyPath) tuple
+                                                as an argument instead to combine multiple types of operations.
+                                            """)
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                target.save(options: options,
+                            callbackQueue: callbackQueue,
+                            completion: completion)
+                return
             }
+            try self.saveCommand().executeAsync(options: options,
+                                                callbackQueue: callbackQueue,
+                                                completion: completion)
         } catch {
+            let error = ParseError(code: .missingObjectId,
+                                   message: "ParseObject is not saved.")
             callbackQueue.async {
-                let error = ParseError(code: .missingObjectId, message: "ParseObject is not saved.")
                 completion(.failure(error))
             }
         }
