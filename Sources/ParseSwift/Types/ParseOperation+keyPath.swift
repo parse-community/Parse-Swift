@@ -9,7 +9,7 @@
 import Foundation
 
 extension ParseOperation {
-    
+
     /**
      An operation that sets a field's value if it has changed from its previous value.
      - Parameters:
