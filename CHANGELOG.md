@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.3...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Add revertKeyPath() and revertObject() methods to ParseObject which allow developers to revert to original values of key paths or objects after mutating ParseObjects that were already have an objectId  ([#402](https://github.com/parse-community/Parse-Swift/pull/402)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.9.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.2...4.9.3)
 

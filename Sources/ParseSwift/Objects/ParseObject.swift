@@ -83,6 +83,7 @@ public protocol ParseObject: ParseTypeable,
     /**
      Determines if a `KeyPath` of the current `ParseObject` should be restored
      by comparing it to another `ParseObject`.
+     - parameter key: The `KeyPath` to check.
      - parameter original: The original `ParseObject`.
      - returns: Returns a **true** if the keyPath should be restored  or **false** otherwise.
     */
@@ -140,6 +141,23 @@ public protocol ParseObject: ParseTypeable,
      use `shouldRestoreKey` to compare key modifications between objects.
     */
     func merge(with object: Self) throws -> Self
+
+    /**
+     Reverts the `KeyPath` of the `ParseObject` back to  the original `KeyPath`
+     before mutations began.
+     - throws: An error of type `ParseError`.
+     - important: This reverts to the contents in `originalData`. This means `originalData` should have
+     been populated by calling `mergeable` or some other means.
+    */
+    mutating func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws where W: Equatable
+
+    /**
+     Reverts the `ParseObject` back to the original object before mutations began.
+     - throws: An error of type `ParseError`.
+     - important: This reverts to the contents in `originalData`. This means `originalData` should have
+     been populated by calling `mergeable` or some other means.
+    */
+    mutating func revertObject() throws
 }
 
 // MARK: Default Implementations
@@ -198,7 +216,7 @@ public extension ParseObject {
         }
         var updated = self
         if shouldRestoreKey(\.ACL,
-                                 original: object) {
+                             original: object) {
             updated.ACL = object.ACL
         }
         return updated
@@ -206,6 +224,45 @@ public extension ParseObject {
 
     func merge(with object: Self) throws -> Self {
         return try mergeParse(with: object)
+    }
+
+    mutating func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws where W: Equatable {
+        guard let originalData = originalData else {
+            throw ParseError(code: .unknownError,
+                             message: "Missing original data to revert to")
+        }
+        let original = try ParseCoding.jsonDecoder().decode(Self.self,
+                                                            from: originalData)
+        guard hasSameObjectId(as: original) else {
+            throw ParseError(code: .unknownError,
+                             message: "The current object does not have the same objectId as the original")
+        }
+        if shouldRevertKey(keyPath,
+                           original: original) {
+            self[keyPath: keyPath] = original[keyPath: keyPath]
+        }
+    }
+
+    mutating func revertObject() throws {
+        guard let originalData = originalData else {
+            throw ParseError(code: .unknownError,
+                             message: "Missing original data to revert to")
+        }
+        let original = try ParseCoding.jsonDecoder().decode(Self.self,
+                                                            from: originalData)
+        guard hasSameObjectId(as: original) else {
+            throw ParseError(code: .unknownError,
+                             message: "The current object does not have the same objectId as the original")
+        }
+        self = original
+    }
+}
+
+// MARK: Default Implementations (Internal)
+extension ParseObject {
+    func shouldRevertKey<W>(_ key: KeyPath<Self, W?>,
+                            original: Self) -> Bool where W: Equatable {
+        original[keyPath: key] != self[keyPath: key]
     }
 }
 
