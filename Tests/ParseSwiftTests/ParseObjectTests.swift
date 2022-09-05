@@ -559,6 +559,23 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testGet() throws {
+        let originalPoints = 10
+        let score = GameScore(points: originalPoints)
+        let points = try score.get(\.points)
+        XCTAssertEqual(points, originalPoints)
+        do {
+            try score.get(\.ACL)
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("unwrap"))
+        }
+    }
+
     func testFetchCommand() {
         var score = GameScore(points: 10)
         let className = score.className

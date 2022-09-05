@@ -155,6 +155,14 @@ public protocol ParseObject: ParseTypeable,
      been populated by calling `mergeable` or some other means.
     */
     func revertObject() throws -> Self
+
+    /**
+     Get the unwrapped property value.
+     - parameter key: The `KeyPath` of the value to get.
+     - throws: An error of type `ParseError` when the value is **nil**.
+     - returns: The unwrapped value.
+     */
+    func get<W>(_ keyPath: KeyPath<Self, W?>) throws -> W where W: Equatable
 }
 
 // MARK: Default Implementations
@@ -254,6 +262,14 @@ public extension ParseObject {
                              message: "The current object does not have the same objectId as the original")
         }
         return original
+    }
+
+    @discardableResult
+    func get<W>(_ keyPath: KeyPath<Self, W?>) throws -> W where W: Equatable {
+        guard let value = self[keyPath: keyPath] else {
+            throw ParseError(code: .unknownError, message: "Could not unwrap value")
+        }
+        return value
     }
 }
 
