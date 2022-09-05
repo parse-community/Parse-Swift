@@ -1,10 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.10.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 4.10.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.3...4.10.0)
+
 __New features__
+- Add a new operation method that allows developers to set a new value to a KeyPath without needing the string version of the key. Also adds the get() method to allow developers to get the unwrapped property of any ParseObject based on its KeyPath ([#403](https://github.com/parse-community/Parse-Swift/pull/403)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add revertKeyPath() and revertObject() methods to ParseObject which allow developers to revert to original values of key paths or objects after mutating ParseObjects that already have an objectId  ([#402](https://github.com/parse-community/Parse-Swift/pull/402)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.3

@@ -16,9 +16,9 @@ import FoundationNetworking
 /**
  The Configuration for a Parse client.
 
- - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+ - important: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+ - note: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
  - warning: `usingTransactions` is experimental.
- - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
  - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
  situtations when apps do not have credentials to setup a Keychain.
  */
@@ -119,8 +119,8 @@ public struct ParseConfiguration {
      Defaults to **false**.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
-     this is the only store available since there is no Keychain. Linux users should replace this store with an
-     encrypted one.
+     this is the only store available since there is no Keychain. Linux, Android, and Windows users should
+     replace this store with an encrypted one.
      - parameter requestCachePolicy: The default caching policy for all http requests that determines
      when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
      for more info.
@@ -142,9 +142,9 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - important: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - note: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
      - warning: `usingTransactions` is experimental.
-     - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
      - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
      situtations when apps do not have credentials to setup a Keychain.
      */
@@ -208,8 +208,8 @@ public struct ParseConfiguration {
      Defaults to **false**.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
-     this is the only store available since there is no Keychain. Linux users should replace this store with an
-     encrypted one.
+     this is the only store available since there is no Keychain. Linux, Android, and Windows users should
+     replace this store with an encrypted one.
      - parameter requestCachePolicy: The default caching policy for all http requests that determines
      when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
      for more info.
@@ -231,9 +231,9 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - important: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+     - note: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
      - warning: `usingTransactions` is experimental.
-     - warning: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
      - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
      situtations when apps do not have credentials to setup a Keychain.
      */

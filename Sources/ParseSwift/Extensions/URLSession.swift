@@ -153,11 +153,10 @@ internal extension URLSession {
                 let data = try ParseCoding.jsonEncoder().encode(location)
                 return try .success(mapper(data))
             } catch {
-                guard let parseError = error as? ParseError else {
-                    return .failure(ParseError(code: .unknownError,
-                                               // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(response) with error: \(String(describing: error))"))
-                }
+                let defaultError = ParseError(code: .unknownError,
+                                              // swiftlint:disable:next line_length
+                                              message: "Error decoding parse-server response: \(response) with error: \(String(describing: error))")
+                let parseError = error as? ParseError ?? defaultError
                 return .failure(parseError)
             }
         }

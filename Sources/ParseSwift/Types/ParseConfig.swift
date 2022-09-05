@@ -11,7 +11,7 @@ import Foundation
 /**
  Objects that conform to the `ParseConfig` protocol are able to access the Config on the Parse Server.
  When conforming to `ParseConfig`, any properties added can be retrieved by the client or updated on
- the server.
+ the server. The current `ParseConfig` is persisted to the Keychain and Parse Server.
 */
 public protocol ParseConfig: ParseTypeable {}
 

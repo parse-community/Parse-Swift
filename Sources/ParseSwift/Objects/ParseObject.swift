@@ -11,35 +11,32 @@ import Foundation
 // swiftlint:disable line_length
 
 /**
- Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
+ Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse Server.
  This is the main protocol that is used to interact with objects in your app.
 
- The Swift SDK is designed for your `ParseObject`s to be "value types" (structs).
- If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
- are thinking of using reference types, see the warning.
-
- After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct the rest of your updates on a
- `mergeable` copy of your `ParseObject`. This allows a subset of the fields to be updated (PATCH) of an object
+ The Swift SDK is designed for your `ParseObject`s to be **value types (structs)**.
+ Since you are using value types the compiler will assist you with conforming to the `ParseObject` protocol.
+ After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct any updates on your updates
+ to a `mergeable` copy of your `ParseObject`. This allows a subset of the fields to be updated (PATCH) of an object
  as oppose to replacing all of the fields of an object (PUT). This reduces the amount of data
  sent between client and server when using `save`, `saveAll`, `update`,
  `updateAll`, `replace`, `replaceAll`, to update objects.
  
- - important: It is required that all added properties be optional properties so they can eventually be used as
- Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
- create methods to check the respective properties on the client-side before saving objects. See
+ - important: It is required that all of your `ParseObject`'s be **value types(structs)** and all added
+ properties be optional so they can eventually be used as Parse `Pointer`'s. If a developer really wants to
+ have a required key, they should require it on the server-side or create methods to check the respective properties
+ on the client-side before saving objects. See
  [here](https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003)
  for more information on the reasons why. See the [Playgrounds](https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66) for an example.
  - important: To take advantage of `mergeable`, the developer should implement the `merge` method in every
  `ParseObject`.
- - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
- for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
+ - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
+ `ACL` to your `ParseObject`'s `CodingKeys`.
+ - warning: This SDK is not designed to use **reference types(classes)** for `ParseObject`'s. Doing so is at your
+ risk and may have unexpected behavior when it comes to threading. You will also need to implement
  your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
  It is important to note that for unsaved `ParseObject`'s, you will not be able to rely on `objectId` for
- `Equatable` and `Hashable` as your unsaved objects will not have this value yet and is nil. A possible way to
- address this is by creating a `UUID` for your objects locally and relying on that for `Equatable` and `Hashable`,
- otherwise it is possible you will get "circular dependency errors" depending on your implementation.
- - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
- `ACL` to your `ParseObject` `CodingKeys`.
+ `Equatable` and `Hashable` as your unsaved objects will not have this value yet and is nil.
 */
 public protocol ParseObject: ParseTypeable,
                              Objectable,
@@ -149,7 +146,7 @@ public protocol ParseObject: ParseTypeable,
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
      been populated by calling `mergeable` or some other means.
     */
-    mutating func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws where W: Equatable
+    func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable
 
     /**
      Reverts the `ParseObject` back to the original object before mutations began.
@@ -157,7 +154,15 @@ public protocol ParseObject: ParseTypeable,
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
      been populated by calling `mergeable` or some other means.
     */
-    mutating func revertObject() throws
+    func revertObject() throws -> Self
+
+    /**
+     Get the unwrapped property value.
+     - parameter key: The `KeyPath` of the value to get.
+     - throws: An error of type `ParseError` when the value is **nil**.
+     - returns: The unwrapped value.
+     */
+    func get<W>(_ keyPath: KeyPath<Self, W?>) throws -> W where W: Equatable
 }
 
 // MARK: Default Implementations
@@ -226,7 +231,7 @@ public extension ParseObject {
         return try mergeParse(with: object)
     }
 
-    mutating func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws where W: Equatable {
+    func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {
         guard let originalData = originalData else {
             throw ParseError(code: .unknownError,
                              message: "Missing original data to revert to")
@@ -237,13 +242,15 @@ public extension ParseObject {
             throw ParseError(code: .unknownError,
                              message: "The current object does not have the same objectId as the original")
         }
+        var updated = self
         if shouldRevertKey(keyPath,
                            original: original) {
-            self[keyPath: keyPath] = original[keyPath: keyPath]
+            updated[keyPath: keyPath] = original[keyPath: keyPath]
         }
+        return updated
     }
 
-    mutating func revertObject() throws {
+    func revertObject() throws -> Self {
         guard let originalData = originalData else {
             throw ParseError(code: .unknownError,
                              message: "Missing original data to revert to")
@@ -254,7 +261,15 @@ public extension ParseObject {
             throw ParseError(code: .unknownError,
                              message: "The current object does not have the same objectId as the original")
         }
-        self = original
+        return original
+    }
+
+    @discardableResult
+    func get<W>(_ keyPath: KeyPath<Self, W?>) throws -> W where W: Equatable {
+        guard let value = self[keyPath: keyPath] else {
+            throw ParseError(code: .unknownError, message: "Could not unwrap value")
+        }
+        return value
     }
 }
 
@@ -601,12 +616,11 @@ transactions for this call.
                         commands.append(try object.updateCommand())
                     }
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        if let parseError = error as? ParseError {
-                            completion(.failure(parseError))
-                        } else {
-                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                        }
+                        completion(.failure(parseError))
                     }
                     return
                 }
@@ -641,12 +655,11 @@ transactions for this call.
                     }
                 }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         }
@@ -853,12 +866,10 @@ transactions for this call.
                 }
             }
         } catch {
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
-                guard let parseError = error as? ParseError else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)))
-                    return
-                }
                 completion(.failure(parseError))
             }
         }
@@ -959,6 +970,7 @@ extension ParseObject {
 
      - returns: Returns saved `ParseObject`.
     */
+    @discardableResult
     public func save(options: API.Options = []) throws -> Self {
         try save(ignoringCustomObjectIdConfig: false, options: options)
     }
@@ -984,6 +996,7 @@ extension ParseObject {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
+    @discardableResult
     public func save(ignoringCustomObjectIdConfig: Bool = false,
                      options: API.Options = []) throws -> Self {
         var childObjects: [String: PointerType]?
@@ -1127,13 +1140,10 @@ extension ParseObject {
                                       childFiles: savedChildFiles,
                                       completion: completion)
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        guard let parseError = error as? ParseError else {
-                            let error = ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)
-                            completion(.failure(error))
-                            return
-                        }
                         completion(.failure(parseError))
                     }
                 }
@@ -1255,12 +1265,9 @@ extension ParseObject {
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)
             } catch {
-                guard let parseError = error as? ParseError else {
-                    completion(objectsFinishedSaving, filesFinishedSaving,
-                               ParseError(code: .unknownError,
-                                          message: error.localizedDescription))
-                    return
-                }
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 completion(objectsFinishedSaving, filesFinishedSaving, parseError)
             }
         }

@@ -10,7 +10,7 @@ import Foundation
 
 /**
  Objects that conform to the `ParseInstallation` protocol have a local representation of an
- installation persisted to the Parse cloud. This protocol inherits from the
+ installation persisted to the Keychain and Parse Server. This protocol inherits from the
  `ParseObject` protocol, and retains the same functionality of a `ParseObject`, but also extends
  it with installation-specific fields and related immutability and validity
  checks.
@@ -21,16 +21,15 @@ import Foundation
  is automatically updated to match the device's time zone
  when the `ParseInstallation` is saved, thus these fields might not reflect the
  latest device state if the installation has not recently been saved.
-
  `ParseInstallation`s which have a valid `deviceToken` and are saved to
  the Parse Server can be used to target push notifications. Use `setDeviceToken` to set the
  `deviceToken` properly.
 
  - warning: If the use of badge is desired, it should be retrieved by using UIKit, AppKit, etc. and
- stored in `ParseInstallation.badge` before saving/updating the installation.
-
- - warning: Linux developers should set `appName`, `appIdentifier`, and `appVersion`
- manually as `ParseSwift` does not have access to Bundle.main.
+ stored in `ParseInstallation.badge` when saving/updating the installation.
+ - warning: Linux, Android, and Windows developers should set `appName`,
+ `appIdentifier`, and `appVersion` manually as `ParseSwift` does not have access
+ to Bundle.main.
 */
 public protocol ParseInstallation: ParseObject {
 
@@ -479,13 +478,12 @@ extension ParseInstallation {
                             try Self.updateKeychainIfNeeded([foundResult])
                             completion(.success(foundResult))
                         } catch {
-                            let returnError: ParseError!
-                            if let parseError = error as? ParseError {
-                                returnError = parseError
-                            } else {
-                                returnError = ParseError(code: .unknownError, message: error.localizedDescription)
+                            let defaultError = ParseError(code: .unknownError,
+                                                          message: error.localizedDescription)
+                            let parseError = error as? ParseError ?? defaultError
+                            callbackQueue.async {
+                                completion(.failure(parseError))
                             }
-                            completion(.failure(returnError))
                         }
                     } else {
                         completion(result)
@@ -533,6 +531,7 @@ extension ParseInstallation {
      - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
+    @discardableResult
     public func save(options: API.Options = []) throws -> Self {
         try save(ignoringCustomObjectIdConfig: false,
                  options: options)
@@ -560,6 +559,7 @@ extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
+    @discardableResult
     public func save(ignoringCustomObjectIdConfig: Bool,
                      options: API.Options = []) throws -> Self {
         var options = options
@@ -724,12 +724,11 @@ extension ParseInstallation {
                             completion(result)
                         }
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        if let parseError = error as? ParseError {
-                            completion(.failure(parseError))
-                        } else {
-                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                        }
+                        completion(.failure(parseError))
                     }
                 }
                 return
@@ -862,13 +861,12 @@ extension ParseInstallation {
                              try Self.updateKeychainIfNeeded([self], deleting: true)
                              completion(.success(()))
                          } catch {
-                             let returnError: ParseError!
-                             if let parseError = error as? ParseError {
-                                 returnError = parseError
-                             } else {
-                                 returnError = ParseError(code: .unknownError, message: error.localizedDescription)
+                             let defaultError = ParseError(code: .unknownError,
+                                                           message: error.localizedDescription)
+                             let parseError = error as? ParseError ?? defaultError
+                             callbackQueue.async {
+                                 completion(.failure(parseError))
                              }
-                             completion(.failure(returnError))
                          }
                      case .failure(let error):
                          completion(.failure(error))
@@ -937,6 +935,7 @@ public extension Sequence where Element: ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
+    @discardableResult
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = configuration.isUsingTransactions,
                  ignoringCustomObjectIdConfig: Bool = false,
@@ -1232,12 +1231,11 @@ public extension Sequence where Element: ParseInstallation {
                         commands.append(try installation.updateCommand())
                     }
                 } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
-                        if let parseError = error as? ParseError {
-                            completion(.failure(parseError))
-                        } else {
-                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                        }
+                        completion(.failure(parseError))
                     }
                     return
                 }
@@ -1275,12 +1273,11 @@ public extension Sequence where Element: ParseInstallation {
                     }
                 }
             } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
-                    if let parseError = error as? ParseError {
-                        completion(.failure(parseError))
-                    } else {
-                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                    }
+                    completion(.failure(parseError))
                 }
             }
         }
@@ -1499,12 +1496,10 @@ public extension Sequence where Element: ParseInstallation {
                 }
             }
         } catch {
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
-                guard let parseError = error as? ParseError else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: error.localizedDescription)))
-                    return
-                }
                 completion(.failure(parseError))
             }
         }
