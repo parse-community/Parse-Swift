@@ -190,7 +190,24 @@ jobs:
           fail_ci_if_error: true
           
   windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: compnerd/gha-setup-swift@v0.0.1
+        with:
+          branch: swift-5.5.1-release
+          tag: 5.5.1-RELEASE
+      - name: Build and Test
+        run: |
+          swift test --enable-test-discovery --enable-code-coverage -v
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          env_vars: WINDOWS
+          fail_ci_if_error: false
+
+  windows-latest:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: compnerd/gha-setup-swift@v0.0.1
@@ -199,14 +216,11 @@ jobs:
           tag: 5.6.3-RELEASE
       - name: Build
         run: |
-          swift build
-      - name: Test
-        run: |
-          swift test --enable-test-discovery --enable-code-coverage -v
+          swift build -v
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          env_vars: WINDOWS
+          env_vars: WINDOWSLATEST
           fail_ci_if_error: false
   
   docs:
