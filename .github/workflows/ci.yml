@@ -20,7 +20,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
       with:
         format: lcov
@@ -53,7 +53,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
       with:
         format: lcov
@@ -61,7 +61,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: MACOS
@@ -80,7 +80,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
       with:
         format: lcov
@@ -88,7 +88,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: TVOS
@@ -107,7 +107,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         env_vars: WATCHOS
       env:
@@ -130,7 +130,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
       with:
         format: lcov
@@ -138,7 +138,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: SPM
@@ -156,13 +156,13 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
-      uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
       with:
         format: lcov
         search-paths: ./DerivedData
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: IOS_Earliest
@@ -174,7 +174,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
-      - uses: sersoft-gmbh/SwiftyActions@v1
+      - uses: sersoft-gmbh/SwiftyActions@v2
         with:
           release-version: "5"
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -184,7 +184,7 @@ jobs:
         run: |
           llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info_linux.lcov
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           env_vars: LINUX
           fail_ci_if_error: true
@@ -193,12 +193,18 @@ jobs:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v3
-      - uses: MaxDesiatov/swift-windows-action@v1
+      - uses: compnerd/gha-setup-swift@v0.0.1
         with:
-          swift-version: "5.5.1"
-          shell-action: swift test --enable-test-discovery --enable-code-coverage -v
+          branch: swift-5.6.3-release
+          tag: 5.6.3-RELEASE
+      - name: Build
+        run: |
+          swift build
+      - name: Test
+        run: |
+          swift test --enable-test-discovery --enable-code-coverage -v
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           env_vars: WINDOWS
           fail_ci_if_error: false
