@@ -10,7 +10,7 @@ import Foundation
 
 /**
  Objects that conform to the `ParseInstallation` protocol have a local representation of an
- installation persisted to the Parse cloud. This protocol inherits from the
+ installation persisted to the Keychain and Parse Server. This protocol inherits from the
  `ParseObject` protocol, and retains the same functionality of a `ParseObject`, but also extends
  it with installation-specific fields and related immutability and validity
  checks.
@@ -21,16 +21,15 @@ import Foundation
  is automatically updated to match the device's time zone
  when the `ParseInstallation` is saved, thus these fields might not reflect the
  latest device state if the installation has not recently been saved.
-
  `ParseInstallation`s which have a valid `deviceToken` and are saved to
  the Parse Server can be used to target push notifications. Use `setDeviceToken` to set the
  `deviceToken` properly.
 
  - warning: If the use of badge is desired, it should be retrieved by using UIKit, AppKit, etc. and
- stored in `ParseInstallation.badge` before saving/updating the installation.
-
- - warning: Linux developers should set `appName`, `appIdentifier`, and `appVersion`
- manually as `ParseSwift` does not have access to Bundle.main.
+ stored in `ParseInstallation.badge` when saving/updating the installation.
+ - warning: Linux, Android, and Windows developers should set `appName`,
+ `appIdentifier`, and `appVersion` manually as `ParseSwift` does not have access
+ to Bundle.main.
 */
 public protocol ParseInstallation: ParseObject {
 

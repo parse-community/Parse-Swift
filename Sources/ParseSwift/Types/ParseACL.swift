@@ -12,7 +12,7 @@ import Foundation
  `ParseACL` is used to control which users can access or modify a particular `ParseObject`.
  Each `ParseObject` has its own ACL. You can grant read and write permissions separately 
  to specific users, to groups of users that belong to roles, or you can grant permissions to
- "the public" so that, for example, any user could read a particular object but only a 
+ **the public** so that, for example, any user could read a particular object but only a 
  particular set of users could write to that object.
 */
 public struct ParseACL: ParseTypeable,
@@ -311,8 +311,8 @@ public struct ParseACL: ParseTypeable,
 extension ParseACL {
     /**
      Get the default ACL from the Keychain.
-
      - returns: Returns the default ACL.
+     - throws: An error of type `ParseError`.
     */
     public static func defaultACL() throws -> Self {
 
@@ -351,32 +351,18 @@ extension ParseACL {
     }
 
     /**
-     Sets a default ACL that can later be used by `ParseObjects`.
-     
-     To apply the default ACL to all instances of a respective `ParseObject` when they are created,
-     you will need to add `ACL = try? ParseACL.defaultACL()`. You can also at it when
-     conforming to `ParseObject`:
-     
-         struct MyParseObject: ParseObject {
-     
-            var objectId: String?
-            var createdAt: Date?
-            var updatedAt: Date?
-            var ACL: ParseACL? = try? ParseACL.defaultACL()
-         }
+     Sets a default ACL that can later be used by `ParseObjects`. The default ACL
+     is persisted to the Keychain. This value will be copied and used as a template when
+     new `ParseObject`'s are created locally. Any changes to the default ACL will not
+     have effect on already saved `ParseObject`'s.
 
      - parameter acl: The ACL to use as a template for instances of `ParseObject`.
-
-     This value will be copied and used as a template for the creation of new ACLs, so changes to the
-     instance after this method has been called will not be reflected in new instance of `ParseObject`.
-
      - parameter withAccessForCurrentUser: If **true**, the `ACL` that is applied to
-     newly-created instance of `ParseObject` will
-     provide read and write access to the `ParseUser.+currentUser` at the time of creation.
-     - If **false**, the provided `acl` will be used without modification.
-     - If `acl` is `nil`, this value is ignored.
-     
-     - returns: Updated defaultACL
+     newly-created instance of `ParseObject` will provide read and write access to the
+     `ParseUser.currentUser` at the time of creation. If **false**, the provided `acl`
+     will be used without modification. If `acl` is `nil`, this value is ignored.
+     - returns: Updated default ACL.
+     - throws: An error of type `ParseError`.
     */
     public static func setDefaultACL(_ acl: ParseACL, withAccessForCurrentUser: Bool) throws -> ParseACL {
 

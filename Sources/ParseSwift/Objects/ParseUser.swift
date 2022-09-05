@@ -1,9 +1,10 @@
 import Foundation
 
 /**
- Objects that conform to the `ParseUser` protocol have a local representation of a user persisted to the Parse Data.
- This protocol inherits from the `ParseObject` protocol, and retains the same functionality of a `ParseObject`,
- but also extends it with various user specific methods, like authentication, signing up, and validation uniqueness.
+ Objects that conform to the `ParseUser` protocol have a local representation of a user persisted to the
+ Keychain and Parse Server. This protocol inherits from the `ParseObject` protocol, and retains the same
+ functionality of a `ParseObject`, but also extends it with various user specific methods, like
+ authentication, signing up, and validation uniqueness.
 */
 public protocol ParseUser: ParseObject {
     /**

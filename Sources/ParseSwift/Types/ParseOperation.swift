@@ -102,6 +102,13 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
+    @available(*, deprecated,
+                message: """
+                    The KeyPath of a ParseObject should always point to an optional value.
+                    This means that all properties of your ParseObject's should be optional.
+                    Please read the important notes and warnings in the documentation for
+                    details.
+                """)
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
                              objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
@@ -150,6 +157,13 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
+    @available(*, deprecated,
+                message: """
+                    The KeyPath of a ParseObject should always point to an optional value.
+                    This means that all properties of your ParseObject's should be optional.
+                    Please read the important notes and warnings in the documentation for
+                    details.
+                """)
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
                        objects: [V]) -> Self where V: Encodable {
         var mutableOperation = self
@@ -197,6 +211,13 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
+    @available(*, deprecated,
+                message: """
+                    The KeyPath of a ParseObject should always point to an optional value.
+                    This means that all properties of your ParseObject's should be optional.
+                    Please read the important notes and warnings in the documentation for
+                    details.
+                """)
     public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
                                objects: [V]) throws -> Self where V: ParseObject {
         var mutableOperation = self
@@ -246,6 +267,13 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
+    @available(*, deprecated,
+                message: """
+                    The KeyPath of a ParseObject should always point to an optional value.
+                    This means that all properties of your ParseObject's should be optional.
+                    Please read the important notes and warnings in the documentation for
+                    details.
+                """)
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
                           objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
@@ -302,6 +330,13 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
+    @available(*, deprecated,
+                message: """
+                    The KeyPath of a ParseObject should always point to an optional value.
+                    This means that all properties of your ParseObject's should be optional.
+                    Please read the important notes and warnings in the documentation for
+                    details.
+                """)
     public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
                                   objects: [V]) throws -> Self where V: ParseObject {
         var mutableOperation = self

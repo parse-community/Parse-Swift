@@ -37,6 +37,35 @@ class ParseOperationTests: XCTestCase {
         }
     }
 
+    // Used for deprecated operations
+    struct GameScoreDeprecated: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var points: Int
+        var members: [String]
+        var levels: [String]?
+        var previous: [Level]?
+        var next: [Level] = [Level(level: 3)]
+
+        init() {
+            self.points = 5
+            self.members = ["hello"]
+        }
+
+        // custom initializers
+        init(points: Int) {
+            self.points = points
+            self.next = [Level(level: 5)]
+            self.members = [String]()
+        }
+    }
+
     struct Level: ParseObject {
         //: These are required by ParseObject
         var objectId: String?
@@ -458,8 +487,8 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testAddKeypath() throws {
-        let score = GameScore(points: 10)
+    func testAddKeypathDeprecated() throws {
+        let score = GameScoreDeprecated()
         let operations = score.operation
             .add(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"__op\":\"Add\",\"objects\":[\"hello\"]}}"
@@ -469,7 +498,7 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testAddOptionalKeypath() throws {
+    func testAddKeypath() throws {
         let score = GameScore(points: 10)
         let operations = score.operation
             .add(("test", \.levels), objects: ["hello"])
@@ -491,8 +520,8 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testAddUniqueKeypath() throws {
-        let score = GameScore(points: 10)
+    func testAddUniqueKeypathDeprecated() throws {
+        let score = GameScoreDeprecated()
         let operations = score.operation
             .addUnique(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"__op\":\"AddUnique\",\"objects\":[\"hello\"]}}"
@@ -502,7 +531,7 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testAddUniqueOptionalKeypath() throws {
+    func testAddUniqueKeypath() throws {
         let score = GameScore(points: 10)
         let operations = score.operation
             .addUnique(("test", \.levels), objects: ["hello"])
@@ -527,8 +556,8 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testAddRelationKeypath() throws {
-        let score = GameScore(points: 10)
+    func testAddRelationKeypathDeprecated() throws {
+        let score = GameScoreDeprecated()
         var level = Level(level: 2)
         level.objectId = "yolo"
         let operations = try score.operation
@@ -541,7 +570,7 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testAddRelationOptionalKeypath() throws {
+    func testAddRelationKeypath() throws {
         let score = GameScore(points: 10)
         var level = Level(level: 2)
         level.objectId = "yolo"
@@ -566,8 +595,8 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testRemoveKeypath() throws {
-        let score = GameScore(points: 10)
+    func testRemoveKeypathDeprecated() throws {
+        let score = GameScoreDeprecated()
         let operations = score.operation
             .remove(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"__op\":\"Remove\",\"objects\":[\"hello\"]}}"
@@ -577,7 +606,7 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testRemoveOptionalKeypath() throws {
+    func testRemoveKeypath() throws {
         let score = GameScore(points: 10)
         let operations = score.operation
             .remove(("test", \.levels), objects: ["hello"])
@@ -602,8 +631,8 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testRemoveRelationKeypath() throws {
-        let score = GameScore(points: 10)
+    func testRemoveRelationKeypathDeprecated() throws {
+        let score = GameScoreDeprecated()
         var level = Level(level: 2)
         level.objectId = "yolo"
         let operations = try score.operation
@@ -616,7 +645,7 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    func testRemoveRelationOptionalKeypath() throws {
+    func testRemoveRelationKeypath() throws {
         let score = GameScore(points: 10)
         var level = Level(level: 2)
         level.objectId = "yolo"

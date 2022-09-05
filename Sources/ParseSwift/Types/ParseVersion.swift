@@ -8,7 +8,8 @@
 
 import Foundation
 
-/// `ParseVersion` is used to determine the version of the SDK.
+/// `ParseVersion` is used to determine the version of the SDK. The current
+/// version of the SDK is persisted to the Keychain.
 public struct ParseVersion: ParseTypeable, Comparable {
 
     var string: String
