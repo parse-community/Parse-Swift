@@ -299,7 +299,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A tuple consisting of the key and the respective KeyPath of the object.",
+                  "text" : "A tuple consisting of the key and the respective ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the object.",
                   "type" : "text"
                 }
               ],
@@ -386,7 +394,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of data persisted to the Parse cloud.",
+      "text" : " protocol have a local representation of data persisted to the Parse Server.",
       "type" : "text"
     },
     {

@@ -120,6 +120,14 @@
           ],
           "tokens" : [
             {
+              "kind" : "attribute",
+              "text" : "@discardableResult"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
               "kind" : "keyword",
               "text" : "func"
             },
@@ -393,7 +401,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of a user persisted to the Parse Data.",
+      "text" : " protocol have a local representation of a user persisted to the",
       "type" : "text"
     },
     {
@@ -401,7 +409,7 @@
       "type" : "text"
     },
     {
-      "text" : "This protocol inherits from the ",
+      "text" : "Keychain and Parse Server. This protocol inherits from the ",
       "type" : "text"
     },
     {
@@ -409,15 +417,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol, and retains the same functionality of a ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ",",
+      "text" : " protocol, and retains the same",
       "type" : "text"
     },
     {
@@ -425,7 +425,23 @@
       "type" : "text"
     },
     {
-      "text" : "but also extends it with various user specific methods, like authentication, signing up, and validation uniqueness.",
+      "text" : "functionality of a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", but also extends it with various user specific methods, like",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "authentication, signing up, and validation uniqueness.",
       "type" : "text"
     }
   ],

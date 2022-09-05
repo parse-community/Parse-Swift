@@ -98,7 +98,110 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " when using the",
+                  "text" : " when using the SDK on a server. Do not use this key on the client.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "important",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Setting ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "usingPostForQuery",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : "  will require all queries to access the server instead of following the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "requestCachePolicy",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "note",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "",
+                  "type" : "text"
+                },
+                {
+                  "code" : "usingTransactions",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " is experimental.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "warning",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Setting ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "usingDataProtectionKeychain",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " is known to cause issues in Playgrounds or in",
                   "type" : "text"
                 },
                 {
@@ -106,7 +209,7 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "SDK on a server. Do not use this key on the client.",
+                  "text" : "situtations when apps do not have credentials to setup a Keychain.",
                   "type" : "text"
                 }
               ],

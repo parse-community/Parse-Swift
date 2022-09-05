@@ -120,6 +120,14 @@
           ],
           "tokens" : [
             {
+              "kind" : "attribute",
+              "text" : "@discardableResult"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
               "kind" : "keyword",
               "text" : "func"
             },
@@ -401,7 +409,7 @@
       "type" : "text"
     },
     {
-      "text" : "installation persisted to the Parse cloud. This protocol inherits from the",
+      "text" : "installation persisted to the Keychain and Parse Server. This protocol inherits from the",
       "type" : "text"
     },
     {

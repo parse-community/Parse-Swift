@@ -1121,7 +1121,7 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "this is the only store available since there is no Keychain. Linux users should replace this store with an",
+                  "text" : "this is the only store available since there is no Keychain. Linux, Android, and Windows users should",
                   "type" : "text"
                 },
                 {
@@ -1129,7 +1129,7 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "encrypted one.",
+                  "text" : "replace this store with an encrypted one.",
                   "type" : "text"
                 }
               ],
@@ -1499,30 +1499,7 @@
               "type" : "paragraph"
             }
           ],
-          "style" : "warning",
-          "type" : "aside"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "",
-                  "type" : "text"
-                },
-                {
-                  "code" : "usingTransactions",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " is experimental.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "style" : "warning",
+          "style" : "important",
           "type" : "aside"
         },
         {
@@ -1560,6 +1537,29 @@
                 },
                 {
                   "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "note",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "",
+                  "type" : "text"
+                },
+                {
+                  "code" : "usingTransactions",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " is experimental.",
                   "type" : "text"
                 }
               ],

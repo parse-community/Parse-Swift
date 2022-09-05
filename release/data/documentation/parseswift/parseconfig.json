@@ -33,7 +33,15 @@
       "type" : "text"
     },
     {
-      "text" : "the server.",
+      "text" : "the server. The current ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseConfig",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is persisted to the Keychain and Parse Server.",
       "type" : "text"
     }
   ],
@@ -242,7 +250,15 @@
       "type" : "text"
     },
     {
-      "text" : "the server.",
+      "text" : "the server. The current ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseConfig",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is persisted to the Keychain and Parse Server.",
       "type" : "text"
     }
   ],

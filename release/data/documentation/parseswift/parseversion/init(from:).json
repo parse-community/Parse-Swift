@@ -166,7 +166,15 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " is used to determine the version of the SDK.",
+      "text" : " is used to determine the version of the SDK. The current",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "version of the SDK is persisted to the Keychain.",
       "type" : "text"
     }
   ],

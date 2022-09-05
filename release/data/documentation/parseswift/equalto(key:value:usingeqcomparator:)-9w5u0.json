@@ -568,7 +568,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of data persisted to the Parse cloud.",
+      "text" : " protocol have a local representation of data persisted to the Parse Server.",
       "type" : "text"
     },
     {

@@ -326,6 +326,28 @@
             {
               "inlineContent" : [
                 {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to check.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "key"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
                   "text" : "The original ",
                   "type" : "text"
                 },
@@ -393,7 +415,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of data persisted to the Parse cloud.",
+      "text" : " protocol have a local representation of data persisted to the Parse Server.",
       "type" : "text"
     },
     {

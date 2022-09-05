@@ -257,7 +257,8 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/save(options:)-2i4un",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/save(options:callbackQueue:completion:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/savePublisher(options:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-6xhni",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-xsi5",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/unset(_:)-1fmaa",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/unset(_:)-7dqb3"
       ],
@@ -315,7 +316,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of data persisted to the Parse cloud.",
+      "text" : " protocol have a local representation of data persisted to the Parse Server.",
       "type" : "text"
     },
     {
@@ -533,6 +534,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -753,6 +755,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -1297,6 +1300,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -1806,6 +1810,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -2240,6 +2245,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -2793,7 +2799,148 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseoperation\/savepublisher(options:)"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:value:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:value:)-6xhni": {
+  "abstract" : [
+    {
+      "text" : "An operation that sets a field’s value.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "T",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "ParseObject",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s15WritableKeyPathC",
+      "text" : "WritableKeyPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?>, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "value"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
+      "text" : "ParseOperation"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-6xhni",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "set(_:value:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:value:)-6xhni"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:value:)-xsi5": {
   "abstract" : [
     {
       "text" : "An operation that sets a field’s value if it has changed from its previous value.",
@@ -2854,7 +3001,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
@@ -2871,7 +3018,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
@@ -2896,12 +3043,12 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-xsi5",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "set(_:value:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:value:)"
+  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:value:)-xsi5"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/unset(_:)-1fmaa": {
   "abstract" : [

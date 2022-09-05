@@ -417,7 +417,7 @@
               "type" : "paragraph"
             }
           ],
-          "style" : "warning",
+          "style" : "important",
           "type" : "aside"
         }
       ],

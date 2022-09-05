@@ -307,7 +307,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A tuple consisting of the key and the respective KeyPath of the object.",
+                  "text" : "A tuple consisting of the key and the respective ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the object.",
                   "type" : "text"
                 }
               ],

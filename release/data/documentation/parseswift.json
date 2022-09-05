@@ -186,6 +186,14 @@
   "topicSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(configuration:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
+      ],
+      "title" : "Initialize the SDK"
+    },
+    {
+      "identifiers" : [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryViewModel",
@@ -306,9 +314,6 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/exists(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasPrefix(key:prefix:modifiers:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/hasSuffix(key:suffix:modifiers:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/initialize(configuration:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/isNotNull(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/isNull(key:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/matchesKeyInQuery(key:queryKey:query:)",
@@ -1216,7 +1221,16 @@
       "type" : "text"
     },
     {
-      "text" : "“the public” so that, for example, any user could read a particular object but only a",
+      "inlineContent" : [
+        {
+          "text" : "the public",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " so that, for example, any user could read a particular object but only a",
       "type" : "text"
     },
     {
@@ -1721,7 +1735,15 @@
       "type" : "text"
     },
     {
-      "text" : "the server.",
+      "text" : "the server. The current ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseConfig",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is persisted to the Keychain and Parse Server.",
       "type" : "text"
     }
   ],
@@ -2962,7 +2984,7 @@
       "type" : "text"
     },
     {
-      "text" : "installation persisted to the Parse cloud. This protocol inherits from the",
+      "text" : "installation persisted to the Keychain and Parse Server. This protocol inherits from the",
       "type" : "text"
     },
     {
@@ -3309,7 +3331,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of data persisted to the Parse cloud.",
+      "text" : " protocol have a local representation of data persisted to the Parse Server.",
       "type" : "text"
     },
     {
@@ -4593,7 +4615,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of a user persisted to the Parse Data.",
+      "text" : " protocol have a local representation of a user persisted to the",
       "type" : "text"
     },
     {
@@ -4601,7 +4623,7 @@
       "type" : "text"
     },
     {
-      "text" : "This protocol inherits from the ",
+      "text" : "Keychain and Parse Server. This protocol inherits from the ",
       "type" : "text"
     },
     {
@@ -4609,15 +4631,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol, and retains the same functionality of a ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ",",
+      "text" : " protocol, and retains the same",
       "type" : "text"
     },
     {
@@ -4625,7 +4639,23 @@
       "type" : "text"
     },
     {
-      "text" : "but also extends it with various user specific methods, like authentication, signing up, and validation uniqueness.",
+      "text" : "functionality of a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", but also extends it with various user specific methods, like",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "authentication, signing up, and validation uniqueness.",
       "type" : "text"
     }
   ],
@@ -4663,7 +4693,15 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " is used to determine the version of the SDK.",
+      "text" : " is used to determine the version of the SDK. The current",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "version of the SDK is persisted to the Keychain.",
       "type" : "text"
     }
   ],

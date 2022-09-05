@@ -9,7 +9,47 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ".",
+      "text" : ". The default ACL",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "is persisted to the Keychain. This value will be copied and used as a template when",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "new ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s are created locally. Any changes to the default ACL will not",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "have effect on already saved ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
       "type" : "text"
     }
   ],
@@ -212,7 +252,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Updated defaultACL",
+              "text" : "Updated default ACL.",
               "type" : "text"
             }
           ],
@@ -288,7 +328,7 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " will",
+                  "text" : " will provide read and write access to the",
                   "type" : "text"
                 },
                 {
@@ -296,15 +336,52 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "provide read and write access to the ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseUser.+currentUser",
+                  "code" : "ParseUser.currentUser",
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " at the time of creation.",
+                  "text" : " at the time of creation. If ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ", the provided ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "acl",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "will be used without modification. If ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "acl",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " is ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "nil",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ", this value is ignored.",
                   "type" : "text"
                 }
               ],
@@ -324,159 +401,28 @@
           "type" : "heading"
         },
         {
-          "inlineContent" : [
+          "content" : [
             {
-              "text" : "To apply the default ACL to all instances of a respective ",
-              "type" : "text"
-            },
-            {
-              "code" : "ParseObject",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " when they are created,",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "you will need to add ",
-              "type" : "text"
-            },
-            {
-              "code" : "ACL = try? ParseACL.defaultACL()",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : ". You can also at it when",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "conforming to ",
-              "type" : "text"
-            },
-            {
-              "code" : "ParseObject",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : ":",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        },
-        {
-          "code" : [
-            "struct MyParseObject: ParseObject {",
-            "",
-            "   var objectId: String?",
-            "   var createdAt: Date?",
-            "   var updatedAt: Date?",
-            "   var ACL: ParseACL? = try? ParseACL.defaultACL()",
-            "}"
-          ],
-          "syntax" : null,
-          "type" : "codeListing"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "This value will be copied and used as a template for the creation of new ACLs, so changes to the",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "instance after this method has been called will not be reflected in new instance of ",
-              "type" : "text"
-            },
-            {
-              "code" : "ParseObject",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : ".",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        },
-        {
-          "items" : [
-            {
-              "content" : [
+              "inlineContent" : [
                 {
-                  "inlineContent" : [
-                    {
-                      "text" : "If ",
-                      "type" : "text"
-                    },
-                    {
-                      "inlineContent" : [
-                        {
-                          "text" : "false",
-                          "type" : "text"
-                        }
-                      ],
-                      "type" : "strong"
-                    },
-                    {
-                      "text" : ", the provided ",
-                      "type" : "text"
-                    },
-                    {
-                      "code" : "acl",
-                      "type" : "codeVoice"
-                    },
-                    {
-                      "text" : " will be used without modification.",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "paragraph"
-                }
-              ]
-            },
-            {
-              "content" : [
+                  "text" : "An error of type ",
+                  "type" : "text"
+                },
                 {
-                  "inlineContent" : [
-                    {
-                      "text" : "If ",
-                      "type" : "text"
-                    },
-                    {
-                      "code" : "acl",
-                      "type" : "codeVoice"
-                    },
-                    {
-                      "text" : " is ",
-                      "type" : "text"
-                    },
-                    {
-                      "code" : "nil",
-                      "type" : "codeVoice"
-                    },
-                    {
-                      "text" : ", this value is ignored.",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "paragraph"
+                  "code" : "ParseError",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
                 }
-              ]
+              ],
+              "type" : "paragraph"
             }
           ],
-          "type" : "unorderedList"
+          "name" : "Throws",
+          "style" : "note",
+          "type" : "aside"
         }
       ],
       "kind" : "content"
@@ -565,7 +511,16 @@
       "type" : "text"
     },
     {
-      "text" : "“the public” so that, for example, any user could read a particular object but only a",
+      "inlineContent" : [
+        {
+          "text" : "the public",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " so that, for example, any user could read a particular object but only a",
       "type" : "text"
     },
     {
@@ -615,7 +570,47 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ".",
+      "text" : ". The default ACL",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "is persisted to the Keychain. This value will be copied and used as a template when",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "new ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s are created locally. Any changes to the default ACL will not",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "have effect on already saved ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
       "type" : "text"
     }
   ],

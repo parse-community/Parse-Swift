@@ -284,7 +284,16 @@
       "type" : "text"
     },
     {
-      "text" : "“the public” so that, for example, any user could read a particular object but only a",
+      "inlineContent" : [
+        {
+          "text" : "the public",
+          "type" : "text"
+        }
+      ],
+      "type" : "strong"
+    },
+    {
+      "text" : " so that, for example, any user could read a particular object but only a",
       "type" : "text"
     },
     {

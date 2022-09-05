@@ -5,6 +5,17 @@
       "type" : "text"
     }
   ],
+  "deprecationSummary" : [
+    {
+      "inlineContent" : [
+        {
+          "text" : "\n                    The KeyPath of a ParseObject should always point to an optional value.\n                    This means that all properties of your ParseObject's should be optional.\n                    Please read the important notes and warnings in the documentation for\n                    details.\n                ",
+          "type" : "text"
+        }
+      ],
+      "type" : "paragraph"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -120,6 +131,9 @@
       {
         "name" : "ParseSwift"
       }
+    ],
+    "platforms" : [
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
@@ -282,7 +296,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A tuple consisting of the key and the respective KeyPath of the object.",
+                  "text" : "A tuple consisting of the key and the respective ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the object.",
                   "type" : "text"
                 }
               ],
@@ -443,6 +465,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

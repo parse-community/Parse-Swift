@@ -58,6 +58,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/fetch(includeKeys:options:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/fetch(includeKeys:options:callbackQueue:completion:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/fetchPublisher(includeKeys:options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/get(_:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/getDecoder()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/getEncoder()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/getJSONEncoder()",
@@ -72,6 +73,8 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/replace(options:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/replace(options:callbackQueue:completion:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/replacePublisher(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revertKeyPath(_:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revertObject()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/save(ignoringCustomObjectIdConfig:options:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/save(ignoringCustomObjectIdConfig:options:callbackQueue:completion:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/save(options:)",
@@ -1228,6 +1231,85 @@
   "title" : "fetchPublisher(includeKeys:options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsepushstatus\/fetchpublisher(includekeys:options:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/get(_:)": {
+  "abstract" : [
+    {
+      "text" : "Get the unwrapped property value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "get"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s7KeyPathC",
+      "text" : "KeyPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?>) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/get(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "get(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushstatus\/get(_:)"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/getDecoder()": {
   "abstract" : [
@@ -3370,6 +3452,164 @@
   "title" : "replacePublisher(options:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsepushstatus\/replacepublisher(options:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/revertKeyPath(_:)": {
+  "abstract" : [
+    {
+      "text" : "Reverts the ",
+      "type" : "text"
+    },
+    {
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " back to  the original ",
+      "type" : "text"
+    },
+    {
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "before mutations began.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "revertKeyPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s15WritableKeyPathC",
+      "text" : "WritableKeyPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?>) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revertKeyPath(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "revertKeyPath(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushstatus\/revertkeypath(_:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/revertObject()": {
+  "abstract" : [
+    {
+      "text" : "Reverts the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " back to the original object before mutations began.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "revertObject"
+    },
+    {
+      "kind" : "text",
+      "text" : "() "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revertObject()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "revertObject()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsepushstatus\/revertobject()"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/save(ignoringCustomObjectIdConfig:options:)": {
   "abstract" : [
