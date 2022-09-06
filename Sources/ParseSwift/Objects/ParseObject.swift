@@ -14,7 +14,7 @@ import Foundation
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse Server.
  This is the main protocol that is used to interact with objects in your app.
 
- The Swift SDK is designed for your `ParseObject`s to be **value types (structs)**.
+ The Swift SDK is designed for your `ParseObject`s to be **value types (structures)**.
  Since you are using value types the compiler will assist you with conforming to the `ParseObject` protocol.
  After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct any updates on your updates
  to a `mergeable` copy of your `ParseObject`. This allows a subset of the fields to be updated (PATCH) of an object
@@ -22,7 +22,7 @@ import Foundation
  sent between client and server when using `save`, `saveAll`, `update`,
  `updateAll`, `replace`, `replaceAll`, to update objects.
  
- - important: It is required that all of your `ParseObject`'s be **value types(structs)** and all added
+ - important: It is required that all of your `ParseObject`'s be **value types (structures)** and all added
  properties be optional so they can eventually be used as Parse `Pointer`'s. If a developer really wants to
  have a required key, they should require it on the server-side or create methods to check the respective properties
  on the client-side before saving objects. See
@@ -138,31 +138,6 @@ public protocol ParseObject: ParseTypeable,
      use `shouldRestoreKey` to compare key modifications between objects.
     */
     func merge(with object: Self) throws -> Self
-
-    /**
-     Reverts the `KeyPath` of the `ParseObject` back to  the original `KeyPath`
-     before mutations began.
-     - throws: An error of type `ParseError`.
-     - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `mergeable` or some other means.
-    */
-    func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable
-
-    /**
-     Reverts the `ParseObject` back to the original object before mutations began.
-     - throws: An error of type `ParseError`.
-     - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `mergeable` or some other means.
-    */
-    func revertObject() throws -> Self
-
-    /**
-     Get the unwrapped property value.
-     - parameter key: The `KeyPath` of the value to get.
-     - throws: An error of type `ParseError` when the value is **nil**.
-     - returns: The unwrapped value.
-     */
-    func get<W>(_ keyPath: KeyPath<Self, W?>) throws -> W where W: Equatable
 }
 
 // MARK: Default Implementations
@@ -185,6 +160,10 @@ public extension ParseObject {
     }
 
     var mergeable: Self {
+        guard objectId != nil,
+            originalData == nil else {
+            return self
+        }
         var object = Self()
         object.objectId = objectId
         object.createdAt = createdAt
@@ -230,8 +209,49 @@ public extension ParseObject {
     func merge(with object: Self) throws -> Self {
         return try mergeParse(with: object)
     }
+}
 
+// MARK: Default Implementations (Internal)
+extension ParseObject {
+    func shouldRevertKey<W>(_ key: KeyPath<Self, W?>,
+                            original: Self) -> Bool where W: Equatable {
+        original[keyPath: key] != self[keyPath: key]
+    }
+}
+
+// MARK: Helper Methods
+public extension ParseObject {
+    /**
+     Reverts the `KeyPath` of the `ParseObject` back to  the original `KeyPath`
+     before mutations began.
+     - throws: An error of type `ParseError`.
+     - important: This reverts to the contents in `originalData`. This means `originalData` should have
+     been populated by calling `mergeable` or the `set` method.
+    */
+    @available(*, deprecated, renamed: "revert")
     func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {
+        try revert(keyPath)
+    }
+
+    /**
+     Reverts the `ParseObject` back to the original object before mutations began.
+     - throws: An error of type `ParseError`.
+     - important: This reverts to the contents in `originalData`. This means `originalData` should have
+     been populated by calling `mergeable` or the `set` method.
+    */
+    @available(*, deprecated, renamed: "revert")
+    func revertObject() throws -> Self {
+        try revert()
+    }
+
+    /**
+     Reverts the `KeyPath` of the `ParseObject` back to  the original `KeyPath`
+     before mutations began.
+     - throws: An error of type `ParseError`.
+     - important: This reverts to the contents in `originalData`. This means `originalData` should have
+     been populated by calling `mergeable` or the `set` method.
+    */
+    func revert<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {
         guard let originalData = originalData else {
             throw ParseError(code: .unknownError,
                              message: "Missing original data to revert to")
@@ -250,7 +270,13 @@ public extension ParseObject {
         return updated
     }
 
-    func revertObject() throws -> Self {
+    /**
+     Reverts the `ParseObject` back to the original object before mutations began.
+     - throws: An error of type `ParseError`.
+     - important: This reverts to the contents in `originalData`. This means `originalData` should have
+     been populated by calling `mergeable` or the `set` method.
+    */
+    func revert() throws -> Self {
         guard let originalData = originalData else {
             throw ParseError(code: .unknownError,
                              message: "Missing original data to revert to")
@@ -264,6 +290,12 @@ public extension ParseObject {
         return original
     }
 
+    /**
+     Get the unwrapped property value.
+     - parameter key: The `KeyPath` of the value to get.
+     - throws: An error of type `ParseError` when the value is **nil**.
+     - returns: The unwrapped value.
+     */
     @discardableResult
     func get<W>(_ keyPath: KeyPath<Self, W?>) throws -> W where W: Equatable {
         guard let value = self[keyPath: keyPath] else {
@@ -271,14 +303,31 @@ public extension ParseObject {
         }
         return value
     }
+
+    /**
+     Set the value of a specific `KeyPath` on a `ParseObject`.
+     - parameter key: The `KeyPath` of the value to set.
+     - returns: The updated `ParseObject`.
+     - important: This method should be used when updating a `ParseObject` that has already been saved to
+     a Parse Server. You can also use this method on a new `ParseObject`'s that has not been saved to a Parse Server
+     as long as the `objectId` of the respective `ParseObject` is **nil**.
+     - attention: If you are using the `set()` method, you do not need to implement `merge()`. Using `set()`
+     may perform slower than implemting `merge()` after saving the updated `ParseObject` to a Parse Server.
+     This is due to extra overhead in encoding/decoding the object inorder to determine what keys have been updated.
+     Developers should choose what option works best for their respective applications.
+     - warning: This method needs to be used when making the very first update/mutation to your `ParseObject`.
+     Any subsequent mutations can modify the `ParseObject` property directly or by making mutiple `set()` calls.
+     */
+    func set<W>(_ keyPath: WritableKeyPath<Self, W?>, value: W) -> Self where W: Equatable {
+        var updated = self.mergeable
+        updated[keyPath: keyPath] = value
+        return updated
+    }
 }
 
-// MARK: Default Implementations (Internal)
+// MARK: Helper Methods (Internal)
 extension ParseObject {
-    func shouldRevertKey<W>(_ key: KeyPath<Self, W?>,
-                            original: Self) -> Bool where W: Equatable {
-        original[keyPath: key] != self[keyPath: key]
-    }
+
 }
 
 // MARK: Batch Support

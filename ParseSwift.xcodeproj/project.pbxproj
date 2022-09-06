@@ -451,10 +451,6 @@
 		7085DDB326D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
 		7085DDB426D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
 		7085DDB526D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
-		7087A93C28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087A93B28C558CA00656E93 /* ParseOperation+keyPath.swift */; };
-		7087A93D28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087A93B28C558CA00656E93 /* ParseOperation+keyPath.swift */; };
-		7087A93E28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087A93B28C558CA00656E93 /* ParseOperation+keyPath.swift */; };
-		7087A93F28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7087A93B28C558CA00656E93 /* ParseOperation+keyPath.swift */; };
 		708CADCF2872263D0066C279 /* ParseKeychainAccessGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708CADCE2872263D0066C279 /* ParseKeychainAccessGroupTests.swift */; };
 		708CADD02872263D0066C279 /* ParseKeychainAccessGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708CADCE2872263D0066C279 /* ParseKeychainAccessGroupTests.swift */; };
 		708CADD12872263D0066C279 /* ParseKeychainAccessGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708CADCE2872263D0066C279 /* ParseKeychainAccessGroupTests.swift */; };
@@ -1273,7 +1269,6 @@
 		7085DD9326CBF3A70033B977 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		7085DDA226CC8A470033B977 /* ParseHealth+combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseHealth+combine.swift"; sourceTree = "<group>"; };
 		7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthenticationCombineTests.swift; sourceTree = "<group>"; };
-		7087A93B28C558CA00656E93 /* ParseOperation+keyPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseOperation+keyPath.swift"; sourceTree = "<group>"; };
 		708CADCE2872263D0066C279 /* ParseKeychainAccessGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseKeychainAccessGroupTests.swift; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
 		709A147C283949D100BF85E5 /* ParseSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSchema.swift; sourceTree = "<group>"; };
@@ -2140,7 +2135,6 @@
 				F97B464024D9C78B00F4A88B /* ParseOperation.swift */,
 				703B091026BD992E005A112F /* ParseOperation+async.swift */,
 				7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */,
-				7087A93B28C558CA00656E93 /* ParseOperation+keyPath.swift */,
 				91285B1B26990D7F0051B544 /* ParsePolygon.swift */,
 				705025BC284C610C008D6624 /* ParsePush.swift */,
 				705025C1284C7841008D6624 /* ParsePush+async.swift */,
@@ -2703,7 +2697,6 @@
 				91285B1C26990D7F0051B544 /* ParsePolygon.swift in Sources */,
 				91BB8FCA2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
 				7085DD9426CBF3A70033B977 /* Documentation.docc in Sources */,
-				7087A93C28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */,
 				705025EB285153BC008D6624 /* ParsePushApplePayloadable.swift in Sources */,
 				705025A928441C96008D6624 /* ParseFieldOptions.swift in Sources */,
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
@@ -3013,7 +3006,6 @@
 				91285B1D26990D7F0051B544 /* ParsePolygon.swift in Sources */,
 				91BB8FCB2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
 				7085DD9526CBF3A70033B977 /* Documentation.docc in Sources */,
-				7087A93D28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */,
 				705025EC285153BC008D6624 /* ParsePushApplePayloadable.swift in Sources */,
 				705025AA28441C96008D6624 /* ParseFieldOptions.swift in Sources */,
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
@@ -3455,7 +3447,6 @@
 				91679D67268E596300F71809 /* ParseVersion.swift in Sources */,
 				91285B1F26990D7F0051B544 /* ParsePolygon.swift in Sources */,
 				91BB8FCD2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
-				7087A93F28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */,
 				705025EE285153BC008D6624 /* ParsePushApplePayloadable.swift in Sources */,
 				705025AC28441C96008D6624 /* ParseFieldOptions.swift in Sources */,
 				7085DD9726CBF3A70033B977 /* Documentation.docc in Sources */,
@@ -3642,7 +3633,6 @@
 				91679D66268E596300F71809 /* ParseVersion.swift in Sources */,
 				91285B1E26990D7F0051B544 /* ParsePolygon.swift in Sources */,
 				91BB8FCC2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
-				7087A93E28C558CA00656E93 /* ParseOperation+keyPath.swift in Sources */,
 				705025ED285153BC008D6624 /* ParsePushApplePayloadable.swift in Sources */,
 				705025AB28441C96008D6624 /* ParseFieldOptions.swift in Sources */,
 				7085DD9626CBF3A70033B977 /* Documentation.docc in Sources */,
