@@ -328,6 +328,30 @@ public extension ParseObject {
 // MARK: Helper Methods (Internal)
 extension ParseObject {
 
+    func merge(with object: Self, data: Data) throws -> Self {
+        try merge(with: object)
+    }
+
+    func mergeUpdated(_ originalData: Data?) throws -> Self? {
+
+        guard let originalData = originalData,
+              let updatedEncoded = try? ParseCoding.jsonEncoder().encode(self),
+            let updated = try JSONSerialization.jsonObject(with: updatedEncoded) as? [String: AnyObject],
+            var original = try JSONSerialization.jsonObject(with: originalData) as? [String: AnyObject] else {
+            throw ParseError(code: .unknownError,
+                             message: "Could not encode/decode necessary objects")
+        }
+        updated.forEach { (key, value) in
+            original[key] = value
+        }
+        let mergedEncoded = try JSONSerialization.data(withJSONObject: original)
+        let merged = try ParseCoding.jsonDecoder().decode(Self.self,
+                                                          from: mergedEncoded)
+        guard merged.hasSameObjectId(as: self) else {
+            return self
+        }
+        return merged
+    }
 }
 
 // MARK: Batch Support
