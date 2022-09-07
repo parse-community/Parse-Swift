@@ -46,6 +46,26 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    struct UserDefaultMerge: ParseUser {
+
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        // These are required by ParseUser
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+    }
+
     struct UserDefault: ParseUser {
 
         //: These are required by ParseObject
@@ -922,6 +942,36 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             }
         }
 
+        let saved = try await user.update()
+        XCTAssertEqual(saved.objectId, serverResponse.objectId)
+        XCTAssertEqual(saved.updatedAt, serverResponse.updatedAt)
+    }
+
+    @MainActor
+    func testUpdateDefaultMerge() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        var user = UserDefaultMerge()
+        user.username = "stop"
+        user.objectId = "yolo"
+
+        var serverResponse = user
+        serverResponse.updatedAt = Date()
+        serverResponse.customKey = "be"
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                serverResponse = try serverResponse.getDecoder().decode(UserDefaultMerge.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        user = user.set(\.customKey, to: "be")
         let saved = try await user.update()
         XCTAssertEqual(saved.objectId, serverResponse.objectId)
         XCTAssertEqual(saved.updatedAt, serverResponse.updatedAt)

@@ -106,6 +106,21 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    struct GameDefaultMerge: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var gameScore: GameScore?
+        var gameScores: [GameScore]?
+        var name: String?
+        var profilePicture: ParseFile?
+    }
+
     struct Game2: ParseObject {
         //: These are required by ParseObject
         var objectId: String?
@@ -366,11 +381,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testParseObjectMutable() throws {
         var score = GameScore(points: 19, name: "fire")
+        XCTAssertEqual(score, score.mergeable)
         score.objectId = "yolo"
         score.createdAt = Date()
-        let empty = score.mergeable
+        var empty = score.mergeable
+        XCTAssertNotNil(empty.originalData)
         XCTAssertTrue(score.hasSameObjectId(as: empty))
         XCTAssertEqual(score.createdAt, empty.createdAt)
+        empty.player = "Ali"
+        XCTAssertEqual(empty.originalData, empty.mergeable.originalData)
     }
 
     func testMerge() throws {
@@ -405,18 +424,17 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testMergeDefaultImplementation() throws {
-        var score = Game()
+        var score = GameDefaultMerge()
         score.objectId = "yolo"
         score.createdAt = Date()
         score.updatedAt = Date()
-        var updated = score.mergeable
+        var updated = score.set(\.name, to: "moreFire")
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
-        updated.name = "moreFire"
-        let merged = try updated.merge(with: score)
-        XCTAssertEqual(merged.name, updated.name)
-        XCTAssertEqual(merged.gameScore, score.gameScore)
-        XCTAssertEqual(merged.gameScores, score.gameScores)
-        XCTAssertEqual(merged.profilePicture, updated.profilePicture)
+        score.updatedAt = updated.updatedAt
+        score.name = updated.name
+        var merged = try updated.merge(with: score)
+        merged.originalData = nil
+        XCTAssertEqual(merged, score)
     }
 
     func testMergeDifferentObjectId() throws {

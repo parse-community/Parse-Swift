@@ -16,10 +16,11 @@ import Foundation
 
  The Swift SDK is designed for your `ParseObject`s to be **value types (structures)**.
  Since you are using value types the compiler will assist you with conforming to the `ParseObject` protocol.
- After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct any updates on your updates
- to a `mergeable` copy of your `ParseObject`. This allows a subset of the fields to be updated (PATCH) of an object
- as oppose to replacing all of the fields of an object (PUT). This reduces the amount of data
- sent between client and server when using `save`, `saveAll`, `update`,
+ After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct any updates on a
+ `mergeable` copy of your `ParseObject`. This can be accomplished by calling the `mergeable` property
+ of your `ParseObject` or by calling the `set()` method on your `ParseObject`. This allows a subset
+ of the fields to be updated (PATCH) of an object as oppose to replacing all of the fields of an object (PUT).
+ This reduces the amount of data sent between client and server when using `save`, `saveAll`, `update`,
  `updateAll`, `replace`, `replaceAll`, to update objects.
  
  - important: It is required that all of your `ParseObject`'s be **value types (structures)** and all added
@@ -28,8 +29,8 @@ import Foundation
  on the client-side before saving objects. See
  [here](https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003)
  for more information on the reasons why. See the [Playgrounds](https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66) for an example.
- - important: To take advantage of `mergeable`, the developer should implement the `merge` method in every
- `ParseObject`.
+ - important: A developer can take advantage of `mergeable` updates in two ways: 1) By calling the `set()` method when starting
+ to mutate a saved `ParseObject`, or 2) implement the `merge` method in each of your`ParseObject` models.
  - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
  `ACL` to your `ParseObject`'s `CodingKeys`.
  - warning: This SDK is not designed to use **reference types(classes)** for `ParseObject`'s. Doing so is at your
@@ -69,6 +70,9 @@ public protocol ParseObject: ParseTypeable,
      ([memberwise initializer](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html))
      as long as you declare all properties as **optional** (see **Warning** section) and you declare all other initializers in
      an **extension**. See the [Playgrounds](https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66) for an example.
+     - attention: This initilizer **should remain empty and no properties should be implemented inside of it**. The SDK needs
+     this initializer to create new instances of your `ParseObject` when saving, updating, and converting to/from Parse Pointers. If you need
+     to initiaze properties, create additional initializers.
      - warning: It is required that all added properties be optional properties so they can eventually be used as
      Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
      create methods to check the respective properties on the client-side before saving objects. See
@@ -148,15 +152,12 @@ public extension ParseObject {
     }
 
     /**
-    A computed property that is the same value as `objectId` and makes it easy to use `ParseObject`'s
+     A computed property that is the same value as `objectId` and makes it easy to use `ParseObject`'s
      as models in MVVM and SwiftUI.
-     - note: `id` allows `ParseObjects`'s to be used even if they are unsaved and do not have an `objectId`.
+     - note: `id` allows `ParseObjects`'s to be used even when they are unsaved and do not have an `objectId`.
     */
     var id: String {
-        guard let objectId = self.objectId else {
-            return UUID().uuidString
-        }
-        return objectId
+        objectId ?? UUID().uuidString
     }
 
     var mergeable: Self {
@@ -182,7 +183,7 @@ public extension ParseObject {
 
     /**
      Converts this `ParseObject` to a Parse Pointer.
-     - returns: Pointer<Self>
+     - returns: The pointer version of the `ParseObject`, Pointer<Self>.
     */
     func toPointer() throws -> Pointer<Self> {
         return try Pointer(self)
@@ -207,7 +208,11 @@ public extension ParseObject {
     }
 
     func merge(with object: Self) throws -> Self {
-        return try mergeParse(with: object)
+        do {
+            return try mergeAutomatically(object)
+        } catch {
+            return try mergeParse(with: object)
+        }
     }
 }
 
@@ -315,10 +320,12 @@ public extension ParseObject {
      may perform slower than implemting `merge()` after saving the updated `ParseObject` to a Parse Server.
      This is due to extra overhead in encoding/decoding the object inorder to determine what keys have been updated.
      Developers should choose what option works best for their respective applications.
-     - warning: This method needs to be used when making the very first update/mutation to your `ParseObject`.
+     - warning: This method should always be used when making the very first update/mutation to your `ParseObject`.
      Any subsequent mutations can modify the `ParseObject` property directly or by making mutiple `set()` calls.
+     - warning: If you have add properties to your `ParseObject`that are of type `Date` and need the precise time of
+     the date, you should implement `merge()` or call `fetch()` on your object after updating.
      */
-    func set<W>(_ keyPath: WritableKeyPath<Self, W?>, value: W) -> Self where W: Equatable {
+    func set<W>(_ keyPath: WritableKeyPath<Self, W?>, to value: W) -> Self where W: Equatable {
         var updated = self.mergeable
         updated[keyPath: keyPath] = value
         return updated
@@ -328,15 +335,10 @@ public extension ParseObject {
 // MARK: Helper Methods (Internal)
 extension ParseObject {
 
-    func merge(with object: Self, data: Data) throws -> Self {
-        try merge(with: object)
-    }
-
-    func mergeUpdated(_ originalData: Data?) throws -> Self? {
-
-        guard let originalData = originalData,
-              let updatedEncoded = try? ParseCoding.jsonEncoder().encode(self),
-            let updated = try JSONSerialization.jsonObject(with: updatedEncoded) as? [String: AnyObject],
+    func mergeAutomatically(_ originalObject: Self) throws -> Self {
+        let updatedEncoded = try ParseCoding.jsonEncoder().encode(self)
+        let originalData = try ParseCoding.jsonEncoder().encode(originalObject)
+        guard let updated = try JSONSerialization.jsonObject(with: updatedEncoded) as? [String: AnyObject],
             var original = try JSONSerialization.jsonObject(with: originalData) as? [String: AnyObject] else {
             throw ParseError(code: .unknownError,
                              message: "Could not encode/decode necessary objects")
@@ -345,11 +347,10 @@ extension ParseObject {
             original[key] = value
         }
         let mergedEncoded = try JSONSerialization.data(withJSONObject: original)
-        let merged = try ParseCoding.jsonDecoder().decode(Self.self,
+        var merged = try ParseCoding.jsonDecoder().decode(Self.self,
                                                           from: mergedEncoded)
-        guard merged.hasSameObjectId(as: self) else {
-            return self
-        }
+        merged.createdAt = originalObject.createdAt
+        merged.updatedAt = updatedAt
         return merged
     }
 }

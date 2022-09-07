@@ -430,17 +430,17 @@ internal extension API.Command {
         let mapper = { (mapperData: Data) -> T in
             var updatedObject = object
             updatedObject.originalData = nil
-            let object = try ParseCoding
+            updatedObject = try ParseCoding
                 .jsonDecoder()
                 .decode(ReplaceResponse.self, from: mapperData)
                 .apply(to: updatedObject)
             guard let originalData = data,
                   let original = try? ParseCoding.jsonDecoder().decode(T.self,
                                                                        from: originalData),
-                  original.hasSameObjectId(as: object) else {
-                      return object
+                  original.hasSameObjectId(as: updatedObject) else {
+                      return updatedObject
                   }
-            return try object.merge(with: original)
+            return try updatedObject.merge(with: original)
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -466,7 +466,7 @@ internal extension API.Command {
                   original.hasSameObjectId(as: updatedObject) else {
                       return updatedObject
                   }
-            return try updatedObject.merge(with: original, data: originalData)
+            return try updatedObject.merge(with: original)
         }
         return API.Command<T, T>(method: .PATCH,
                                  path: object.endpoint,

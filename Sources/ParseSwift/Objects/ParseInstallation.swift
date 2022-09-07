@@ -153,7 +153,11 @@ public extension ParseInstallation {
     }
 
     func merge(with object: Self) throws -> Self {
-        try mergeParse(with: object)
+        do {
+            return try mergeAutomatically(object)
+        } catch {
+            return try mergeParse(with: object)
+        }
     }
 }
 
@@ -773,15 +777,16 @@ extension ParseInstallation {
         let mapper = { (data: Data) -> Self in
             var updatedObject = self
             updatedObject.originalData = nil
-            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: updatedObject)
+            updatedObject = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self,
+                                                                 from: data).apply(to: updatedObject)
             // MARK: The lines below should be removed when server supports PATCH.
             guard let originalData = self.originalData,
                   let original = try? ParseCoding.jsonDecoder().decode(Self.self,
                                                                        from: originalData),
-                  original.hasSameObjectId(as: object) else {
-                      return object
+                  original.hasSameObjectId(as: updatedObject) else {
+                      return updatedObject
                   }
-            return try object.merge(with: original)
+            return try updatedObject.merge(with: original)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -797,14 +802,15 @@ extension ParseInstallation {
         let mapper = { (data: Data) -> Self in
             var updatedObject = self
             updatedObject.originalData = nil
-            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: updatedObject)
+            updatedObject = try ParseCoding.jsonDecoder().decode(UpdateResponse.self,
+                                                                 from: data).apply(to: updatedObject)
             guard let originalData = self.originalData,
                   let original = try? ParseCoding.jsonDecoder().decode(Self.self,
                                                                        from: originalData),
-                  original.hasSameObjectId(as: object) else {
-                      return object
+                  original.hasSameObjectId(as: updatedObject) else {
+                      return updatedObject
                   }
-            return try object.merge(with: original)
+            return try updatedObject.merge(with: original)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

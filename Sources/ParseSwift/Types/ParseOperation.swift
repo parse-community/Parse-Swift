@@ -51,7 +51,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
                                 """)
         }
         var mutableOperation = self
-        mutableOperation.target = mutableOperation.target.set(keyPath, value: value)
+        mutableOperation.target = mutableOperation.target.set(keyPath, to: value)
         return mutableOperation
     }
 

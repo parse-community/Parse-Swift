@@ -691,10 +691,12 @@ class ParseOperationTests: XCTestCase {
     func testSetKeyPath() throws {
         var score = GameScore()
         score.points = 10
+        score.objectId = "yolo"
         var operations = try score.operation.set(\.points, value: 15)
             .set(\.levels, value: ["hello"])
         var expected = GameScore()
         expected.points = 15
+        expected.objectId = "yolo"
         expected.levels = ["hello"]
         XCTAssertNotNil(operations.target.originalData)
         XCTAssertNotEqual(operations.target, expected)
