@@ -59,6 +59,54 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    struct Level: ParseObject {
+        var objectId: String?
+
+        var createdAt: Date?
+
+        var updatedAt: Date?
+
+        var ACL: ParseACL?
+
+        var name: String?
+
+        var originalData: Data?
+
+        init() {
+        }
+    }
+
+    struct GameScoreDefaultMerge: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var points: Int?
+        var player: String?
+        var level: Level?
+        var levels: [Level]?
+        var nextLevel: Level?
+
+        //: custom initializers
+        init() {}
+
+        init(objectId: String?) {
+            self.objectId = objectId
+        }
+        init(points: Int) {
+            self.points = points
+            self.player = "Jen"
+        }
+        init(points: Int, name: String) {
+            self.points = points
+            self.player = name
+        }
+    }
+
     struct GameScoreDefault: ParseObject {
 
         //: These are required by ParseObject
@@ -369,6 +417,44 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
         XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+    }
+
+    @MainActor
+    func testUpdateDefaultMerge() async throws {
+        var score = GameScoreDefaultMerge(points: 10)
+        score.objectId = "yarr"
+        var level = Level()
+        level.name = "next"
+        level.objectId = "yolo"
+        score.level = level
+
+        var scoreOnServer = score
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        scoreOnServer.points = 50
+        scoreOnServer.player = "Ali"
+        level.objectId = "nolo"
+        scoreOnServer.level = level
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            // Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScoreDefaultMerge.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        score = score.set(\.player, to: "Ali")
+            .set(\.points, to: 50)
+            .set(\.level, to: level)
+        let saved = try await score.update()
+        XCTAssertEqual(saved, scoreOnServer)
     }
 
     @MainActor

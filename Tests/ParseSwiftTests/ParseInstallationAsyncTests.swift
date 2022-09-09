@@ -98,6 +98,26 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
     }
 
+    struct InstallationDefaultMerge: ParseInstallation {
+        var installationId: String?
+        var deviceType: String?
+        var deviceToken: String?
+        var badge: Int?
+        var timeZone: String?
+        var channels: [String]?
+        var appName: String?
+        var appIdentifier: String?
+        var appVersion: String?
+        var parseVersion: String?
+        var localeIdentifier: String?
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+        var customKey: String?
+    }
+
     struct InstallationDefault: ParseInstallation {
         var installationId: String?
         var deviceType: String?
@@ -444,7 +464,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
-                //Get dates in correct format from ParseDecoding strategy
+                // Get dates in correct format from ParseDecoding strategy
                 serverResponse = try serverResponse.getDecoder().decode(Installation.self, from: encoded)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
@@ -456,6 +476,35 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         XCTAssert(saved.hasSameObjectId(as: serverResponse))
         XCTAssert(saved.hasSameInstallationId(as: serverResponse))
         XCTAssertEqual(saved.updatedAt, serverResponse.updatedAt)
+    }
+
+    @MainActor
+    func testUpdateDefaultMerge() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = InstallationDefaultMerge()
+        installation.objectId = "yolo"
+        installation.installationId = "123"
+
+        var serverResponse = installation
+        serverResponse.updatedAt = Date()
+        serverResponse.customKey = "newValue"
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                // Get dates in correct format from ParseDecoding strategy
+                serverResponse = try serverResponse.getDecoder().decode(InstallationDefaultMerge.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        installation = installation.set(\.customKey, to: "newValue")
+        let saved = try await installation.update()
+        XCTAssertEqual(saved, serverResponse)
     }
 
     func testUpdateMutableMergeCurrentInstallation() async throws {

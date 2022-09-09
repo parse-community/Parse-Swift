@@ -94,6 +94,26 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
+    struct InstallationDefaultMerge: ParseInstallation {
+        var installationId: String?
+        var deviceType: String?
+        var deviceToken: String?
+        var badge: Int?
+        var timeZone: String?
+        var channels: [String]?
+        var appName: String?
+        var appIdentifier: String?
+        var appVersion: String?
+        var parseVersion: String?
+        var localeIdentifier: String?
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+        var customKey: String?
+    }
+
     let testInstallationObjectId = "yarr"
 
     override func setUpWithError() throws {
@@ -337,6 +357,35 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertEqual(merged.updatedAt, updated.updatedAt)
     }
 
+    func testMergeDefaultImplementation() throws {
+        guard let currentInstallation = Installation.current else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        var original = InstallationDefaultMerge()
+        original.installationId = currentInstallation.installationId
+        original.objectId = "yolo"
+        original.createdAt = Date()
+        original.updatedAt = Date()
+        original.badge = 10
+        original.deviceToken = "bruh"
+        original.channels = ["halo"]
+        var acl = ParseACL()
+        acl.publicRead = true
+        original.ACL = acl
+
+        var updated = original.set(\.customKey, to: "newKey")
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        original.updatedAt = updated.updatedAt
+        original.customKey = updated.customKey
+        var merged = try updated.merge(with: original)
+        merged.originalData = nil
+        // Get dates in correct format from ParseDecoding strategy
+        let encoded = try ParseCoding.jsonEncoder().encode(original)
+        original = try ParseCoding.jsonDecoder().decode(InstallationDefaultMerge.self, from: encoded)
+        XCTAssertEqual(merged, original)
+    }
+
     func testMergeDifferentObjectId() throws {
         var installation = Installation()
         installation.objectId = "yolo"
@@ -360,7 +409,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         let encoded: Data!
         do {
             encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
+            // Get dates in correct format from ParseDecoding strategy
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
