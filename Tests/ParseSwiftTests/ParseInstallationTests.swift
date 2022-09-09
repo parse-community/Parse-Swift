@@ -380,6 +380,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         original.customKey = updated.customKey
         var merged = try updated.merge(with: original)
         merged.originalData = nil
+        // Get dates in correct format from ParseDecoding strategy
+        let encoded = try ParseCoding.jsonEncoder().encode(original)
+        original = try ParseCoding.jsonDecoder().decode(InstallationDefaultMerge.self, from: encoded)
         XCTAssertEqual(merged, original)
     }
 
@@ -406,7 +409,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         let encoded: Data!
         do {
             encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
+            // Get dates in correct format from ParseDecoding strategy
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")

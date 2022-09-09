@@ -161,7 +161,7 @@ public extension ParseObject {
     }
 
     var mergeable: Self {
-        guard objectId != nil,
+        guard isSaved,
             originalData == nil else {
             return self
         }
@@ -318,13 +318,11 @@ public extension ParseObject {
      a Parse Server. You can also use this method on a new `ParseObject`'s that has not been saved to a Parse Server
      as long as the `objectId` of the respective `ParseObject` is **nil**.
      - attention: If you are using the `set()` method, you do not need to implement `merge()`. Using `set()`
-     may perform slower than implemting `merge()` after saving the updated `ParseObject` to a Parse Server.
-     This is due to extra overhead in encoding/decoding the object inorder to determine what keys have been updated.
-     Developers should choose what option works best for their respective applications.
+     may perform slower than implementing `merge()` after saving the updated `ParseObject` to a Parse Server.
+     This is due to neccesary overhead required to determine what keys have been updated. If a developer finds decoding
+     updated `ParseObjects`'s to be slow, implementing `merge()` may speed up the process.
      - warning: This method should always be used when making the very first update/mutation to your `ParseObject`.
-     Any subsequent mutations can modify the `ParseObject` property directly or by making mutiple `set()` calls.
-     - warning: If you have add properties to your `ParseObject`that are of type `Date` and need the precise time of
-     the date, you should implement `merge()` or call `fetch()` on your object after updating.
+     Any subsequent mutations can modify the `ParseObject` property directly or use the `set()` method.
      */
     func set<W>(_ keyPath: WritableKeyPath<Self, W?>, to value: W) -> Self where W: Equatable {
         var updated = self.mergeable
@@ -348,11 +346,8 @@ extension ParseObject {
             original[key] = value
         }
         let mergedEncoded = try JSONSerialization.data(withJSONObject: original)
-        var merged = try ParseCoding.jsonDecoder().decode(Self.self,
-                                                          from: mergedEncoded)
-        merged.createdAt = originalObject.createdAt
-        merged.updatedAt = updatedAt
-        return merged
+        return try ParseCoding.jsonDecoder().decode(Self.self,
+                                                    from: mergedEncoded)
     }
 }
 

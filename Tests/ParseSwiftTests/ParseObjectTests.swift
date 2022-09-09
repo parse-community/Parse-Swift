@@ -434,6 +434,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.name = updated.name
         var merged = try updated.merge(with: score)
         merged.originalData = nil
+        // Get dates in correct format from ParseDecoding strategy
+        let encoded = try ParseCoding.jsonEncoder().encode(score)
+        score = try ParseCoding.jsonDecoder().decode(GameDefaultMerge.self, from: encoded)
         XCTAssertEqual(merged, score)
     }
 

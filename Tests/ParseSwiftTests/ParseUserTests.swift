@@ -222,6 +222,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         original.updatedAt = updated.updatedAt
         var merged = try updated.merge(with: original)
         merged.originalData = nil
+        // Get dates in correct format from ParseDecoding strategy
+        let encoded = try ParseCoding.jsonEncoder().encode(original)
+        original = try ParseCoding.jsonDecoder().decode(UserDefaultMerge.self, from: encoded)
         XCTAssertEqual(merged, original)
     }
 
