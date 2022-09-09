@@ -151,7 +151,19 @@
         {
           "inlineContent" : [
             {
-              "text" : "Pointer",
+              "text" : "The pointer version of the ",
+              "type" : "text"
+            },
+            {
+              "code" : "ParseObject",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", Pointer",
+              "type" : "text"
+            },
+            {
+              "text" : ".",
               "type" : "text"
             }
           ],

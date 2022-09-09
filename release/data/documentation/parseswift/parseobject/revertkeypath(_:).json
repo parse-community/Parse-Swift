@@ -1,16 +1,36 @@
 {
   "abstract" : [
     {
-      "text" : "Get the unwrapped property value.",
+      "text" : "Reverts the ",
       "type" : "text"
-    }
-  ],
-  "defaultImplementationsSections" : [
+    },
     {
-      "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/get(_:)-5g80r"
-      ],
-      "title" : "ParseObject Implementations"
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " back to  the original ",
+      "type" : "text"
+    },
+    {
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "before mutations began.",
+      "type" : "text"
     }
   ],
   "hierarchy" : {
@@ -23,11 +43,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/get(_:)-8jmtw"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertKeyPath(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A6ObjectP3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF",
+    "extendedModule" : "ParseSwift",
+    "externalID" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -39,7 +60,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "get"
+        "text" : "revertKeyPath"
       },
       {
         "kind" : "text",
@@ -55,8 +76,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:s7KeyPathC",
-        "text" : "KeyPath"
+        "preciseIdentifier" : "s:s15WritableKeyPathC",
+        "text" : "WritableKeyPath"
       },
       {
         "kind" : "text",
@@ -72,7 +93,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A6ObjectP3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
         "text" : "W"
       },
       {
@@ -89,8 +110,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A6ObjectP3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
-        "text" : "W"
+        "text" : "Self"
       }
     ],
     "modules" : [
@@ -98,11 +118,13 @@
         "name" : "ParseSwift"
       }
     ],
-    "required" : true,
+    "platforms" : [
+
+    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "get(_:)"
+    "title" : "revertKeyPath(_:)"
   },
   "primaryContentSections" : [
     {
@@ -125,7 +147,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "get"
+              "text" : "revertKeyPath"
             },
             {
               "kind" : "text",
@@ -157,8 +179,8 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:s7KeyPathC",
-              "text" : "KeyPath"
+              "preciseIdentifier" : "s:s15WritableKeyPathC",
+              "text" : "WritableKeyPath"
             },
             {
               "kind" : "text",
@@ -174,7 +196,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A6ObjectP3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
               "text" : "W"
             },
             {
@@ -191,8 +213,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A6ObjectP3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
-              "text" : "W"
+              "text" : "Self"
             },
             {
               "kind" : "text",
@@ -227,53 +248,6 @@
     {
       "content" : [
         {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The unwrapped value.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "KeyPath",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " of the value to get.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "key"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
           "anchor" : "discussion",
           "level" : 2,
           "text" : "Discussion",
@@ -292,19 +266,6 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " when the value is ",
-                  "type" : "text"
-                },
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "nil",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "strong"
-                },
-                {
                   "text" : ".",
                   "type" : "text"
                 }
@@ -314,6 +275,61 @@
           ],
           "name" : "Throws",
           "style" : "note",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "This reverts to the contents in ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "originalData",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ". This means ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "originalData",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " should have",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "been populated by calling ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "mergeable",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " or the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "set",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " method.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "important",
           "type" : "aside"
         }
       ],
@@ -331,7 +347,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseobject\/get(_:)-8jmtw"
+        "\/documentation\/parseswift\/parseobject\/revertkeypath(_:)"
       ],
       "traits" : [
         {
@@ -406,13 +422,42 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/get(_:)-5g80r": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertKeyPath(_:)": {
   "abstract" : [
     {
-      "text" : "Get the unwrapped property value.",
+      "text" : "Reverts the ",
+      "type" : "text"
+    },
+    {
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " back to  the original ",
+      "type" : "text"
+    },
+    {
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "before mutations began.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -424,7 +469,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "get"
+      "text" : "revertKeyPath"
     },
     {
       "kind" : "text",
@@ -440,8 +485,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s7KeyPathC",
-      "text" : "KeyPath"
+      "preciseIdentifier" : "s:s15WritableKeyPathC",
+      "text" : "WritableKeyPath"
     },
     {
       "kind" : "text",
@@ -457,7 +502,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
@@ -474,97 +519,15 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
-      "text" : "W"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/get(_:)-5g80r",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "get(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/get(_:)-5g80r"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/get(_:)-8jmtw": {
-  "abstract" : [
-    {
-      "text" : "Get the unwrapped property value.",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "get"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "W"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s7KeyPathC",
-      "text" : "KeyPath"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
       "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectP3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
-      "text" : "W"
-    },
-    {
-      "kind" : "text",
-      "text" : "?>) "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectP3getyqd__s7KeyPathCyxqd__SgGKSQRd__lF1WL_qd__mfp",
-      "text" : "W"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/get(_:)-8jmtw",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertKeyPath(_:)",
   "kind" : "symbol",
-  "required" : true,
   "role" : "symbol",
-  "title" : "get(_:)",
+  "title" : "revertKeyPath(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/get(_:)-8jmtw"
+  "url" : "\/documentation\/parseswift\/parseobject\/revertkeypath(_:)"
 }
 }
 }

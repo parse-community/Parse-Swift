@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "A computed property that is the same value as ",
-      "type" : "text"
-    },
-    {
-      "code" : "objectId",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " and makes it easy to use ",
+      "text" : "Reverts the ",
       "type" : "text"
     },
     {
@@ -17,15 +9,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : "’s",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "as models in MVVM and SwiftUI.",
+      "text" : " back to the original object before mutations began.",
       "type" : "text"
     }
   ],
@@ -39,16 +23,16 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/id"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revert()"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A6ObjectPAAE2idSSvp",
+    "externalID" : "s:10ParseSwift0A6ObjectPAAE6revertxyKF",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "var"
+        "text" : "func"
       },
       {
         "kind" : "text",
@@ -56,16 +40,23 @@
       },
       {
         "kind" : "identifier",
-        "text" : "id"
+        "text" : "revert"
       },
       {
         "kind" : "text",
-        "text" : ": "
+        "text" : "() "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
+      },
+      {
+        "kind" : "text",
+        "text" : " -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
+        "text" : "Self"
       }
     ],
     "modules" : [
@@ -74,9 +65,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Instance Property",
-    "symbolKind" : "property",
-    "title" : "id"
+    "roleHeading" : "Instance Method",
+    "symbolKind" : "method",
+    "title" : "revert()"
   },
   "primaryContentSections" : [
     {
@@ -91,7 +82,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "var"
+              "text" : "func"
             },
             {
               "kind" : "text",
@@ -99,28 +90,23 @@
             },
             {
               "kind" : "identifier",
-              "text" : "id"
+              "text" : "revert"
             },
             {
               "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
-            },
-            {
-              "kind" : "text",
-              "text" : " { "
+              "text" : "() "
             },
             {
               "kind" : "keyword",
-              "text" : "get"
+              "text" : "throws"
             },
             {
               "kind" : "text",
-              "text" : " }"
+              "text" : " -> "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "Self"
             }
           ]
         }
@@ -140,27 +126,11 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "",
+                  "text" : "An error of type ",
                   "type" : "text"
                 },
                 {
-                  "code" : "id",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " allows ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseObjects",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : "’s to be used even when they are unsaved and do not have an ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "objectId",
+                  "code" : "ParseError",
                   "type" : "codeVoice"
                 },
                 {
@@ -171,7 +141,63 @@
               "type" : "paragraph"
             }
           ],
+          "name" : "Throws",
           "style" : "note",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "This reverts to the contents in ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "originalData",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ". This means ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "originalData",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " should have",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "been populated by calling ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "mergeable",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " or the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "set",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " method.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "important",
           "type" : "aside"
         }
       ],
@@ -189,7 +215,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseobject\/id"
+        "\/documentation\/parseswift\/parseobject\/revert()"
       ],
       "traits" : [
         {
@@ -264,18 +290,10 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/id": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revert()": {
   "abstract" : [
     {
-      "text" : "A computed property that is the same value as ",
-      "type" : "text"
-    },
-    {
-      "code" : "objectId",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " and makes it easy to use ",
+      "text" : "Reverts the ",
       "type" : "text"
     },
     {
@@ -283,22 +301,14 @@
       "type" : "codeVoice"
     },
     {
-      "text" : "’s",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "as models in MVVM and SwiftUI.",
+      "text" : " back to the original object before mutations began.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "var"
+      "text" : "func"
     },
     {
       "kind" : "text",
@@ -306,24 +316,31 @@
     },
     {
       "kind" : "identifier",
-      "text" : "id"
+      "text" : "revert"
     },
     {
       "kind" : "text",
-      "text" : ": "
+      "text" : "() "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
+      "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/id",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revert()",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "id",
+  "title" : "revert()",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/id"
+  "url" : "\/documentation\/parseswift\/parseobject\/revert()"
 }
 }
 }

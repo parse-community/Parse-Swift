@@ -13,14 +13,6 @@
       "type" : "text"
     }
   ],
-  "defaultImplementationsSections" : [
-    {
-      "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-9y0m8"
-      ],
-      "title" : "ParseObject Implementations"
-    }
-  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -31,11 +23,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-2kf4h"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A6ObjectP06revertC0xyKF",
+    "extendedModule" : "ParseSwift",
+    "externalID" : "s:10ParseSwift0A6ObjectPAAE06revertC0xyKF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -71,7 +64,9 @@
         "name" : "ParseSwift"
       }
     ],
-    "required" : true,
+    "platforms" : [
+
+    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
@@ -190,7 +185,15 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " or some other means.",
+                  "text" : " or the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "set",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " method.",
                   "type" : "text"
                 }
               ],
@@ -215,7 +218,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseobject\/revertobject()-2kf4h"
+        "\/documentation\/parseswift\/parseobject\/revertobject()"
       ],
       "traits" : [
         {
@@ -290,7 +293,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseobject"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertObject()-2kf4h": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertObject()": {
   "abstract" : [
     {
       "text" : "Reverts the ",
@@ -305,7 +308,7 @@
       "type" : "text"
     }
   ],
-  "defaultImplementations" : 1,
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -336,65 +339,12 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-2kf4h",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "revertObject()",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/revertobject()-2kf4h"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertObject()-9y0m8": {
-  "abstract" : [
-    {
-      "text" : "Reverts the ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " back to the original object before mutations began.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "revertObject"
-    },
-    {
-      "kind" : "text",
-      "text" : "() "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-9y0m8",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "revertObject()",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/revertobject()-9y0m8"
+  "url" : "\/documentation\/parseswift\/parseobject\/revertobject()"
 }
 }
 }

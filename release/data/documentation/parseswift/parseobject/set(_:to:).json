@@ -1,36 +1,42 @@
 {
   "abstract" : [
     {
-      "text" : "An operation that sets a field’s value.",
+      "text" : "Set the value of a specific ",
       "type" : "text"
-    }
-  ],
-  "deprecationSummary" : [
+    },
     {
-      "inlineContent" : [
-        {
-          "text" : "replace \\\"value\\\" with \\\"to\\\"",
-          "type" : "text"
-        }
-      ],
-      "type" : "paragraph"
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-6xhni"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/set(_:to:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF",
+    "extendedModule" : "ParseSwift",
+    "externalID" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -67,8 +73,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
-        "text" : "T"
+        "text" : "Self"
       },
       {
         "kind" : "text",
@@ -76,7 +81,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
         "text" : "W"
       },
       {
@@ -85,7 +90,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "value"
+        "text" : "to"
       },
       {
         "kind" : "text",
@@ -93,37 +98,16 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
         "text" : "W"
       },
       {
         "kind" : "text",
-        "text" : ") "
-      },
-      {
-        "kind" : "keyword",
-        "text" : "throws"
-      },
-      {
-        "kind" : "text",
-        "text" : " -> "
+        "text" : ") -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
-        "text" : "ParseOperation"
-      },
-      {
-        "kind" : "text",
-        "text" : "<"
-      },
-      {
-        "kind" : "typeIdentifier",
-        "text" : "T"
-      },
-      {
-        "kind" : "text",
-        "text" : ">"
+        "text" : "Self"
       }
     ],
     "modules" : [
@@ -131,13 +115,10 @@
         "name" : "ParseSwift"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "set(_:value:)"
+    "title" : "set(_:to:)"
   },
   "primaryContentSections" : [
     {
@@ -201,8 +182,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
-              "text" : "T"
+              "text" : "Self"
             },
             {
               "kind" : "text",
@@ -210,7 +190,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
               "text" : "W"
             },
             {
@@ -219,6 +199,14 @@
             },
             {
               "kind" : "externalParam",
+              "text" : "to"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
               "text" : "value"
             },
             {
@@ -227,38 +215,20 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
               "text" : "W"
             },
             {
               "kind" : "text",
-              "text" : ") "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "throws"
-            },
-            {
-              "kind" : "text",
-              "text" : " -> "
-            },
-            {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
-              "text" : "ParseOperation"
-            },
-            {
-              "kind" : "text",
-              "text" : "<"
+              "text" : ") -> "
             },
             {
               "kind" : "typeIdentifier",
-              "text" : "T"
+              "text" : "Self"
             },
             {
               "kind" : "text",
-              "text" : "> "
+              "text" : " "
             },
             {
               "kind" : "keyword",
@@ -267,23 +237,6 @@
             {
               "kind" : "text",
               "text" : " "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "text" : "W"
-            },
-            {
-              "kind" : "text",
-              "text" : " : "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SE",
-              "text" : "Encodable"
-            },
-            {
-              "kind" : "text",
-              "text" : ", "
             },
             {
               "kind" : "typeIdentifier",
@@ -304,6 +257,34 @@
       "kind" : "declarations"
     },
     {
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The updated ",
+              "type" : "text"
+            },
+            {
+              "code" : "ParseObject",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ".",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    },
+    {
       "kind" : "parameters",
       "parameters" : [
         {
@@ -311,7 +292,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The respective ",
+                  "text" : "The ",
                   "type" : "text"
                 },
                 {
@@ -319,14 +300,14 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " of the object.",
+                  "text" : " of the value to set.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "keyPath"
+          "name" : "key"
         },
         {
           "content" : [
@@ -348,21 +329,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "value"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The updated operations.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "returns"
+          "name" : "to"
         }
       ]
     },
@@ -379,7 +346,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "Do not combine operations using this method with other operations that",
+                  "text" : "This method should be used when updating a ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " that has already been saved to",
                   "type" : "text"
                 },
                 {
@@ -387,36 +362,87 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "do not use this method to ",
+                  "text" : "a Parse Server. You can also use this method on a new ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s that has not been saved to a Parse Server",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "as long as the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "objectId",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the respective ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " is ",
                   "type" : "text"
                 },
                 {
                   "inlineContent" : [
                     {
-                      "text" : "set",
+                      "text" : "nil",
                       "type" : "text"
                     }
                   ],
                   "type" : "strong"
                 },
                 {
-                  "text" : " all operations. If you need to combine multiple types",
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "important",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "If you are using the ",
                   "type" : "text"
                 },
                 {
-                  "text" : " ",
+                  "code" : "set()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " method, you do not need to implement ",
                   "type" : "text"
                 },
                 {
-                  "text" : "of operations such as: add, increment, forceSet, etc., use",
+                  "code" : "merge()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ". Using ",
                   "type" : "text"
                 },
                 {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "func set<W>(_ key: (String, WritableKeyPath<T, W?>), value: W?)",
+                  "code" : "set()",
                   "type" : "codeVoice"
                 },
                 {
@@ -424,7 +450,103 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "instead.",
+                  "text" : "may perform slower than implementing ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "merge()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " after saving the updated ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to a Parse Server.",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "This is due to neccesary overhead required to determine what keys have been updated. If a developer finds decoding",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "updated ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObjects",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s to be slow, implementing ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "merge()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " may speed up the process.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Attention",
+          "style" : "note",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "This method should always be used when making the very first update\/mutation to your ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Any subsequent mutations can modify the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " property directly or use the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "set()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " method.",
                   "type" : "text"
                 }
               ],
@@ -449,7 +571,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseoperation\/set(_:value:)-6xhni"
+        "\/documentation\/parseswift\/parseobject\/set(_:to:)"
       ],
       "traits" : [
         {
@@ -474,18 +596,68 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
-      "text" : "A ",
+      "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseOperation",
+      "code" : "ParseObject",
       "type" : "codeVoice"
     },
     {
-      "text" : " represents a modification to a value in a ",
+      "text" : " protocol have a local representation of data persisted to the Parse Server.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This is the main protocol that is used to interact with objects in your app.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseObject"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseObject"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseObject",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseobject"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/set(_:to:)": {
+  "abstract" : [
+    {
+      "text" : "Set the value of a specific ",
+      "type" : "text"
+    },
+    {
+      "code" : "KeyPath",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " on a ",
       "type" : "text"
     },
     {
@@ -495,71 +667,8 @@
     {
       "text" : ".",
       "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "For example, setting, deleting, or incrementing a value are all ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseOperation",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : "’s.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseOperation",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " themselves can be considered to be immutable.",
-      "type" : "text"
     }
   ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseOperation"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseOperation"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseOperation",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseoperation"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:value:)-6xhni": {
-  "abstract" : [
-    {
-      "text" : "An operation that sets a field’s value.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -596,8 +705,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
-      "text" : "T"
+      "text" : "Self"
     },
     {
       "kind" : "text",
@@ -605,7 +713,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
@@ -614,7 +722,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "value"
+      "text" : "to"
     },
     {
       "kind" : "text",
@@ -622,45 +730,24 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
       "kind" : "text",
-      "text" : ") "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
-      "text" : "ParseOperation"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">"
+      "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-6xhni",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/set(_:to:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "set(_:value:)",
+  "title" : "set(_:to:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:value:)-6xhni"
+  "url" : "\/documentation\/parseswift\/parseobject\/set(_:to:)"
 }
 }
 }

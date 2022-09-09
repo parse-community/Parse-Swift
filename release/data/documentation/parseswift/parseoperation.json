@@ -246,6 +246,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/addUnique(_:objects:)-6zoa7",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/addUnique(_:objects:)-8bggg",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/encode(to:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/forceSet(_:to:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/forceSet(_:value:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/increment(_:by:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/remove(_:objects:)-3e0qg",
@@ -257,6 +258,8 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/save(options:)-2i4un",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/save(options:callbackQueue:completion:)",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/savePublisher(options:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:to:)-1t3ca",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:to:)-6e7l2",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-6xhni",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-xsi5",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/unset(_:)-1fmaa",
@@ -1453,6 +1456,116 @@
   "title" : "encode(to:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseoperation\/encode(to:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/forceSet(_:to:)": {
+  "abstract" : [
+    {
+      "text" : "An operation that force sets a field’s value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "forceSet"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ">(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s15WritableKeyPathC",
+      "text" : "WritableKeyPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?>), "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
+      "text" : "ParseOperation"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/forceSet(_:to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "forceSet(_:to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseoperation\/forceset(_:to:)"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/forceSet(_:value:)": {
   "abstract" : [
@@ -2799,6 +2912,225 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseoperation\/savepublisher(options:)"
 },
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:to:)-1t3ca": {
+  "abstract" : [
+    {
+      "text" : "An operation that sets a field’s value if it has changed from its previous value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ">(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s15WritableKeyPathC",
+      "text" : "WritableKeyPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?>), "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
+      "text" : "ParseOperation"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:to:)-1t3ca",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "set(_:to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:to:)-1t3ca"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:to:)-6e7l2": {
+  "abstract" : [
+    {
+      "text" : "An operation that sets a field’s value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s15WritableKeyPathC",
+      "text" : "WritableKeyPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?>, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGs15WritableKeyPathCyxqd__SgG_qd__tKSERd__SQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
+      "text" : "ParseOperation"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:to:)-6e7l2",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "set(_:to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:to:)-6e7l2"
+},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:value:)-6xhni": {
   "abstract" : [
     {
@@ -2806,38 +3138,7 @@
       "type" : "text"
     }
   ],
-  "conformance" : {
-    "availabilityPrefix" : [
-      {
-        "text" : "Available when",
-        "type" : "text"
-      }
-    ],
-    "conformancePrefix" : [
-      {
-        "text" : "Conforms when",
-        "type" : "text"
-      }
-    ],
-    "constraints" : [
-      {
-        "code" : "T",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : " conforms to ",
-        "type" : "text"
-      },
-      {
-        "code" : "ParseObject",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : ".",
-        "type" : "text"
-      }
-    ]
-  },
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -2947,6 +3248,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

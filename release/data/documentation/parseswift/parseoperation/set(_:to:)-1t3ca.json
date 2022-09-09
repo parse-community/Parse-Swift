@@ -5,17 +5,6 @@
       "type" : "text"
     }
   ],
-  "deprecationSummary" : [
-    {
-      "inlineContent" : [
-        {
-          "text" : "replace \\\"value\\\" with \\\"to\\\"",
-          "type" : "text"
-        }
-      ],
-      "type" : "paragraph"
-    }
-  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -26,11 +15,11 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-xsi5"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:to:)-1t3ca"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF",
+    "externalID" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -85,7 +74,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
         "text" : "W"
       },
       {
@@ -94,7 +83,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "value"
+        "text" : "to"
       },
       {
         "kind" : "text",
@@ -102,7 +91,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
         "text" : "W"
       },
       {
@@ -132,13 +121,10 @@
         "name" : "ParseSwift"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "set(_:value:)"
+    "title" : "set(_:to:)"
   },
   "primaryContentSections" : [
     {
@@ -220,7 +206,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
               "text" : "W"
             },
             {
@@ -229,6 +215,14 @@
             },
             {
               "kind" : "externalParam",
+              "text" : "to"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
               "text" : "value"
             },
             {
@@ -237,7 +231,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
               "text" : "W"
             },
             {
@@ -350,7 +344,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "value"
+          "name" : "to"
         },
         {
           "content" : [
@@ -406,7 +400,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseoperation\/set(_:value:)-xsi5"
+        "\/documentation\/parseswift\/parseoperation\/set(_:to:)-1t3ca"
       ],
       "traits" : [
         {
@@ -509,14 +503,13 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseoperation"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:value:)-xsi5": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/set(_:to:)-1t3ca": {
   "abstract" : [
     {
       "text" : "An operation that sets a field’s value if it has changed from its previous value.",
       "type" : "text"
     }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -571,7 +564,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
@@ -580,7 +573,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "value"
+      "text" : "to"
     },
     {
       "kind" : "text",
@@ -588,7 +581,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_5valueACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV3set_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__SQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
@@ -613,12 +606,12 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:value:)-xsi5",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/set(_:to:)-1t3ca",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "set(_:value:)",
+  "title" : "set(_:to:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:value:)-xsi5"
+  "url" : "\/documentation\/parseswift\/parseoperation\/set(_:to:)-1t3ca"
 }
 }
 }

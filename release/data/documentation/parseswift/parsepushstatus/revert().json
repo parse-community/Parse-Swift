@@ -17,19 +17,19 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-2kf4h"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/ParseObject-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-9y0m8"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revert()"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A6ObjectPAAE06revertC0xyKF",
+    "externalID" : "s:10ParseSwift0A6ObjectPAAE6revertxyKF::SYNTHESIZED::s:10ParseSwift0A10PushStatusV",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -41,7 +41,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "revertObject"
+        "text" : "revert"
       },
       {
         "kind" : "text",
@@ -68,7 +68,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "revertObject()"
+    "title" : "revert()"
   },
   "primaryContentSections" : [
     {
@@ -91,7 +91,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "revertObject"
+              "text" : "revert"
             },
             {
               "kind" : "text",
@@ -183,7 +183,15 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " or some other means.",
+                  "text" : " or the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "set",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " method.",
                   "type" : "text"
                 }
               ],
@@ -208,7 +216,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseobject\/revertobject()-9y0m8"
+        "\/documentation\/parseswift\/parsepushstatus\/revert()"
       ],
       "traits" : [
         {
@@ -233,33 +241,17 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus": {
   "abstract" : [
     {
-      "text" : "Objects that conform to the ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " protocol have a local representation of data persisted to the Parse Server.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "This is the main protocol that is used to interact with objects in your app.",
+      "text" : "The PushStatus on the Parse Server.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "protocol"
+      "text" : "struct"
     },
     {
       "kind" : "text",
@@ -267,77 +259,34 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseObject"
+      "text" : "ParsePushStatus"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseObject"
+      "text" : "ParsePushStatus"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseObject",
+  "title" : "ParsePushStatus",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject"
+  "url" : "\/documentation\/parseswift\/parsepushstatus"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertObject()-2kf4h": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/ParseObject-Implementations": {
   "abstract" : [
-    {
-      "text" : "Reverts the ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " back to the original object before mutations began.",
-      "type" : "text"
-    }
+
   ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "revertObject"
-    },
-    {
-      "kind" : "text",
-      "text" : "() "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-2kf4h",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "revertObject()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/ParseObject-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "ParseObject Implementations",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/revertobject()-2kf4h"
+  "url" : "\/documentation\/parseswift\/parsepushstatus\/parseobject-implementations"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertObject()-9y0m8": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/revert()": {
   "abstract" : [
     {
       "text" : "Reverts the ",
@@ -363,7 +312,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "revertObject"
+      "text" : "revert"
     },
     {
       "kind" : "text",
@@ -382,12 +331,12 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertObject()-9y0m8",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revert()",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "revertObject()",
+  "title" : "revert()",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/revertobject()-9y0m8"
+  "url" : "\/documentation\/parseswift\/parsepushstatus\/revert()"
 }
 }
 }

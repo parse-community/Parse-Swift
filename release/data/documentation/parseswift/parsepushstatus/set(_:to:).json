@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Reverts the ",
+      "text" : "Set the value of a specific ",
       "type" : "text"
     },
     {
@@ -9,7 +9,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " of the ",
+      "text" : " on a ",
       "type" : "text"
     },
     {
@@ -17,19 +17,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " back to  the original ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "before mutations began.",
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -44,12 +32,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revertKeyPath(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/set(_:to:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF::SYNTHESIZED::s:10ParseSwift0A10PushStatusV",
+    "externalID" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF::SYNTHESIZED::s:10ParseSwift0A10PushStatusV",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -61,7 +49,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "revertKeyPath"
+        "text" : "set"
       },
       {
         "kind" : "text",
@@ -94,20 +82,29 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
         "text" : "W"
       },
       {
         "kind" : "text",
-        "text" : "?>) "
+        "text" : "?>, "
       },
       {
-        "kind" : "keyword",
-        "text" : "throws"
+        "kind" : "externalParam",
+        "text" : "to"
       },
       {
         "kind" : "text",
-        "text" : " -> "
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
+        "text" : "W"
+      },
+      {
+        "kind" : "text",
+        "text" : ") -> "
       },
       {
         "kind" : "typeIdentifier",
@@ -119,13 +116,10 @@
         "name" : "ParseSwift"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "revertKeyPath(_:)"
+    "title" : "set(_:to:)"
   },
   "primaryContentSections" : [
     {
@@ -148,7 +142,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "revertKeyPath"
+              "text" : "set"
             },
             {
               "kind" : "text",
@@ -197,20 +191,37 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
               "text" : "W"
             },
             {
               "kind" : "text",
-              "text" : "?>) "
+              "text" : "?>, "
             },
             {
-              "kind" : "keyword",
-              "text" : "throws"
+              "kind" : "externalParam",
+              "text" : "to"
             },
             {
               "kind" : "text",
-              "text" : " -> "
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "value"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
+              "text" : "W"
+            },
+            {
+              "kind" : "text",
+              "text" : ") -> "
             },
             {
               "kind" : "typeIdentifier",
@@ -249,6 +260,83 @@
     {
       "content" : [
         {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The updated ",
+              "type" : "text"
+            },
+            {
+              "code" : "ParseObject",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ".",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the value to set.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "key"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The value to set the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "to"
+        }
+      ]
+    },
+    {
+      "content" : [
+        {
           "anchor" : "discussion",
           "level" : 2,
           "text" : "Discussion",
@@ -259,12 +347,65 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "An error of type ",
+                  "text" : "This method should be used when updating a ",
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseError",
+                  "code" : "ParseObject",
                   "type" : "codeVoice"
+                },
+                {
+                  "text" : " that has already been saved to",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "a Parse Server. You can also use this method on a new ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s that has not been saved to a Parse Server",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "as long as the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "objectId",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the respective ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " is ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "nil",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
                 },
                 {
                   "text" : ".",
@@ -274,7 +415,98 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "Throws",
+          "style" : "important",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "If you are using the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "set()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " method, you do not need to implement ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "merge()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ". Using ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "set()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "may perform slower than implementing ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "merge()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " after saving the updated ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObject",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to a Parse Server.",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "This is due to neccesary overhead required to determine what keys have been updated. If a developer finds decoding",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "updated ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseObjects",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s to be slow, implementing ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "merge()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " may speed up the process.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Attention",
           "style" : "note",
           "type" : "aside"
         },
@@ -283,23 +515,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "This reverts to the contents in ",
+                  "text" : "This method should always be used when making the very first update\/mutation to your ",
                   "type" : "text"
                 },
                 {
-                  "code" : "originalData",
+                  "code" : "ParseObject",
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : ". This means ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "originalData",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " should have",
+                  "text" : ".",
                   "type" : "text"
                 },
                 {
@@ -307,19 +531,19 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "been populated by calling ",
+                  "text" : "Any subsequent mutations can modify the ",
                   "type" : "text"
                 },
                 {
-                  "code" : "mergeable",
+                  "code" : "ParseObject",
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " or the ",
+                  "text" : " property directly or use the ",
                   "type" : "text"
                 },
                 {
-                  "code" : "set",
+                  "code" : "set()",
                   "type" : "codeVoice"
                 },
                 {
@@ -330,7 +554,7 @@
               "type" : "paragraph"
             }
           ],
-          "style" : "important",
+          "style" : "warning",
           "type" : "aside"
         }
       ],
@@ -348,7 +572,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsepushstatus\/revertkeypath(_:)"
+        "\/documentation\/parseswift\/parsepushstatus\/set(_:to:)"
       ],
       "traits" : [
         {
@@ -418,10 +642,10 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsepushstatus\/parseobject-implementations"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/revertKeyPath(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/set(_:to:)": {
   "abstract" : [
     {
-      "text" : "Reverts the ",
+      "text" : "Set the value of a specific ",
       "type" : "text"
     },
     {
@@ -429,7 +653,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " of the ",
+      "text" : " on a ",
       "type" : "text"
     },
     {
@@ -437,23 +661,10 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " back to  the original ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "before mutations began.",
+      "text" : ".",
       "type" : "text"
     }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -465,7 +676,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "revertKeyPath"
+      "text" : "set"
     },
     {
       "kind" : "text",
@@ -498,32 +709,41 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
       "kind" : "text",
-      "text" : "?>) "
+      "text" : "?>, "
     },
     {
-      "kind" : "keyword",
-      "text" : "throws"
+      "kind" : "externalParam",
+      "text" : "to"
     },
     {
       "kind" : "text",
-      "text" : " -> "
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/revertKeyPath(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/set(_:to:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "revertKeyPath(_:)",
+  "title" : "set(_:to:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsepushstatus\/revertkeypath(_:)"
+  "url" : "\/documentation\/parseswift\/parsepushstatus\/set(_:to:)"
 }
 }
 }

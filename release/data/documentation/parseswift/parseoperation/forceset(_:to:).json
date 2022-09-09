@@ -1,61 +1,25 @@
 {
   "abstract" : [
     {
-      "text" : "Reverts the ",
+      "text" : "An operation that force sets a field’s value.",
       "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " of the ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " back to  the original ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "before mutations began.",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementationsSections" : [
-    {
-      "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertKeyPath(_:)-8cj1r"
-      ],
-      "title" : "ParseObject Implementations"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertKeyPath(_:)-4d5y3"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/forceSet(_:to:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A6ObjectP13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF",
+    "externalID" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -67,7 +31,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "revertKeyPath"
+        "text" : "forceSet"
       },
       {
         "kind" : "text",
@@ -79,7 +43,16 @@
       },
       {
         "kind" : "text",
-        "text" : ">("
+        "text" : ">(("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
       },
       {
         "kind" : "typeIdentifier",
@@ -92,7 +65,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "text" : "Self"
+        "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
+        "text" : "T"
       },
       {
         "kind" : "text",
@@ -100,24 +74,46 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A6ObjectP13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
         "text" : "W"
       },
       {
         "kind" : "text",
-        "text" : "?>) "
+        "text" : "?>), "
       },
       {
-        "kind" : "keyword",
-        "text" : "throws"
+        "kind" : "externalParam",
+        "text" : "to"
       },
       {
         "kind" : "text",
-        "text" : " -> "
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "text" : "Self"
+        "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
+        "text" : "W"
+      },
+      {
+        "kind" : "text",
+        "text" : "?) -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
+        "text" : "ParseOperation"
+      },
+      {
+        "kind" : "text",
+        "text" : "<"
+      },
+      {
+        "kind" : "typeIdentifier",
+        "text" : "T"
+      },
+      {
+        "kind" : "text",
+        "text" : ">"
       }
     ],
     "modules" : [
@@ -125,11 +121,10 @@
         "name" : "ParseSwift"
       }
     ],
-    "required" : true,
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "revertKeyPath(_:)"
+    "title" : "forceSet(_:to:)"
   },
   "primaryContentSections" : [
     {
@@ -152,7 +147,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "revertKeyPath"
+              "text" : "forceSet"
             },
             {
               "kind" : "text",
@@ -176,11 +171,20 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "keyPath"
+              "text" : "key"
             },
             {
               "kind" : "text",
-              "text" : ": "
+              "text" : ": ("
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
             },
             {
               "kind" : "typeIdentifier",
@@ -193,7 +197,8 @@
             },
             {
               "kind" : "typeIdentifier",
-              "text" : "Self"
+              "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
+              "text" : "T"
             },
             {
               "kind" : "text",
@@ -201,28 +206,55 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A6ObjectP13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
               "text" : "W"
             },
             {
               "kind" : "text",
-              "text" : "?>) "
+              "text" : "?>), "
             },
             {
-              "kind" : "keyword",
-              "text" : "throws"
-            },
-            {
-              "kind" : "text",
-              "text" : " -> "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "text" : "Self"
+              "kind" : "externalParam",
+              "text" : "to"
             },
             {
               "kind" : "text",
               "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "value"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
+              "text" : "W"
+            },
+            {
+              "kind" : "text",
+              "text" : "?) -> "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
+              "text" : "ParseOperation"
+            },
+            {
+              "kind" : "text",
+              "text" : "<"
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : "> "
             },
             {
               "kind" : "keyword",
@@ -242,13 +274,76 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SQ",
-              "text" : "Equatable"
+              "preciseIdentifier" : "s:SE",
+              "text" : "Encodable"
             }
           ]
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A tuple consisting of the key and the respective ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the object.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "key"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The value to set the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "KeyPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "to"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The updated operations.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "returns"
+        }
+      ]
     },
     {
       "content" : [
@@ -263,70 +358,14 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "An error of type ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseError",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ".",
+                  "text" : "Set the value to “nil” if you want it to be “null” on the Parse Server.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "Throws",
           "style" : "note",
-          "type" : "aside"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "This reverts to the contents in ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "originalData",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ". This means ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "originalData",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " should have",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "been populated by calling ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "mergeable",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " or some other means.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "style" : "important",
           "type" : "aside"
         }
       ],
@@ -344,7 +383,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseobject\/revertkeypath(_:)-4d5y3"
+        "\/documentation\/parseswift\/parseoperation\/forceset(_:to:)"
       ],
       "traits" : [
         {
@@ -369,10 +408,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation": {
   "abstract" : [
     {
-      "text" : "Objects that conform to the ",
+      "text" : "A ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseOperation",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " represents a modification to a value in a ",
       "type" : "text"
     },
     {
@@ -380,7 +427,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of data persisted to the Parse Server.",
+      "text" : ".",
       "type" : "text"
     },
     {
@@ -388,14 +435,34 @@
       "type" : "text"
     },
     {
-      "text" : "This is the main protocol that is used to interact with objects in your app.",
+      "text" : "For example, setting, deleting, or incrementing a value are all ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseOperation",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseOperation",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " themselves can be considered to be immutable.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "protocol"
+      "text" : "struct"
     },
     {
       "kind" : "text",
@@ -403,162 +470,26 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseObject"
+      "text" : "ParseOperation"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseObject"
+      "text" : "ParseOperation"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseObject",
+  "title" : "ParseOperation",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject"
+  "url" : "\/documentation\/parseswift\/parseoperation"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertKeyPath(_:)-4d5y3": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseOperation/forceSet(_:to:)": {
   "abstract" : [
     {
-      "text" : "Reverts the ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " of the ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " back to  the original ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "before mutations began.",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "revertKeyPath"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "W"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s15WritableKeyPathC",
-      "text" : "WritableKeyPath"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectP13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
-      "text" : "W"
-    },
-    {
-      "kind" : "text",
-      "text" : "?>) "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertKeyPath(_:)-4d5y3",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "revertKeyPath(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/revertkeypath(_:)-4d5y3"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject/revertKeyPath(_:)-8cj1r": {
-  "abstract" : [
-    {
-      "text" : "Reverts the ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " of the ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseObject",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " back to  the original ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "before mutations began.",
+      "text" : "An operation that force sets a field’s value.",
       "type" : "text"
     }
   ],
@@ -573,7 +504,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "revertKeyPath"
+      "text" : "forceSet"
     },
     {
       "kind" : "text",
@@ -585,7 +516,16 @@
     },
     {
       "kind" : "text",
-      "text" : ">("
+      "text" : ">(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
     },
     {
       "kind" : "typeIdentifier",
@@ -598,7 +538,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "text" : "Self"
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV1Txmfp",
+      "text" : "T"
     },
     {
       "kind" : "text",
@@ -606,32 +547,54 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE13revertKeyPathyxs08WritableeF0Cyxqd__SgGKSQRd__lF1WL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
       "text" : "W"
     },
     {
       "kind" : "text",
-      "text" : "?>) "
+      "text" : "?>), "
     },
     {
-      "kind" : "keyword",
-      "text" : "throws"
+      "kind" : "externalParam",
+      "text" : "to"
     },
     {
       "kind" : "text",
-      "text" : " -> "
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "text" : "Self"
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV8forceSet_2toACyxGSS_s15WritableKeyPathCyxqd__SgGt_AItSERd__lF1WL_qd__mfp",
+      "text" : "W"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9OperationV",
+      "text" : "ParseOperation"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/revertKeyPath(_:)-8cj1r",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseOperation\/forceSet(_:to:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "revertKeyPath(_:)",
+  "title" : "forceSet(_:to:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseobject\/revertkeypath(_:)-8cj1r"
+  "url" : "\/documentation\/parseswift\/parseoperation\/forceset(_:to:)"
 }
 }
 }
