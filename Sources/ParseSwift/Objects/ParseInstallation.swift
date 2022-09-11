@@ -303,6 +303,76 @@ public extension ParseInstallation {
             Self.updateInternalFieldsCorrectly()
         }
     }
+
+    /**
+     Copy the `ParseInstallation` *asynchronously* based on the `installationId`.
+     On success, this saves the `ParseInstallation` to the keychain, so you can retrieve
+     the current installation using *current*.
+
+     - parameter installationId: The **id** of the `ParseInstallation` to become.
+     - parameter copyEntireInstallation: When **true**, copies the entire `ParseInstallation`.
+     When **false**, only the `channels` and `deviceToken` are copied; resulting in a new
+     `ParseInstallation` for original `sessionToken`. Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    static func become(installationId: String,
+                       copyEntireInstallation: Bool = true,
+                       options: API.Options = [],
+                       callbackQueue: DispatchQueue = .main,
+                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+        guard var currentInstallation = Self.current else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Current installation does not exist")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        guard currentInstallation.installationId != installationId else {
+            // If the installationId's are the same, assume successful replacement already occured.
+            callbackQueue.async {
+                completion(.success(currentInstallation))
+            }
+            return
+        }
+        currentInstallation.installationId = installationId
+        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success(var updatedInstallation):
+                if copyEntireInstallation {
+                    updatedInstallation.updateAutomaticInfo()
+                    Self.currentContainer.installationId = updatedInstallation.installationId
+                    Self.currentContainer.currentInstallation = updatedInstallation
+                } else {
+                    Self.current?.channels = updatedInstallation.channels
+                    if Self.current?.deviceToken == nil {
+                        Self.current?.deviceToken = updatedInstallation.deviceToken
+                    }
+                }
+                Self.saveCurrentContainerToKeychain()
+                guard let latestInstallation = Self.current else {
+                    let error = ParseError(code: .unknownError,
+                                           message: "Had trouble migrating the installation")
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                latestInstallation.save(options: options,
+                                        callbackQueue: callbackQueue,
+                                        completion: completion)
+            case .failure(let error):
+                callbackQueue.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
 }
 
 // MARK: Automatic Info
@@ -1550,53 +1620,8 @@ public extension ParseInstallation {
             }
             return
         }
-        guard var currentInstallation = Self.current else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Current installation does not exist")
-            callbackQueue.async {
-                completion(.failure(error))
-            }
-            return
-        }
-        guard currentInstallation.installationId != oldInstallationId else {
-            // If the installationId's are the same, assume successful migration already occured.
-            callbackQueue.async {
-                completion(.success(currentInstallation))
-            }
-            return
-        }
-        currentInstallation.installationId = oldInstallationId
-        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
-            switch result {
-            case .success(var updatedInstallation):
-                if copyEntireInstallation {
-                    updatedInstallation.updateAutomaticInfo()
-                    Self.currentContainer.installationId = updatedInstallation.installationId
-                    Self.currentContainer.currentInstallation = updatedInstallation
-                } else {
-                    Self.current?.channels = updatedInstallation.channels
-                    if Self.current?.deviceToken == nil {
-                        Self.current?.deviceToken = updatedInstallation.deviceToken
-                    }
-                }
-                Self.saveCurrentContainerToKeychain()
-                guard let latestInstallation = Self.current else {
-                    let error = ParseError(code: .unknownError,
-                                           message: "Had trouble migrating the installation")
-                    callbackQueue.async {
-                        completion(.failure(error))
-                    }
-                    return
-                }
-                latestInstallation.save(options: options,
-                                        callbackQueue: callbackQueue,
-                                        completion: completion)
-            case .failure(let error):
-                callbackQueue.async {
-                    completion(.failure(error))
-                }
-            }
-        }
+        become(installationId: oldInstallationId,
+                       completion: completion)
     }
 
     /**

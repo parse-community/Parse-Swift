@@ -263,8 +263,9 @@ extension ParseUser {
     }
 
     /**
-     Logs in a `ParseUser` *synchronously* with a session token. On success, this saves the session
-     to the keychain, so you can retrieve the currently logged in user using *current*.
+     Logs in a `ParseUser` *synchronously* with a session token. On success, this saves the logged in
+     `ParseUser`with this session to the keychain, so you can retrieve the currently logged in user using
+     *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -283,8 +284,9 @@ extension ParseUser {
     }
 
     /**
-     Logs in a `ParseUser` *asynchronously* with a session token. On success, this saves the session
-     to the keychain, so you can retrieve the currently logged in user using *current*.
+     Logs in a `ParseUser` *asynchronously* with a session token. On success, this saves the logged in
+     `ParseUser`with this session to the keychain, so you can retrieve the currently logged in user using
+     *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -306,8 +308,9 @@ extension ParseUser {
     }
 
     /**
-     Logs in a `ParseUser` *asynchronously* with a session token. On success, this saves the session
-     to the keychain, so you can retrieve the currently logged in user using *current*.
+     Logs in a `ParseUser` *asynchronously* with a session token. On success, this saves the logged in
+     `ParseUser`with this session to the keychain, so you can retrieve the currently logged in user using
+     *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.

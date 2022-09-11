@@ -434,12 +434,12 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertTrue(fetched.hasSameObjectId(as: installationOnServer))
         XCTAssertTrue(fetched.hasSameInstallationId(as: installationOnServer))
         guard let fetchedCreatedAt = fetched.createdAt else {
-                XCTFail("Should unwrap dates")
-                return
+            XCTFail("Should unwrap dates")
+            return
         }
         guard let originalCreatedAt = installationOnServer.createdAt else {
-                XCTFail("Should unwrap dates")
-                return
+            XCTFail("Should unwrap dates")
+            return
         }
         XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
         XCTAssertEqual(fetched.channels, installationOnServer.channels)

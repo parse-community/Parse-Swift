@@ -881,6 +881,90 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)
     }
+
+    func testBecome() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Migrate Installation")
+
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        guard let installation = Installation.current,
+            let savedObjectId = installation.objectId else {
+                XCTFail("Should unwrap")
+                return
+        }
+        XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
+
+        var installationOnServer = installation
+        installationOnServer.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+        installationOnServer.customKey = "newValue"
+        installationOnServer.installationId = "wowsers"
+        installationOnServer.channels = ["yo"]
+        installationOnServer.deviceToken = "no"
+
+        let encoded: Data!
+        do {
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
+            // Get dates in correct format from ParseDecoding strategy
+            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = Installation.becomePublisher(installationId: "wowsers")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { fetched in
+            guard let currentInstallation = Installation.current else {
+                XCTFail("Should have current installation")
+                return
+            }
+            XCTAssertTrue(fetched.hasSameObjectId(as: currentInstallation))
+            XCTAssertTrue(fetched.hasSameInstallationId(as: currentInstallation))
+            XCTAssertTrue(fetched.hasSameObjectId(as: installationOnServer))
+            XCTAssertTrue(fetched.hasSameInstallationId(as: installationOnServer))
+            guard let fetchedCreatedAt = fetched.createdAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = installationOnServer.createdAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetched.channels, installationOnServer.channels)
+            XCTAssertEqual(fetched.deviceToken, installationOnServer.deviceToken)
+
+            // Should be updated in memory
+            XCTAssertEqual(Installation.current?.installationId, "wowsers")
+            XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
+            XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
+            XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
+
+            // Should be updated in Keychain
+            guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                    XCTFail("Should get object from Keychain")
+                return
+            }
+            XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, "wowsers")
+            XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
+            XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
+            expectation1.fulfill()
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
 }
 
 #endif
