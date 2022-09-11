@@ -320,7 +320,7 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    static func become(installationId: String,
+    static func become(_ installationId: String,
                        copyEntireInstallation: Bool = true,
                        options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
@@ -1620,7 +1620,7 @@ public extension ParseInstallation {
             }
             return
         }
-        become(installationId: oldInstallationId,
+        become(oldInstallationId,
                copyEntireInstallation: copyEntireInstallation,
                completion: completion)
     }

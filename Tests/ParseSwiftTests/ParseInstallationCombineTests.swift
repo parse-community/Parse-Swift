@@ -916,7 +916,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = Installation.becomePublisher(installationId: "wowsers")
+        let publisher = Installation.becomePublisher("wowsers")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -951,6 +951,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
             XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
             XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
 
+            #if !os(Linux) && !os(Android) && !os(Windows)
             // Should be updated in Keychain
             guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
@@ -960,6 +961,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
             XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, "wowsers")
             XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
             XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
+            #endif
             expectation1.fulfill()
         })
         publisher.store(in: &subscriptions)

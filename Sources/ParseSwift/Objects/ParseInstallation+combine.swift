@@ -134,11 +134,11 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    static func becomePublisher(installationId: String,
+    static func becomePublisher(_ installationId: String,
                                 copyEntireInstallation: Bool = true,
                                 options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            Self.become(installationId: installationId,
+            Self.become(installationId,
                         copyEntireInstallation: copyEntireInstallation,
                         options: options,
                         completion: promise)

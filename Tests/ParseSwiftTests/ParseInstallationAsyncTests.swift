@@ -1152,7 +1152,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let fetched = try await Installation.become(installationId: "wowsers")
+        let fetched = try await Installation.become("wowsers")
         guard let currentInstallation = Installation.current else {
             XCTFail("Should have current installation")
             return
@@ -1179,6 +1179,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
         XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
 
+        #if !os(Linux) && !os(Android) && !os(Windows)
         // Should be updated in Keychain
         guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
@@ -1188,6 +1189,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, "wowsers")
         XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
         XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
+        #endif
     }
 }
 #endif

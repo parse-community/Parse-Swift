@@ -137,12 +137,11 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    @discardableResult static func become(installationId: String,
+    @discardableResult static func become(_ installationId: String,
                                           copyEntireInstallation: Bool = true,
-                                          deleteObjectiveCKeychain: Bool = false,
                                           options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            Self.become(installationId: installationId,
+            Self.become(installationId,
                         copyEntireInstallation: copyEntireInstallation,
                         options: options,
                         completion: continuation.resume)
@@ -351,7 +350,6 @@ public extension ParseInstallation {
      Parse Server before calling this method.
     */
     @discardableResult static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
-                                                           deleteObjectiveCKeychain: Bool = false,
                                                            options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.migrateFromObjCKeychain(copyEntireInstallation: copyEntireInstallation,
