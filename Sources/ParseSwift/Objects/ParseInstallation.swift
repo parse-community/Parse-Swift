@@ -1621,7 +1621,8 @@ public extension ParseInstallation {
             return
         }
         become(installationId: oldInstallationId,
-                       completion: completion)
+               copyEntireInstallation: copyEntireInstallation,
+               completion: completion)
     }
 
     /**
