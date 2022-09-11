@@ -145,14 +145,17 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return
         }
 
+        let currentUserDictionary = ["sessionToken": objcSessionToken]
+        let currentUserDictionary2 = ["session_token": objcSessionToken2]
+        let currentUserDictionary3 = ["sessionToken": objcSessionToken,
+                                      "session_token": objcSessionToken2]
         _ = objcParseKeychain.set(object: installationId, forKey: "installationId")
         if useBothTokens {
-            _ = objcParseKeychain.set(object: objcSessionToken, forKey: "sessionToken")
-            _ = objcParseKeychain.set(object: objcSessionToken2, forKey: "session_token")
+            _ = objcParseKeychain.set(object: currentUserDictionary3, forKey: "currentUser")
         } else if !useOldObjCToken {
-            _ = objcParseKeychain.set(object: objcSessionToken, forKey: "sessionToken")
+            _ = objcParseKeychain.set(object: currentUserDictionary, forKey: "currentUser")
         } else {
-            _ = objcParseKeychain.set(object: objcSessionToken, forKey: "session_token")
+            _ = objcParseKeychain.set(object: currentUserDictionary2, forKey: "currentUser")
         }
     }
 
@@ -222,7 +225,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
-        serverResponse.sessionToken = objcSessionToken
+        serverResponse.sessionToken = objcSessionToken2
         serverResponse.username = loginUserName
 
         MockURLProtocol.mockRequests { _ in
@@ -241,7 +244,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(loggedIn.username, loginUserName)
         XCTAssertNil(loggedIn.password)
         XCTAssertEqual(loggedIn.objectId, serverResponse.objectId)
-        XCTAssertEqual(loggedIn.sessionToken, objcSessionToken)
+        XCTAssertEqual(loggedIn.sessionToken, objcSessionToken2)
         XCTAssertEqual(loggedIn.customKey, serverResponse.customKey)
         XCTAssertNil(loggedIn.ACL)
 
@@ -255,7 +258,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(userFromKeychain.username, loginUserName)
         XCTAssertNil(userFromKeychain.password)
         XCTAssertEqual(loggedIn.objectId, userFromKeychain.objectId)
-        XCTAssertEqual(userFromKeychain.sessionToken, objcSessionToken)
+        XCTAssertEqual(userFromKeychain.sessionToken, objcSessionToken2)
         XCTAssertEqual(loggedIn.customKey, userFromKeychain.customKey)
         XCTAssertNil(userFromKeychain.ACL)
     }

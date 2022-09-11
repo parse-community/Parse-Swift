@@ -372,10 +372,10 @@ extension ParseUser {
                                               completion: @escaping (Result<Self, ParseError>) -> Void) {
 
         let objcParseKeychain = KeychainStore.objectiveC
-        let objcParseSessionToken: String? = objcParseKeychain?.object(forKey: "sessionToken") ??
-        objcParseKeychain?.object(forKey: "session_token")
 
-        guard let sessionToken = objcParseSessionToken else {
+        guard let objcParseUser: [String: String] = objcParseKeychain?.object(forKey: "currentUser"),
+            let sessionToken: String = objcParseUser["sessionToken"] ??
+                objcParseUser["session_token"] else {
             let error = ParseError(code: .unknownError,
                                    message: "Could not find a session token in the Parse Objective-C SDK Keychain.")
             callbackQueue.async {

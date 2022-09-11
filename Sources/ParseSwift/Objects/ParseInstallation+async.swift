@@ -338,9 +338,14 @@ public extension ParseInstallation {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
      - warning: It is recommended to only use this method after a succesfful migration. Calling this
      method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
-     Server.
+     Server. This method assumes **PFInstallation.installationId** is saved to the Keychain. If the
+     **installationId** is not saved to the Keychain, this method will not work.
     */
     static func deleteObjCKeychain(options: API.Options = []) async throws {
         let result = try await withCheckedThrowingContinuation { continuation in

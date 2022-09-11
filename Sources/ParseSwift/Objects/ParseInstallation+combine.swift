@@ -313,7 +313,8 @@ public extension ParseInstallation {
      - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
      when calling this method.
      - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
-     Parse Server before calling this method.
+     Parse Server before calling this method. This method assumes **PFInstallation.installationId** is saved
+     to the Keychain. If the **installationId** is not saved to the Keychain, this method will not work.
     */
     static func migrateFromObjCKeychainPublisher(copyEntireInstallation: Bool = true,
                                                  options: API.Options = []) -> Future<Self, ParseError> {
