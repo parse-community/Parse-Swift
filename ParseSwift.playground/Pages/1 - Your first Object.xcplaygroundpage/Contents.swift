@@ -41,7 +41,10 @@ struct GameScore: ParseObject {
     //: Your own properties.
     var points: Int?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.points,
@@ -79,7 +82,10 @@ struct GameData: ParseObject {
     //: or else you will need your masterKey to force an upgrade.
     var bytes: ParseBytes?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if shouldRestoreKey(\.polygon,
@@ -120,10 +126,13 @@ score.save { result in
         assert(savedScore.updatedAt != nil)
         assert(savedScore.points == 10)
 
-        /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `mergeable`
-            allows you to only send the updated keys to the
-            parse server as opposed to the whole object.
+        /*:
+         To modify, you need to make it a var as the value type
+         was initialized as immutable. Using `mergeable`
+         allows you to only send the updated keys to the
+         parse server as opposed to the whole object. Make sure
+         to call `mergeable` before you begin
+         your first mutation of your `ParseObject`.
         */
         var changedScore = savedScore.mergeable
         changedScore.points = 200
@@ -210,15 +219,18 @@ assert(savedScore?.createdAt != nil)
 assert(savedScore?.updatedAt != nil)
 assert(savedScore?.points == 10)
 
-/*:  To modify, need to make it a var as the value type
-    was initialized as immutable. Using `mergeable`
-    allows you to only send the updated keys to the
-    parse server as opposed to the whole object.
+/*:
+ To modify, you need to make a mutable copy of `savedScore`.
+ Instead of using `mergeable` this time, we will use the `set()`
+ method which allows us to accomplish the same thing
+ as `mergeable`. You can choose to use `set()` or
+ `mergeable` as long as you use either before you begin
+ your first mutation of your `ParseObject`.
 */
-guard var changedScore = savedScore?.mergeable else {
+guard var changedScore = savedScore else {
     fatalError("Should have produced mutable changedScore")
 }
-changedScore.points = 200
+changedScore = changedScore.set(\.points, to: 200)
 
 let savedChangedScore: GameScore?
 do {

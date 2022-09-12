@@ -32,7 +32,10 @@ struct User: ParseUser {
     //: Your custom keys.
     var customKey: String?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.customKey,
@@ -59,7 +62,10 @@ struct GameScore2: ParseObject {
     var owner: User?
     var rivals: [User]?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.points,

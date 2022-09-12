@@ -38,7 +38,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      `func set<W>(_ key: (String, WritableKeyPath<T, W?>), value: W?)`
      instead.
      */
-    @available(*, deprecated, message: "replace \"value\" with \"to\"")
+    @available(*, deprecated, message: "Replace \"value\" with \"to\"")
     public func set<W>(_ keyPath: WritableKeyPath<T, W?>,
                        value: W) throws -> Self where W: Encodable & Equatable {
         try set(keyPath, to: value)
@@ -81,7 +81,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
      */
-    @available(*, deprecated, message: "replace \"value\" with \"to\"")
+    @available(*, deprecated, message: "Replace \"value\" with \"to\"")
     public func set<W>(_ key: (String, WritableKeyPath<T, W?>),
                        value: W?) -> Self where W: Encodable & Equatable {
         set(key, to: value)

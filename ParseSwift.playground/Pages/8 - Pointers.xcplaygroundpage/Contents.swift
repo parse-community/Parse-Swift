@@ -27,7 +27,10 @@ struct Book: ParseObject, ParseQueryScorable {
     var title: String?
     var relatedBook: Pointer<Book>?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.title,
@@ -64,7 +67,10 @@ struct Author: ParseObject {
     var book: Book?
     var otherBooks: [Book]?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.name,
@@ -221,7 +227,11 @@ do {
         switch results {
         case .success(let author):
             print("Found author and included \"book\": \(author)")
-            //: Setup related books.
+            /*:
+             Setup related books. Using `.mergeable` or `set()`
+             allows you to only send the updated keys to the
+             parse server as opposed to the whole object.
+            */
             var modifiedNewBook = newBook.mergeable
             modifiedNewBook.relatedBook = try? author.otherBooks?.first?.toPointer()
 

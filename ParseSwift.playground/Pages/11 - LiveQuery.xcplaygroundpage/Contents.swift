@@ -23,7 +23,10 @@ struct GameScore: ParseObject {
     var location: ParseGeoPoint?
     var name: String?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.points,

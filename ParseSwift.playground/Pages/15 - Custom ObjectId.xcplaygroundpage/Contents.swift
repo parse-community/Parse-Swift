@@ -34,7 +34,10 @@ struct GameScore: ParseObject {
     //: Your own properties.
     var points: Int?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.points,
@@ -79,10 +82,11 @@ score.save { result in
         //: Any changes to `createdAt` and `objectId` will not be saved to the server.
         print("Saved score: \(savedScore)")
 
-        /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `.mergeable`
-            allows you to only send the updated keys to the
-            parse server as opposed to the whole object.
+        /*:
+         To modify, need to make it a var as the value type
+         was initialized as immutable. Using `.mergeable` or `set()`
+         allows you to only send the updated keys to the
+         parse server as opposed to the whole object.
         */
         var changedScore = savedScore.mergeable
         changedScore.points = 200

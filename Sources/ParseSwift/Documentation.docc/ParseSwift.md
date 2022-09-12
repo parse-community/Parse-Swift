@@ -9,9 +9,13 @@ To learn how to use or experiment with ParseSwift, you can run and edit the [Par
 
 ## Topics
 
-### Initialize the SDK
+### Configure SDK
 
 - ``ParseSwift/initialize(configuration:)``
 - ``ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)``
 - ``ParseSwift/initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)``
-
+- ``ParseSwift/configuration``
+- ``ParseSwift/setAccessGroup(_:synchronizeAcrossDevices:)``
+- ``ParseSwift/updateAuthentication(_:)``
+- ``ParseSwift/clearCache()``
+- ``ParseSwift/deleteObjectiveCKeychain()``

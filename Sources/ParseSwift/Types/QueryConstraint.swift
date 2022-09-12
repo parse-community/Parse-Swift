@@ -167,7 +167,7 @@ public func equalTo <T>(key: String,
 /**
  Add a constraint that requires that a key is equal to a `ParseObject`.
  - parameter key: The key that the value is stored in.
- - parameter value: The `ParseObject` to compare.
+ - parameter object: The `ParseObject` to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  - throws: An error of type `ParseError`.
  - warning: See `equalTo` for more information.
@@ -175,8 +175,8 @@ public func equalTo <T>(key: String,
  where isUsingEqualQueryConstraint == true is known not to work for LiveQuery on
  Parse Servers  <= 5.0.0.
  */
-public func == <T>(key: String, value: T) throws -> QueryConstraint where T: ParseObject {
-    try equalTo(key: key, value: value)
+public func == <T>(key: String, object: T) throws -> QueryConstraint where T: ParseObject {
+    try equalTo(key: key, object: object)
 }
 
 /**
@@ -192,14 +192,35 @@ public func == <T>(key: String, value: T) throws -> QueryConstraint where T: Par
  - warning: `usingEqComparator == true` is known not to work for LiveQueries
  on Parse Servers <= 5.0.0.
  */
+@available(*, deprecated, message: "Replace \"value\" with \"object\"")
 public func equalTo <T>(key: String,
                         value: T,
                         //swiftlint:disable:next line_length
                         usingEqComparator: Bool = configuration.isUsingEqualQueryConstraint) throws -> QueryConstraint where T: ParseObject {
+    try equalTo(key: key, object: value, usingEqComparator: usingEqComparator)
+}
+
+/**
+ Add a constraint that requires that a key is equal to a `ParseObject`.
+ - parameter key: The key that the value is stored in.
+ - parameter object: The `ParseObject` to compare.
+ - parameter usingEqComparator: Set to **true** to use **$eq** comparater,
+ allowing for multiple `QueryConstraint`'s to be used on a single **key**.
+ Setting to *false* may override any `QueryConstraint`'s on the same **key**.
+ Defaults to `ParseSwift.configuration.isUsingEqualQueryConstraint`.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ - throws: An error of type `ParseError`.
+ - warning: `usingEqComparator == true` is known not to work for LiveQueries
+ on Parse Servers <= 5.0.0.
+ */
+public func equalTo <T>(key: String,
+                        object: T,
+                        //swiftlint:disable:next line_length
+                        usingEqComparator: Bool = configuration.isUsingEqualQueryConstraint) throws -> QueryConstraint where T: ParseObject {
     if !usingEqComparator {
-        return try QueryConstraint(key: key, value: value.toPointer())
+        return try QueryConstraint(key: key, value: object.toPointer())
     } else {
-        return try QueryConstraint(key: key, value: value.toPointer(), comparator: .equalTo)
+        return try QueryConstraint(key: key, value: object.toPointer(), comparator: .equalTo)
     }
 }
 
@@ -216,11 +237,11 @@ public func != <T>(key: String, value: T) -> QueryConstraint where T: Codable {
 /**
  Add a constraint that requires that a key is not equal to a `ParseObject`.
  - parameter key: The key that the value is stored in.
- - parameter value: The `ParseObject` to compare.
+ - parameter object: The `ParseObject` to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func != <T>(key: String, value: T) throws -> QueryConstraint where T: ParseObject {
-    try QueryConstraint(key: key, value: value.toPointer(), comparator: .notEqualTo)
+public func != <T>(key: String, object: T) throws -> QueryConstraint where T: ParseObject {
+    try QueryConstraint(key: key, value: object.toPointer(), comparator: .notEqualTo)
 }
 
 internal struct InQuery<T>: Codable where T: ParseObject {
@@ -321,19 +342,19 @@ public func and <T>(queries: Query<T>...) -> QueryConstraint where T: ParseObjec
 }
 
 /**
- Add a constraint that requires that a key's value matches a `Query` constraint.
- - warning: This only works where the key's values are `ParseObject`s or arrays of `ParseObject`s.
+ Add a constraint that requires that a key's value matches a `Query`.
+ - warning: This only works when the key's values are `ParseObject`s or arrays of `ParseObject`s.
  - parameter key: The key that the value is stored in.
  - parameter query: The query the value should match.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
-    QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
+public func == <T>(key: String, query: Query<T>) -> QueryConstraint {
+    QueryConstraint(key: key, value: InQuery(query: query), comparator: .inQuery)
 }
 
 /**
- Add a constraint that requires that a key's value do not match a `Query` constraint.
- - warning: This only works where the key's values are `ParseObject`s or arrays of `ParseObject`s.
+ Add a constraint that requires that a key's value do not match a `Query`.
+ - warning: This only works when the key's values are `ParseObject`s or arrays of `ParseObject`s.
  - parameter key: The key that the value is stored in.
  - parameter query: The query the value should not match.
  - returns: The same instance of `QueryConstraint` as the receiver.
