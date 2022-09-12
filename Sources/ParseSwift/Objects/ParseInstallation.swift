@@ -305,11 +305,11 @@ public extension ParseInstallation {
     }
 
     /**
-     Copy the `ParseInstallation` *asynchronously* based on the `installationId`.
+     Copy the `ParseInstallation` *asynchronously* based on the `objectId`.
      On success, this saves the `ParseInstallation` to the keychain, so you can retrieve
      the current installation using *current*.
 
-     - parameter installationId: The **id** of the `ParseInstallation` to become.
+     - parameter objectId: The **id** of the `ParseInstallation` to become.
      - parameter copyEntireInstallation: When **true**, copies the entire `ParseInstallation`.
      When **false**, only the `channels` and `deviceToken` are copied; resulting in a new
      `ParseInstallation` for original `sessionToken`. Defaults to **true**.
@@ -320,12 +320,12 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    static func become(_ installationId: String,
+    static func become(_ objectId: String,
                        copyEntireInstallation: Bool = true,
                        options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        guard let currentInstallation = Self.current else {
+        guard var currentInstallation = Self.current else {
             let error = ParseError(code: .unknownError,
                                    message: "Current installation does not exist")
             callbackQueue.async {
@@ -333,15 +333,15 @@ public extension ParseInstallation {
             }
             return
         }
-        guard currentInstallation.installationId != installationId else {
+        guard currentInstallation.objectId != objectId else {
             // If the installationId's are the same, assume successful replacement already occured.
             callbackQueue.async {
                 completion(.success(currentInstallation))
             }
             return
         }
-        let query = Self.query("installationId" == installationId)
-        query.first(options: options, callbackQueue: callbackQueue) { result in
+        currentInstallation.objectId = objectId
+        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
             switch result {
             case .success(var updatedInstallation):
                 if copyEntireInstallation {
@@ -1607,6 +1607,7 @@ public extension ParseInstallation {
      is saved to the Keychain. If the **installationId** is not saved to the Keychain, this method will
      not work.
     */
+    @available(*, deprecated, message: "This does not work, use become() instead")
     static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
                                         options: API.Options = [],
                                         callbackQueue: DispatchQueue = .main,

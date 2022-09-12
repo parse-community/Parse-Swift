@@ -491,15 +491,12 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         installationOnServer.channels = ["yo"]
         installationOnServer.deviceToken = "no"
 
-        let results = QueryResponse<Installation>(results: [installationOnServer], count: 1)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(results)
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             // Get dates in correct format from ParseDecoding strategy
-            let encodedInstallation = try installationOnServer.getEncoder().encode(installationOnServer,
-                                                                                   skipKeys: .none)
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self,
-                                                                                from: encodedInstallation)
+                                                                                from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -511,61 +508,53 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         let publisher = Installation.migrateFromObjCKeychainPublisher()
             .sink(receiveCompletion: { result in
 
-                // This will throw error because of QueryResponse cannot be used for save.
                 if case let .failure(error) = result {
-                    guard error.message.contains("updatedAt of nil") else {
-                        XCTFail("Should have had proper error")
-                        expectation1.fulfill()
-                        return
-                    }
-                } else {
-                    XCTFail("Should have thrown error")
-                    expectation1.fulfill()
-                    return
+                    XCTFail(error.localizedDescription)
                 }
-                guard let currentInstallation = Installation.current else {
-                    XCTFail("Should have current installation")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
-                XCTAssertTrue(installationOnServer.hasSameInstallationId(as: currentInstallation))
-                guard let savedCreatedAt = currentInstallation.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                guard let originalCreatedAt = installationOnServer.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(currentInstallation.channels, installationOnServer.channels)
-                XCTAssertEqual(currentInstallation.deviceToken, installationOnServer.deviceToken)
-
-                // Should be updated in memory
-                XCTAssertEqual(Installation.current?.installationId, self.objcInstallationId)
-                XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
-                XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
-                XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
-
-                #if !os(Linux) && !os(Android) && !os(Windows)
-                // Should be updated in Keychain
-                guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
-                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-                        XCTFail("Should get object from Keychain")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, self.objcInstallationId)
-                XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
-                XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
-                #endif
                 expectation1.fulfill()
 
-        }, receiveValue: { _ in
-            XCTFail("Should have thrown error")
+        }, receiveValue: { saved in
+            guard let currentInstallation = Installation.current else {
+                XCTFail("Should have current installation")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertTrue(installationOnServer.hasSameObjectId(as: saved))
+            XCTAssertTrue(installationOnServer.hasSameInstallationId(as: saved))
+            XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
+            XCTAssertTrue(installationOnServer.hasSameInstallationId(as: currentInstallation))
+            guard let savedCreatedAt = saved.createdAt else {
+                XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                return
+            }
+            guard let originalCreatedAt = installationOnServer.createdAt else {
+                XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(saved.channels, installationOnServer.channels)
+            XCTAssertEqual(saved.deviceToken, installationOnServer.deviceToken)
+
+            // Should be updated in memory
+            XCTAssertEqual(Installation.current?.installationId, self.objcInstallationId)
+            XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
+            XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
+            XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
+
+            #if !os(Linux) && !os(Android) && !os(Windows)
+            // Should be updated in Keychain
+            guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                    XCTFail("Should get object from Keychain")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, self.objcInstallationId)
+            XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
+            XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
+            #endif
             expectation1.fulfill()
         })
         publisher.store(in: &subscriptions)
@@ -596,15 +585,12 @@ class MigrateObjCSDKCombineTests: XCTestCase {
         installationOnServer.channels = ["yo"]
         installationOnServer.deviceToken = "no"
 
-        let results = QueryResponse<Installation>(results: [installationOnServer], count: 1)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(results)
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             // Get dates in correct format from ParseDecoding strategy
-            let encodedInstallation = try installationOnServer.getEncoder().encode(installationOnServer,
-                                                                                   skipKeys: .none)
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self,
-                                                                                from: encodedInstallation)
+                                                                                from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -615,108 +601,37 @@ class MigrateObjCSDKCombineTests: XCTestCase {
 
         let publisher = Installation.migrateFromObjCKeychainPublisher(copyEntireInstallation: false)
             .sink(receiveCompletion: { result in
-                // This will throw error because of QueryResponse cannot be used for save.
-                if case let .failure(error) = result {
-                    guard error.message.contains("updatedAt of nil") else {
-                        XCTFail("Should have had proper error")
-                        expectation1.fulfill()
-                        return
-                    }
-                } else {
-                    XCTFail("Should have thrown error")
-                    expectation1.fulfill()
-                    return
-                }
-                guard let currentInstallation = Installation.current else {
-                    XCTFail("Should have current installation")
-                    return
-                }
-                XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
-                XCTAssertTrue(installation.hasSameInstallationId(as: currentInstallation))
-                guard let savedCreatedAt = currentInstallation.createdAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                guard let originalCreatedAt = installationOnServer.createdAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(currentInstallation.channels, installationOnServer.channels)
-                XCTAssertEqual(currentInstallation.deviceToken, installationOnServer.deviceToken)
-
-                // Should be updated in memory
-                XCTAssertEqual(Installation.current?.installationId, installation.installationId)
-                XCTAssertNotEqual(Installation.current?.customKey, installationOnServer.customKey)
-                XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
-                XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
-
-                // Should be updated in Keychain
-                guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
-                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-                        XCTFail("Should get object from Keychain")
-                    return
-                }
-                XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, installation.installationId)
-                XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
-                XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
-                expectation1.fulfill()
-
-        }, receiveValue: { _ in
-            XCTFail("Should have thrown error")
-            expectation1.fulfill()
-        })
-        publisher.store(in: &subscriptions)
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
-    func testMigrateInstallationAlreadyMigrated() throws {
-        var subscriptions = Set<AnyCancellable>()
-        let expectation1 = XCTestExpectation(description: "Migrate Installation")
-
-        try saveCurrentInstallation()
-        MockURLProtocol.removeAll()
-
-        guard let installation = Installation.current,
-              let savedObjectId = installation.objectId,
-              let savedInstallationId = installation.installationId else {
-                XCTFail("Should unwrap")
-                return
-        }
-        XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
-
-        setupObjcKeychainSDK(installationId: savedInstallationId)
-
-        let publisher = Installation.migrateFromObjCKeychainPublisher()
-            .sink(receiveCompletion: { result in
-
                 if case let .failure(error) = result {
                     XCTFail(error.localizedDescription)
                 }
                 expectation1.fulfill()
 
-        }, receiveValue: { fetched in
+        }, receiveValue: { saved in
             guard let currentInstallation = Installation.current else {
                 XCTFail("Should have current installation")
                 return
             }
-            XCTAssertTrue(fetched.hasSameObjectId(as: currentInstallation))
-            XCTAssertTrue(fetched.hasSameInstallationId(as: currentInstallation))
-            XCTAssertTrue(fetched.hasSameObjectId(as: installation))
-            XCTAssertTrue(fetched.hasSameInstallationId(as: installation))
-            guard let fetchedCreatedAt = fetched.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            XCTAssertTrue(installationOnServer.hasSameObjectId(as: saved))
+            XCTAssertTrue(installation.hasSameInstallationId(as: saved))
+            XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
+            XCTAssertTrue(installation.hasSameInstallationId(as: currentInstallation))
+            guard let savedCreatedAt = saved.createdAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            guard let originalCreatedAt = installation.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let originalCreatedAt = installationOnServer.createdAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(saved.channels, installationOnServer.channels)
+            XCTAssertEqual(saved.deviceToken, installationOnServer.deviceToken)
 
             // Should be updated in memory
-            XCTAssertEqual(Installation.current?.installationId, savedInstallationId)
-            XCTAssertEqual(Installation.current?.customKey, installation.customKey)
+            XCTAssertEqual(Installation.current?.installationId, installation.installationId)
+            XCTAssertNotEqual(Installation.current?.customKey, installationOnServer.customKey)
+            XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
+            XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
 
             // Should be updated in Keychain
             guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
@@ -724,7 +639,9 @@ class MigrateObjCSDKCombineTests: XCTestCase {
                     XCTFail("Should get object from Keychain")
                 return
             }
-            XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, savedInstallationId)
+            XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, installation.installationId)
+            XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
+            XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
             expectation1.fulfill()
         })
         publisher.store(in: &subscriptions)

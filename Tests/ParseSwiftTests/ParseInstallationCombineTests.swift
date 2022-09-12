@@ -884,7 +884,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
 
     func testBecome() throws {
         var subscriptions = Set<AnyCancellable>()
-        let expectation1 = XCTestExpectation(description: "Migrate Installation")
+        let expectation1 = XCTestExpectation(description: "Become Installation")
 
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()
@@ -904,15 +904,12 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         installationOnServer.channels = ["yo"]
         installationOnServer.deviceToken = "no"
 
-        let results = QueryResponse<Installation>(results: [installationOnServer], count: 1)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(results)
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             // Get dates in correct format from ParseDecoding strategy
-            let encodedInstallation = try installationOnServer.getEncoder().encode(installationOnServer,
-                                                                                   skipKeys: .none)
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self,
-                                                                                from: encodedInstallation)
+                                                                                from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -923,57 +920,73 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
 
         let publisher = Installation.becomePublisher("wowsers")
             .sink(receiveCompletion: { result in
-                // This will throw error because of QueryResponse cannot be used for save.
                 if case let .failure(error) = result {
-                    guard error.message.contains("updatedAt of nil") else {
-                        XCTFail("Should have had proper error")
-                        expectation1.fulfill()
-                        return
-                    }
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { saved in
+            guard let currentInstallation = Installation.current else {
+                XCTFail("Should have current installation")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertTrue(installationOnServer.hasSameObjectId(as: saved))
+            XCTAssertTrue(installationOnServer.hasSameInstallationId(as: saved))
+            XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
+            XCTAssertTrue(installationOnServer.hasSameInstallationId(as: currentInstallation))
+            guard let savedCreatedAt = saved.createdAt else {
+                XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                return
+            }
+            guard let originalCreatedAt = installationOnServer.createdAt else {
+                XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(saved.channels, installationOnServer.channels)
+            XCTAssertEqual(saved.deviceToken, installationOnServer.deviceToken)
+
+            // Should be updated in memory
+            XCTAssertEqual(Installation.current?.installationId, "wowsers")
+            XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
+            XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
+            XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
+
+            #if !os(Linux) && !os(Android) && !os(Windows)
+            // Should be updated in Keychain
+            guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                    XCTFail("Should get object from Keychain")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, "wowsers")
+            XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
+            XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
+            #endif
+            expectation1.fulfill()
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testBecomeMissingObjectId() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Become Installation")
+        try ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        Installation.currentContainer.currentInstallation = nil
+
+        let publisher = Installation.becomePublisher("wowsers")
+            .sink(receiveCompletion: { result in
+                if case let .failure(error) = result {
+                    XCTAssertTrue(error.message.contains("does not exist"))
                 } else {
-                    XCTFail("Should have thrown error")
-                    expectation1.fulfill()
-                    return
+                    XCTFail("Should have error")
                 }
-                guard let currentInstallation = Installation.current else {
-                    XCTFail("Should have current installation")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
-                XCTAssertTrue(installationOnServer.hasSameInstallationId(as: currentInstallation))
-                guard let savedCreatedAt = currentInstallation.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                guard let originalCreatedAt = installationOnServer.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(currentInstallation.channels, installationOnServer.channels)
-                XCTAssertEqual(currentInstallation.deviceToken, installationOnServer.deviceToken)
-
-                // Should be updated in memory
-                XCTAssertEqual(Installation.current?.installationId, "wowsers")
-                XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
-                XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
-                XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
-
-                #if !os(Linux) && !os(Android) && !os(Windows)
-                // Should be updated in Keychain
-                guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
-                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-                        XCTFail("Should get object from Keychain")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, "wowsers")
-                XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
-                XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
-                #endif
                 expectation1.fulfill()
 
         }, receiveValue: { _ in

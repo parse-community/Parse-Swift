@@ -122,11 +122,11 @@ public extension ParseInstallation {
     }
 
     /**
-     Copy the `ParseInstallation` *asynchronously* based on the `installationId`.
+     Copy the `ParseInstallation` *asynchronously* based on the `objectId`.
      On success, this saves the `ParseInstallation` to the keychain, so you can retrieve
      the current installation using *current*.
 
-     - parameter installationId: The **id** of the `ParseInstallation` to become.
+     - parameter objectId: The **id** of the `ParseInstallation` to become.
      - parameter copyEntireInstallation: When **true**, copies the entire `ParseInstallation`.
      When **false**, only the `channels` and `deviceToken` are copied; resulting in a new
      `ParseInstallation` for original `sessionToken`. Defaults to **true**.
@@ -137,11 +137,11 @@ public extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    @discardableResult static func become(_ installationId: String,
+    @discardableResult static func become(_ objectId: String,
                                           copyEntireInstallation: Bool = true,
                                           options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            Self.become(installationId,
+            Self.become(objectId,
                         copyEntireInstallation: copyEntireInstallation,
                         options: options,
                         completion: continuation.resume)
@@ -349,6 +349,7 @@ public extension ParseInstallation {
      - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
      Parse Server before calling this method.
     */
+    @available(*, deprecated, message: "This does not work, use become() instead")
     @discardableResult static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
                                                            options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in

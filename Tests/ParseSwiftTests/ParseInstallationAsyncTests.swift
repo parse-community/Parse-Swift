@@ -1140,15 +1140,12 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         installationOnServer.channels = ["yo"]
         installationOnServer.deviceToken = "no"
 
-        let results = QueryResponse<Installation>(results: [installationOnServer], count: 1)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(results)
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             // Get dates in correct format from ParseDecoding strategy
-            let encodedInstallation = try installationOnServer.getEncoder().encode(installationOnServer,
-                                                                                   skipKeys: .none)
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self,
-                                                                                from: encodedInstallation)
+                                                                                from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -1157,24 +1154,16 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        do {
-            // This will throw error because of QueryResponse cannot be used for save.
-            _ = try await Installation.become("wowsers")
-            XCTFail("Should have thrown error")
-        } catch {
-            guard let parseError = error as? ParseError,
-                  parseError.message.contains("updatedAt of nil") else {
-                XCTFail("Should have had proper error")
-                return
-            }
-        }
+        let saved = try await Installation.become("wowsers")
         guard let currentInstallation = Installation.current else {
             XCTFail("Should have current installation")
             return
         }
+        XCTAssertTrue(installationOnServer.hasSameObjectId(as: saved))
+        XCTAssertTrue(installationOnServer.hasSameInstallationId(as: saved))
         XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
         XCTAssertTrue(installationOnServer.hasSameInstallationId(as: currentInstallation))
-        guard let savedCreatedAt = currentInstallation.createdAt else {
+        guard let savedCreatedAt = saved.createdAt else {
             XCTFail("Should unwrap dates")
             return
         }
@@ -1183,8 +1172,8 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             return
         }
         XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-        XCTAssertEqual(currentInstallation.channels, installationOnServer.channels)
-        XCTAssertEqual(currentInstallation.deviceToken, installationOnServer.deviceToken)
+        XCTAssertEqual(saved.channels, installationOnServer.channels)
+        XCTAssertEqual(saved.deviceToken, installationOnServer.deviceToken)
 
         // Should be updated in memory
         XCTAssertEqual(Installation.current?.installationId, "wowsers")
@@ -1203,6 +1192,44 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
         XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
         #endif
+    }
+
+    @MainActor
+    func testBecomeSameObjectId() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        guard let installation = Installation.current,
+            let savedObjectId = installation.objectId else {
+                XCTFail("Should unwrap")
+                return
+        }
+        XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
+
+        let saved = try await Installation.become(testInstallationObjectId)
+        guard let currentInstallation = Installation.current else {
+            XCTFail("Should have current installation")
+            return
+        }
+        XCTAssertEqual(saved, currentInstallation)
+    }
+
+    @MainActor
+    func testBecomeMissingObjectId() async throws {
+        try ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        Installation.currentContainer.currentInstallation = nil
+
+        do {
+            _ = try await Installation.become(testInstallationObjectId)
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("does not exist"))
+        }
     }
 }
 #endif

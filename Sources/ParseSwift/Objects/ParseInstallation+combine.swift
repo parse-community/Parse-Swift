@@ -344,6 +344,7 @@ public extension ParseInstallation {
      Parse Server before calling this method. This method assumes **PFInstallation.installationId** is saved
      to the Keychain. If the **installationId** is not saved to the Keychain, this method will not work.
     */
+    @available(*, deprecated, message: "This does not work, use become() instead")
     static func migrateFromObjCKeychainPublisher(copyEntireInstallation: Bool = true,
                                                  options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
