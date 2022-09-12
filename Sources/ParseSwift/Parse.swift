@@ -160,7 +160,7 @@ public func initialize(configuration: ParseConfiguration) {
     #if !os(Linux) && !os(Android) && !os(Windows)
     if configuration.isMigratingFromObjcSDK {
         if let objcParseKeychain = KeychainStore.objectiveC {
-            guard let installationId: String = objcParseKeychain.object(forKey: "installationId"),
+            guard let installationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId"),
                   BaseParseInstallation.current?.installationId != installationId else {
                 return
             }
@@ -383,7 +383,7 @@ public func clearCache() {
  - warning: The keychain cannot be recovered after deletion.
  */
 public func deleteObjectiveCKeychain() throws {
-    try KeychainStore.objectiveC?.deleteAll()
+    try KeychainStore.objectiveC?.deleteAllObjectiveC()
 }
 
 /**

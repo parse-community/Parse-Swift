@@ -303,6 +303,76 @@ public extension ParseInstallation {
             Self.updateInternalFieldsCorrectly()
         }
     }
+
+    /**
+     Copy the `ParseInstallation` *asynchronously* based on the `objectId`.
+     On success, this saves the `ParseInstallation` to the keychain, so you can retrieve
+     the current installation using *current*.
+
+     - parameter objectId: The **id** of the `ParseInstallation` to become.
+     - parameter copyEntireInstallation: When **true**, copies the entire `ParseInstallation`.
+     When **false**, only the `channels` and `deviceToken` are copied; resulting in a new
+     `ParseInstallation` for original `sessionToken`. Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    static func become(_ objectId: String,
+                       copyEntireInstallation: Bool = true,
+                       options: API.Options = [],
+                       callbackQueue: DispatchQueue = .main,
+                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+        guard var currentInstallation = Self.current else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Current installation does not exist")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        guard currentInstallation.objectId != objectId else {
+            // If the installationId's are the same, assume successful replacement already occured.
+            callbackQueue.async {
+                completion(.success(currentInstallation))
+            }
+            return
+        }
+        currentInstallation.objectId = objectId
+        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
+            switch result {
+            case .success(var updatedInstallation):
+                if copyEntireInstallation {
+                    updatedInstallation.updateAutomaticInfo()
+                    Self.currentContainer.installationId = updatedInstallation.installationId
+                    Self.currentContainer.currentInstallation = updatedInstallation
+                } else {
+                    Self.current?.channels = updatedInstallation.channels
+                    if Self.current?.deviceToken == nil {
+                        Self.current?.deviceToken = updatedInstallation.deviceToken
+                    }
+                }
+                Self.saveCurrentContainerToKeychain()
+                guard let latestInstallation = Self.current else {
+                    let error = ParseError(code: .unknownError,
+                                           message: "Had trouble migrating the installation")
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                latestInstallation.save(options: options,
+                                        callbackQueue: callbackQueue,
+                                        completion: completion)
+            case .failure(let error):
+                callbackQueue.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
 }
 
 // MARK: Automatic Info
@@ -1533,14 +1603,17 @@ public extension ParseInstallation {
      - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
      when calling this method.
      - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
-     Parse Server before calling this method.
+     Parse Server before calling this method. This method assumes **PFInstallation.installationId**
+     is saved to the Keychain. If the **installationId** is not saved to the Keychain, this method will
+     not work.
     */
+    @available(*, deprecated, message: "This does not work, use become() instead")
     static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
                                         options: API.Options = [],
                                         callbackQueue: DispatchQueue = .main,
                                         completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let objcParseKeychain = KeychainStore.objectiveC,
-              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+              let oldInstallationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId") else {
             let error = ParseError(code: .unknownError,
                                    message: "Could not find Installation in the Objective-C SDK Keychain")
             callbackQueue.async {
@@ -1548,53 +1621,9 @@ public extension ParseInstallation {
             }
             return
         }
-        guard var currentInstallation = Self.current else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Current installation does not exist")
-            callbackQueue.async {
-                completion(.failure(error))
-            }
-            return
-        }
-        guard currentInstallation.installationId != oldInstallationId else {
-            // If the installationId's are the same, assume successful migration already occured.
-            callbackQueue.async {
-                completion(.success(currentInstallation))
-            }
-            return
-        }
-        currentInstallation.installationId = oldInstallationId
-        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
-            switch result {
-            case .success(var updatedInstallation):
-                if copyEntireInstallation {
-                    updatedInstallation.updateAutomaticInfo()
-                    Self.currentContainer.installationId = updatedInstallation.installationId
-                    Self.currentContainer.currentInstallation = updatedInstallation
-                } else {
-                    Self.current?.channels = updatedInstallation.channels
-                    if Self.current?.deviceToken == nil {
-                        Self.current?.deviceToken = updatedInstallation.deviceToken
-                    }
-                }
-                Self.saveCurrentContainerToKeychain()
-                guard let latestInstallation = Self.current else {
-                    let error = ParseError(code: .unknownError,
-                                           message: "Had trouble migrating the installation")
-                    callbackQueue.async {
-                        completion(.failure(error))
-                    }
-                    return
-                }
-                latestInstallation.save(options: options,
-                                        callbackQueue: callbackQueue,
-                                        completion: completion)
-            case .failure(let error):
-                callbackQueue.async {
-                    completion(.failure(error))
-                }
-            }
-        }
+        become(oldInstallationId,
+               copyEntireInstallation: copyEntireInstallation,
+               completion: completion)
     }
 
     /**
@@ -1616,7 +1645,7 @@ public extension ParseInstallation {
                                    callbackQueue: DispatchQueue = .main,
                                    completion: @escaping (Result<Void, ParseError>) -> Void) {
         guard let objcParseKeychain = KeychainStore.objectiveC,
-              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+              let oldInstallationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId") else {
             let error = ParseError(code: .unknownError,
                                    message: "Could not find Installation in the Objective-C SDK Keychain")
             callbackQueue.async {

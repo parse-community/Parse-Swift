@@ -117,8 +117,36 @@ public extension ParseInstallation {
             self.delete(options: options, completion: promise)
         }
     }
+
+    /**
+     Copies the `ParseInstallation` *asynchronously* based on the `installationId` and publishes
+     when complete. On success, this saves the `ParseInstallation` to the keychain, so you can retrieve
+     the current installation using *current*.
+
+     - parameter installationId: The **id** of the `ParseInstallation` to become.
+     - parameter copyEntireInstallation: When **true**, copies the entire `ParseInstallation`.
+     When **false**, only the `channels` and `deviceToken` are copied; resulting in a new
+     `ParseInstallation` for original `sessionToken`. Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    static func becomePublisher(_ installationId: String,
+                                copyEntireInstallation: Bool = true,
+                                options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            Self.become(installationId,
+                        copyEntireInstallation: copyEntireInstallation,
+                        options: options,
+                        completion: promise)
+        }
+    }
 }
 
+// MARK: Batch Support
 public extension Sequence where Element: ParseInstallation {
     /**
      Fetches a collection of installations *aynchronously* with the current data from the server and sets
@@ -313,8 +341,10 @@ public extension ParseInstallation {
      - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
      when calling this method.
      - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
-     Parse Server before calling this method.
+     Parse Server before calling this method. This method assumes **PFInstallation.installationId** is saved
+     to the Keychain. If the **installationId** is not saved to the Keychain, this method will not work.
     */
+    @available(*, deprecated, message: "This does not work, use become() instead")
     static func migrateFromObjCKeychainPublisher(copyEntireInstallation: Bool = true,
                                                  options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in

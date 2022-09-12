@@ -4,6 +4,12 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.10.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Add the become method to ParseInstallation which allows any ParseInstallation to be copied to the current installation. This method can be used to migrate any ParseInstallation to the current installation in the Swift SDK  ([#407](https://github.com/parse-community/Parse-Swift/pull/407)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Properly get the session token from the Parse Objective-C Keychain when using ParseUser.loginUsingObjCKeychain  ([#407](https://github.com/parse-community/Parse-Swift/pull/407)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.11.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.10.0...4.11.0)
 

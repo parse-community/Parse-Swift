@@ -120,8 +120,36 @@ public extension ParseInstallation {
             throw error
         }
     }
+
+    /**
+     Copy the `ParseInstallation` *asynchronously* based on the `objectId`.
+     On success, this saves the `ParseInstallation` to the keychain, so you can retrieve
+     the current installation using *current*.
+
+     - parameter objectId: The **id** of the `ParseInstallation` to become.
+     - parameter copyEntireInstallation: When **true**, copies the entire `ParseInstallation`.
+     When **false**, only the `channels` and `deviceToken` are copied; resulting in a new
+     `ParseInstallation` for original `sessionToken`. Defaults to **true**.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    @discardableResult static func become(_ objectId: String,
+                                          copyEntireInstallation: Bool = true,
+                                          options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            Self.become(objectId,
+                        copyEntireInstallation: copyEntireInstallation,
+                        options: options,
+                        completion: continuation.resume)
+        }
+    }
 }
 
+// MARK: Batch Support
 public extension Sequence where Element: ParseInstallation {
     /**
      Fetches a collection of installations *aynchronously* with the current data from the server and sets
@@ -321,8 +349,8 @@ public extension ParseInstallation {
      - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
      Parse Server before calling this method.
     */
+    @available(*, deprecated, message: "This does not work, use become() instead")
     @discardableResult static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
-                                                           deleteObjectiveCKeychain: Bool = false,
                                                            options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.migrateFromObjCKeychain(copyEntireInstallation: copyEntireInstallation,
@@ -338,9 +366,14 @@ public extension ParseInstallation {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
      - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
+     when calling this method.
      - warning: It is recommended to only use this method after a succesfful migration. Calling this
      method will destroy the entire Objective-C Keychain and `ParseInstallation` on the Parse
-     Server.
+     Server. This method assumes **PFInstallation.installationId** is saved to the Keychain. If the
+     **installationId** is not saved to the Keychain, this method will not work.
     */
     static func deleteObjCKeychain(options: API.Options = []) async throws {
         let result = try await withCheckedThrowingContinuation { continuation in

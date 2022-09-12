@@ -31,6 +31,7 @@ class KeychainStoreTests: XCTestCase {
         _ = testStore.removeAllObjects()
         #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
+        try? KeychainStore.objectiveC?.deleteAllObjectiveC()
         #endif
         try ParseStorage.shared.deleteAll()
     }
@@ -253,6 +254,26 @@ class KeychainStoreTests: XCTestCase {
         XCTAssertEqual(query[kSecAttrSynchronizable as String] as? Bool, kCFBooleanFalse as? Bool)
         XCTAssertEqual(query[kSecAttrAccessible as String] as? String,
                        kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String)
+    }
+
+    func testSetObjectiveC() throws {
+        // Set keychain the way objc sets keychain
+        guard let objcParseKeychain = KeychainStore.objectiveC else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let objcInstallationId = "helloWorld"
+        _ = objcParseKeychain.setObjectiveC(object: objcInstallationId, forKey: "installationId")
+
+        guard let retrievedValue: String = objcParseKeychain.objectObjectiveC(forKey: "installationId") else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(retrievedValue, objcInstallationId)
+        let newInstallationId: String? = nil
+        _ = objcParseKeychain.setObjectiveC(object: newInstallationId, forKey: "installationId")
+        let retrievedValue2: String? = objcParseKeychain.objectObjectiveC(forKey: "installationId")
+        XCTAssertNil(retrievedValue2)
     }
 }
 #endif
