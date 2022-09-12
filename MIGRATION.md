@@ -118,7 +118,7 @@ The Parse ObjC SDK will be phased out in the future in favor of the more modern 
 
 These issues below are especially important to consider before migrating.
 
-- (none)
+- After migrating an app to the Parse Swift SDK, launching the app will create a new `Installation` object with a new `installationId`. It will appear as if the app had been uninstalled and then reinstalled, even though it was only updated with the new Parse Swift SDK.
 
 # Feature Comparison
 
