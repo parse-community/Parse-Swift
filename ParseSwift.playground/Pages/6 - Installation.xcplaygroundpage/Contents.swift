@@ -37,7 +37,10 @@ struct Installation: ParseInstallation {
     //: Your custom keys
     var customKey: String?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.customKey,
@@ -65,10 +68,13 @@ currentInstallation?.save { results in
     }
 }
 
-/*: Update your `ParseInstallation` `customKey` and `channels` values.
-    Performs work on background queue and returns to designated on
-    designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue.
+/*:
+ Update your `ParseInstallation` `customKey` and `channels` values.
+ Performs work on background queue and returns to designated on
+ designated callbackQueue. If no callbackQueue is specified it
+ returns to main queue. Using `.mergeable` or `set()`
+ allows you to only send the updated keys to the
+ parse server as opposed to the whole object.
  */
 var installationToUpdate = Installation.current?.mergeable
 installationToUpdate?.customKey = "myCustomInstallationKey2"

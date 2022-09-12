@@ -34,7 +34,10 @@ struct User: ParseUser {
     var targetScore: GameScore?
     var allScores: [GameScore]?
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.customKey,
@@ -80,7 +83,10 @@ struct GameScore: ParseObject {
     //: Your own properties.
     var points: Int? = 0
 
-    //: Implement your own version of merge
+    /*:
+     Optional - implement your own version of merge
+     for faster decoding after updating your `ParseObject`.
+     */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.points,
@@ -112,9 +118,10 @@ do {
     print("Error logging out: \(error)")
 }
 
-/*: Login - asynchronously - Performs work on background
-    queue and returns to specified callbackQueue.
-    If no callbackQueue is specified it returns to main queue.
+/*:
+ Login - asynchronously - Performs work on background
+ queue and returns to specified callbackQueue.
+ If no callbackQueue is specified it returns to main queue.
 */
 User.login(username: "hello", password: "world") { result in
 
@@ -133,17 +140,21 @@ User.login(username: "hello", password: "world") { result in
     }
 }
 
-/*: Save your first `customKey` value to your `ParseUser`
-    Asynchrounously - Performs work on background
-    queue and returns to specified callbackQueue.
-    If no callbackQueue is specified it returns to main queue.
-    Using `.mergeable` allows you to only send the updated keys to the
-    parse server as opposed to the whole object.
+/*:
+ Save your first `customKey` value to your `ParseUser`
+ Asynchrounously - Performs work on background
+ queue and returns to specified callbackQueue.
+ If no callbackQueue is specified it returns to main queue.
+ Using `.mergeable` or `set()` allows you to only send
+ the updated keys to the parse server as opposed to the
+ whole object. You can chain set calls or even use
+ `set()` in combination with mutating the `ParseObject`
+ directly.
 */
-var currentUser = User.current?.mergeable
-currentUser?.customKey = "myCustom"
-currentUser?.gameScore = GameScore(points: 12)
-currentUser?.targetScore = GameScore(points: 100)
+var currentUser = User.current?
+    .set(\.customKey, to: "myCustom")
+    .set(\.gameScore, to: GameScore(points: 12))
+    .set(\.targetScore, to: GameScore(points: 100))
 currentUser?.allScores = [GameScore(points: 5), GameScore(points: 8)]
 currentUser?.save { result in
 
