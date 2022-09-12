@@ -1217,7 +1217,9 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
     @MainActor
     func testBecomeMissingObjectId() async throws {
         try ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #endif
         Installation.currentContainer.currentInstallation = nil
 
         do {

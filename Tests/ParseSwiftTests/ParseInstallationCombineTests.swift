@@ -977,7 +977,9 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Become Installation")
         try ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #endif
         Installation.currentContainer.currentInstallation = nil
 
         let publisher = Installation.becomePublisher("wowsers")
