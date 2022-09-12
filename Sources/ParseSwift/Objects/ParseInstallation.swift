@@ -325,7 +325,7 @@ public extension ParseInstallation {
                        options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        guard var currentInstallation = Self.current else {
+        guard let currentInstallation = Self.current else {
             let error = ParseError(code: .unknownError,
                                    message: "Current installation does not exist")
             callbackQueue.async {
@@ -340,8 +340,8 @@ public extension ParseInstallation {
             }
             return
         }
-        currentInstallation.installationId = installationId
-        currentInstallation.fetch(options: options, callbackQueue: callbackQueue) { result in
+        let query = Self.query("installationId" == installationId)
+        query.first(options: options, callbackQueue: callbackQueue) { result in
             switch result {
             case .success(var updatedInstallation):
                 if copyEntireInstallation {

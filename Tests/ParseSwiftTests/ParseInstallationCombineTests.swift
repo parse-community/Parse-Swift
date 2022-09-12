@@ -897,17 +897,22 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
 
         var installationOnServer = installation
+        installationOnServer.createdAt = installation.updatedAt
         installationOnServer.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
         installationOnServer.customKey = "newValue"
         installationOnServer.installationId = "wowsers"
         installationOnServer.channels = ["yo"]
         installationOnServer.deviceToken = "no"
 
+        let results = QueryResponse<Installation>(results: [installationOnServer], count: 1)
         let encoded: Data!
         do {
-            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
+            encoded = try ParseCoding.jsonEncoder().encode(results)
             // Get dates in correct format from ParseDecoding strategy
-            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+            let encodedInstallation = try installationOnServer.getEncoder().encode(installationOnServer,
+                                                                                   skipKeys: .none)
+            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self,
+                                                                                from: encodedInstallation)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -918,50 +923,61 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
 
         let publisher = Installation.becomePublisher("wowsers")
             .sink(receiveCompletion: { result in
-
+                // This will throw error because of QueryResponse cannot be used for save.
                 if case let .failure(error) = result {
-                    XCTFail(error.localizedDescription)
+                    guard error.message.contains("updatedAt of nil") else {
+                        XCTFail("Should have had proper error")
+                        expectation1.fulfill()
+                        return
+                    }
+                } else {
+                    XCTFail("Should have thrown error")
+                    expectation1.fulfill()
+                    return
                 }
+                guard let currentInstallation = Installation.current else {
+                    XCTFail("Should have current installation")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertTrue(installationOnServer.hasSameObjectId(as: currentInstallation))
+                XCTAssertTrue(installationOnServer.hasSameInstallationId(as: currentInstallation))
+                guard let savedCreatedAt = currentInstallation.createdAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+                }
+                guard let originalCreatedAt = installationOnServer.createdAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(currentInstallation.channels, installationOnServer.channels)
+                XCTAssertEqual(currentInstallation.deviceToken, installationOnServer.deviceToken)
+
+                // Should be updated in memory
+                XCTAssertEqual(Installation.current?.installationId, "wowsers")
+                XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
+                XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
+                XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
+
+                #if !os(Linux) && !os(Android) && !os(Windows)
+                // Should be updated in Keychain
+                guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                        XCTFail("Should get object from Keychain")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, "wowsers")
+                XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
+                XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
+                #endif
                 expectation1.fulfill()
 
-        }, receiveValue: { fetched in
-            guard let currentInstallation = Installation.current else {
-                XCTFail("Should have current installation")
-                return
-            }
-            XCTAssertTrue(fetched.hasSameObjectId(as: currentInstallation))
-            XCTAssertTrue(fetched.hasSameInstallationId(as: currentInstallation))
-            XCTAssertTrue(fetched.hasSameObjectId(as: installationOnServer))
-            XCTAssertTrue(fetched.hasSameInstallationId(as: installationOnServer))
-            guard let fetchedCreatedAt = fetched.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = installationOnServer.createdAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(fetched.channels, installationOnServer.channels)
-            XCTAssertEqual(fetched.deviceToken, installationOnServer.deviceToken)
-
-            // Should be updated in memory
-            XCTAssertEqual(Installation.current?.installationId, "wowsers")
-            XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
-            XCTAssertEqual(Installation.current?.channels, installationOnServer.channels)
-            XCTAssertEqual(Installation.current?.deviceToken, installationOnServer.deviceToken)
-
-            #if !os(Linux) && !os(Android) && !os(Windows)
-            // Should be updated in Keychain
-            guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
-                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-                    XCTFail("Should get object from Keychain")
-                return
-            }
-            XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, "wowsers")
-            XCTAssertEqual(keychainInstallation.currentInstallation?.channels, installationOnServer.channels)
-            XCTAssertEqual(keychainInstallation.currentInstallation?.deviceToken, installationOnServer.deviceToken)
-            #endif
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown error")
             expectation1.fulfill()
         })
         publisher.store(in: &subscriptions)
