@@ -1612,7 +1612,7 @@ public extension ParseInstallation {
                                         callbackQueue: DispatchQueue = .main,
                                         completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let objcParseKeychain = KeychainStore.objectiveC,
-              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+              let oldInstallationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId") else {
             let error = ParseError(code: .unknownError,
                                    message: "Could not find Installation in the Objective-C SDK Keychain")
             callbackQueue.async {
@@ -1644,7 +1644,7 @@ public extension ParseInstallation {
                                    callbackQueue: DispatchQueue = .main,
                                    completion: @escaping (Result<Void, ParseError>) -> Void) {
         guard let objcParseKeychain = KeychainStore.objectiveC,
-              let oldInstallationId: String = objcParseKeychain.object(forKey: "installationId") else {
+              let oldInstallationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId") else {
             let error = ParseError(code: .unknownError,
                                    message: "Could not find Installation in the Objective-C SDK Keychain")
             callbackQueue.async {

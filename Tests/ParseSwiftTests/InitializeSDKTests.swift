@@ -51,7 +51,7 @@ class InitializeSDKTests: XCTestCase {
         try super.tearDownWithError()
         #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
-        try KeychainStore.objectiveC?.deleteAll()
+        try KeychainStore.objectiveC?.deleteAllObjectiveC()
         try KeychainStore.old.deleteAll()
         URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
         #endif
@@ -534,7 +534,7 @@ class InitializeSDKTests: XCTestCase {
             return
         }
         let objcInstallationId = "helloWorld"
-        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
+        _ = objcParseKeychain.setObjectiveC(object: objcInstallationId, forKey: "installationId")
 
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
@@ -563,7 +563,7 @@ class InitializeSDKTests: XCTestCase {
             return
         }
         let objcInstallationId = "helloWorld"
-        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
+        _ = objcParseKeychain.setObjectiveC(object: objcInstallationId, forKey: "installationId")
 
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
@@ -607,15 +607,15 @@ class InitializeSDKTests: XCTestCase {
             return
         }
         let objcInstallationId = "helloWorld"
-        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
+        _ = objcParseKeychain.setObjectiveC(object: objcInstallationId, forKey: "installationId")
 
-        guard let retrievedInstallationId: String? = try objcParseKeychain.get(valueFor: "installationId") else {
+        guard let retrievedInstallationId: String? = objcParseKeychain.objectObjectiveC(forKey: "installationId") else {
             XCTFail("Should have unwrapped")
             return
         }
         XCTAssertEqual(retrievedInstallationId, objcInstallationId)
         XCTAssertNoThrow(try ParseSwift.deleteObjectiveCKeychain())
-        let retrievedInstallationId2: String? = try objcParseKeychain.get(valueFor: "installationId")
+        let retrievedInstallationId2: String? = objcParseKeychain.objectObjectiveC(forKey: "installationId")
         XCTAssertNil(retrievedInstallationId2)
 
         //This is needed for tear down
@@ -638,7 +638,7 @@ class InitializeSDKTests: XCTestCase {
             return
         }
         let objcInstallationId = "helloWorld"
-        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "anotherPlace")
+        _ = objcParseKeychain.setObjectiveC(object: objcInstallationId, forKey: "anotherPlace")
 
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")

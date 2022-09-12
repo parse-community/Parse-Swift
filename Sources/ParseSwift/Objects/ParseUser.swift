@@ -376,7 +376,7 @@ extension ParseUser {
 
         let objcParseKeychain = KeychainStore.objectiveC
 
-        guard let objcParseUser: [String: String] = objcParseKeychain?.object(forKey: "currentUser"),
+        guard let objcParseUser: [String: String] = objcParseKeychain?.objectObjectiveC(forKey: "currentUser"),
             let sessionToken: String = objcParseUser["sessionToken"] ??
                 objcParseUser["session_token"] else {
             let error = ParseError(code: .unknownError,

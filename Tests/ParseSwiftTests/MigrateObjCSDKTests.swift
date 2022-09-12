@@ -130,7 +130,7 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
-        try KeychainStore.objectiveC?.deleteAll()
+        try KeychainStore.objectiveC?.deleteAllObjectiveC()
         #endif
         try ParseStorage.shared.deleteAll()
     }
@@ -149,13 +149,13 @@ class MigrateObjCSDKTests: XCTestCase { // swiftlint:disable:this type_body_leng
         let currentUserDictionary2 = ["session_token": objcSessionToken2]
         let currentUserDictionary3 = ["sessionToken": objcSessionToken,
                                       "session_token": objcSessionToken2]
-        _ = objcParseKeychain.set(object: installationId, forKey: "installationId")
+        _ = objcParseKeychain.setObjectiveC(object: installationId, forKey: "installationId")
         if useBothTokens {
-            _ = objcParseKeychain.set(object: currentUserDictionary3, forKey: "currentUser")
+            _ = objcParseKeychain.setObjectiveC(object: currentUserDictionary3, forKey: "currentUser")
         } else if !useOldObjCToken {
-            _ = objcParseKeychain.set(object: currentUserDictionary, forKey: "currentUser")
+            _ = objcParseKeychain.setObjectiveC(object: currentUserDictionary, forKey: "currentUser")
         } else {
-            _ = objcParseKeychain.set(object: currentUserDictionary2, forKey: "currentUser")
+            _ = objcParseKeychain.setObjectiveC(object: currentUserDictionary2, forKey: "currentUser")
         }
     }
 
