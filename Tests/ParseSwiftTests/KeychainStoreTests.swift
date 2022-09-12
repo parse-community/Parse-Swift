@@ -31,6 +31,7 @@ class KeychainStoreTests: XCTestCase {
         _ = testStore.removeAllObjects()
         #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
+        try? KeychainStore.objectiveC?.deleteAllObjectiveC()
         #endif
         try ParseStorage.shared.deleteAll()
     }
