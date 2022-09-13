@@ -27,7 +27,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A16FileTransferableP6upload4with04fromC010completionSo22NSURLSessionUploadTaskC10Foundation10URLRequestV_AJ3URLVyAJ4DataVSg_So13NSURLResponseCSgs5Error_pSgtctF",
+    "externalID" : "s:10ParseSwift0A16FileTransferableP6upload4with04fromC010completionSo22NSURLSessionUploadTaskC10Foundation10URLRequestV_AJ3URLVyAJ4DataVSg_So13NSURLResponseCSgALSgs5Error_pSgtctKF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -107,6 +107,15 @@
       },
       {
         "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10Foundation10URLRequestV",
+        "text" : "URLRequest"
+      },
+      {
+        "kind" : "text",
+        "text" : "?, "
+      },
+      {
+        "kind" : "typeIdentifier",
         "preciseIdentifier" : "s:s5ErrorP",
         "text" : "Error"
       },
@@ -121,7 +130,15 @@
       },
       {
         "kind" : "text",
-        "text" : ") -> "
+        "text" : ") "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
+      },
+      {
+        "kind" : "text",
+        "text" : " -> "
       },
       {
         "kind" : "typeIdentifier",
@@ -253,6 +270,15 @@
             },
             {
               "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10Foundation10URLRequestV",
+              "text" : "URLRequest"
+            },
+            {
+              "kind" : "text",
+              "text" : "?, "
+            },
+            {
+              "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:s5ErrorP",
               "text" : "Error"
             },
@@ -267,7 +293,15 @@
             },
             {
               "kind" : "text",
-              "text" : ") -> "
+              "text" : ") "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "throws"
+            },
+            {
+              "kind" : "text",
+              "text" : " -> "
             },
             {
               "kind" : "typeIdentifier",
@@ -331,7 +365,71 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "is complete. This handler is executed on the delegate queue.",
+                  "text" : "is complete. Should be in the form ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "(Data?, URLResponse?, URLRequest?, Error?)",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "Data",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " and ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "URLResponse",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " should be created using ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "makeSuccessfulUploadResponse()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "URLRequest",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " is the request used to upload the file if available. ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "Error",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " is any error that occured",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "that prevented the file upload.",
                   "type" : "text"
                 }
               ],
@@ -523,6 +621,15 @@
     },
     {
       "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation10URLRequestV",
+      "text" : "URLRequest"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:s5ErrorP",
       "text" : "Error"
     },
@@ -537,7 +644,15 @@
     },
     {
       "kind" : "text",
-      "text" : ") -> "
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
     },
     {
       "kind" : "typeIdentifier",
