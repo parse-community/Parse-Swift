@@ -284,6 +284,85 @@
             {
               "inlineContent" : [
                 {
+                  "text" : "The default cache policy for this method is ",
+                  "type" : "text"
+                },
+                {
+                  "code" : ".reloadIgnoringLocalCacheData",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ". If a developer",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "desires a different policy, it should be inserted in ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "options",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "note",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "When initializing the Swift SDK, ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "migratingFromObjcSDK",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " should be set to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "when calling this method.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "warning",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
                   "text" : "It is recommended to only use this method after a succesfful migration. Calling this",
                   "type" : "text"
                 },
@@ -308,7 +387,37 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "Server.",
+                  "text" : "Server. This method assumes ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "PFInstallation.installationId",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " is saved to the Keychain. If the",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "installationId",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " is not saved to the Keychain, this method will not work.",
                   "type" : "text"
                 }
               ],

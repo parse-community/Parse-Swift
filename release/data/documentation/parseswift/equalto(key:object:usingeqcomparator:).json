@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Set the value of a specific ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " on a ",
+      "text" : "Add a constraint that requires that a key is equal to a ",
       "type" : "text"
     },
     {
@@ -24,20 +16,17 @@
   "hierarchy" : {
     "paths" : [
       [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/ParseObject-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/set(_:to:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:object:usingEqComparator:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF::SYNTHESIZED::s:10ParseSwift0A10PushStatusV",
+    "externalID" : "s:10ParseSwift7equalTo3key6object17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -49,7 +38,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "set"
+        "text" : "equalTo"
       },
       {
         "kind" : "text",
@@ -57,41 +46,15 @@
       },
       {
         "kind" : "genericParameter",
-        "text" : "W"
+        "text" : "T"
       },
       {
         "kind" : "text",
         "text" : ">("
       },
       {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:s15WritableKeyPathC",
-        "text" : "WritableKeyPath"
-      },
-      {
-        "kind" : "text",
-        "text" : "<"
-      },
-      {
-        "kind" : "typeIdentifier",
-        "text" : "Self"
-      },
-      {
-        "kind" : "text",
-        "text" : ", "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
-        "text" : "W"
-      },
-      {
-        "kind" : "text",
-        "text" : "?>, "
-      },
-      {
         "kind" : "externalParam",
-        "text" : "to"
+        "text" : "key"
       },
       {
         "kind" : "text",
@@ -99,16 +62,59 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
-        "text" : "W"
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
       },
       {
         "kind" : "text",
-        "text" : ") -> "
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "object"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "text" : "Self"
+        "preciseIdentifier" : "s:10ParseSwift7equalTo3key6object17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF1TL_xmfp",
+        "text" : "T"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "usingEqComparator"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Sb",
+        "text" : "Bool"
+      },
+      {
+        "kind" : "text",
+        "text" : ") "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
+      },
+      {
+        "kind" : "text",
+        "text" : " -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
+        "text" : "QueryConstraint"
       }
     ],
     "modules" : [
@@ -117,9 +123,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Instance Method",
-    "symbolKind" : "method",
-    "title" : "set(_:to:)"
+    "roleHeading" : "Function",
+    "symbolKind" : "func",
+    "title" : "equalTo(key:object:usingEqComparator:)"
   },
   "primaryContentSections" : [
     {
@@ -142,7 +148,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "set"
+              "text" : "equalTo"
             },
             {
               "kind" : "text",
@@ -150,7 +156,7 @@
             },
             {
               "kind" : "genericParameter",
-              "text" : "W"
+              "text" : "T"
             },
             {
               "kind" : "text",
@@ -158,15 +164,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "_"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "keyPath"
+              "text" : "key"
             },
             {
               "kind" : "text",
@@ -174,41 +172,16 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:s15WritableKeyPathC",
-              "text" : "WritableKeyPath"
-            },
-            {
-              "kind" : "text",
-              "text" : "<"
-            },
-            {
-              "kind" : "typeIdentifier",
-              "text" : "Self"
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
             },
             {
               "kind" : "text",
               "text" : ", "
             },
             {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
-              "text" : "W"
-            },
-            {
-              "kind" : "text",
-              "text" : "?>, "
-            },
-            {
               "kind" : "externalParam",
-              "text" : "to"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "value"
+              "text" : "object"
             },
             {
               "kind" : "text",
@@ -216,16 +189,43 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
-              "text" : "W"
+              "preciseIdentifier" : "s:10ParseSwift7equalTo3key6object17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF1TL_xmfp",
+              "text" : "T"
             },
             {
               "kind" : "text",
-              "text" : ") -> "
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "usingEqComparator"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
             },
             {
               "kind" : "typeIdentifier",
-              "text" : "Self"
+              "preciseIdentifier" : "s:Sb",
+              "text" : "Bool"
+            },
+            {
+              "kind" : "text",
+              "text" : " = configuration.isUsingEqualQueryConstraint) "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "throws"
+            },
+            {
+              "kind" : "text",
+              "text" : " -> "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
+              "text" : "QueryConstraint"
             },
             {
               "kind" : "text",
@@ -241,16 +241,17 @@
             },
             {
               "kind" : "typeIdentifier",
-              "text" : "W"
+              "text" : "T"
             },
             {
               "kind" : "text",
               "text" : " : "
             },
             {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SQ",
-              "text" : "Equatable"
+              "preciseIdentifier" : "s:10ParseSwift0A6ObjectP",
+              "text" : "ParseObject"
             }
           ]
         }
@@ -268,15 +269,15 @@
         {
           "inlineContent" : [
             {
-              "text" : "The updated ",
+              "text" : "The same instance of ",
               "type" : "text"
             },
             {
-              "code" : "ParseObject",
+              "code" : "QueryConstraint",
               "type" : "codeVoice"
             },
             {
-              "text" : ".",
+              "text" : " as the receiver.",
               "type" : "text"
             }
           ],
@@ -293,15 +294,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "KeyPath",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " of the value to set.",
+                  "text" : "The key that the value is stored in.",
                   "type" : "text"
                 }
               ],
@@ -315,22 +308,149 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The value to set the ",
+                  "text" : "The ",
                   "type" : "text"
                 },
                 {
-                  "code" : "KeyPath",
+                  "code" : "ParseObject",
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " to.",
+                  "text" : " to compare.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "value"
+          "name" : "object"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Set to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " to use ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "$eq",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " comparater,",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "allowing for multiple ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "QueryConstraint",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s to be used on a single ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "key",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Setting to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "emphasis"
+                },
+                {
+                  "text" : " may override any ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "QueryConstraint",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s on the same ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "key",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Defaults to ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseSwift.configuration.isUsingEqualQueryConstraint",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "usingEqComparator"
         }
       ]
     },
@@ -347,65 +467,12 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "This method should be used when updating a ",
+                  "text" : "An error of type ",
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseObject",
+                  "code" : "ParseError",
                   "type" : "codeVoice"
-                },
-                {
-                  "text" : " that has already been saved to",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "a Parse Server. You can also use this method on a new ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseObject",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : "’s that has not been saved to a Parse Server",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "as long as the ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "objectId",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " of the respective ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseObject",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " is ",
-                  "type" : "text"
-                },
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "nil",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "strong"
                 },
                 {
                   "text" : ".",
@@ -415,98 +482,7 @@
               "type" : "paragraph"
             }
           ],
-          "style" : "important",
-          "type" : "aside"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "If you are using the ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "set()",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " method, you do not need to implement ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "merge()",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ". Using ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "set()",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "may perform slower than implementing ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "merge()",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " after saving the updated ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseObject",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " to a Parse Server.",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "This is due to neccesary overhead required to determine what keys have been updated. If a developer finds decoding",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "updated ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseObjects",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : "’s to be slow, implementing ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "merge()",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " may speed up the process.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "Attention",
+          "name" : "Throws",
           "style" : "note",
           "type" : "aside"
         },
@@ -515,15 +491,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "This method should always be used when making the very first update\/mutation to your ",
+                  "text" : "",
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseObject",
+                  "code" : "usingEqComparator == true",
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : ".",
+                  "text" : " is known not to work for LiveQueries",
                   "type" : "text"
                 },
                 {
@@ -531,23 +507,7 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "Any subsequent mutations can modify the ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseObject",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " property directly or use the ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "set()",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " method.",
+                  "text" : "on Parse Servers <= 5.0.0.",
                   "type" : "text"
                 }
               ],
@@ -572,7 +532,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsepushstatus\/set(_:to:)"
+        "\/documentation\/parseswift\/equalto(key:object:usingeqcomparator:)"
       ],
       "traits" : [
         {
@@ -597,10 +557,60 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseObject": {
   "abstract" : [
     {
-      "text" : "The PushStatus on the Parse Server.",
+      "text" : "Objects that conform to the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " protocol have a local representation of data persisted to the Parse Server.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This is the main protocol that is used to interact with objects in your app.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseObject"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseObject"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseObject",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseobject"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/QueryConstraint": {
+  "abstract" : [
+    {
+      "text" : "Used to constrain a query.",
       "type" : "text"
     }
   ],
@@ -615,45 +625,26 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParsePushStatus"
+      "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/QueryConstraint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParsePushStatus"
+      "text" : "QueryConstraint"
     }
   ],
   "role" : "symbol",
-  "title" : "ParsePushStatus",
+  "title" : "QueryConstraint",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsepushstatus"
+  "url" : "\/documentation\/parseswift\/queryconstraint"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/ParseObject-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/ParseObject-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "ParseObject Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsepushstatus\/parseobject-implementations"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePushStatus/set(_:to:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/equalTo(key:object:usingEqComparator:)": {
   "abstract" : [
     {
-      "text" : "Set the value of a specific ",
-      "type" : "text"
-    },
-    {
-      "code" : "KeyPath",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " on a ",
+      "text" : "Add a constraint that requires that a key is equal to a ",
       "type" : "text"
     },
     {
@@ -676,7 +667,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "set"
+      "text" : "equalTo"
     },
     {
       "kind" : "text",
@@ -684,41 +675,15 @@
     },
     {
       "kind" : "genericParameter",
-      "text" : "W"
+      "text" : "T"
     },
     {
       "kind" : "text",
       "text" : ">("
     },
     {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s15WritableKeyPathC",
-      "text" : "WritableKeyPath"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
-      "text" : "W"
-    },
-    {
-      "kind" : "text",
-      "text" : "?>, "
-    },
-    {
       "kind" : "externalParam",
-      "text" : "to"
+      "text" : "key"
     },
     {
       "kind" : "text",
@@ -726,24 +691,67 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A6ObjectPAAE3set_2toxs15WritableKeyPathCyxqd__SgG_qd__tSQRd__lF1WL_qd__mfp",
-      "text" : "W"
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
     },
     {
       "kind" : "text",
-      "text" : ") -> "
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "object"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "text" : "Self"
+      "preciseIdentifier" : "s:10ParseSwift7equalTo3key6object17usingEqComparatorAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "usingEqComparator"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift15QueryConstraintV",
+      "text" : "QueryConstraint"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushStatus\/set(_:to:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/equalTo(key:object:usingEqComparator:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "set(_:to:)",
+  "title" : "equalTo(key:object:usingEqComparator:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsepushstatus\/set(_:to:)"
+  "url" : "\/documentation\/parseswift\/equalto(key:object:usingeqcomparator:)"
 }
 }
 }

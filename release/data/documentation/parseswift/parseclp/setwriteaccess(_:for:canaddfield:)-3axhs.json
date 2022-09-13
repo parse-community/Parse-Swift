@@ -323,28 +323,6 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseUser",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " to provide\/restrict access to.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "user"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
                   "text" : "",
                   "type" : "text"
                 },
@@ -378,7 +356,29 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "to"
+          "name" : "allow"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseUser",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to provide\/restrict access to.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "user"
         },
         {
           "content" : [

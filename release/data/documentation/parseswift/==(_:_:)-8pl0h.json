@@ -156,7 +156,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "value"
+              "text" : "object"
             },
             {
               "kind" : "text",
@@ -281,7 +281,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "value"
+          "name" : "object"
         }
       ]
     },

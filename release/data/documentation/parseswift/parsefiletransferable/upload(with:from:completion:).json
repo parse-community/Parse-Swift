@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Sets whether the given ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseUser",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " objectId  has access to perform",
+      "text" : "Creates a task that performs an HTTP request for the specified URL request",
       "type" : "text"
     },
     {
@@ -17,7 +9,7 @@
       "type" : "text"
     },
     {
-      "text" : "create\/update\/delete\/addField actions on a Parse class.",
+      "text" : "object, uploads the provided data, and calls a handler upon completion.",
       "type" : "text"
     }
   ],
@@ -25,18 +17,17 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileTransferable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-4ws0r"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileTransferable\/upload(with:from:completion:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A3CLPV14setWriteAccess_3for11canAddFieldACSb_SSSbtF",
+    "externalID" : "s:10ParseSwift0A16FileTransferableP6upload4with4from10completionSo22NSURLSessionUploadTaskC10Foundation10URLRequestV_AJ4DataVSgyAO_So13NSURLResponseCSgs5Error_pSgtctF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -48,24 +39,15 @@
       },
       {
         "kind" : "identifier",
-        "text" : "setWriteAccess"
+        "text" : "upload"
       },
       {
         "kind" : "text",
         "text" : "("
       },
       {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sb",
-        "text" : "Bool"
-      },
-      {
-        "kind" : "text",
-        "text" : ", "
-      },
-      {
         "kind" : "externalParam",
-        "text" : "for"
+        "text" : "with"
       },
       {
         "kind" : "text",
@@ -73,8 +55,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
+        "preciseIdentifier" : "s:10Foundation10URLRequestV",
+        "text" : "URLRequest"
       },
       {
         "kind" : "text",
@@ -82,7 +64,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "canAddField"
+        "text" : "from"
       },
       {
         "kind" : "text",
@@ -90,8 +72,52 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sb",
-        "text" : "Bool"
+        "preciseIdentifier" : "s:10Foundation4DataV",
+        "text" : "Data"
+      },
+      {
+        "kind" : "text",
+        "text" : "?, "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "completion"
+      },
+      {
+        "kind" : "text",
+        "text" : ": ("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10Foundation4DataV",
+        "text" : "Data"
+      },
+      {
+        "kind" : "text",
+        "text" : "?, "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "c:objc(cs)NSURLResponse",
+        "text" : "URLResponse"
+      },
+      {
+        "kind" : "text",
+        "text" : "?, "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:s5ErrorP",
+        "text" : "Error"
+      },
+      {
+        "kind" : "text",
+        "text" : "?) -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:s4Voida",
+        "text" : "Void"
       },
       {
         "kind" : "text",
@@ -99,8 +125,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
-        "text" : "ParseCLP"
+        "preciseIdentifier" : "c:objc(cs)NSURLSessionUploadTask",
+        "text" : "URLSessionUploadTask"
       }
     ],
     "modules" : [
@@ -108,10 +134,11 @@
         "name" : "ParseSwift"
       }
     ],
+    "required" : true,
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "setWriteAccess(_:for:canAddField:)"
+    "title" : "upload(with:from:completion:)"
   },
   "primaryContentSections" : [
     {
@@ -134,7 +161,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "setWriteAccess"
+              "text" : "upload"
             },
             {
               "kind" : "text",
@@ -142,7 +169,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "_"
+              "text" : "with"
             },
             {
               "kind" : "text",
@@ -150,7 +177,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "allow"
+              "text" : "request"
             },
             {
               "kind" : "text",
@@ -158,8 +185,8 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sb",
-              "text" : "Bool"
+              "preciseIdentifier" : "s:10Foundation10URLRequestV",
+              "text" : "URLRequest"
             },
             {
               "kind" : "text",
@@ -167,7 +194,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "for"
+              "text" : "from"
             },
             {
               "kind" : "text",
@@ -175,7 +202,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "objectId"
+              "text" : "bodyData"
             },
             {
               "kind" : "text",
@@ -183,76 +210,74 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
+              "preciseIdentifier" : "s:10Foundation4DataV",
+              "text" : "Data"
             },
             {
               "kind" : "text",
-              "text" : ", "
+              "text" : "?, "
             },
             {
               "kind" : "externalParam",
-              "text" : "canAddField"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "addField"
+              "text" : "completion"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sb",
-              "text" : "Bool"
+              "kind" : "attribute",
+              "text" : "@escaping"
             },
             {
               "kind" : "text",
-              "text" : " = false) -> "
+              "text" : " ("
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
-              "text" : "ParseCLP"
+              "preciseIdentifier" : "s:10Foundation4DataV",
+              "text" : "Data"
+            },
+            {
+              "kind" : "text",
+              "text" : "?, "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)NSURLResponse",
+              "text" : "URLResponse"
+            },
+            {
+              "kind" : "text",
+              "text" : "?, "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:s5ErrorP",
+              "text" : "Error"
+            },
+            {
+              "kind" : "text",
+              "text" : "?) -> "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:s4Voida",
+              "text" : "Void"
+            },
+            {
+              "kind" : "text",
+              "text" : ") -> "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)NSURLSessionUploadTask",
+              "text" : "URLSessionUploadTask"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "A mutated instance of ",
-              "type" : "text"
-            },
-            {
-              "code" : "ParseCLP",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " for easy chaining.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     },
     {
       "kind" : "parameters",
@@ -262,90 +287,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "",
-                  "type" : "text"
-                },
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "true",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "strong"
-                },
-                {
-                  "text" : " if access should be allowed, ",
-                  "type" : "text"
-                },
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "false",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "strong"
-                },
-                {
-                  "text" : " otherwise.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "allow"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseUser",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " objectId to provide\/restrict access to.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "objectId"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "",
-                  "type" : "text"
-                },
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "true",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "strong"
-                },
-                {
-                  "text" : " if access should be allowed to ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "addField",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ",",
+                  "text" : "The Parse URL request object that provides the URL, cache policy,",
                   "type" : "text"
                 },
                 {
@@ -353,36 +295,50 @@
                   "type" : "text"
                 },
                 {
-                  "inlineContent" : [
-                    {
-                      "text" : "false",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "strong"
-                },
-                {
-                  "text" : " otherwise. Defaults to ",
-                  "type" : "text"
-                },
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "false",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "strong"
-                },
-                {
-                  "text" : ".",
+                  "text" : "request type, and so on.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "canAddField"
+          "name" : "request"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The body data for the request.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "bodyData"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The completion handler to call when the load request",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "is complete. This handler is executed on the delegate queue.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "completion"
         }
       ]
     }
@@ -398,7 +354,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseclp\/setwriteaccess(_:for:canaddfield:)-4ws0r"
+        "\/documentation\/parseswift\/parsefiletransferable\/upload(with:from:completion:)"
       ],
       "traits" : [
         {
@@ -423,60 +379,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileTransferable": {
   "abstract" : [
     {
-      "text" : "Class Level Permissions for ",
+      "text" : "A protocol for overriding the default transfer behavior for ",
       "type" : "text"
     },
     {
-      "code" : "ParseSchema",
+      "code" : "ParseFile",
       "type" : "codeVoice"
     },
     {
-      "text" : ".",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseCLP"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseCLP"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseCLP",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseclp"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCLP/setWriteAccess(_:for:canAddField:)-4ws0r": {
-  "abstract" : [
-    {
-      "text" : "Sets whether the given ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseUser",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " objectId  has access to perform",
+      "text" : "’s.",
       "type" : "text"
     },
     {
@@ -484,7 +398,49 @@
       "type" : "text"
     },
     {
-      "text" : "create\/update\/delete\/addField actions on a Parse class.",
+      "text" : "Allows for direct uploads to other file storage providers.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseFileTransferable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileTransferable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseFileTransferable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseFileTransferable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefiletransferable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileTransferable/upload(with:from:completion:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a task that performs an HTTP request for the specified URL request",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "object, uploads the provided data, and calls a handler upon completion.",
       "type" : "text"
     }
   ],
@@ -499,24 +455,15 @@
     },
     {
       "kind" : "identifier",
-      "text" : "setWriteAccess"
+      "text" : "upload"
     },
     {
       "kind" : "text",
       "text" : "("
     },
     {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
       "kind" : "externalParam",
-      "text" : "for"
+      "text" : "with"
     },
     {
       "kind" : "text",
@@ -524,8 +471,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
+      "preciseIdentifier" : "s:10Foundation10URLRequestV",
+      "text" : "URLRequest"
     },
     {
       "kind" : "text",
@@ -533,7 +480,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "canAddField"
+      "text" : "from"
     },
     {
       "kind" : "text",
@@ -541,8 +488,52 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "completion"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLResponse",
+      "text" : "URLResponse"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s5ErrorP",
+      "text" : "Error"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
     },
     {
       "kind" : "text",
@@ -550,16 +541,17 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A3CLPV",
-      "text" : "ParseCLP"
+      "preciseIdentifier" : "c:objc(cs)NSURLSessionUploadTask",
+      "text" : "URLSessionUploadTask"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCLP\/setWriteAccess(_:for:canAddField:)-4ws0r",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileTransferable\/upload(with:from:completion:)",
   "kind" : "symbol",
+  "required" : true,
   "role" : "symbol",
-  "title" : "setWriteAccess(_:for:canAddField:)",
+  "title" : "upload(with:from:completion:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseclp\/setwriteaccess(_:for:canaddfield:)-4ws0r"
+  "url" : "\/documentation\/parseswift\/parsefiletransferable\/upload(with:from:completion:)"
 }
 }
 }

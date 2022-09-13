@@ -22,7 +22,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with a session token. On success, this saves the session",
+      "text" : " with a session token. On success, this saves the logged in",
       "type" : "text"
     },
     {
@@ -30,7 +30,15 @@
       "type" : "text"
     },
     {
-      "text" : "to the keychain, so you can retrieve the currently logged in user using ",
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "with this session to the keychain, so you can retrieve the currently logged in user using",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
       "type" : "text"
     },
     {
@@ -553,7 +561,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with a session token. On success, this saves the session",
+      "text" : " with a session token. On success, this saves the logged in",
       "type" : "text"
     },
     {
@@ -561,7 +569,15 @@
       "type" : "text"
     },
     {
-      "text" : "to the keychain, so you can retrieve the currently logged in user using ",
+      "code" : "ParseUser",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "with this session to the keychain, so you can retrieve the currently logged in user using",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
       "type" : "text"
     },
     {

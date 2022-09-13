@@ -9,7 +9,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " constraint.",
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -293,7 +293,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "This only works where the key’s values are ",
+                  "text" : "This only works when the key’s values are ",
                   "type" : "text"
                 },
                 {
@@ -370,7 +370,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " constraint.",
+      "text" : ".",
       "type" : "text"
     }
   ],

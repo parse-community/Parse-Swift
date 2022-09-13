@@ -312,28 +312,6 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "ParseRole",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " to provide\/restrict access to.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "role"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
                   "text" : "",
                   "type" : "text"
                 },
@@ -367,7 +345,29 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "to"
+          "name" : "allow"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseRole",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to provide\/restrict access to.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "role"
         },
         {
           "content" : [

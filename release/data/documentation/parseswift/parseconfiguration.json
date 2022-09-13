@@ -234,8 +234,8 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)"
       ],
       "title" : "Initializers"
     },
@@ -256,6 +256,7 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/liveQuerysServerURL",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/masterKey",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/maxConnectionAttempts",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/parseFileTransfer",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/requestCachePolicy",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/serverURL"
       ],
@@ -542,7 +543,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/httpadditionalheaders"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)": {
   "abstract" : [
     {
       "text" : "Create a Parse Swift configuration.",
@@ -901,6 +902,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "parseFileTransfer"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A16FileTransferableP",
+      "text" : "ParseFileTransferable"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "authentication"
     },
     {
@@ -962,14 +980,14 @@
       "text" : ")?)"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "title" : "init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migratingFromObjcSDK:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:webhookkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migr-2tn13"
+  "url" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:webhookkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:migr-1ysol"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)": {
   "abstract" : [
     {
       "text" : "Create a Parse Swift configuration.",
@@ -1310,6 +1328,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "parseFileTransfer"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A16FileTransferableP",
+      "text" : "ParseFileTransferable"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "authentication"
     },
     {
@@ -1371,12 +1406,12 @@
       "text" : ")?)"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)",
+  "title" : "init(applicationId:clientKey:masterKey:webhookKey:serverURL:liveQueryServerURL:allowingCustomObjectIds:usingTransactions:usingEqualQueryConstraint:usingPostForQuery:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:usingDataProtectionKeychain:deletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:parseFileTransfer:authentication:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:webhookkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:usin-3c4tu"
+  "url" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:webhookkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:usin-54haa"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isAllowingCustomObjectIds": {
   "abstract" : [
@@ -1949,6 +1984,59 @@
   "title" : "maxConnectionAttempts",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration\/maxconnectionattempts"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/parseFileTransfer": {
+  "abstract" : [
+    {
+      "text" : "Override the default transfer behavior for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseFile",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Allows for direct uploads to other file storage providers.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "parseFileTransfer"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A16FileTransferableP",
+      "text" : "ParseFileTransferable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/parseFileTransfer",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "parseFileTransfer",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseconfiguration\/parsefiletransfer"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/requestCachePolicy": {
   "abstract" : [

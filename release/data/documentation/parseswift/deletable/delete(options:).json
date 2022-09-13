@@ -8,8 +8,8 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-u8rk",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-2crgq"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-2crgq",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-u8rk"
       ],
       "title" : "ParseObject Implementations"
     }

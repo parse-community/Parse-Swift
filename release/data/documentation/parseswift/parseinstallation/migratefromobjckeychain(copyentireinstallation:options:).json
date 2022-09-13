@@ -1,11 +1,11 @@
 {
   "abstract" : [
     {
-      "text" : "Logs in a ",
+      "text" : "Migrates the ",
       "type" : "text"
     },
     {
-      "code" : "ParseUser",
+      "code" : "ParseInstallation",
       "type" : "codeVoice"
     },
     {
@@ -22,56 +22,46 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with a session token. On success, this saves the logged in",
+      "text" : " from the Objective-C SDK Keychain.",
       "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseUser",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : "with this session to the keychain, so you can retrieve the currently logged in user using",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
+    }
+  ],
+  "deprecationSummary" : [
     {
       "inlineContent" : [
         {
-          "text" : "current",
+          "text" : "This does not work, use become() instead",
           "type" : "text"
         }
       ],
-      "type" : "emphasis"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
+      "type" : "paragraph"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/become(sessionToken:options:callbackQueue:completion:)-swift.method"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/migrateFromObjCKeychain(copyEntireInstallation:options:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A4UserPAAE6become12sessionToken7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF",
+    "externalID" : "s:10ParseSwift0A12InstallationPAAE23migrateFromObjCKeychain010copyEntireC07optionsxSb_ShyAA3APIV6OptionOGtYaKFZ",
     "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "static"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
       {
         "kind" : "keyword",
         "text" : "func"
@@ -82,7 +72,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "become"
+        "text" : "migrateFromObjCKeychain"
       },
       {
         "kind" : "text",
@@ -90,7 +80,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "sessionToken"
+        "text" : "copyEntireInstallation"
       },
       {
         "kind" : "text",
@@ -98,8 +88,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
+        "preciseIdentifier" : "s:Sb",
+        "text" : "Bool"
       },
       {
         "kind" : "text",
@@ -129,67 +119,27 @@
       },
       {
         "kind" : "text",
-        "text" : ", "
+        "text" : ") "
       },
       {
-        "kind" : "externalParam",
-        "text" : "callbackQueue"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "c:objc(cs)OS_dispatch_queue",
-        "text" : "DispatchQueue"
+        "kind" : "keyword",
+        "text" : "async"
       },
       {
         "kind" : "text",
-        "text" : ", "
+        "text" : " "
       },
       {
-        "kind" : "externalParam",
-        "text" : "completion"
-      },
-      {
-        "kind" : "text",
-        "text" : ": ("
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:s6ResultO",
-        "text" : "Result"
+        "kind" : "keyword",
+        "text" : "throws"
       },
       {
         "kind" : "text",
-        "text" : "<"
+        "text" : " -> "
       },
       {
         "kind" : "typeIdentifier",
         "text" : "Self"
-      },
-      {
-        "kind" : "text",
-        "text" : ", "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
-        "text" : "ParseError"
-      },
-      {
-        "kind" : "text",
-        "text" : ">) -> "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:s4Voida",
-        "text" : "Void"
-      },
-      {
-        "kind" : "text",
-        "text" : ")"
       }
     ],
     "modules" : [
@@ -197,10 +147,13 @@
         "name" : "ParseSwift"
       }
     ],
+    "platforms" : [
+
+    ],
     "role" : "symbol",
-    "roleHeading" : "Instance Method",
+    "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "become(sessionToken:options:callbackQueue:completion:)"
+    "title" : "migrateFromObjCKeychain(copyEntireInstallation:options:)"
   },
   "primaryContentSections" : [
     {
@@ -214,6 +167,22 @@
           ],
           "tokens" : [
             {
+              "kind" : "attribute",
+              "text" : "@discardableResult"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "static"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
               "kind" : "keyword",
               "text" : "func"
             },
@@ -223,7 +192,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "become"
+              "text" : "migrateFromObjCKeychain"
             },
             {
               "kind" : "text",
@@ -231,7 +200,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "sessionToken"
+              "text" : "copyEntireInstallation"
             },
             {
               "kind" : "text",
@@ -239,12 +208,12 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
+              "preciseIdentifier" : "s:Sb",
+              "text" : "Bool"
             },
             {
               "kind" : "text",
-              "text" : ", "
+              "text" : " = true, "
             },
             {
               "kind" : "externalParam",
@@ -272,81 +241,60 @@
             },
             {
               "kind" : "text",
-              "text" : " = [], "
+              "text" : " = []) "
             },
             {
-              "kind" : "externalParam",
-              "text" : "callbackQueue"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "c:objc(cs)OS_dispatch_queue",
-              "text" : "DispatchQueue"
+              "kind" : "keyword",
+              "text" : "async"
             },
             {
               "kind" : "text",
-              "text" : " = .main, "
+              "text" : " "
             },
             {
-              "kind" : "externalParam",
-              "text" : "completion"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "attribute",
-              "text" : "@escaping"
+              "kind" : "keyword",
+              "text" : "throws"
             },
             {
               "kind" : "text",
-              "text" : " ("
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:s6ResultO",
-              "text" : "Result"
-            },
-            {
-              "kind" : "text",
-              "text" : "<"
+              "text" : " -> "
             },
             {
               "kind" : "typeIdentifier",
               "text" : "Self"
-            },
-            {
-              "kind" : "text",
-              "text" : ", "
-            },
-            {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
-              "text" : "ParseError"
-            },
-            {
-              "kind" : "text",
-              "text" : ">) -> "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:s4Voida",
-              "text" : "Void"
-            },
-            {
-              "kind" : "text",
-              "text" : ")"
             }
           ]
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Returns saved ",
+              "type" : "text"
+            },
+            {
+              "code" : "ParseInstallation",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ".",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
     },
     {
       "kind" : "parameters",
@@ -356,14 +304,121 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The sessionToken of the user to login.",
+                  "text" : "When ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ", copies the",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "entire ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseInstallation",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " from the Objective-C SDK Keychain to the Swift SDK. When",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ", only the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "channels",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " and ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "deviceToken",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " are copied from the Objective-C",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "SDK Keychain; resulting in a new ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseInstallation",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " for original ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "sessionToken",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Defaults to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : ".",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "sessionToken"
+          "name" : "copyEntireInstallation"
         },
         {
           "content" : [
@@ -378,58 +433,6 @@
             }
           ],
           "name" : "options"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The queue to return to after completion. Default",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "value of .main.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "callbackQueue"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The block to execute when completed.",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "It should have the following argument signature: ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "(Result<Self, ParseError>)",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ".",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "completion"
         }
       ]
     },
@@ -440,6 +443,30 @@
           "level" : 2,
           "text" : "Discussion",
           "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "An error of type ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseError",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Throws",
+          "style" : "note",
+          "type" : "aside"
         },
         {
           "content" : [
@@ -479,6 +506,82 @@
           ],
           "style" : "note",
           "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "When initializing the Swift SDK, ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "migratingFromObjcSDK",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " should be set to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "false",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "when calling this method.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "warning",
+          "type" : "aside"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The latest ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "PFInstallation",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "strong"
+                },
+                {
+                  "text" : " from the Objective-C SDK should be saved to your",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Parse Server before calling this method.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "warning",
+          "type" : "aside"
         }
       ],
       "kind" : "content"
@@ -495,7 +598,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseuser\/become(sessiontoken:options:callbackqueue:completion:)-swift.method"
+        "\/documentation\/parseswift\/parseinstallation\/migratefromobjckeychain(copyentireinstallation:options:)"
       ],
       "traits" : [
         {
@@ -588,52 +691,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError": {
-  "abstract" : [
-    {
-      "text" : "An object with a Parse code and message.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ParseError"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "ParseError"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "ParseError",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseerror"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseUser",
+      "code" : "ParseInstallation",
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol have a local representation of a user persisted to the",
+      "text" : " protocol have a local representation of an",
       "type" : "text"
     },
     {
@@ -641,7 +710,11 @@
       "type" : "text"
     },
     {
-      "text" : "Keychain and Parse Server. This protocol inherits from the ",
+      "text" : "installation persisted to the Keychain and Parse Server. This protocol inherits from the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
       "type" : "text"
     },
     {
@@ -649,15 +722,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol, and retains the same",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "functionality of a ",
+      "text" : " protocol, and retains the same functionality of a ",
       "type" : "text"
     },
     {
@@ -665,7 +730,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : ", but also extends it with various user specific methods, like",
+      "text" : ", but also extends",
       "type" : "text"
     },
     {
@@ -673,7 +738,15 @@
       "type" : "text"
     },
     {
-      "text" : "authentication, signing up, and validation uniqueness.",
+      "text" : "it with installation-specific fields and related immutability and validity",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "checks.",
       "type" : "text"
     }
   ],
@@ -688,30 +761,30 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseUser"
+      "text" : "ParseInstallation"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseUser"
+      "text" : "ParseInstallation"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseUser",
+  "title" : "ParseInstallation",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseuser"
+  "url" : "\/documentation\/parseswift\/parseinstallation"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseUser/become(sessionToken:options:callbackQueue:completion:)-swift.method": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseInstallation/migrateFromObjCKeychain(copyEntireInstallation:options:)": {
   "abstract" : [
     {
-      "text" : "Logs in a ",
+      "text" : "Migrates the ",
       "type" : "text"
     },
     {
-      "code" : "ParseUser",
+      "code" : "ParseInstallation",
       "type" : "codeVoice"
     },
     {
@@ -728,40 +801,20 @@
       "type" : "emphasis"
     },
     {
-      "text" : " with a session token. On success, this saves the logged in",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseUser",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : "with this session to the keychain, so you can retrieve the currently logged in user using",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "inlineContent" : [
-        {
-          "text" : "current",
-          "type" : "text"
-        }
-      ],
-      "type" : "emphasis"
-    },
-    {
-      "text" : ".",
+      "text" : " from the Objective-C SDK Keychain.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
     {
       "kind" : "keyword",
       "text" : "func"
@@ -772,7 +825,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "become"
+      "text" : "migrateFromObjCKeychain"
     },
     {
       "kind" : "text",
@@ -780,7 +833,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "sessionToken"
+      "text" : "copyEntireInstallation"
     },
     {
       "kind" : "text",
@@ -788,8 +841,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
     },
     {
       "kind" : "text",
@@ -819,75 +872,35 @@
     },
     {
       "kind" : "text",
-      "text" : ", "
+      "text" : ") "
     },
     {
-      "kind" : "externalParam",
-      "text" : "callbackQueue"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)OS_dispatch_queue",
-      "text" : "DispatchQueue"
+      "kind" : "keyword",
+      "text" : "async"
     },
     {
       "kind" : "text",
-      "text" : ", "
+      "text" : " "
     },
     {
-      "kind" : "externalParam",
-      "text" : "completion"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s6ResultO",
-      "text" : "Result"
+      "kind" : "keyword",
+      "text" : "throws"
     },
     {
       "kind" : "text",
-      "text" : "<"
+      "text" : " -> "
     },
     {
       "kind" : "typeIdentifier",
       "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
-      "text" : "ParseError"
-    },
-    {
-      "kind" : "text",
-      "text" : ">) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s4Voida",
-      "text" : "Void"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseUser\/become(sessionToken:options:callbackQueue:completion:)-swift.method",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation\/migrateFromObjCKeychain(copyEntireInstallation:options:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "become(sessionToken:options:callbackQueue:completion:)",
+  "title" : "migrateFromObjCKeychain(copyEntireInstallation:options:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseuser\/become(sessiontoken:options:callbackqueue:completion:)-swift.method"
+  "url" : "\/documentation\/parseswift\/parseinstallation\/migratefromobjckeychain(copyentireinstallation:options:)"
 }
 }
 }

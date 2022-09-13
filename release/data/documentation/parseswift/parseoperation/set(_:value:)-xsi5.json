@@ -9,7 +9,7 @@
     {
       "inlineContent" : [
         {
-          "text" : "replace \\\"value\\\" with \\\"to\\\"",
+          "text" : "Replace \\\"value\\\" with \\\"to\\\"",
           "type" : "text"
         }
       ],
