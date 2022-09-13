@@ -573,7 +573,8 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migratingFromObjcSDK: true)
+                              migratingFromObjcSDK: true,
+                              parseFileTransfer: nil)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
