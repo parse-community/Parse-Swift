@@ -95,6 +95,7 @@ internal extension URLSession {
                     do {
                         responseData = try ParseCoding.jsonEncoder().encode(pushStatus)
                     } catch {
+                        URLSession.parse.configuration.urlCache?.removeCachedResponse(for: request)
                         return .failure(ParseError(code: .unknownError, message: error.localizedDescription))
                     }
                 }
@@ -102,6 +103,7 @@ internal extension URLSession {
             do {
                 return try .success(mapper(responseData))
             } catch {
+                URLSession.parse.configuration.urlCache?.removeCachedResponse(for: request)
                 guard let parseError = error as? ParseError else {
                     guard JSONSerialization.isValidJSONObject(responseData),
                           let json = try? JSONSerialization
@@ -226,26 +228,42 @@ internal extension URLSession {
     ) {
         var task: URLSessionTask?
         if let data = data {
-            task = ParseSwift
-                .configuration
-                .parseFileTransfer
-                .upload(with: request, from: data) { (responseData, urlResponse, responseError) in
-                completion(self.makeResult(request: request,
-                                           responseData: responseData,
-                                           urlResponse: urlResponse,
-                                           responseError: responseError,
-                                           mapper: mapper))
+            do {
+                task = try ParseSwift
+                    .configuration
+                    .parseFileTransfer
+                    .upload(with: request,
+                            from: data) { (responseData, urlResponse, updatedRequest, responseError) in
+                    completion(self.makeResult(request: updatedRequest ?? request,
+                                               responseData: responseData,
+                                               urlResponse: urlResponse,
+                                               responseError: responseError,
+                                               mapper: mapper))
+                }
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: "Error uploading file: \(String(describing: error))")
+                let parseError = error as? ParseError ?? defaultError
+                completion(.failure(parseError))
             }
         } else if let file = file {
-            task = ParseSwift
-                .configuration
-                .parseFileTransfer
-                .upload(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
-                completion(self.makeResult(request: request,
-                                           responseData: responseData,
-                                           urlResponse: urlResponse,
-                                           responseError: responseError,
-                                           mapper: mapper))
+            do {
+                task = try ParseSwift
+                    .configuration
+                    .parseFileTransfer
+                    .upload(with: request,
+                            fromFile: file) { (responseData, urlResponse, updatedRequest, responseError) in
+                    completion(self.makeResult(request: updatedRequest ?? request,
+                                               responseData: responseData,
+                                               urlResponse: urlResponse,
+                                               responseError: responseError,
+                                               mapper: mapper))
+                }
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: "Error uploading file: \(String(describing: error))")
+                let parseError = error as? ParseError ?? defaultError
+                completion(.failure(parseError))
             }
         } else {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both cannot be nil")))
