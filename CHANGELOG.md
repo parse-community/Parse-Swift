@@ -1,10 +1,15 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.10.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.12.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 4.12.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.11.0...4.12.0)
+
 __New features__
+- Add the ParseFileTransferable protocol for overriding the default transfer behavior for ParseFile's. Allows for direct uploads to other file storage
+ providers ([#408](https://github.com/parse-community/Parse-Swift/pull/408)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add the become method to ParseInstallation which allows any ParseInstallation to be copied to the current installation. This method can be used to migrate any ParseInstallation to the current installation in the Swift SDK  ([#407](https://github.com/parse-community/Parse-Swift/pull/407)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__

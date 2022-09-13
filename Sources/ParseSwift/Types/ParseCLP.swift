@@ -472,8 +472,8 @@ public extension ParseCLP {
     /**
      Sets whether the given `ParseUser` objectId  has access to perform
      create/update/delete/addField actions on a Parse class.
+     - parameter allow: **true** if access should be allowed, **false** otherwise.
      - parameter objectId: The `ParseUser` objectId to provide/restrict access to.
-     - parameter to: **true** if access should be allowed, **false** otherwise.
      - parameter canAddField: **true** if access should be allowed to `addField`,
      **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
@@ -495,8 +495,8 @@ public extension ParseCLP {
 
     /**
      Sets whether the given `ParseUser` has access to perform create/update/delete/addField actions on a Parse class.
+     - parameter allow: **true** if access should be allowed, **false** otherwise.
      - parameter user: The `ParseUser` to provide/restrict access to.
-     - parameter to: **true** if access should be allowed, **false** otherwise.
      - parameter canAddField: **true** if access should be allowed to `addField`,
      **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
@@ -512,8 +512,8 @@ public extension ParseCLP {
     /**
      Sets whether the given `ParseUser`pointer  has access to perform
      create/update/delete/addField actions on a Parse class.
+     - parameter allow: **true** if access should be allowed, **false** otherwise.
      - parameter user: The `ParseUser` to provide/restrict access to.
-     - parameter to: **true** if access should be allowed, **false** otherwise.
      - parameter canAddField: **true** if access should be allowed to `addField`,
      **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.
@@ -526,8 +526,8 @@ public extension ParseCLP {
 
     /**
      Sets whether the given `ParseRole` has access to perform create/update/delete/addField actions on a Parse class.
+     - parameter allow: **true** if access should be allowed, **false** otherwise.
      - parameter role: The `ParseRole` to provide/restrict access to.
-     - parameter to: **true** if access should be allowed, **false** otherwise.
      - parameter canAddField: **true** if access should be allowed to `addField`,
      **false** otherwise. Defaults to **false**.
      - returns: A mutated instance of `ParseCLP` for easy chaining.

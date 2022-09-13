@@ -48,7 +48,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that sets a field's value.
      - Parameters:
         - keyPath: The respective `KeyPath` of the object.
-        - to: The value to set the `KeyPath` to.
+        - value: The value to set the `KeyPath` to.
         - returns: The updated operations.
      - warning: Do not combine operations using this method with other operations that
      do not use this method to **set** all operations. If you need to combine multiple types
@@ -91,7 +91,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that sets a field's value if it has changed from its previous value.
      - Parameters:
         - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - to: The value to set the `KeyPath` to.
+        - value: The value to set the `KeyPath` to.
         - returns: The updated operations.
      - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
      */
@@ -125,7 +125,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      An operation that force sets a field's value.
      - Parameters:
         - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - to: The value to set the `KeyPath` to.
+        - value: The value to set the `KeyPath` to.
         - returns: The updated operations.
      - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
      */

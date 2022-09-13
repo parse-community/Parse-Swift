@@ -319,6 +319,14 @@
 		704C886D28BE69A8008E6B01 /* ParseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704C886B28BE69A8008E6B01 /* ParseConfiguration.swift */; };
 		704C886E28BE69A8008E6B01 /* ParseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704C886B28BE69A8008E6B01 /* ParseConfiguration.swift */; };
 		704C886F28BE69A8008E6B01 /* ParseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704C886B28BE69A8008E6B01 /* ParseConfiguration.swift */; };
+		704E781728CFD8A00075F952 /* ParseFileTransferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781628CFD8A00075F952 /* ParseFileTransferable.swift */; };
+		704E781828CFD8A00075F952 /* ParseFileTransferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781628CFD8A00075F952 /* ParseFileTransferable.swift */; };
+		704E781928CFD8A00075F952 /* ParseFileTransferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781628CFD8A00075F952 /* ParseFileTransferable.swift */; };
+		704E781A28CFD8A00075F952 /* ParseFileTransferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781628CFD8A00075F952 /* ParseFileTransferable.swift */; };
+		704E781C28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781B28CFFAF80075F952 /* ParseFileDefaultTransfer.swift */; };
+		704E781D28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781B28CFFAF80075F952 /* ParseFileDefaultTransfer.swift */; };
+		704E781E28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781B28CFFAF80075F952 /* ParseFileDefaultTransfer.swift */; };
+		704E781F28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704E781B28CFFAF80075F952 /* ParseFileDefaultTransfer.swift */; };
 		705025992842FD3B008D6624 /* ParseCLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025982842FD3B008D6624 /* ParseCLPTests.swift */; };
 		7050259A2842FD3B008D6624 /* ParseCLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025982842FD3B008D6624 /* ParseCLPTests.swift */; };
 		7050259B2842FD3B008D6624 /* ParseCLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705025982842FD3B008D6624 /* ParseCLPTests.swift */; };
@@ -1234,6 +1242,8 @@
 		7045769726BD917500F86F71 /* Query+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+async.swift"; sourceTree = "<group>"; };
 		7045769C26BD934000F86F71 /* ParseFile+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseFile+async.swift"; sourceTree = "<group>"; };
 		704C886B28BE69A8008E6B01 /* ParseConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConfiguration.swift; sourceTree = "<group>"; };
+		704E781628CFD8A00075F952 /* ParseFileTransferable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileTransferable.swift; sourceTree = "<group>"; };
+		704E781B28CFFAF80075F952 /* ParseFileDefaultTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileDefaultTransfer.swift; sourceTree = "<group>"; };
 		705025982842FD3B008D6624 /* ParseCLPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCLPTests.swift; sourceTree = "<group>"; };
 		7050259C2843F0CF008D6624 /* ParseSchemaAsyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSchemaAsyncTests.swift; sourceTree = "<group>"; };
 		705025A02843F0E7008D6624 /* ParseSchemaCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSchemaCombineTests.swift; sourceTree = "<group>"; };
@@ -1790,6 +1800,7 @@
 				703B090626BD9764005A112F /* ParseCloud+async.swift */,
 				7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */,
 				70647E9B259E3A9A004C1004 /* ParseEncodable.swift */,
+				704E781628CFD8A00075F952 /* ParseFileTransferable.swift */,
 				70CE0AB6285A83B100DAEA86 /* ParseHookable.swift */,
 				70385E752858E1000084D306 /* ParseHookFunctionable.swift */,
 				70CE0AC0285FD59B00DAEA86 /* ParseHookFunctionable+async.swift */,
@@ -2124,6 +2135,7 @@
 				F97B45C124D9C6F200F4A88B /* ParseFile.swift */,
 				7045769C26BD934000F86F71 /* ParseFile+async.swift */,
 				7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */,
+				704E781B28CFFAF80075F952 /* ParseFileDefaultTransfer.swift */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				70F79A182639CE6F00731C46 /* ParseHealth.swift */,
 				703B08FC26BD953B005A112F /* ParseHealth+async.swift */,
@@ -2707,6 +2719,7 @@
 				705025E628514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148228395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D1284CFCDE008D6624 /* ParsePushAppleAlert.swift in Sources */,
+				704E781C28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */,
 				7045769826BD917500F86F71 /* Query+async.swift in Sources */,
 				703B094E26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3825D998D90048EC1B /* ParseLDAP.swift in Sources */,
@@ -2765,6 +2778,7 @@
 				707A3C2025B14BD0000D215C /* ParseApple.swift in Sources */,
 				703B095D26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				709A147D283949D100BF85E5 /* ParseSchema.swift in Sources */,
+				704E781728CFD8A00075F952 /* ParseFileTransferable.swift in Sources */,
 				F97B462224D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				703B090226BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
 				703B093F26BF47AC005A112F /* ParseApple+async.swift in Sources */,
@@ -3016,6 +3030,7 @@
 				705025E728514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148328395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D2284CFCDE008D6624 /* ParsePushAppleAlert.swift in Sources */,
+				704E781D28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */,
 				703B094F26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3925D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F325A171320052CB31 /* LiveQueryable.swift in Sources */,
@@ -3074,6 +3089,7 @@
 				703B095E26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				F97B462324D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				709A147E283949D100BF85E5 /* ParseSchema.swift in Sources */,
+				704E781828CFD8A00075F952 /* ParseFileTransferable.swift in Sources */,
 				703B090326BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
 				703B094026BF47AC005A112F /* ParseApple+async.swift in Sources */,
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
@@ -3457,6 +3473,7 @@
 				705025E928514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148528395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D4284CFCDE008D6624 /* ParsePushAppleAlert.swift in Sources */,
+				704E781F28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */,
 				7045769B26BD917500F86F71 /* Query+async.swift in Sources */,
 				703B095126BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3B25D998D90048EC1B /* ParseLDAP.swift in Sources */,
@@ -3515,6 +3532,7 @@
 				703B096026BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				709A1480283949D100BF85E5 /* ParseSchema.swift in Sources */,
+				704E781A28CFD8A00075F952 /* ParseFileTransferable.swift in Sources */,
 				703B090526BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
 				703B094226BF47AC005A112F /* ParseApple+async.swift in Sources */,
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
@@ -3643,6 +3661,7 @@
 				705025E828514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148428395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D3284CFCDE008D6624 /* ParsePushAppleAlert.swift in Sources */,
+				704E781E28CFFAF80075F952 /* ParseFileDefaultTransfer.swift in Sources */,
 				7045769A26BD917500F86F71 /* Query+async.swift in Sources */,
 				703B095026BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3A25D998D90048EC1B /* ParseLDAP.swift in Sources */,
@@ -3701,6 +3720,7 @@
 				703B095F26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				709A147F283949D100BF85E5 /* ParseSchema.swift in Sources */,
+				704E781928CFD8A00075F952 /* ParseFileTransferable.swift in Sources */,
 				703B090426BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
 				703B094126BF47AC005A112F /* ParseApple+async.swift in Sources */,
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,

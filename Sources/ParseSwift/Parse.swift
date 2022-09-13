@@ -205,6 +205,10 @@ public func initialize(configuration: ParseConfiguration) {
  - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
  [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
  for more info.
+ - parameter maxConnectionAttempts: Maximum number of times to try to connect to Parse Server.
+ Defaults to 5.
+ - parameter parseFileTransfer: Override the default transfer behavior for `ParseFile`'s.
+ Allows for direct uploads to other file storage providers.
  - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
  Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
  It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -234,6 +238,7 @@ public func initialize(
     deletingKeychainIfNeeded: Bool = false,
     httpAdditionalHeaders: [AnyHashable: Any]? = nil,
     maxConnectionAttempts: Int = 5,
+    parseFileTransfer: ParseFileTransferable? = nil,
     authentication: ((URLAuthenticationChallenge,
                       (URLSession.AuthChallengeDisposition,
                        URLCredential?) -> Void) -> Void)? = nil
@@ -255,6 +260,7 @@ public func initialize(
                                            deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                                            httpAdditionalHeaders: httpAdditionalHeaders,
                                            maxConnectionAttempts: maxConnectionAttempts,
+                                           parseFileTransfer: parseFileTransfer,
                                            authentication: authentication)
     initialize(configuration: configuration)
 }
@@ -292,6 +298,10 @@ public func initialize(
  - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
  [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
  for more info.
+ - parameter maxConnectionAttempts: Maximum number of times to try to connect to Parse Server.
+ Defaults to 5.
+ - parameter parseFileTransfer: Override the default transfer behavior for `ParseFile`'s.
+ Allows for direct uploads to other file storage providers.
  - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
  Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
  It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -323,6 +333,7 @@ public func initialize(
     deletingKeychainIfNeeded: Bool = false,
     httpAdditionalHeaders: [AnyHashable: Any]? = nil,
     maxConnectionAttempts: Int = 5,
+    parseFileTransfer: ParseFileTransferable? = nil,
     authentication: ((URLAuthenticationChallenge,
                       (URLSession.AuthChallengeDisposition,
                        URLCredential?) -> Void) -> Void)? = nil
@@ -344,6 +355,7 @@ public func initialize(
                                            deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                                            httpAdditionalHeaders: httpAdditionalHeaders,
                                            maxConnectionAttempts: maxConnectionAttempts,
+                                           parseFileTransfer: parseFileTransfer,
                                            authentication: authentication)
     configuration.isMigratingFromObjcSDK = migratingFromObjcSDK
     initialize(configuration: configuration)
