@@ -3,7 +3,7 @@ on:
   release:
     types: [published]
 env:
-  CI_XCODE_13: '/Applications/Xcode_13.4.1.app/Contents/Developer'
+  CI_XCODE_LATEST: '/Applications/Xcode_14.0.app/Contents/Developer'
 
 jobs:
   cocoapods:
@@ -22,7 +22,7 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES pod trunk push ParseSwift.podspec --allow-warnings --verbose
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   docs:
     runs-on: macos-12
@@ -36,4 +36,4 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES Scripts/update-gh-pages-documentation-site
         env:
           CURRENT_BRANCH_NAME: release
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
