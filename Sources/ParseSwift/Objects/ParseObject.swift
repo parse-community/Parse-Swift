@@ -312,7 +312,7 @@ public extension ParseObject {
     /**
      Set the value of a specific `KeyPath` on a `ParseObject`.
      - parameter key: The `KeyPath` of the value to set.
-     - parameter to: The value to set the `KeyPath` to.
+     - parameter value: The value to set the `KeyPath` to.
      - returns: The updated `ParseObject`.
      - important: This method should be used when updating a `ParseObject` that has already been saved to
      a Parse Server. You can also use this method on a new `ParseObject`'s that has not been saved to a Parse Server

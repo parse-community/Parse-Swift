@@ -226,7 +226,10 @@ internal extension URLSession {
     ) {
         var task: URLSessionTask?
         if let data = data {
-            task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
+            task = ParseSwift
+                .configuration
+                .parseFileTransfer
+                .upload(with: request, from: data) { (responseData, urlResponse, responseError) in
                 completion(self.makeResult(request: request,
                                            responseData: responseData,
                                            urlResponse: urlResponse,
@@ -234,7 +237,10 @@ internal extension URLSession {
                                            mapper: mapper))
             }
         } else if let file = file {
-            task = uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
+            task = ParseSwift
+                .configuration
+                .parseFileTransfer
+                .upload(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
                 completion(self.makeResult(request: request,
                                            responseData: responseData,
                                            urlResponse: urlResponse,
@@ -244,19 +250,20 @@ internal extension URLSession {
         } else {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both cannot be nil")))
         }
-        if let task = task {
-            #if compiler(>=5.5.2) && canImport(_Concurrency)
-            Task {
-                await Parse.sessionDelegate.delegates.updateUpload(task, callback: progress)
-                await Parse.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
-                task.resume()
-            }
-            #else
-            Parse.sessionDelegate.uploadDelegates[task] = progress
-            Parse.sessionDelegate.taskCallbackQueues[task] = notificationQueue
-            task.resume()
-            #endif
+        guard let task = task else {
+            return
         }
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            await Parse.sessionDelegate.delegates.updateUpload(task, callback: progress)
+            await Parse.sessionDelegate.delegates.updateTask(task, queue: notificationQueue)
+            task.resume()
+        }
+        #else
+        Parse.sessionDelegate.uploadDelegates[task] = progress
+        Parse.sessionDelegate.taskCallbackQueues[task] = notificationQueue
+        task.resume()
+        #endif
     }
 
     func downloadTask<U>(

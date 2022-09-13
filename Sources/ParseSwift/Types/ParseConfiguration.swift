@@ -94,6 +94,12 @@ public struct ParseConfiguration {
     /// Defaults to 5.
     public internal(set) var maxConnectionAttempts: Int = 5
 
+    /**
+     Override the default transfer behavior for `ParseFile`'s.
+     Allows for direct uploads to other file storage providers.
+     */
+    public internal(set) var parseFileTransfer: ParseFileTransferable
+
     internal var authentication: ((URLAuthenticationChallenge,
                                    (URLSession.AuthChallengeDisposition,
                                     URLCredential?) -> Void) -> Void)?
@@ -137,6 +143,8 @@ public struct ParseConfiguration {
      for more info.
      - parameter maxConnectionAttempts: Maximum number of times to try to connect to Parse Server.
      Defaults to 5.
+     - parameter parseFileTransfer: Override the default transfer behavior for `ParseFile`'s.
+     Allows for direct uploads to other file storage providers.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -166,6 +174,7 @@ public struct ParseConfiguration {
                 deletingKeychainIfNeeded: Bool = false,
                 httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                 maxConnectionAttempts: Int = 5,
+                parseFileTransfer: ParseFileTransferable? = nil,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
                                    URLCredential?) -> Void) -> Void)? = nil) {
@@ -189,6 +198,7 @@ public struct ParseConfiguration {
         self.isDeletingKeychainIfNeeded = deletingKeychainIfNeeded
         self.httpAdditionalHeaders = httpAdditionalHeaders
         self.maxConnectionAttempts = maxConnectionAttempts
+        self.parseFileTransfer = parseFileTransfer ?? ParseFileDefaultTransfer()
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
     }
 
@@ -226,6 +236,8 @@ public struct ParseConfiguration {
      for more info.
      - parameter maxConnectionAttempts: Maximum number of times to try to connect to Parse Server.
      Defaults to 5.
+     - parameter parseFileTransfer: Override the default transfer behavior for `ParseFile`'s.
+     Allows for direct uploads to other file storage providers.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -257,6 +269,7 @@ public struct ParseConfiguration {
                 deletingKeychainIfNeeded: Bool = false,
                 httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                 maxConnectionAttempts: Int = 5,
+                parseFileTransfer: ParseFileTransferable? = nil,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
                                    URLCredential?) -> Void) -> Void)? = nil) {
@@ -278,6 +291,7 @@ public struct ParseConfiguration {
                   deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                   httpAdditionalHeaders: httpAdditionalHeaders,
                   maxConnectionAttempts: maxConnectionAttempts,
+                  parseFileTransfer: parseFileTransfer ?? ParseFileDefaultTransfer(),
                   authentication: authentication)
         self.isMigratingFromObjcSDK = migratingFromObjcSDK
     }
