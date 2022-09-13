@@ -60,6 +60,34 @@ class ParseFileTransferableTests: XCTestCase {
         }
     }
 
+    class TestFileTransferThrowError: ParseFileTransferable {
+        let name: String
+        let url: URL
+
+        init(name: String, url: URL?) throws {
+            guard let url = url else {
+                throw ParseError(code: .unknownError,
+                                 message: "URL should not be nil")
+            }
+            self.url = url
+            self.name = name
+        }
+
+        func upload(with request: URLRequest,
+                    from bodyData: Data?,
+                    // swiftlint:disable:next line_length
+                    completion: @escaping (Data?, URLResponse?, URLRequest?, Error?) -> Void) throws -> URLSessionUploadTask {
+            throw ParseError(code: .unknownError, message: "Thrown on purpose")
+        }
+
+        func upload(with request: URLRequest,
+                    fromFile fileURL: URL,
+                    // swiftlint:disable:next line_length
+                    completion: @escaping (Data?, URLResponse?, URLRequest?, Error?) -> Void) throws -> URLSessionUploadTask {
+            throw ParseError(code: .unknownError, message: "Thrown on purpose")
+        }
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -209,6 +237,66 @@ class ParseFileTransferableTests: XCTestCase {
                 XCTAssertEqual(savedFile.url, url)
             case .failure(let error):
                 XCTFail("\(error)")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testSaveFromDataThrowError() throws {
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        let fileName = "sampleData.txt"
+        let parseFile = ParseFile(name: "sampleData.txt",
+                                  data: sampleData,
+                                  metadata: ["Testing": "123"],
+                                  tags: ["Hey": "now"])
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let fileTransferAdapter = try TestFileTransferThrowError(name: fileName, url: url)
+        Parse.configuration.parseFileTransfer = fileTransferAdapter
+
+        let expectation1 = XCTestExpectation(description: "ParseFile save")
+        parseFile.save { result in
+            switch result {
+            case .success:
+                XCTFail("Should have failed")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("purpose"))
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testSaveFromFileThrowError() throws {
+        let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.txt")
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        try sampleData.write(to: tempFilePath)
+        let fileName = "sampleData.txt"
+        let parseFile = ParseFile(name: fileName, localURL: tempFilePath)
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let fileTransferAdapter = try TestFileTransferThrowError(name: fileName, url: url)
+        Parse.configuration.parseFileTransfer = fileTransferAdapter
+
+        let expectation1 = XCTestExpectation(description: "ParseFile save")
+        parseFile.save { result in
+            switch result {
+            case .success:
+                XCTFail("Should have failed")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("purpose"))
             }
             expectation1.fulfill()
         }
