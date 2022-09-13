@@ -137,7 +137,7 @@ internal struct LoginSignupResponse: Codable {
 }
 
 // MARK: ParseFile
-internal struct FileUploadResponse: Decodable {
+internal struct FileUploadResponse: Codable {
     let name: String
     let url: URL
 
