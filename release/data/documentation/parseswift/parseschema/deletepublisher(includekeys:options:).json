@@ -360,6 +360,7 @@
               "type" : "paragraph"
             }
           ],
+          "name" : "Note",
           "style" : "note",
           "type" : "aside"
         },
@@ -403,6 +404,7 @@
               "type" : "paragraph"
             }
           ],
+          "name" : "Warning",
           "style" : "warning",
           "type" : "aside"
         },
@@ -452,7 +454,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [

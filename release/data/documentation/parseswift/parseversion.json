@@ -108,7 +108,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -130,8 +130,6 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/Comparable-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/CustomDebugStringConvertible-Implementations",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/CustomStringConvertible-Implementations",
@@ -267,17 +265,6 @@
   "title" : "ParseVersion",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseversion"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : " Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseversion\/-implementations"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/Comparable-Implementations": {
   "abstract" : [

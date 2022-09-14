@@ -1,15 +1,9 @@
 {
-  "abstract" : [
-    {
-      "text" : "No overview available.",
-      "type" : "text"
-    }
-  ],
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-2crgq",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-u8rk"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-u8rk",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/delete(options:)-2crgq"
       ],
       "title" : "ParseObject Implementations"
     }
@@ -174,7 +168,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [

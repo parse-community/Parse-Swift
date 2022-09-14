@@ -335,7 +335,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-
+        "doc:\/\/com.parse.ParseSwift\/objc(cs)NSObject"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -357,7 +357,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -366,7 +366,6 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery\/init()",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery\/init(serverURL:isDefault:notificationQueue:)"
       ],
       "title" : "Initializers"
@@ -845,27 +844,6 @@
   "title" : "getDefault()",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequery\/getdefault()"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQuery/init()": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "()"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQuery\/init()",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init()",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parselivequery\/init()"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseLiveQuery/init(serverURL:isDefault:notificationQueue:)": {
   "abstract" : [
@@ -1876,6 +1854,11 @@
   "title" : "subscribe(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parselivequery\/subscribe(_:)"
+},
+"doc://com.parse.ParseSwift/objc(cs)NSObject": {
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/objc(cs)NSObject",
+  "title" : "ObjectiveC.NSObject",
+  "type" : "unresolvable"
 },
 "doc://com.parse.ParseSwift/objc(pl)NSObject": {
   "identifier" : "doc:\/\/com.parse.ParseSwift\/objc(pl)NSObject",

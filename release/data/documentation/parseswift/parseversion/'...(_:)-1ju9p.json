@@ -18,7 +18,7 @@
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/Comparable-Implementations"
       ]
     ]
   },
@@ -175,7 +175,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -255,17 +255,6 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseversion"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : " Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseversion\/-implementations"
-},
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/...(_:)-1ju9p": {
   "abstract" : [
 
@@ -331,6 +320,17 @@
   "title" : "...(_:)",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseversion\/'...(_:)-1ju9p"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseVersion/Comparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseVersion\/Comparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Comparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseversion\/comparable-implementations"
 }
 }
 }
