@@ -5,8 +5,9 @@ on:
   pull_request:
     branches: '*'
 env:
-  CI_XCODE_VER: '/Applications/Xcode_12.5.1.app/Contents/Developer'
+  CI_XCODE_OLDEST: '/Applications/Xcode_12.5.1.app/Contents/Developer'
   CI_XCODE_13: '/Applications/Xcode_13.4.1.app/Contents/Developer'
+  CI_XCODE_LATEST: '/Applications/Xcode_14.0.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
@@ -18,7 +19,7 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Prepare codecov
       uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
@@ -26,7 +27,7 @@ jobs:
         format: lcov
         search-paths: ./DerivedData
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
@@ -34,7 +35,7 @@ jobs:
         env_vars: IOS
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   xcode-test-macos:
     runs-on: macos-12
@@ -51,7 +52,7 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Prepare codecov
       uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
@@ -59,7 +60,7 @@ jobs:
         format: lcov
         search-paths: ./DerivedData
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -67,7 +68,7 @@ jobs:
         env_vars: MACOS
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   xcode-test-tvos:
     runs-on: macos-12
@@ -78,7 +79,7 @@ jobs:
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Prepare codecov
       uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
@@ -86,7 +87,7 @@ jobs:
         format: lcov
         search-paths: ./DerivedData
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -94,7 +95,7 @@ jobs:
         env_vars: TVOS
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   xcode-build-watchos:
     runs-on: macos-12
@@ -105,13 +106,13 @@ jobs:
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         env_vars: WATCHOS
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   spm-test:
     runs-on: macos-12
@@ -128,7 +129,7 @@ jobs:
     - name: Build and Test
       run: swift test --enable-code-coverage -v
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Prepare codecov
       uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
@@ -136,7 +137,7 @@ jobs:
         format: lcov
         search-paths: ./.build
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -144,7 +145,7 @@ jobs:
         env_vars: SPM
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   spm-test-5_2:
     needs: xcode-build-watchos
@@ -154,7 +155,7 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11 -derivedDataPath DerivedData clean test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_OLDEST }}
     - name: Prepare codecov
       uses: sersoft-gmbh/swift-coverage-action@v3
       id: coverage-files
@@ -168,7 +169,7 @@ jobs:
         env_vars: IOS_Earliest
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_OLDEST }}
 
   linux:
     runs-on: ubuntu-18.04
@@ -233,7 +234,7 @@ jobs:
       - name: Generate Docs
         run: set -o pipefail && env NSUnbufferedIO=YES Scripts/generate-documentation
         env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
     
   cocoapods:
     needs: xcode-build-watchos
@@ -261,4 +262,4 @@ jobs:
      - name: Carthage 
        run: ./Scripts/carthage.sh build --no-skip-current --use-xcframeworks
        env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
