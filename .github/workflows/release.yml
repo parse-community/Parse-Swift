@@ -4,6 +4,7 @@ on:
     types: [published]
 env:
   CI_XCODE_13: '/Applications/Xcode_13.4.1.app/Contents/Developer'
+  CI_XCODE_LATEST: '/Applications/Xcode_14.0.app/Contents/Developer'
 
 jobs:
   cocoapods:
@@ -36,4 +37,4 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES Scripts/update-gh-pages-documentation-site
         env:
           CURRENT_BRANCH_NAME: release
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
