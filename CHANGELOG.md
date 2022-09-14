@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.13.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.0...4.13.1)
+
+__Fixes__
+- Remove ParseFile caching due to OS not having a natural way to cache files. Instead, if developers want to access a saved ParseFile, they should check the download directory for the respective file name ([#414](https://github.com/parse-community/Parse-Swift/pull/414)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.13.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.12.0...4.13.0)
