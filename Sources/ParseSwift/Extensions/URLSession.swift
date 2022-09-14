@@ -296,21 +296,6 @@ internal extension URLSession {
                                          location: location,
                                          urlResponse: urlResponse,
                                          responseError: responseError, mapper: mapper)
-            if case .success(let file) = result {
-                guard let response = urlResponse,
-                      let parseFile = file as? ParseFile,
-                      let fileLocation = parseFile.localURL,
-                      let data = try? ParseCoding.jsonEncoder().encode(fileLocation) else {
-                          completion(result)
-                          return
-                }
-                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                    URLSession.parse.configuration.urlCache?
-                        .storeCachedResponse(.init(response: response,
-                                                   data: data),
-                                             for: request)
-                }
-            }
             completion(result)
         }
         #if compiler(>=5.5.2) && canImport(_Concurrency)
