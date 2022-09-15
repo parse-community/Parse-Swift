@@ -1,5 +1,5 @@
 //
-//  ParseCloud.swift
+//  ParseCloudable.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 12/29/20.
@@ -15,7 +15,15 @@ public protocol ParseCloudTypeable: ParseEncodable {}
  An object should be instantiated for each function and job type. When conforming to
  `ParseCloud`, any properties added will be passed as parameters to your Cloud Function or Job.
 */
-public protocol ParseCloud: ParseCloudTypeable, Hashable {
+@available(*, deprecated, renamed: "ParseCloudable")
+public typealias ParseCloud = ParseCloudable
+
+/**
+ Objects that conform to the `ParseCloudable` protocol are able to call Parse Cloud Functions and Jobs.
+ An object should be instantiated for each function and job type. When conforming to
+ `ParseCloudable`, any properties added will be passed as parameters to your Cloud Function or Job.
+*/
+public protocol ParseCloudable: ParseCloudTypeable, Hashable {
 
     associatedtype ReturnType: Decodable
     /**
@@ -26,7 +34,7 @@ public protocol ParseCloud: ParseCloudTypeable, Hashable {
 }
 
 // MARK: Functions
-extension ParseCloud {
+extension ParseCloudable {
 
     /**
      Calls a Cloud Code function *synchronously* and returns a result of it is execution.
@@ -65,7 +73,7 @@ extension ParseCloud {
 }
 
 // MARK: Jobs
-extension ParseCloud {
+extension ParseCloudable {
     /**
      Starts a Cloud Code Job *synchronously* and returns a result with the jobStatusId of the job.
           - parameter options: A set of header options sent to the server. Defaults to an empty set.

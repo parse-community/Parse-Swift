@@ -13,24 +13,24 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-//: Create your own value typed `ParseCloud` type.
-struct Hello: ParseCloud {
+//: Create your own value typed `ParseCloudable` type.
+struct Hello: ParseCloudable {
 
     //: Return type of your Cloud Function
     typealias ReturnType = String
 
-    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: These are required by `ParseCloudable`, you can set the default value to make it easier
     //: to use.
     var functionJobName: String = "hello"
 }
 
-//: Create another `ParseCloud` type.
-struct TestCloudCode: ParseCloud {
+//: Create another `ParseCloudable` type.
+struct TestCloudCode: ParseCloudable {
 
     //: Return type of your Cloud Function
     typealias ReturnType = [String: Int]
 
-    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: These are required by `ParseCloudable`, you can set the default value to make it easier
     //: to use.
     var functionJobName: String = "testCloudCode"
 
@@ -38,13 +38,13 @@ struct TestCloudCode: ParseCloud {
     var argument1: [String: Int]
 }
 
-//: Create another `ParseCloud` type.
-struct TestCloudCodeError: ParseCloud {
+//: Create another `ParseCloudable` type.
+struct TestCloudCodeError: ParseCloudable {
 
     //: Return type of your Cloud Function
     typealias ReturnType = String
 
-    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: These are required by `ParseCloudable`, you can set the default value to make it easier
     //: to use.
     var functionJobName: String = "testCloudCodeError"
 }
