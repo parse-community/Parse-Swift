@@ -15,7 +15,7 @@ import Foundation
 public protocol CloudObservable: ObservableObject {
 
     /// The `ParseObject` associated with this view model.
-    associatedtype CloudCodeType: ParseCloud
+    associatedtype CloudCodeType: ParseCloudable
 
     /**
      Creates a new view model that can be used to handle updates.

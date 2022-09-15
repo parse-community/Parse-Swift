@@ -1,5 +1,5 @@
 //
-//  ParseKeyValueStore.swift
+//  ParsePrimitiveStorable.swift
 //  
 //
 //  Created by Pranjal Satija on 7/19/20.
@@ -11,7 +11,14 @@ import Foundation
  A store that supports key/value storage. It should be able
  to handle any object that conforms to encodable and decodable.
  */
-public protocol ParseKeyValueStore {
+@available(*, deprecated, renamed: "ParsePrimitiveStorable")
+public typealias ParseKeyValueStore = ParsePrimitiveStorable
+
+/**
+ A store that supports key/value storage. It should be able
+ to handle any object that conforms to encodable and decodable.
+ */
+public protocol ParsePrimitiveStorable {
     /// Delete an object from the store.
     /// - parameter key: The unique key value of the object.
     mutating func delete(valueFor key: String) throws
@@ -31,7 +38,7 @@ public protocol ParseKeyValueStore {
 /// A `ParseKeyValueStore` that lives in memory for unit testing purposes.
 /// It works by encoding / decoding all values just like a real `Codable` store would
 /// but it stores all values as `Data` blobs in memory.
-struct InMemoryKeyValueStore: ParseKeyValueStore {
+struct InMemoryKeyValueStore: ParsePrimitiveStorable {
     var decoder = ParseCoding.jsonDecoder()
     var encoder = ParseCoding.jsonEncoder()
     var storage = [String: Data]()
@@ -58,7 +65,7 @@ struct InMemoryKeyValueStore: ParseKeyValueStore {
 #if !os(Linux) && !os(Android) && !os(Windows)
 
 // MARK: KeychainStore + ParseKeyValueStore
-extension KeychainStore: ParseKeyValueStore {
+extension KeychainStore: ParsePrimitiveStorable {
 
     func delete(valueFor key: String) throws {
         if !removeObject(forKey: key) {

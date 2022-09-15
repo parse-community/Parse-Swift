@@ -1,5 +1,5 @@
 //
-//  ParseCloudTests.swift
+//  ParseCloudableTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 12/29/20.
@@ -10,16 +10,16 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseCloudableTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct Cloud: ParseCloud {
+    struct Cloud: ParseCloudable {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
         // These are required by ParseObject
         var functionJobName: String
     }
 
-    struct Cloud2: ParseCloud {
+    struct Cloud2: ParseCloudable {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
         // These are required by ParseObject
