@@ -1,29 +1,23 @@
 {
-  "abstract" : [
-    {
-      "text" : "The name of the function or job.",
-      "type" : "text"
-    }
-  ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/functionJobName"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A5CloudP15functionJobNameSSvp",
+    "externalID" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "var"
+        "text" : "associatedtype"
       },
       {
         "kind" : "text",
@@ -31,16 +25,16 @@
       },
       {
         "kind" : "identifier",
-        "text" : "functionJobName"
+        "text" : "ReturnType"
       },
       {
         "kind" : "text",
-        "text" : ": "
+        "text" : " : "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
+        "preciseIdentifier" : "s:Se",
+        "text" : "Decodable"
       }
     ],
     "modules" : [
@@ -50,9 +44,9 @@
     ],
     "required" : true,
     "role" : "symbol",
-    "roleHeading" : "Instance Property",
-    "symbolKind" : "property",
-    "title" : "functionJobName"
+    "roleHeading" : "Associated Type",
+    "symbolKind" : "associatedtype",
+    "title" : "ReturnType"
   },
   "primaryContentSections" : [
     {
@@ -67,7 +61,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "var"
+              "text" : "associatedtype"
             },
             {
               "kind" : "text",
@@ -75,36 +69,16 @@
             },
             {
               "kind" : "identifier",
-              "text" : "functionJobName"
+              "text" : "ReturnType"
             },
             {
               "kind" : "text",
-              "text" : ": "
+              "text" : " : "
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
-            },
-            {
-              "kind" : "text",
-              "text" : " { "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "get"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "set"
-            },
-            {
-              "kind" : "text",
-              "text" : " }"
+              "preciseIdentifier" : "s:Se",
+              "text" : "Decodable"
             }
           ]
         }
@@ -123,7 +97,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsecloud\/functionjobname"
+        "\/documentation\/parseswift\/parsecloudable\/returntype"
       ],
       "traits" : [
         {
@@ -148,14 +122,14 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -175,7 +149,7 @@
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -194,33 +168,30 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseCloud",
+  "title" : "ParseCloudable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud"
+  "url" : "\/documentation\/parseswift\/parsecloudable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/functionJobName": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/ReturnType": {
   "abstract" : [
-    {
-      "text" : "The name of the function or job.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "var"
+      "text" : "associatedtype"
     },
     {
       "kind" : "text",
@@ -228,25 +199,25 @@
     },
     {
       "kind" : "identifier",
-      "text" : "functionJobName"
+      "text" : "ReturnType"
     },
     {
       "kind" : "text",
-      "text" : ": "
+      "text" : " : "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
+      "preciseIdentifier" : "s:Se",
+      "text" : "Decodable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/functionJobName",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
-  "title" : "functionJobName",
+  "title" : "ReturnType",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/functionjobname"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/returntype"
 }
 }
 }

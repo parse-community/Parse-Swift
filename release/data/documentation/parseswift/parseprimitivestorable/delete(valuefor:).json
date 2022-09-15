@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Gets an object from the store based on its ",
-      "type" : "text"
-    },
-    {
-      "code" : "key",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
+      "text" : "Delete an object from the store.",
       "type" : "text"
     }
   ],
@@ -17,17 +9,17 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/get(valueFor:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable\/delete(valueFor:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A13KeyValueStoreP3get8valueForqd__SgSS_tKSeRd__lF",
+    "externalID" : "s:10ParseSwift0A17PrimitiveStorableP6delete8valueForySS_tKF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -39,19 +31,11 @@
       },
       {
         "kind" : "identifier",
-        "text" : "get"
+        "text" : "delete"
       },
       {
         "kind" : "text",
-        "text" : "<"
-      },
-      {
-        "kind" : "genericParameter",
-        "text" : "T"
-      },
-      {
-        "kind" : "text",
-        "text" : ">("
+        "text" : "("
       },
       {
         "kind" : "externalParam",
@@ -73,19 +57,6 @@
       {
         "kind" : "keyword",
         "text" : "throws"
-      },
-      {
-        "kind" : "text",
-        "text" : " -> "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP3get8valueForqd__SgSS_tKSeRd__lF1TL_qd__mfp",
-        "text" : "T"
-      },
-      {
-        "kind" : "text",
-        "text" : "?"
       }
     ],
     "modules" : [
@@ -97,7 +68,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "get(valueFor:)"
+    "title" : "delete(valueFor:)"
   },
   "primaryContentSections" : [
     {
@@ -128,19 +99,11 @@
             },
             {
               "kind" : "identifier",
-              "text" : "get"
+              "text" : "delete"
             },
             {
               "kind" : "text",
-              "text" : "<"
-            },
-            {
-              "kind" : "genericParameter",
-              "text" : "T"
-            },
-            {
-              "kind" : "text",
-              "text" : ">("
+              "text" : "("
             },
             {
               "kind" : "externalParam",
@@ -170,40 +133,6 @@
             {
               "kind" : "keyword",
               "text" : "throws"
-            },
-            {
-              "kind" : "text",
-              "text" : " -> "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP3get8valueForqd__SgSS_tKSeRd__lF1TL_qd__mfp",
-              "text" : "T"
-            },
-            {
-              "kind" : "text",
-              "text" : "? "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "where"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "text" : "T"
-            },
-            {
-              "kind" : "text",
-              "text" : " : "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Se",
-              "text" : "Decodable"
             }
           ]
         }
@@ -241,7 +170,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsekeyvaluestore\/get(valuefor:)"
+        "\/documentation\/parseswift\/parseprimitivestorable\/delete(valuefor:)"
       ],
       "traits" : [
         {
@@ -266,7 +195,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable": {
   "abstract" : [
     {
       "text" : "A store that supports key\/value storage. It should be able",
@@ -292,34 +221,26 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParsePrimitiveStorable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParsePrimitiveStorable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseKeyValueStore",
+  "title" : "ParsePrimitiveStorable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore"
+  "url" : "\/documentation\/parseswift\/parseprimitivestorable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/get(valueFor:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable/delete(valueFor:)": {
   "abstract" : [
     {
-      "text" : "Gets an object from the store based on its ",
-      "type" : "text"
-    },
-    {
-      "code" : "key",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
+      "text" : "Delete an object from the store.",
       "type" : "text"
     }
   ],
@@ -334,19 +255,11 @@
     },
     {
       "kind" : "identifier",
-      "text" : "get"
+      "text" : "delete"
     },
     {
       "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
+      "text" : "("
     },
     {
       "kind" : "externalParam",
@@ -368,28 +281,15 @@
     {
       "kind" : "keyword",
       "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP3get8valueForqd__SgSS_tKSeRd__lF1TL_qd__mfp",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/get(valueFor:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable\/delete(valueFor:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
-  "title" : "get(valueFor:)",
+  "title" : "delete(valueFor:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore\/get(valuefor:)"
+  "url" : "\/documentation\/parseswift\/parseprimitivestorable\/delete(valuefor:)"
 }
 }
 }

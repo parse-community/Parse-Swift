@@ -16,6 +16,27 @@
     {
       "text" : ".",
       "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Fetches a file with given url ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "asynchronously",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
     }
   ],
   "hierarchy" : {
@@ -614,6 +635,27 @@
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile/fetch(options:progress:)": {
   "abstract" : [
+    {
+      "text" : "Fetches a file with given url ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "asynchronously",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
     {
       "text" : "Fetches a file with given url ",
       "type" : "text"

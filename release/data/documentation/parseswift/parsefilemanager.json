@@ -98,6 +98,14 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/defaultDataDirectoryPath"
       ],
       "title" : "Instance Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/downloadDirectory()",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/fileExists(_:)-3nh5r",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/fileExists(_:)-4h3hl"
+      ],
+      "title" : "Type Methods"
     }
   ],
   "variants" : [
@@ -202,6 +210,199 @@
   "title" : "defaultDataDirectoryPath",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefilemanager\/defaultdatadirectorypath"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager/downloadDirectory()": {
+  "abstract" : [
+    {
+      "text" : "The download directory for all ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseFile",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "’s.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "downloadDirectory"
+    },
+    {
+      "kind" : "text",
+      "text" : "() "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/downloadDirectory()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "downloadDirectory()",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefilemanager\/downloaddirectory()"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager/fileExists(_:)-3nh5r": {
+  "abstract" : [
+    {
+      "text" : "Check if a file exists in the Swift SDK download directory.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fileExists"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/fileExists(_:)-3nh5r",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "fileExists(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefilemanager\/fileexists(_:)-3nh5r"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager/fileExists(_:)-4h3hl": {
+  "abstract" : [
+    {
+      "text" : "Check if a ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseFile",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " exists in the Swift SDK download directory.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fileExists"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A4FileV",
+      "text" : "ParseFile"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/fileExists(_:)-4h3hl",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "fileExists(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsefilemanager\/fileexists(_:)-4h3hl"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager/init()": {
   "abstract" : [

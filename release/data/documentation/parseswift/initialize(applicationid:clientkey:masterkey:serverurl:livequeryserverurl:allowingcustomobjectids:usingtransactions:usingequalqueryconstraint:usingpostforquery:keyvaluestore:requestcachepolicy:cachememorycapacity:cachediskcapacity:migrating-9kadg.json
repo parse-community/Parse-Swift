@@ -41,7 +41,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift10initialize13applicationId9clientKey06masterG09serverURL015liveQueryServerJ023allowingCustomObjectIds17usingTransactions0r5EqualL10Constraint0r7PostForL013keyValueStore18requestCachePolicy19cacheMemoryCapacity17cacheDiskCapacity20migratingFromObjcSDK0R22DataProtectionKeychain24deletingKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts17parseFileTransfer14authenticationySS_SSSgAW10Foundation0J0VAZSgS4bAA0agyZ0_pSgSo23NSURLRequestCachePolicyVS2iS3bSDys11AnyHashableVypGSgSiAA0A16FileTransferable_pSgySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtF",
+    "externalID" : "s:10ParseSwift10initialize13applicationId9clientKey06masterG09serverURL015liveQueryServerJ023allowingCustomObjectIds17usingTransactions0r5EqualL10Constraint0r7PostForL013keyValueStore18requestCachePolicy19cacheMemoryCapacity17cacheDiskCapacity20migratingFromObjcSDK0R22DataProtectionKeychain24deletingKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts17parseFileTransfer14authenticationySS_SSSgAW10Foundation0J0VAZSgS4bAA0A17PrimitiveStorable_pSgSo23NSURLRequestCachePolicyVS2iS3bSDys11AnyHashableVypGSgSiAA0A16FileTransferable_pSgySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -222,7 +222,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
+        "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
         "text" : "ParseKeyValueStore"
       },
       {
@@ -666,7 +666,7 @@
             {
               "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
+              "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
               "text" : "ParseKeyValueStore"
             },
             {
@@ -1795,10 +1795,11 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "protocol"
+      "text" : "typealias"
     },
     {
       "kind" : "text",
@@ -2135,7 +2136,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
+      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
       "text" : "ParseKeyValueStore"
     },
     {
@@ -2581,8 +2582,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
-      "text" : "ParseKeyValueStore"
+      "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP",
+      "text" : "ParsePrimitiveStorable"
     },
     {
       "kind" : "text",

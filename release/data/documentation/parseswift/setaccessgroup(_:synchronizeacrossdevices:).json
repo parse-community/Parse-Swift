@@ -789,7 +789,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
+      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
       "text" : "ParseKeyValueStore"
     },
     {
@@ -1235,8 +1235,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
-      "text" : "ParseKeyValueStore"
+      "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP",
+      "text" : "ParsePrimitiveStorable"
     },
     {
       "kind" : "text",

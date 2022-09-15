@@ -17,17 +17,17 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/set(_:for:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable\/set(_:for:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A13KeyValueStoreP3set_3foryqd___SStKSERd__lF",
+    "externalID" : "s:10ParseSwift0A17PrimitiveStorableP3set_3foryqd___SStKSERd__lF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -55,7 +55,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP3set_3foryqd___SStKSERd__lF1TL_qd__mfp",
+        "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP3set_3foryqd___SStKSERd__lF1TL_qd__mfp",
         "text" : "T"
       },
       {
@@ -156,7 +156,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP3set_3foryqd___SStKSERd__lF1TL_qd__mfp",
+              "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP3set_3foryqd___SStKSERd__lF1TL_qd__mfp",
               "text" : "T"
             },
             {
@@ -267,7 +267,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsekeyvaluestore\/set(_:for:)"
+        "\/documentation\/parseswift\/parseprimitivestorable\/set(_:for:)"
       ],
       "traits" : [
         {
@@ -292,7 +292,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable": {
   "abstract" : [
     {
       "text" : "A store that supports key\/value storage. It should be able",
@@ -318,23 +318,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParsePrimitiveStorable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParsePrimitiveStorable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseKeyValueStore",
+  "title" : "ParsePrimitiveStorable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore"
+  "url" : "\/documentation\/parseswift\/parseprimitivestorable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/set(_:for:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable/set(_:for:)": {
   "abstract" : [
     {
       "text" : "Stores an object in the store with a given ",
@@ -376,7 +376,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP3set_3foryqd___SStKSERd__lF1TL_qd__mfp",
+      "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP3set_3foryqd___SStKSERd__lF1TL_qd__mfp",
       "text" : "T"
     },
     {
@@ -405,13 +405,13 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/set(_:for:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable\/set(_:for:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "set(_:for:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore\/set(_:for:)"
+  "url" : "\/documentation\/parseswift\/parseprimitivestorable\/set(_:for:)"
 }
 }
 }

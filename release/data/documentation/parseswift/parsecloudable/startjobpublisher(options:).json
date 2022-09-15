@@ -7,7 +7,7 @@
     {
       "inlineContent" : [
         {
-          "text" : "synchronously",
+          "text" : "asynchronously",
           "type" : "text"
         }
       ],
@@ -22,23 +22,7 @@
       "type" : "text"
     },
     {
-      "text" : "- parameter options: A set of header options sent to the server. Defaults to an empty set.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "- returns: Returns a ",
-      "type" : "text"
-    },
-    {
-      "code" : "Decodable",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " type.",
+      "text" : "Publishes when complete.",
       "type" : "text"
     }
   ],
@@ -46,18 +30,18 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/startJob(options:)-1gxb1"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/startJobPublisher(options:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A5CloudPAAE8startJob7options10ReturnTypeQzShyAA3APIV6OptionOG_tKF",
+    "externalID" : "s:10ParseSwift0A9CloudablePAAE17startJobPublisher7options7Combine6FutureCy10ReturnTypeQzAA0A5ErrorVGShyAA3APIV6OptionOG_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -69,7 +53,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "startJob"
+        "text" : "startJobPublisher"
       },
       {
         "kind" : "text",
@@ -99,20 +83,34 @@
       },
       {
         "kind" : "text",
-        "text" : ") "
-      },
-      {
-        "kind" : "keyword",
-        "text" : "throws"
-      },
-      {
-        "kind" : "text",
-        "text" : " -> "
+        "text" : ") -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+        "preciseIdentifier" : "s:7Combine6FutureC",
+        "text" : "Future"
+      },
+      {
+        "kind" : "text",
+        "text" : "<"
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
         "text" : "ReturnType"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+        "text" : "ParseError"
+      },
+      {
+        "kind" : "text",
+        "text" : ">"
       }
     ],
     "modules" : [
@@ -123,7 +121,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "startJob(options:)"
+    "title" : "startJobPublisher(options:)"
   },
   "primaryContentSections" : [
     {
@@ -146,7 +144,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "startJob"
+              "text" : "startJobPublisher"
             },
             {
               "kind" : "text",
@@ -178,26 +176,80 @@
             },
             {
               "kind" : "text",
-              "text" : " = []) "
+              "text" : " = []) -> "
             },
             {
-              "kind" : "keyword",
-              "text" : "throws"
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:7Combine6FutureC",
+              "text" : "Future"
             },
             {
               "kind" : "text",
-              "text" : " -> "
+              "text" : "<"
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/ReturnType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+              "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
               "text" : "ReturnType"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+              "text" : "ParseError"
+            },
+            {
+              "kind" : "text",
+              "text" : ">"
             }
           ]
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "A publisher that eventually produces a single value and then finishes or fails.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A set of header options sent to the server. Defaults to an empty set.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "options"
+        }
+      ]
     }
   ],
   "schemaVersion" : {
@@ -211,7 +263,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsecloud\/startjob(options:)-1gxb1"
+        "\/documentation\/parseswift\/parsecloudable\/startjobpublisher(options:)"
       ],
       "traits" : [
         {
@@ -304,14 +356,14 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -331,7 +383,7 @@
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -350,23 +402,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseCloud",
+  "title" : "ParseCloudable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud"
+  "url" : "\/documentation\/parseswift\/parsecloudable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/ReturnType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/ReturnType": {
   "abstract" : [
 
   ],
@@ -393,15 +445,15 @@
       "text" : "Decodable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/ReturnType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "ReturnType",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/returntype"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/returntype"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/startJob(options:)-1gxb1": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/startJobPublisher(options:)": {
   "abstract" : [
     {
       "text" : "Starts a Cloud Code Job ",
@@ -410,7 +462,7 @@
     {
       "inlineContent" : [
         {
-          "text" : "synchronously",
+          "text" : "asynchronously",
           "type" : "text"
         }
       ],
@@ -425,23 +477,7 @@
       "type" : "text"
     },
     {
-      "text" : "- parameter options: A set of header options sent to the server. Defaults to an empty set.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "- returns: Returns a ",
-      "type" : "text"
-    },
-    {
-      "code" : "Decodable",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " type.",
+      "text" : "Publishes when complete.",
       "type" : "text"
     }
   ],
@@ -456,7 +492,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "startJob"
+      "text" : "startJobPublisher"
     },
     {
       "kind" : "text",
@@ -486,28 +522,76 @@
     },
     {
       "kind" : "text",
-      "text" : ") "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+      "preciseIdentifier" : "s:7Combine6FutureC",
+      "text" : "Future"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
       "text" : "ReturnType"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/startJob(options:)-1gxb1",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/startJobPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "startJob(options:)",
+  "title" : "startJobPublisher(options:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/startjob(options:)-1gxb1"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/startjobpublisher(options:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError": {
+  "abstract" : [
+    {
+      "text" : "An object with a Parse code and message.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseError"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseError"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseError",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseerror"
 }
 }
 }

@@ -22,18 +22,18 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/runFunction(options:)-6rsfm"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/runFunction(options:callbackQueue:completion:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A5CloudPAAE11runFunction7options10ReturnTypeQzShyAA3APIV6OptionOG_tYaKF",
+    "externalID" : "s:10ParseSwift0A9CloudablePAAE11runFunction7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOy10ReturnTypeQzAA0A5ErrorVGctF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -75,28 +75,68 @@
       },
       {
         "kind" : "text",
-        "text" : ") "
+        "text" : ", "
       },
       {
-        "kind" : "keyword",
-        "text" : "async"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
-      {
-        "kind" : "keyword",
-        "text" : "throws"
+        "kind" : "externalParam",
+        "text" : "callbackQueue"
       },
       {
         "kind" : "text",
-        "text" : " -> "
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+        "preciseIdentifier" : "c:objc(cs)OS_dispatch_queue",
+        "text" : "DispatchQueue"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "completion"
+      },
+      {
+        "kind" : "text",
+        "text" : ": ("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:s6ResultO",
+        "text" : "Result"
+      },
+      {
+        "kind" : "text",
+        "text" : "<"
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
         "text" : "ReturnType"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+        "text" : "ParseError"
+      },
+      {
+        "kind" : "text",
+        "text" : ">) -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:s4Voida",
+        "text" : "Void"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
       }
     ],
     "modules" : [
@@ -107,7 +147,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "runFunction(options:)"
+    "title" : "runFunction(options:callbackQueue:completion:)"
   },
   "primaryContentSections" : [
     {
@@ -162,54 +202,83 @@
             },
             {
               "kind" : "text",
-              "text" : " = []) "
+              "text" : " = [], "
             },
             {
-              "kind" : "keyword",
-              "text" : "async"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "throws"
+              "kind" : "externalParam",
+              "text" : "callbackQueue"
             },
             {
               "kind" : "text",
-              "text" : " -> "
+              "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/ReturnType",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+              "preciseIdentifier" : "c:objc(cs)OS_dispatch_queue",
+              "text" : "DispatchQueue"
+            },
+            {
+              "kind" : "text",
+              "text" : " = .main, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "completion"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "attribute",
+              "text" : "@escaping"
+            },
+            {
+              "kind" : "text",
+              "text" : " ("
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:s6ResultO",
+              "text" : "Result"
+            },
+            {
+              "kind" : "text",
+              "text" : "<"
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
               "text" : "ReturnType"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+              "text" : "ParseError"
+            },
+            {
+              "kind" : "text",
+              "text" : ">) -> "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:s4Voida",
+              "text" : "Void"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The return type.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     },
     {
       "kind" : "parameters",
@@ -227,27 +296,39 @@
             }
           ],
           "name" : "options"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
         },
         {
           "content" : [
             {
               "inlineContent" : [
                 {
-                  "text" : "An error of type ",
+                  "text" : "The queue to return to after completion. Default value of .main.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "callbackQueue"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A block that will be called when the Cloud Code completes or fails.",
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseError",
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "It should have the following argument signature: ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "(Result<ReturnType, ParseError>)",
                   "type" : "codeVoice"
                 },
                 {
@@ -258,12 +339,9 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "Throws",
-          "style" : "note",
-          "type" : "aside"
+          "name" : "completion"
         }
-      ],
-      "kind" : "content"
+      ]
     }
   ],
   "schemaVersion" : {
@@ -277,7 +355,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsecloud\/runfunction(options:)-6rsfm"
+        "\/documentation\/parseswift\/parsecloudable\/runfunction(options:callbackqueue:completion:)"
       ],
       "traits" : [
         {
@@ -370,14 +448,14 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -397,7 +475,7 @@
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -416,23 +494,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseCloud",
+  "title" : "ParseCloudable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud"
+  "url" : "\/documentation\/parseswift\/parsecloudable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/ReturnType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/ReturnType": {
   "abstract" : [
 
   ],
@@ -459,15 +537,15 @@
       "text" : "Decodable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/ReturnType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "ReturnType",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/returntype"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/returntype"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/runFunction(options:)-6rsfm": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/runFunction(options:callbackQueue:completion:)": {
   "abstract" : [
     {
       "text" : "Calls a Cloud Code function ",
@@ -528,36 +606,110 @@
     },
     {
       "kind" : "text",
-      "text" : ") "
+      "text" : ", "
     },
     {
+      "kind" : "externalParam",
+      "text" : "callbackQueue"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)OS_dispatch_queue",
+      "text" : "DispatchQueue"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "completion"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s6ResultO",
+      "text" : "Result"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
+      "text" : "ReturnType"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10ParseSwift0A5ErrorV",
+      "text" : "ParseError"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/runFunction(options:callbackQueue:completion:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "runFunction(options:callbackQueue:completion:)",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsecloudable\/runfunction(options:callbackqueue:completion:)"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError": {
+  "abstract" : [
+    {
+      "text" : "An object with a Parse code and message.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
       "kind" : "keyword",
-      "text" : "async"
+      "text" : "struct"
     },
     {
       "kind" : "text",
       "text" : " "
     },
     {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
-      "text" : "ReturnType"
+      "kind" : "identifier",
+      "text" : "ParseError"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/runFunction(options:)-6rsfm",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseError",
   "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseError"
+    }
+  ],
   "role" : "symbol",
-  "title" : "runFunction(options:)",
+  "title" : "ParseError",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/runfunction(options:)-6rsfm"
+  "url" : "\/documentation\/parseswift\/parseerror"
 }
 }
 }

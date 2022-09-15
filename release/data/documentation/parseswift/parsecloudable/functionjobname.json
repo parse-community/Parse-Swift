@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Delete an object from the store.",
+      "text" : "The name of the function or job.",
       "type" : "text"
     }
   ],
@@ -9,21 +9,21 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/delete(valueFor:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/functionJobName"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A13KeyValueStoreP6delete8valueForySS_tKF",
+    "externalID" : "s:10ParseSwift0A9CloudableP15functionJobNameSSvp",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "func"
+        "text" : "var"
       },
       {
         "kind" : "text",
@@ -31,15 +31,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "delete"
-      },
-      {
-        "kind" : "text",
-        "text" : "("
-      },
-      {
-        "kind" : "externalParam",
-        "text" : "valueFor"
+        "text" : "functionJobName"
       },
       {
         "kind" : "text",
@@ -49,14 +41,6 @@
         "kind" : "typeIdentifier",
         "preciseIdentifier" : "s:SS",
         "text" : "String"
-      },
-      {
-        "kind" : "text",
-        "text" : ") "
-      },
-      {
-        "kind" : "keyword",
-        "text" : "throws"
       }
     ],
     "modules" : [
@@ -66,9 +50,9 @@
     ],
     "required" : true,
     "role" : "symbol",
-    "roleHeading" : "Instance Method",
-    "symbolKind" : "method",
-    "title" : "delete(valueFor:)"
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "functionJobName"
   },
   "primaryContentSections" : [
     {
@@ -83,15 +67,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "mutating"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "func"
+              "text" : "var"
             },
             {
               "kind" : "text",
@@ -99,23 +75,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "delete"
-            },
-            {
-              "kind" : "text",
-              "text" : "("
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "valueFor"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "key"
+              "text" : "functionJobName"
             },
             {
               "kind" : "text",
@@ -128,35 +88,28 @@
             },
             {
               "kind" : "text",
-              "text" : ") "
+              "text" : " { "
             },
             {
               "kind" : "keyword",
-              "text" : "throws"
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "set"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The unique key value of the object.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "key"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -170,7 +123,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsekeyvaluestore\/delete(valuefor:)"
+        "\/documentation\/parseswift\/parsecloudable\/functionjobname"
       ],
       "traits" : [
         {
@@ -195,10 +148,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
   "abstract" : [
     {
-      "text" : "A store that supports key\/value storage. It should be able",
+      "text" : "Objects that conform to the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseCloudable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " protocol are able to call Parse Cloud Functions and Jobs.",
       "type" : "text"
     },
     {
@@ -206,7 +167,19 @@
       "type" : "text"
     },
     {
-      "text" : "to handle any object that conforms to encodable and decodable.",
+      "text" : "An object should be instantiated for each function and job type. When conforming to",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseCloudable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", any properties added will be passed as parameters to your Cloud Function or Job.",
       "type" : "text"
     }
   ],
@@ -221,33 +194,33 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParseCloudable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParseCloudable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseKeyValueStore",
+  "title" : "ParseCloudable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore"
+  "url" : "\/documentation\/parseswift\/parsecloudable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/delete(valueFor:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/functionJobName": {
   "abstract" : [
     {
-      "text" : "Delete an object from the store.",
+      "text" : "The name of the function or job.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "func"
+      "text" : "var"
     },
     {
       "kind" : "text",
@@ -255,15 +228,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "delete"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "valueFor"
+      "text" : "functionJobName"
     },
     {
       "kind" : "text",
@@ -273,23 +238,15 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:SS",
       "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ") "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/delete(valueFor:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/functionJobName",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
-  "title" : "delete(valueFor:)",
+  "title" : "functionJobName",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore\/delete(valuefor:)"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/functionjobname"
 }
 }
 }

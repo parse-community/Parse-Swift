@@ -9,17 +9,17 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/deleteAll()"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable\/deleteAll()"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A13KeyValueStoreP9deleteAllyyKF",
+    "externalID" : "s:10ParseSwift0A17PrimitiveStorableP9deleteAllyyKF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -109,7 +109,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsekeyvaluestore\/deleteall()"
+        "\/documentation\/parseswift\/parseprimitivestorable\/deleteall()"
       ],
       "traits" : [
         {
@@ -134,7 +134,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable": {
   "abstract" : [
     {
       "text" : "A store that supports key\/value storage. It should be able",
@@ -160,23 +160,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParsePrimitiveStorable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseKeyValueStore"
+      "text" : "ParsePrimitiveStorable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseKeyValueStore",
+  "title" : "ParsePrimitiveStorable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore"
+  "url" : "\/documentation\/parseswift\/parseprimitivestorable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore/deleteAll()": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable/deleteAll()": {
   "abstract" : [
     {
       "text" : "Delete all objects from the store.",
@@ -205,13 +205,13 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore\/deleteAll()",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable\/deleteAll()",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "deleteAll()",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsekeyvaluestore\/deleteall()"
+  "url" : "\/documentation\/parseswift\/parseprimitivestorable\/deleteall()"
 }
 }
 }

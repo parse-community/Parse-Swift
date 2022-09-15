@@ -214,9 +214,9 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Fetchable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/Objectable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseAuthentication",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudTypeable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudUser",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfig",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseEncodable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileTransferable",
@@ -226,9 +226,9 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookTriggerable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseHookable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseInstallation",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseLiveQueryDelegate",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushApplePayloadable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushFirebasePayloadable",
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePushPayloadable",
@@ -356,6 +356,13 @@
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/_=(_:_:)-6tzg"
       ],
       "title" : "Operators"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore"
+      ],
+      "title" : "Type Aliases"
     },
     {
       "identifiers" : [
@@ -1608,10 +1615,11 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "protocol"
+      "text" : "typealias"
     },
     {
       "kind" : "text",
@@ -1696,6 +1704,68 @@
   "title" : "ParseCloudUser",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseclouduser"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
+  "abstract" : [
+    {
+      "text" : "Objects that conform to the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseCloudable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " protocol are able to call Parse Cloud Functions and Jobs.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "An object should be instantiated for each function and job type. When conforming to",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseCloudable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", any properties added will be passed as parameters to your Cloud Function or Job.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCloudable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsecloudable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfig": {
   "abstract" : [
@@ -3113,10 +3183,11 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "protocol"
+      "text" : "typealias"
     },
     {
       "kind" : "text",
@@ -3548,6 +3619,48 @@
   "title" : "ParsePolygon",
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsepolygon"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable": {
+  "abstract" : [
+    {
+      "text" : "A store that supports key\/value storage. It should be able",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "to handle any object that conforms to encodable and decodable.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParsePrimitiveStorable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParsePrimitiveStorable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParsePrimitiveStorable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parseprimitivestorable"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePush": {
   "abstract" : [
@@ -7496,7 +7609,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
+      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
       "text" : "ParseKeyValueStore"
     },
     {
@@ -7942,8 +8055,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStoreP",
-      "text" : "ParseKeyValueStore"
+      "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP",
+      "text" : "ParsePrimitiveStorable"
     },
     {
       "kind" : "text",

@@ -47,8 +47,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A5CloudP",
-        "text" : "ParseCloud"
+        "preciseIdentifier" : "s:10ParseSwift0A9CloudableP",
+        "text" : "ParseCloudable"
       }
     ],
     "modules" : [
@@ -90,10 +90,10 @@
               "text" : " : "
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A5CloudP",
-              "text" : "ParseCloud"
+              "preciseIdentifier" : "s:10ParseSwift0A9CloudableP",
+              "text" : "ParseCloudable"
             }
           ]
         }
@@ -229,8 +229,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A5CloudP",
-      "text" : "ParseCloud"
+      "preciseIdentifier" : "s:10ParseSwift0A9CloudableP",
+      "text" : "ParseCloudable"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudObservable\/CloudCodeType",
@@ -241,14 +241,14 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/cloudobservable\/cloudcodetype"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -268,7 +268,7 @@
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -287,21 +287,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseCloud",
+  "title" : "ParseCloudable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud"
+  "url" : "\/documentation\/parseswift\/parsecloudable"
 }
 }
 }

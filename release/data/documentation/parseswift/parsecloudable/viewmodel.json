@@ -1,7 +1,27 @@
 {
   "abstract" : [
     {
-      "text" : "Updates and notifies when the new results have been retrieved.",
+      "text" : "Creates a view model for this CloudCode. Suitable for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ObjectObserved",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "as the view model can be used as a SwiftUI publisher. Meaning it can serve",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "indepedently as a ViewModel in MVVM.",
       "type" : "text"
     }
   ],
@@ -9,17 +29,18 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/results"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/viewModel"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift14CloudViewModelC7results10ReturnTypeQzSgvp",
+    "extendedModule" : "ParseSwift",
+    "externalID" : "s:10ParseSwift0A9CloudablePAAE9viewModelAA09CloudViewE0CyxGvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -31,7 +52,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "results"
+        "text" : "viewModel"
       },
       {
         "kind" : "text",
@@ -39,21 +60,20 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC1Txmfp",
-        "text" : "T"
+        "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC",
+        "text" : "CloudViewModel"
       },
       {
         "kind" : "text",
-        "text" : "."
+        "text" : "<"
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
-        "text" : "ReturnType"
+        "text" : "Self"
       },
       {
         "kind" : "text",
-        "text" : "?"
+        "text" : ">"
       }
     ],
     "modules" : [
@@ -64,7 +84,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Property",
     "symbolKind" : "property",
-    "title" : "results"
+    "title" : "viewModel"
   },
   "primaryContentSections" : [
     {
@@ -87,42 +107,33 @@
             },
             {
               "kind" : "identifier",
-              "text" : "results"
+              "text" : "viewModel"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC1Txmfp",
-              "text" : "T"
+              "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC",
+              "text" : "CloudViewModel"
             },
             {
               "kind" : "text",
-              "text" : "."
+              "text" : "<"
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
-              "text" : "ReturnType"
+              "text" : "Self"
             },
             {
               "kind" : "text",
-              "text" : "? { "
+              "text" : "> { "
             },
             {
               "kind" : "keyword",
               "text" : "get"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "set"
             },
             {
               "kind" : "text",
@@ -145,7 +156,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/cloudviewmodel\/results"
+        "\/documentation\/parseswift\/parsecloudable\/viewmodel"
       ],
       "traits" : [
         {
@@ -241,10 +252,92 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/cloudviewmodel"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/CloudViewModel/results": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
   "abstract" : [
     {
-      "text" : "Updates and notifies when the new results have been retrieved.",
+      "text" : "Objects that conform to the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseCloudable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " protocol are able to call Parse Cloud Functions and Jobs.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "An object should be instantiated for each function and job type. When conforming to",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "code" : "ParseCloudable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", any properties added will be passed as parameters to your Cloud Function or Job.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ParseCloudable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ParseCloudable",
+  "type" : "topic",
+  "url" : "\/documentation\/parseswift\/parsecloudable"
+},
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/viewModel": {
+  "abstract" : [
+    {
+      "text" : "Creates a view model for this CloudCode. Suitable for ",
+      "type" : "text"
+    },
+    {
+      "code" : "ObjectObserved",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "as the view model can be used as a SwiftUI publisher. Meaning it can serve",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "indepedently as a ViewModel in MVVM.",
       "type" : "text"
     }
   ],
@@ -259,7 +352,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "results"
+      "text" : "viewModel"
     },
     {
       "kind" : "text",
@@ -267,64 +360,28 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC1Txmfp",
-      "text" : "T"
+      "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC",
+      "text" : "CloudViewModel"
     },
     {
       "kind" : "text",
-      "text" : "."
+      "text" : "<"
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
-      "text" : "ReturnType"
+      "text" : "Self"
     },
     {
       "kind" : "text",
-      "text" : "?"
+      "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel\/results",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/viewModel",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "results",
+  "title" : "viewModel",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/cloudviewmodel\/results"
-},
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/ReturnType": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "associatedtype"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ReturnType"
-    },
-    {
-      "kind" : "text",
-      "text" : " : "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Se",
-      "text" : "Decodable"
-    }
-  ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "ReturnType",
-  "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloudable\/returntype"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/viewmodel"
 },
 "https://developer.apple.com/documentation/combine/observableobject": {
   "identifier" : "https:\/\/developer.apple.com\/documentation\/combine\/observableobject",

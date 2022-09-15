@@ -1,27 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a view model for this CloudCode. Suitable for ",
+      "text" : "Check if a ",
       "type" : "text"
     },
     {
-      "code" : "ObjectObserved",
+      "code" : "ParseFile",
       "type" : "codeVoice"
     },
     {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "as the view model can be used as a SwiftUI publisher. Meaning it can serve",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "indepedently as a ViewModel in MVVM.",
+      "text" : " exists in the Swift SDK download directory.",
       "type" : "text"
     }
   ],
@@ -29,18 +17,18 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/viewModel(_:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/fileExists(_:)-4h3hl"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A5CloudPAAE9viewModelyAA0c4ViewE0CyxGxFZ",
+    "externalID" : "s:10ParseSwift0A11FileManagerV10fileExistsy10Foundation3URLVAA0aC0VKFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -60,7 +48,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "viewModel"
+        "text" : "fileExists"
       },
       {
         "kind" : "text",
@@ -68,28 +56,25 @@
       },
       {
         "kind" : "typeIdentifier",
-        "text" : "Self"
+        "preciseIdentifier" : "s:10ParseSwift0A4FileV",
+        "text" : "ParseFile"
       },
       {
         "kind" : "text",
-        "text" : ") -> "
+        "text" : ") "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
+      },
+      {
+        "kind" : "text",
+        "text" : " -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC",
-        "text" : "CloudViewModel"
-      },
-      {
-        "kind" : "text",
-        "text" : "<"
-      },
-      {
-        "kind" : "typeIdentifier",
-        "text" : "Self"
-      },
-      {
-        "kind" : "text",
-        "text" : ">"
+        "preciseIdentifier" : "s:10Foundation3URLV",
+        "text" : "URL"
       }
     ],
     "modules" : [
@@ -100,7 +85,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "viewModel(_:)"
+    "title" : "fileExists(_:)"
   },
   "primaryContentSections" : [
     {
@@ -131,7 +116,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "viewModel"
+              "text" : "fileExists"
             },
             {
               "kind" : "text",
@@ -147,37 +132,34 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "cloudCode"
+              "text" : "file"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile",
               "kind" : "typeIdentifier",
-              "text" : "Self"
+              "preciseIdentifier" : "s:10ParseSwift0A4FileV",
+              "text" : "ParseFile"
             },
             {
               "kind" : "text",
-              "text" : ") -> "
+              "text" : ") "
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC",
-              "text" : "CloudViewModel"
-            },
-            {
-              "kind" : "text",
-              "text" : "<"
-            },
-            {
-              "kind" : "typeIdentifier",
-              "text" : "Self"
+              "kind" : "keyword",
+              "text" : "throws"
             },
             {
               "kind" : "text",
-              "text" : ">"
+              "text" : " -> "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10Foundation3URLV",
+              "text" : "URL"
             }
           ]
         }
@@ -195,7 +177,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "The view model for this query.",
+              "text" : "The location of the file.",
               "type" : "text"
             }
           ],
@@ -212,16 +194,59 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "Any query.",
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseFile",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to check.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "query"
+          "name" : "file"
         }
       ]
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "An error of type ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "ParseError",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Throws",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -235,7 +260,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsecloud\/viewmodel(_:)"
+        "\/documentation\/parseswift\/parsefilemanager\/fileexists(_:)-4h3hl"
       ],
       "traits" : [
         {
@@ -260,30 +285,18 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/CloudViewModel": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFile": {
   "abstract" : [
     {
-      "text" : "A default implementation of the ",
+      "text" : "A ",
       "type" : "text"
     },
     {
-      "code" : "CloudCodeObservable",
+      "code" : "ParseFile",
       "type" : "codeVoice"
     },
     {
-      "text" : " protocol. Suitable for ",
-      "type" : "text"
-    },
-    {
-      "code" : "ObjectObserved",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "and can be used as a SwiftUI view model. Also can be used as a Combine publisher. See Apple’s",
+      "text" : " object representes a file of binary data stored on the Parse server.",
       "type" : "text"
     },
     {
@@ -291,23 +304,14 @@
       "type" : "text"
     },
     {
-      "identifier" : "https:\/\/developer.apple.com\/documentation\/combine\/observableobject",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "for more details.",
+      "text" : "This can be a image, video, or anything else that an application needs to reference in a non-relational way.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "class"
+      "text" : "struct"
     },
     {
       "kind" : "text",
@@ -315,61 +319,33 @@
     },
     {
       "kind" : "identifier",
-      "text" : "CloudViewModel"
+      "text" : "ParseFile"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudViewModel",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFile",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "CloudViewModel"
+      "text" : "ParseFile"
     }
   ],
   "role" : "symbol",
-  "title" : "CloudViewModel",
+  "title" : "ParseFile",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/cloudviewmodel"
+  "url" : "\/documentation\/parseswift\/parsefile"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager": {
   "abstract" : [
     {
-      "text" : "Objects that conform to the ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseCloud",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " protocol are able to call Parse Cloud Functions and Jobs.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "An object should be instantiated for each function and job type. When conforming to",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "code" : "ParseCloud",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ", any properties added will be passed as parameters to your Cloud Function or Job.",
+      "text" : "Manages Parse files and directories.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "protocol"
+      "text" : "struct"
     },
     {
       "kind" : "text",
@@ -377,46 +353,34 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseFileManager"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseFileManager"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseCloud",
+  "title" : "ParseFileManager",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud"
+  "url" : "\/documentation\/parseswift\/parsefilemanager"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/viewModel(_:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseFileManager/fileExists(_:)-4h3hl": {
   "abstract" : [
     {
-      "text" : "Creates a view model for this CloudCode. Suitable for ",
+      "text" : "Check if a ",
       "type" : "text"
     },
     {
-      "code" : "ObjectObserved",
+      "code" : "ParseFile",
       "type" : "codeVoice"
     },
     {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "as the view model can be used as a SwiftUI publisher. Meaning it can serve",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "indepedently as a ViewModel in MVVM.",
+      "text" : " exists in the Swift SDK download directory.",
       "type" : "text"
     }
   ],
@@ -439,7 +403,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "viewModel"
+      "text" : "fileExists"
     },
     {
       "kind" : "text",
@@ -447,48 +411,33 @@
     },
     {
       "kind" : "typeIdentifier",
-      "text" : "Self"
+      "preciseIdentifier" : "s:10ParseSwift0A4FileV",
+      "text" : "ParseFile"
     },
     {
       "kind" : "text",
-      "text" : ") -> "
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift14CloudViewModelC",
-      "text" : "CloudViewModel"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ">"
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/viewModel(_:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseFileManager\/fileExists(_:)-4h3hl",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "viewModel(_:)",
+  "title" : "fileExists(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/viewmodel(_:)"
-},
-"https://developer.apple.com/documentation/combine/observableobject": {
-  "identifier" : "https:\/\/developer.apple.com\/documentation\/combine\/observableobject",
-  "title" : "documentation",
-  "titleInlineContent" : [
-    {
-      "text" : "documentation",
-      "type" : "text"
-    }
-  ],
-  "type" : "link",
-  "url" : "https:\/\/developer.apple.com\/documentation\/combine\/observableobject"
+  "url" : "\/documentation\/parseswift\/parsefilemanager\/fileexists(_:)-4h3hl"
 }
 }
 }

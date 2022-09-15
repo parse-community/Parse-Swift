@@ -229,8 +229,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A5CloudP",
-      "text" : "ParseCloud"
+      "preciseIdentifier" : "s:10ParseSwift0A9CloudableP",
+      "text" : "ParseCloudable"
     }
   ],
   "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/CloudObservable\/CloudCodeType",

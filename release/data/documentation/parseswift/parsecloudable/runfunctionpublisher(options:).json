@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Starts a Cloud Code Job ",
+      "text" : "Calls a Cloud Code function ",
       "type" : "text"
     },
     {
@@ -14,7 +14,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " and returns a result with the jobStatusId of the job.",
+      "text" : " and returns a result of it is execution.",
       "type" : "text"
     },
     {
@@ -30,18 +30,18 @@
     "paths" : [
       [
         "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/startJobPublisher(options:)"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/runFunctionPublisher(options:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "ParseSwift",
-    "externalID" : "s:10ParseSwift0A5CloudPAAE17startJobPublisher7options7Combine6FutureCy10ReturnTypeQzAA0A5ErrorVGShyAA3APIV6OptionOG_tF",
+    "externalID" : "s:10ParseSwift0A9CloudablePAAE20runFunctionPublisher7options7Combine6FutureCy10ReturnTypeQzAA0A5ErrorVGShyAA3APIV6OptionOG_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -53,7 +53,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "startJobPublisher"
+        "text" : "runFunctionPublisher"
       },
       {
         "kind" : "text",
@@ -96,7 +96,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+        "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
         "text" : "ReturnType"
       },
       {
@@ -121,7 +121,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "startJobPublisher(options:)"
+    "title" : "runFunctionPublisher(options:)"
   },
   "primaryContentSections" : [
     {
@@ -144,7 +144,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "startJobPublisher"
+              "text" : "runFunctionPublisher"
             },
             {
               "kind" : "text",
@@ -188,9 +188,9 @@
               "text" : "<"
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/ReturnType",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+              "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
               "text" : "ReturnType"
             },
             {
@@ -263,7 +263,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parsecloud\/startjobpublisher(options:)"
+        "\/documentation\/parseswift\/parsecloudable\/runfunctionpublisher(options:)"
       ],
       "traits" : [
         {
@@ -356,14 +356,14 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/api\/options"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable": {
   "abstract" : [
     {
       "text" : "Objects that conform to the ",
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -383,7 +383,7 @@
       "type" : "text"
     },
     {
-      "code" : "ParseCloud",
+      "code" : "ParseCloudable",
       "type" : "codeVoice"
     },
     {
@@ -402,23 +402,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParseCloud"
+      "text" : "ParseCloudable"
     }
   ],
   "role" : "symbol",
-  "title" : "ParseCloud",
+  "title" : "ParseCloudable",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud"
+  "url" : "\/documentation\/parseswift\/parsecloudable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/ReturnType": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/ReturnType": {
   "abstract" : [
 
   ],
@@ -445,18 +445,18 @@
       "text" : "Decodable"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/ReturnType",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/ReturnType",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "ReturnType",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/returntype"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/returntype"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloud/startJobPublisher(options:)": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseCloudable/runFunctionPublisher(options:)": {
   "abstract" : [
     {
-      "text" : "Starts a Cloud Code Job ",
+      "text" : "Calls a Cloud Code function ",
       "type" : "text"
     },
     {
@@ -469,7 +469,7 @@
       "type" : "emphasis"
     },
     {
-      "text" : " and returns a result with the jobStatusId of the job.",
+      "text" : " and returns a result of it is execution.",
       "type" : "text"
     },
     {
@@ -492,7 +492,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "startJobPublisher"
+      "text" : "runFunctionPublisher"
     },
     {
       "kind" : "text",
@@ -535,7 +535,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A5CloudP10ReturnTypeQa",
+      "preciseIdentifier" : "s:10ParseSwift0A9CloudableP10ReturnTypeQa",
       "text" : "ReturnType"
     },
     {
@@ -552,12 +552,12 @@
       "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloud\/startJobPublisher(options:)",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseCloudable\/runFunctionPublisher(options:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "startJobPublisher(options:)",
+  "title" : "runFunctionPublisher(options:)",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parsecloud\/startjobpublisher(options:)"
+  "url" : "\/documentation\/parseswift\/parsecloudable\/runfunctionpublisher(options:)"
 },
 "doc://com.parse.ParseSwift/documentation/ParseSwift/ParseError": {
   "abstract" : [

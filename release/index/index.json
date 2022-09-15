@@ -14,7 +14,7 @@
           },
           {
             "path" : "\/documentation\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:usingdata-47zw9",
-            "title" : "func initialize(applicationId: String, clientKey: String?, masterKey: String?, serverURL: URL, liveQueryServerURL: URL?, allowingCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, keyValueStore: ParseKeyValueStore?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
+            "title" : "func initialize(applicationId: String, clientKey: String?, masterKey: String?, serverURL: URL, liveQueryServerURL: URL?, allowingCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, keyValueStore: ParsePrimitiveStorable?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
             "type" : "func"
           },
           {
@@ -633,13 +633,13 @@
                   {
                     "children" : [
                       {
-                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-9iop9",
-                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) async throws -> Self",
+                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-2hvwx",
+                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) throws -> Self",
                         "type" : "method"
                       },
                       {
-                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-2hvwx",
-                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) throws -> Self",
+                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-9iop9",
+                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) async throws -> Self",
                         "type" : "method"
                       }
                     ],
@@ -696,13 +696,13 @@
                   {
                     "children" : [
                       {
-                        "path" : "\/documentation\/parseswift\/objectable\/classname-swift.property",
-                        "title" : "var className: String",
+                        "path" : "\/documentation\/parseswift\/objectable\/classname-swift.type.property-499yb",
+                        "title" : "static var className: String",
                         "type" : "property"
                       },
                       {
-                        "path" : "\/documentation\/parseswift\/objectable\/classname-swift.type.property-499yb",
-                        "title" : "static var className: String",
+                        "path" : "\/documentation\/parseswift\/objectable\/classname-swift.property",
+                        "title" : "var className: String",
                         "type" : "property"
                       }
                     ],
@@ -958,89 +958,6 @@
             "type" : "protocol"
           },
           {
-            "children" : [
-              {
-                "title" : "Associated Types",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/returntype",
-                "title" : "ReturnType",
-                "type" : "associatedtype"
-              },
-              {
-                "title" : "Instance Properties",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/functionjobname",
-                "title" : "var functionJobName: String",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/viewmodel",
-                "title" : "var viewModel: CloudViewModel<Self>",
-                "type" : "property"
-              },
-              {
-                "title" : "Instance Methods",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/runfunction(options:)-4je2l",
-                "title" : "func runFunction(options: API.Options) throws -> ReturnType",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/runfunction(options:)-6rsfm",
-                "title" : "func runFunction(options: API.Options) async throws -> ReturnType",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/runfunction(options:callbackqueue:completion:)",
-                "title" : "func runFunction(options: API.Options, callbackQueue: DispatchQueue, completion: (Result<ReturnType, ParseError>) -> Void)",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/runfunctionpublisher(options:)",
-                "title" : "func runFunctionPublisher(options: API.Options) -> Future<ReturnType, ParseError>",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/startjob(options:)-1gxb1",
-                "title" : "func startJob(options: API.Options) throws -> ReturnType",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/startjob(options:)-1i5jo",
-                "title" : "func startJob(options: API.Options) async throws -> ReturnType",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/startjob(options:callbackqueue:completion:)",
-                "title" : "func startJob(options: API.Options, callbackQueue: DispatchQueue, completion: (Result<ReturnType, ParseError>) -> Void)",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/startjobpublisher(options:)",
-                "title" : "func startJobPublisher(options: API.Options) -> Future<ReturnType, ParseError>",
-                "type" : "method"
-              },
-              {
-                "title" : "Type Methods",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsecloud\/viewmodel(_:)",
-                "title" : "static func viewModel(Self) -> CloudViewModel<Self>",
-                "type" : "method"
-              }
-            ],
-            "path" : "\/documentation\/parseswift\/parsecloud",
-            "title" : "ParseCloud",
-            "type" : "protocol"
-          },
-          {
             "path" : "\/documentation\/parseswift\/parsecloudtypeable",
             "title" : "ParseCloudTypeable",
             "type" : "protocol"
@@ -1059,6 +976,89 @@
             ],
             "path" : "\/documentation\/parseswift\/parseclouduser",
             "title" : "ParseCloudUser",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Associated Types",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/returntype",
+                "title" : "ReturnType",
+                "type" : "associatedtype"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/functionjobname",
+                "title" : "var functionJobName: String",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/viewmodel",
+                "title" : "var viewModel: CloudViewModel<Self>",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/runfunction(options:)-3xyp9",
+                "title" : "func runFunction(options: API.Options) throws -> ReturnType",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/runfunction(options:)-584mt",
+                "title" : "func runFunction(options: API.Options) async throws -> ReturnType",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/runfunction(options:callbackqueue:completion:)",
+                "title" : "func runFunction(options: API.Options, callbackQueue: DispatchQueue, completion: (Result<ReturnType, ParseError>) -> Void)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/runfunctionpublisher(options:)",
+                "title" : "func runFunctionPublisher(options: API.Options) -> Future<ReturnType, ParseError>",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/startjob(options:)-9px5c",
+                "title" : "func startJob(options: API.Options) async throws -> ReturnType",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/startjob(options:)-9skq9",
+                "title" : "func startJob(options: API.Options) throws -> ReturnType",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/startjob(options:callbackqueue:completion:)",
+                "title" : "func startJob(options: API.Options, callbackQueue: DispatchQueue, completion: (Result<ReturnType, ParseError>) -> Void)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/startjobpublisher(options:)",
+                "title" : "func startJobPublisher(options: API.Options) -> Future<ReturnType, ParseError>",
+                "type" : "method"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsecloudable\/viewmodel(_:)",
+                "title" : "static func viewModel(Self) -> CloudViewModel<Self>",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/parseswift\/parsecloudable",
+            "title" : "ParseCloudable",
             "type" : "protocol"
           },
           {
@@ -1794,37 +1794,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/parseswift\/parsekeyvaluestore\/delete(valuefor:)",
-                "title" : "func delete(valueFor: String) throws",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsekeyvaluestore\/deleteall()",
-                "title" : "func deleteAll() throws",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsekeyvaluestore\/get(valuefor:)",
-                "title" : "func get<T>(valueFor: String) throws -> T?",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/parseswift\/parsekeyvaluestore\/set(_:for:)",
-                "title" : "func set<T>(T, for: String) throws",
-                "type" : "method"
-              }
-            ],
-            "path" : "\/documentation\/parseswift\/parsekeyvaluestore",
-            "title" : "ParseKeyValueStore",
-            "type" : "protocol"
-          },
-          {
-            "children" : [
-              {
-                "title" : "Instance Methods",
-                "type" : "groupMarker"
-              },
-              {
                 "children" : [
                   {
                     "children" : [
@@ -2347,6 +2316,37 @@
             ],
             "path" : "\/documentation\/parseswift\/parseobject",
             "title" : "ParseObject",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parseprimitivestorable\/delete(valuefor:)",
+                "title" : "func delete(valueFor: String) throws",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parseprimitivestorable\/deleteall()",
+                "title" : "func deleteAll() throws",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parseprimitivestorable\/get(valuefor:)",
+                "title" : "func get<T>(valueFor: String) throws -> T?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parseprimitivestorable\/set(_:for:)",
+                "title" : "func set<T>(T, for: String) throws",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/parseswift\/parseprimitivestorable",
+            "title" : "ParsePrimitiveStorable",
             "type" : "protocol"
           },
           {
@@ -5237,7 +5237,7 @@
               },
               {
                 "path" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:webhookkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:usin-54haa",
-                "title" : "init(applicationId: String, clientKey: String?, masterKey: String?, webhookKey: String?, serverURL: URL, liveQueryServerURL: URL?, allowingCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, keyValueStore: ParseKeyValueStore?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
+                "title" : "init(applicationId: String, clientKey: String?, masterKey: String?, webhookKey: String?, serverURL: URL, liveQueryServerURL: URL?, allowingCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, keyValueStore: ParsePrimitiveStorable?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
                 "type" : "init"
               },
               {
@@ -6879,6 +6879,25 @@
                 "path" : "\/documentation\/parseswift\/parsefilemanager\/defaultdatadirectorypath",
                 "title" : "var defaultDataDirectoryPath: URL?",
                 "type" : "property"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsefilemanager\/downloaddirectory()",
+                "title" : "static func downloadDirectory() throws -> URL",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsefilemanager\/fileexists(_:)-3nh5r",
+                "title" : "static func fileExists(String) throws -> URL",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parsefilemanager\/fileexists(_:)-4h3hl",
+                "title" : "static func fileExists(ParseFile) throws -> URL",
+                "type" : "method"
               }
             ],
             "path" : "\/documentation\/parseswift\/parsefilemanager",
@@ -12675,6 +12694,20 @@
             "path" : "\/documentation\/parseswift\/_=(_:_:)-6tzg",
             "title" : "func <= <T>(String, T) -> QueryConstraint",
             "type" : "op"
+          },
+          {
+            "title" : "Type Aliases",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/parseswift\/parsecloud",
+            "title" : "ParseCloud",
+            "type" : "typealias"
+          },
+          {
+            "path" : "\/documentation\/parseswift\/parsekeyvaluestore",
+            "title" : "ParseKeyValueStore",
+            "type" : "typealias"
           },
           {
             "title" : "Enumerations",
