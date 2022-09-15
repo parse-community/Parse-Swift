@@ -9,9 +9,9 @@
 struct ParseStorage {
     public static var shared = ParseStorage()
 
-    private var backingStore: ParseKeyValueStore!
+    private var backingStore: ParsePrimitiveStorable!
 
-    mutating func use(_ store: ParseKeyValueStore) {
+    mutating func use(_ store: ParsePrimitiveStorable) {
         self.backingStore = store
     }
 
@@ -36,7 +36,7 @@ struct ParseStorage {
 }
 
 // MARK: ParseKeyValueStore
-extension ParseStorage: ParseKeyValueStore {
+extension ParseStorage: ParsePrimitiveStorable {
     public mutating func delete(valueFor key: String) throws {
         requireBackingStore()
         return try backingStore.delete(valueFor: key)

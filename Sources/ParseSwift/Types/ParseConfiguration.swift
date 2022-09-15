@@ -166,7 +166,7 @@ public struct ParseConfiguration {
                 usingTransactions: Bool = false,
                 usingEqualQueryConstraint: Bool = false,
                 usingPostForQuery: Bool = false,
-                keyValueStore: ParseKeyValueStore? = nil,
+                keyValueStore: ParsePrimitiveStorable? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
                 cacheDiskCapacity: Int = 10_000_000,

@@ -235,12 +235,12 @@ public extension ParseFileManager {
      - throws: An error of type `ParseError`.
      */
     static func fileExists(_ name: String) throws -> URL {
-        let fileLocation = try downloadDirectory().appendingPathComponent(name).relativePath
-        guard FileManager.default.fileExists(atPath: fileLocation),
-            let filePath = URL(string: fileLocation) else {
+        let fileName = URL(fileURLWithPath: name).lastPathComponent
+        let fileLocation = try downloadDirectory().appendingPathComponent(fileName).relativePath
+        guard FileManager.default.fileExists(atPath: fileLocation) else {
             throw ParseError(code: .unknownError, message: "File does not exist")
         }
-        return filePath
+        return URL(fileURLWithPath: fileLocation, isDirectory: false)
     }
 
     /**
