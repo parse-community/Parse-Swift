@@ -358,12 +358,10 @@ internal extension API.Command {
                     parseURL: object.url,
                     otherURL: object.cloudURL) { (data) -> ParseFile in
             let tempFileLocation = try ParseCoding.jsonDecoder().decode(URL.self, from: data)
-            guard let fileManager = ParseFileManager(),
-                  let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
+            guard let fileManager = ParseFileManager() else {
                 throw ParseError(code: .unknownError, message: "Cannot create fileManager")
             }
-            let downloadDirectoryPath = defaultDirectoryPath
-                .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
+            let downloadDirectoryPath = try ParseFileManager.downloadDirectory()
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
             let fileNameURL = URL(fileURLWithPath: object.name)
             let fileLocation = downloadDirectoryPath.appendingPathComponent(fileNameURL.lastPathComponent)
