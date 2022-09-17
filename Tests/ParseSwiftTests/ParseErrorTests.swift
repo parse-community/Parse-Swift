@@ -43,7 +43,7 @@ class ParseErrorTests: XCTestCase {
         XCTAssertTrue(error2.description.contains(expected2))
     }
 
-    func testEncode() throws {
+    func testDecode() throws {
         let code = -1
         let message = "testing ParseError"
         guard let encoded: Data = "{\"error\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
@@ -59,7 +59,7 @@ class ParseErrorTests: XCTestCase {
         XCTAssertEqual(decoded.errorDescription, "ParseError code=\(code) error=\(message)")
     }
 
-    func testEncodeMessage() throws {
+    func testDecodeMessage() throws {
         let code = -1
         let message = "testing ParseError"
         guard let encoded: Data = "{\"message\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
@@ -75,7 +75,7 @@ class ParseErrorTests: XCTestCase {
         XCTAssertEqual(decoded.errorDescription, "ParseError code=\(code) error=\(message)")
     }
 
-    func testEncodeOther() throws {
+    func testDecodeOther() throws {
         let code = 2000
         let message = "testing ParseError"
         guard let encoded = "{\"error\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
@@ -89,6 +89,22 @@ class ParseErrorTests: XCTestCase {
         XCTAssertEqual(decoded.debugDescription,
                        "ParseError code=\(ParseError.Code.other.rawValue) error=\(message) otherCode=\(code)")
         XCTAssertEqual(decoded.otherCode, code)
+    }
+
+    func testDecodeMissingCode() throws {
+        let code = -1
+        let message = "testing ParseError"
+        guard let encoded = "{\"error\":\"\(message)\"}".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
+        XCTAssertEqual(decoded.code, .unknownError)
+        XCTAssertEqual(decoded.message, message)
+        XCTAssertNil(decoded.error)
+        XCTAssertEqual(decoded.debugDescription,
+                       "ParseError code=\(code) error=\(message)")
+        XCTAssertNil(decoded.otherCode)
     }
 
     func testCompare() throws {

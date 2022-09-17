@@ -403,8 +403,13 @@ extension ParseError {
             code = try values.decode(Code.self, forKey: .code)
             otherCode = nil
         } catch {
-            code = .other
-            otherCode = try values.decode(Int.self, forKey: .code)
+            do {
+                otherCode = try values.decode(Int.self, forKey: .code)
+                code = .other
+            } catch {
+                code = .unknownError
+                otherCode = nil
+            }
         }
         // Handle when Parse Server sends "message" instead of "error".
         do {

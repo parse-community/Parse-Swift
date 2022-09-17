@@ -26,6 +26,8 @@ class ParsePointerAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         //: Your own properties
         var points: Int
+        var other: Pointer<GameScore>?
+        var others: [Pointer<GameScore>]?
 
         //: a custom initializer
         init() {
@@ -57,6 +59,7 @@ class ParsePointerAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
         try ParseStorage.shared.deleteAll()
     }
 
+    @MainActor
     func testFetch() async throws {
         var score = GameScore(points: 10)
         let objectId = "yarr"
@@ -98,6 +101,43 @@ class ParsePointerAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertNil(fetched.ACL)
         } catch {
             XCTFail(error.localizedDescription)
+        }
+    }
+
+    @MainActor
+    func testDetectCircularDependency() async throws {
+        var score = GameScore(points: 10)
+        score.objectId = "nice"
+        score.other = try score.toPointer()
+
+        do {
+            _ = try await score.ensureDeepSave()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have failed with an error of detecting a circular dependency")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("circular"))
+        }
+    }
+
+    @MainActor
+    func testDetectCircularDependencyArray() async throws {
+        var score = GameScore(points: 10)
+        score.objectId = "nice"
+        let first = try score.toPointer()
+        score.others = [first, first]
+
+        do {
+            _ = try await score.ensureDeepSave()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have failed with an error of detecting a circular dependency")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("circular"))
         }
     }
 }

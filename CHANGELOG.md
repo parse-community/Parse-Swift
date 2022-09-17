@@ -4,6 +4,13 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 4.14.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.0...4.14.1)
+
+__Fixes__
+- For Swift 5.5.2+ all asynchronous methods that attempt to save, create, update, or replace use the async/await version of deep saving ParseObjects. This fixes any purple warnings caused by the SDK in Xcode. Older Swift versions use the synchronous version of deep saving ([#418](https://github.com/parse-community/Parse-Swift/pull/418)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Can catch when the Parse Server throws an improper ParseError that only contains "error" or "message", but does not contain a "code" ([#418](https://github.com/parse-community/Parse-Swift/pull/418)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.14.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.1...4.14.0)
 
