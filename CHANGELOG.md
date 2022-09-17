@@ -1,30 +1,30 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.1...main), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/main/documentation/parseswift)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 ### 4.14.1
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.0...4.14.1)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.0...4.14.1), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.14.1/documentation/parseswift)
 
 __Fixes__
 - For Swift 5.5.2+ all asynchronous methods that attempt to save, create, update, or replace use the async/await version of deep saving ParseObjects. This fixes any purple warnings caused by the SDK in Xcode. Older Swift versions use the synchronous version of deep saving ([#418](https://github.com/parse-community/Parse-Swift/pull/418)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Can catch when the Parse Server throws an improper ParseError that only contains "error" or "message", but does not contain a "code" ([#418](https://github.com/parse-community/Parse-Swift/pull/418)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.14.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.1...4.14.0)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.1...4.14.0), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.14.0/documentation/parseswift)
 
 __New features__
 - Add file caching using the Parse download folder ([#416](https://github.com/parse-community/Parse-Swift/pull/416)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.13.1
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.0...4.13.1)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.0...4.13.1), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.13.1/documentation/parseswift)
 
 __Fixes__
 - Remove ParseFile caching due to OS not having a natural way to cache files. Instead, if developers want to access a saved ParseFile, they should check the download directory for the respective file name ([#414](https://github.com/parse-community/Parse-Swift/pull/414)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.13.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.12.0...4.13.0)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.12.0...4.13.0), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.13.0/documentation/parseswift)
 
 __New features__
 - Add helper methods to ParseFileTransferable protocol to assist with creating propper responses to file uploads ([#411](https://github.com/parse-community/Parse-Swift/pull/411)), thanks to [Corey Baker](https://github.com/cbaker6).
@@ -33,7 +33,7 @@ __Fixes__
 - Remove cached error responses when decoding errors occur ([#411](https://github.com/parse-community/Parse-Swift/pull/411)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.12.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.11.0...4.12.0)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.11.0...4.12.0), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.12.0/documentation/parseswift)
 
 __New features__
 - Add the ParseFileTransferable protocol for overriding the default transfer behavior for ParseFile's. Allows for direct uploads to other file storage providers ([#410](https://github.com/parse-community/Parse-Swift/pull/410)), thanks to [Corey Baker](https://github.com/cbaker6).
@@ -43,39 +43,39 @@ __Fixes__
 - Properly get the session token from the Parse Objective-C Keychain when using ParseUser.loginUsingObjCKeychain  ([#407](https://github.com/parse-community/Parse-Swift/pull/407)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.11.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.10.0...4.11.0)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.10.0...4.11.0), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.11.0/documentation/parseswift)
 
 __New features__
 - Add a set method that developers can call on their ParseObjects which automatically sends updated properties to a Parse Server and merges those updates with the original ParseObject locally. The feature removes the requirement to call mergeable and implement merge(), but comes at additional computational overhead ([#406](https://github.com/parse-community/Parse-Swift/pull/406)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.10.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.3...4.10.0)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.3...4.10.0), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.10.0/documentation/parseswift)
 
 __New features__
 - Add a new operation method that allows developers to set a new value to a KeyPath without needing the string version of the key. Also adds the get() method to allow developers to get the unwrapped property of any ParseObject based on its KeyPath ([#403](https://github.com/parse-community/Parse-Swift/pull/403)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add revertKeyPath() and revertObject() methods to ParseObject which allow developers to revert to original values of key paths or objects after mutating ParseObjects that already have an objectId  ([#402](https://github.com/parse-community/Parse-Swift/pull/402)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.3
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.2...4.9.3)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.2...4.9.3), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.9.3/documentation/parseswift)
 
 __Fixes__
 - When saving ParseFiles locally, files that have a directory in their filename save correctly instead of throwing an error on the client ([#399](https://github.com/parse-community/Parse-Swift/pull/399)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Default to not setting kSecUseDataProtectionKeychain to true as this can cause issues with querying the Keychain in Swift Playgrounds or other apps that cannot setup the Keychain on macOS. This behavior can be changed by setting usingDataProtectionKeychain to true when initializing the SDK ([#398](https://github.com/parse-community/Parse-Swift/pull/398)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.2
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.1...4.9.2)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.1...4.9.2), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.9.2/documentation/parseswift)
 
 __Fixes__
 - Allow fully qualified ParseSwift types to be used externally by fixing clash with module name ([#397](https://github.com/parse-community/Parse-Swift/pull/397)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.1
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.0...4.9.1)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.9.0...4.9.1), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.9.1/documentation/parseswift)
 
 __Fixes__
 - Corrects a memory leak where multiple Parse URLSessions can get created. Use an actor for the url session delegates to ensure thread safety when making async calls in parallel ([#394](https://github.com/parse-community/Parse-Swift/pull/394)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.9.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...4.9.0)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.8.0...4.9.0), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.9.0/documentation/parseswift)
 
 __New features__
 - Add methods for migrating users and installations from the Parse Objective-C SDK to the Swift SDK ([#391](https://github.com/parse-community/Parse-Swift/pull/391)), thanks to [Corey Baker](https://github.com/cbaker6).
