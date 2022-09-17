@@ -47,9 +47,8 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         #endif
         try ParseStorage.shared.deleteAll()
 
-        guard let fileManager = ParseFileManager(),
-              let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+        guard let fileManager = ParseFileManager() else {
+            throw ParseError(code: .unknownError, message: "Should have initialized file manager")
         }
         let directory = URL(fileURLWithPath: temporaryDirectory, isDirectory: true)
         let expectation1 = XCTestExpectation(description: "Delete files1")
@@ -61,8 +60,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
-        let directory2 = defaultDirectoryPath
-            .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
+        let directory2 = try ParseFileManager.downloadDirectory()
         let expectation2 = XCTestExpectation(description: "Delete files2")
         fileManager.removeDirectoryContents(directory2) { _ in
             expectation2.fulfill()
@@ -100,6 +98,69 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(fetched.name, response.name)
         XCTAssertEqual(fetched.url, response.url)
         XCTAssertNotNil(fetched.localURL)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let fetchedFileCached = try await parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(fetchedFileCached, fetched)
+    }
+
+    @MainActor
+    func testFetchLoadFromRemote() async throws {
+
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
+                                          url: parseFileURL)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let fetched = try await parseFile.fetch(options: [.cachePolicy(.reloadIgnoringLocalAndRemoteCacheData)])
+        XCTAssertEqual(fetched.name, response.name)
+        XCTAssertEqual(fetched.url, response.url)
+        XCTAssertNotNil(fetched.localURL)
+
+        // Remove URL mocker so we can check cache
+        MockURLProtocol.removeAll()
+        let fetchedFileCached = try await parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(fetchedFileCached, fetched)
+    }
+
+    @MainActor
+    func testFetchLoadFromCacheNoCache() async throws {
+
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        do {
+            _ = try await parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(parseError.code, .unsavedFileFailure)
+        }
     }
 
     @MainActor

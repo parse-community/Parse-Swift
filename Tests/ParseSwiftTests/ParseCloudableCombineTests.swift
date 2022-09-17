@@ -1,21 +1,21 @@
 //
-//  ParseCloudAsyncTests.swift
+//  ParseCloudableCombineTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 9/28/21.
+//  Created by Corey Baker on 1/30/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
+#if canImport(Combine)
+
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 import XCTest
+import Combine
 @testable import ParseSwift
 
-class ParseCloudAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
-    struct Cloud: ParseCloud {
+class ParseCloudableCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
+
+    struct Cloud: ParseCloudable {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
         // These are required by ParseObject
@@ -48,8 +48,9 @@ class ParseCloudAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         try ParseStorage.shared.deleteAll()
     }
 
-    @MainActor
-    func testFunction() async throws {
+    func testFunction() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
 
         let response = AnyResultResponse<String?>(result: nil)
 
@@ -63,12 +64,26 @@ class ParseCloudAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let cloud = Cloud(functionJobName: "test")
-        let functionResponse = try await cloud.runFunction()
-        XCTAssertNil(functionResponse)
+        let publisher = cloud.runFunctionPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { functionResponse in
+
+            XCTAssertNil(functionResponse)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
     }
 
-    @MainActor
-    func testJob() async throws {
+    func testJob() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
 
         let response = AnyResultResponse<String?>(result: nil)
 
@@ -82,8 +97,22 @@ class ParseCloudAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let cloud = Cloud(functionJobName: "test")
-        let functionResponse = try await cloud.startJob()
-        XCTAssertNil(functionResponse)
+        let publisher = cloud.startJobPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { functionResponse in
+
+            XCTAssertNil(functionResponse)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
+
 #endif

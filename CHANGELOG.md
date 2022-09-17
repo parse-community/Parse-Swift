@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.14.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.1...4.14.0)
+
+__New features__
+- Add file caching using the Parse download folder ([#416](https://github.com/parse-community/Parse-Swift/pull/416)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.13.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.13.0...4.13.1)

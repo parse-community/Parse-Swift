@@ -76,14 +76,6 @@ public struct ParseFileManager {
         #endif
     }
 
-    func dataItemPathForPathComponent(_ component: String) -> URL? {
-        guard var path = self.defaultDataDirectoryPath else {
-            return nil
-        }
-        path.appendPathComponent(component)
-        return path
-    }
-
     /// Creates an instance of `ParseFileManager`.
     /// - returns: If an instance cannot be created, nil is returned.
     public init?() {
@@ -99,6 +91,17 @@ public struct ParseFileManager {
         #endif
 
         applicationGroupIdentifer = nil
+    }
+}
+
+// MARK: Helper Methods (Internal)
+extension ParseFileManager {
+    func dataItemPathForPathComponent(_ component: String) -> URL? {
+        guard var path = self.defaultDataDirectoryPath else {
+            return nil
+        }
+        path.appendPathComponent(component)
+        return path
     }
 
     func createDirectoryIfNeeded(_ path: String) throws {
@@ -204,5 +207,49 @@ public struct ParseFileManager {
                 completion(error)
             }
         }
+    }
+}
+
+// MARK: Helper Methods (External)
+public extension ParseFileManager {
+
+    /**
+     The download directory for all `ParseFile`'s.
+     - returns: The download directory.
+     - throws: An error of type `ParseError`.
+     */
+    static func downloadDirectory() throws -> URL {
+        guard let fileManager = ParseFileManager(),
+              let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
+            throw ParseError(code: .unknownError, message: "Cannot create ParseFileManager")
+        }
+        return defaultDirectoryPath
+            .appendingPathComponent(ParseConstants.fileDownloadsDirectory,
+                                    isDirectory: true)
+    }
+
+    /**
+     Check if a file exists in the Swift SDK download directory.
+     - parameter name: The name of the file to check.
+     - returns: The location of the file.
+     - throws: An error of type `ParseError`.
+     */
+    static func fileExists(_ name: String) throws -> URL {
+        let fileName = URL(fileURLWithPath: name).lastPathComponent
+        let fileLocation = try downloadDirectory().appendingPathComponent(fileName).relativePath
+        guard FileManager.default.fileExists(atPath: fileLocation) else {
+            throw ParseError(code: .unknownError, message: "File does not exist")
+        }
+        return URL(fileURLWithPath: fileLocation, isDirectory: false)
+    }
+
+    /**
+     Check if a `ParseFile` exists in the Swift SDK download directory.
+     - parameter file: The `ParseFile` to check.
+     - returns: The location of the file.
+     - throws: An error of type `ParseError`.
+     */
+    static func fileExists(_ file: ParseFile) throws -> URL {
+        try fileExists(file.name)
     }
 }

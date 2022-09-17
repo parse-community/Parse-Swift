@@ -47,8 +47,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         #endif
         try ParseStorage.shared.deleteAll()
 
-        guard let fileManager = ParseFileManager(),
-              let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
+        guard let fileManager = ParseFileManager() else {
             throw ParseError(code: .unknownError, message: "Should have initialized file manage")
         }
         let directory = URL(fileURLWithPath: temporaryDirectory, isDirectory: true)
@@ -61,8 +60,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
-        let directory2 = defaultDirectoryPath
-            .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
+        let directory2 = try ParseFileManager.downloadDirectory()
         let expectation2 = XCTestExpectation(description: "Delete files2")
         fileManager.removeDirectoryContents(directory2) { _ in
             expectation2.fulfill()

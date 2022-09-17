@@ -1,6 +1,6 @@
 //
-//  ParseCloud+async.swift
-//  ParseCloud+async
+//  ParseCloudable+async.swift
+//  ParseCloudable+async
 //
 //  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
@@ -9,7 +9,7 @@
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
 
-public extension ParseCloud {
+public extension ParseCloudable {
 
     // MARK: Aysnc/Await
 

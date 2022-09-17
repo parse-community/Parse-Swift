@@ -32,6 +32,7 @@ public extension ParseFile {
 
     /**
      Fetches a file with given url *asynchronously*.
+     Fetches a file with given url *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it is progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,

@@ -14,7 +14,7 @@ import Foundation
  [documentation](https://developer.apple.com/documentation/combine/observableobject)
  for more details.
  */
-open class CloudViewModel<T: ParseCloud>: CloudObservable {
+open class CloudViewModel<T: ParseCloudable>: CloudObservable {
 
     public typealias CloudCodeType = T
     public var cloudCode: T
@@ -73,7 +73,7 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
 }
 
 // MARK: CloudCodeViewModel
-public extension ParseCloud {
+public extension ParseCloudable {
 
     /**
      Creates a view model for this CloudCode. Suitable for `ObjectObserved`

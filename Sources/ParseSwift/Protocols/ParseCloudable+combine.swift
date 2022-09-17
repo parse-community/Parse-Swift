@@ -1,5 +1,5 @@
 //
-//  ParseCloud+combine.swift
+//  ParseCloudable+combine.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 1/29/21.
@@ -10,7 +10,7 @@
 import Foundation
 import Combine
 
-public extension ParseCloud {
+public extension ParseCloudable {
 
     // MARK: Combine
 
