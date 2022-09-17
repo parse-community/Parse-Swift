@@ -1107,11 +1107,31 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        command(method: .save,
+        let method = Method.save
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let object = try await command(method: method,
+                                               ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                                               options: options,
+                                               callbackQueue: callbackQueue)
+                completion(.success(object))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        command(method: method,
                 ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
+        #endif
     }
 
     /**
@@ -1127,10 +1147,29 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        command(method: .create,
+        let method = Method.create
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let object = try await command(method: method,
+                                               options: options,
+                                               callbackQueue: callbackQueue)
+                completion(.success(object))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
+        #endif
     }
 
     /**
@@ -1147,10 +1186,29 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        command(method: .replace,
+        let method = Method.replace
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let object = try await command(method: method,
+                                               options: options,
+                                               callbackQueue: callbackQueue)
+                completion(.success(object))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
+        #endif
     }
 
     /**
@@ -1167,10 +1225,29 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        command(method: .update,
+        let method = Method.update
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let object = try await command(method: method,
+                                               options: options,
+                                               callbackQueue: callbackQueue)
+                completion(.success(object))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
+        #endif
     }
 
     func command(
@@ -1549,13 +1626,35 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        batchCommand(method: .save,
+        let method = Method.save
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let objects = try await batchCommand(method: method,
+                                                     batchLimit: limit,
+                                                     transaction: transaction,
+                                                     ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                                                     options: options,
+                                                     callbackQueue: callbackQueue)
+                completion(.success(objects))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
+        #endif
     }
 
     /**
@@ -1582,12 +1681,33 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        batchCommand(method: .create,
+        let method = Method.create
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let objects = try await batchCommand(method: method,
+                                                     batchLimit: limit,
+                                                     transaction: transaction,
+                                                     options: options,
+                                                     callbackQueue: callbackQueue)
+                completion(.success(objects))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
+        #endif
     }
 
     /**
@@ -1615,12 +1735,33 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        batchCommand(method: .replace,
+        let method = Method.replace
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let objects = try await batchCommand(method: method,
+                                                     batchLimit: limit,
+                                                     transaction: transaction,
+                                                     options: options,
+                                                     callbackQueue: callbackQueue)
+                completion(.success(objects))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
+        #endif
     }
 
     /**
@@ -1648,12 +1789,33 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        batchCommand(method: .update,
+        let method = Method.update
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            do {
+                let objects = try await batchCommand(method: method,
+                                                     batchLimit: limit,
+                                                     transaction: transaction,
+                                                     options: options,
+                                                     callbackQueue: callbackQueue)
+                completion(.success(objects))
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                callbackQueue.async {
+                    completion(.failure(parseError))
+                }
+            }
+        }
+        #else
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
+        #endif
     }
 
     internal func batchCommand( // swiftlint:disable:this function_parameter_count

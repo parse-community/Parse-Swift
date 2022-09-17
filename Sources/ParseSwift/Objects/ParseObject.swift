@@ -504,10 +504,11 @@ transactions for this call.
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        let method = Method.save
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let objects = try await batchCommand(method: .save,
+                let objects = try await batchCommand(method: method,
                                                      batchLimit: limit,
                                                      transaction: transaction,
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
@@ -524,7 +525,7 @@ transactions for this call.
             }
         }
         #else
-        batchCommand(method: .save,
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
@@ -558,10 +559,11 @@ transactions for this call.
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        let method = Method.create
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let objects = try await batchCommand(method: .create,
+                let objects = try await batchCommand(method: method,
                                                      batchLimit: limit,
                                                      transaction: transaction,
                                                      options: options,
@@ -577,7 +579,7 @@ transactions for this call.
             }
         }
         #else
-        batchCommand(method: .create,
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      options: options,
@@ -610,10 +612,11 @@ transactions for this call.
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        let method = Method.replace
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let objects = try await batchCommand(method: .replace,
+                let objects = try await batchCommand(method: method,
                                                      batchLimit: limit,
                                                      transaction: transaction,
                                                      options: options,
@@ -629,7 +632,7 @@ transactions for this call.
             }
         }
         #else
-        batchCommand(method: .replace,
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      options: options,
@@ -662,10 +665,11 @@ transactions for this call.
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        let method = Method.update
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let objects = try await batchCommand(method: .update,
+                let objects = try await batchCommand(method: method,
                                                      batchLimit: limit,
                                                      transaction: transaction,
                                                      options: options,
@@ -681,7 +685,7 @@ transactions for this call.
             }
         }
         #else
-        batchCommand(method: .update,
+        batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
                      options: options,
@@ -1201,10 +1205,11 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        let method = Method.save
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let object = try await command(method: .save,
+                let object = try await command(method: method,
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
@@ -1219,7 +1224,7 @@ extension ParseObject {
             }
         }
         #else
-        command(method: .save,
+        command(method: method,
                 ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                 options: options,
                 callbackQueue: callbackQueue,
@@ -1240,10 +1245,11 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        let method = Method.create
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let object = try await command(method: .create,
+                let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
                 completion(.success(object))
@@ -1257,7 +1263,7 @@ extension ParseObject {
             }
         }
         #else
-        command(method: .create,
+        command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
@@ -1277,10 +1283,11 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        let method = Method.replace
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let object = try await command(method: .replace,
+                let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
                 completion(.success(object))
@@ -1294,7 +1301,7 @@ extension ParseObject {
             }
         }
         #else
-        command(method: .replace,
+        command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
@@ -1314,10 +1321,11 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        let method = Method.update
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
-                let object = try await command(method: .update,
+                let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
                 completion(.success(object))
@@ -1331,7 +1339,7 @@ extension ParseObject {
             }
         }
         #else
-        command(method: .update,
+        command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
