@@ -278,4 +278,218 @@ public extension Sequence where Element: ParseObject {
         }
     }
 }
+
+// MARK: Helper Methods (Internal)
+internal extension ParseObject {
+
+    // swiftlint:disable:next function_body_length
+    func ensureDeepSave(options: API.Options = [],
+                        isShouldReturnIfChildObjectsFound: Bool = false) async throws -> ([String: PointerType],
+                                                                                          [UUID: ParseFile]) {
+
+        var options = options
+        // Remove any caching policy added by the developer as fresh data
+        // from the server is needed.
+        options.remove(.cachePolicy(.reloadIgnoringLocalCacheData))
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        var objectsFinishedSaving = [String: PointerType]()
+        var filesFinishedSaving = [UUID: ParseFile]()
+        do {
+            let object = try ParseCoding.parseEncoder()
+                .encode(self,
+                        objectsSavedBeforeThisOne: nil,
+                        filesSavedBeforeThisOne: nil)
+            var waitingToBeSaved = object.unsavedChildren
+            if isShouldReturnIfChildObjectsFound && waitingToBeSaved.count > 0 {
+                let error = ParseError(code: .unknownError,
+                                       message: """
+When using transactions, all child ParseObjects have to originally
+be saved to the Parse Server. Either save all child objects first
+or disable transactions for this call.
+""")
+                throw error
+            }
+            while waitingToBeSaved.count > 0 {
+                var savableObjects = [ParseEncodable]()
+                var savableFiles = [ParseFile]()
+                var nextBatch = [ParseEncodable]()
+                try waitingToBeSaved.forEach { parseType in
+                    if let parseFile = parseType as? ParseFile {
+                        // ParseFiles can be saved now
+                        savableFiles.append(parseFile)
+                    } else if let parseObject = parseType as? Objectable {
+                        // This is a ParseObject
+                        let waitingObjectInfo = try ParseCoding
+                            .parseEncoder()
+                            .encode(parseObject,
+                                    collectChildren: true,
+                                    objectsSavedBeforeThisOne: objectsFinishedSaving,
+                                    filesSavedBeforeThisOne: filesFinishedSaving)
+                        if waitingObjectInfo.unsavedChildren.count == 0 {
+                            //If this ParseObject has no additional children, it can be saved now
+                            savableObjects.append(parseObject)
+                        } else {
+                            //Else this ParseObject needs to wait until it is children are saved
+                            nextBatch.append(parseObject)
+                        }
+                    }
+                }
+                waitingToBeSaved = nextBatch
+                if waitingToBeSaved.count > 0 && savableObjects.count == 0 && savableFiles.count == 0 {
+                    throw ParseError(code: .unknownError,
+                                     message: "Found a circular dependency in ParseObject.")
+                }
+                if savableObjects.count > 0 {
+                    let savedChildObjects = try await self.saveAll(objects: savableObjects,
+                                                                   options: options)
+                    let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
+                    for (index, object) in savableObjects.enumerated() {
+                        let hash = try BaseObjectable.createHash(object)
+                        objectsFinishedSaving[hash] = savedChildPointers[index]
+                    }
+                }
+                for savableFile in savableFiles {
+                    filesFinishedSaving[savableFile.id] = try await savableFile.save(options: options)
+                }
+            }
+            return (objectsFinishedSaving, filesFinishedSaving)
+        } catch {
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
+            throw parseError
+        }
+    }
+
+    func command(method: Method,
+                 ignoringCustomObjectIdConfig: Bool = false,
+                 options: API.Options,
+                 callbackQueue: DispatchQueue) async throws -> Self {
+        let (savedChildObjects, savedChildFiles) = try await self.ensureDeepSave(options: options)
+        do {
+            let command: API.Command<Self, Self>!
+            switch method {
+            case .save:
+                command = try self.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+            case .create:
+                command = self.createCommand()
+            case .replace:
+                command = try self.replaceCommand()
+            case .update:
+                command = try self.updateCommand()
+            }
+            return try await command
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue,
+                              childObjects: savedChildObjects,
+                              childFiles: savedChildFiles)
+        } catch {
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
+            throw parseError
+        }
+    }
+}
+
+// MARK: Batch Support
+internal extension Sequence where Element: ParseObject {
+    func batchCommand(method: Method,
+                      batchLimit limit: Int?,
+                      transaction: Bool,
+                      ignoringCustomObjectIdConfig: Bool = false,
+                      options: API.Options,
+                      callbackQueue: DispatchQueue) async throws -> [(Result<Element, ParseError>)] {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        var childObjects = [String: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+        var commands = [API.Command<Self.Element, Self.Element>]()
+        let objects = map { $0 }
+        for object in objects {
+            let (savedChildObjects, savedChildFiles) = try await object
+                .ensureDeepSave(options: options,
+                                isShouldReturnIfChildObjectsFound: transaction)
+            savedChildObjects.forEach {(key, value) in
+                if error != nil {
+                    return
+                }
+                if childObjects[key] == nil {
+                    childObjects[key] = value
+                } else {
+                    error = ParseError(code: .unknownError, message: "circular dependency")
+                    return
+                }
+            }
+            savedChildFiles.forEach {(key, value) in
+                if error != nil {
+                    return
+                }
+                if childFiles[key] == nil {
+                    childFiles[key] = value
+                } else {
+                    error = ParseError(code: .unknownError, message: "circular dependency")
+                    return
+                }
+            }
+
+            do {
+                switch method {
+                case .save:
+                    commands.append(
+                        try object.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+                    )
+                case .create:
+                    commands.append(object.createCommand())
+                case .replace:
+                    commands.append(try object.replaceCommand())
+                case .update:
+                    commands.append(try object.updateCommand())
+                }
+            } catch {
+                let defaultError = ParseError(code: .unknownError,
+                                              message: error.localizedDescription)
+                let parseError = error as? ParseError ?? defaultError
+                throw parseError
+            }
+        }
+
+        do {
+            var returnBatch = [(Result<Self.Element, ParseError>)]()
+            let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
+            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+            for batch in batches {
+                let saved = try await API.Command<Self.Element, Self.Element>
+                        .batch(commands: batch, transaction: transaction)
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue,
+                                      childObjects: childObjects,
+                                      childFiles: childFiles)
+                returnBatch.append(contentsOf: saved)
+            }
+            return returnBatch
+        } catch {
+            let defaultError = ParseError(code: .unknownError,
+                                          message: error.localizedDescription)
+            let parseError = error as? ParseError ?? defaultError
+            throw parseError
+        }
+    }
+}
+
+// MARK: Savable Encodable Version
+internal extension ParseEncodable {
+    func saveAll(objects: [ParseEncodable],
+                 transaction: Bool = configuration.isUsingTransactions,
+                 options: API.Options = [],
+                 callbackQueue: DispatchQueue = .main) async throws -> [(Result<PointerType, ParseError>)] {
+        try await API.NonParseBodyCommand<AnyCodable, PointerType>
+            .batch(objects: objects,
+                   transaction: transaction)
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue)
+    }
+}
 #endif
