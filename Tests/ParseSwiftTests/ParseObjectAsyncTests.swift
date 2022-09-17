@@ -28,6 +28,9 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         //: Your own properties
         var points: Int?
         var player: String?
+        var level: Level?
+        var levels: [Level]?
+        var nextLevel: Level?
 
         //: Implement your own version of merge
         func merge(with object: Self) throws -> Self {
@@ -71,9 +74,6 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         var name: String?
 
         var originalData: Data?
-
-        init() {
-        }
     }
 
     struct GameScoreDefaultMerge: ParseObject {
@@ -117,6 +117,211 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         var originalData: Data?
     }
 
+    struct Game: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var gameScore: GameScore
+        var gameScores = [GameScore]()
+        var name = "Hello"
+        var profilePicture: ParseFile?
+
+        //: a custom initializer
+        init() {
+            self.gameScore = GameScore()
+        }
+
+        init(gameScore: GameScore) {
+            self.gameScore = gameScore
+        }
+    }
+
+    struct Game2: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var name = "Hello"
+        var profilePicture: ParseFile?
+    }
+
+    final class GameScoreClass: ParseObject {
+
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var points: Int
+        var player = "Jen"
+        var level: Level?
+        var levels: [Level]?
+        var game: GameClass?
+
+        //: a custom initializer
+        required init() {
+            self.points = 5
+        }
+
+        init(points: Int) {
+            self.points = points
+        }
+
+        /**
+         Conforms to Equatable by determining if an object has the same objectId.
+         - note: You can specify a custom way of `Equatable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, equatable will only work if the ParseObject
+         has been previously synced to the parse-server (has an objectId). In addition, if two
+         `ParseObject`'s have the same objectId, but were modified at different times, the
+         default implementation will still return true. In these cases you either want to use a
+         "struct" (value types) to make your `ParseObject`s instead of a class (reference type) or
+         provide your own implementation of `==`.
+         - parameter lhs: first object to compare
+         - parameter rhs: second object to compare
+
+         - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
+        */
+        public static func == (lhs: ParseObjectAsyncTests.GameScoreClass,
+                               rhs: ParseObjectAsyncTests.GameScoreClass) -> Bool {
+            lhs.hasSameObjectId(as: rhs)
+        }
+
+        /**
+         Conforms to `Hashable` using objectId.
+         - note: You can specify a custom way of `Hashable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
+         synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
+         but were modified at different times, the default implementation will hash to the same value. In these
+         cases you either want to use a "struct" (value types) to make your `ParseObject`s instead of a
+         class (reference type) or provide your own implementation of `hash`.
+
+        */
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(self.id)
+        }
+    }
+
+    final class GameClass: ParseObject {
+
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var gameScore: GameScoreClass
+        var gameScores = [GameScore]()
+        var name = "Hello"
+
+        //: a custom initializer
+        required init() {
+            self.gameScore = GameScoreClass()
+        }
+
+        init(gameScore: GameScoreClass) {
+            self.gameScore = gameScore
+        }
+
+        /**
+         Conforms to Equatable by determining if an object has the same objectId.
+         - note: You can specify a custom way of `Equatable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, equatable will only work if the ParseObject
+         has been previously synced to the parse-server (has an objectId). In addition, if two
+         `ParseObject`'s have the same objectId, but were modified at different times, the
+         default implementation will still return true. In these cases you either want to use a
+         "struct" (value types) to make your `ParseObject`s instead of a class (reference type) or
+         provide your own implementation of `==`.
+         - parameter lhs: first object to compare
+         - parameter rhs: second object to compare
+
+         - returns: Returns a **true** if the other object has the same `objectId` or **false** if unsuccessful.
+        */
+        public static func == (lhs: ParseObjectAsyncTests.GameClass,
+                               rhs: ParseObjectAsyncTests.GameClass) -> Bool {
+            lhs.hasSameObjectId(as: rhs)
+        }
+
+        /**
+         Conforms to `Hashable` using objectId.
+         - note: You can specify a custom way of `Hashable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
+         synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
+         but were modified at different times, the default implementation will hash to the same value. In these
+         cases you either want to use a "struct" (value types) to make your `ParseObject`s instead of a
+         class (reference type) or provide your own implementation of `hash`.
+
+        */
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(self.id)
+        }
+    }
+
+    struct User: ParseUser {
+
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        // These are required by ParseUser
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+    }
+
+    struct LoginSignupResponse: ParseUser {
+
+        var objectId: String?
+        var createdAt: Date?
+        var sessionToken: String?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        // These are required by ParseUser
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+
+        init() {
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
+            self.objectId = "yarr"
+            self.ACL = nil
+            self.customKey = "blah"
+            self.sessionToken = "myToken"
+            self.username = "hello10"
+            self.email = "hello@parse.com"
+        }
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -137,6 +342,22 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
+    }
+
+    func loginNormally() async throws -> User {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let user = try await User.login(username: "parse", password: "user")
+        MockURLProtocol.removeAll()
+        return user
     }
 
     @MainActor
@@ -1250,6 +1471,375 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTFail(error.localizedDescription)
         }
     }
-}
 
+    // swiftlint:disable:next function_body_length
+    @MainActor
+    func testDeepSaveOneDeep() async throws {
+        let score = GameScore(points: 10)
+        var game = Game(gameScore: score)
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+        scoreOnServer.objectId = "yarr"
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try GameScore.getJSONEncoder().encode(response)
+            //Get dates in correct format from ParseDecoding strategy
+            let encodedScoreOnServer = try scoreOnServer.getEncoder().encode(scoreOnServer)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encodedScoreOnServer)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let (savedChildren, savedChildFiles) = try await game.ensureDeepSave()
+
+        XCTAssertEqual(savedChildren.count, 1)
+        XCTAssertEqual(savedChildFiles.count, 0)
+        var counter = 0
+        var savedChildObject: PointerType?
+        savedChildren.forEach { (_, value) in
+            XCTAssertEqual(value.className, "GameScore")
+            XCTAssertEqual(value.objectId, "yarr")
+            if counter == 0 {
+                savedChildObject = value
+            }
+            counter += 1
+        }
+
+        guard let savedChild = savedChildObject else {
+            XCTFail("Should have unwrapped child object")
+            return
+        }
+
+        // Saved updated info for game
+        let encodedScore: Data
+        do {
+            encodedScore = try ParseCoding.jsonEncoder().encode(savedChild)
+            // Decode Pointer as GameScore
+            game.gameScore = try game.getDecoder().decode(GameScore.self, from: encodedScore)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        // Setup ParseObject to return from mocker
+        MockURLProtocol.removeAll()
+
+        var gameOnServer = game
+        gameOnServer.objectId = "nice"
+        gameOnServer.createdAt = Date()
+
+        let encodedGamed: Data
+        do {
+            encodedGamed = try game.getEncoder().encode(gameOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            gameOnServer = try game.getDecoder().decode(Game.self, from: encodedGamed)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encodedGamed, statusCode: 200, delay: 0.0)
+        }
+
+        guard let savedGame = try? game
+                .saveCommand()
+                .execute(options: [],
+                         childObjects: savedChildren,
+                         childFiles: savedChildFiles) else {
+            XCTFail("Should have saved game")
+            return
+        }
+        XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
+        XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
+        XCTAssertEqual(savedGame.updatedAt, gameOnServer.createdAt)
+        XCTAssertEqual(savedGame.gameScore, gameOnServer.gameScore)
+    }
+
+    // swiftlint:disable:next function_body_length
+    @MainActor
+    func testDeepSaveOneDeepWithDefaultACL() async throws {
+        let user = try await loginNormally()
+        guard let userObjectId = user.objectId else {
+            XCTFail("Should have objectId")
+            return
+        }
+        let defaultACL = try ParseACL.setDefaultACL(ParseACL(),
+                                                    withAccessForCurrentUser: true)
+
+        let score = GameScore(points: 10)
+        var game = Game(gameScore: score)
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+        scoreOnServer.objectId = "yarr"
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try GameScore.getJSONEncoder().encode(response)
+            //Get dates in correct format from ParseDecoding strategy
+            let encodedScoreOnServer = try scoreOnServer.getEncoder().encode(scoreOnServer)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encodedScoreOnServer)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let (savedChildren, savedChildFiles) = try await game.ensureDeepSave()
+
+        XCTAssertEqual(savedChildren.count, 1)
+        XCTAssertEqual(savedChildFiles.count, 0)
+        var counter = 0
+        var savedChildObject: PointerType?
+        savedChildren.forEach { (_, value) in
+            XCTAssertEqual(value.className, "GameScore")
+            XCTAssertEqual(value.objectId, "yarr")
+            if counter == 0 {
+                savedChildObject = value
+            }
+            counter += 1
+        }
+
+        guard let savedChild = savedChildObject else {
+            XCTFail("Should have unwrapped child object")
+            return
+        }
+
+        // Saved updated info for game
+        let encodedScore: Data
+        do {
+            encodedScore = try ParseCoding.jsonEncoder().encode(savedChild)
+            // Decode Pointer as GameScore
+            game.gameScore = try game.getDecoder().decode(GameScore.self, from: encodedScore)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        //Setup ParseObject to return from mocker
+        MockURLProtocol.removeAll()
+
+        var gameOnServer = game
+        gameOnServer.objectId = "nice"
+        gameOnServer.createdAt = Date()
+
+        let encodedGamed: Data
+        do {
+            encodedGamed = try game.getEncoder().encode(gameOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            gameOnServer = try game.getDecoder().decode(Game.self, from: encodedGamed)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encodedGamed, statusCode: 200, delay: 0.0)
+        }
+
+        guard let savedGame = try? game
+                .saveCommand()
+                .execute(options: [],
+                         childObjects: savedChildren,
+                         childFiles: savedChildFiles) else {
+            XCTFail("Should have saved game")
+            return
+        }
+        XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
+        XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
+        XCTAssertEqual(savedGame.updatedAt, gameOnServer.createdAt)
+        XCTAssertEqual(savedGame.gameScore, gameOnServer.gameScore)
+        XCTAssertNotNil(savedGame.ACL)
+        XCTAssertEqual(savedGame.ACL?.publicRead, defaultACL.publicRead)
+        XCTAssertEqual(savedGame.ACL?.publicWrite, defaultACL.publicWrite)
+        XCTAssertTrue(defaultACL.getReadAccess(objectId: userObjectId))
+        XCTAssertTrue(defaultACL.getWriteAccess(objectId: userObjectId))
+    }
+
+    @MainActor
+    func testDeepSaveDetectCircular() async throws {
+        let score = GameScoreClass(points: 10)
+        let game = GameClass(gameScore: score)
+        game.objectId = "nice"
+        score.game = game
+        do {
+            _ = try await game.ensureDeepSave()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have failed with an error of detecting a circular dependency")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("circular"))
+        }
+    }
+
+    @MainActor
+    func testAllowFieldsWithSameObject() async throws {
+        var score = GameScore(points: 10)
+        var level = Level()
+        level.objectId = "nice"
+        score.level = level
+        score.nextLevel = level
+        do {
+            _ = try await score.ensureDeepSave()
+        } catch {
+            XCTFail("Should not throw an error: \(error.localizedDescription)")
+        }
+    }
+
+    @MainActor
+    func testDeepSaveTwoDeep() async throws {
+        var score = GameScore(points: 10)
+        score.level = Level()
+        var game = Game(gameScore: score)
+        game.objectId = "nice"
+
+        var levelOnServer = score
+        levelOnServer.createdAt = Date()
+        levelOnServer.ACL = nil
+        levelOnServer.objectId = "yarr"
+        let pointer = try levelOnServer.toPointer()
+
+        let response = [BatchResponseItem<Pointer<GameScore>>(success: pointer, error: nil)]
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let (savedChildren, savedChildFiles) = try await game.ensureDeepSave()
+        XCTAssertEqual(savedChildFiles.count, 0)
+        XCTAssertEqual(savedChildren.count, 2)
+        let gameScore = savedChildren.compactMap { (_, value) -> PointerType? in
+            if value.className == "GameScore" {
+                return value
+            } else {
+                return nil
+            }
+        }
+        XCTAssertEqual(gameScore.count, 1)
+        XCTAssertEqual(gameScore.first?.className, "GameScore")
+        XCTAssertEqual(gameScore.first?.objectId, "yarr")
+
+        let level = savedChildren.compactMap { (_, value) -> PointerType? in
+            if value.className == "Level" {
+                return value
+            } else {
+                return nil
+            }
+        }
+        XCTAssertEqual(level.count, 1)
+        XCTAssertEqual(level.first?.className, "Level")
+        XCTAssertEqual(level.first?.objectId, "yarr") // This is because mocker is only returning 1 response
+    }
+
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    // swiftlint:disable:next function_body_length
+    @MainActor
+    func testDeepSaveObjectWithFile() async throws {
+        var game = Game2()
+
+        guard let cloudPath = URL(string: "https://parseplatform.org/img/logo.svg"),
+              // swiftlint:disable:next line_length
+              let parseURL = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+
+        let parseFile = ParseFile(name: "profile.svg", cloudURL: cloudPath)
+        game.profilePicture = parseFile
+
+        let fileResponse = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)",
+                                              url: parseURL)
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(fileResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let (savedChildren, savedChildFiles) = try await game.ensureDeepSave()
+        XCTAssertEqual(savedChildren.count, 0)
+        XCTAssertEqual(savedChildFiles.count, 1)
+        var counter = 0
+        var savedFile: ParseFile?
+        savedChildFiles.forEach { (_, value) in
+            XCTAssertEqual(value.url, fileResponse.url)
+            XCTAssertEqual(value.name, fileResponse.name)
+            if counter == 0 {
+                savedFile = value
+            }
+            counter += 1
+        }
+
+        //Saved updated info for game
+        game.profilePicture = savedFile
+
+        //Setup ParseObject to return from mocker
+        MockURLProtocol.removeAll()
+
+        var gameOnServer = game
+        gameOnServer.objectId = "nice"
+        gameOnServer.createdAt = Date()
+        gameOnServer.profilePicture = savedFile
+
+        let encodedGamed: Data
+        do {
+            encodedGamed = try game.getEncoder().encode(gameOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            gameOnServer = try game.getDecoder().decode(Game2.self, from: encodedGamed)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encodedGamed, statusCode: 200, delay: 0.0)
+        }
+
+        guard let savedGame = try? game
+                .saveCommand()
+                .execute(options: [],
+                         childObjects: savedChildren,
+                         childFiles: savedChildFiles) else {
+            XCTFail("Should have saved game")
+            return
+        }
+        XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
+        XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
+        XCTAssertEqual(savedGame.updatedAt, gameOnServer.createdAt)
+        XCTAssertEqual(savedGame.profilePicture, gameOnServer.profilePicture)
+    }
+    #endif
+}
 #endif
