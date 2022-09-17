@@ -2,8 +2,8 @@
   "defaultImplementationsSections" : [
     {
       "identifiers" : [
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/fetch(includeKeys:options:)-2hvwx",
-        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/fetch(includeKeys:options:)-9iop9"
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/fetch(includeKeys:options:)-9iop9",
+        "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseObject\/fetch(includeKeys:options:)-2hvwx"
       ],
       "title" : "ParseObject Implementations"
     }

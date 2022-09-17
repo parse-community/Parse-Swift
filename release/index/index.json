@@ -633,13 +633,13 @@
                   {
                     "children" : [
                       {
-                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-2hvwx",
-                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) throws -> Self",
+                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-9iop9",
+                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) async throws -> Self",
                         "type" : "method"
                       },
                       {
-                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-9iop9",
-                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) async throws -> Self",
+                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-2hvwx",
+                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) throws -> Self",
                         "type" : "method"
                       }
                     ],
@@ -1816,13 +1816,13 @@
                   {
                     "children" : [
                       {
-                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-1f3yl",
-                        "title" : "func received(Error)",
+                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-798hl",
+                        "title" : "func received(URLSessionTaskTransactionMetrics)",
                         "type" : "method"
                       },
                       {
-                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-798hl",
-                        "title" : "func received(URLSessionTaskTransactionMetrics)",
+                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-1f3yl",
+                        "title" : "func received(Error)",
                         "type" : "method"
                       }
                     ],
