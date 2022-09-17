@@ -1420,30 +1420,28 @@ public extension Sequence where Element: ParseInstallation {
                                     // swiftlint:disable:next line_length
                                     isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                     // If an error occurs, everything should be skipped
-                    if parseError != nil {
+                    if let parseError = parseError {
                         error = parseError
                     }
                     savedChildObjects.forEach {(key, value) in
-                        if error != nil {
+                        guard error == nil else {
                             return
                         }
-                        if childObjects[key] == nil {
-                            childObjects[key] = value
-                        } else {
+                        guard childObjects[key] == nil else {
                             error = ParseError(code: .unknownError, message: "circular dependency")
                             return
                         }
+                        childObjects[key] = value
                     }
                     savedChildFiles.forEach {(key, value) in
-                        if error != nil {
+                        guard error == nil else {
                             return
                         }
-                        if childFiles[key] == nil {
-                            childFiles[key] = value
-                        } else {
+                        guard childFiles[key] == nil else {
                             error = ParseError(code: .unknownError, message: "circular dependency")
                             return
                         }
+                        childFiles[key] = value
                     }
                     group.leave()
                 }

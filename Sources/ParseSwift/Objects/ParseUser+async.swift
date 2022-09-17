@@ -551,36 +551,24 @@ internal extension Sequence where Element: ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
-        var error: ParseError?
         var commands = [API.Command<Self.Element, Self.Element>]()
         let objects = map { $0 }
         for object in objects {
             let (savedChildObjects, savedChildFiles) = try await object
                 .ensureDeepSave(options: options,
                                 isShouldReturnIfChildObjectsFound: transaction)
-            savedChildObjects.forEach {(key, value) in
-                if error != nil {
-                    return
+            try savedChildObjects.forEach {(key, value) in
+                guard childObjects[key] == nil else {
+                    throw ParseError(code: .unknownError, message: "circular dependency")
                 }
-                if childObjects[key] == nil {
-                    childObjects[key] = value
-                } else {
-                    error = ParseError(code: .unknownError, message: "circular dependency")
-                    return
-                }
+                childObjects[key] = value
             }
-            savedChildFiles.forEach {(key, value) in
-                if error != nil {
-                    return
+            try savedChildFiles.forEach {(key, value) in
+                guard childFiles[key] == nil else {
+                    throw ParseError(code: .unknownError, message: "circular dependency")
                 }
-                if childFiles[key] == nil {
-                    childFiles[key] = value
-                } else {
-                    error = ParseError(code: .unknownError, message: "circular dependency")
-                    return
-                }
+                childFiles[key] = value
             }
-
             do {
                 switch method {
                 case .save:
