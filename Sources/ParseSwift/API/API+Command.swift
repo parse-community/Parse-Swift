@@ -394,7 +394,7 @@ internal extension API.Command {
     static func save<T>(_ object: T,
                         original data: Data?,
                         ignoringCustomObjectIdConfig: Bool) throws -> API.Command<T, T> where T: ParseObject {
-        if Parse.configuration.isAllowingCustomObjectIds
+        if Parse.configuration.isRequiringCustomObjectIds
             && object.objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }

@@ -17,11 +17,11 @@ internal func initialize(applicationId: String,
                          masterKey: String? = nil,
                          serverURL: URL,
                          liveQueryServerURL: URL? = nil,
-                         allowingCustomObjectIds: Bool = false,
+                         requiringCustomObjectIds: Bool = false,
                          usingTransactions: Bool = false,
                          usingEqualQueryConstraint: Bool = false,
                          usingPostForQuery: Bool = false,
-                         keyValueStore: ParsePrimitiveStorable? = nil,
+                         primitiveStore: ParsePrimitiveStorable? = nil,
                          requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                          cacheMemoryCapacity: Int = 512_000,
                          cacheDiskCapacity: Int = 10_000_000,
@@ -39,11 +39,11 @@ internal func initialize(applicationId: String,
                                            masterKey: masterKey,
                                            serverURL: serverURL,
                                            liveQueryServerURL: liveQueryServerURL,
-                                           allowingCustomObjectIds: allowingCustomObjectIds,
+                                           requiringCustomObjectIds: requiringCustomObjectIds,
                                            usingTransactions: usingTransactions,
                                            usingEqualQueryConstraint: usingEqualQueryConstraint,
                                            usingPostForQuery: usingPostForQuery,
-                                           keyValueStore: keyValueStore,
+                                           primitiveStore: primitiveStore,
                                            requestCachePolicy: requestCachePolicy,
                                            cacheMemoryCapacity: cacheMemoryCapacity,
                                            cacheDiskCapacity: cacheDiskCapacity,
@@ -183,13 +183,13 @@ public func initialize(configuration: ParseConfiguration) {
  specified when using the SDK on a server.
  - parameter serverURL: The server URL to connect to Parse Server.
  - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
- - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
+ - parameter requiringCustomObjectIds: Requires `objectId`'s to be created on the client
  side for each object. Must be enabled on the server to work.
  - parameter usingTransactions: Use transactions when saving/updating multiple objects.
  - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
  - parameter usingPostForQuery: Use **POST** instead of **GET** when making query calls.
  Defaults to **false**.
- - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
+ - parameter primitiveStore: A key/value store that conforms to the `ParseKeyValueStore`
  protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
  this is the only store available since there is no Keychain. Linux, Android, and Windows users should
  replace this store with an encrypted one.
@@ -226,11 +226,11 @@ public func initialize(
     masterKey: String? = nil,
     serverURL: URL,
     liveQueryServerURL: URL? = nil,
-    allowingCustomObjectIds: Bool = false,
+    requiringCustomObjectIds: Bool = false,
     usingTransactions: Bool = false,
     usingEqualQueryConstraint: Bool = false,
     usingPostForQuery: Bool = false,
-    keyValueStore: ParsePrimitiveStorable? = nil,
+    primitiveStore: ParsePrimitiveStorable? = nil,
     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     cacheMemoryCapacity: Int = 512_000,
     cacheDiskCapacity: Int = 10_000_000,
@@ -248,11 +248,11 @@ public func initialize(
                                            masterKey: masterKey,
                                            serverURL: serverURL,
                                            liveQueryServerURL: liveQueryServerURL,
-                                           allowingCustomObjectIds: allowingCustomObjectIds,
+                                           requiringCustomObjectIds: requiringCustomObjectIds,
                                            usingTransactions: usingTransactions,
                                            usingEqualQueryConstraint: usingEqualQueryConstraint,
                                            usingPostForQuery: usingPostForQuery,
-                                           keyValueStore: keyValueStore,
+                                           primitiveStore: primitiveStore,
                                            requestCachePolicy: requestCachePolicy,
                                            cacheMemoryCapacity: cacheMemoryCapacity,
                                            cacheDiskCapacity: cacheDiskCapacity,
@@ -274,7 +274,98 @@ public func initialize(
  specified when using the SDK on a server.
  - parameter serverURL: The server URL to connect to Parse Server.
  - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
- - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
+ - parameter allowingCustomObjectIds: Requires `objectId`'s to be created on the client
+ side for each object. Must be enabled on the server to work.
+ - parameter usingTransactions: Use transactions when saving/updating multiple objects.
+ - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
+ - parameter usingPostForQuery: Use **POST** instead of **GET** when making query calls.
+ Defaults to **false**.
+ - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
+ protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
+ this is the only store available since there is no Keychain. Linux, Android, and Windows users should
+ replace this store with an encrypted one.
+ - parameter requestCachePolicy: The default caching policy for all http requests that determines
+ when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
+ for more info.
+ - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
+ - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
+ - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
+ for more info. Defaults to **false**.
+ - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
+ Defaults to **false**.
+ - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
+ [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
+ for more info.
+ - parameter maxConnectionAttempts: Maximum number of times to try to connect to Parse Server.
+ Defaults to 5.
+ - parameter parseFileTransfer: Override the default transfer behavior for `ParseFile`'s.
+ Allows for direct uploads to other file storage providers.
+ - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
+ Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
+ It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
+ completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
+ See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
+ - important: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+ - note: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
+ - warning: `usingTransactions` is experimental.
+ - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
+ situtations when apps do not have credentials to setup a Keychain.
+ */
+@available(*, deprecated, message: "Change \"allowingCustomObjectIds->requiringCustomObjectIds\" and \"keyValueStore->primitiveStore\"")
+public func initialize(
+    applicationId: String,
+    clientKey: String? = nil,
+    masterKey: String? = nil,
+    serverURL: URL,
+    liveQueryServerURL: URL? = nil,
+    allowingCustomObjectIds: Bool,
+    usingTransactions: Bool = false,
+    usingEqualQueryConstraint: Bool = false,
+    usingPostForQuery: Bool = false,
+    keyValueStore: ParsePrimitiveStorable? = nil,
+    requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+    cacheMemoryCapacity: Int = 512_000,
+    cacheDiskCapacity: Int = 10_000_000,
+    usingDataProtectionKeychain: Bool = false,
+    deletingKeychainIfNeeded: Bool = false,
+    httpAdditionalHeaders: [AnyHashable: Any]? = nil,
+    maxConnectionAttempts: Int = 5,
+    parseFileTransfer: ParseFileTransferable? = nil,
+    authentication: ((URLAuthenticationChallenge,
+                      (URLSession.AuthChallengeDisposition,
+                       URLCredential?) -> Void) -> Void)? = nil
+) {
+    initialize(applicationId: applicationId,
+               clientKey: clientKey,
+               masterKey: masterKey,
+               serverURL: serverURL,
+               liveQueryServerURL: liveQueryServerURL,
+               requiringCustomObjectIds: allowingCustomObjectIds,
+               usingTransactions: usingTransactions,
+               usingEqualQueryConstraint: usingEqualQueryConstraint,
+               usingPostForQuery: usingPostForQuery,
+               primitiveStore: keyValueStore,
+               requestCachePolicy: requestCachePolicy,
+               cacheMemoryCapacity: cacheMemoryCapacity,
+               cacheDiskCapacity: cacheDiskCapacity,
+               usingDataProtectionKeychain: usingDataProtectionKeychain,
+               deletingKeychainIfNeeded: deletingKeychainIfNeeded,
+               httpAdditionalHeaders: httpAdditionalHeaders,
+               maxConnectionAttempts: maxConnectionAttempts,
+               parseFileTransfer: parseFileTransfer,
+               authentication: authentication)
+}
+
+/**
+ Configure the Parse Swift client. This should only be used when starting your app. Typically in the
+ `application(... didFinishLaunchingWithOptions launchOptions...)`.
+ - parameter applicationId: The application id for your Parse application.
+ - parameter clientKey: The client key for your Parse application.
+ - parameter masterKey: The master key for your Parse application. This key should only be
+ specified when using the SDK on a server.
+ - parameter serverURL: The server URL to connect to Parse Server.
+ - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
+ - parameter allowingCustomObjectIds: Requires `objectId`'s to be created on the client
  side for each object. Must be enabled on the server to work.
  - parameter usingTransactions: Use transactions when saving/updating multiple objects.
  - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
@@ -328,7 +419,7 @@ public func initialize(
     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     cacheMemoryCapacity: Int = 512_000,
     cacheDiskCapacity: Int = 10_000_000,
-    migratingFromObjcSDK: Bool = false,
+    migratingFromObjcSDK: Bool,
     usingDataProtectionKeychain: Bool = false,
     deletingKeychainIfNeeded: Bool = false,
     httpAdditionalHeaders: [AnyHashable: Any]? = nil,
@@ -343,11 +434,11 @@ public func initialize(
                                            masterKey: masterKey,
                                            serverURL: serverURL,
                                            liveQueryServerURL: liveQueryServerURL,
-                                           allowingCustomObjectIds: allowingCustomObjectIds,
+                                           requiringCustomObjectIds: allowingCustomObjectIds,
                                            usingTransactions: usingTransactions,
                                            usingEqualQueryConstraint: usingEqualQueryConstraint,
                                            usingPostForQuery: usingPostForQuery,
-                                           keyValueStore: keyValueStore,
+                                           primitiveStore: keyValueStore,
                                            requestCachePolicy: requestCachePolicy,
                                            cacheMemoryCapacity: cacheMemoryCapacity,
                                            cacheDiskCapacity: cacheDiskCapacity,

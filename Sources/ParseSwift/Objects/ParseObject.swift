@@ -378,7 +378,7 @@ transactions for this call.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns an array of Result enums with the object if a save was successful or a
@@ -387,10 +387,10 @@ transactions for this call.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -475,7 +475,7 @@ transactions for this call.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -484,10 +484,10 @@ transactions for this call.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -1131,16 +1131,16 @@ extension ParseObject {
     /**
      Saves the `ParseObject` *synchronously* and throws an error if there is an issue.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
 
      - returns: Returns saved `ParseObject`.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -1181,16 +1181,16 @@ extension ParseObject {
      Saves the `ParseObject` *asynchronously* and executes the given callback block.
 
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using

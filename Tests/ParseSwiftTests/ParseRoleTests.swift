@@ -452,7 +452,7 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        Parse.configuration.isAllowingCustomObjectIds = true
+        Parse.configuration.isRequiringCustomObjectIds = true
         var role = try Role<User>(name: "Administrator", acl: acl)
         role.createdAt = Date()
         role.updatedAt = Date()
@@ -495,7 +495,7 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        Parse.configuration.isAllowingCustomObjectIds = true
+        Parse.configuration.isRequiringCustomObjectIds = true
         var role = try Role<User>(name: "Administrator", acl: acl)
         role.createdAt = Date()
         role.updatedAt = Date()
@@ -575,7 +575,7 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        Parse.configuration.isAllowingCustomObjectIds = true
+        Parse.configuration.isRequiringCustomObjectIds = true
         var role = try Role<User>(name: "Administrator", acl: acl)
         role.createdAt = Date()
         role.updatedAt = Date()
@@ -609,7 +609,9 @@ class ParseRoleTests: XCTestCase {
         acl.publicWrite = false
         acl.publicRead = true
 
-        Parse.configuration.isAllowingCustomObjectIds = true
+        Parse.configuration.isRequiringCustomObjectIds = true
+        XCTAssertEqual(Parse.configuration.isAllowingCustomObjectIds,
+                       Parse.configuration.isRequiringCustomObjectIds)
         var role = try Role<User>(name: "Administrator", acl: acl)
         role.createdAt = Date()
         role.updatedAt = Date()

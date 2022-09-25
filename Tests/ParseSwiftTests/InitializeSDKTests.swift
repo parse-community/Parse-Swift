@@ -226,7 +226,7 @@ class InitializeSDKTests: XCTestCase {
                                   clientKey: "clientKey",
                                   masterKey: "masterKey",
                                   serverURL: url,
-                                  keyValueStore: memory,
+                                  primitiveStore: memory,
                                   testing: true)
 
             guard let currentInstallation = Installation.current else {
@@ -299,7 +299,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory,
+                              primitiveStore: memory,
                               testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
@@ -335,7 +335,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory,
+                              primitiveStore: memory,
                               testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
@@ -371,7 +371,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory,
+                              primitiveStore: memory,
                               testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
@@ -408,7 +408,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory,
+                              primitiveStore: memory,
                               testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
@@ -444,7 +444,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory,
+                              primitiveStore: memory,
                               testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
