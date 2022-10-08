@@ -311,7 +311,7 @@ public func initialize(
  - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
  situtations when apps do not have credentials to setup a Keychain.
  */
-@available(*, deprecated, message: "Change \"allowingCustomObjectIds->requiringCustomObjectIds\" and \"keyValueStore->primitiveStore\"")
+@available(*, deprecated, message: "Change: allowingCustomObjectIds->requiringCustomObjectIds and keyValueStore->primitiveStore")
 public func initialize(
     applicationId: String,
     clientKey: String? = nil,

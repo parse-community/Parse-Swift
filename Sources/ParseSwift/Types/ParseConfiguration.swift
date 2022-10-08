@@ -255,7 +255,7 @@ public struct ParseConfiguration {
      - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
      situtations when apps do not have credentials to setup a Keychain.
      */
-    @available(*, deprecated, message: "Change \"allowingCustomObjectIds->requiringCustomObjectIds\" and \"keyValueStore->primitiveStore\"")
+    @available(*, deprecated, message: "Change: allowingCustomObjectIds->requiringCustomObjectIds and keyValueStore->primitiveStore")
     public init(applicationId: String,
                 clientKey: String? = nil,
                 masterKey: String? = nil,
