@@ -138,8 +138,6 @@ public struct ParseConfiguration {
      for more info.
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
-     - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
-     to **true** will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to **false**.
      - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
      for more info. Defaults to **false**.
      - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
@@ -231,8 +229,6 @@ public struct ParseConfiguration {
      for more info.
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
-     - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
-     to **true** will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to **false**.
      - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
      for more info. Defaults to **false**.
      - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
