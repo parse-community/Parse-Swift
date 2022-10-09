@@ -5,6 +5,17 @@
       "type" : "text"
     }
   ],
+  "deprecationSummary" : [
+    {
+      "inlineContent" : [
+        {
+          "text" : "Change: allowingCustomObjectIds->requiringCustomObjectIds and keyValueStore->primitiveStore",
+          "type" : "text"
+        }
+      ],
+      "type" : "paragraph"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -209,8 +220,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP",
-        "text" : "ParsePrimitiveStorable"
+        "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
+        "text" : "ParseKeyValueStore"
       },
       {
         "kind" : "text",
@@ -437,6 +448,9 @@
         "name" : "ParseSwift"
       }
     ],
+    "platforms" : [
+
+    ],
     "role" : "symbol",
     "roleHeading" : "Initializer",
     "symbolKind" : "init",
@@ -578,7 +592,7 @@
             },
             {
               "kind" : "text",
-              "text" : " = false, "
+              "text" : ", "
             },
             {
               "kind" : "externalParam",
@@ -640,10 +654,10 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable",
+              "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP",
-              "text" : "ParsePrimitiveStorable"
+              "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
+              "text" : "ParseKeyValueStore"
             },
             {
               "kind" : "text",
@@ -956,7 +970,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "Allows objectIds to be created on the client.",
+                  "text" : "Requires ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "objectId",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s to be created on the client",
                   "type" : "text"
                 },
                 {
@@ -1715,6 +1737,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",
@@ -1904,8 +1927,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10ParseSwift0A17PrimitiveStorableP",
-      "text" : "ParsePrimitiveStorable"
+      "preciseIdentifier" : "s:10ParseSwift0A13KeyValueStorea",
+      "text" : "ParseKeyValueStore"
     },
     {
       "kind" : "text",
@@ -2184,7 +2207,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parsefiletransferable"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParsePrimitiveStorable": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseKeyValueStore": {
   "abstract" : [
     {
       "text" : "A store that supports key\/value storage. It should be able",
@@ -2199,10 +2222,11 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "protocol"
+      "text" : "typealias"
     },
     {
       "kind" : "text",
@@ -2210,21 +2234,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "ParsePrimitiveStorable"
+      "text" : "ParseKeyValueStore"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParsePrimitiveStorable",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseKeyValueStore",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "ParsePrimitiveStorable"
+      "text" : "ParseKeyValueStore"
     }
   ],
   "role" : "symbol",
-  "title" : "ParsePrimitiveStorable",
+  "title" : "ParseKeyValueStore",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseprimitivestorable"
+  "url" : "\/documentation\/parseswift\/parsekeyvaluestore"
 },
 "https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data": {
   "identifier" : "https:\/\/developer.apple.com\/documentation\/foundation\/url_loading_system\/accessing_cached_data",

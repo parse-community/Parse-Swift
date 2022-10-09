@@ -755,7 +755,7 @@
             },
             {
               "kind" : "text",
-              "text" : " = false, "
+              "text" : ", "
             },
             {
               "kind" : "externalParam",
@@ -1004,7 +1004,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "Allows objectIds to be created on the client.",
+                  "text" : "Requires ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "objectId",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : "’s to be created on the client",
                   "type" : "text"
                 },
                 {

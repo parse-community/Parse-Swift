@@ -13,6 +13,11 @@
             "type" : "func"
           },
           {
+            "path" : "\/documentation\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:requiringcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:primitivestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:usingda-90uad",
+            "title" : "func initialize(applicationId: String, clientKey: String?, masterKey: String?, serverURL: URL, liveQueryServerURL: URL?, requiringCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, primitiveStore: ParsePrimitiveStorable?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
+            "type" : "func"
+          },
+          {
             "path" : "\/documentation\/parseswift\/initialize(applicationid:clientkey:masterkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:usingdata-47zw9",
             "title" : "func initialize(applicationId: String, clientKey: String?, masterKey: String?, serverURL: URL, liveQueryServerURL: URL?, allowingCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, keyValueStore: ParsePrimitiveStorable?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
             "type" : "func"
@@ -633,13 +638,13 @@
                   {
                     "children" : [
                       {
-                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-9iop9",
-                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) async throws -> Self",
+                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-2hvwx",
+                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) throws -> Self",
                         "type" : "method"
                       },
                       {
-                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-2hvwx",
-                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) throws -> Self",
+                        "path" : "\/documentation\/parseswift\/parseobject\/fetch(includekeys:options:)-9iop9",
+                        "title" : "func fetch(includeKeys: [String]?, options: API.Options) async throws -> Self",
                         "type" : "method"
                       }
                     ],
@@ -1816,13 +1821,13 @@
                   {
                     "children" : [
                       {
-                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-798hl",
-                        "title" : "func received(URLSessionTaskTransactionMetrics)",
+                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-1f3yl",
+                        "title" : "func received(Error)",
                         "type" : "method"
                       },
                       {
-                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-1f3yl",
-                        "title" : "func received(Error)",
+                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-798hl",
+                        "title" : "func received(URLSessionTaskTransactionMetrics)",
                         "type" : "method"
                       }
                     ],
@@ -1839,13 +1844,13 @@
                   {
                     "children" : [
                       {
-                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-1f3yl",
-                        "title" : "func received(Error)",
+                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-798hl",
+                        "title" : "func received(URLSessionTaskTransactionMetrics)",
                         "type" : "method"
                       },
                       {
-                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-798hl",
-                        "title" : "func received(URLSessionTaskTransactionMetrics)",
+                        "path" : "\/documentation\/parseswift\/parselivequerydelegate\/received(_:)-1f3yl",
+                        "title" : "func received(Error)",
                         "type" : "method"
                       }
                     ],
@@ -5237,7 +5242,12 @@
               },
               {
                 "path" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:webhookkey:serverurl:livequeryserverurl:allowingcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:keyvaluestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:usin-54haa",
-                "title" : "init(applicationId: String, clientKey: String?, masterKey: String?, webhookKey: String?, serverURL: URL, liveQueryServerURL: URL?, allowingCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, keyValueStore: ParsePrimitiveStorable?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
+                "title" : "init(applicationId: String, clientKey: String?, masterKey: String?, webhookKey: String?, serverURL: URL, liveQueryServerURL: URL?, allowingCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, keyValueStore: ParseKeyValueStore?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parseconfiguration\/init(applicationid:clientkey:masterkey:webhookkey:serverurl:livequeryserverurl:requiringcustomobjectids:usingtransactions:usingequalqueryconstraint:usingpostforquery:primitivestore:requestcachepolicy:cachememorycapacity:cachediskcapacity:us-4ygss",
+                "title" : "init(applicationId: String, clientKey: String?, masterKey: String?, webhookKey: String?, serverURL: URL, liveQueryServerURL: URL?, requiringCustomObjectIds: Bool, usingTransactions: Bool, usingEqualQueryConstraint: Bool, usingPostForQuery: Bool, primitiveStore: ParsePrimitiveStorable?, requestCachePolicy: URLRequest.CachePolicy, cacheMemoryCapacity: Int, cacheDiskCapacity: Int, usingDataProtectionKeychain: Bool, deletingKeychainIfNeeded: Bool, httpAdditionalHeaders: [AnyHashable : Any]?, maxConnectionAttempts: Int, parseFileTransfer: ParseFileTransferable?, authentication: ((URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?)",
                 "type" : "init"
               },
               {
@@ -5282,6 +5292,11 @@
               {
                 "path" : "\/documentation\/parseswift\/parseconfiguration\/ismigratingfromobjcsdk",
                 "title" : "var isMigratingFromObjcSDK: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/parseswift\/parseconfiguration\/isrequiringcustomobjectids",
+                "title" : "var isRequiringCustomObjectIds: Bool",
                 "type" : "property"
               },
               {

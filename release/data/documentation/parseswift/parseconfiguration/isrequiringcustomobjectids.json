@@ -23,11 +23,11 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isAllowingCustomObjectIds"
+    "url" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isRequiringCustomObjectIds"
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:10ParseSwift0A13ConfigurationV25isAllowingCustomObjectIdsSbvp",
+    "externalID" : "s:10ParseSwift0A13ConfigurationV26isRequiringCustomObjectIdsSbvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -39,7 +39,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "isAllowingCustomObjectIds"
+        "text" : "isRequiringCustomObjectIds"
       },
       {
         "kind" : "text",
@@ -56,13 +56,10 @@
         "name" : "ParseSwift"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
     "roleHeading" : "Instance Property",
     "symbolKind" : "property",
-    "title" : "isAllowingCustomObjectIds"
+    "title" : "isRequiringCustomObjectIds"
   },
   "primaryContentSections" : [
     {
@@ -85,7 +82,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "isAllowingCustomObjectIds"
+              "text" : "isRequiringCustomObjectIds"
             },
             {
               "kind" : "text",
@@ -98,15 +95,7 @@
             },
             {
               "kind" : "text",
-              "text" : " { "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "get"
-            },
-            {
-              "kind" : "text",
-              "text" : " }"
+              "text" : " { get }"
             }
           ]
         }
@@ -125,7 +114,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/parseswift\/parseconfiguration\/isallowingcustomobjectids"
+        "\/documentation\/parseswift\/parseconfiguration\/isrequiringcustomobjectids"
       ],
       "traits" : [
         {
@@ -184,7 +173,7 @@
   "type" : "topic",
   "url" : "\/documentation\/parseswift\/parseconfiguration"
 },
-"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isAllowingCustomObjectIds": {
+"doc://com.parse.ParseSwift/documentation/ParseSwift/ParseConfiguration/isRequiringCustomObjectIds": {
   "abstract" : [
     {
       "text" : "Requires ",
@@ -199,7 +188,6 @@
       "type" : "text"
     }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -211,7 +199,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "isAllowingCustomObjectIds"
+      "text" : "isRequiringCustomObjectIds"
     },
     {
       "kind" : "text",
@@ -223,12 +211,12 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isAllowingCustomObjectIds",
+  "identifier" : "doc:\/\/com.parse.ParseSwift\/documentation\/ParseSwift\/ParseConfiguration\/isRequiringCustomObjectIds",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "isAllowingCustomObjectIds",
+  "title" : "isRequiringCustomObjectIds",
   "type" : "topic",
-  "url" : "\/documentation\/parseswift\/parseconfiguration\/isallowingcustomobjectids"
+  "url" : "\/documentation\/parseswift\/parseconfiguration\/isrequiringcustomobjectids"
 }
 }
 }

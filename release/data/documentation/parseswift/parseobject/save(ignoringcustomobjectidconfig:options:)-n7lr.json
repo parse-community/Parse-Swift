@@ -274,7 +274,7 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseConfiguration.isAllowingCustomObjectIds = true",
+                  "code" : "ParseConfiguration.isRequiringCustomObjectIds = true",
                   "type" : "codeVoice"
                 },
                 {
@@ -356,7 +356,7 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseConfiguration.isAllowingCustomObjectIds = true",
+                  "code" : "ParseConfiguration.isRequiringCustomObjectIds = true",
                   "type" : "codeVoice"
                 },
                 {
@@ -392,7 +392,7 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "ParseConfiguration.isAllowingCustomObjectIds = true",
+                  "code" : "ParseConfiguration.isRequiringCustomObjectIds = true",
                   "type" : "codeVoice"
                 },
                 {
