@@ -228,16 +228,16 @@ public extension ParseUser {
     /**
      Saves the `ParseUser` *asynchronously*.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the saved `ParseUser`.
      - throws: An error of type `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -353,7 +353,7 @@ public extension Sequence where Element: ParseUser {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns an array of Result enums with the object if a save was successful or a
@@ -363,10 +363,10 @@ public extension Sequence where Element: ParseUser {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -599,6 +599,7 @@ internal extension Sequence where Element: ParseUser {
                 let saved = try await API.Command<Self.Element, Self.Element>
                         .batch(commands: batch, transaction: transaction)
                         .executeAsync(options: options,
+                                      batching: true,
                                       callbackQueue: callbackQueue,
                                       childObjects: childObjects,
                                       childFiles: childFiles)

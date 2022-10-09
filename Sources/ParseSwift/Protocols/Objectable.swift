@@ -74,7 +74,7 @@ extension Objectable {
 
     /// Specifies if a `ParseObject` has been saved.
     public var isSaved: Bool {
-        if !Parse.configuration.isAllowingCustomObjectIds {
+        if !Parse.configuration.isRequiringCustomObjectIds {
             return objectId != nil
         } else {
             return objectId != nil && createdAt != nil
@@ -86,7 +86,7 @@ extension Objectable {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !Parse.configuration.isAllowingCustomObjectIds || method != .POST {
+        if !Parse.configuration.isRequiringCustomObjectIds || method != .POST {
             return endpoint
         } else {
             return .objects(className: className)

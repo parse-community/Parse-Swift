@@ -118,7 +118,7 @@ do {
 //: There may be cases where you want to set/forceSet a value to null
 //: instead of unsetting
 let setToNullOperation = savedScore
-    .operation.set(("name", \.name), value: nil)
+    .operation.set(("name", \.name), to: nil)
 do {
     let updatedScore = try setToNullOperation.save()
     print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")

@@ -55,7 +55,10 @@ internal extension API {
                            childFiles: [UUID: ParseFile]? = nil,
                            uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                            stream: InputStream) throws {
-            switch self.prepareURLRequest(options: options, childObjects: childObjects, childFiles: childFiles) {
+            switch self.prepareURLRequest(options: options,
+                                          batching: false,
+                                          childObjects: childObjects,
+                                          childFiles: childFiles) {
 
             case .success(let urlRequest):
                 if method == .POST || method == .PUT || method == .PATCH {
@@ -80,6 +83,7 @@ internal extension API {
         }
 
         func execute(options: API.Options,
+                     batching: Bool = false,
                      notificationQueue: DispatchQueue? = nil,
                      childObjects: [String: PointerType]? = nil,
                      childFiles: [UUID: ParseFile]? = nil,
@@ -94,6 +98,7 @@ internal extension API {
             let group = DispatchGroup()
             group.enter()
             self.executeAsync(options: options,
+                              batching: batching,
                               callbackQueue: synchronizationQueue,
                               notificationQueue: notificationQueue,
                               childObjects: childObjects,
@@ -115,6 +120,7 @@ internal extension API {
         // MARK: Asynchronous Execution
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options,
+                          batching: Bool = false,
                           callbackQueue: DispatchQueue,
                           notificationQueue: DispatchQueue? = nil,
                           childObjects: [String: PointerType]? = nil,
@@ -131,6 +137,7 @@ internal extension API {
             if !path.urlComponent.contains("/files/") {
                 // All ParseObjects use the shared URLSession
                 switch self.prepareURLRequest(options: options,
+                                              batching: batching,
                                               childObjects: childObjects,
                                               childFiles: childFiles) {
                 case .success(let urlRequest):
@@ -156,6 +163,7 @@ internal extension API {
                 // ParseFiles are handled with a dedicated URLSession
                 if method == .POST || method == .PUT || method == .PATCH {
                     switch self.prepareURLRequest(options: options,
+                                                  batching: batching,
                                                   childObjects: childObjects,
                                                   childFiles: childFiles) {
 
@@ -187,6 +195,7 @@ internal extension API {
                 } else if method == .DELETE {
 
                     switch self.prepareURLRequest(options: options,
+                                                  batching: batching,
                                                   childObjects: childObjects,
                                                   childFiles: childFiles) {
                     case .success(let urlRequest):
@@ -213,6 +222,7 @@ internal extension API {
 
                     if parseURL != nil {
                         switch self.prepareURLRequest(options: options,
+                                                      batching: batching,
                                                       childObjects: childObjects,
                                                       childFiles: childFiles) {
 
@@ -266,6 +276,7 @@ internal extension API {
 
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options,
+                               batching: Bool = false,
                                childObjects: [String: PointerType]? = nil,
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getURLQueryItems()
@@ -299,7 +310,9 @@ internal extension API {
                 } else {
                     guard let bodyData = try? ParseCoding
                             .parseEncoder()
-                            .encode(urlBody, collectChildren: false,
+                            .encode(urlBody,
+                                    batching: batching,
+                                    collectChildren: false,
                                     objectsSavedBeforeThisOne: childObjects,
                                     filesSavedBeforeThisOne: childFiles) else {
                             return .failure(ParseError(code: .unknownError,
@@ -393,14 +406,16 @@ internal extension API.Command {
     // MARK: Saving ParseObjects
     static func save<T>(_ object: T,
                         original data: Data?,
-                        ignoringCustomObjectIdConfig: Bool) throws -> API.Command<T, T> where T: ParseObject {
-        if Parse.configuration.isAllowingCustomObjectIds
+                        ignoringCustomObjectIdConfig: Bool,
+                        batching: Bool = false) throws -> API.Command<T, T> where T: ParseObject {
+        if Parse.configuration.isRequiringCustomObjectIds
             && object.objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
             // MARK: Should be switched to "update" when server supports PATCH.
-            return try replace(object, original: data)
+            return try replace(object,
+                               original: data)
         }
         return create(object)
     }
@@ -420,7 +435,8 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    static func replace<T>(_ object: T, original data: Data?) throws -> API.Command<T, T> where T: ParseObject {
+    static func replace<T>(_ object: T,
+                           original data: Data?) throws -> API.Command<T, T> where T: ParseObject {
         guard object.objectId != nil else {
             throw ParseError(code: .missingObjectId,
                              message: "objectId must not be nil")
@@ -446,7 +462,8 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    static func update<T>(_ object: T, original data: Data?) throws -> API.Command<T, T> where T: ParseObject {
+    static func update<T>(_ object: T,
+                          original data: Data?) throws -> API.Command<T, T> where T: ParseObject {
         guard object.objectId != nil else {
             throw ParseError(code: .missingObjectId,
                              message: "objectId must not be nil")
@@ -504,8 +521,10 @@ internal extension API.Command where T: ParseObject {
             guard let body = command.body else {
                 return nil
             }
-            return API.Command<T, T>(method: command.method, path: .any(path),
-                                     body: body, mapper: command.mapper)
+            return API.Command<T, T>(method: command.method,
+                                     path: .any(path),
+                                     body: body,
+                                     mapper: command.mapper)
         }
 
         let mapper = { (data: Data) -> [Result<T, ParseError>] in

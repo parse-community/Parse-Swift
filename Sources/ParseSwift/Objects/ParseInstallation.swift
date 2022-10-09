@@ -172,7 +172,7 @@ extension ParseInstallation {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !Parse.configuration.isAllowingCustomObjectIds || method != .POST {
+        if !Parse.configuration.isRequiringCustomObjectIds || method != .POST {
             return endpoint
         } else {
             return .installations
@@ -615,16 +615,16 @@ extension ParseInstallation {
      Saves the `ParseInstallation` *synchronously* and throws an error if there is an issue.
 
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -667,17 +667,17 @@ extension ParseInstallation {
      Saves the `ParseInstallation` *asynchronously* and executes the given callback block.
 
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -891,7 +891,7 @@ extension ParseInstallation {
     }
 
     func saveCommand(ignoringCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        if Parse.configuration.isAllowingCustomObjectIds && objectId == nil && !ignoringCustomObjectIdConfig {
+        if Parse.configuration.isRequiringCustomObjectIds && objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
@@ -1064,7 +1064,7 @@ public extension Sequence where Element: ParseInstallation {
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
@@ -1076,10 +1076,10 @@ public extension Sequence where Element: ParseInstallation {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -1150,6 +1150,7 @@ public extension Sequence where Element: ParseInstallation {
             let currentBatch = try API.Command<Self.Element, Self.Element>
                 .batch(commands: $0, transaction: transaction)
                 .execute(options: options,
+                         batching: true,
                          childObjects: childObjects,
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
@@ -1166,7 +1167,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
+     when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -1176,10 +1177,10 @@ public extension Sequence where Element: ParseInstallation {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
+     - warning: If you are using `ParseConfiguration.isRequiringCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `ignoringCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.isAllowingCustomObjectIds = true` and
+     `ParseConfiguration.isRequiringCustomObjectIds = true` and
      `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -1488,6 +1489,7 @@ public extension Sequence where Element: ParseInstallation {
                     API.Command<Self.Element, Self.Element>
                             .batch(commands: batch, transaction: transaction)
                             .executeAsync(options: options,
+                                          batching: true,
                                           callbackQueue: callbackQueue,
                                           childObjects: childObjects,
                                           childFiles: childFiles) { results in
