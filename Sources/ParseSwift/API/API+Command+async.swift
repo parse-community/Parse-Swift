@@ -15,6 +15,7 @@ import FoundationNetworking
 internal extension API.Command {
     // MARK: Asynchronous Execution
     func executeAsync(options: API.Options,
+                      batching: Bool = false,
                       callbackQueue: DispatchQueue,
                       notificationQueue: DispatchQueue? = nil,
                       childObjects: [String: PointerType]? = nil,
@@ -24,6 +25,7 @@ internal extension API.Command {
                       downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) async throws -> U {
         try await withCheckedThrowingContinuation { continuation in
             self.executeAsync(options: options,
+                              batching: batching,
                               callbackQueue: callbackQueue,
                               notificationQueue: notificationQueue,
                               childObjects: childObjects,

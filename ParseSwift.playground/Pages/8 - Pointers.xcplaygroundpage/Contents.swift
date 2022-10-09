@@ -108,7 +108,7 @@ author.save { result in
         assert(savedAuthorAndBook.createdAt != nil)
         assert(savedAuthorAndBook.updatedAt != nil)
 
-        print("Saved \(savedAuthorAndBook)")
+        print("Saved: \(savedAuthorAndBook)")
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
@@ -132,7 +132,7 @@ author2.save { result in
          Notice the pointer objects have not been updated on the
          client.If you want the latest pointer objects, fetch and include them.
          */
-        print("Saved \(savedAuthorAndBook)")
+        print("Saved: \(savedAuthorAndBook)")
 
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
@@ -243,7 +243,7 @@ do {
                     assert(updatedBook.updatedAt != nil)
                     assert(updatedBook.relatedBook != nil)
 
-                    print("Saved \(updatedBook)")
+                    print("Saved: \(updatedBook)")
                 case .failure(let error):
                     assertionFailure("Error saving: \(error)")
                 }
@@ -323,12 +323,12 @@ author4.otherBooks = [otherBook3, otherBook4]
                 assert(savedAuthorAndBook.createdAt != nil)
                 assert(savedAuthorAndBook.updatedAt != nil)
                 assert(savedAuthorAndBook.otherBooks?.count == 2)
-
+                author4 = savedAuthorAndBook
                 /*:
                  Notice the pointer objects have not been updated on the
                  client.If you want the latest pointer objects, fetch and include them.
                  */
-                print("Saved \(savedAuthorAndBook)")
+                print("Saved: \(savedAuthorAndBook)")
             case .failure(let error):
                 assertionFailure("Error saving: \(error)")
             }
@@ -336,6 +336,38 @@ author4.otherBooks = [otherBook3, otherBook4]
 
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
+    }
+}
+
+//: Batching saves by updating an already saved object.
+author4.fetch { result in
+    switch result {
+    case .success(var fetchedAuthor):
+        print("The latest author: \(fetchedAuthor)")
+        fetchedAuthor.name = "R.L. Stine"
+        [fetchedAuthor].saveAll { result in
+            switch result {
+            case .success(let savedAuthorsAndBook):
+                savedAuthorsAndBook.forEach { eachResult in
+                    switch eachResult {
+                    case .success(let savedAuthorAndBook):
+                        assert(savedAuthorAndBook.objectId != nil)
+                        assert(savedAuthorAndBook.createdAt != nil)
+                        assert(savedAuthorAndBook.updatedAt != nil)
+                        assert(savedAuthorAndBook.otherBooks?.count == 2)
+
+                        print("Updated: \(savedAuthorAndBook)")
+                    case .failure(let error):
+                        assertionFailure("Error saving: \(error)")
+                    }
+                }
+
+            case .failure(let error):
+                assertionFailure("Error saving: \(error)")
+            }
+        }
+    case .failure(let error):
+        assertionFailure("Error fetching: \(error)")
     }
 }
 

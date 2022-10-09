@@ -55,9 +55,10 @@ do {
     try score.location = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
 }
 
-/*: Save asynchronously (preferred way) - performs work on background
-    queue and returns to specified callbackQueue.
-    If no callbackQueue is specified it returns to main queue.
+/*:
+ Save asynchronously (preferred way) - performs work on background
+ queue and returns to specified callbackQueue.
+ If no callbackQueue is specified it returns to main queue.
 */
 score.save { result in
     switch result {
@@ -107,8 +108,9 @@ do {
     }
 }
 
-/*: If you only want to query for points in descending order, use the order enum.
-Notice the "var", the query has to be mutable since it is a value type.
+/*:
+ If you only want to query for points in descending order, use the order enum.
+ Notice the "var", the query has to be mutable since it is a value type.
 */
 var querySorted = query
 querySorted.order([.descending("points")])

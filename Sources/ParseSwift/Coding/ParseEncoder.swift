@@ -104,8 +104,12 @@ public struct ParseEncoder {
         self.outputFormatting = outputFormatting
     }
 
-    func encode(_ value: Encodable) throws -> Data {
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkipKeys.none.keys())
+    func encode(_ value: Encodable, batching: Bool = false) throws -> Data {
+        var keysToSkip = SkipKeys.none.keys()
+        if batching {
+            keysToSkip = SkipKeys.object.keys()
+        }
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
@@ -113,6 +117,7 @@ public struct ParseEncoder {
             encoder.outputFormatting = outputFormatting
         }
         return try encoder.encodeObject(value,
+                                        batching: batching,
                                         collectChildren: false,
                                         uniquePointer: nil,
                                         objectsSavedBeforeThisOne: nil,
@@ -168,6 +173,7 @@ public struct ParseEncoder {
 
     // swiftlint:disable large_tuple
     internal func encode(_ value: ParseEncodable,
+                         batching: Bool = false,
                          collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
@@ -185,6 +191,7 @@ public struct ParseEncoder {
             encoder.outputFormatting = outputFormatting
         }
         return try encoder.encodeObject(value,
+                                        batching: batching,
                                         collectChildren: collectChildren,
                                         uniquePointer: nil,
                                         objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
@@ -201,6 +208,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
     var uniqueFiles = Set<ParseFile>()
     var newObjects = [Encodable]()
     var collectChildren = false
+    var batching = false
     var objectsSavedBeforeThisOne: [String: PointerType]?
     var filesSavedBeforeThisOne: [UUID: ParseFile]?
     /// The encoder's storage.
@@ -248,23 +256,26 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
 
     @available(*, unavailable)
     override func encode<T : Encodable>(_ value: T) throws -> Data {
-        throw ParseError(code: .unknownError, message: "This method should not be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
+        throw ParseError(code: .unknownError,
+                         message: "This method should not be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
     func encodeObject(_ value: Encodable,
+                      batching: Bool = false,
                       collectChildren: Bool,
                       uniquePointer: PointerType?,
                       objectsSavedBeforeThisOne: [String: PointerType]?,
                       filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
 
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
-        encoder.collectChildren = collectChildren
         encoder.outputFormatting = outputFormatting
         encoder.dateEncodingStrategy = dateEncodingStrategy
         encoder.dataEncodingStrategy = dataEncodingStrategy
         encoder.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
         encoder.keyEncodingStrategy = keyEncodingStrategy
         encoder.userInfo = userInfo
+        encoder.collectChildren = collectChildren
+        encoder.batching = batching
         encoder.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
         encoder.filesSavedBeforeThisOne = filesSavedBeforeThisOne
         encoder.uniquePointer = uniquePointer
@@ -342,7 +353,8 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
             }
             valueToEncode = pointer
         } else if let object = value as? Objectable {
-            if let pointer = try? PointerType(object) {
+            if !batching || (batching && codingPath.last?.stringValue == "body"),
+               let pointer = try? PointerType(object) {
                 if let uniquePointer = self.uniquePointer,
                    uniquePointer.hasSameObjectId(as: pointer) {
                     throw ParseError(code: .unknownError,

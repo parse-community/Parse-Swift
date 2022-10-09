@@ -424,6 +424,7 @@ internal extension Sequence where Element: ParseInstallation {
                 let saved = try await API.Command<Self.Element, Self.Element>
                         .batch(commands: batch, transaction: transaction)
                         .executeAsync(options: options,
+                                      batching: true,
                                       callbackQueue: callbackQueue,
                                       childObjects: childObjects,
                                       childFiles: childFiles)

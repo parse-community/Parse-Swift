@@ -460,6 +460,7 @@ transactions for this call.
             let currentBatch = try API.Command<Self.Element, Self.Element>
                 .batch(commands: $0, transaction: transaction)
                 .execute(options: options,
+                         batching: true,
                          childObjects: childObjects,
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
@@ -790,6 +791,7 @@ transactions for this call.
                     API.Command<Self.Element, Self.Element>
                             .batch(commands: batch, transaction: transaction)
                             .executeAsync(options: options,
+                                          batching: true,
                                           callbackQueue: callbackQueue,
                                           childObjects: childObjects,
                                           childFiles: childFiles) { results in

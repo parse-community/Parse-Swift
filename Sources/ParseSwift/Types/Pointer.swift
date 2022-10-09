@@ -33,14 +33,14 @@ public struct Pointer<T: ParseObject>: ParsePointer, ParseTypeable, Fetchable, H
     internal let __type: String = "Pointer" // swiftlint:disable:this identifier_name
 
     /**
-     The id of the object.
-    */
-    public var objectId: String
-
-    /**
      The class name of the object.
     */
     public var className: String
+
+    /**
+     The id of the object.
+    */
+    public var objectId: String
 
     /**
      Create a Pointer type.
@@ -148,10 +148,9 @@ public extension Pointer {
 }
 
 internal struct PointerType: ParsePointer, Codable {
-
     var __type: String = "Pointer" // swiftlint:disable:this identifier_name
-    var objectId: String
     var className: String
+    var objectId: String
 
     init(_ target: Objectable) throws {
         self.objectId = try getObjectId(target: target)

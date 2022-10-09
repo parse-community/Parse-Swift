@@ -170,7 +170,7 @@ internal extension API.NonParseBodyCommand {
             }
 
             let path = Parse.configuration.mountPath + objectable.endpoint.urlComponent
-            let encoded = try ParseCoding.parseEncoder().encode(object)
+            let encoded = try ParseCoding.parseEncoder().encode(object, batching: true)
             let body = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: encoded)
             return API.BatchCommand<AnyCodable, PointerType>(method: method,
                                                              path: .any(path),

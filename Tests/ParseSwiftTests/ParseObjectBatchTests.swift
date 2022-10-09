@@ -73,19 +73,51 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         try ParseStorage.shared.deleteAll()
     }
 
+    func testEncodeEmbeddedSavedObjectWithBatching() throws {
+        var score = GameScore(points: 10)
+        score.objectId = "yolo"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+        var game = Game2()
+        game.createdAt = Date()
+        game.updatedAt = Date()
+        game.objectId = "brave"
+        score.other = game
+        let command = try score.saveCommand()
+        let batch = API.Command<GameScore, GameScore>
+            .batch(commands: [command], transaction: false)
+        // swiftlint:disable:next line_length
+        let expected = "{\"body\":{\"requests\":[{\"body\":{\"other\":{\"__type\":\"Pointer\",\"className\":\"Game2\",\"objectId\":\"brave\"},\"points\":10},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false},\"method\":\"POST\",\"path\":\"\\/batch\"}"
+        let encoded = try ParseCoding.parseEncoder().encode(batch,
+                                                            batching: true)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testEncodeMutltipleEmbeddedSavedObjectWithBatching() throws {
+        var score = GameScore(points: 10)
+        score.objectId = "yolo"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+        var game = Game2()
+        game.createdAt = Date()
+        game.updatedAt = Date()
+        game.objectId = "brave"
+        score.other = game
+        let command = try score.saveCommand()
+        let batch = API.Command<GameScore, GameScore>
+            .batch(commands: [command, command], transaction: false)
+        // swiftlint:disable:next line_length
+        let expected = "{\"body\":{\"requests\":[{\"body\":{\"other\":{\"__type\":\"Pointer\",\"className\":\"Game2\",\"objectId\":\"brave\"},\"points\":10},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"},{\"body\":{\"other\":{\"__type\":\"Pointer\",\"className\":\"Game2\",\"objectId\":\"brave\"},\"points\":10},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false},\"method\":\"POST\",\"path\":\"\\/batch\"}"
+        let encoded = try ParseCoding.parseEncoder().encode(batch,
+                                                            batching: true)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
     func testSaveAllCommand() throws {
         let score = GameScore(points: 10)
         let score2 = GameScore(points: 20)
-
-        var scoreOnServer = score
-        scoreOnServer.objectId = "yarr"
-        scoreOnServer.createdAt = Date()
-        scoreOnServer.ACL = nil
-
-        var scoreOnServer2 = score2
-        scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
-        scoreOnServer2.ACL = nil
 
         let objects = [score, score2]
         let commands = try objects.map { try $0.saveCommand() }
@@ -93,7 +125,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"body\":{\"points\":10},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"},{\"body\":{\"points\":20},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(body, collectChildren: false,
+            .encode(body,
+                    collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
                     filesSavedBeforeThisOne: nil).encoded
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -523,6 +556,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         score.objectId = "yarr"
         score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         score.ACL = nil
+        var game = Game2()
+        game.objectId = "brave"
+        score.other = game
 
         var score2 = GameScore(points: 20)
         score2.objectId = "yolo"
@@ -1084,6 +1120,21 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         self.saveAllAsyncPointer(scores: [score], scoresOnServer: [scoreOnServer],
                                  callbackQueue: .main)
+    }
+
+    func testSaveAlreadySavedEncode() throws {
+        var score = GameScore(points: 10)
+        var game = Game2()
+        game.objectId = "brave"
+        score.other = game
+        // swiftlint:disable:next line_length
+        let expected = "{\"other\":{\"__type\":\"Pointer\",\"className\":\"Game2\",\"objectId\":\"brave\"},\"points\":10}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(score, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
     }
 
     func testSaveAllAsyncPointerArray() {
