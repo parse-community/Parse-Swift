@@ -123,7 +123,7 @@ The following issues are important to consider before migrating.
 
 After migrating an app to the Parse Swift SDK, launching the app will create a new `_Installation` object with a new `installationId`. It will appear as if the app had been uninstalled and then reinstalled, even though it was only updated with the new Parse Swift SDK.
 
-This may be problematic if the installation object is directly referenced in your app or if it contains fields that should be maintained. To address this, there are currently two options:
+This may be problematic if the installation object is directly referenced in your app or if it contains fields that should be maintained, like the `badge` number field for example. To address this, here are two options:
 
   - a) Use the Parse Swift SDK *together with* the Parse ObjC SDK in your project. This way you can migrate the installation by referencing the installation's `objectId`:
 
