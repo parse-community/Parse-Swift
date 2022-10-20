@@ -117,7 +117,7 @@ The Parse ObjC SDK will be phased out in the future in favor of the more modern 
 
 # Known Issues
 
-These following issues are important to consider before migrating.
+The following issues are important to consider before migrating.
 
 ## Installation
 
