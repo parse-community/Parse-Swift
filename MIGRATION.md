@@ -8,6 +8,7 @@ This document describes how to migrate from the [Parse ObjC SDK](https://github.
 - [Migration Instructions](#migration-instructions)
 - [Behavioral Differences](#behavioral-differences)
 - [Known Issues](#known-issues)
+  - [Installation](#installation)
 - [Feature Comparison](#feature-comparison)
 
 # Status of the SDKs
@@ -116,9 +117,26 @@ The Parse ObjC SDK will be phased out in the future in favor of the more modern 
 
 # Known Issues
 
-These issues below are especially important to consider before migrating.
+The following issues are important to consider before migrating.
 
-- After migrating an app to the Parse Swift SDK, launching the app will create a new `Installation` object with a new `installationId`. It will appear as if the app had been uninstalled and then reinstalled, even though it was only updated with the new Parse Swift SDK.
+## Installation
+
+After migrating an app to the Parse Swift SDK, launching the app will create a new `_Installation` object with a new `installationId`. It will appear as if the app had been uninstalled and then reinstalled, even though it was only updated with the new Parse Swift SDK.
+
+This may be problematic if the installation object is directly referenced in your app or if it contains fields that should be maintained, like the `badge` number field for example. To address this, here are two options:
+
+  - a) Use the Parse Swift SDK *together with* the Parse ObjC SDK in your project. This way you can migrate the installation by referencing the installation's `objectId`:
+
+    ```swift
+    import Parse      // Parse ObjC SDK
+    import ParseSwift // Parse Swift SDK
+
+    let objcInstallation = PFInstallation.current()!
+    let swiftInstallation = try await Installation.become(objcInstallation.objectId!)
+    ```
+  - b) Release an update for your app which stores the installation's `objectId` somewhere. Once the app has seen a sufficient adoption, you could release an app update with only the Parse Swift SDK and use the stored `objectId` to migrate to the installation.
+
+Both options may require a long-term migration if your existing app has many installations and until the adoption rate with either approach is high enough.
 
 # Feature Comparison
 
