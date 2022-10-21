@@ -124,6 +124,8 @@ These issues below are especially important to consider before migrating.
 
 This table only lists features that are known to be available in the Parse ObjC SDK but still missing in the Swift SDK. *This table is a work-in-progress.*
 
-| Feature | Parse ObjC SDK | Parse Swift SDK |
-|---------|----------------|-----------------|
-| -       | -              | -               |
+| Feature                     | Parse ObjC SDK                       | Parse Swift SDK                                             |
+|-----------------------------|--------------------------------------|-------------------------------------------------------------|
+| [Saving objects offline][1] | `saveEventually`, `deleteEventually` | unsupported; requires implementing a custom offline storage |
+
+[1]: https://docs.parseplatform.org/ios/guide/#saving-objects-offline
