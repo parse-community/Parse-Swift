@@ -2462,7 +2462,7 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1210;
 				LastUpgradeCheck = 1400;
-				ORGANIZATIONNAME = "Parse Community";
+				ORGANIZATIONNAME = "Network Reconnaissance Lab";
 				TargetAttributes = {
 					4AA807571F794242008CD551 = {
 						CreatedOnToolsVersion = 9.0;

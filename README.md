@@ -4,20 +4,15 @@
 
 ---
 
-[![Build Status CI](https://github.com/parse-community/Parse-Swift/workflows/ci/badge.svg?branch=main)](https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Aci+branch%3Amain)
-[![Build Status Release](https://github.com/parse-community/Parse-Swift/workflows/release/badge.svg)](https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Arelease)
-[![Coverage](https://codecov.io/gh/parse-community/Parse-Swift/branch/main/graph/badge.svg)](https://codecov.io/gh/parse-community/Parse-Swift/branches)
+[![Build Status CI](https://github.com/netreconlab/Parse-Swift/workflows/ci/badge.svg?branch=main)](https://github.com/netreconlab/Parse-Swift/actions?query=workflow%3Aci+branch%3Amain)
+[![Build Status Release](https://github.com/netreconlab/Parse-Swift/workflows/release/badge.svg)](https://github.com/netreconlab/Parse-Swift/actions?query=workflow%3Arelease)
+[![Coverage](https://codecov.io/gh/netreconlab/Parse-Swift/branch/main/graph/badge.svg)](https://codecov.io/gh/netreconlab/Parse-Swift/branches)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/carthage/carthage)
-[![Pod](https://img.shields.io/cocoapods/v/ParseSwift.svg)](https://cocoapods.org/pods/ParseSwift)
 
-[![Swift Versions](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/parse-community/Parse-Swift)
-[![Platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/parse-community/Parse-Swift)
+[![Swift Versions](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fnetreconlab%2FParse-Swift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/netreconlab/Parse-Swift)
+[![Platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fnetreconlab%2FParse-Swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/netreconlab/Parse-Swift)
 
-[![Backers on Open Collective](https://opencollective.com/parse-server/backers/badge.svg)][open-collective-link]
-[![Sponsors on Open Collective](https://opencollective.com/parse-server/sponsors/badge.svg)][open-collective-link]
-[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)][license-link]
-[![Forum](https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg)](https://community.parseplatform.org/c/client-sdks/parseswift-sdk)
-[![Twitter](https://img.shields.io/twitter/follow/ParsePlatform.svg?label=Follow&style=social)](https://twitter.com/intent/follow?screen_name=ParsePlatform)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)][license-link]
 
 ---
 
@@ -25,14 +20,17 @@ A pure Swift library that gives you access to the powerful Parse Server backend 
 
 For more information about the Parse Platform and its features, see the public [documentation][docs]. The ParseSwift SDK is not a port of the [Parse-SDK-iOS-OSX SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX) and though some of it may feel familiar, it is not backwards compatible and is designed using [protocol oriented programming (POP) and value types](https://www.pluralsight.com/guides/protocol-oriented-programming-in-swift) instead of OOP and reference types. You can learn more about POP by watching [Protocol-Oriented Programming in Swift](https://developer.apple.com/videos/play/wwdc2015/408/) or [Protocol and Value Oriented Programming in UIKit Apps](https://developer.apple.com/videos/play/wwdc2016/419/) videos from previous WWDC's. For more details about ParseSwift, visit the [api documentation](http://parseplatform.org/Parse-Swift/release/documentation/parseswift/).
 
-To learn how to use or experiment with ParseSwift, you can run and edit the [ParseSwift.playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground/Pages). You can use the parse-server in [this repo](https://github.com/netreconlab/parse-hipaa/tree/parse-swift) which has docker compose files (`docker-compose up` gives you a working server) configured to connect with the playground files, has [Parse Dashboard](https://github.com/parse-community/parse-dashboard), and can be used with MongoDB or PostgreSQL. You can also configure the Swift Playgrounds to work with your own Parse Server by editing the configuation in [Common.swift](https://github.com/parse-community/Parse-Swift/blob/e9ba846c399257100b285d25d2bd055628b13b4b/ParseSwift.playground/Sources/Common.swift#L4-L19). To learn more, check out [CONTRIBUTING.md](https://github.com/parse-community/Parse-Swift/blob/main/CONTRIBUTING.md#swift-playgrounds).
+To learn how to use or experiment with ParseSwift, you can run and edit the [ParseSwift.playground](https://github.com/netreconlab/Parse-Swift/tree/main/ParseSwift.playground/Pages). You can use the parse-server in [this repo](https://github.com/netreconlab/parse-hipaa/tree/parse-swift) which has docker compose files (`docker-compose up` gives you a working server) configured to connect with the playground files, has [Parse Dashboard](https://github.com/parse-community/parse-dashboard), and can be used with MongoDB or PostgreSQL. You can also configure the Swift Playgrounds to work with your own Parse Server by editing the configuation in [Common.swift](https://github.com/netreconlab/Parse-Swift/blob/e9ba846c399257100b285d25d2bd055628b13b4b/ParseSwift.playground/Sources/Common.swift#L4-L19). To learn more, check out [CONTRIBUTING.md](https://github.com/netreconlab/Parse-Swift/blob/main/CONTRIBUTING.md#swift-playgrounds).
+
+## Use Parse-Swift from NetReconLab
+This repo is maintained by [Corey E. Baker](https://github.com/cbaker6), [1 of 2 of the original developers of Parse-Swift](https://github.com/parse-community/Parse-Swift/graphs/contributors). Corey was responsible for the direction and development of all releases from [1.0.0](https://github.com/parse-community/Parse-Swift/releases/tag/4.14.2) to [4.14.2](https://github.com/parse-community/Parse-Swift/releases/tag/4.14.2). This repo will remain aligned with the original core principals of a swifty framework that contains zero dependencies and takes advantage of all of the features the [parse-server](https://github.com/parse-community/parse-server) has to offer. The reason for the bifurcation from the parse-community version of Parse-Swift is due to interference and a number of disagreements with a member of [Project Management Committee (PMC)](https://github.com/parse-community/Governance/blob/main/TEAM.md#project-management-committee-pmc) about the future of ParseSwift along with the PMC member ignoring code reviews and comments, marking relevant comments as `off-topic`, merging commits directly to main branch, lack-of-understanding of Swift fundamentals, client-side development, and lack of knowledge about how the Parse-Swift framework is designed. It is important to emphasize that no member of the Parse PMC participated in the design, release, and direction of Parse-Swift from its [first commit](https://github.com/parse-community/Parse-Swift/tree/cf69b7f0638819a7070b82228bc51a97df5757e6) to version [4.14.2](https://github.com/parse-community/Parse-Swift/releases/tag/4.14.2). In addition, no funding or support from the [parse-community funds](https://opencollective.com/parse-server) was ever offered to Corey for any of his [contributions to Parse](https://github.com/search?q=user%3Aparse-community+author%3Acbaker6&type=issues), though a [number of payments have been offered and made to other contributors](https://opencollective.com/parse-server#category-BUDGET). If you benefit from Parse-Swift and would like to show monetary support, feel free to <a href="https://www.buymeacoffee.com/cbaker6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 ---
 
 - [Installation](#installation)
   - [Swift Package Manager](#swift-package-manager)
-  - [CocoaPods](#cocoapods)
   - [Carthage](#carthage)
+- [Example Apps and Frameworks](#example-apps-and-frameworks)
 - [Usage Guide](#usage-guide)
 - [LiveQuery](#livequery)
   - [Setup Server](#setup-server)
@@ -55,33 +53,31 @@ import PackageDescription
 let package = Package(
     name: "YOUR_PROJECT_NAME",
     dependencies: [
-        .package(url: "https://github.com/parse-community/Parse-Swift", .upToNextMajor(from: "4.0.0")),
+        .package(url: "https://github.com/netreconlab/Parse-Swift", .upToNextMajor(from: "4.15.0")),
     ]
 )
 ```
 Then run `swift build`. 
 
 You can also install using SPM in your Xcode project by going to 
-"Project->NameOfYourProject->Swift Packages" and placing `https://github.com/parse-community/Parse-Swift.git` in the 
+"Project->NameOfYourProject->Swift Packages" and placing `https://github.com/netreconlab/Parse-Swift.git` in the 
 search field.
-
-### [CocoaPods](https://cocoapods.org)
-
-Add the following line to your Podfile:
-
-```ruby
-pod 'ParseSwift'
-```
-
-Run `pod install`, and you should now have the latest version from the main branch.
 
 ### [Carthage](https://github.com/carthage/carthage)
 
 Add the following line to your Cartfile:
 ```
-github "parse-community/Parse-Swift"
+github "netreconlab/Parse-Swift"
 ```
 Run `carthage update`, and you should now have the latest version of ParseSwift SDK in your Carthage folder.
+
+## Example Apps and Frameworks
+Below is a list of apps and frameworks that use Parse-Swift to help developers take advantage of the framework:
+- [ParseServerSwift](https://github.com/netreconlab/parse-server-swift) - Write Parse Cloud Code in Swift
+- [CarekitSampe-ParseCareKit](https://github.com/netreconlab/CareKitSample-ParseCareKit) - An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing CareKit data to the Cloud via [ParseCareKit](https://github.com/netreconlab/ParseCareKit)
+- [ParseCareKit](https://github.com/netreconlab/ParseCareKit) - Synchronize CareKit 2.1+ data with a parse-server using Parse-Swift
+- [SnapCat](https://github.com/netreconlab/SnapCat) - SnapCat is a social media application for posting pictures, comments, and finding friends. SnapCat is designed using SwiftUI and the ParseSwift SDK
+- [ParseMigrateKeychain](https://github.com/netreconlab/ParseMigrateKeychain) - A sample app that demonstrates how to migrate an app written with the Parse [Objective-C SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX) to the Swift SDK
 
 ## Usage Guide
 
@@ -89,7 +85,7 @@ After installing ParseSwift, to use it first `import ParseSwift` in your AppDele
 ```swift
 ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serverURL: URL(string: "https://example.com")!)
 ```
-Please checkout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
+Please checkout the [Swift Playground](https://github.com/netreconlab/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
 
 ## LiveQuery
 
@@ -167,7 +163,7 @@ struct ContentView: View {
 }
 ```
 
-or by calling the `subscribe(_ client: ParseLiveQuery)` method of a query. If you want to customize your view model more you can subclass `Subscription` or add the subscription to your own view model. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L38-L95).
+or by calling the `subscribe(_ client: ParseLiveQuery)` method of a query. If you want to customize your view model more you can subclass `Subscription` or add the subscription to your own view model. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/netreconlab/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L38-L95).
 
 #### Traditional Callbacks
 
@@ -233,7 +229,7 @@ do {
 }
 ```
 
-Handling errors is and other events is similar, take a look at the `Subscription` class for more information. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L97-L142).
+Handling errors is and other events is similar, take a look at the `Subscription` class for more information. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/netreconlab/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L97-L142).
 
 ### Advanced Usage
 
@@ -241,8 +237,16 @@ You are not limited to a single Live Query Client - you can create multiple inst
 
 [docs]: https://docs.parseplatform.org
 [license-link]: LICENSE
-[open-collective-link]: https://opencollective.com/parse-server
 
 ## Migration from Parse ObjC SDK
 
-See the [Migration Guide](MIGRATION.md) to help you migrate from the Parse ObjC SDK.
+An example application that demonstrates how to convert from the Objective-C SDK to the Swift SDK can be found at [ParseMigrateKeychain](https://github.com/netreconlab/ParseMigrateKeychain). Specifically, look at [ContentViewModel.swift](https://github.com/netreconlab/ParseMigrateKeychain/blob/main/ParseMigrateKeychain/ContentViewModel.swift) for code examples. The basic steps are below:
+
+1. Add the ParseSwift framework to your project using SPM
+1. Remove the Objective-C SDK from your project
+1. Add the Objective-C SDK to your project using SPM. You can use this [repo](https://github.com/mman/Parse-SDK-iOS-OSX/tree/spm) as you will only need `PFUser` and `PFInstallation`
+1. Convert your app from using the Objective-C SDK to the Swift SDK
+1. Create a `User` and `Installation` [model](https://github.com/netreconlab/ParseMigrateKeychain/tree/main/ParseMigrateKeychain/Models) that conform to `ParseObject`
+1. Migrate `PFUser->User` using [loginusingobjckeychain](https://swiftpackageindex.com/parse-community/parse-swift/4.14.2/documentation/parseswift/parseuser/loginusingobjckeychain(options:))
+1. Migrate `PFInstallation->Installation` using [become](https://swiftpackageindex.com/parse-community/parse-swift/4.14.2/documentation/parseswift/parseinstallation/become(_:copyentireinstallation:options:))
+1. Remove the Objective-C SDK from your project after you have migrated all users 

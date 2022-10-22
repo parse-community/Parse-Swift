@@ -7,24 +7,6 @@ env:
   CI_XCODE_LATEST: '/Applications/Xcode_14.0.1.app/Contents/Developer'
 
 jobs:
-  cocoapods:
-    runs-on: macos-12
-    steps:
-      - uses: actions/checkout@v3
-      - name: Get release version
-        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-      - name: Use multiple cores
-        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
-      - name: Update Framework Version
-        run: ./Scripts/update_build
-        env:
-          BUILD_VERSION: ${{ env.TAG }}
-      - name: Deploy CocoaPods
-        run: set -o pipefail && env NSUnbufferedIO=YES pod trunk push ParseSwift.podspec --allow-warnings --verbose
-        env:
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
-
   docs:
     runs-on: macos-12
     steps:

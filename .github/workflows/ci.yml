@@ -147,7 +147,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
-  spm-test-5_2:
+  xcode-test-ios-5_3:
     needs: xcode-build-watchos
     runs-on: macos-latest
     steps:
@@ -235,22 +235,6 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES Scripts/generate-documentation
         env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
-    
-  cocoapods:
-    needs: xcode-build-watchos
-    runs-on: macos-12
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use multiple cores
-        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
-      - name: Update Framework Version
-        run: ./Scripts/update_build
-        env:
-          BUILD_VERSION: '1.8.3'
-      - name: CocoaPods
-        run: pod lib lint --allow-warnings
-        env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   carthage:
    needs: xcode-build-watchos

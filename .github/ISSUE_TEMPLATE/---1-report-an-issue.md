@@ -14,10 +14,10 @@ assignees: ''
     Thanks for contributing to Parse Platform!
 -->
 
-- [ ] I am not disclosing a [vulnerability](https://github.com/parse-community/Parse-Swift/security/policy).
-- [ ] I am not just asking a [question](https://github.com/parse-community/.github/blob/main/SUPPORT.md).
-- [ ] I have searched through [existing issues](https://github.com/parse-community/Parse-Swift/issues?q=is%3Aissue).
-- [ ] I can reproduce the issue with the latest versions of [Parse Server](https://github.com/parse-community/parse-server/releases) and the [Parse Swift SDK](https://github.com/parse-community/Parse-Swift/releases). <!-- We don't investigate issues for outdated releases. -->
+- [ ] I am not disclosing a [vulnerability](https://github.com/netreconlab/Parse-Swift/security/policy).
+- [ ] I am not just asking a [question](https://github.com/netreconlab/.github/blob/main/SUPPORT.md).
+- [ ] I have searched through [existing issues](https://github.com/netreconlab/Parse-Swift/issues?q=is%3Aissue).
+- [ ] I can reproduce the issue with the latest versions of [Parse Server](https://github.com/netreconlab/parse-server/releases) and the [Parse Swift SDK](https://github.com/netreconlab/Parse-Swift/releases). <!-- We don't investigate issues for outdated releases. -->
 
 ### Issue Description
 <!-- What is the specific issue? -->

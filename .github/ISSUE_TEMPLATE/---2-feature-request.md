@@ -14,9 +14,9 @@ assignees: ''
     Thanks for contributing to Parse Swift!
 -->
 
-- [ ] I am not disclosing a [vulnerability](https://github.com/parse-community/Parse-Swift/security/policy).
-- [ ] I am not just asking a [question](https://github.com/parse-community/.github/blob/main/SUPPORT.md).
-- [ ] I have searched through [existing issues](https://github.com/parse-community/Parse-Swift/issues?q=is%3Aissue).
+- [ ] I am not disclosing a [vulnerability](https://github.com/netreconlab/Parse-Swift/security/policy).
+- [ ] I am not just asking a [question](https://github.com/netreconlab/.github/blob/main/SUPPORT.md).
+- [ ] I have searched through [existing issues](https://github.com/netreconlab/Parse-Swift/issues?q=is%3Aissue).
 
 ### Current Limitation
 <!-- Which current limitation is the feature or enhancement addressing? -->
