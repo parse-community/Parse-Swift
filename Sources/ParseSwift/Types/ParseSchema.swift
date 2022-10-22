@@ -10,7 +10,7 @@ import Foundation
 
 /**
  `ParseSchema` is used for handeling your schemas.
- - requires: `.useMasterKey` has to be available. It is recommended to only
+ - requires: `.usePrimaryKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
@@ -255,7 +255,7 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
@@ -263,7 +263,7 @@ extension ParseSchema {
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         fetchCommand()
             .executeAsync(options: options,
@@ -292,7 +292,7 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
@@ -300,7 +300,7 @@ extension ParseSchema {
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         createCommand()
             .executeAsync(options: options,
@@ -317,7 +317,7 @@ extension ParseSchema {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
@@ -331,7 +331,7 @@ extension ParseSchema {
             mutableSchema.indexes = nil
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         mutableSchema.updateCommand()
             .executeAsync(options: options,
@@ -370,7 +370,7 @@ extension ParseSchema {
      - warning: This will delete all objects for this `ParseSchema` and cannot be reversed.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
@@ -380,7 +380,7 @@ extension ParseSchema {
         completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         purgeCommand().executeAsync(options: options,
                                         callbackQueue: callbackQueue) { result in
@@ -408,7 +408,7 @@ extension ParseSchema {
      currently contains objects, run `purge()` first.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
@@ -418,7 +418,7 @@ extension ParseSchema {
         completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         deleteCommand().executeAsync(options: options,
                                          callbackQueue: callbackQueue) { result in

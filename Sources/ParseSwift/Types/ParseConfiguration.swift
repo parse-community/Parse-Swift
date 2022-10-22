@@ -16,7 +16,7 @@ import FoundationNetworking
 /**
  The Configuration for a Parse client.
 
- - important: It is recomended to only specify `masterKey` when using the SDK on a server. Do not use this key on the client.
+ - important: It is recomended to only specify `primaryKey` when using the SDK on a server. Do not use this key on the client.
  - note: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
  - warning: `usingTransactions` is experimental.
  - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
@@ -29,7 +29,15 @@ public struct ParseConfiguration {
 
     /// The master key for your Parse application. This key should only
     /// be specified when using the SDK on a server.
-    public internal(set) var masterKey: String? // swiftlint:disable:this inclusive_language
+    @available(*, deprecated, renamed: "primaryKey")
+    public var masterKey: String? { // swiftlint:disable:this inclusive_language
+        primaryKey
+    }
+
+    /// The primary key for your Parse application. This key should only
+    /// be specified when using the SDK on a server.
+    /// - note: This has been renamed from `masterKey` to reflect [inclusive language](https://github.com/dialpad/inclusive-language#motivation)
+    public internal(set) var primaryKey: String?
 
     /// The client key for your Parse application.
     public internal(set) var clientKey: String?
@@ -119,6 +127,97 @@ public struct ParseConfiguration {
      Create a Parse Swift configuration.
      - parameter applicationId: The application id for your Parse application.
      - parameter clientKey: The client key for your Parse application.
+     - parameter primaryKey: The master key for your Parse application. This key should only be
+     specified when using the SDK on a server.
+     - parameter serverURL: The server URL to connect to Parse Server.
+     - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
+     - parameter requiringCustomObjectIds: Requires `objectId`'s to be created on the client
+     side for each object. Must be enabled on the server to work.
+     - parameter usingTransactions: Use transactions when saving/updating multiple objects.
+     - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
+     - parameter usingPostForQuery: Use **POST** instead of **GET** when making query calls.
+     Defaults to **false**.
+     - parameter primitiveStore: A key/value store that conforms to the `ParsePrimitiveStorable`
+     protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
+     this is the only store available since there is no Keychain. Linux, Android, and Windows users should
+     replace this store with an encrypted one.
+     - parameter requestCachePolicy: The default caching policy for all http requests that determines
+     when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
+     for more info.
+     - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
+     - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
+     - parameter usingDataProtectionKeychain: Sets `kSecUseDataProtectionKeychain` to **true**. See Apple's [documentation](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain)
+     for more info. Defaults to **false**.
+     - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
+     Defaults to **false**.
+     - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
+     [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
+     for more info.
+     - parameter maxConnectionAttempts: Maximum number of times to try to connect to Parse Server.
+     Defaults to 5.
+     - parameter parseFileTransfer: Override the default transfer behavior for `ParseFile`'s.
+     Allows for direct uploads to other file storage providers.
+     - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
+     Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
+     It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
+     completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
+     See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
+     - important: It is recomended to only specify `primaryKey` when using the SDK on a server. Do not use this key on the client.
+     - note: Setting `usingPostForQuery` to **true**  will require all queries to access the server instead of following the `requestCachePolicy`.
+     - warning: `usingTransactions` is experimental.
+     - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
+     situtations when apps do not have credentials to setup a Keychain.
+     */
+    public init(applicationId: String,
+                clientKey: String? = nil,
+                primaryKey: String? = nil,
+                webhookKey: String? = nil,
+                serverURL: URL,
+                liveQueryServerURL: URL? = nil,
+                requiringCustomObjectIds: Bool = false,
+                usingTransactions: Bool = false,
+                usingEqualQueryConstraint: Bool = false,
+                usingPostForQuery: Bool = false,
+                primitiveStore: ParsePrimitiveStorable? = nil,
+                requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+                cacheMemoryCapacity: Int = 512_000,
+                cacheDiskCapacity: Int = 10_000_000,
+                usingDataProtectionKeychain: Bool = false,
+                deletingKeychainIfNeeded: Bool = false,
+                httpAdditionalHeaders: [AnyHashable: Any]? = nil,
+                maxConnectionAttempts: Int = 5,
+                parseFileTransfer: ParseFileTransferable? = nil,
+                authentication: ((URLAuthenticationChallenge,
+                                  (URLSession.AuthChallengeDisposition,
+                                   URLCredential?) -> Void) -> Void)? = nil) {
+        self.applicationId = applicationId
+        self.clientKey = clientKey
+        self.primaryKey = primaryKey
+        self.serverURL = serverURL
+        self.liveQuerysServerURL = liveQueryServerURL
+        self.isRequiringCustomObjectIds = requiringCustomObjectIds
+        self.isUsingTransactions = usingTransactions
+        self.isUsingEqualQueryConstraint = usingEqualQueryConstraint
+        self.isUsingPostForQuery = usingPostForQuery
+        self.mountPath = "/" + serverURL.pathComponents
+            .filter { $0 != "/" }
+            .joined(separator: "/")
+        self.authentication = authentication
+        self.requestCachePolicy = requestCachePolicy
+        self.cacheMemoryCapacity = cacheMemoryCapacity
+        self.cacheDiskCapacity = cacheDiskCapacity
+        self.isUsingDataProtectionKeychain = usingDataProtectionKeychain
+        self.isDeletingKeychainIfNeeded = deletingKeychainIfNeeded
+        self.httpAdditionalHeaders = httpAdditionalHeaders
+        self.maxConnectionAttempts = maxConnectionAttempts
+        self.parseFileTransfer = parseFileTransfer ?? ParseFileDefaultTransfer()
+        ParseStorage.shared.use(primitiveStore ?? InMemoryKeyValueStore())
+    }
+
+    /**
+     Create a Parse Swift configuration.
+     - parameter applicationId: The application id for your Parse application.
+     - parameter clientKey: The client key for your Parse application.
      - parameter masterKey: The master key for your Parse application. This key should only be
      specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
@@ -160,6 +259,7 @@ public struct ParseConfiguration {
      - warning: Setting `usingDataProtectionKeychain` to **true** is known to cause issues in Playgrounds or in
      situtations when apps do not have credentials to setup a Keychain.
      */
+    @available(*, deprecated, message: "Change: masterKey->primaryKey.")
     public init(applicationId: String,
                 clientKey: String? = nil,
                 masterKey: String? = nil,
@@ -182,28 +282,26 @@ public struct ParseConfiguration {
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
                                    URLCredential?) -> Void) -> Void)? = nil) {
-        self.applicationId = applicationId
-        self.clientKey = clientKey
-        self.masterKey = masterKey
-        self.serverURL = serverURL
-        self.liveQuerysServerURL = liveQueryServerURL
-        self.isRequiringCustomObjectIds = requiringCustomObjectIds
-        self.isUsingTransactions = usingTransactions
-        self.isUsingEqualQueryConstraint = usingEqualQueryConstraint
-        self.isUsingPostForQuery = usingPostForQuery
-        self.mountPath = "/" + serverURL.pathComponents
-            .filter { $0 != "/" }
-            .joined(separator: "/")
-        self.authentication = authentication
-        self.requestCachePolicy = requestCachePolicy
-        self.cacheMemoryCapacity = cacheMemoryCapacity
-        self.cacheDiskCapacity = cacheDiskCapacity
-        self.isUsingDataProtectionKeychain = usingDataProtectionKeychain
-        self.isDeletingKeychainIfNeeded = deletingKeychainIfNeeded
-        self.httpAdditionalHeaders = httpAdditionalHeaders
-        self.maxConnectionAttempts = maxConnectionAttempts
-        self.parseFileTransfer = parseFileTransfer ?? ParseFileDefaultTransfer()
-        ParseStorage.shared.use(primitiveStore ?? InMemoryKeyValueStore())
+        self.init(applicationId: applicationId,
+                  clientKey: clientKey,
+                  primaryKey: masterKey,
+                  webhookKey: webhookKey,
+                  serverURL: serverURL,
+                  liveQueryServerURL: liveQueryServerURL,
+                  requiringCustomObjectIds: requiringCustomObjectIds,
+                  usingTransactions: usingTransactions,
+                  usingEqualQueryConstraint: usingEqualQueryConstraint,
+                  usingPostForQuery: usingPostForQuery,
+                  primitiveStore: primitiveStore,
+                  requestCachePolicy: requestCachePolicy,
+                  cacheMemoryCapacity: cacheMemoryCapacity,
+                  cacheDiskCapacity: cacheDiskCapacity,
+                  usingDataProtectionKeychain: usingDataProtectionKeychain,
+                  deletingKeychainIfNeeded: deletingKeychainIfNeeded,
+                  httpAdditionalHeaders: httpAdditionalHeaders,
+                  maxConnectionAttempts: maxConnectionAttempts,
+                  parseFileTransfer: parseFileTransfer ?? ParseFileDefaultTransfer(),
+                  authentication: authentication)
     }
 
     /**

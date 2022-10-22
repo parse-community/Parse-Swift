@@ -54,7 +54,7 @@ class ParseHookTriggerRequestCombineTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -87,13 +87,13 @@ class ParseHookTriggerRequestCombineTests: XCTestCase {
 
         let object = User(objectId: "geez")
         let installationId = "cat"
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  user: user,
                                                                  installationId: installationId,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object)
-        let requestHydrated = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let requestHydrated = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                   user: server,
                                                                   installationId: installationId,
                                                                   ipAddress: "1.1.1.1",
@@ -129,7 +129,7 @@ class ParseHookTriggerRequestCombineTests: XCTestCase {
 
         let object = User(objectId: "geez")
         let installationId = "cat"
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  user: user,
                                                                  installationId: installationId,
                                                                  ipAddress: "1.1.1.1",

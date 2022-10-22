@@ -59,7 +59,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -507,7 +507,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         do {
             let saved = try [score, score2].saveAll(transaction: true,
-                                                    options: [.useMasterKey])
+                                                    options: [.usePrimaryKey])
 
             XCTAssertEqual(saved.count, 2)
             XCTAssertThrowsError(try saved[0].get())
@@ -638,7 +638,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         do {
             let saved = try [score, score2].saveAll(transaction: true,
-                                                    options: [.useMasterKey])
+                                                    options: [.usePrimaryKey])
             XCTAssertEqual(saved.count, 2)
 
             switch saved[0] {
@@ -716,7 +716,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         do {
             let saved = try [score, score2].saveAll(transaction: true,
-                                                    options: [.useMasterKey])
+                                                    options: [.usePrimaryKey])
 
             XCTAssertEqual(saved.count, 2)
             XCTAssertThrowsError(try saved[0].get())
@@ -801,7 +801,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         do {
             let saved = try [score, score2].saveAll(transaction: true,
-                                                    options: [.useMasterKey])
+                                                    options: [.usePrimaryKey])
             XCTAssertEqual(saved.count, 2)
             switch saved[0] {
 
@@ -897,7 +897,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let expectation2 = XCTestExpectation(description: "Save object2")
         scores.saveAll(transaction: true,
-                       options: [.useMasterKey],
+                       options: [.usePrimaryKey],
                        callbackQueue: callbackQueue) { result in
 
             switch result {
@@ -1002,7 +1002,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let expectation2 = XCTestExpectation(description: "Save object2")
         scores.saveAll(transaction: true,
-                       options: [.useMasterKey],
+                       options: [.usePrimaryKey],
                        callbackQueue: callbackQueue) { result in
 
             switch result {
@@ -1306,7 +1306,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let expectation2 = XCTestExpectation(description: "Update object2")
         scores.saveAll(transaction: true,
-                       options: [.useMasterKey],
+                       options: [.usePrimaryKey],
                        callbackQueue: callbackQueue) { result in
 
             switch result {

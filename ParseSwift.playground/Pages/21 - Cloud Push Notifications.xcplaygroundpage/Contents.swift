@@ -175,7 +175,7 @@ let query = ParsePushStatus<ParsePushPayloadAny>
  Be sure to add the `.userMasterKey option when doing
  anything with `ParsePushStatus` directly.
 */
-query.findAll(options: [.useMasterKey]) { result in
+query.findAll(options: [.usePrimaryKey]) { result in
     switch result {
     case .success(let pushStatus):
         print("All matching statuses: \"\(pushStatus)\"")

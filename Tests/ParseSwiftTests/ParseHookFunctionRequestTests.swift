@@ -59,7 +59,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -75,18 +75,19 @@ class ParseHookFunctionRequestTests: XCTestCase {
 
     func testCoding() async throws {
         let parameters = Parameters()
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters)
         // swiftlint:disable:next line_length
         let expected = "{\"headers\":{\"yolo\":\"me\"},\"ip\":\"1.1.1.1\",\"master\":true,\"params\":{\"hello\":\"world\"}}"
         XCTAssertEqual(functionRequest.description, expected)
+        XCTAssertEqual(functionRequest.masterKey, functionRequest.primaryKey)
     }
 
     func testGetLog() async throws {
         let parameters = Parameters()
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters,
@@ -97,7 +98,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
 
     func testGetLogError() async throws {
         let parameters = Parameters()
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters,
@@ -117,7 +118,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
     func testGetContext() async throws {
         let parameters = Parameters()
         let context = ["peace": "out"]
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters,
@@ -129,7 +130,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
     func testGetContextError() async throws {
         let parameters = Parameters()
         let context = ["peace": "out"]
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters,
@@ -151,16 +152,16 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let sessionToken = "dog"
         let installationId = "cat"
         let user = User(sessionToken: sessionToken)
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters)
-        let options = API.Options([.useMasterKey])
+        let options = API.Options([.usePrimaryKey])
         let requestOptions = functionRequest.options()
         XCTAssertEqual(requestOptions, options)
-        let functionRequest2 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
+        let functionRequest2 = ParseHookFunctionRequest<User, Parameters>(primaryKey: false,
                                                                           user: user,
                                                                           installationId: installationId,
                                                                           ipAddress: "1.1.1.1",
@@ -170,7 +171,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
             .installationId(installationId)])
         let requestOptions2 = functionRequest2.options()
         XCTAssertEqual(requestOptions2, options2)
-        let functionRequest3 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
+        let functionRequest3 = ParseHookFunctionRequest<User, Parameters>(primaryKey: false,
                                                                           user: user,
                                                                           ipAddress: "1.1.1.1",
                                                                           headers: ["yolo": "me"],
@@ -178,7 +179,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let options3 = API.Options([.sessionToken(sessionToken)])
         let requestOptions3 = functionRequest3.options()
         XCTAssertEqual(requestOptions3, options3)
-        let functionRequest4 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
+        let functionRequest4 = ParseHookFunctionRequest<User, Parameters>(primaryKey: false,
                                                                           installationId: installationId,
                                                                           ipAddress: "1.1.1.1",
                                                                           headers: ["yolo": "me"],
@@ -186,7 +187,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
         let options4 = API.Options([.installationId(installationId)])
         let requestOptions4 = functionRequest4.options()
         XCTAssertEqual(requestOptions4, options4)
-        let functionRequest5 = ParseHookFunctionRequest<User, Parameters>(masterKey: false,
+        let functionRequest5 = ParseHookFunctionRequest<User, Parameters>(primaryKey: false,
                                                                           ipAddress: "1.1.1.1",
                                                                           headers: ["yolo": "me"],
                                                                           parameters: parameters)
@@ -212,13 +213,13 @@ class ParseHookFunctionRequestTests: XCTestCase {
 
         let parameters = Parameters()
         let installationId = "cat"
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters)
-        let requestHydrated = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let requestHydrated = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          user: server,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",
@@ -240,7 +241,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
 
         let parameters = Parameters()
         let installationId = "cat"
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",
@@ -264,7 +265,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
 
         let parameters = Parameters()
         let installationId = "cat"
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],

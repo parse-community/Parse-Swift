@@ -125,7 +125,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               requiringCustomObjectIds: true,
                               testing: true)
@@ -694,7 +694,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         let expectation2 = XCTestExpectation(description: "Save object2")
         score.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
-                   options: [.useMasterKey],
+                   options: [.usePrimaryKey],
                    callbackQueue: callbackQueue) { result in
 
             switch result {
@@ -799,7 +799,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         let expectation2 = XCTestExpectation(description: "Update object2")
         score.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
-                   options: [.useMasterKey],
+                   options: [.usePrimaryKey],
                    callbackQueue: callbackQueue) { result in
 
             switch result {
@@ -1771,7 +1771,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         let expectation2 = XCTestExpectation(description: "Update object2")
         installation.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
-                          options: [.useMasterKey],
+                          options: [.usePrimaryKey],
                           callbackQueue: callbackQueue) { result in
 
             switch result {

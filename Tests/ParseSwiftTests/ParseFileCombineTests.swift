@@ -30,7 +30,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
         guard let fileManager = ParseFileManager() else {
@@ -273,7 +273,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = parseFile.deletePublisher(options: [.useMasterKey])
+        let publisher = parseFile.deletePublisher(options: [.usePrimaryKey])
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {

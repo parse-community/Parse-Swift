@@ -12,7 +12,7 @@ import Foundation
  Objects that conform to the `ParsePushStatusable` protocol represent
  PushStatus on the Parse Server.
  - warning: These objects are only read-only.
- - requires: `.useMasterKey` has to be available. It is recommended to only
+ - requires: `.usePrimaryKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */

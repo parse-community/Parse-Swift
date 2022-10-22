@@ -57,7 +57,7 @@ class ParseLiveQueryTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
         ParseLiveQuery.setDefault(try ParseLiveQuery(isDefault: true))
@@ -196,7 +196,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         // swiftlint:disable:next line_length
-        let expected = "{\"applicationId\":\"applicationId\",\"clientKey\":\"clientKey\",\"installationId\":\"\(installationId)\",\"masterKey\":\"masterKey\",\"op\":\"connect\"}"
+        let expected = "{\"applicationId\":\"applicationId\",\"clientKey\":\"clientKey\",\"installationId\":\"\(installationId)\",\"masterKey\":\"primaryKey\",\"op\":\"connect\"}"
         let message = StandardMessage(operation: .connect, additionalProperties: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)

@@ -216,7 +216,7 @@ extension ParseFile {
 extension ParseFile {
     /**
      Deletes the file from the Parse cloud.
-     - requires: `.useMasterKey` has to be available.  It is recommended to only
+     - requires: `.usePrimaryKey` has to be available.  It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -228,7 +228,7 @@ extension ParseFile {
     public func delete(options: API.Options,
                        callbackQueue: DispatchQueue) throws {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 
@@ -237,7 +237,7 @@ extension ParseFile {
 
     /**
      Deletes the file from the Parse cloud.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -249,7 +249,7 @@ extension ParseFile {
 
     /**
      Deletes the file from the Parse cloud. Completes with `nil` if successful.
-     - requires: `.useMasterKey` has to be available.
+     - requires: `.usePrimaryKey` has to be available.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
@@ -261,7 +261,7 @@ extension ParseFile {
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 

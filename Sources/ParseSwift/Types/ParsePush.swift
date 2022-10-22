@@ -10,7 +10,7 @@ import Foundation
 
 /**
  Send and check the status of push notificaitons.
- - requires: `.useMasterKey` has to be available. It is recommended to only
+ - requires: `.usePrimaryKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
@@ -77,7 +77,7 @@ public struct ParsePush<V: ParsePushPayloadable>: ParseTypeable {
      - parameter payload: The payload information to send.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationDate: The date to expire the notification. Defaults to **nil**.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
@@ -95,7 +95,7 @@ public struct ParsePush<V: ParsePushPayloadable>: ParseTypeable {
      - parameter payload: The payload information to send.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationInterval: How many seconds to expire the notification after now.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
@@ -115,7 +115,7 @@ public struct ParsePush<V: ParsePushPayloadable>: ParseTypeable {
      Defaults to **nil**.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationDate: The date to expire the notification. Defaults to **nil**.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
@@ -137,7 +137,7 @@ public struct ParsePush<V: ParsePushPayloadable>: ParseTypeable {
      Defaults to **nil**.
      - parameter pushTime: When to send the notification.  Defaults to **nil**.
      - parameter expirationInterval: How many seconds to expire the notification after now.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - warning: `expirationTime` and `expirationInterval` cannot be set at the same time.
@@ -165,7 +165,7 @@ extension ParsePush {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - warning: expirationTime and expirationInterval cannot be set at the same time.
@@ -186,7 +186,7 @@ extension ParsePush {
             return
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         sendCommand()
             .executeAsync(options: options,
@@ -229,7 +229,7 @@ public extension ParsePush {
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
@@ -238,7 +238,7 @@ public extension ParsePush {
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<ParsePushStatus<V>, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let query = ParsePushStatus<V>.query("objectId" == statusId)
         query.first(options: options, completion: completion)

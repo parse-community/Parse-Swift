@@ -63,7 +63,7 @@ class ParseQueryCacheTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               usingEqualQueryConstraint: false,
                               usingPostForQuery: false,

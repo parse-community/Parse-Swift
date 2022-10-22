@@ -17,7 +17,7 @@ public extension ParsePush {
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */
@@ -36,7 +36,7 @@ public extension ParsePush {
      - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
     */

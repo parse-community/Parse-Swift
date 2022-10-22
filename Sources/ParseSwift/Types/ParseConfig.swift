@@ -92,7 +92,7 @@ extension ParseConfig {
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<Bool, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         updateCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in

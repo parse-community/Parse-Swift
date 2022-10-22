@@ -135,7 +135,10 @@ public struct API {
     /// Options available to send to Parse Server.
     public enum Option: Hashable {
 
+        /// Use the primaryKey/masterKey if it was provided during initial configuraration.
+        case usePrimaryKey
         /// Use the masterKey if it was provided during initial configuraration.
+        @available(*, deprecated, renamed: "usePrimaryKey")
         case useMasterKey // swiftlint:disable:this inclusive_language
         /// Use a specific session token.
         /// - note: The session token of the current user is provided by default.
@@ -167,7 +170,7 @@ public struct API {
 
         public func hash(into hasher: inout Hasher) {
             switch self {
-            case .useMasterKey:
+            case .usePrimaryKey, .useMasterKey:
                 hasher.combine(1)
             case .sessionToken:
                 hasher.combine(2)
@@ -216,8 +219,8 @@ public struct API {
 
         options.forEach { (option) in
             switch option {
-            case .useMasterKey:
-                headers["X-Parse-Master-Key"] = Parse.configuration.masterKey
+            case .usePrimaryKey, .useMasterKey:
+                headers["X-Parse-Master-Key"] = Parse.configuration.primaryKey
             case .sessionToken(let sessionToken):
                 headers["X-Parse-Session-Token"] = sessionToken
             case .installationId(let installationId):

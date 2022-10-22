@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.2...main), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/main/documentation/parseswift)
+[Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.14.2...main), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/main/documentation/parseswift)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.14.2
+[Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.14.2...4.15.0), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/4.15.0/documentation/parseswift)
+
+__New features__
+- Addressed an issue that prevented updating ParseObjects with saveAll ([#2](https://github.com/netrecolab/Parse-Swift/pull/2)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.14.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.1...4.14.2), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.14.2/documentation/parseswift)

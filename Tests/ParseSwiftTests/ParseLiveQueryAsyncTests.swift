@@ -23,7 +23,7 @@ class ParseLiveQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
         ParseLiveQuery.defaultClient = try ParseLiveQuery(isDefault: true)

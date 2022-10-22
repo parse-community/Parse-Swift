@@ -30,7 +30,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
 
@@ -1346,7 +1346,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.delete(options: [.useMasterKey]) { result in
+        parseFile.delete(options: [.usePrimaryKey]) { result in
 
             if case let .failure(error) = result {
                 XCTFail(error.localizedDescription)
@@ -1378,7 +1378,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.delete(options: [.useMasterKey]) { result in
+        parseFile.delete(options: [.usePrimaryKey]) { result in
 
             if case .success = result {
                 XCTFail("Should have failed with error")
@@ -1410,7 +1410,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        try parseFile.delete(options: [.useMasterKey])
+        try parseFile.delete(options: [.usePrimaryKey])
     }
 
     func testCloudFileProgress() throws {

@@ -15,7 +15,6 @@ assignees: ''
 -->
 
 - [ ] I am not disclosing a [vulnerability](https://github.com/netreconlab/Parse-Swift/security/policy).
-- [ ] I am not just asking a [question](https://github.com/netreconlab/.github/blob/main/SUPPORT.md).
 - [ ] I have searched through [existing issues](https://github.com/netreconlab/Parse-Swift/issues?q=is%3Aissue).
 
 ### Current Limitation

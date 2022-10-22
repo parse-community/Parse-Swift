@@ -96,7 +96,7 @@ class ParseFileTransferableTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
 
@@ -147,13 +147,13 @@ class ParseFileTransferableTests: XCTestCase {
         XCTAssertTrue(ParseSwift.configuration.parseFileTransfer !== fileTransferAdapter)
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               parseFileTransfer: fileTransferAdapter)
         XCTAssertTrue(ParseSwift.configuration.parseFileTransfer === fileTransferAdapter)
         ParseSwift.initialize(configuration: .init(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               parseFileTransfer: fileTransferAdapterOther))
         XCTAssertTrue(ParseSwift.configuration.parseFileTransfer === fileTransferAdapterOther)

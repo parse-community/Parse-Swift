@@ -42,7 +42,7 @@ class ParsePointerTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -192,7 +192,7 @@ class ParsePointerTests: XCTestCase {
         }
 
         do {
-            let fetched = try pointer.fetch(options: [.useMasterKey])
+            let fetched = try pointer.fetch(options: [.usePrimaryKey])
             XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
@@ -243,7 +243,7 @@ class ParsePointerTests: XCTestCase {
         }
 
         let expectation2 = XCTestExpectation(description: "Fetch object2")
-        score.fetch(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+        score.fetch(options: [.usePrimaryKey], callbackQueue: callbackQueue) { result in
 
             switch result {
             case .success(let fetched):

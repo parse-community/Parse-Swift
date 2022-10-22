@@ -11,7 +11,7 @@ import Foundation
 /**
  Conforming to `ParseHookRequestable` allows you to create types that
  can decode requests when `ParseHookFunctionable` functions are called.
- - requires: `.useMasterKey` has to be available. It is recommended to only
+ - requires: `.usePrimaryKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
@@ -21,7 +21,7 @@ public protocol ParseHookRequestable: ParseTypeable {
      Specifies if the **masterKey** was used in the
      Parse hook call.
      */
-    var masterKey: Bool? { get }
+    var primaryKey: Bool? { get }
     /**
      A `ParseUser` that contains additional attributes
      needed for Parse hook calls. If **nil** a user with
@@ -49,9 +49,9 @@ extension ParseHookRequestable {
      */
     public func options() -> API.Options {
         var options = API.Options()
-        if let masterKey = masterKey,
-            masterKey {
-            options.insert(.useMasterKey)
+        if let primaryKey = primaryKey,
+           primaryKey {
+            options.insert(.usePrimaryKey)
         } else if let sessionToken = user?.sessionToken {
             options.insert(.sessionToken(sessionToken))
             if let installationId = installationId {

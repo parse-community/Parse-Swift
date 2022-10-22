@@ -34,7 +34,7 @@ class APICommandTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -124,11 +124,11 @@ class APICommandTests: XCTestCase {
     func testOptionCacheHasher() throws {
         var options = API.Options()
         options.insert(.cachePolicy(.returnCacheDataDontLoad))
-        XCTAssertFalse(options.contains(.useMasterKey))
+        XCTAssertFalse(options.contains(.usePrimaryKey))
         XCTAssertTrue(options.contains(.cachePolicy(.returnCacheDataDontLoad)))
         XCTAssertTrue(options.contains(.cachePolicy(.reloadRevalidatingCacheData)))
-        options.insert(.useMasterKey)
-        XCTAssertTrue(options.contains(.useMasterKey))
+        options.insert(.usePrimaryKey)
+        XCTAssertTrue(options.contains(.usePrimaryKey))
     }
 
     func testExecuteCorrectly() {
@@ -352,7 +352,7 @@ class APICommandTests: XCTestCase {
     }
 
     func testPrimaryKeyHeader() throws {
-        guard let primaryKey = ParseSwift.configuration.masterKey else {
+        guard let primaryKey = ParseSwift.configuration.primaryKey else {
             throw ParseError(code: .unknownError, message: "Parse configuration should contain key")
         }
 
@@ -363,10 +363,12 @@ class APICommandTests: XCTestCase {
             return nil
         }
 
-        switch post.prepareURLRequest(options: [.useMasterKey]) {
+        switch post.prepareURLRequest(options: [.usePrimaryKey]) {
 
         case .success(let request):
             XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Master-Key"],
+                           primaryKey)
+            XCTAssertEqual(ParseSwift.configuration.masterKey,
                            primaryKey)
         case .failure(let error):
             XCTFail(error.localizedDescription)

@@ -172,7 +172,7 @@ public extension Query {
 
     /**
      Executes an aggregate query *asynchronously* and publishes when complete.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - parameter pipeline: A pipeline of stages to process query.
@@ -190,7 +190,7 @@ public extension Query {
 
     /**
      Query plan information for executing an aggregate query *asynchronously* and publishes when complete.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
@@ -218,7 +218,7 @@ public extension Query {
 
     /**
      Executes a distinct query *asynchronously* and publishes unique values when complete.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - parameter key: A field to find distinct values.
@@ -236,7 +236,7 @@ public extension Query {
 
     /**
      Query plan information for executing a distinct query *asynchronously* and publishes unique values when complete.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - note: An explain query will have many different underlying types. Since Swift is a strongly

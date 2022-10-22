@@ -86,7 +86,7 @@ public extension ParseFile {
 
     /**
      Deletes the file from the Parse Server. Publishes when complete.
-     - requires: `.useMasterKey` has to be available. It is recommended to only
+     - requires: `.usePrimaryKey` has to be available. It is recommended to only
      use the master key in server-side applications where the key is kept secure and not
      exposed to the public.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.

@@ -43,6 +43,7 @@ class InitializeSDKTests: XCTestCase {
             return
         }
         Parse.configuration = .init(applicationId: "applicationId",
+                                    primaryKey: "primaryKey",
                                     serverURL: url)
         Parse.configuration.isTestingSDK = true
     }
@@ -63,10 +64,9 @@ class InitializeSDKTests: XCTestCase {
             XCTFail("Should create valid URL")
             return
         }
-
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              masterKey: "primaryKey",
                               serverURL: url,
                               allowingCustomObjectIds: false) { (_, credential) in
             credential(.performDefaultHandling, nil)
@@ -77,7 +77,7 @@ class InitializeSDKTests: XCTestCase {
 
         let configuration = ParseConfiguration(applicationId: "applicationId",
                                                clientKey: "clientKey",
-                                               masterKey: "masterKey",
+                                               masterKey: "primaryKey",
                                                serverURL: url,
                                                allowingCustomObjectIds: false) { (_, credential) in
             credential(.performDefaultHandling, nil)
@@ -88,10 +88,10 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNil(Parse.sessionDelegate.authentication)
 
         let configuration2 = ParseConfiguration(applicationId: "applicationId",
-                                               clientKey: "clientKey",
-                                               masterKey: "masterKey",
-                                               serverURL: url,
-                                               migratingFromObjcSDK: false) { (_, credential) in
+                                                clientKey: "clientKey",
+                                                masterKey: "primaryKey",
+                                                serverURL: url,
+                                                migratingFromObjcSDK: false) { (_, credential) in
             credential(.performDefaultHandling, nil)
         }
         ParseSwift.initialize(configuration: configuration2)
@@ -199,7 +199,7 @@ class InitializeSDKTests: XCTestCase {
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true) { (_, credential) in
             credential(.performDefaultHandling, nil)
@@ -266,7 +266,7 @@ class InitializeSDKTests: XCTestCase {
 
             ParseSwift.initialize(applicationId: "applicationId",
                                   clientKey: "clientKey",
-                                  masterKey: "masterKey",
+                                  primaryKey: "primaryKey",
                                   serverURL: url,
                                   primitiveStore: memory,
                                   testing: true)
@@ -311,7 +311,7 @@ class InitializeSDKTests: XCTestCase {
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true) { (_, credential) in
             credential(.performDefaultHandling, nil)
@@ -339,7 +339,7 @@ class InitializeSDKTests: XCTestCase {
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               primitiveStore: memory,
                               testing: true)
@@ -375,7 +375,7 @@ class InitializeSDKTests: XCTestCase {
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               primitiveStore: memory,
                               testing: true)
@@ -411,7 +411,7 @@ class InitializeSDKTests: XCTestCase {
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               primitiveStore: memory,
                               testing: true)
@@ -448,7 +448,7 @@ class InitializeSDKTests: XCTestCase {
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               primitiveStore: memory,
                               testing: true)
@@ -484,7 +484,7 @@ class InitializeSDKTests: XCTestCase {
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               primitiveStore: memory,
                               testing: true)
@@ -502,7 +502,7 @@ class InitializeSDKTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               migratingFromObjcSDK: true,
                               testing: true)
@@ -553,7 +553,7 @@ class InitializeSDKTests: XCTestCase {
             }
             ParseSwift.initialize(applicationId: "applicationId",
                                   clientKey: "clientKey",
-                                  masterKey: "masterKey",
+                                  primaryKey: "primaryKey",
                                   serverURL: url,
                                   testing: true)
             XCTAssertEqual(ParseVersion.current, ParseConstants.version)
@@ -584,7 +584,7 @@ class InitializeSDKTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               migratingFromObjcSDK: true,
                               testing: true)
@@ -613,7 +613,7 @@ class InitializeSDKTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              masterKey: "primaryKey",
                               serverURL: url,
                               migratingFromObjcSDK: true,
                               parseFileTransfer: nil)
@@ -633,7 +633,7 @@ class InitializeSDKTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url)
         guard Installation.current != nil else {
             XCTFail("Should have installation")
@@ -668,7 +668,7 @@ class InitializeSDKTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -689,7 +689,7 @@ class InitializeSDKTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               migratingFromObjcSDK: true,
                               testing: true)

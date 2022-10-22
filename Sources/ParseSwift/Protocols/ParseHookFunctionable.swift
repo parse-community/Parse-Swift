@@ -11,7 +11,7 @@ import Foundation
 /**
  Conforming to `ParseHookFunctionable` allows the creation of hooks
  which are Cloud Code functions.
- - requires: `.useMasterKey` has to be available. It is recommended to only
+ - requires: `.usePrimaryKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
@@ -66,7 +66,7 @@ extension ParseHookFunctionable {
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try fetchCommand().executeAsync(options: options,
@@ -121,7 +121,7 @@ extension ParseHookFunctionable {
                                 callbackQueue: DispatchQueue = .main,
                                 completion: @escaping (Result<[Self], ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         fetchAllCommand().executeAsync(options: options,
                                        callbackQueue: callbackQueue) { result in
@@ -153,7 +153,7 @@ extension ParseHookFunctionable {
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try createCommand().executeAsync(options: options,
@@ -195,7 +195,7 @@ extension ParseHookFunctionable {
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try updateCommand().executeAsync(options: options,
@@ -236,7 +236,7 @@ extension ParseHookFunctionable {
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try deleteCommand().executeAsync(options: options,

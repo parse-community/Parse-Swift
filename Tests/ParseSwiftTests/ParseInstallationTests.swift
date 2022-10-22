@@ -124,7 +124,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
         try userLogin()
@@ -1041,7 +1041,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         do {
-            try installation.delete(options: [.useMasterKey])
+            try installation.delete(options: [.usePrimaryKey])
         } catch {
             XCTFail(error.localizedDescription)
         }

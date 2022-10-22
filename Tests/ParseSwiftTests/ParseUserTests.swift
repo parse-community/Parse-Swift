@@ -116,7 +116,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -325,7 +325,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let fetched = try user.fetch(options: [.useMasterKey])
+            let fetched = try user.fetch(options: [.usePrimaryKey])
             XCTAssert(fetched.hasSameObjectId(as: userOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
@@ -374,7 +374,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let fetched = try user.fetch(options: [.useMasterKey])
+            let fetched = try user.fetch(options: [.usePrimaryKey])
             XCTAssert(fetched.hasSameObjectId(as: userOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
@@ -781,7 +781,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let saved = try user.save(options: [.useMasterKey])
+            let saved = try user.save(options: [.usePrimaryKey])
             XCTAssert(saved.hasSameObjectId(as: userOnServer))
             XCTAssertEqual(saved.email, user.email)
             guard let savedCreatedAt = saved.createdAt,
@@ -842,7 +842,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let saved = try user.save(options: [.useMasterKey])
+            let saved = try user.save(options: [.usePrimaryKey])
             XCTAssert(saved.hasSameObjectId(as: userOnServer))
             XCTAssertEqual(saved.email, user.email)
             guard let savedCreatedAt = saved.createdAt,
@@ -1114,7 +1114,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let saved = try user.save(options: [.useMasterKey])
+            let saved = try user.save(options: [.usePrimaryKey])
             guard let savedUpdatedAt = saved.updatedAt else {
                 XCTFail("Should unwrap dates")
                 return
@@ -1158,7 +1158,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let saved = try user.save(options: [.useMasterKey])
+            let saved = try user.save(options: [.usePrimaryKey])
             XCTAssert(saved.hasSameObjectId(as: userOnServer))
             guard let savedCreatedAt = saved.createdAt,
                 let savedUpdatedAt = saved.updatedAt else {
@@ -1250,7 +1250,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation2 = XCTestExpectation(description: "Update user2")
-        user.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+        user.save(options: [.usePrimaryKey], callbackQueue: callbackQueue) { result in
 
             switch result {
 
@@ -2097,7 +2097,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            try user.delete(options: [.useMasterKey])
+            try user.delete(options: [.usePrimaryKey])
         } catch {
             XCTFail(error.localizedDescription)
         }

@@ -30,7 +30,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
         guard let fileManager = ParseFileManager() else {
@@ -284,7 +284,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        _ = try await parseFile.delete(options: [.useMasterKey])
+        _ = try await parseFile.delete(options: [.usePrimaryKey])
     }
 
     @MainActor
@@ -311,7 +311,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
 
         do {
-            _ = try await parseFile.delete(options: [.useMasterKey])
+            _ = try await parseFile.delete(options: [.usePrimaryKey])
             XCTFail("Should have thrown error")
         } catch {
 

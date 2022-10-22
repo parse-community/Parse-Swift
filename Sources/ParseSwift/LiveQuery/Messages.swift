@@ -13,7 +13,7 @@ struct StandardMessage: LiveQueryable, Codable {
     var op: ClientOperation // swiftlint:disable:this identifier_name
     var applicationId: String?
     var clientKey: String?
-    var masterKey: String? // swiftlint:disable:this inclusive_language
+    var primaryKey: String?
     var sessionToken: String?
     var installationId: String?
     var requestId: Int?
@@ -22,7 +22,7 @@ struct StandardMessage: LiveQueryable, Codable {
         self.op = operation
         if additionalProperties {
             self.applicationId = Parse.configuration.applicationId
-            self.masterKey = Parse.configuration.masterKey
+            self.primaryKey = Parse.configuration.primaryKey
             self.clientKey = Parse.configuration.clientKey
             self.sessionToken = BaseParseUser.currentContainer?.sessionToken
             self.installationId = BaseParseInstallation.currentContainer.installationId
@@ -32,6 +32,16 @@ struct StandardMessage: LiveQueryable, Codable {
     init(operation: ClientOperation, requestId: RequestId) {
         self.init(operation: operation)
         self.requestId = requestId.value
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case op // swiftlint:disable:this identifier_name
+        case applicationId
+        case clientKey
+        case primaryKey = "masterKey"
+        case sessionToken
+        case installationId
+        case requestId
     }
 }
 

@@ -1038,7 +1038,7 @@ extension Query: Queryable {
 
     /**
      Executes an aggregate query *synchronously*.
-      - requires: `.useMasterKey` has to be available. It is recommended to only
+      - requires: `.usePrimaryKey` has to be available. It is recommended to only
         use the master key in server-side applications where the key is kept secure and not
         exposed to the public.
       - parameter pipeline: A pipeline of stages to process query.
@@ -1053,7 +1053,7 @@ extension Query: Queryable {
             return [ResultType]()
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
 
         var updatedPipeline = [[String: AnyCodable]]()
         pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
@@ -1080,7 +1080,7 @@ extension Query: Queryable {
 
     /**
       Executes an aggregate query *asynchronously*.
-        - requires: `.useMasterKey` has to be available. It is recommended to only
+        - requires: `.usePrimaryKey` has to be available. It is recommended to only
         use the master key in server-side applications where the key is kept secure and not
         exposed to the public.
         - parameter pipeline: A pipeline of stages to process query.
@@ -1101,7 +1101,7 @@ extension Query: Queryable {
             return
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
 
         var updatedPipeline = [[String: AnyCodable]]()
         pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
@@ -1143,7 +1143,7 @@ extension Query: Queryable {
 
     /**
      Query plan information for  executing an aggregate query *synchronously*.
-      - requires: `.useMasterKey` has to be available. It is recommended to only
+      - requires: `.usePrimaryKey` has to be available. It is recommended to only
       use the master key in server-side applications where the key is kept secure and not
       exposed to the public.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
@@ -1166,7 +1166,7 @@ extension Query: Queryable {
             return [U]()
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
 
         var updatedPipeline = [[String: AnyCodable]]()
         pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
@@ -1197,7 +1197,7 @@ extension Query: Queryable {
 
     /**
      Query plan information for executing an aggregate query *asynchronously*.
-        - requires: `.useMasterKey` has to be available. It is recommended to only
+        - requires: `.usePrimaryKey` has to be available. It is recommended to only
         use the master key in server-side applications where the key is kept secure and not
         exposed to the public.
         - note: An explain query will have many different underlying types. Since Swift is a strongly
@@ -1226,7 +1226,7 @@ extension Query: Queryable {
             return
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
 
         var updatedPipeline = [[String: AnyCodable]]()
         pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyCodable($0.value)] } }
@@ -1282,7 +1282,7 @@ extension Query: Queryable {
 
     /**
      Executes an aggregate query *synchronously* and calls the given.
-      - requires: `.useMasterKey` has to be available. It is recommended to only
+      - requires: `.usePrimaryKey` has to be available. It is recommended to only
       use the master key in server-side applications where the key is kept secure and not
       exposed to the public.
       - parameter key: A field to find distinct values.
@@ -1297,14 +1297,14 @@ extension Query: Queryable {
             return [ResultType]()
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         return try distinctCommand(key: key)
             .execute(options: options)
     }
 
     /**
      Executes a distinct query *asynchronously* and returns unique values.
-        - requires: `.useMasterKey` has to be available. It is recommended to only
+        - requires: `.usePrimaryKey` has to be available. It is recommended to only
         use the master key in server-side applications where the key is kept secure and not
         exposed to the public.
         - parameter key: A field to find distinct values.
@@ -1325,7 +1325,7 @@ extension Query: Queryable {
             return
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         do {
             try distinctCommand(key: key)
                 .executeAsync(options: options,
@@ -1343,7 +1343,7 @@ extension Query: Queryable {
 
     /**
      Query plan information for executing an aggregate query *synchronously* and calls the given.
-      - requires: `.useMasterKey` has to be available. It is recommended to only
+      - requires: `.usePrimaryKey` has to be available. It is recommended to only
       use the master key in server-side applications where the key is kept secure and not
       exposed to the public.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
@@ -1367,7 +1367,7 @@ extension Query: Queryable {
             return [U]()
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         if !usingMongoDB {
             return try distinctExplainCommand(key: key)
                 .execute(options: options)
@@ -1379,7 +1379,7 @@ extension Query: Queryable {
 
     /**
      Query plan information for executing a distinct query *asynchronously* and returns unique values.
-        - requires: `.useMasterKey` has to be available. It is recommended to only
+        - requires: `.usePrimaryKey` has to be available. It is recommended to only
         use the master key in server-side applications where the key is kept secure and not
         exposed to the public.
         - note: An explain query will have many different underlying types. Since Swift is a strongly
@@ -1408,7 +1408,7 @@ extension Query: Queryable {
             return
         }
         var options = options
-        options.insert(.useMasterKey)
+        options.insert(.usePrimaryKey)
         if !usingMongoDB {
             do {
                 try distinctExplainCommand(key: key)

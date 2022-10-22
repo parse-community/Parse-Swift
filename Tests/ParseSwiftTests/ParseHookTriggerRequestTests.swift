@@ -55,7 +55,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -71,7 +71,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
 
     func testCoding() async throws {
         let object = User(objectId: "geez")
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object)
@@ -83,11 +83,12 @@ class ParseHookTriggerRequestTests: XCTestCase {
                                                                   object: object)
         let expected2 = "{\"headers\":{\"yolo\":\"me\"},\"ip\":\"1.1.1.1\",\"object\":{\"objectId\":\"geez\"}}"
         XCTAssertEqual(triggerRequest2.description, expected2)
+        XCTAssertEqual(triggerRequest2.masterKey, triggerRequest2.primaryKey)
     }
 
     func testGetLog() async throws {
         let object = User(objectId: "geez")
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object,
@@ -98,7 +99,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
 
     func testGetLogError() async throws {
         let object = User(objectId: "geez")
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object,
@@ -118,7 +119,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
     func testGetContext() async throws {
         let object = User(objectId: "geez")
         let context = ["peace": "out"]
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object,
@@ -130,7 +131,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
     func testGetContextError() async throws {
         let object = User(objectId: "geez")
         let context = ["peace": "out"]
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object,
@@ -152,16 +153,16 @@ class ParseHookTriggerRequestTests: XCTestCase {
         let sessionToken = "dog"
         let installationId = "cat"
         let user = User(sessionToken: sessionToken)
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  user: user,
                                                                  installationId: installationId,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object)
-        let options = API.Options([.useMasterKey])
+        let options = API.Options([.usePrimaryKey])
         let requestOptions = triggerRequest.options()
         XCTAssertEqual(requestOptions, options)
-        let triggerRequest2 = ParseHookTriggerRequest<User, User>(masterKey: false,
+        let triggerRequest2 = ParseHookTriggerRequest<User, User>(primaryKey: false,
                                                                    user: user,
                                                                    installationId: installationId,
                                                                    ipAddress: "1.1.1.1",
@@ -171,7 +172,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
             .installationId(installationId)])
         let requestOptions2 = triggerRequest2.options()
         XCTAssertEqual(requestOptions2, options2)
-        let triggerRequest3 = ParseHookTriggerRequest<User, User>(masterKey: false,
+        let triggerRequest3 = ParseHookTriggerRequest<User, User>(primaryKey: false,
                                                                   user: user,
                                                                   ipAddress: "1.1.1.1",
                                                                   headers: ["yolo": "me"],
@@ -179,7 +180,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
         let options3 = API.Options([.sessionToken(sessionToken)])
         let requestOptions3 = triggerRequest3.options()
         XCTAssertEqual(requestOptions3, options3)
-        let triggerRequest4 = ParseHookTriggerRequest<User, User>(masterKey: false,
+        let triggerRequest4 = ParseHookTriggerRequest<User, User>(primaryKey: false,
                                                                   installationId: installationId,
                                                                   ipAddress: "1.1.1.1",
                                                                   headers: ["yolo": "me"],
@@ -187,7 +188,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
         let options4 = API.Options([.installationId(installationId)])
         let requestOptions4 = triggerRequest4.options()
         XCTAssertEqual(requestOptions4, options4)
-        let triggerRequest5 = ParseHookTriggerRequest<User, User>(masterKey: false,
+        let triggerRequest5 = ParseHookTriggerRequest<User, User>(primaryKey: false,
                                                                   ipAddress: "1.1.1.1",
                                                                   headers: ["yolo": "me"],
                                                                   object: object)
@@ -213,13 +214,13 @@ class ParseHookTriggerRequestTests: XCTestCase {
 
         let object = User(objectId: "geez")
         let installationId = "cat"
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  user: user,
                                                                  installationId: installationId,
                                                                  ipAddress: "1.1.1.1",
                                                                  headers: ["yolo": "me"],
                                                                  object: object)
-        let requestHydrated = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let requestHydrated = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                   user: server,
                                                                   installationId: installationId,
                                                                   ipAddress: "1.1.1.1",
@@ -241,7 +242,7 @@ class ParseHookTriggerRequestTests: XCTestCase {
 
         let object = User(objectId: "geez")
         let installationId = "cat"
-        let triggerRequest = ParseHookTriggerRequest<User, User>(masterKey: true,
+        let triggerRequest = ParseHookTriggerRequest<User, User>(primaryKey: true,
                                                                  user: user,
                                                                  installationId: installationId,
                                                                  ipAddress: "1.1.1.1",

@@ -57,7 +57,7 @@ class ParseHookFunctionRequestCombineTests: XCTestCase {
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -90,13 +90,13 @@ class ParseHookFunctionRequestCombineTests: XCTestCase {
 
         let parameters = Parameters()
         let installationId = "cat"
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",
                                                                          headers: ["yolo": "me"],
                                                                          parameters: parameters)
-        let requestHydrated = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let requestHydrated = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          user: server,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",
@@ -132,7 +132,7 @@ class ParseHookFunctionRequestCombineTests: XCTestCase {
 
         let parameters = Parameters()
         let installationId = "cat"
-        let functionRequest = ParseHookFunctionRequest<User, Parameters>(masterKey: true,
+        let functionRequest = ParseHookFunctionRequest<User, Parameters>(primaryKey: true,
                                                                          user: user,
                                                                          installationId: installationId,
                                                                          ipAddress: "1.1.1.1",

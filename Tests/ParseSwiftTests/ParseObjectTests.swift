@@ -325,7 +325,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
@@ -681,7 +681,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let fetched = try score.fetch(options: [.useMasterKey])
+            let fetched = try score.fetch(options: [.usePrimaryKey])
             XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
@@ -778,7 +778,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation2 = XCTestExpectation(description: "Fetch object2")
-        score.fetch(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+        score.fetch(options: [.usePrimaryKey], callbackQueue: callbackQueue) { result in
 
             switch result {
             case .success(let fetched):
@@ -1027,7 +1027,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let saved = try score.save(options: [.useMasterKey])
+            let saved = try score.save(options: [.usePrimaryKey])
             XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
             guard let savedCreatedAt = saved.createdAt,
                 let savedUpdatedAt = saved.updatedAt else {
@@ -1129,7 +1129,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let saved = try score.save(options: [.useMasterKey])
+            let saved = try score.save(options: [.usePrimaryKey])
             guard let savedUpdatedAt = saved.updatedAt else {
                 XCTFail("Should unwrap dates")
                 return
@@ -1214,7 +1214,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation2 = XCTestExpectation(description: "Save object2")
-        score.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+        score.save(options: [.usePrimaryKey], callbackQueue: callbackQueue) { result in
 
             switch result {
 
@@ -1315,7 +1315,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation2 = XCTestExpectation(description: "Update object2")
-        score.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+        score.save(options: [.usePrimaryKey], callbackQueue: callbackQueue) { result in
 
             switch result {
 
@@ -1436,7 +1436,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            try score.delete(options: [.useMasterKey])
+            try score.delete(options: [.usePrimaryKey])
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -1472,7 +1472,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            try score.delete(options: [.useMasterKey])
+            try score.delete(options: [.usePrimaryKey])
             XCTFail("Should have thrown ParseError")
         } catch {
             if let error = error as? ParseError {
@@ -1495,7 +1495,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation2 = XCTestExpectation(description: "Delete object2")
-        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+        score.delete(options: [.usePrimaryKey], callbackQueue: callbackQueue) { result in
 
             if case let .failure(error) = result {
                 XCTFail(error.localizedDescription)
@@ -1575,7 +1575,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation2 = XCTestExpectation(description: "Delete object2")
-        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+        score.delete(options: [.usePrimaryKey], callbackQueue: callbackQueue) { result in
 
             if case let .failure(error) = result {
                 XCTAssertEqual(error.code, parseError.code)

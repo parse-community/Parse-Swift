@@ -10,13 +10,17 @@ import Foundation
 
 /**
  A type that can decode requests when `ParseHookTriggerable` triggers are called.
- - requires: `.useMasterKey` has to be available. It is recommended to only
+ - requires: `.usePrimaryKey` has to be available. It is recommended to only
  use the master key in server-side applications where the key is kept secure and not
  exposed to the public.
  */
 public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseHookRequestable {
     public typealias UserType = U
-    public var masterKey: Bool?
+    @available(*, deprecated, renamed: "primaryKey")
+    public var masterKey: Bool? {
+        primaryKey
+    }
+    public var primaryKey: Bool?
     public var user: U?
     public var installationId: String?
     public var ipAddress: String?
@@ -52,7 +56,7 @@ public struct ParseHookTriggerRequest<U: ParseCloudUser, T: ParseObject>: ParseH
     var context: AnyCodable?
 
     enum CodingKeys: String, CodingKey {
-        case masterKey = "master"
+        case primaryKey = "master"
         case ipAddress = "ip"
         case user, installationId, headers,
              log, context, object, objects,

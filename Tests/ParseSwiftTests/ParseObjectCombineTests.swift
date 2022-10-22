@@ -50,7 +50,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
-                              masterKey: "masterKey",
+                              primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
     }
