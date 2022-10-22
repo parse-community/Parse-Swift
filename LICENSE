@@ -4,10 +4,6 @@
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
    
-   The original license is located at LICENSE.mit and is 
-   only valid up to commit ([8ec12ca](https://github.com/netreconlab/Parse-Swift/commit/8ec12ca1aea42d84f6ed090826b407c8bf08c62f)).
-   For every commit after `8ec12ca`, the current licence takes precedence.
-   
    1. Definitions.
 
       "License" shall mean the terms and conditions for use, reproduction,
@@ -203,3 +199,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+   The original license is located at LICENSE.mit and is 
+   only valid up to commit ([8ec12ca](https://github.com/netreconlab/Parse-Swift/commit/8ec12ca1aea42d84f6ed090826b407c8bf08c62f)).
+   For every commit after `8ec12ca`, the current licence takes precedence.
