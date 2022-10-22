@@ -1,10 +1,10 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.14.2...main), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/main/documentation/parseswift)
+[Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.15.0...main), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/main/documentation/parseswift)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 4.14.2
+### 4.15.0
 [Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.14.2...4.15.0), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/4.15.0/documentation/parseswift)
 
 __New features__
