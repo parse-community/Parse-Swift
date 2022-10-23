@@ -6,7 +6,7 @@ public func initializeParse(customObjectId: Bool = false) {
                           clientKey: "clientKey",
                           primaryKey: "primaryKey",
                           serverURL: URL(string: "http://localhost:1337/1")!,
-                          allowingCustomObjectIds: customObjectId,
+                          requiringCustomObjectIds: customObjectId,
                           usingEqualQueryConstraint: false,
                           usingDataProtectionKeychain: false)
 }

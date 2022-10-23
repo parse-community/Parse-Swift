@@ -297,6 +297,7 @@ internal extension ParseObject {
         do {
             let object = try ParseCoding.parseEncoder()
                 .encode(self,
+                        collectChildren: true,
                         objectsSavedBeforeThisOne: nil,
                         filesSavedBeforeThisOne: nil)
             var waitingToBeSaved = object.unsavedChildren
@@ -322,14 +323,15 @@ or disable transactions for this call.
                         let waitingObjectInfo = try ParseCoding
                             .parseEncoder()
                             .encode(parseObject,
+                                    batching: false,
                                     collectChildren: true,
                                     objectsSavedBeforeThisOne: objectsFinishedSaving,
                                     filesSavedBeforeThisOne: filesFinishedSaving)
                         if waitingObjectInfo.unsavedChildren.count == 0 {
-                            //If this ParseObject has no additional children, it can be saved now
+                            // If this ParseObject has no additional children, it can be saved now
                             savableObjects.append(parseObject)
                         } else {
-                            //Else this ParseObject needs to wait until it is children are saved
+                            // Else this ParseObject needs to wait until it is children are saved
                             nextBatch.append(parseObject)
                         }
                     }
@@ -341,6 +343,8 @@ or disable transactions for this call.
                 }
                 if savableObjects.count > 0 {
                     let savedChildObjects = try await self.saveAll(objects: savableObjects,
+                                                                   objectsSavedBeforeThisOne: objectsFinishedSaving,
+                                                                   filesSavedBeforeThisOne: filesFinishedSaving,
                                                                    options: options)
                     let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
                     for (index, object) in savableObjects.enumerated() {
@@ -472,11 +476,15 @@ internal extension Sequence where Element: ParseObject {
 internal extension ParseEncodable {
     func saveAll(objects: [ParseEncodable],
                  transaction: Bool = configuration.isUsingTransactions,
+                 objectsSavedBeforeThisOne: [String: PointerType]?,
+                 filesSavedBeforeThisOne: [UUID: ParseFile]?,
                  options: API.Options = [],
                  callbackQueue: DispatchQueue = .main) async throws -> [(Result<PointerType, ParseError>)] {
         try await API.NonParseBodyCommand<AnyCodable, PointerType>
             .batch(objects: objects,
-                   transaction: transaction)
+                   transaction: transaction,
+                   objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                   filesSavedBeforeThisOne: filesSavedBeforeThisOne)
             .executeAsync(options: options,
                           callbackQueue: callbackQueue)
     }

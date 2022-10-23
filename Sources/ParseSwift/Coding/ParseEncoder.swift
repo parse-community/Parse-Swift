@@ -104,7 +104,10 @@ public struct ParseEncoder {
         self.outputFormatting = outputFormatting
     }
 
-    func encode(_ value: Encodable, batching: Bool = false) throws -> Data {
+    func encode(_ value: Encodable,
+                batching: Bool = false,
+                objectsSavedBeforeThisOne: [String: PointerType]? = nil,
+                filesSavedBeforeThisOne: [UUID: ParseFile]? = nil) throws -> Data {
         var keysToSkip = SkipKeys.none.keys()
         if batching {
             keysToSkip = SkipKeys.object.keys()
@@ -120,8 +123,8 @@ public struct ParseEncoder {
                                         batching: batching,
                                         collectChildren: false,
                                         uniquePointer: nil,
-                                        objectsSavedBeforeThisOne: nil,
-                                        filesSavedBeforeThisOne: nil).encoded
+                                        objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                        filesSavedBeforeThisOne: filesSavedBeforeThisOne).encoded
     }
 
     /**
@@ -147,6 +150,7 @@ public struct ParseEncoder {
 
     // swiftlint:disable large_tuple
     internal func encode<T: ParseObject>(_ value: T,
+                                         collectChildren: Bool,
                                          objectsSavedBeforeThisOne: [String: PointerType]?,
                                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data,
                                                                                                  unique: PointerType?,
@@ -165,7 +169,7 @@ public struct ParseEncoder {
             encoder.outputFormatting = outputFormatting
         }
         return try encoder.encodeObject(value,
-                                        collectChildren: true,
+                                        collectChildren: collectChildren,
                                         uniquePointer: try? value.toPointer(),
                                         objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
                                         filesSavedBeforeThisOne: filesSavedBeforeThisOne)
@@ -173,7 +177,7 @@ public struct ParseEncoder {
 
     // swiftlint:disable large_tuple
     internal func encode(_ value: ParseEncodable,
-                         batching: Bool = false,
+                         batching: Bool,
                          collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
@@ -398,13 +402,13 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                 if let updatedFile = self.filesSavedBeforeThisOne?[value.id] {
                     valueToEncode = updatedFile
                 } else {
-                    //New object needs to be saved before it can be stored
+                    // New object needs to be saved before it can be stored
                     self.newObjects.append(value)
                 }
             } else if let currentFile = self.filesSavedBeforeThisOne?[value.id] {
                 valueToEncode = currentFile
             } else if dictionary.count > 0 {
-                //Only top level objects can be saved without a pointer
+                // Only top level objects can be saved without a pointer
                 throw ParseError(code: .unknownError, message: "Error. Could not resolve unsaved file while encoding.")
             }
         }

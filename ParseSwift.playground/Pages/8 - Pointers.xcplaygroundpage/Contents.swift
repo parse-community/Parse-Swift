@@ -45,8 +45,10 @@ struct Book: ParseObject, ParseQueryScorable {
     }
 }
 
-//: It's recommended to place custom initializers in an extension
-//: to preserve the memberwise initializer.
+/*:
+ It's recommended to place custom initializers in an extension
+ to preserve the memberwise initializer.
+ */
 extension Book {
 
     init(title: String) {
@@ -89,8 +91,10 @@ struct Author: ParseObject {
     }
 }
 
-//: It's recommended to place custom initializers in an extension
-//: to preserve the memberwise initializer.
+/*:
+ It's recommended to place custom initializers in an extension
+ to preserve the memberwise initializer.
+ */
 extension Author {
     init(name: String, book: Book) {
         self.name = name
@@ -152,7 +156,8 @@ query1.first { results in
     }
 }
 
-/*: You will notice in the query above, the fields `book` and `otherBooks` only contain
+/*:
+ You will notice in the query above, the fields `book` and `otherBooks` only contain
  arrays consisting of key/value pairs of `objectId`. These are called Pointers
  in `Parse`.
  
@@ -160,7 +165,8 @@ query1.first { results in
  the field names containing the objects specifically in `include` in your query.
 */
 
-/*: Here, we include `book`. If you wanted `book` and `otherBook`, you
+/*:
+ Here, we include `book`. If you wanted `book` and `otherBook`, you
  could have used: `.include(["book", "otherBook"])`.
 */
 let query2 = Author.query("name" == "Bruce")
@@ -181,7 +187,8 @@ query2.first { results in
     }
 }
 
-/*: When you have many fields that are pointing to objects, it may become tedious
+/*:
+ When you have many fields that are pointing to objects, it may become tedious
  to add all of them to the list. You can quickly retreive all pointer objects by
  using `includeAll`. You can also use `include("*")` to retrieve all pointer
  objects.

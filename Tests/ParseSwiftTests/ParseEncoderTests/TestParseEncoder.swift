@@ -935,7 +935,7 @@ class TestParseEncoder: XCTestCase {
     //
     // The issue at hand reproduces when you have a referencing encoder (superEncoder() creates one) that has a container on the stack (unkeyedContainer() adds one) that encodes a value going through box_() (Array does that) that encodes something which throws (Float.infinity does that).
     // When reproducing, this will cause a test failure via fatalError().
-    _ = try? ParseEncoder().encode(ReferencingEncoderWrapper([Float.infinity]))
+      _ = try? ParseEncoder().encode(ReferencingEncoderWrapper([Float.infinity]))
   }
 
   func testEncoderStateThrowOnEncodeCustomDate() {

@@ -1430,6 +1430,7 @@ extension ParseObject {
             do {
                 let object = try ParseCoding.parseEncoder()
                     .encode(self,
+                            collectChildren: true,
                             objectsSavedBeforeThisOne: nil,
                             filesSavedBeforeThisOne: nil)
 
@@ -1458,6 +1459,7 @@ extension ParseObject {
                             let waitingObjectInfo = try ParseCoding
                                 .parseEncoder()
                                 .encode(parseObject,
+                                        batching: false,
                                         collectChildren: true,
                                         objectsSavedBeforeThisOne: objectsFinishedSaving,
                                         filesSavedBeforeThisOne: filesFinishedSaving)
@@ -1482,6 +1484,8 @@ extension ParseObject {
                     }
                     if savableObjects.count > 0 {
                         let savedChildObjects = try self.saveAll(objects: savableObjects,
+                                                                 objectsSavedBeforeThisOne: objectsFinishedSaving,
+                                                                 filesSavedBeforeThisOne: filesFinishedSaving,
                                                                  options: options)
                         let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
                         for (index, object) in savableObjects.enumerated() {
@@ -1509,10 +1513,14 @@ extension ParseObject {
 internal extension ParseEncodable {
     func saveAll(objects: [ParseEncodable],
                  transaction: Bool = configuration.isUsingTransactions,
+                 objectsSavedBeforeThisOne: [String: PointerType]?,
+                 filesSavedBeforeThisOne: [UUID: ParseFile]?,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         try API.NonParseBodyCommand<AnyCodable, PointerType>
                 .batch(objects: objects,
-                       transaction: transaction)
+                       transaction: transaction,
+                       objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                       filesSavedBeforeThisOne: filesSavedBeforeThisOne)
                 .execute(options: options)
     }
 }

@@ -26,6 +26,7 @@ struct GameScore: ParseObject {
     var points: Int? = 0
     var profilePicture: ParseFile?
     var myData: ParseFile?
+    var otherPhoto: GamePhoto?
 
     /*:
      Optional - implement your own version of merge
@@ -45,6 +46,10 @@ struct GameScore: ParseObject {
                                      original: object) {
             updated.myData = object.myData
         }
+        if updated.shouldRestoreKey(\.otherPhoto,
+                                     original: object) {
+            updated.otherPhoto = object.otherPhoto
+        }
         return updated
     }
 }
@@ -62,6 +67,18 @@ extension GameScore {
     }
 }
 
+struct GamePhoto: ParseObject {
+    //: These are required by ParseObject
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+    var originalData: Data?
+
+    //: Your own properties.
+    var image: ParseFile?
+}
+
 //: Define initial GameScore.
 var score = GameScore(points: 52)
 
@@ -73,6 +90,11 @@ let profilePic = ParseFile(name: "profile.svg", cloudURL: linkToFile)
 
 //: Set the picture as part of your ParseObject
 score.profilePicture = profilePic
+
+//: Set the picture in a nested ParseObject
+var photo = GamePhoto()
+photo.image = profilePic
+score.otherPhoto = photo
 
 /*:
  Save asynchronously (preferred way) - Performs work on background

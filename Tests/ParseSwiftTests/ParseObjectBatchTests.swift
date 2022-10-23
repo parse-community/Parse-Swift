@@ -126,6 +126,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expected = "{\"requests\":[{\"body\":{\"points\":10},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"},{\"body\":{\"points\":20},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body,
+                    batching: true,
                     collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
                     filesSavedBeforeThisOne: nil).encoded
@@ -541,10 +542,12 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"body\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yarr\"},{\"body\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"points\":10},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yarr\"},{\"body\":{\"points\":20},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false}"
 
         let encoded = try ParseCoding.parseEncoder()
-            .encode(body, collectChildren: false,
+            .encode(body,
+                    batching: true,
+                    collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
                     filesSavedBeforeThisOne: nil).encoded
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
