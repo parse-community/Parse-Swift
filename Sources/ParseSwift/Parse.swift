@@ -316,7 +316,7 @@ public func initialize(
 public func initialize(
     applicationId: String,
     clientKey: String? = nil,
-    masterKey: String? = nil,
+    masterKey: String,
     serverURL: URL,
     liveQueryServerURL: URL? = nil,
     requiringCustomObjectIds: Bool = false,
@@ -429,7 +429,7 @@ public func initialize(
 ) {
     initialize(applicationId: applicationId,
                clientKey: clientKey,
-               masterKey: masterKey,
+               primaryKey: masterKey,
                serverURL: serverURL,
                liveQueryServerURL: liveQueryServerURL,
                requiringCustomObjectIds: allowingCustomObjectIds,
@@ -523,7 +523,7 @@ public func initialize(
 ) {
     var configuration = ParseConfiguration(applicationId: applicationId,
                                            clientKey: clientKey,
-                                           masterKey: masterKey,
+                                           primaryKey: masterKey,
                                            serverURL: serverURL,
                                            liveQueryServerURL: liveQueryServerURL,
                                            requiringCustomObjectIds: allowingCustomObjectIds,

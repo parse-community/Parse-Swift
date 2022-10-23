@@ -98,6 +98,38 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNotNil(Parse.sessionDelegate.authentication)
         ParseSwift.updateAuthentication(nil)
         XCTAssertNil(Parse.sessionDelegate.authentication)
+
+        let configuration3 = ParseConfiguration(applicationId: "applicationId",
+                                                clientKey: "clientKey",
+                                                masterKey: "primaryKey",
+                                                serverURL: url) { (_, credential) in
+            credential(.performDefaultHandling, nil)
+        }
+        ParseSwift.initialize(configuration: configuration3)
+        XCTAssertNotNil(Parse.sessionDelegate.authentication)
+        ParseSwift.updateAuthentication(nil)
+        XCTAssertNil(Parse.sessionDelegate.authentication)
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "primaryKey",
+                              serverURL: url) { (_, credential) in
+            credential(.performDefaultHandling, nil)
+        }
+        XCTAssertNotNil(Parse.sessionDelegate.authentication)
+        ParseSwift.updateAuthentication(nil)
+        XCTAssertNil(Parse.sessionDelegate.authentication)
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "primaryKey",
+                              serverURL: url,
+                              migratingFromObjcSDK: false) { (_, credential) in
+            credential(.performDefaultHandling, nil)
+        }
+        XCTAssertNotNil(Parse.sessionDelegate.authentication)
+        ParseSwift.updateAuthentication(nil)
+        XCTAssertNil(Parse.sessionDelegate.authentication)
     }
 
     #if !os(Linux) && !os(Android) && !os(Windows)

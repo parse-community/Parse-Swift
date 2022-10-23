@@ -262,7 +262,7 @@ public struct ParseConfiguration {
     @available(*, deprecated, message: "Change: masterKey->primaryKey.")
     public init(applicationId: String,
                 clientKey: String? = nil,
-                masterKey: String? = nil,
+                masterKey: String,
                 webhookKey: String? = nil,
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
@@ -374,7 +374,7 @@ public struct ParseConfiguration {
                                    URLCredential?) -> Void) -> Void)? = nil) {
         self.init(applicationId: applicationId,
                   clientKey: clientKey,
-                  masterKey: masterKey,
+                  primaryKey: masterKey,
                   webhookKey: webhookKey,
                   serverURL: serverURL,
                   liveQueryServerURL: liveQueryServerURL,
@@ -467,7 +467,7 @@ public struct ParseConfiguration {
                                    URLCredential?) -> Void) -> Void)? = nil) {
         self.init(applicationId: applicationId,
                   clientKey: clientKey,
-                  masterKey: masterKey,
+                  primaryKey: masterKey,
                   webhookKey: webhookKey,
                   serverURL: serverURL,
                   liveQueryServerURL: liveQueryServerURL,
