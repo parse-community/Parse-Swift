@@ -104,10 +104,6 @@ extension GameScore {
     init(points: Int) {
         self.points = points
     }
-
-    init(objectId: String?) {
-        self.objectId = objectId
-    }
 }
 
 //: Logging out - synchronously

@@ -23,14 +23,11 @@ class ParseQueryViewModelTests: XCTestCase {
         //: Your own properties
         var points: Int = 0
 
-        //custom initializer
+        // Custom initializer
         init() {}
+
         init(points: Int) {
             self.points = points
-        }
-
-        init(objectId: String?) {
-            self.objectId = objectId
         }
     }
 

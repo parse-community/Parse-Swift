@@ -61,10 +61,6 @@ extension GameScore {
     init(points: Int) {
         self.points = points
     }
-
-    init(objectId: String?) {
-        self.objectId = objectId
-    }
 }
 
 struct GamePhoto: ParseObject {

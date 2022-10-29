@@ -92,21 +92,6 @@ struct GameScore2: ParseObject {
     }
 }
 
-/*:
- It's recommended to place custom initializers in an extension
- to preserve the memberwise initializer.
- */
-extension GameScore2 {
-
-    init(points: Int) {
-        self.points = points
-    }
-
-    init(objectId: String?) {
-        self.objectId = objectId
-    }
-}
-
 //: First lets create a new CLP for the new schema.
 let clp = ParseCLP(requiresAuthentication: true, publicAccess: false)
     .setAccessPublic(true, on: .get)

@@ -25,16 +25,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var other: Game2?
         var otherArray: [Game2]?
 
-        //custom initializers
+        // Custom initializers
         init() {
             self.points = 5
         }
+
         init(points: Int) {
             self.points = points
-        }
-
-        init(objectId: String?) {
-            self.objectId = objectId
         }
     }
 

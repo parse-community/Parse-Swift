@@ -17,7 +17,7 @@ import Foundation
  The Swift SDK is designed for your `ParseObject`s to be **value types (structures)**.
  Since you are using value types the compiler will assist you with conforming to the `ParseObject` protocol.
  After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct any updates on a
- `mergeable` copy of your `ParseObject`. This can be accomplished by calling the `mergeable` property
+ `mergeable` copy of your `ParseObject`. This can be accomplished by calling the `.mergeable` property
  of your `ParseObject` or by calling the `set()` method on your `ParseObject`. This allows a subset
  of the fields to be updated (PATCH) of an object as oppose to replacing all of the fields of an object (PUT).
  This reduces the amount of data sent between client and server when using `save`, `saveAll`, `update`,
@@ -48,8 +48,8 @@ public protocol ParseObject: ParseTypeable,
                              Hashable {
 
     /**
-     A JSON encoded version of this `ParseObject` before `mergeable` was called and
-     properties were changed.
+     A JSON encoded version of this `ParseObject` before `.set()` or
+     `.mergeable` was called and properties were changed.
      - warning: This property is not intended to be set or modified by the developer.
     */
     var originalData: Data? { get set }
@@ -58,7 +58,7 @@ public protocol ParseObject: ParseTypeable,
      An empty copy of the respective object that allows you to update a
      a subset of the fields (PATCH) of an object as oppose to replacing an object (PUT).
      - note: It is recommended to use this to create a mergeable copy of your `ParseObject`.
-     - warning: `mergeable` should only be used on `ParseObject`'s that have already
+     - warning: `.mergeable` should only be used on `ParseObject`'s that have already
      been saved at least once to a Parse Server and have a valid `objectId`. In addition,
      the developer should have implemented added all of their properties to `merge`.
     */
@@ -66,6 +66,7 @@ public protocol ParseObject: ParseTypeable,
 
     /**
      The default initializer to ensure all `ParseObject`'s can be encoded/decoded properly.
+     All properties of this instance are **nil** resulting in an empty object.
      - important: The compiler will give you this initialzer for free
      ([memberwise initializer](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html))
      as long as you declare all properties as **optional** (see **Warning** section) and you declare all other initializers in
@@ -84,11 +85,11 @@ public protocol ParseObject: ParseTypeable,
     /**
      Determines if a `KeyPath` of the current `ParseObject` should be restored
      by comparing it to another `ParseObject`.
-     - parameter key: The `KeyPath` to check.
+     - parameter keyPath: The `KeyPath` to check.
      - parameter original: The original `ParseObject`.
      - returns: Returns a **true** if the keyPath should be restored  or **false** otherwise.
     */
-    func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
+    func shouldRestoreKey<W>(_ keyPath: KeyPath<Self, W?>,
                              original: Self) -> Bool where W: Equatable
 
     /**
@@ -147,6 +148,20 @@ public protocol ParseObject: ParseTypeable,
 // MARK: Default Implementations
 public extension ParseObject {
 
+    /**
+     Creates a `ParseObject` with a specified `objectId`. Can be used to create references or associations
+     between `ParseObject`'s.
+     - warning: It is required that all added properties be optional properties so they can eventually be used as
+     Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
+     create methods to check the respective properties on the client-side before saving objects. See
+     [here](https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003)
+     for more information.
+     */
+    init(objectId: String) {
+        self.init()
+        self.objectId = objectId
+    }
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
     }
@@ -189,9 +204,9 @@ public extension ParseObject {
         return try Pointer(self)
     }
 
-    func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
+    func shouldRestoreKey<W>(_ keyPath: KeyPath<Self, W?>,
                              original: Self) -> Bool where W: Equatable {
-        self[keyPath: key] == nil && original[keyPath: key] != self[keyPath: key]
+        self[keyPath: keyPath] == nil && original[keyPath: keyPath] != self[keyPath: keyPath]
     }
 
     func mergeParse(with object: Self) throws -> Self {
@@ -218,9 +233,9 @@ public extension ParseObject {
 
 // MARK: Default Implementations (Internal)
 extension ParseObject {
-    func shouldRevertKey<W>(_ key: KeyPath<Self, W?>,
+    func shouldRevertKey<W>(_ keyPath: KeyPath<Self, W?>,
                             original: Self) -> Bool where W: Equatable {
-        original[keyPath: key] != self[keyPath: key]
+        original[keyPath: keyPath] != self[keyPath: keyPath]
     }
 }
 
@@ -231,7 +246,7 @@ public extension ParseObject {
      before mutations began.
      - throws: An error of type `ParseError`.
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `mergeable` or the `set` method.
+     been populated by calling `.mergeable` or the `.set` method.
     */
     @available(*, deprecated, renamed: "revert")
     func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {
@@ -242,7 +257,7 @@ public extension ParseObject {
      Reverts the `ParseObject` back to the original object before mutations began.
      - throws: An error of type `ParseError`.
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `mergeable` or the `set` method.
+     been populated by calling `.mergeable` or the `.set()` method.
     */
     @available(*, deprecated, renamed: "revert")
     func revertObject() throws -> Self {
@@ -254,7 +269,7 @@ public extension ParseObject {
      before mutations began.
      - throws: An error of type `ParseError`.
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `mergeable` or the `set` method.
+     been populated by calling `.mergeable` or the `.set()` method.
     */
     func revert<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {
         guard let originalData = originalData else {
@@ -279,7 +294,7 @@ public extension ParseObject {
      Reverts the `ParseObject` back to the original object before mutations began.
      - throws: An error of type `ParseError`.
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `mergeable` or the `set` method.
+     been populated by calling `.mergeable` or the `.set()` method.
     */
     func revert() throws -> Self {
         guard let originalData = originalData else {
@@ -297,7 +312,7 @@ public extension ParseObject {
 
     /**
      Get the unwrapped property value.
-     - parameter key: The `KeyPath` of the value to get.
+     - parameter keyPath: The `KeyPath` of the value to get.
      - throws: An error of type `ParseError` when the value is **nil**.
      - returns: The unwrapped value.
      */
@@ -311,7 +326,7 @@ public extension ParseObject {
 
     /**
      Set the value of a specific `KeyPath` on a `ParseObject`.
-     - parameter key: The `KeyPath` of the value to set.
+     - parameter keyPath: The `KeyPath` of the value to set.
      - parameter value: The value to set the `KeyPath` to.
      - returns: The updated `ParseObject`.
      - important: This method should be used when updating a `ParseObject` that has already been saved to
@@ -328,6 +343,26 @@ public extension ParseObject {
         var updated = self.mergeable
         updated[keyPath: keyPath] = value
         return updated
+    }
+
+    /**
+     Get whether a value associated with a `KeyPath` has been added/updated on the client, but has
+     not been updated on a Parse Server.
+     - parameter keyPath: The `KeyPath` of the value to check.
+     - throws: An error of type `ParseError`.
+     - returns: **true** if the `KeyPath` is dirty, **false** otherwise.
+     - important: In order for a `KeyPath` to be considered dirty, the respective `ParseObject` needs to
+     first be saved to a Parse Server and fetched locally.
+     - note: This method should only be used after updating a `ParseObject` using `.set()` or
+     `.mergeable` otherwide it will always return **false**.
+     */
+    func isDirtyForKey<W>(_ keyPath: KeyPath<Self, W?>) throws -> Bool where W: Equatable {
+        guard let originalData = originalData else {
+            return false
+        }
+        let original = try ParseCoding.jsonDecoder().decode(Self.self,
+                                                            from: originalData)
+        return self[keyPath: keyPath] != original[keyPath: keyPath]
     }
 }
 

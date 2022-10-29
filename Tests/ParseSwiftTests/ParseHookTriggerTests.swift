@@ -35,9 +35,6 @@ class ParseHookTriggerTests: XCTestCase {
         //: custom initializers
         init() {}
 
-        init(objectId: String?) {
-            self.objectId = objectId
-        }
         init(points: Int) {
             self.points = points
         }

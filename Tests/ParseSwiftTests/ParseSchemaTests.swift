@@ -42,11 +42,13 @@ class ParseSchemaTests: XCTestCase { // swiftlint:disable:this type_body_length
         //: Your own properties
         var points: Int?
 
-        //: a custom initializer
+        //: Custom initializers
         init() { }
+
         init(points: Int) {
             self.points = points
         }
+
         init(objectId: String, points: Int) {
             self.objectId = objectId
             self.points = points

@@ -105,10 +105,6 @@ extension GameScore {
     init(points: Int) {
         self.points = points
     }
-
-    init(objectId: String?) {
-        self.objectId = objectId
-    }
 }
 
 //: Roles can provide additional access/security to your apps.

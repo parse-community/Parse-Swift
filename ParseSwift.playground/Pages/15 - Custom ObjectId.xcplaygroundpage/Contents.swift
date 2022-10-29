@@ -56,10 +56,6 @@ extension GameScore {
         self.objectId = objectId
         self.points = points
     }
-
-    init(objectId: String) {
-        self.objectId = objectId
-    }
 }
 
 //: Define initial GameScore this time with custom `objectId`.

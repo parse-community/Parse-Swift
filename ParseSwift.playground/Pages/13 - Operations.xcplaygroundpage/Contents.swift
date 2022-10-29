@@ -50,10 +50,6 @@ extension GameScore {
     init(points: Int) {
         self.points = points
     }
-
-    init(objectId: String?) {
-        self.objectId = objectId
-    }
 }
 
 //: You can have the server do operations on your `ParseObject`'s for you.

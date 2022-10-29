@@ -128,10 +128,10 @@ score.save { result in
 
         /*:
          To modify, you need to make it a var as the value type
-         was initialized as immutable. Using `mergeable`
+         was initialized as immutable. Using `.mergeable`
          allows you to only send the updated keys to the
          parse server as opposed to the whole object. Make sure
-         to call `mergeable` before you begin
+         to call `.mergeable` before you begin
          your first mutation of your `ParseObject`.
         */
         var changedScore = savedScore.mergeable
@@ -221,10 +221,10 @@ assert(savedScore?.points == 10)
 
 /*:
  To modify, you need to make a mutable copy of `savedScore`.
- Instead of using `mergeable` this time, we will use the `set()`
+ Instead of using `.mergeable` this time, we will use the `set()`
  method which allows us to accomplish the same thing
- as `mergeable`. You can choose to use `set()` or
- `mergeable` as long as you use either before you begin
+ as `.mergeable`. You can choose to use `.set()` or
+ `.mergeable` as long as you use either before you begin
  your first mutation of your `ParseObject`.
 */
 guard var changedScore = savedScore else {

@@ -4,14 +4,19 @@ on:
     branches: [ main ]
   pull_request:
     branches: '*'
+
 env:
   CI_XCODE_OLDEST: '/Applications/Xcode_12.5.1.app/Contents/Developer'
   CI_XCODE_13: '/Applications/Xcode_13.4.1.app/Contents/Developer'
   CI_XCODE_LATEST: '/Applications/Xcode_14.0.1.app/Contents/Developer'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   xcode-test-ios:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - name: Use multiple cores
@@ -38,7 +43,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   xcode-test-macos:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - name: Create and set the default keychain
@@ -71,7 +76,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   xcode-test-tvos:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - name: Use multiple cores
@@ -98,7 +103,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   xcode-build-watchos:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - name: Use multiple cores
@@ -115,7 +120,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
   spm-test:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - name: Create and set the default keychain
@@ -149,7 +154,7 @@ jobs:
 
   xcode-test-ios-5_3:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v3
     - name: Build-Test
@@ -226,7 +231,7 @@ jobs:
   
   docs:
     needs: xcode-build-watchos
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: Use multiple cores
@@ -238,7 +243,7 @@ jobs:
 
   carthage:
    needs: xcode-build-watchos
-   runs-on: macos-12
+   runs-on: macos-latest
    steps:
      - uses: actions/checkout@v3
      - name: Use multiple cores

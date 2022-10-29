@@ -47,13 +47,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         //: custom initializers
         init() {}
 
-        init(objectId: String?) {
-            self.objectId = objectId
-        }
         init(points: Int) {
             self.points = points
             self.player = "Jen"
         }
+
         init(points: Int, name: String) {
             self.points = points
             self.player = name
@@ -595,6 +593,20 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testIsDirtyForKey() throws {
+        var score = GameScore(objectId: "hello")
+        score.objectId = "world"
+        score.points = 15
+        XCTAssertFalse(try score.isDirtyForKey(\.points))
+        score = score.set(\.points, to: 20)
+        XCTAssertTrue(try score.isDirtyForKey(\.points))
+        score = score.set(\.points, to: 15)
+        XCTAssertFalse(try score.isDirtyForKey(\.points))
+        XCTAssertFalse(try score.isDirtyForKey(\.player))
+        score = score.set(\.player, to: "yolo")
+        XCTAssertTrue(try score.isDirtyForKey(\.player))
+    }
+
     func testFetchCommand() {
         var score = GameScore(points: 10)
         let className = score.className
@@ -724,7 +736,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         do {
-            var fetched = GameScore(objectId: score.objectId)
+            var fetched = GameScore(objectId: objectId)
             fetched = try fetched.fetch(options: [])
             XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,

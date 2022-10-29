@@ -94,13 +94,11 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         //: custom initializers
         init() {}
 
-        init(objectId: String?) {
-            self.objectId = objectId
-        }
         init(points: Int) {
             self.points = points
             self.player = "Jen"
         }
+
         init(points: Int, name: String) {
             self.points = points
             self.player = name

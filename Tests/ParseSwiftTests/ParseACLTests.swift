@@ -353,9 +353,3 @@ class ParseACLTests: XCTestCase {
         }
     }
 }
-
-extension ParseACLTests.User {
-    init(objectId: String) {
-        self.objectId = objectId
-    }
-}
