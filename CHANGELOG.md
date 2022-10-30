@@ -7,6 +7,9 @@
 __New features__
 - Added the ability to check if a `ParseObject` key is dirty ([#9](https://github.com/netreconlab/Parse-Swift/pull/9)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+__Fixes__
+- Fixed an issue where the name propery of a ParseRole may not be restored after updating a ParseRole on the server ([#10](https://github.com/netreconlab/Parse-Swift/pull/10)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 4.15.2
 [Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.15.1...4.15.2), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/4.15.2/documentation/parseswift)
 

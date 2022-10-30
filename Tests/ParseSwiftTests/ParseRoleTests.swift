@@ -65,6 +65,18 @@ class ParseRoleTests: XCTestCase {
 
         // provided by Role
         var name: String?
+
+        // custom
+        var title: String?
+
+        func merge(with object: Self) throws -> Self {
+            var updated = try mergeParse(with: object)
+            if updated.shouldRestoreKey(\.title,
+                                         original: object) {
+                updated.title = object.title
+            }
+            return updated
+        }
     }
 
     struct Level: ParseObject {
@@ -129,6 +141,49 @@ class ParseRoleTests: XCTestCase {
         XCTAssertEqual(role.endpoint.urlComponent, "/roles")
         role.objectId = "me"
         XCTAssertEqual(role.endpoint.urlComponent, "/roles/me")
+    }
+
+    func testSaveUpdateCommandParseObjectMutable() throws {
+        var role = try Role<User>(name: "Administrator")
+        let className = role.className
+        let objectId = "yarr"
+        role.objectId = objectId
+        role.createdAt = Date()
+        role.updatedAt = role.createdAt
+
+        let command = try role.mergeable.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+
+        guard let body = command.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+
+        let expected = "{}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+
+        var empty = role.mergeable
+        empty.title = "hello"
+        let command2 = try empty.saveCommand()
+        guard let body2 = command2.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+        let expected2 = "{\"title\":\"hello\"}"
+        let encoded2 = try ParseCoding.parseEncoder()
+            .encode(body2, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
+        XCTAssertEqual(decoded2, expected2)
     }
 
     func testUserAddIncorrectClassKeyError() throws {
@@ -416,6 +471,52 @@ class ParseRoleTests: XCTestCase {
 
         let updatedRole = try operation.save()
         XCTAssertEqual(updatedRole.updatedAt, serverResponse.updatedAt)
+        XCTAssertTrue(updatedRole.hasSameObjectId(as: serverResponse))
+    }
+
+    func testRoleUpdateMergeSynchronous() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.createdAt = Date()
+        role.updatedAt = Date()
+        role.title = "hello"
+        XCTAssertNil(role.roles) // Should not produce a relation without an objectId.
+        role.objectId = "yolo"
+        guard role.roles != nil else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+
+        var serverResponse = role
+        serverResponse.createdAt = nil
+        serverResponse.updatedAt = Date()
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+            //Get dates in correct format from ParseDecoding strategy
+            serverResponse = try serverResponse.getDecoder().decode(Role<User>.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        var changedRole = role
+            .set(\.title, to: "peace")
+        let updatedRole = try changedRole.save()
+        XCTAssertEqual(updatedRole.updatedAt, serverResponse.updatedAt)
+        XCTAssertEqual(updatedRole.name, serverResponse.name)
+        XCTAssertEqual(updatedRole.title, changedRole.title)
         XCTAssertTrue(updatedRole.hasSameObjectId(as: serverResponse))
     }
 

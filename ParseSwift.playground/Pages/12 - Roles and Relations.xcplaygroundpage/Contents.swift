@@ -58,15 +58,18 @@ struct Role<RoleUser: ParseUser>: ParseRole {
     //: Provided by Role.
     var name: String?
 
+    //: Custom properties.
+    var subtitle: String
+
     /*:
      Optional - implement your own version of merge
      for faster decoding after updating your `ParseObject`.
      */
     func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(with: object)
-        if updated.shouldRestoreKey(\.name,
+        if updated.shouldRestoreKey(\.subtitle,
                                      original: object) {
-            updated.name = object.name
+            updated.subtitle = object.subtitle
         }
         return updated
     }
@@ -124,7 +127,8 @@ acl.setWriteAccess(user: currentUser, value: true)
 
 do {
     //: Create the actual Role with a name and ACL.
-    let adminRole = try Role<User>(name: "Administrator", acl: acl)
+    var adminRole = try Role<User>(name: "Administrator", acl: acl)
+    adminRole.subtitle = "staff"
     adminRole.save { result in
         switch result {
         case .success(let saved):
@@ -166,7 +170,10 @@ do {
     print("Error: \(error)")
 }
 
-//: To retrieve the users who are all Administrators, we need to query the relation.
+/*:
+ To retrieve the users who are all Administrators,
+ we need to query the relation.
+ */
 do {
     let query: Query<User>? = try savedRole!.users?.query()
     query?.find { result in
@@ -201,8 +208,10 @@ do {
     print(error)
 }
 
-//: Additional roles can be created and tied to already created roles. Lets create a "Member" role.
-
+/*:
+ Additional roles can be created and tied to already created roles.
+ Lets create a "Member" role.
+*/
 //: This variable will store the saved role.
 var savedRoleModerator: Role<User>?
 
@@ -233,8 +242,12 @@ if savedRoleModerator != nil {
 
 //: Roles can be added to our previously saved Role.
 do {
-    //: `ParseRoles` have `ParseRelations` that relate them either `ParseUser` and `ParseRole` objects.
-    //: The `ParseUser` relations can be accessed using `users`. We can then add `ParseUser`'s to the relation.
+    /*:
+     `ParseRoles` have `ParseRelations` that relate them either
+     `ParseUser` and `ParseRole` objects. The `ParseUser`
+     relations can be accessed using `users`. We can then add
+     `ParseUser`'s to the relation.
+     */
     try savedRole!.roles?.add([savedRoleModerator!]).save { result in
         switch result {
         case .success(let saved):
@@ -249,8 +262,11 @@ do {
     print("Error: \(error)")
 }
 
-//: To retrieve the users who are all Administrators, we need to query the relation.
-//: This time we will use a helper query from `ParseRole`.
+/*:
+ To retrieve the users who are all Administrators,
+ we need to query the relation. This time we will
+ use a helper query from `ParseRole`.
+ */
 do {
     try savedRole!.queryRoles().find { result in
         switch result {
@@ -284,10 +300,12 @@ do {
     print(error)
 }
 
-//: Using this relation, you can create one-to-many relationships with other `ParseObjecs`,
-//: similar to `users` and `roles`.
-//: All `ParseObject`s have a `ParseRelation` attribute that be used on instances.
-//: For example, the User has:
+/*:
+ Using this relation, you can create one-to-many relationships
+ with other `ParseObjecs`, similar to `users` and `roles`. All
+ `ParseObject`s have a `ParseRelation` attribute that be used on
+ instances. For example, the User has:
+ */
 var relation = User.current!.relation
 let score1 = GameScore(points: 53)
 let score2 = GameScore(points: 57)
