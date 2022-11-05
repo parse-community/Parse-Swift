@@ -4,22 +4,10 @@ This document describes how to migrate from the [Parse ObjC SDK](https://github.
 
 ℹ️ *This document is a work-in-progress. If you find information missing, please submit a pull request to help us updating this document for the benefit of others.*
 
-- [Status of the SDKs](#status-of-the-sdks)
-- [Migration Instructions](#migration-instructions)
 - [Behavioral Differences](#behavioral-differences)
 - [Known Issues](#known-issues)
   - [Installation](#installation)
 - [Feature Comparison](#feature-comparison)
-
-# Status of the SDKs
-
-The Parse ObjC SDK will be phased out in the future in favor of the more modern Parse Swift SDK. While both SDKs overlap in the ecosystems they serve, they are built conceptually different, which can make migration more challenging. Your milage may vary depending on your use case, we therefore encourage you to consider migrating as soon as possible.
-
-# Migration Instructions
-
-1. x
-2. x
-3. x
 
 # Behavioral Differences
 
