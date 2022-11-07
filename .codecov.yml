@@ -1,6 +1,6 @@
 coverage:
   ignore:
-    - Tests/*
+    - Tests/ParseSwiftTests/.*
     - TestHost/*
     - TestHostTV/*
   status:
