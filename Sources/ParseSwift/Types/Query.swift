@@ -616,7 +616,7 @@ extension Query: Queryable {
     /**
      Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query.
         
-      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+      - parameter batchLimit: The maximum number of objects to send in each batch. If the amount of items to be batched
          is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
          Defaults to 50.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.

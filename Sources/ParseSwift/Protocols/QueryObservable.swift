@@ -37,7 +37,7 @@ public protocol QueryObservable: ObservableObject {
     /**
      Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query
      and updates the view model when complete.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the amount of items to be batched
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - warning: The items are processed in an unspecified order. The query may not have any sort
      order, and may not use limit or skip.

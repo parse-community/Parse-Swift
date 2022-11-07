@@ -51,7 +51,7 @@ public extension Query {
     /**
      Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query
      and publishes when complete.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the amount of items to be batched
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - warning: The items are processed in an unspecified order. The query may not have any sort

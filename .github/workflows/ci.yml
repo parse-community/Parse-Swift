@@ -188,6 +188,7 @@ jobs:
         run: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Prepare codecov
         run: |
+          cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
           llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info_linux.lcov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

@@ -4,7 +4,7 @@
 [Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.16.1...main), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/main/documentation/parseswift)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 4.16.0
+### 4.16.1
 [Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.16.0...4.16.1), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/4.16.1/documentation/parseswift)
 
 __Fixes__
