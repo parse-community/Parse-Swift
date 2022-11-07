@@ -642,6 +642,48 @@ extension Query: Queryable {
             completion(.failure(error))
             return
         }
+
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
+        Task {
+            var query = self
+                .order([.ascending("objectId")])
+            query.limit = limit ?? ParseConstants.batchLimit
+            var results = [ResultType]()
+            var finished = false
+            while !finished {
+                do {
+                    let currentResults = try await query.findCommand().executeAsync(options: options,
+                                                                                    callbackQueue: callbackQueue)
+                    results.append(contentsOf: currentResults)
+                    if currentResults.count >= query.limit {
+                        guard let lastObjectId = results[results.count - 1].objectId else {
+                            throw ParseError(code: .unknownError, message: "Last object should have an id.")
+                        }
+                        query.where.add("objectId" > lastObjectId)
+                    } else {
+                        finished = true
+                    }
+                } catch {
+                    let defaultError = ParseError(code: .unknownError,
+                                                  message: error.localizedDescription)
+                    let parseError = error as? ParseError ?? defaultError
+                    callbackQueue.async {
+                        completion(.failure(parseError))
+                    }
+                    return
+                }
+            }
+            let finalResults = results
+            callbackQueue.async {
+                completion(.success(finalResults))
+            }
+        }
+        #else
+        var query = self
+            .order([.ascending("objectId")])
+        query.limit = limit ?? ParseConstants.batchLimit
+        var results = [ResultType]()
+        var finished = false
         let uuid = UUID()
         let queue = DispatchQueue(label: "com.parse.findAll.\(uuid)",
                                   qos: .default,
@@ -649,13 +691,6 @@ extension Query: Queryable {
                                   autoreleaseFrequency: .inherit,
                                   target: nil)
         queue.sync {
-
-            var query = self
-                .order([.ascending("objectId")])
-            query.limit = limit ?? ParseConstants.batchLimit
-            var results = [ResultType]()
-            var finished = false
-
             while !finished {
                 do {
                     let currentResults = try query.findCommand().execute(options: options)
@@ -683,6 +718,7 @@ extension Query: Queryable {
                 completion(.success(results))
             }
         }
+        #endif
     }
 
     /**
