@@ -74,6 +74,7 @@ Run `carthage update`, and you should now have the latest version of ParseSwift 
 ## Example Apps and Frameworks
 Below is a list of apps and frameworks that use Parse-Swift to help developers take advantage of the framework:
 - [ParseServerSwift](https://github.com/netreconlab/parse-server-swift) - Write Parse Cloud Code in Swift using Parse-Swift
+- [ParseServerAnyAnalytics](https://github.com/netreconlab/parse-server-any-analytics-adapter) - Analytics adapter to connect Parse Server analytics to any 3rd party analytics tool
 - [CarekitSampe-ParseCareKit](https://github.com/netreconlab/CareKitSample-ParseCareKit) - An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing CareKit data to the Cloud via [ParseCareKit](https://github.com/netreconlab/ParseCareKit)
 - [ParseCareKit](https://github.com/netreconlab/ParseCareKit) - Synchronize CareKit 2.1+ data with a parse-server using Parse-Swift
 - [SnapCat](https://github.com/netreconlab/SnapCat) - SnapCat is a social media application for posting pictures, comments, and finding friends. SnapCat is designed using SwiftUI and the ParseSwift SDK
