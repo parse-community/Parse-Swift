@@ -2,7 +2,7 @@
 <!--
     Please check the following boxes [x] before submitting your issue.
     Click the "Preview" tab for better readability.
-    Thanks for contributing to Parse Platform!
+    Thanks for contributing to Parse-Swift!
 -->
 
 - [ ] I am not disclosing a [vulnerability](https://github.com/netreconlab/Parse-Swift/security/policy).
@@ -10,8 +10,6 @@
 
 ### Issue Description
 <!-- Add a brief description of the issue this PR solves. -->
-
-Related issue: #`FILL_THIS_OUT`
 
 ### Approach
 <!-- Add a description of the approach in this PR. -->
