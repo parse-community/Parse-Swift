@@ -41,9 +41,8 @@ public struct ParseHealth: ParseTypeable {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         healthCommand()
             .executeAsync(options: options,
-                          callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     internal static func healthCommand() -> API.Command<NoBody, String> {

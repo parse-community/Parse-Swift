@@ -547,9 +547,8 @@ extension Query: Queryable {
         }
         do {
             try findCommand().executeAsync(options: options,
-                                           callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                                           callbackQueue: callbackQueue,
+                                           completion: completion)
         } catch {
             let parseError = ParseError(code: .unknownError,
                                         message: error.localizedDescription)
@@ -587,9 +586,8 @@ extension Query: Queryable {
         if !usingMongoDB {
             do {
                 try findExplainCommand().executeAsync(options: options,
-                                                      callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                      callbackQueue: callbackQueue,
+                                                      completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -600,9 +598,8 @@ extension Query: Queryable {
         } else {
             do {
                 try findExplainMongoCommand().executeAsync(options: options,
-                                                           callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                           callbackQueue: callbackQueue,
+                                                           completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -652,7 +649,7 @@ extension Query: Queryable {
             var finished = false
             while !finished {
                 do {
-                    let currentResults = try await query.findCommand().executeAsync(options: options,
+                    let currentResults = try await query.findCommand().execute(options: options,
                                                                                     callbackQueue: callbackQueue)
                     results.append(contentsOf: currentResults)
                     if currentResults.count >= query.limit {
@@ -790,9 +787,8 @@ extension Query: Queryable {
         }
         do {
             try firstCommand().executeAsync(options: options,
-                                            callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                                            callbackQueue: callbackQueue,
+                                            completion: completion)
         } catch {
             let parseError = ParseError(code: .unknownError,
                                         message: error.localizedDescription)
@@ -834,9 +830,8 @@ extension Query: Queryable {
         if !usingMongoDB {
             do {
                 try firstExplainCommand().executeAsync(options: options,
-                                                       callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                       callbackQueue: callbackQueue,
+                                                       completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -847,9 +842,8 @@ extension Query: Queryable {
         } else {
             do {
                 try firstExplainMongoCommand().executeAsync(options: options,
-                                                            callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                            callbackQueue: callbackQueue,
+                                                            completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -920,9 +914,8 @@ extension Query: Queryable {
         }
         do {
             try countCommand().executeAsync(options: options,
-                                            callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                                            callbackQueue: callbackQueue,
+                                            completion: completion)
         } catch {
             let parseError = ParseError(code: .unknownError,
                                         message: error.localizedDescription)
@@ -960,9 +953,8 @@ extension Query: Queryable {
         if !usingMongoDB {
             do {
                 try countExplainCommand().executeAsync(options: options,
-                                                       callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                       callbackQueue: callbackQueue,
+                                                       completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -973,9 +965,8 @@ extension Query: Queryable {
         } else {
             do {
                 try countExplainMongoCommand().executeAsync(options: options,
-                                                            callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                            callbackQueue: callbackQueue,
+                                                            completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -1006,9 +997,8 @@ extension Query: Queryable {
         }
         do {
             try withCountCommand().executeAsync(options: options,
-                                                callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                                                callbackQueue: callbackQueue,
+                                                completion: completion)
         } catch {
             let parseError = ParseError(code: .unknownError,
                                         message: error.localizedDescription)
@@ -1046,9 +1036,8 @@ extension Query: Queryable {
         if !usingMongoDB {
             do {
                 try withCountExplainCommand().executeAsync(options: options,
-                                                           callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                           callbackQueue: callbackQueue,
+                                                           completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -1059,9 +1048,8 @@ extension Query: Queryable {
         } else {
             do {
                 try withCountExplainMongoCommand().executeAsync(options: options,
-                                                            callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                                                                callbackQueue: callbackQueue,
+                                                                completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -1165,9 +1153,8 @@ extension Query: Queryable {
         do {
             try query.aggregateCommand()
                 .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                    completion(result)
-            }
+                              callbackQueue: callbackQueue,
+                              completion: completion)
         } catch {
             let parseError = ParseError(code: .unknownError,
                                         message: error.localizedDescription)
@@ -1290,9 +1277,9 @@ extension Query: Queryable {
         if !usingMongoDB {
             do {
                 try query.aggregateExplainCommand()
-                    .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                        completion(result)
-                }
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -1303,9 +1290,9 @@ extension Query: Queryable {
         } else {
             do {
                 try query.aggregateExplainMongoCommand()
-                    .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                        completion(result)
-                }
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -1365,9 +1352,8 @@ extension Query: Queryable {
         do {
             try distinctCommand(key: key)
                 .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                    completion(result)
-            }
+                              callbackQueue: callbackQueue,
+                              completion: completion)
         } catch {
             let parseError = ParseError(code: .unknownError,
                                         message: error.localizedDescription)
@@ -1449,9 +1435,8 @@ extension Query: Queryable {
             do {
                 try distinctExplainCommand(key: key)
                     .executeAsync(options: options,
-                                  callbackQueue: callbackQueue) { result in
-                        completion(result)
-                }
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)
@@ -1463,9 +1448,8 @@ extension Query: Queryable {
             do {
                 try distinctExplainMongoCommand(key: key)
                     .executeAsync(options: options,
-                                  callbackQueue: callbackQueue) { result in
-                        completion(result)
-                }
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let parseError = ParseError(code: .unknownError,
                                             message: error.localizedDescription)

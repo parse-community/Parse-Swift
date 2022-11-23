@@ -286,9 +286,8 @@ public extension ParseUser {
             do {
                 try signupCommand(body: body)
                     .executeAsync(options: options,
-                                  callbackQueue: callbackQueue) { result in
-                        completion(result)
-                }
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -360,9 +359,8 @@ public extension ParseUser {
             let body = SignupLoginBody(authData: authData)
             current.linkCommand(body: body)
                 .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
+                              callbackQueue: callbackQueue,
+                              completion: completion)
         } else {
             callbackQueue.async {
                 completion(.success(self))
@@ -430,9 +428,8 @@ public extension ParseUser {
         let body = SignupLoginBody(authData: [type: authData])
         current.linkCommand(body: body)
             .executeAsync(options: options,
-                          callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     internal func linkCommand() throws -> API.Command<Self, Self> {

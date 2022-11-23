@@ -1,14 +1,20 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.16.1...main), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/main/documentation/parseswift)
+[Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.16.2...main), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/main/documentation/parseswift)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.16.2
+[Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.16.1...4.16.2), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/4.16.2/documentation/parseswift)
+
+__Fixes__
+- Callback async calls return to correct callbackQueue ([#19](https://github.com/netreconlab/Parse-Swift/pull/19)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.16.1
 [Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.16.0...4.16.1), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/4.16.1/documentation/parseswift)
 
 __Fixes__
-- Querying using findAll throws a hang risk warning in Xcode 14 ([#14](https://github.com/netreconlab/Parse-Swift/pull/10)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Querying using findAll throws a hang risk warning in Xcode 14 ([#14](https://github.com/netreconlab/Parse-Swift/pull/14)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.16.0
 [Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.15.2...4.16.0), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/4.16.0/documentation/parseswift)

@@ -383,15 +383,13 @@ extension ParseSchema {
         options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         purgeCommand().executeAsync(options: options,
-                                        callbackQueue: callbackQueue) { result in
+                                    callbackQueue: callbackQueue) { result in
             switch result {
 
             case .success:
                 completion(.success(()))
             case .failure(let error):
-                callbackQueue.async {
-                    completion(.failure(error))
-                }
+                completion(.failure(error))
             }
         }
     }
@@ -421,15 +419,13 @@ extension ParseSchema {
         options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         deleteCommand().executeAsync(options: options,
-                                         callbackQueue: callbackQueue) { result in
+                                     callbackQueue: callbackQueue) { result in
             switch result {
 
             case .success:
                 completion(.success(()))
             case .failure(let error):
-                callbackQueue.async {
-                    completion(.failure(error))
-                }
+                completion(.failure(error))
             }
         }
     }

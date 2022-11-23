@@ -14,15 +14,14 @@ import FoundationNetworking
 
 internal extension API.Command {
     // MARK: Asynchronous Execution
-    func executeAsync(options: API.Options,
-                      batching: Bool = false,
-                      callbackQueue: DispatchQueue,
-                      notificationQueue: DispatchQueue? = nil,
-                      childObjects: [String: PointerType]? = nil,
-                      childFiles: [UUID: ParseFile]? = nil,
-                      uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
-                      // swiftlint:disable:next line_length
-                      downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) async throws -> U {
+    func execute(options: API.Options,
+                 batching: Bool = false,
+                 callbackQueue: DispatchQueue,
+                 notificationQueue: DispatchQueue? = nil,
+                 childObjects: [String: PointerType]? = nil,
+                 childFiles: [UUID: ParseFile]? = nil,
+                 uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
+                 downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) async throws -> U {
         try await withCheckedThrowingContinuation { continuation in
             self.executeAsync(options: options,
                               batching: batching,

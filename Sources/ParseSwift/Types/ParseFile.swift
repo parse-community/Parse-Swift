@@ -466,10 +466,9 @@ extension ParseFile {
                     do {
                         try fetched.uploadFileCommand()
                             .executeAsync(options: options,
-                                      callbackQueue: callbackQueue,
-                                      uploadProgress: progress) { result in
-                                completion(result)
-                            }
+                                          callbackQueue: callbackQueue,
+                                          uploadProgress: progress,
+                                          completion: completion)
                     } catch {
                         let defaultError = ParseError(code: .unknownError,
                                                       message: error.localizedDescription)
@@ -489,9 +488,8 @@ extension ParseFile {
                 try uploadFileCommand()
                     .executeAsync(options: options,
                                   callbackQueue: callbackQueue,
-                                  uploadProgress: progress) { result in
-                        completion(result)
-                    }
+                                  uploadProgress: progress,
+                                  completion: completion)
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -703,9 +701,8 @@ extension ParseFile {
             downloadFileCommand()
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
-                              downloadProgress: progress) { result in
-                    completion(result)
-                }
+                              downloadProgress: progress,
+                              completion: completion)
         }
     }
 

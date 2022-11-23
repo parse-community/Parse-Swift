@@ -1243,6 +1243,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 }
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
+                if callbackQueue.qos == .userInteractive {
+                    XCTAssertTrue(Thread.isMainThread)
+                }
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -2300,6 +2303,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTFail("Should have fetched: \(error.localizedDescription)")
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -2506,6 +2510,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTFail("Should have fetched: \(error.localizedDescription)")
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation1.fulfill()
         }
 
@@ -2646,9 +2651,11 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     }
                     XCTAssertNil(User.current)
                 }
+                XCTAssertTrue(Thread.isMainThread)
             case .failure(let error):
                 XCTFail("Should have deleted: \(error.localizedDescription)")
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation1.fulfill()
         }
 

@@ -550,7 +550,9 @@ transactions for this call.
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -604,7 +606,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -657,7 +661,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -710,7 +716,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1129,9 +1137,8 @@ extension ParseObject {
          do {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                    completion(result)
-            }
+                              callbackQueue: callbackQueue,
+                              completion: completion)
          } catch {
             callbackQueue.async {
                 if let error = error as? ParseError {
@@ -1248,7 +1255,9 @@ extension ParseObject {
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1287,7 +1296,9 @@ extension ParseObject {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1325,7 +1336,9 @@ extension ParseObject {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1363,7 +1376,9 @@ extension ParseObject {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)

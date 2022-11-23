@@ -70,14 +70,15 @@ extension ParseHookFunctionable {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try fetchCommand().executeAsync(options: options,
-                                            callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                                            callbackQueue: callbackQueue,
+                                            completion: completion)
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -124,9 +125,8 @@ extension ParseHookFunctionable {
         options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         fetchAllCommand().executeAsync(options: options,
-                                       callbackQueue: callbackQueue) { result in
-            completion(result)
-        }
+                                       callbackQueue: callbackQueue,
+                                       completion: completion)
     }
 
     static func fetchAllCommand() -> API.NonParseBodyCommand<Self, [Self]> {
@@ -157,14 +157,15 @@ extension ParseHookFunctionable {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try createCommand().executeAsync(options: options,
-                                             callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                                             callbackQueue: callbackQueue,
+                                             completion: completion)
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -199,14 +200,15 @@ extension ParseHookFunctionable {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             try updateCommand().executeAsync(options: options,
-                                             callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                                             callbackQueue: callbackQueue,
+                                             completion: completion)
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -253,7 +255,9 @@ extension ParseHookFunctionable {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 

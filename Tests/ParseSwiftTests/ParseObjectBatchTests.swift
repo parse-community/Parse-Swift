@@ -829,7 +829,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     func saveAllAsync(scores: [GameScore], // swiftlint:disable:this function_body_length cyclomatic_complexity
                       transaction: Bool = false,
-                      scoresOnServer: [GameScore], callbackQueue: DispatchQueue) {
+                      scoresOnServer: [GameScore],
+                      callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Save object1")
         guard let scoreOnServer = scoresOnServer.first,
@@ -891,6 +892,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            if callbackQueue.qos == .userInteractive {
+                XCTAssertTrue(Thread.isMainThread)
             }
             expectation1.fulfill()
         }
@@ -996,6 +1000,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            if callbackQueue.qos == .userInteractive {
+                XCTAssertTrue(Thread.isMainThread)
             }
             expectation1.fulfill()
         }
@@ -1215,6 +1222,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             } else {
                 XCTFail("Should have received error")
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -1232,6 +1240,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             } else {
                 XCTFail("Should have received error")
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -1240,7 +1249,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     /* Note, the current batchCommand for updateAll returns the original object that was updated as
     opposed to the latestUpdated. The objective c one just returns true/false */
     // swiftlint:disable:next function_body_length cyclomatic_complexity
-    func updateAllAsync(scores: [GameScore], scoresOnServer: [GameScore],
+    func updateAllAsync(scores: [GameScore],
+                        scoresOnServer: [GameScore],
                         callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
@@ -1300,6 +1310,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            if callbackQueue.qos == .userInteractive {
+                XCTAssertTrue(Thread.isMainThread)
             }
             expectation1.fulfill()
         }
@@ -1624,6 +1637,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            if callbackQueue.qos == .userInteractive {
+                XCTAssertTrue(Thread.isMainThread)
+            }
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -1941,6 +1957,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            if callbackQueue.qos == .userInteractive {
+                XCTAssertTrue(Thread.isMainThread)
+            }
             expectation1.fulfill()
         }
 
@@ -2026,6 +2045,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             } else {
                 XCTFail("Should have received error")
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -2068,6 +2088,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            if callbackQueue.qos == .userInteractive {
+                XCTAssertTrue(Thread.isMainThread)
             }
             expectation1.fulfill()
         }

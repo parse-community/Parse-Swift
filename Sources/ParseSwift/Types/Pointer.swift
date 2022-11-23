@@ -141,9 +141,8 @@ public extension Pointer {
                                       path: path) { (data) -> T in
                     try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }.executeAsync(options: options,
-                       callbackQueue: callbackQueue) { result in
-            completion(result)
-        }
+                       callbackQueue: callbackQueue,
+                       completion: completion)
     }
 }
 

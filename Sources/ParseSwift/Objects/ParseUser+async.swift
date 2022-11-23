@@ -524,7 +524,7 @@ internal extension ParseUser {
                 command = try self.updateCommand()
             }
             let saved = try await command
-                .executeAsync(options: options,
+                .execute(options: options,
                               callbackQueue: callbackQueue,
                               childObjects: savedChildObjects,
                               childFiles: savedChildFiles)
@@ -598,7 +598,7 @@ internal extension Sequence where Element: ParseUser {
             for batch in batches {
                 let saved = try await API.Command<Self.Element, Self.Element>
                         .batch(commands: batch, transaction: transaction)
-                        .executeAsync(options: options,
+                        .execute(options: options,
                                       batching: true,
                                       callbackQueue: callbackQueue,
                                       childObjects: childObjects,

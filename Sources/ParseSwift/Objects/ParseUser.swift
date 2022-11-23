@@ -238,9 +238,8 @@ extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         loginCommand(username: username, password: password)
             .executeAsync(options: options,
-                          callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     internal static func loginCommand(username: String,
@@ -333,13 +332,8 @@ extension ParseUser {
         do {
             try newUser.meCommand(sessionToken: sessionToken)
                 .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                if case .success(let foundResult) = result {
-                    completion(.success(foundResult))
-                } else {
-                    completion(result)
-                }
-            }
+                              callbackQueue: callbackQueue,
+                              completion: completion)
         } catch let error as ParseError {
             callbackQueue.async {
                 completion(.failure(error))
@@ -769,9 +763,8 @@ extension ParseUser {
             do {
                 try self.linkCommand()
                     .executeAsync(options: options,
-                                  callbackQueue: callbackQueue) { result in
-                        completion(result)
-                    }
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -784,9 +777,8 @@ extension ParseUser {
             do {
                 try signupCommand()
                     .executeAsync(options: options,
-                                  callbackQueue: callbackQueue) { result in
-                        completion(result)
-                }
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -833,9 +825,8 @@ extension ParseUser {
             do {
                 try signupCommand(body: body)
                     .executeAsync(options: options,
-                                  callbackQueue: callbackQueue) { result in
-                        completion(result)
-                }
+                                  callbackQueue: callbackQueue,
+                                  completion: completion)
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1115,7 +1106,9 @@ extension ParseUser {
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1154,7 +1147,9 @@ extension ParseUser {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1193,7 +1188,9 @@ extension ParseUser {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1232,7 +1229,9 @@ extension ParseUser {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1637,7 +1636,9 @@ public extension Sequence where Element: ParseUser {
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1691,7 +1692,9 @@ public extension Sequence where Element: ParseUser {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1745,7 +1748,9 @@ public extension Sequence where Element: ParseUser {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1799,7 +1804,9 @@ public extension Sequence where Element: ParseUser {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)

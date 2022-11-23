@@ -803,6 +803,9 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
             case .success(let saved):
                 XCTAssertNil(saved.ACL)
+                if callbackQueue.qos == .userInteractive {
+                    XCTAssertTrue(Thread.isMainThread)
+                }
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

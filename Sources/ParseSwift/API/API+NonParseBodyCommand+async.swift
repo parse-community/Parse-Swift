@@ -14,8 +14,8 @@ import FoundationNetworking
 
 extension API.NonParseBodyCommand {
     // MARK: Asynchronous Execution
-    func executeAsync(options: API.Options,
-                      callbackQueue: DispatchQueue) async throws -> U {
+    func execute(options: API.Options,
+                 callbackQueue: DispatchQueue) async throws -> U {
         try await withCheckedThrowingContinuation { continuation in
             self.executeAsync(options: options,
                               callbackQueue: callbackQueue,

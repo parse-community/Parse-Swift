@@ -57,9 +57,9 @@ extension ParseCloudable {
                             callbackQueue: DispatchQueue = .main,
                             completion: @escaping (Result<ReturnType, ParseError>) -> Void) {
         runFunctionCommand()
-            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     internal func runFunctionCommand() -> API.Command<Self, ReturnType> {
@@ -94,9 +94,9 @@ extension ParseCloudable {
                          callbackQueue: DispatchQueue = .main,
                          completion: @escaping (Result<ReturnType, ParseError>) -> Void) {
         startJobCommand()
-            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     internal func startJobCommand() -> API.Command<Self, ReturnType> {

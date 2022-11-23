@@ -1219,6 +1219,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
                 XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
                 XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+                if callbackQueue.qos == .userInteractive {
+                    XCTAssertTrue(Thread.isMainThread)
+                }
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -1286,7 +1289,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
-            //Get dates in correct format from ParseDecoding strategy
+            // Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
@@ -1320,6 +1323,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 }
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
+                if callbackQueue.qos == .userInteractive {
+                    XCTAssertTrue(Thread.isMainThread)
+                }
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

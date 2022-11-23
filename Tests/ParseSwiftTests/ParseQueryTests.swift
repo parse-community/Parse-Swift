@@ -628,6 +628,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 20.0)
@@ -661,6 +662,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTAssertTrue(error.message.contains("Cannot iterate"))
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 20.0)
@@ -694,6 +696,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTAssertTrue(error.message.contains("Cannot iterate"))
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 20.0)
@@ -727,6 +730,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTAssertTrue(error.message.contains("Cannot iterate"))
             }
+            XCTAssertTrue(Thread.isMainThread)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 20.0)

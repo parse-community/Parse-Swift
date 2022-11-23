@@ -555,9 +555,7 @@ extension ParseInstallation {
                             let defaultError = ParseError(code: .unknownError,
                                                           message: error.localizedDescription)
                             let parseError = error as? ParseError ?? defaultError
-                            callbackQueue.async {
-                                completion(.failure(parseError))
-                            }
+                            completion(.failure(parseError))
                         }
                     } else {
                         completion(result)
@@ -700,7 +698,9 @@ extension ParseInstallation {
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -741,7 +741,9 @@ extension ParseInstallation {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -782,7 +784,9 @@ extension ParseInstallation {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -823,7 +827,9 @@ extension ParseInstallation {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1017,9 +1023,7 @@ extension ParseInstallation {
                              let defaultError = ParseError(code: .unknownError,
                                                            message: error.localizedDescription)
                              let parseError = error as? ParseError ?? defaultError
-                             callbackQueue.async {
-                                 completion(.failure(parseError))
-                             }
+                             completion(.failure(parseError))
                          }
                      case .failure(let error):
                          completion(.failure(error))
@@ -1207,7 +1211,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1261,7 +1267,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1315,7 +1323,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1369,7 +1379,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)

@@ -47,9 +47,9 @@ extension ParseConfig {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         fetchCommand()
-            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     internal func fetchCommand() -> API.NonParseBodyCommand<Self, Self> {
@@ -95,9 +95,9 @@ extension ParseConfig {
         options.insert(.usePrimaryKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         updateCommand()
-            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                completion(result)
-            }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          completion: completion)
     }
 
     internal func updateCommand() -> API.NonParseBodyCommand<ConfigUpdateBody<Self>, Bool> {

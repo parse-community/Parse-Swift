@@ -383,10 +383,10 @@ or disable transactions for this call.
                 command = try self.updateCommand()
             }
             return try await command
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              childObjects: savedChildObjects,
-                              childFiles: savedChildFiles)
+                .execute(options: options,
+                         callbackQueue: callbackQueue,
+                         childObjects: savedChildObjects,
+                         childFiles: savedChildFiles)
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
@@ -455,11 +455,11 @@ internal extension Sequence where Element: ParseObject {
             for batch in batches {
                 let saved = try await API.Command<Self.Element, Self.Element>
                         .batch(commands: batch, transaction: transaction)
-                        .executeAsync(options: options,
-                                      batching: true,
-                                      callbackQueue: callbackQueue,
-                                      childObjects: childObjects,
-                                      childFiles: childFiles)
+                        .execute(options: options,
+                                 batching: true,
+                                 callbackQueue: callbackQueue,
+                                 childObjects: childObjects,
+                                 childFiles: childFiles)
                 returnBatch.append(contentsOf: saved)
             }
             return returnBatch
@@ -485,8 +485,8 @@ internal extension ParseEncodable {
                    transaction: transaction,
                    objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
                    filesSavedBeforeThisOne: filesSavedBeforeThisOne)
-            .executeAsync(options: options,
-                          callbackQueue: callbackQueue)
+            .execute(options: options,
+                     callbackQueue: callbackQueue)
     }
 }
 #endif

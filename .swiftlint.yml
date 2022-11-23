@@ -1,4 +1,7 @@
 disabled_rules:
+  - large_tuple
+  - unused_optional_binding
+  - type_name
   - file_length
   - cyclomatic_complexity
   - function_body_length
