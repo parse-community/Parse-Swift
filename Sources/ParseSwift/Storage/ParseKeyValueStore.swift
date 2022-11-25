@@ -11,13 +11,6 @@ import Foundation
  A store that supports key/value storage. It should be able
  to handle any object that conforms to encodable and decodable.
  */
-@available(*, deprecated, renamed: "ParsePrimitiveStorable")
-public typealias ParseKeyValueStore = ParsePrimitiveStorable
-
-/**
- A store that supports key/value storage. It should be able
- to handle any object that conforms to encodable and decodable.
- */
 public protocol ParsePrimitiveStorable {
     /// Delete an object from the store.
     /// - parameter key: The unique key value of the object.

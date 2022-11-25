@@ -445,34 +445,6 @@ internal extension Sequence where Element: ParseInstallation {
 // MARK: Migrate from Objective-C SDK
 public extension ParseInstallation {
     /**
-     Migrates the `ParseInstallation` *asynchronously* from the Objective-C SDK Keychain.
-
-     - parameter copyEntireInstallation: When **true**, copies the
-     entire `ParseInstallation` from the Objective-C SDK Keychain to the Swift SDK. When
-     **false**, only the `channels` and `deviceToken` are copied from the Objective-C
-     SDK Keychain; resulting in a new `ParseInstallation` for original `sessionToken`.
-     Defaults to **true**.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns saved `ParseInstallation`.
-     - throws: An error of type `ParseError`.
-     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
-     desires a different policy, it should be inserted in `options`.
-     - warning: When initializing the Swift SDK, `migratingFromObjcSDK` should be set to **false**
-     when calling this method.
-     - warning: The latest **PFInstallation** from the Objective-C SDK should be saved to your
-     Parse Server before calling this method.
-    */
-    @available(*, deprecated, message: "This does not work, use become() instead")
-    @discardableResult static func migrateFromObjCKeychain(copyEntireInstallation: Bool = true,
-                                                           options: API.Options = []) async throws -> Self {
-        try await withCheckedThrowingContinuation { continuation in
-            Self.migrateFromObjCKeychain(copyEntireInstallation: copyEntireInstallation,
-                                         options: options,
-                                         completion: continuation.resume)
-        }
-    }
-
-    /**
      Deletes the Objective-C Keychain along with the Objective-C `ParseInstallation`
      from the Parse Server *asynchronously*.
 

@@ -163,8 +163,8 @@ class ParseOperationAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         var score = GameScore()
         score.objectId = "yarr"
         let operations = try score.operation
-            .set(\.points, value: 15)
-            .set(\.player, value: "hello")
+            .set(\.points, to: 15)
+            .set(\.player, to: "hello")
 
         var scoreOnServer = score
         scoreOnServer.points = 15
@@ -198,8 +198,8 @@ class ParseOperationAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         var score = GameScore()
         score.objectId = "yarr"
         let operations = try score.operation
-            .set(\.points, value: 15)
-            .set(("player", \.player), value: "hello")
+            .set(\.points, to: 15)
+            .set(("player", \.player), to: "hello")
 
         do {
             try await operations.save()
@@ -218,8 +218,8 @@ class ParseOperationAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         var score = GameScore()
         score.objectId = "yarr"
         let operations = try score.operation
-            .set(\.points, value: 15)
-            .set(("points", \.points), value: nil)
+            .set(\.points, to: 15)
+            .set(("points", \.points), to: nil)
 
         do {
             try await operations.save()

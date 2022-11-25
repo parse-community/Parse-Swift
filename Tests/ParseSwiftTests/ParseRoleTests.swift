@@ -511,7 +511,7 @@ class ParseRoleTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        var changedRole = role
+        let changedRole = role
             .set(\.title, to: "peace")
         let updatedRole = try changedRole.save()
         XCTAssertEqual(updatedRole.updatedAt, serverResponse.updatedAt)
@@ -711,7 +711,7 @@ class ParseRoleTests: XCTestCase {
         acl.publicRead = true
 
         Parse.configuration.isRequiringCustomObjectIds = true
-        XCTAssertEqual(Parse.configuration.isAllowingCustomObjectIds,
+        XCTAssertEqual(Parse.configuration.isRequiringCustomObjectIds,
                        Parse.configuration.isRequiringCustomObjectIds)
         var role = try Role<User>(name: "Administrator", acl: acl)
         role.createdAt = Date()

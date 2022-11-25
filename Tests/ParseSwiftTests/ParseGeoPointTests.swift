@@ -63,14 +63,14 @@ class ParseGeoPointTests: XCTestCase {
 
     func testToCLLocation() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let location = point.toCLLocation()
+        let location = point.toCLLocation
         XCTAssertEqual(point.latitude, location.coordinate.latitude)
         XCTAssertEqual(point.longitude, location.coordinate.longitude)
     }
 
     func testToCLLocationCoordinate2D() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let location = point.toCLLocationCoordinate2D()
+        let location = point.toCLLocationCoordinate2D
         XCTAssertEqual(point.latitude, location.latitude)
         XCTAssertEqual(point.longitude, location.longitude)
     }

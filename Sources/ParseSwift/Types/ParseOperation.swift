@@ -38,24 +38,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      `func set<W>(_ key: (String, WritableKeyPath<T, W?>), value: W?)`
      instead.
      */
-    @available(*, deprecated, message: "Replace \"value\" with \"to\"")
-    public func set<W>(_ keyPath: WritableKeyPath<T, W?>,
-                       value: W) throws -> Self where W: Encodable & Equatable {
-        try set(keyPath, to: value)
-    }
-
-    /**
-     An operation that sets a field's value.
-     - Parameters:
-        - keyPath: The respective `KeyPath` of the object.
-        - value: The value to set the `KeyPath` to.
-        - returns: The updated operations.
-     - warning: Do not combine operations using this method with other operations that
-     do not use this method to **set** all operations. If you need to combine multiple types
-     of operations such as: add, increment, forceSet, etc., use
-     `func set<W>(_ key: (String, WritableKeyPath<T, W?>), value: W?)`
-     instead.
-     */
     public func set<W>(_ keyPath: WritableKeyPath<T, W?>,
                        to value: W) throws -> Self where W: Encodable & Equatable {
         guard operations.isEmpty,
@@ -71,20 +53,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         var mutableOperation = self
         mutableOperation.target = mutableOperation.target.set(keyPath, to: value)
         return mutableOperation
-    }
-
-    /**
-     An operation that sets a field's value if it has changed from its previous value.
-     - Parameters:
-        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - value: The value to set the `KeyPath` to.
-        - returns: The updated operations.
-     - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
-     */
-    @available(*, deprecated, message: "Replace \"value\" with \"to\"")
-    public func set<W>(_ key: (String, WritableKeyPath<T, W?>),
-                       value: W?) -> Self where W: Encodable & Equatable {
-        set(key, to: value)
     }
 
     /**
@@ -176,31 +144,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
-    @available(*, deprecated,
-                message: """
-                    The KeyPath of a ParseObject should always point to an optional value.
-                    This means that all properties of your ParseObject's should be optional.
-                    Please read the important notes and warnings in the documentation for
-                    details.
-                """)
-    public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                             objects: [V]) -> Self where V: Encodable, V: Hashable {
-        var mutableOperation = self
-        mutableOperation.operations[key.0] = AddUnique(objects: objects)
-        var values = target[keyPath: key.1]
-        values.append(contentsOf: objects)
-        mutableOperation.target[keyPath: key.1] = Array(Set<V>(values))
-        return mutableOperation
-    }
-
-    /**
-     An operation that adds a new element to an array field,
-     only if it was not already present.
-     - Parameters:
-        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - objects: The field of objects.
-        - returns: The updated operations.
-     */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                              objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
@@ -231,30 +174,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
-    @available(*, deprecated,
-                message: """
-                    The KeyPath of a ParseObject should always point to an optional value.
-                    This means that all properties of your ParseObject's should be optional.
-                    Please read the important notes and warnings in the documentation for
-                    details.
-                """)
-    public func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                       objects: [V]) -> Self where V: Encodable {
-        var mutableOperation = self
-        mutableOperation.operations[key.0] = Add(objects: objects)
-        var values = target[keyPath: key.1]
-        values.append(contentsOf: objects)
-        mutableOperation.target[keyPath: key.1] = values
-        return mutableOperation
-    }
-
-    /**
-     An operation that adds a new element to an array field.
-     - Parameters:
-        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - objects: The field of objects.
-        - returns: The updated operations.
-     */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                        objects: [V]) -> Self where V: Encodable {
         var mutableOperation = self
@@ -275,30 +194,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     public func addRelation<W>(_ key: String, objects: [W]) throws -> Self where W: ParseObject {
         var mutableOperation = self
         mutableOperation.operations[key] = try AddRelation(objects: objects)
-        return mutableOperation
-    }
-
-    /**
-     An operation that adds a new relation to an array field.
-     - Parameters:
-        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - objects: The field of objects.
-        - returns: The updated operations.
-     */
-    @available(*, deprecated,
-                message: """
-                    The KeyPath of a ParseObject should always point to an optional value.
-                    This means that all properties of your ParseObject's should be optional.
-                    Please read the important notes and warnings in the documentation for
-                    details.
-                """)
-    public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                               objects: [V]) throws -> Self where V: ParseObject {
-        var mutableOperation = self
-        mutableOperation.operations[key.0] = try AddRelation(objects: objects)
-        var values = target[keyPath: key.1]
-        values.append(contentsOf: objects)
-        mutableOperation.target[keyPath: key.1] = values
         return mutableOperation
     }
 
@@ -341,34 +236,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - objects: The field of objects.
         - returns: The updated operations.
      */
-    @available(*, deprecated,
-                message: """
-                    The KeyPath of a ParseObject should always point to an optional value.
-                    This means that all properties of your ParseObject's should be optional.
-                    Please read the important notes and warnings in the documentation for
-                    details.
-                """)
-    public func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                          objects: [V]) -> Self where V: Encodable, V: Hashable {
-        var mutableOperation = self
-        mutableOperation.operations[key.0] = Remove(objects: objects)
-        let values = target[keyPath: key.1]
-        var set = Set<V>(values)
-        objects.forEach {
-            set.remove($0)
-        }
-        mutableOperation.target[keyPath: key.1] = Array(set)
-        return mutableOperation
-    }
-
-    /**
-     An operation that removes every instance of an element from
-     an array field.
-     - Parameters:
-        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - objects: The field of objects.
-        - returns: The updated operations.
-     */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                           objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
@@ -393,34 +260,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     public func removeRelation<W>(_ key: String, objects: [W]) throws -> Self where W: ParseObject {
         var mutableOperation = self
         mutableOperation.operations[key] = try RemoveRelation(objects: objects)
-        return mutableOperation
-    }
-
-    /**
-     An operation that removes every instance of a relation from
-     an array field.
-     - Parameters:
-        - key: A tuple consisting of the key and the respective `KeyPath` of the object.
-        - objects: The field of objects.
-        - returns: The updated operations.
-     */
-    @available(*, deprecated,
-                message: """
-                    The KeyPath of a ParseObject should always point to an optional value.
-                    This means that all properties of your ParseObject's should be optional.
-                    Please read the important notes and warnings in the documentation for
-                    details.
-                """)
-    public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                                  objects: [V]) throws -> Self where V: ParseObject {
-        var mutableOperation = self
-        mutableOperation.operations[key.0] = try RemoveRelation(objects: objects)
-        let values = target[keyPath: key.1]
-        var set = Set<V>(values)
-        objects.forEach {
-            set.remove($0)
-        }
-        mutableOperation.target[keyPath: key.1] = Array(set)
         return mutableOperation
     }
 

@@ -11,14 +11,6 @@ import Foundation
 public protocol ParseCloudTypeable: ParseEncodable {}
 
 /**
- Objects that conform to the `ParseCloud` protocol are able to call Parse Cloud Functions and Jobs.
- An object should be instantiated for each function and job type. When conforming to
- `ParseCloud`, any properties added will be passed as parameters to your Cloud Function or Job.
-*/
-@available(*, deprecated, renamed: "ParseCloudable")
-public typealias ParseCloud = ParseCloudable
-
-/**
  Objects that conform to the `ParseCloudable` protocol are able to call Parse Cloud Functions and Jobs.
  An object should be instantiated for each function and job type. When conforming to
  `ParseCloudable`, any properties added will be passed as parameters to your Cloud Function or Job.

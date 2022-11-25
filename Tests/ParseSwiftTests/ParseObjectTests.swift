@@ -451,7 +451,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.points = 50
         mutableScore.player = "ali"
         XCTAssertNotEqual(mutableScore, score)
-        mutableScore = try mutableScore.revertObject()
+        mutableScore = try mutableScore.revert()
         XCTAssertEqual(mutableScore, score)
     }
 
@@ -463,7 +463,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.player = "ali"
         XCTAssertNotEqual(mutableScore, score)
         do {
-            mutableScore = try mutableScore.revertObject()
+            mutableScore = try mutableScore.revert()
             XCTFail("Should have thrown error")
         } catch {
             guard let parseError = error as? ParseError else {
@@ -483,7 +483,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.objectId = "nolo"
         XCTAssertNotEqual(mutableScore, score)
         do {
-            mutableScore = try mutableScore.revertObject()
+            mutableScore = try mutableScore.revert()
             XCTFail("Should have thrown error")
         } catch {
             guard let parseError = error as? ParseError else {
@@ -501,7 +501,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.points = 50
         mutableScore.player = "ali"
         XCTAssertNotEqual(mutableScore, score)
-        mutableScore = try mutableScore.revertKeyPath(\.player)
+        mutableScore = try mutableScore.revert(\.player)
         XCTAssertNotEqual(mutableScore, score)
         XCTAssertEqual(mutableScore.objectId, score.objectId)
         XCTAssertNotEqual(mutableScore.points, score.points)
@@ -515,7 +515,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.points = 50
         mutableScore.player = nil
         XCTAssertNotEqual(mutableScore, score)
-        mutableScore = try mutableScore.revertKeyPath(\.player)
+        mutableScore = try mutableScore.revert(\.player)
         XCTAssertNotEqual(mutableScore, score)
         XCTAssertEqual(mutableScore.objectId, score.objectId)
         XCTAssertNotEqual(mutableScore.points, score.points)
@@ -530,7 +530,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.points = 50
         mutableScore.player = "ali"
         XCTAssertNotEqual(mutableScore, score)
-        mutableScore = try mutableScore.revertKeyPath(\.player)
+        mutableScore = try mutableScore.revert(\.player)
         XCTAssertNotEqual(mutableScore, score)
         XCTAssertEqual(mutableScore.objectId, score.objectId)
         XCTAssertNotEqual(mutableScore.points, score.points)
@@ -545,7 +545,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.player = "ali"
         XCTAssertNotEqual(mutableScore, score)
         do {
-            mutableScore = try mutableScore.revertKeyPath(\.player)
+            mutableScore = try mutableScore.revert(\.player)
             XCTFail("Should have thrown error")
         } catch {
             guard let parseError = error as? ParseError else {
@@ -565,7 +565,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         mutableScore.objectId = "nolo"
         XCTAssertNotEqual(mutableScore, score)
         do {
-            mutableScore = try mutableScore.revertKeyPath(\.player)
+            mutableScore = try mutableScore.revert(\.player)
             XCTFail("Should have thrown error")
         } catch {
             guard let parseError = error as? ParseError else {

@@ -82,7 +82,6 @@ class ParseHookFunctionRequestTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected = "{\"headers\":{\"yolo\":\"me\"},\"ip\":\"1.1.1.1\",\"master\":true,\"params\":{\"hello\":\"world\"}}"
         XCTAssertEqual(functionRequest.description, expected)
-        XCTAssertEqual(functionRequest.masterKey, functionRequest.primaryKey)
     }
 
     func testGetLog() async throws {

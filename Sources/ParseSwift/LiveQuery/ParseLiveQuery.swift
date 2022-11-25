@@ -277,22 +277,6 @@ extension ParseLiveQuery {
         }
     }
 
-    /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
-    /// - parameter client: The client to set as the default.
-    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `defaultClient`.
-    @available(*, deprecated, renamed: "defaultClient")
-    class public func setDefault(_ client: ParseLiveQuery) {
-        Self.defaultClient = client
-    }
-
-    /// Get the default `ParseLiveQuery` client for all LiveQuery connections.
-    /// - returns: The default `ParseLiveQuery` client.
-    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `defaultClient`.
-    @available(*, deprecated, renamed: "defaultClient")
-    class public func getDefault() -> ParseLiveQuery? {
-        Self.defaultClient
-    }
-
     /// Check if a query has an active subscription on this `ParseLiveQuery` client.
     /// - parameter query: Query to verify.
     /// - returns: **true** if subscribed. **false** otherwise.

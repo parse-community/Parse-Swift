@@ -21,19 +21,6 @@ public struct ParseAnalytics: ParseTypeable, Hashable {
 
     /// Explicitly set the time associated with a given event. If not provided the server
     /// time will be used.
-    /// - warning: This will be removed in ParseSwift 5.0.0 in favor of `date`.
-    @available(*, deprecated, renamed: "date")
-    public var at: Date? { // swiftlint:disable:this identifier_name
-        get {
-            date
-        }
-        set {
-            date = newValue
-        }
-    }
-
-    /// Explicitly set the time associated with a given event. If not provided the server
-    /// time will be used.
     public var date: Date?
 
     /// The dictionary of information by which to segment this event.

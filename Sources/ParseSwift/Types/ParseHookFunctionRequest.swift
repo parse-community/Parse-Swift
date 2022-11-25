@@ -16,10 +16,6 @@ import Foundation
  */
 public struct ParseHookFunctionRequest<U: ParseCloudUser, P: ParseHookParametable>: ParseHookRequestable {
     public typealias UsertType = U
-    @available(*, deprecated, renamed: "primaryKey")
-    public var masterKey: Bool? {
-        primaryKey
-    }
     public var primaryKey: Bool?
     public var user: U?
     public var installationId: String?

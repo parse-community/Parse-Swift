@@ -1246,7 +1246,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWhereKeyEqualToParseObjectEQ() throws {
         var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
-        let query = try GameScore.query(equalTo(key: "yolo", value: compareObject, usingEqComparator: true))
+        let query = try GameScore.query(equalTo(key: "yolo", object: compareObject, usingEqComparator: true))
         // swiftlint:disable:next line_length
         let expected = "{\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$eq\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
         XCTAssertEqual(query.debugDescription, expected)

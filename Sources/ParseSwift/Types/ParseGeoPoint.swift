@@ -162,23 +162,5 @@ public extension ParseGeoPoint {
         self.latitude = coordinate.latitude
         try validate()
     }
-
-    /**
-     A `CLLocation` instance created from the current `ParseGeoPoint`.
-     - returns: Returns a `CLLocation`.
-     */
-    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
-    func toCLLocation(_ geoPoint: ParseGeoPoint? = nil) -> CLLocation {
-        toCLLocation
-    }
-
-    /**
-     A `CLLocationCoordinate2D` instance created from the current `ParseGeoPoint`.
-     - returns: Returns a `CLLocationCoordinate2D`.
-     */
-    @available(*, deprecated, message: "Use the computed property instead by removing \"()\"")
-    func toCLLocationCoordinate2D(_ geoPoint: ParseGeoPoint? = nil) -> CLLocationCoordinate2D {
-        toCLLocationCoordinate2D
-    }
 }
 #endif

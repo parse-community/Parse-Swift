@@ -41,7 +41,7 @@ class ParseAnalyticsTests: XCTestCase {
         XCTAssertEqual(command.path.urlComponent, "/events/\(name)")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNotNil(command.body)
-        XCTAssertNil(command.body?.at)
+        XCTAssertNil(command.body?.date)
         XCTAssertNil(command.body?.dimensions)
 
         let date = Date()
@@ -51,7 +51,7 @@ class ParseAnalyticsTests: XCTestCase {
         XCTAssertEqual(command2.path.urlComponent, "/events/\(name)")
         XCTAssertEqual(command2.method, API.Method.POST)
         XCTAssertNotNil(command2.body)
-        XCTAssertEqual(command2.body?.at, date)
+        XCTAssertEqual(command2.body?.date, date)
         XCTAssertNotNil(command2.body?.dimensions)
 
         event2.date = nil //Clear date for comparison

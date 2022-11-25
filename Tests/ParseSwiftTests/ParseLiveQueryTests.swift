@@ -56,7 +56,7 @@ class ParseLiveQueryTests: XCTestCase {
                               primaryKey: "primaryKey",
                               serverURL: url,
                               testing: true)
-        ParseLiveQuery.setDefault(try ParseLiveQuery(isDefault: true))
+        ParseLiveQuery.defaultClient = try ParseLiveQuery()
     }
 
     override func tearDownWithError() throws {
@@ -127,7 +127,7 @@ class ParseLiveQueryTests: XCTestCase {
     func testInitializeNewDefault() throws {
 
         guard let client = try? ParseLiveQuery(isDefault: true),
-              let defaultClient = ParseLiveQuery.getDefault() else {
+              let defaultClient = ParseLiveQuery.defaultClient else {
             XCTFail("Should be able to initialize a new client")
             return
         }

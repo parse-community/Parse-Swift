@@ -246,29 +246,6 @@ public extension ParseObject {
      before mutations began.
      - throws: An error of type `ParseError`.
      - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `.mergeable` or the `.set` method.
-    */
-    @available(*, deprecated, renamed: "revert")
-    func revertKeyPath<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {
-        try revert(keyPath)
-    }
-
-    /**
-     Reverts the `ParseObject` back to the original object before mutations began.
-     - throws: An error of type `ParseError`.
-     - important: This reverts to the contents in `originalData`. This means `originalData` should have
-     been populated by calling `.mergeable` or the `.set()` method.
-    */
-    @available(*, deprecated, renamed: "revert")
-    func revertObject() throws -> Self {
-        try revert()
-    }
-
-    /**
-     Reverts the `KeyPath` of the `ParseObject` back to  the original `KeyPath`
-     before mutations began.
-     - throws: An error of type `ParseError`.
-     - important: This reverts to the contents in `originalData`. This means `originalData` should have
      been populated by calling `.mergeable` or the `.set()` method.
     */
     func revert<W>(_ keyPath: WritableKeyPath<Self, W?>) throws -> Self where W: Equatable {

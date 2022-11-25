@@ -29,7 +29,7 @@ class ParseCloudableTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var customKey: String?
     }
 
-    struct Cloud3: ParseCloud {
+    struct Cloud3: ParseCloudable {
         typealias ReturnType = [String: String] // swiftlint:disable:this nesting
 
         // These are required by ParseObject

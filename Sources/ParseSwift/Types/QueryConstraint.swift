@@ -182,27 +182,6 @@ public func == <T>(key: String, object: T) throws -> QueryConstraint where T: Pa
 /**
  Add a constraint that requires that a key is equal to a `ParseObject`.
  - parameter key: The key that the value is stored in.
- - parameter value: The `ParseObject` to compare.
- - parameter usingEqComparator: Set to **true** to use **$eq** comparater,
- allowing for multiple `QueryConstraint`'s to be used on a single **key**.
- Setting to *false* may override any `QueryConstraint`'s on the same **key**.
- Defaults to `ParseSwift.configuration.isUsingEqualQueryConstraint`.
- - returns: The same instance of `QueryConstraint` as the receiver.
- - throws: An error of type `ParseError`.
- - warning: `usingEqComparator == true` is known not to work for LiveQueries
- on Parse Servers <= 5.0.0.
- */
-@available(*, deprecated, message: "Replace \"value\" with \"object\"")
-public func equalTo <T>(key: String,
-                        value: T,
-                        //swiftlint:disable:next line_length
-                        usingEqComparator: Bool = configuration.isUsingEqualQueryConstraint) throws -> QueryConstraint where T: ParseObject {
-    try equalTo(key: key, object: value, usingEqComparator: usingEqComparator)
-}
-
-/**
- Add a constraint that requires that a key is equal to a `ParseObject`.
- - parameter key: The key that the value is stored in.
  - parameter object: The `ParseObject` to compare.
  - parameter usingEqComparator: Set to **true** to use **$eq** comparater,
  allowing for multiple `QueryConstraint`'s to be used on a single **key**.

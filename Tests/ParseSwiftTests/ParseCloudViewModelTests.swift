@@ -12,7 +12,7 @@ import XCTest
 @testable import ParseSwift
 
 class ParseCloudViewModelTests: XCTestCase {
-    struct Cloud: ParseCloud {
+    struct Cloud: ParseCloudable {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
         // These are required by ParseObject

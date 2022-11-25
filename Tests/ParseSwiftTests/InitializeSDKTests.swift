@@ -59,79 +59,6 @@ class InitializeSDKTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    func testDeprecatedInitializers() {
-        guard let url = URL(string: "http://localhost:1337/1") else {
-            XCTFail("Should create valid URL")
-            return
-        }
-        ParseSwift.initialize(applicationId: "applicationId",
-                              clientKey: "clientKey",
-                              masterKey: "primaryKey",
-                              serverURL: url,
-                              allowingCustomObjectIds: false) { (_, credential) in
-            credential(.performDefaultHandling, nil)
-        }
-        XCTAssertNotNil(Parse.sessionDelegate.authentication)
-        ParseSwift.updateAuthentication(nil)
-        XCTAssertNil(Parse.sessionDelegate.authentication)
-
-        let configuration = ParseConfiguration(applicationId: "applicationId",
-                                               clientKey: "clientKey",
-                                               masterKey: "primaryKey",
-                                               serverURL: url,
-                                               allowingCustomObjectIds: false) { (_, credential) in
-            credential(.performDefaultHandling, nil)
-        }
-        ParseSwift.initialize(configuration: configuration)
-        XCTAssertNotNil(Parse.sessionDelegate.authentication)
-        ParseSwift.updateAuthentication(nil)
-        XCTAssertNil(Parse.sessionDelegate.authentication)
-
-        let configuration2 = ParseConfiguration(applicationId: "applicationId",
-                                                clientKey: "clientKey",
-                                                masterKey: "primaryKey",
-                                                serverURL: url,
-                                                migratingFromObjcSDK: false) { (_, credential) in
-            credential(.performDefaultHandling, nil)
-        }
-        ParseSwift.initialize(configuration: configuration2)
-        XCTAssertNotNil(Parse.sessionDelegate.authentication)
-        ParseSwift.updateAuthentication(nil)
-        XCTAssertNil(Parse.sessionDelegate.authentication)
-
-        let configuration3 = ParseConfiguration(applicationId: "applicationId",
-                                                clientKey: "clientKey",
-                                                masterKey: "primaryKey",
-                                                serverURL: url) { (_, credential) in
-            credential(.performDefaultHandling, nil)
-        }
-        ParseSwift.initialize(configuration: configuration3)
-        XCTAssertNotNil(Parse.sessionDelegate.authentication)
-        ParseSwift.updateAuthentication(nil)
-        XCTAssertNil(Parse.sessionDelegate.authentication)
-
-        ParseSwift.initialize(applicationId: "applicationId",
-                              clientKey: "clientKey",
-                              masterKey: "primaryKey",
-                              serverURL: url) { (_, credential) in
-            credential(.performDefaultHandling, nil)
-        }
-        XCTAssertNotNil(Parse.sessionDelegate.authentication)
-        ParseSwift.updateAuthentication(nil)
-        XCTAssertNil(Parse.sessionDelegate.authentication)
-
-        ParseSwift.initialize(applicationId: "applicationId",
-                              clientKey: "clientKey",
-                              masterKey: "primaryKey",
-                              serverURL: url,
-                              migratingFromObjcSDK: false) { (_, credential) in
-            credential(.performDefaultHandling, nil)
-        }
-        XCTAssertNotNil(Parse.sessionDelegate.authentication)
-        ParseSwift.updateAuthentication(nil)
-        XCTAssertNil(Parse.sessionDelegate.authentication)
-    }
-
     #if !os(Linux) && !os(Android) && !os(Windows)
     func addCachedResponse() {
         if URLSession.parse.configuration.urlCache == nil {
@@ -629,34 +556,6 @@ class InitializeSDKTests: XCTestCase {
     }
 
     #if !os(macOS)
-    func testMigrateObjcSDKNoTest() {
-
-        // Set keychain the way objc sets keychain
-        guard let objcParseKeychain = KeychainStore.objectiveC else {
-            XCTFail("Should have unwrapped")
-            return
-        }
-        let objcInstallationId = "helloWorld"
-        _ = objcParseKeychain.setObjectiveC(object: objcInstallationId, forKey: "installationId")
-
-        guard let url = URL(string: "http://localhost:1337/1") else {
-            XCTFail("Should create valid URL")
-            return
-        }
-        ParseSwift.initialize(applicationId: "applicationId",
-                              clientKey: "clientKey",
-                              masterKey: "primaryKey",
-                              serverURL: url,
-                              migratingFromObjcSDK: true,
-                              parseFileTransfer: nil)
-        guard let installation = Installation.current else {
-            XCTFail("Should have installation")
-            return
-        }
-        XCTAssertEqual(installation.installationId, objcInstallationId)
-        XCTAssertEqual(Installation.currentContainer.installationId, objcInstallationId)
-    }
-
     func testInitializeSDKNoTest() {
 
         guard let url = URL(string: "http://localhost:1337/1") else {
