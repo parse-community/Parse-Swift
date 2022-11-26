@@ -550,7 +550,7 @@ extension Query: Queryable {
                                            callbackQueue: callbackQueue,
                                            completion: completion)
         } catch {
-            let parseError = ParseError(code: .unknownError,
+            let parseError = ParseError(code: .otherCause,
                                         message: error.localizedDescription)
             callbackQueue.async {
                 completion(.failure(parseError))
@@ -589,7 +589,7 @@ extension Query: Queryable {
                                                       callbackQueue: callbackQueue,
                                                       completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -601,7 +601,7 @@ extension Query: Queryable {
                                                            callbackQueue: callbackQueue,
                                                            completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -634,7 +634,7 @@ extension Query: Queryable {
             return
         }
         if order != nil || skip > 0 || self.limit != 100 {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                              message: "Cannot iterate on a query with sort, skip, or limit.")
             completion(.failure(error))
             return
@@ -654,14 +654,14 @@ extension Query: Queryable {
                     results.append(contentsOf: currentResults)
                     if currentResults.count >= query.limit {
                         guard let lastObjectId = results[results.count - 1].objectId else {
-                            throw ParseError(code: .unknownError, message: "Last object should have an id.")
+                            throw ParseError(code: .otherCause, message: "Last object should have an id.")
                         }
                         query.where.add("objectId" > lastObjectId)
                     } else {
                         finished = true
                     }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
+                    let defaultError = ParseError(code: .otherCause,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
@@ -694,14 +694,14 @@ extension Query: Queryable {
                     results.append(contentsOf: currentResults)
                     if currentResults.count >= query.limit {
                         guard let lastObjectId = results[results.count - 1].objectId else {
-                            throw ParseError(code: .unknownError, message: "Last object should have an id.")
+                            throw ParseError(code: .otherCause, message: "Last object should have an id.")
                         }
                         query.where.add("objectId" > lastObjectId)
                     } else {
                         finished = true
                     }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
+                    let defaultError = ParseError(code: .otherCause,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
@@ -790,7 +790,7 @@ extension Query: Queryable {
                                             callbackQueue: callbackQueue,
                                             completion: completion)
         } catch {
-            let parseError = ParseError(code: .unknownError,
+            let parseError = ParseError(code: .otherCause,
                                         message: error.localizedDescription)
             callbackQueue.async {
                 completion(.failure(parseError))
@@ -833,7 +833,7 @@ extension Query: Queryable {
                                                        callbackQueue: callbackQueue,
                                                        completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -845,7 +845,7 @@ extension Query: Queryable {
                                                             callbackQueue: callbackQueue,
                                                             completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -917,7 +917,7 @@ extension Query: Queryable {
                                             callbackQueue: callbackQueue,
                                             completion: completion)
         } catch {
-            let parseError = ParseError(code: .unknownError,
+            let parseError = ParseError(code: .otherCause,
                                         message: error.localizedDescription)
             callbackQueue.async {
                 completion(.failure(parseError))
@@ -956,7 +956,7 @@ extension Query: Queryable {
                                                        callbackQueue: callbackQueue,
                                                        completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -968,7 +968,7 @@ extension Query: Queryable {
                                                             callbackQueue: callbackQueue,
                                                             completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -1000,7 +1000,7 @@ extension Query: Queryable {
                                                 callbackQueue: callbackQueue,
                                                 completion: completion)
         } catch {
-            let parseError = ParseError(code: .unknownError,
+            let parseError = ParseError(code: .otherCause,
                                         message: error.localizedDescription)
             callbackQueue.async {
                 completion(.failure(parseError))
@@ -1039,7 +1039,7 @@ extension Query: Queryable {
                                                            callbackQueue: callbackQueue,
                                                            completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -1051,7 +1051,7 @@ extension Query: Queryable {
                                                                 callbackQueue: callbackQueue,
                                                                 completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -1085,7 +1085,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Cannot decode where to String.")
+            throw ParseError(code: .otherCause, message: "Cannot decode where to String.")
         }
         var query = self
         query.`where` = QueryWhere()
@@ -1133,7 +1133,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            let error = ParseError(code: .unknownError, message: "Cannot decode where to String.")
+            let error = ParseError(code: .otherCause, message: "Cannot decode where to String.")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -1156,7 +1156,7 @@ extension Query: Queryable {
                               callbackQueue: callbackQueue,
                               completion: completion)
         } catch {
-            let parseError = ParseError(code: .unknownError,
+            let parseError = ParseError(code: .otherCause,
                                         message: error.localizedDescription)
             callbackQueue.async {
                 completion(.failure(parseError))
@@ -1197,7 +1197,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Cannot decode where to String.")
+            throw ParseError(code: .otherCause, message: "Cannot decode where to String.")
         }
         var query = self
         query.`where` = QueryWhere()
@@ -1257,7 +1257,7 @@ extension Query: Queryable {
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
             let whereString = String(data: encoded, encoding: .utf8) else {
-            let error = ParseError(code: .unknownError, message: "Cannot decode where to String.")
+            let error = ParseError(code: .otherCause, message: "Cannot decode where to String.")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -1281,7 +1281,7 @@ extension Query: Queryable {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -1294,7 +1294,7 @@ extension Query: Queryable {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -1355,7 +1355,7 @@ extension Query: Queryable {
                               callbackQueue: callbackQueue,
                               completion: completion)
         } catch {
-            let parseError = ParseError(code: .unknownError,
+            let parseError = ParseError(code: .otherCause,
                                         message: error.localizedDescription)
             callbackQueue.async {
                 completion(.failure(parseError))
@@ -1438,7 +1438,7 @@ extension Query: Queryable {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))
@@ -1451,7 +1451,7 @@ extension Query: Queryable {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let parseError = ParseError(code: .unknownError,
+                let parseError = ParseError(code: .otherCause,
                                             message: error.localizedDescription)
                 callbackQueue.async {
                     completion(.failure(parseError))

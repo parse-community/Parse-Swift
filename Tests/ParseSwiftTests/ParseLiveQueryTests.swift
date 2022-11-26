@@ -458,7 +458,7 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testCloseFromServer() throws {
         guard let client = ParseLiveQuery.defaultClient else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Should be able to get client")
         }
         let delegate = TestDelegate()
@@ -662,7 +662,7 @@ class ParseLiveQueryTests: XCTestCase {
 
     func pretendToBeConnected() throws {
         guard let client = ParseLiveQuery.defaultClient else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Should be able to get client")
         }
         client.task = URLSession.liveQuery.createTask(client.url,

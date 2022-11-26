@@ -8,6 +8,7 @@
 [Full Changelog](https://github.com/netreconlab/Parse-Swift/compare/4.16.2...5.0.0), [Documentation](https://swiftpackageindex.com/netreconlab/Parse-Swift/5.0.0/documentation/parseswift)
 
 __Fixes__
+- (Breaking Change) Add and update ParseError codes. unknownError has been renamed to otherCause. invalidImageData now has the error code of 150. webhookError has the error code of 143 ([#23](https://github.com/netreconlab/Parse-Swift/pull/23)), thanks to [Corey Baker](https://github.com/cbaker6).
 - (Breaking Change) Remove deprecated code ([#23](https://github.com/netreconlab/Parse-Swift/pull/23)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 4.16.2

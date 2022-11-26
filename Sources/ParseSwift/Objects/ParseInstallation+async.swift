@@ -356,7 +356,7 @@ internal extension ParseInstallation {
             try? Self.updateKeychainIfNeeded([saved])
             return saved
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             throw parseError
@@ -384,13 +384,13 @@ internal extension Sequence where Element: ParseInstallation {
                                 isShouldReturnIfChildObjectsFound: transaction)
             try savedChildObjects.forEach {(key, value) in
                 guard childObjects[key] == nil else {
-                    throw ParseError(code: .unknownError, message: "circular dependency")
+                    throw ParseError(code: .otherCause, message: "circular dependency")
                 }
                 childObjects[key] = value
             }
             try savedChildFiles.forEach {(key, value) in
                 guard childFiles[key] == nil else {
-                    throw ParseError(code: .unknownError, message: "circular dependency")
+                    throw ParseError(code: .otherCause, message: "circular dependency")
                 }
                 childFiles[key] = value
             }
@@ -408,7 +408,7 @@ internal extension Sequence where Element: ParseInstallation {
                     commands.append(try object.updateCommand())
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 throw parseError
@@ -433,7 +433,7 @@ internal extension Sequence where Element: ParseInstallation {
             try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
             return returnBatch
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             throw parseError

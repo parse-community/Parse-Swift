@@ -222,7 +222,7 @@ struct KeychainStore: SecureStorage {
         }
 
         guard status == errSecSuccess else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Could not save to Keychain, OSStatus: \(status)")
         }
     }

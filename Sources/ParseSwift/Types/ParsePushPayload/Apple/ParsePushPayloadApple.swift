@@ -177,7 +177,7 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
      */
     public func getSound<V>() throws -> V where V: Codable {
         guard let sound = sound?.value as? V else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Cannot be casted to the inferred type")
         }
         return sound

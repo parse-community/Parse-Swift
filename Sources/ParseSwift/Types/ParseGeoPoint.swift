@@ -50,16 +50,16 @@ public struct ParseGeoPoint: ParseTypeable, Hashable {
 
     func validate() throws {
         if longitude < -180 {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "longitude should be > -180")
         } else if longitude > 180 {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "longitude should be < 180")
         } else if latitude < -90 {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "latitude should be > -90")
         } else if latitude > 90 {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "latitude should be < 90")
         }
     }

@@ -116,7 +116,7 @@ extension ParseCoding {
                 return date
             } else {
                 throw ParseError(
-                    code: .unknownError,
+                    code: .otherCause,
                     message: "An invalid date string was provided when decoding dates."
                 )
             }
@@ -130,7 +130,7 @@ extension ParseCoding {
                 return date
             } else {
                 throw ParseError(
-                    code: .unknownError,
+                    code: .otherCause,
                     message: "An invalid date string was provided when decoding dates."
                 )
             }

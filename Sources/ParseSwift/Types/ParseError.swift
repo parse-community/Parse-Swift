@@ -30,17 +30,27 @@ public struct ParseError: ParseTypeable, Swift.Error {
     `ParseError.Code` enum contains all custom error codes that are used
          as `code` for `Error` for callbacks on all classes.
     */
-    public enum Code: Int, Swift.Error, Codable {
+    public enum Code: Int, Swift.Error, Codable, CaseIterable {
 
         /**
-         Internal SDK Error. No information available
+         Internal SDK Error.
          */
-        case unknownError = -1
+        case otherCause = -1
 
         /**
          Internal server error. No information available.
          */
         case internalServer = 1
+
+        /**
+         The service is currently unavailable.
+         */
+        case serviceUnavailable = 2
+
+        /**
+         Connection failure.
+         */
+        case clientDisconnected = 4
 
         /**
          The connection to the Parse servers failed.
@@ -53,8 +63,10 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case objectNotFound = 101
 
         /**
-         You tried to find values matching a datatype that does not
-         support exact database matching, like an array or a dictionary.
+         There is a problem with the parameters used to
+         construct this query. This could be an invalid field name
+         or an invalid field type for a specific constraint. Check
+         error message for more details.
          */
         case invalidQuery = 102
 
@@ -102,6 +114,11 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case invalidChannelName = 112
 
         /**
+         Invalid subscription type.
+         */
+        case invalidSubscriptionType = 113
+
+        /**
          Invalid device token.
          */
         case invalidDeviceToken = 114
@@ -115,6 +132,16 @@ public struct ParseError: ParseTypeable, Swift.Error {
          The object is too large.
          */
         case objectTooLarge = 116
+
+        /**
+         An invalid value was set for the limit.
+         */
+        case invalidLimitError = 117
+
+        /**
+         An invalid value was set for skip.
+         */
+        case invalidSkipError = 118
 
         /**
          That operation is not allowed for clients.
@@ -133,7 +160,7 @@ public struct ParseError: ParseTypeable, Swift.Error {
 
         /**
          Invalid file name.
-         A file name can contain only `a-zA-Z0-9_.` characters and should be between 1 and 36 characters.
+         A file name can contain only `a-zA-Z0-9_.` characters and should be between 1 and 128 characters.
          */
         case invalidFileName = 122
 
@@ -178,9 +205,39 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case fileSaveFailure = 130
 
         /**
+         Invalid installation id.
+         */
+        case invalidInstallationIdError = 132
+
+        /**
+         Invalid device type.
+         */
+        case invalidDeviceTypeError = 133
+
+        /**
+         Invalid channels array value.
+         */
+        case invalidChannelsArrayError = 134
+
+        /**
+         Required field is missing.
+         */
+        case missingRequiredFieldError = 135
+
+        /**
+         An immutable field was changed.
+         */
+        case changedImmutableFieldError = 136
+
+        /**
          A unique field was given a value that is already taken.
          */
         case duplicateValue = 137
+
+        /**
+         Invalid expiration value.
+         */
+        case invalidExpirationError = 138
 
         /**
          Role's name is invalid.
@@ -203,9 +260,14 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case validationFailed = 142
 
         /**
+         Webhook error.
+         */
+        case webhookError = 143
+
+        /**
          Fail to convert data to image.
          */
-        case invalidImageData = 143
+        case invalidImageData = 150
 
         /**
          Unsaved file failure.
@@ -218,19 +280,24 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case invalidPushTime = 152
 
         /**
-         Fail to delete file.
+         Failed to delete file.
          */
         case fileDeleteFailure = 153
 
         /**
-         Fail to delete an unnamed file.
+         An inefficient query was rejected by the server.
          */
-        case fileDeleteUnnamedFailure = 161
+        case inefficientQueryError = 154
 
         /**
          Application has exceeded its request limit.
          */
         case requestLimitExceeded = 155
+
+        /**
+         Hosting error.
+         */
+        case hostingError = 158
 
         /**
          The request was a duplicate and has been discarded
@@ -242,6 +309,11 @@ public struct ParseError: ParseTypeable, Swift.Error {
          Invalid event name.
          */
         case invalidEventName = 160
+
+        /**
+         Fail to delete an unnamed file.
+         */
+        case fileDeleteUnnamedFailure = 161
 
         /**
          Invalid value.
@@ -323,6 +395,11 @@ public struct ParseError: ParseTypeable, Swift.Error {
          Twitter) is unsupported.
          */
         case unsupportedService = 252
+
+        /**
+         An invalid authData value was passed.
+         */
+        case invalidAuthDataError = 253
 
         /**
          Error code indicating an invalid operation occured on schema
@@ -407,7 +484,7 @@ extension ParseError {
                 otherCode = try values.decode(Int.self, forKey: .code)
                 code = .other
             } catch {
-                code = .unknownError
+                code = .otherCause
                 otherCode = nil
             }
         }

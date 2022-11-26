@@ -116,7 +116,7 @@ extension ParseFileManager {
         synchronizationQueue.async {
             do {
                 guard let data = string.data(using: .utf8) else {
-                    completion(ParseError(code: .unknownError, message: "Could not convert string to utf8"))
+                    completion(ParseError(code: .otherCause, message: "Could not convert string to utf8"))
                     return
                 }
                 try data.write(to: filePath, options: self.defaultDataWritingOptions)
@@ -221,7 +221,7 @@ public extension ParseFileManager {
     static func downloadDirectory() throws -> URL {
         guard let fileManager = ParseFileManager(),
               let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
-            throw ParseError(code: .unknownError, message: "Cannot create ParseFileManager")
+            throw ParseError(code: .otherCause, message: "Cannot create ParseFileManager")
         }
         return defaultDirectoryPath
             .appendingPathComponent(ParseConstants.fileDownloadsDirectory,
@@ -238,7 +238,7 @@ public extension ParseFileManager {
         let fileName = URL(fileURLWithPath: name).lastPathComponent
         let fileLocation = try downloadDirectory().appendingPathComponent(fileName).relativePath
         guard FileManager.default.fileExists(atPath: fileLocation) else {
-            throw ParseError(code: .unknownError, message: "File does not exist")
+            throw ParseError(code: .otherCause, message: "File does not exist")
         }
         return URL(fileURLWithPath: fileLocation, isDirectory: false)
     }

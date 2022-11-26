@@ -104,7 +104,7 @@ public extension ParseRole {
 
     func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "objectId's of objects do not match")
         }
         var updatedRole = self
@@ -141,7 +141,7 @@ extension ParseRole {
         // swiftlint:disable:next line_length
         let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_- ")
         if name.rangeOfCharacter(from: characterset.inverted) != nil {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "A role's name can be only contain alphanumeric characters, _, '-, and spaces.")
         }
     }
@@ -159,7 +159,7 @@ public extension ParseRole {
      */
     func queryRoles() throws -> Query<Self> {
         guard let roles = roles else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Could not create \"roles\" relation ")
         }
         return try roles.query()
@@ -174,7 +174,7 @@ public extension ParseRole {
      */
     func queryUsers() throws -> Query<RoleUser> {
         guard let users = users else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Could not create \"users\" relation ")
         }
         return try users.query()

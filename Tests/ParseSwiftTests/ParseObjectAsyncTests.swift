@@ -1119,7 +1119,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return
         }
         if case .failure(let error) = savedObject {
-            XCTAssertEqual(error.code, .unknownError)
+            XCTAssertEqual(error.code, .otherCause)
             XCTAssertTrue(error.message.contains("createdAt"))
         } else {
             XCTFail("Should have thrown error")
@@ -1321,7 +1321,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return
         }
         if case .failure(let error) = savedObject {
-            XCTAssertEqual(error.code, .unknownError)
+            XCTAssertEqual(error.code, .otherCause)
             XCTAssertTrue(error.message.contains("updatedAt"))
         } else {
             XCTFail("Should have thrown error")
@@ -1427,7 +1427,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return
         }
         if case .failure(let error) = savedObject {
-            XCTAssertEqual(error.code, .unknownError)
+            XCTAssertEqual(error.code, .otherCause)
             XCTAssertTrue(error.message.contains("updatedAt"))
         } else {
             XCTFail("Should have thrown error")

@@ -337,7 +337,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         try ParseStorage.shared.deleteAll()
 
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
 
         let directory2 = try ParseFileManager.downloadDirectory()

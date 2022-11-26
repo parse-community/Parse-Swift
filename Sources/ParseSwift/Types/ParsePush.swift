@@ -174,13 +174,13 @@ extension ParsePush {
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<String, ParseError>) -> Void) {
         if expirationTime != nil && expirationInterval != nil {
-            let error =  ParseError(code: .unknownError,
+            let error =  ParseError(code: .otherCause,
                                     message: "expirationTime and expirationInterval cannot both be set.")
             completion(.failure(error))
             return
         }
         if `where` != nil && channels != nil {
-            let error =  ParseError(code: .unknownError,
+            let error =  ParseError(code: .otherCause,
                                     message: "query and channels cannot both be set.")
             completion(.failure(error))
             return
@@ -200,17 +200,17 @@ extension ParsePush {
                                        path: .push,
                                        body: self) { (data) -> String in
             guard let response = try? ParseCoding.jsonDecoder().decode(PushResponse.self, from: data) else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "The server is missing \"X-Parse-Push-Status-Id\" in its header response")
             }
             guard let success = try? ParseCoding.jsonDecoder().decode(BooleanResponse.self,
                                                                       from: response.data).result else {
-                throw ParseError(code: .unknownError, message: "The server did not resturn a Boolean response")
+                throw ParseError(code: .otherCause, message: "The server did not resturn a Boolean response")
             }
             if success {
                 return response.statusId
             } else {
-                throw ParseError(code: .unknownError, message: "Push was unsuccessful")
+                throw ParseError(code: .otherCause, message: "Push was unsuccessful")
             }
         }
     }

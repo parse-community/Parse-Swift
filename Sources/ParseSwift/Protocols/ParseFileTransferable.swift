@@ -108,7 +108,7 @@ public extension ParseFileTransferable {
 
     func makeDummyUploadTask() throws -> URLSessionUploadTask {
         guard let url = URL(string: "http://localhost") else {
-            throw ParseError(code: .unknownError, message: "Could not create URL")
+            throw ParseError(code: .otherCause, message: "Could not create URL")
         }
         return URLSession.shared.uploadTask(with: .init(url: url), from: Data())
     }

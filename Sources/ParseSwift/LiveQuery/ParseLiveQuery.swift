@@ -64,7 +64,7 @@ public final class ParseLiveQuery: NSObject {
     var attempts: Int = 1 {
         willSet {
             if newValue >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
-                let error = ParseError(code: .unknownError,
+                let error = ParseError(code: .otherCause,
                                        message: """
 ParseLiveQuery Error: Reached max attempts of
 \(ParseLiveQueryConstants.maxConnectionAttempts).
@@ -201,7 +201,7 @@ Not attempting to open ParseLiveQuery socket anymore
 
         guard var components = URLComponents(url: url,
                                              resolvingAgainstBaseURL: false) else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: "ParseLiveQuery Error: Could not create components from url: \(url!)")
             throw error
         }
@@ -370,7 +370,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 }
                 guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
                     //Turn LiveQuery error into ParseError
-                    let parseError = ParseError(code: .unknownError,
+                    let parseError = ParseError(code: .otherCause,
                                                 // swiftlint:disable:next line_length
                                                 message: "ParseLiveQuery Error: code: \(error.code), message: \(error.message)")
                     self.notificationQueue.async {
@@ -390,7 +390,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     guard let outOfOrderMessage = try? ParseCoding
                             .jsonDecoder()
                             .decode(AnyCodable.self, from: data) else {
-                        let error = ParseError(code: .unknownError,
+                        let error = ParseError(code: .otherCause,
                                                // swiftlint:disable:next line_length
                                                message: "ParseLiveQuery Error: Received message out of order, but could not decode it")
                         self.notificationQueue.async {
@@ -398,7 +398,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                         }
                         return
                     }
-                    let error = ParseError(code: .unknownError,
+                    let error = ParseError(code: .otherCause,
                                            // swiftlint:disable:next line_length
                                            message: "ParseLiveQuery Error: Received message out of order: \(outOfOrderMessage)")
                     self.notificationQueue.async {
@@ -415,7 +415,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                                     from: data) {
 
                     if preliminaryMessage.clientId != self.clientId {
-                        let error = ParseError(code: .unknownError,
+                        let error = ParseError(code: .otherCause,
                                                // swiftlint:disable:next line_length
                                                message: "ParseLiveQuery Error: Received a message from a server who sent clientId \(preliminaryMessage.clientId) while it should be \(String(describing: self.clientId)). Not accepting message...")
                         self.notificationQueue.async {
@@ -425,7 +425,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 
                     if let installationId = BaseParseInstallation.currentContainer.installationId {
                         if installationId != preliminaryMessage.installationId {
-                            let error = ParseError(code: .unknownError,
+                            let error = ParseError(code: .otherCause,
                                                    // swiftlint:disable:next line_length
                                                    message: "ParseLiveQuery Error: Received a message from a server who sent an installationId of \(String(describing: preliminaryMessage.installationId)) while it should be \(installationId). Not accepting message...")
                             self.notificationQueue.async {
@@ -471,7 +471,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                             subscription.eventHandlerClosure?(data)
                         }
                     default:
-                        let error = ParseError(code: .unknownError,
+                        let error = ParseError(code: .otherCause,
                                                message: "ParseLiveQuery Error: Hit an undefined state.")
                         self.notificationQueue.async {
                             self.receiveDelegate?.received(error)
@@ -479,7 +479,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     }
 
                 } else {
-                    let error = ParseError(code: .unknownError,
+                    let error = ParseError(code: .otherCause,
                                            message: "ParseLiveQuery Error: Hit an undefined state.")
                     self.notificationQueue.async {
                         self.receiveDelegate?.received(error)
@@ -616,7 +616,7 @@ extension ParseLiveQuery {
                                     .seconds(URLSession.reconnectInterval(attempts))) {
                         self.attempts += 1
                         self.resumeTask { _ in }
-                        let error = ParseError(code: .unknownError,
+                        let error = ParseError(code: .otherCause,
                                                // swiftlint:disable:next line_length
                                                message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
                         completion(error)
@@ -661,7 +661,7 @@ extension ParseLiveQuery {
             if self.task.state == .running {
                 URLSession.liveQuery.sendPing(task, pongReceiveHandler: pongReceiveHandler)
             } else {
-                let error = ParseError(code: .unknownError,
+                let error = ParseError(code: .otherCause,
                                        // swiftlint:disable:next line_length
                                        message: "ParseLiveQuery Error: socket status needs to be \"\(URLSessionTask.State.running.rawValue)\" before pinging server. Current status is \"\(self.task.state.rawValue)\". Try calling \"open()\" to change socket status.")
                 pongReceiveHandler(error)
@@ -757,7 +757,7 @@ extension ParseLiveQuery {
         func update<T: ParseObject>(query: Query<T>, message: SubscribeMessage<T>) throws {
             guard let queryData = try? ParseCoding.jsonEncoder().encode(query),
                   let encoded = try? ParseCoding.jsonEncoder().encode(message) else {
-                throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: Unable to update subscription.")
+                throw ParseError(code: .otherCause, message: "ParseLiveQuery Error: Unable to update subscription.")
             }
             self.queryData = queryData
             self.messageData = encoded
@@ -787,7 +787,7 @@ extension ParseLiveQuery {
             message: message,
             handler: handler
         ) else {
-            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: Could not create subscription.")
+            throw ParseError(code: .otherCause, message: "ParseLiveQuery Error: Could not create subscription.")
         }
 
         self.send(record: subscriptionRecord, requestId: requestId) { _ in }
@@ -876,7 +876,7 @@ public extension Query {
         if let client = ParseLiveQuery.client {
             return try client.subscribe(handler)
         } else {
-            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: Not able to initialize client.")
+            throw ParseError(code: .otherCause, message: "ParseLiveQuery Error: Not able to initialize client.")
         }
     }
 

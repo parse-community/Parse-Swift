@@ -459,7 +459,7 @@ class ParseAnonymousTests: XCTestCase {
         differentUser.password = "work"
         differentUser.signup { result in
             if case let .failure(error) = result {
-                XCTAssertEqual(error.code, .unknownError)
+                XCTAssertEqual(error.code, .otherCause)
                 XCTAssertTrue(error.message.contains("different"))
             } else {
                 XCTFail("Should have returned error")

@@ -97,7 +97,7 @@ public extension ParseInstallation {
 
     func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "objectId's of objects do not match")
         }
         var updatedInstallation = self
@@ -326,7 +326,7 @@ public extension ParseInstallation {
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard var currentInstallation = Self.current else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: "Current installation does not exist")
             callbackQueue.async {
                 completion(.failure(error))
@@ -356,7 +356,7 @@ public extension ParseInstallation {
                 }
                 Self.saveCurrentContainerToKeychain()
                 guard let latestInstallation = Self.current else {
-                    let error = ParseError(code: .unknownError,
+                    let error = ParseError(code: .otherCause,
                                            message: "Had trouble migrating the installation")
                     callbackQueue.async {
                         completion(.failure(error))
@@ -485,7 +485,7 @@ extension ParseInstallation {
         foundCurrentInstallationObjects = try foundCurrentInstallationObjects.sorted(by: {
             guard let firstUpdatedAt = $0.updatedAt,
                   let secondUpdatedAt = $1.updatedAt else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "Objects from the server should always have an \"updatedAt\"")
             }
             return firstUpdatedAt.compare(secondUpdatedAt) == .orderedDescending
@@ -552,7 +552,7 @@ extension ParseInstallation {
                             try Self.updateKeychainIfNeeded([foundResult])
                             completion(.success(foundResult))
                         } catch {
-                            let defaultError = ParseError(code: .unknownError,
+                            let defaultError = ParseError(code: .otherCause,
                                                           message: error.localizedDescription)
                             let parseError = error as? ParseError ?? defaultError
                             completion(.failure(parseError))
@@ -566,7 +566,7 @@ extension ParseInstallation {
                 if let error = error as? ParseError {
                     completion(.failure(error))
                 } else {
-                    completion(.failure(ParseError(code: .unknownError,
+                    completion(.failure(ParseError(code: .otherCause,
                                                    message: error.localizedDescription)))
                 }
             }
@@ -702,7 +702,7 @@ extension ParseInstallation {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -745,7 +745,7 @@ extension ParseInstallation {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -788,7 +788,7 @@ extension ParseInstallation {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -831,7 +831,7 @@ extension ParseInstallation {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -881,7 +881,7 @@ extension ParseInstallation {
                             completion(result)
                         }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
+                    let defaultError = ParseError(code: .otherCause,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
@@ -1020,7 +1020,7 @@ extension ParseInstallation {
                              try Self.updateKeychainIfNeeded([self], deleting: true)
                              completion(.success(()))
                          } catch {
-                             let defaultError = ParseError(code: .unknownError,
+                             let defaultError = ParseError(code: .otherCause,
                                                            message: error.localizedDescription)
                              let parseError = error as? ParseError ?? defaultError
                              completion(.failure(parseError))
@@ -1035,14 +1035,14 @@ extension ParseInstallation {
             }
          } catch {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                completion(.failure(ParseError(code: .otherCause, message: error.localizedDescription)))
             }
          }
     }
 
     func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
         guard isSaved else {
-            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+            throw ParseError(code: .otherCause, message: "Cannot Delete an object without id")
         }
 
         return API.NonParseBodyCommand<NoBody, NoBody>(
@@ -1122,7 +1122,7 @@ public extension Sequence where Element: ParseInstallation {
                     if childObjects[key] == nil {
                         childObjects[key] = value
                     } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        error = ParseError(code: .otherCause, message: "circular dependency")
                         return
                     }
                 }
@@ -1133,7 +1133,7 @@ public extension Sequence where Element: ParseInstallation {
                     if childFiles[key] == nil {
                         childFiles[key] = value
                     } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        error = ParseError(code: .otherCause, message: "circular dependency")
                         return
                     }
                 }
@@ -1215,7 +1215,7 @@ public extension Sequence where Element: ParseInstallation {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1271,7 +1271,7 @@ public extension Sequence where Element: ParseInstallation {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1327,7 +1327,7 @@ public extension Sequence where Element: ParseInstallation {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1383,7 +1383,7 @@ public extension Sequence where Element: ParseInstallation {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1441,7 +1441,7 @@ public extension Sequence where Element: ParseInstallation {
                             return
                         }
                         guard childObjects[key] == nil else {
-                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            error = ParseError(code: .otherCause, message: "circular dependency")
                             return
                         }
                         childObjects[key] = value
@@ -1451,7 +1451,7 @@ public extension Sequence where Element: ParseInstallation {
                             return
                         }
                         guard childFiles[key] == nil else {
-                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            error = ParseError(code: .otherCause, message: "circular dependency")
                             return
                         }
                         childFiles[key] = value
@@ -1480,7 +1480,7 @@ public extension Sequence where Element: ParseInstallation {
                         commands.append(try installation.updateCommand())
                     }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
+                    let defaultError = ParseError(code: .otherCause,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
@@ -1523,7 +1523,7 @@ public extension Sequence where Element: ParseInstallation {
                     }
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1574,7 +1574,7 @@ public extension Sequence where Element: ParseInstallation {
             try Self.Element.updateKeychainIfNeeded(fetchedObjects)
             return fetchedObjectsToReturn
         } else {
-            throw ParseError(code: .unknownError, message: "all items to fetch must be of the same class")
+            throw ParseError(code: .otherCause, message: "all items to fetch must be of the same class")
         }
     }
 
@@ -1629,7 +1629,7 @@ public extension Sequence where Element: ParseInstallation {
             }
         } else {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError,
+                completion(.failure(ParseError(code: .otherCause,
                                                message: "all items to fetch must be of the same class")))
             }
         }
@@ -1746,7 +1746,7 @@ public extension Sequence where Element: ParseInstallation {
                 }
             }
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
@@ -1780,7 +1780,7 @@ public extension ParseInstallation {
                                    completion: @escaping (Result<Void, ParseError>) -> Void) {
         guard let objcParseKeychain = KeychainStore.objectiveC,
               let oldInstallationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId") else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: "Could not find Installation in the Objective-C SDK Keychain")
             callbackQueue.async {
                 completion(.failure(error))
@@ -1788,7 +1788,7 @@ public extension ParseInstallation {
             return
         }
         guard var currentInstallation = Self.current else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: "Current installation does not exist")
             callbackQueue.async {
                 completion(.failure(error))
@@ -1809,7 +1809,7 @@ public extension ParseInstallation {
                 completion(.success(()))
             }
         } catch {
-            let parseError = ParseError(code: .unknownError,
+            let parseError = ParseError(code: .otherCause,
                                         message: error.localizedDescription)
             callbackQueue.async {
                 completion(.failure(parseError))

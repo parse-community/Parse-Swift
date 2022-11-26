@@ -31,7 +31,7 @@ class ParseFileManagerTests: XCTestCase {
 
         guard let fileManager = ParseFileManager(),
               let defaultDirectory = fileManager.defaultDataDirectoryPath else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         try fileManager.createDirectoryIfNeeded(defaultDirectory.relativePath)
     }
@@ -46,7 +46,7 @@ class ParseFileManagerTests: XCTestCase {
 
         guard let fileManager = ParseFileManager(),
               let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
 
         let expectation1 = XCTestExpectation(description: "Delete files1")
@@ -71,7 +71,7 @@ class ParseFileManagerTests: XCTestCase {
         guard let data = "Hello World".data(using: .utf8),
               let fileManager = ParseFileManager(),
               let filePath = fileManager.dataItemPathForPathComponent("test.txt") else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
@@ -97,7 +97,7 @@ class ParseFileManagerTests: XCTestCase {
         guard let fileManager = ParseFileManager(),
               let filePath = fileManager.dataItemPathForPathComponent("test.txt"),
               let filePath2 = fileManager.dataItemPathForPathComponent("test2.txt") else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
@@ -134,7 +134,7 @@ class ParseFileManagerTests: XCTestCase {
         guard let fileManager = ParseFileManager(),
               let filePath = fileManager.dataItemPathForPathComponent("test.txt"),
               let filePath2 = fileManager.dataItemPathForPathComponent("test2.txt") else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
@@ -169,7 +169,7 @@ class ParseFileManagerTests: XCTestCase {
         guard let fileManager = ParseFileManager(),
               let filePath = fileManager.dataItemPathForPathComponent("test.txt"),
               let filePath2 = fileManager.dataItemPathForPathComponent("test.txt") else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
@@ -203,7 +203,7 @@ class ParseFileManagerTests: XCTestCase {
         let dataAsString = "Hello World"
         guard let fileManager = ParseFileManager(),
               let defaultFilePath = fileManager.defaultDataDirectoryPath else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
 
         let oldPath = defaultFilePath.appendingPathComponent("old")

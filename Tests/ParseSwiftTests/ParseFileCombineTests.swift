@@ -34,7 +34,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                               serverURL: url,
                               testing: true)
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         try fileManager.createDirectoryIfNeeded(temporaryDirectory)
     }
@@ -48,7 +48,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         try ParseStorage.shared.deleteAll()
 
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         let directory = URL(fileURLWithPath: temporaryDirectory, isDirectory: true)
         let expectation1 = XCTestExpectation(description: "Delete files1")
@@ -163,7 +163,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expectation1 = XCTestExpectation(description: "Fetch")
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
 
@@ -207,7 +207,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expectation1 = XCTestExpectation(description: "Fetch")
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
 

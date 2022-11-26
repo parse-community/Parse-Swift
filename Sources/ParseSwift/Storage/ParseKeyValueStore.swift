@@ -78,7 +78,7 @@ extension KeychainStore: ParsePrimitiveStorable {
 
     func set<T>(_ object: T, for key: String) throws where T: Encodable {
         if !set(object: object, forKey: key) {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Could not save object: \(object) key \"\(key)\" in Keychain")
         }
     }

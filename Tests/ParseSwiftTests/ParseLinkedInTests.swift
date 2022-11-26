@@ -236,7 +236,7 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             _ = try await User.linkedin.login(authData: (["id": "testing",
                                                         "bad": "token"]))
         } catch {
-            guard let parseError = error.containedIn([.unknownError]) else {
+            guard let parseError = error.containedIn([.otherCause]) else {
                 XCTFail("Should have casted")
                 return
             }
@@ -393,7 +393,7 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
         do {
             _ = try await User.linkedin.link(authData: ["hello": "world"])
         } catch {
-            guard let parseError = error.containedIn([.unknownError]) else {
+            guard let parseError = error.containedIn([.otherCause]) else {
                 XCTFail("Should have casted")
                 return
             }

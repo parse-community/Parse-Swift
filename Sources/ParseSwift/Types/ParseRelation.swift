@@ -149,16 +149,16 @@ public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
      */
     public func add<U>(_ key: String, objects: [U]) throws -> ParseOperation<T> where U: ParseObject {
         guard let parent = parent else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the parent set.")
         }
         if let currentKey = self.key {
             if currentKey != key {
-                throw ParseError(code: .unknownError, message: "All objects have be related to the same key.")
+                throw ParseError(code: .otherCause, message: "All objects have be related to the same key.")
             }
         }
         if !isSameClass(objects) {
-            throw ParseError(code: .unknownError, message: "All objects have to have the same className.")
+            throw ParseError(code: .otherCause, message: "All objects have to have the same className.")
         }
 
         return try parent.toObject().operation.addRelation(key, objects: objects)
@@ -172,7 +172,7 @@ public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
      */
     public func add<U>(_ objects: [U]) throws -> ParseOperation<T> where U: ParseObject {
         guard let key = self.key else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the key set.")
         }
         return try add(key, objects: objects)
@@ -187,16 +187,16 @@ public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
      */
     public func remove<U>(_ key: String, objects: [U]) throws -> ParseOperation<T> where U: ParseObject {
         guard let parent = parent else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the parent set.")
         }
         if let currentKey = self.key {
             if currentKey != key {
-                throw ParseError(code: .unknownError, message: "All objects have be related to the same key.")
+                throw ParseError(code: .otherCause, message: "All objects have be related to the same key.")
             }
         }
         if !isSameClass(objects) {
-            throw ParseError(code: .unknownError, message: "All objects have to have the same className.")
+            throw ParseError(code: .otherCause, message: "All objects have to have the same className.")
         }
         return try parent.toObject().operation.removeRelation(key, objects: objects)
     }
@@ -209,7 +209,7 @@ public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
      */
     public func remove<U>(_ objects: [U]) throws -> ParseOperation<T> where U: ParseObject {
         guard let key = self.key else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the key set.")
         }
         return try remove(key, objects: objects)
@@ -264,15 +264,15 @@ public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
     */
     public func query<U>() throws -> Query<U> where U: ParseObject {
         guard let parent = parent else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the parent set.")
         }
         guard let key = self.key else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the key set.")
         }
         if !isSameClass([U.className]) {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the same child className as the original relation.")
         }
         return Query<U>(related(key: key, object: parent))
@@ -286,7 +286,7 @@ public struct ParseRelation<T>: ParseTypeable, Hashable where T: ParseObject {
     */
     public func query<U>(_ key: String) throws -> Query<U> where U: ParseObject {
         guard let parent = parent else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation must have the parent set.")
         }
         return try Self(parent: parent, key: key).query()
@@ -369,7 +369,7 @@ public extension ParseObject {
                                          with parent: Pointer<T>) throws -> ParseRelation<T> {
         guard var relation = relation,
               relation.className != nil else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "ParseRelation is either nil or missing \"className\"")
         }
         relation.parent = parent

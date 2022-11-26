@@ -358,7 +358,7 @@ class ParsePushAsyncTests: XCTestCase {
         do {
             _ = try await push.fetchStatus(objectId)
         } catch {
-            XCTAssertTrue(error.equalsTo(.unknownError))
+            XCTAssertTrue(error.equalsTo(.otherCause))
         }
     }
 
@@ -390,7 +390,7 @@ class ParsePushAsyncTests: XCTestCase {
         do {
             _ = try await push.fetchStatus(objectId)
         } catch {
-            XCTAssertTrue(error.equalsTo(.unknownError))
+            XCTAssertTrue(error.equalsTo(.otherCause))
         }
     }
 }

@@ -289,7 +289,7 @@ public extension ParseUser {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -340,7 +340,7 @@ public extension ParseUser {
                 completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let current = Self.current,
               current.authData != nil else {
-            let error = ParseError(code: .unknownError, message: "Must be logged in to unlink user")
+            let error = ParseError(code: .otherCause, message: "Must be logged in to unlink user")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -350,7 +350,7 @@ public extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if current.isLinked(with: type) {
             guard let authData = current.strip(type).authData else {
-                let error = ParseError(code: .unknownError, message: "Missing authData.")
+                let error = ParseError(code: .otherCause, message: "Missing authData.")
                 callbackQueue.async {
                     completion(.failure(error))
                 }
@@ -388,7 +388,7 @@ public extension ParseUser {
                      authData: [String: String],
                      options: API.Options) throws -> Self {
         guard let current = Self.current else {
-            throw ParseError(code: .unknownError, message: "Must be logged in to link user")
+            throw ParseError(code: .otherCause, message: "Must be logged in to link user")
         }
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -417,7 +417,7 @@ public extension ParseUser {
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let current = Self.current else {
-            let error = ParseError(code: .unknownError, message: "Must be logged in to link user")
+            let error = ParseError(code: .otherCause, message: "Must be logged in to link user")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -436,7 +436,7 @@ public extension ParseUser {
         var mutableSelf = self.anonymous.strip(self)
         if let current = Self.current {
             guard current.hasSameObjectId(as: mutableSelf) else {
-                let error = ParseError(code: .unknownError,
+                let error = ParseError(code: .otherCause,
                                        message: "Cannot signup a user with a different objectId than the current user")
                 throw error
             }
@@ -476,7 +476,7 @@ public extension ParseUser {
             Self.current?.updatedAt = user.updatedAt
             Self.current?.authData = body.authData
             guard let current = Self.current else {
-                throw ParseError(code: .unknownError, message: "Should have a current user.")
+                throw ParseError(code: .otherCause, message: "Should have a current user.")
             }
             if let sessionToken = user.sessionToken {
                 Self.currentContainer = .init(currentUser: current,

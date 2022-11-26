@@ -273,7 +273,7 @@ class ParseHookFunctionRequestTests: XCTestCase {
             _ = try await functionRequest.hydrateUser()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.equalsTo(.unknownError))
+            XCTAssertTrue(error.equalsTo(.otherCause))
         }
     }
 }

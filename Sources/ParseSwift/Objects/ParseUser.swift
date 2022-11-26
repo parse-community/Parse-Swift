@@ -46,7 +46,7 @@ public extension ParseUser {
 
     func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "objectId's of objects do not match")
         }
         var updatedUser = self
@@ -340,7 +340,7 @@ extension ParseUser {
             }
         } catch {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                completion(.failure(ParseError(code: .otherCause, message: error.localizedDescription)))
             }
         }
     }
@@ -373,7 +373,7 @@ extension ParseUser {
         guard let objcParseUser: [String: String] = objcParseKeychain?.objectObjectiveC(forKey: "currentUser"),
             let sessionToken: String = objcParseUser["sessionToken"] ??
                 objcParseUser["session_token"] else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: "Could not find a session token in the Parse Objective-C SDK Keychain.")
             callbackQueue.async {
                 completion(.failure(error))
@@ -390,7 +390,7 @@ extension ParseUser {
         }
 
         guard currentUser.sessionToken == sessionToken else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: """
                                    Currently logged in as a ParseUser who has a different
                                    session token than the Objective-C Parse SDK session token. Please log out before
@@ -766,7 +766,7 @@ extension ParseUser {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -780,7 +780,7 @@ extension ParseUser {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -828,7 +828,7 @@ extension ParseUser {
                                   callbackQueue: callbackQueue,
                                   completion: completion)
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -894,7 +894,7 @@ extension ParseUser {
         foundCurrentUserObjects = try foundCurrentUserObjects.sorted(by: {
             guard let firstUpdatedAt = $0.updatedAt,
                   let secondUpdatedAt = $1.updatedAt else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "Objects from the server should always have an \"updatedAt\"")
             }
             return firstUpdatedAt.compare(secondUpdatedAt) == .orderedDescending
@@ -961,7 +961,7 @@ extension ParseUser {
                             try Self.updateKeychainIfNeeded([foundResult])
                             completion(.success(foundResult))
                         } catch {
-                            let defaultError = ParseError(code: .unknownError,
+                            let defaultError = ParseError(code: .otherCause,
                                                           message: error.localizedDescription)
                             let parseError = error as? ParseError ?? defaultError
                             completion(.failure(parseError))
@@ -975,7 +975,7 @@ extension ParseUser {
                 if let error = error as? ParseError {
                     completion(.failure(error))
                 } else {
-                    completion(.failure(ParseError(code: .unknownError,
+                    completion(.failure(ParseError(code: .otherCause,
                                                    message: error.localizedDescription)))
                 }
             }
@@ -1110,7 +1110,7 @@ extension ParseUser {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1151,7 +1151,7 @@ extension ParseUser {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1192,7 +1192,7 @@ extension ParseUser {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1233,7 +1233,7 @@ extension ParseUser {
                     completion(.success(object))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1283,7 +1283,7 @@ extension ParseUser {
                             completion(result)
                     }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
+                    let defaultError = ParseError(code: .otherCause,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
@@ -1461,14 +1461,14 @@ extension ParseUser {
             }
          } catch {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                completion(.failure(ParseError(code: .otherCause, message: error.localizedDescription)))
             }
          }
     }
 
     func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
         guard isSaved else {
-            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+            throw ParseError(code: .otherCause, message: "Cannot Delete an object without id")
         }
 
         return API.NonParseBodyCommand<NoBody, NoBody>(
@@ -1547,7 +1547,7 @@ public extension Sequence where Element: ParseUser {
                     if childObjects[key] == nil {
                         childObjects[key] = value
                     } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        error = ParseError(code: .otherCause, message: "circular dependency")
                         return
                     }
                 }
@@ -1558,7 +1558,7 @@ public extension Sequence where Element: ParseUser {
                     if childFiles[key] == nil {
                         childFiles[key] = value
                     } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        error = ParseError(code: .otherCause, message: "circular dependency")
                         return
                     }
                 }
@@ -1640,7 +1640,7 @@ public extension Sequence where Element: ParseUser {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1696,7 +1696,7 @@ public extension Sequence where Element: ParseUser {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1752,7 +1752,7 @@ public extension Sequence where Element: ParseUser {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1808,7 +1808,7 @@ public extension Sequence where Element: ParseUser {
                     completion(.success(objects))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1865,7 +1865,7 @@ public extension Sequence where Element: ParseUser {
                             return
                         }
                         guard childObjects[key] == nil else {
-                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            error = ParseError(code: .otherCause, message: "circular dependency")
                             return
                         }
                         childObjects[key] = value
@@ -1875,7 +1875,7 @@ public extension Sequence where Element: ParseUser {
                             return
                         }
                         guard childFiles[key] == nil else {
-                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            error = ParseError(code: .otherCause, message: "circular dependency")
                             return
                         }
                         childFiles[key] = value
@@ -1903,7 +1903,7 @@ public extension Sequence where Element: ParseUser {
                         commands.append(try user.updateCommand())
                     }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
+                    let defaultError = ParseError(code: .otherCause,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
                     callbackQueue.async {
@@ -1943,7 +1943,7 @@ public extension Sequence where Element: ParseUser {
                     }
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -1991,7 +1991,7 @@ public extension Sequence where Element: ParseUser {
             try Self.Element.updateKeychainIfNeeded(fetchedObjects)
             return fetchedObjectsToReturn
         } else {
-            throw ParseError(code: .unknownError, message: "all items to fetch must be of the same class")
+            throw ParseError(code: .otherCause, message: "all items to fetch must be of the same class")
         }
     }
 
@@ -2046,7 +2046,7 @@ public extension Sequence where Element: ParseUser {
             }
         } else {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError,
+                completion(.failure(ParseError(code: .otherCause,
                                                message: "all items to fetch must be of the same class")))
             }
         }
@@ -2162,7 +2162,7 @@ public extension Sequence where Element: ParseUser {
                 }
             }
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {

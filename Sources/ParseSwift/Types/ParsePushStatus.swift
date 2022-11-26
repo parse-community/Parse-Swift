@@ -101,7 +101,7 @@ public struct ParsePushStatus<V: ParsePushPayloadable>: ParsePushStatusable {
         } catch {
             let payloadString = try values.decode(String.self, forKey: .payload)
             guard let payloadData = payloadString.data(using: .utf8) else {
-                throw ParseError(code: .unknownError, message: "Could not decode payload")
+                throw ParseError(code: .otherCause, message: "Could not decode payload")
             }
             payload = try ParseCoding.jsonDecoder().decode(PayloadType.self, from: payloadData)
         }
@@ -111,7 +111,7 @@ public struct ParsePushStatus<V: ParsePushPayloadable>: ParsePushStatusable {
         } catch {
             let queryString = try values.decode(String.self, forKey: .query)
             guard let queryData = queryString.data(using: .utf8) else {
-                throw ParseError(code: .unknownError, message: "Could not decode query")
+                throw ParseError(code: .otherCause, message: "Could not decode query")
             }
             query = try ParseCoding.jsonDecoder().decode(QueryWhere.self, from: queryData)
         }

@@ -320,11 +320,11 @@ public func deleteObjectiveCKeychain() throws {
 @discardableResult public func setAccessGroup(_ accessGroup: String?,
                                               synchronizeAcrossDevices: Bool) throws -> Bool {
     if synchronizeAcrossDevices && accessGroup == nil {
-        throw ParseError(code: .unknownError,
+        throw ParseError(code: .otherCause,
                          message: "\"accessGroup\" must be set to a valid string when \"synchronizeAcrossDevices == true\"")
     }
     guard let currentAccessGroup = ParseKeychainAccessGroup.current else {
-        throw ParseError(code: .unknownError,
+        throw ParseError(code: .otherCause,
                          message: "Problem unwrapping the current access group. Did you initialize the SDK before calling this method?")
     }
     let newKeychainAccessGroup = ParseKeychainAccessGroup(accessGroup: accessGroup,

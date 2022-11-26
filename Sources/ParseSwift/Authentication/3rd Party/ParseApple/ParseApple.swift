@@ -31,7 +31,7 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         func makeDictionary(user: String,
                             identityToken: Data) throws -> [String: String] {
             guard let identityTokenString = String(data: identityToken, encoding: .utf8) else {
-                throw ParseError(code: .unknownError, message: "Could not convert identityToken to String")
+                throw ParseError(code: .otherCause, message: "Could not convert identityToken to String")
             }
             return [AuthenticationKeys.id.rawValue: user,
              AuthenticationKeys.token.rawValue: identityTokenString]
@@ -74,7 +74,7 @@ public extension ParseApple {
 
         guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
             callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
+                completion(.failure(.init(code: .otherCause,
                                           message: "Could not create authData.")))
             }
             return
@@ -91,7 +91,7 @@ public extension ParseApple {
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
+                completion(.failure(.init(code: .otherCause,
                                           message: "Should have authData in consisting of keys \"id\" and \"token\".")))
             }
             return
@@ -122,7 +122,7 @@ public extension ParseApple {
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
             callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
+                completion(.failure(.init(code: .otherCause,
                                           message: "Could not create authData.")))
             }
             return
@@ -138,7 +138,7 @@ public extension ParseApple {
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
                 completion(.failure(error))

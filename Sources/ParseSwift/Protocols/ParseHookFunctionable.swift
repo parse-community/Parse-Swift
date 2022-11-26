@@ -42,7 +42,7 @@ internal struct FunctionRequest: Encodable {
 
     init<F>(hookFunction: F) throws where F: ParseHookFunctionable {
         guard let functionName = hookFunction.functionName else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "The \"functionName\" needs to be set: \(hookFunction)")
         }
         self.functionName = functionName
@@ -73,7 +73,7 @@ extension ParseHookFunctionable {
                                             callbackQueue: callbackQueue,
                                             completion: completion)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
@@ -160,7 +160,7 @@ extension ParseHookFunctionable {
                                              callbackQueue: callbackQueue,
                                              completion: completion)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
@@ -203,7 +203,7 @@ extension ParseHookFunctionable {
                                              callbackQueue: callbackQueue,
                                              completion: completion)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
@@ -252,7 +252,7 @@ extension ParseHookFunctionable {
                 }
             }
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {

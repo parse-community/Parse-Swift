@@ -302,7 +302,7 @@ internal extension ParseObject {
                         filesSavedBeforeThisOne: nil)
             var waitingToBeSaved = object.unsavedChildren
             if isShouldReturnIfChildObjectsFound && waitingToBeSaved.count > 0 {
-                let error = ParseError(code: .unknownError,
+                let error = ParseError(code: .otherCause,
                                        message: """
 When using transactions, all child ParseObjects have to originally
 be saved to the Parse Server. Either save all child objects first
@@ -338,7 +338,7 @@ or disable transactions for this call.
                 }
                 waitingToBeSaved = nextBatch
                 if waitingToBeSaved.count > 0 && savableObjects.count == 0 && savableFiles.count == 0 {
-                    throw ParseError(code: .unknownError,
+                    throw ParseError(code: .otherCause,
                                      message: "Found a circular dependency in ParseObject.")
                 }
                 if savableObjects.count > 0 {
@@ -358,7 +358,7 @@ or disable transactions for this call.
             }
             return (objectsFinishedSaving, filesFinishedSaving)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             throw parseError
@@ -388,7 +388,7 @@ or disable transactions for this call.
                          childObjects: savedChildObjects,
                          childFiles: savedChildFiles)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             throw parseError
@@ -416,13 +416,13 @@ internal extension Sequence where Element: ParseObject {
                                 isShouldReturnIfChildObjectsFound: transaction)
             try savedChildObjects.forEach {(key, value) in
                 guard childObjects[key] == nil else {
-                    throw ParseError(code: .unknownError, message: "circular dependency")
+                    throw ParseError(code: .otherCause, message: "circular dependency")
                 }
                 childObjects[key] = value
             }
             try savedChildFiles.forEach {(key, value) in
                 guard childFiles[key] == nil else {
-                    throw ParseError(code: .unknownError, message: "circular dependency")
+                    throw ParseError(code: .otherCause, message: "circular dependency")
                 }
                 childFiles[key] = value
             }
@@ -440,7 +440,7 @@ internal extension Sequence where Element: ParseObject {
                     commands.append(try object.updateCommand())
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 throw parseError
@@ -464,7 +464,7 @@ internal extension Sequence where Element: ParseObject {
             }
             return returnBatch
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             throw parseError

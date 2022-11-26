@@ -34,7 +34,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                               serverURL: url,
                               testing: true)
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         try fileManager.createDirectoryIfNeeded(temporaryDirectory)
     }
@@ -48,7 +48,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         try ParseStorage.shared.deleteAll()
 
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manager")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manager")
         }
         let directory = URL(fileURLWithPath: temporaryDirectory, isDirectory: true)
         let expectation1 = XCTestExpectation(description: "Delete files1")
@@ -201,7 +201,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     func testSave() async throws {
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
 
@@ -231,7 +231,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     func testSaveFileProgress() async throws {
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
 

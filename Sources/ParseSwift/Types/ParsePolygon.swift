@@ -41,7 +41,7 @@ public struct ParsePolygon: ParseTypeable, Hashable {
 
     func validate() throws {
         if coordinates.count < 3 {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Polygon must have at least 3 ParseGeoPoint's or Points")
         }
     }
@@ -107,12 +107,12 @@ extension ParsePolygon {
             if $0.count == 2 {
                 guard let latitude = $0.last,
                       let longitude = $0.first else {
-                    throw ParseError(code: .unknownError, message: "Could not decode ParsePolygon: \(points)")
+                    throw ParseError(code: .otherCause, message: "Could not decode ParsePolygon: \(points)")
                 }
                 decodedCoordinates.append(try ParseGeoPoint(latitude: latitude,
                                                  longitude: longitude))
             } else {
-                throw ParseError(code: .unknownError, message: "Could not decode ParsePolygon: \(points)")
+                throw ParseError(code: .otherCause, message: "Could not decode ParsePolygon: \(points)")
             }
         }
         coordinates = decodedCoordinates

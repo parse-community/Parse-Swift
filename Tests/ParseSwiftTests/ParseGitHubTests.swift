@@ -231,7 +231,7 @@ class ParseGitHubTests: XCTestCase { // swiftlint:disable:this type_body_length
             _ = try await User.github.login(authData: (["id": "testing",
                                                         "bad": "token"]))
         } catch {
-            guard let parseError = error.containedIn([.unknownError]) else {
+            guard let parseError = error.containedIn([.otherCause]) else {
                 XCTFail("Should have casted")
                 return
             }
@@ -383,7 +383,7 @@ class ParseGitHubTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             _ = try await User.github.link(authData: ["hello": "world"])
         } catch {
-            guard let parseError = error.containedIn([.unknownError]) else {
+            guard let parseError = error.containedIn([.otherCause]) else {
                 XCTFail("Should have casted")
                 return
             }

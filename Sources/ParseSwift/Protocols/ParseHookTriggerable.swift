@@ -62,7 +62,7 @@ public extension ParseHookTriggerable {
         case .beforeConnect:
             self.className = "@Connect"
         default:
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "This initializer should only be used for \"ParseFile\" and \"beforeConnect\"")
         }
     }
@@ -76,7 +76,7 @@ internal struct TriggerRequest: Encodable {
     init<T>(trigger: T) throws where T: ParseHookTriggerable {
         guard let className = trigger.className,
               let triggerName = trigger.triggerName else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "The \"className\" and \"triggerName\" needs to be set: \(trigger)")
         }
         self.className = className
@@ -108,7 +108,7 @@ extension ParseHookTriggerable {
                                             callbackQueue: callbackQueue,
                                             completion: completion)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
@@ -197,7 +197,7 @@ extension ParseHookTriggerable {
                                              callbackQueue: callbackQueue,
                                              completion: completion)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
@@ -239,7 +239,7 @@ extension ParseHookTriggerable {
                                              callbackQueue: callbackQueue,
                                              completion: completion)
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {
@@ -288,7 +288,7 @@ extension ParseHookTriggerable {
                 }
             }
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             callbackQueue.async {

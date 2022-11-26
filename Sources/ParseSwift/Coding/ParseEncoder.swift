@@ -260,7 +260,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
 
     @available(*, unavailable)
     override func encode<T : Encodable>(_ value: T) throws -> Data {
-        throw ParseError(code: .unknownError,
+        throw ParseError(code: .otherCause,
                          message: "This method should not be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
@@ -352,7 +352,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
         if let pointer = value as? ParsePointer {
             if let uniquePointer = self.uniquePointer,
                uniquePointer.hasSameObjectId(as: pointer) {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "Found a circular dependency when encoding.")
             }
             valueToEncode = pointer
@@ -361,7 +361,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                let pointer = try? PointerType(object) {
                 if let uniquePointer = self.uniquePointer,
                    uniquePointer.hasSameObjectId(as: pointer) {
-                    throw ParseError(code: .unknownError,
+                    throw ParseError(code: .otherCause,
                                      message: "Found a circular dependency when encoding.")
                 }
                 valueToEncode = pointer
@@ -380,7 +380,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                     self.newObjects.append(object)
                 } else if dictionary.count > 0 {
                     // Only top level objects can be saved without a pointer
-                    throw ParseError(code: .unknownError, message: "Error. Could not resolve unsaved object while encoding.")
+                    throw ParseError(code: .otherCause, message: "Error. Could not resolve unsaved object while encoding.")
                 }
             }
         }
@@ -391,7 +391,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
         var valueToEncode: Encodable?
         if value.isSaved {
             if self.uniqueFiles.contains(value) {
-                throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
+                throw ParseError(code: .otherCause, message: "Found a circular dependency when encoding.")
             }
             self.uniqueFiles.insert(value)
             if !self.collectChildren {
@@ -409,7 +409,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                 valueToEncode = currentFile
             } else if dictionary.count > 0 {
                 // Only top level objects can be saved without a pointer
-                throw ParseError(code: .unknownError, message: "Error. Could not resolve unsaved file while encoding.")
+                throw ParseError(code: .otherCause, message: "Error. Could not resolve unsaved file while encoding.")
             }
         }
         return valueToEncode

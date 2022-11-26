@@ -189,7 +189,7 @@ extension ParseFile {
         case .returnCacheDataDontLoad:
             return try? createLocalParseFileIfExists()
         default:
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Policy defines to load from remote")
         }
     }
@@ -470,7 +470,7 @@ extension ParseFile {
                                           uploadProgress: progress,
                                           completion: completion)
                     } catch {
-                        let defaultError = ParseError(code: .unknownError,
+                        let defaultError = ParseError(code: .otherCause,
                                                       message: error.localizedDescription)
                         let parseError = error as? ParseError ?? defaultError
                         callbackQueue.async {
@@ -491,7 +491,7 @@ extension ParseFile {
                                   uploadProgress: progress,
                                   completion: completion)
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: error.localizedDescription)
                 let parseError = error as? ParseError ?? defaultError
                 callbackQueue.async {
@@ -545,7 +545,7 @@ extension ParseFile {
             }
             return file
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             guard parseError.code != .unsavedFileFailure else {
@@ -620,7 +620,7 @@ extension ParseFile {
             }
             return file
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             guard parseError.code != .unsavedFileFailure else {
@@ -689,7 +689,7 @@ extension ParseFile {
                 completion(.success(file))
             }
         } catch {
-            let defaultError = ParseError(code: .unknownError,
+            let defaultError = ParseError(code: .otherCause,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             guard parseError.code != .unsavedFileFailure else {

@@ -447,7 +447,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTFail("Error should have casted to ParseError")
                 return
             }
-            XCTAssertEqual(parseError.code, .unknownError)
+            XCTAssertEqual(parseError.code, .otherCause)
             XCTAssertTrue(parseError.message.contains("exceed"))
         }
     }
@@ -464,7 +464,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTFail("Error should have casted to ParseError")
                 return
             }
-            XCTAssertEqual(parseError.code, .unknownError)
+            XCTAssertEqual(parseError.code, .otherCause)
             XCTAssertTrue(parseError.message.contains("originally"))
         }
     }
@@ -1217,7 +1217,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expectation1 = XCTestExpectation(description: "Save object1")
         [score, score2].saveAll(batchLimit: 1, transaction: true) { result in
             if case .failure(let error) = result {
-                XCTAssertEqual(error.code, .unknownError)
+                XCTAssertEqual(error.code, .otherCause)
                 XCTAssertTrue(error.message.contains("exceed"))
             } else {
                 XCTFail("Should have received error")
@@ -1235,7 +1235,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expectation1 = XCTestExpectation(description: "Save object1")
         [score, score2].saveAll(transaction: true) { result in
             if case .failure(let error) = result {
-                XCTAssertEqual(error.code, .unknownError)
+                XCTAssertEqual(error.code, .otherCause)
                 XCTAssertTrue(error.message.contains("originally"))
             } else {
                 XCTFail("Should have received error")
@@ -1869,7 +1869,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTFail("Error should have casted to ParseError")
                 return
             }
-            XCTAssertEqual(parseError.code, .unknownError)
+            XCTAssertEqual(parseError.code, .otherCause)
             XCTAssertTrue(parseError.message.contains("exceed"))
         }
     }
@@ -2040,7 +2040,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
          GameScore(objectId: "yolo")].deleteAll(batchLimit: 1,
                                                 transaction: true) { result in
             if case .failure(let error) = result {
-                XCTAssertEqual(error.code, .unknownError)
+                XCTAssertEqual(error.code, .otherCause)
                 XCTAssertTrue(error.message.contains("exceed"))
             } else {
                 XCTFail("Should have received error")

@@ -117,7 +117,7 @@ public extension ParseTwitter {
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
+                completion(.failure(.init(code: .otherCause,
                                           message:
                                            """
                                            Should have authData consisting of keys \"id,\"
@@ -176,7 +176,7 @@ public extension ParseTwitter {
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message:
                                     """
                                     Should have authData consisting of keys \"id,\"

@@ -74,7 +74,7 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
         // Need to decode the event with respect to the `ParseObject`.
         let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)
         guard let event = Event(event: eventMessage) else {
-            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: Could not create event.")
+            throw ParseError(code: .otherCause, message: "ParseLiveQuery Error: Could not create event.")
         }
         self.event = (query, event)
     }

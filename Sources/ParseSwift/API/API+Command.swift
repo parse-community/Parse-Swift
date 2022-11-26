@@ -111,7 +111,7 @@ internal extension API {
             group.wait()
 
             guard let response = responseResult else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "Could not unrwrap server response")
             }
             return try response.get()
@@ -265,7 +265,7 @@ internal extension API {
                         }
                     } else {
                         callbackQueue.async {
-                            completion(.failure(ParseError(code: .unknownError,
+                            completion(.failure(ParseError(code: .otherCause,
                                                            // swiftlint:disable:next line_length
                                                            message: "Cannot download the file without specifying the url")))
                         }
@@ -288,13 +288,13 @@ internal extension API {
                 Parse.configuration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "Could not unrwrap url components for \(url)"))
             }
             components.queryItems = params
 
             guard let urlComponents = components.url else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "Could not create url from components for \(components)"))
             }
 
@@ -303,7 +303,7 @@ internal extension API {
             if let urlBody = body {
                 if (urlBody as? ParseCloudTypeable) != nil {
                     guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody, skipKeys: .cloud) else {
-                        return .failure(ParseError(code: .unknownError,
+                        return .failure(ParseError(code: .otherCause,
                                                        message: "Could not encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData
@@ -315,7 +315,7 @@ internal extension API {
                                     collectChildren: false,
                                     objectsSavedBeforeThisOne: childObjects,
                                     filesSavedBeforeThisOne: childFiles) else {
-                            return .failure(ParseError(code: .unknownError,
+                            return .failure(ParseError(code: .otherCause,
                                                        message: "Could not encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData.encoded
@@ -349,7 +349,7 @@ internal extension API.Command {
         if !object.isSaved {
             return createFile(object)
         } else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "File is already saved and cannot be updated.")
         }
     }
@@ -372,7 +372,7 @@ internal extension API.Command {
                     otherURL: object.cloudURL) { (data) -> ParseFile in
             let tempFileLocation = try ParseCoding.jsonDecoder().decode(URL.self, from: data)
             guard let fileManager = ParseFileManager() else {
-                throw ParseError(code: .unknownError, message: "Cannot create fileManager")
+                throw ParseError(code: .otherCause, message: "Cannot create fileManager")
             }
             let downloadDirectoryPath = try ParseFileManager.downloadDirectory()
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
@@ -542,14 +542,14 @@ internal extension API.Command where T: ParseObject {
                             return .success(updatedObject)
                         } catch {
                             guard let parseError = error as? ParseError else {
-                                return .failure(ParseError(code: .unknownError,
+                                return .failure(ParseError(code: .otherCause,
                                                            message: error.localizedDescription))
                             }
                             return .failure(parseError)
                         }
                     } else {
                         guard let parseError = response.error else {
-                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
+                            return .failure(ParseError(code: .otherCause, message: "unknown error"))
                         }
 
                         return .failure(parseError)
@@ -557,7 +557,7 @@ internal extension API.Command where T: ParseObject {
                 })
             } catch {
                 guard let parseError = error as? ParseError else {
-                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
+                    return [(.failure(ParseError(code: .otherCause, message: "decoding error: \(error)")))]
                 }
                 return [(.failure(parseError))]
             }
@@ -588,7 +588,7 @@ internal extension API.Command where T: ParseObject {
                         return .success(())
                     } else {
                         guard let parseError = response.error else {
-                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
+                            return .failure(ParseError(code: .otherCause, message: "unknown error"))
                         }
 
                         return .failure(parseError)
@@ -596,7 +596,7 @@ internal extension API.Command where T: ParseObject {
                 })
             } catch {
                 guard let parseError = error as? ParseError else {
-                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
+                    return [(.failure(ParseError(code: .otherCause, message: "decoding error: \(error)")))]
                 }
                 return [(.failure(parseError))]
             }

@@ -656,13 +656,13 @@ public enum ParseTextOption: String {
             switch key {
             case .language:
                 guard (value as? String) != nil else {
-                    throw ParseError(code: .unknownError,
+                    throw ParseError(code: .otherCause,
                                      message: "Text option \(key) has to be a String")
                 }
                 dictionary[key.rawValue] = value
             case .caseSensitive, .diacriticSensitive:
                 guard (value as? Bool) != nil else {
-                    throw ParseError(code: .unknownError,
+                    throw ParseError(code: .otherCause,
                                      message: "Text option \(key) has to be a Bool")
                 }
                 dictionary[key.rawValue] = value

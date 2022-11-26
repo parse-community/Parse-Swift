@@ -37,7 +37,7 @@ class ParseHookResponseTests: XCTestCase {
         let response1 = ParseHookResponse<String>(success: "test")
         XCTAssertNotNil(response1.success)
         XCTAssertNil(response1.error)
-        let response4 = ParseHookResponse<String>(error: .init(code: .unknownError, message: "yup"))
+        let response4 = ParseHookResponse<String>(error: .init(code: .otherCause, message: "yup"))
         XCTAssertNil(response4.success)
         XCTAssertNotNil(response4.error)
     }

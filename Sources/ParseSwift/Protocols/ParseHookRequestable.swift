@@ -76,7 +76,7 @@ extension ParseHookRequestable {
                             callbackQueue: DispatchQueue = .main,
                             completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let user = user else {
-            let error = ParseError(code: .unknownError,
+            let error = ParseError(code: .otherCause,
                                    message: "Resquest does not contain a user.")
             completion(.failure(error))
             return

@@ -27,7 +27,7 @@ class ParseFileTransferableTests: XCTestCase {
 
         init(name: String, url: URL?) throws {
             guard let url = url else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "URL should not be nil")
             }
             self.url = url
@@ -66,7 +66,7 @@ class ParseFileTransferableTests: XCTestCase {
 
         init(name: String, url: URL?) throws {
             guard let url = url else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "URL should not be nil")
             }
             self.url = url
@@ -77,14 +77,14 @@ class ParseFileTransferableTests: XCTestCase {
                     from bodyData: Data?,
                     // swiftlint:disable:next line_length
                     completion: @escaping (Data?, URLResponse?, URLRequest?, Error?) -> Void) throws -> URLSessionUploadTask {
-            throw ParseError(code: .unknownError, message: "Thrown on purpose")
+            throw ParseError(code: .otherCause, message: "Thrown on purpose")
         }
 
         func upload(with request: URLRequest,
                     fromFile fileURL: URL,
                     // swiftlint:disable:next line_length
                     completion: @escaping (Data?, URLResponse?, URLRequest?, Error?) -> Void) throws -> URLSessionUploadTask {
-            throw ParseError(code: .unknownError, message: "Thrown on purpose")
+            throw ParseError(code: .otherCause, message: "Thrown on purpose")
         }
     }
 
@@ -101,7 +101,7 @@ class ParseFileTransferableTests: XCTestCase {
                               testing: true)
 
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         try fileManager.createDirectoryIfNeeded(temporaryDirectory)
     }
@@ -116,7 +116,7 @@ class ParseFileTransferableTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
 
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         let directory = URL(fileURLWithPath: temporaryDirectory, isDirectory: true)
         let expectation1 = XCTestExpectation(description: "Delete files1")
@@ -181,7 +181,7 @@ class ParseFileTransferableTests: XCTestCase {
 
     func testSaveFromData() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let fileName = "sampleData.txt"
         let parseFile = ParseFile(name: "sampleData.txt",
@@ -214,7 +214,7 @@ class ParseFileTransferableTests: XCTestCase {
     func testSaveFromFile() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.txt")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
         let fileName = "sampleData.txt"
@@ -243,7 +243,7 @@ class ParseFileTransferableTests: XCTestCase {
 
     func testSaveFromDataThrowError() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let fileName = "sampleData.txt"
         let parseFile = ParseFile(name: "sampleData.txt",
@@ -275,7 +275,7 @@ class ParseFileTransferableTests: XCTestCase {
     func testSaveFromFileThrowError() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.txt")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
         let fileName = "sampleData.txt"

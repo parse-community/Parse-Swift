@@ -75,7 +75,7 @@ class ParseAuthenticationCombineTests: XCTestCase {
                    options: API.Options,
                    callbackQueue: DispatchQueue,
                    completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-            let error = ParseError(code: .unknownError, message: "Not implemented")
+            let error = ParseError(code: .otherCause, message: "Not implemented")
             completion(.failure(error))
         }
 
@@ -83,14 +83,14 @@ class ParseAuthenticationCombineTests: XCTestCase {
                   options: API.Options,
                   callbackQueue: DispatchQueue,
                   completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-            let error = ParseError(code: .unknownError, message: "Not implemented")
+            let error = ParseError(code: .otherCause, message: "Not implemented")
             completion(.failure(error))
         }
 
         #if canImport(Combine)
         func loginPublisher(authData: [String: String],
                             options: API.Options) -> Future<AuthenticatedUser, ParseError> {
-            let error = ParseError(code: .unknownError, message: "Not implemented")
+            let error = ParseError(code: .otherCause, message: "Not implemented")
             return Future { promise in
                 promise(.failure(error))
             }
@@ -98,7 +98,7 @@ class ParseAuthenticationCombineTests: XCTestCase {
 
         func linkPublisher(authData: [String: String],
                            options: API.Options) -> Future<AuthenticatedUser, ParseError> {
-            let error = ParseError(code: .unknownError, message: "Not implemented")
+            let error = ParseError(code: .otherCause, message: "Not implemented")
             return Future { promise in
                 promise(.failure(error))
             }
@@ -108,12 +108,12 @@ class ParseAuthenticationCombineTests: XCTestCase {
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         func login(authData: [String: String],
                    options: API.Options) async throws -> AuthenticatedUser {
-            throw ParseError(code: .unknownError, message: "Not implemented")
+            throw ParseError(code: .otherCause, message: "Not implemented")
         }
 
         func link(authData: [String: String],
                   options: API.Options) async throws -> AuthenticatedUser {
-            throw ParseError(code: .unknownError, message: "Not implemented")
+            throw ParseError(code: .otherCause, message: "Not implemented")
         }
         #endif
     }

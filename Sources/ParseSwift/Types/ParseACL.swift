@@ -31,7 +31,7 @@ public struct ParseACL: ParseTypeable,
 
         public init(from decoder: Decoder) throws {
             guard let decoded = Access(rawValue: try decoder.singleValueContainer().decode(String.self)) else {
-                throw ParseError(code: .unknownError, message: "Not able to decode ParseACL Access")
+                throw ParseError(code: .otherCause, message: "Not able to decode ParseACL Access")
             }
             self = decoded
         }
@@ -47,7 +47,7 @@ public struct ParseACL: ParseTypeable,
 
     static func getRoleAccessName<R>(_ role: R) throws -> String where R: ParseRole {
         guard let name = role.name else {
-            throw ParseError(code: .unknownError, message: "Name of ParseRole cannot be nil")
+            throw ParseError(code: .otherCause, message: "Name of ParseRole cannot be nil")
         }
         return getRoleAccessName(name)
     }
@@ -322,14 +322,14 @@ extension ParseACL {
         if let controller: DefaultACL = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
             aclController = controller
         } else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Default ACL cannot be found in Keychain. You should `setDefaultACL` first")
         }
         #else
         if let controller: DefaultACL = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
             aclController = controller
         } else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Default ACL cannot be found in Keychain. You should `setDefaultACL` first")
         }
         #endif

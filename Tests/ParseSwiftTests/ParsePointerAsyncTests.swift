@@ -41,7 +41,7 @@ class ParsePointerAsyncTests: XCTestCase { // swiftlint:disable:this type_body_l
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
-            throw ParseError(code: .unknownError, message: "Should create valid URL")
+            throw ParseError(code: .otherCause, message: "Should create valid URL")
         }
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",

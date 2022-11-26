@@ -67,14 +67,14 @@ internal extension URLSession {
                        mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "Unable to connect with parse-server: \(responseError)"))
             }
             return .failure(parseError)
         }
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "No response from server"))
             }
             return .failure(parseError)
@@ -96,7 +96,7 @@ internal extension URLSession {
                         responseData = try ParseCoding.jsonEncoder().encode(pushStatus)
                     } catch {
                         URLSession.parse.configuration.urlCache?.removeCachedResponse(for: request)
-                        return .failure(ParseError(code: .unknownError, message: error.localizedDescription))
+                        return .failure(ParseError(code: .otherCause, message: error.localizedDescription))
                     }
                 }
             }
@@ -112,13 +112,13 @@ internal extension URLSession {
                         let nsError = error as NSError
                         if nsError.code == 4865,
                           let description = nsError.userInfo["NSDebugDescription"] {
-                            return .failure(ParseError(code: .unknownError, message: "Invalid struct: \(description)"))
+                            return .failure(ParseError(code: .otherCause, message: "Invalid struct: \(description)"))
                         }
-                        return .failure(ParseError(code: .unknownError,
+                        return .failure(ParseError(code: .otherCause,
                                                    // swiftlint:disable:next line_length
                                                    message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
                     }
-                    return .failure(ParseError(code: .unknownError,
+                    return .failure(ParseError(code: .otherCause,
                                                // swiftlint:disable:next line_length
                                                message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
                 }
@@ -126,7 +126,7 @@ internal extension URLSession {
             }
         }
 
-        return .failure(ParseError(code: .unknownError,
+        return .failure(ParseError(code: .otherCause,
                                    message: "Unable to connect with parse-server: \(String(describing: urlResponse))."))
     }
 
@@ -137,14 +137,14 @@ internal extension URLSession {
                        mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "No response from server"))
             }
             return .failure(parseError)
         }
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "Unable to connect with parse-server: \(responseError)"))
             }
             return .failure(parseError)
@@ -155,7 +155,7 @@ internal extension URLSession {
                 let data = try ParseCoding.jsonEncoder().encode(location)
                 return try .success(mapper(data))
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               // swiftlint:disable:next line_length
                                               message: "Error decoding parse-server response: \(response) with error: \(String(describing: error))")
                 let parseError = error as? ParseError ?? defaultError
@@ -163,7 +163,7 @@ internal extension URLSession {
             }
         }
 
-        return .failure(ParseError(code: .unknownError,
+        return .failure(ParseError(code: .otherCause,
                                    message: "Unable to connect with parse-server: \(response)."))
     }
 
@@ -241,7 +241,7 @@ internal extension URLSession {
                                                mapper: mapper))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: "Error uploading file: \(String(describing: error))")
                 let parseError = error as? ParseError ?? defaultError
                 completion(.failure(parseError))
@@ -260,13 +260,13 @@ internal extension URLSession {
                                                mapper: mapper))
                 }
             } catch {
-                let defaultError = ParseError(code: .unknownError,
+                let defaultError = ParseError(code: .otherCause,
                                               message: "Error uploading file: \(String(describing: error))")
                 let parseError = error as? ParseError ?? defaultError
                 completion(.failure(parseError))
             }
         } else {
-            completion(.failure(ParseError(code: .unknownError, message: "data and file both cannot be nil")))
+            completion(.failure(ParseError(code: .otherCause, message: "data and file both cannot be nil")))
         }
         guard let task = task else {
             return

@@ -157,7 +157,7 @@ class APICommandTests: XCTestCase {
 
     //This is how errors from the server should typically come in
     func testErrorFromParseServer() {
-        let originalError = ParseError(code: .unknownError, message: "Could not decode")
+        let originalError = ParseError(code: .otherCause, message: "Could not decode")
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try JSONEncoder().encode(originalError)
@@ -266,7 +266,7 @@ class APICommandTests: XCTestCase {
     }
 
     func testErrorHTTPReturns400NoDataFromServer() {
-        let originalError = ParseError(code: .unknownError, message: "Could not decode")
+        let originalError = ParseError(code: .otherCause, message: "Could not decode")
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(error: originalError) // Status code defaults to 400
         }
@@ -288,7 +288,7 @@ class APICommandTests: XCTestCase {
     }
 
     func testErrorHTTPReturns500NoDataFromServer() {
-        let originalError = ParseError(code: .unknownError, message: "Could not decode")
+        let originalError = ParseError(code: .otherCause, message: "Could not decode")
         MockURLProtocol.mockRequests { _ in
             var response = MockURLResponse(error: originalError)
             response.statusCode = 500
@@ -331,7 +331,7 @@ class APICommandTests: XCTestCase {
 
     func testClientKeyHeader() throws {
         guard let clientKey = ParseSwift.configuration.clientKey else {
-            throw ParseError(code: .unknownError, message: "Parse configuration should contain key")
+            throw ParseError(code: .otherCause, message: "Parse configuration should contain key")
         }
 
         let headers = API.getHeaders(options: [])
@@ -353,7 +353,7 @@ class APICommandTests: XCTestCase {
 
     func testPrimaryKeyHeader() throws {
         guard let primaryKey = ParseSwift.configuration.primaryKey else {
-            throw ParseError(code: .unknownError, message: "Parse configuration should contain key")
+            throw ParseError(code: .otherCause, message: "Parse configuration should contain key")
         }
 
         let headers = API.getHeaders(options: [])
@@ -378,7 +378,7 @@ class APICommandTests: XCTestCase {
     func testSessionTokenHeader() throws {
         userLogin()
         guard let sessionToken = BaseParseUser.currentContainer?.sessionToken else {
-            throw ParseError(code: .unknownError, message: "Parse current user should have session token")
+            throw ParseError(code: .otherCause, message: "Parse current user should have session token")
         }
 
         let headers = API.getHeaders(options: [])
@@ -416,7 +416,7 @@ class APICommandTests: XCTestCase {
 
     func testInstallationIdHeader() throws {
         guard let installationId = BaseParseInstallation.currentContainer.installationId else {
-            throw ParseError(code: .unknownError, message: "Parse current user should have session token")
+            throw ParseError(code: .otherCause, message: "Parse current user should have session token")
         }
 
         let headers = API.getHeaders(options: [])

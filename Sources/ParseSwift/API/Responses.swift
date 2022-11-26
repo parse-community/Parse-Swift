@@ -35,7 +35,7 @@ internal struct ReplaceResponse: Decodable {
         }
         guard let createdAt = createdAt else {
             guard let updatedAt = updatedAt else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "Response from server should not have an updatedAt of nil")
             }
             return UpdateResponse(updatedAt: updatedAt).apply(to: object)
@@ -77,7 +77,7 @@ internal struct BatchResponse: Codable {
                              message: "Response from server should not have an objectId of nil")
         }
         guard let createdAt = createdAt else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Response from server should not have an createdAt of nil")
         }
         return CreateResponse(objectId: objectId, createdAt: createdAt)
@@ -89,7 +89,7 @@ internal struct BatchResponse: Codable {
 
     func asUpdateResponse() throws -> UpdateResponse {
         guard let updatedAt = updatedAt else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Response from server should not have an updatedAt of nil")
         }
         return UpdateResponse(updatedAt: updatedAt)

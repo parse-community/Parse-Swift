@@ -136,7 +136,7 @@ public extension ParseFacebook {
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
+                completion(.failure(.init(code: .otherCause,
                                           message: "Should have authData in consisting of keys \"id\", \"expirationDate\" and \"authenticationToken\" or \"accessToken\".")))
             }
             return
@@ -210,7 +210,7 @@ public extension ParseFacebook {
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
+                completion(.failure(.init(code: .otherCause,
                                           message: "Should have authData in consisting of keys \"id\", \"expirationDate\" and \"authenticationToken\" or \"accessToken\".")))
             }
             return

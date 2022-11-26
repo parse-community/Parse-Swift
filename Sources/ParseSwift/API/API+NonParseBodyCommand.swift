@@ -50,7 +50,7 @@ internal extension API {
             group.wait()
 
             guard let response = responseResult else {
-                throw ParseError(code: .unknownError,
+                throw ParseError(code: .otherCause,
                                  message: "Could not unrwrap server response")
             }
             return try response.get()
@@ -93,13 +93,13 @@ internal extension API {
             let url = Parse.configuration.serverURL.appendingPathComponent(path.urlComponent)
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "Could not unrwrap url components for \(url)"))
             }
             components.queryItems = params
 
             guard let urlComponents = components.url else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .otherCause,
                                            message: "Could not create url from components for \(components)"))
             }
 
@@ -107,7 +107,7 @@ internal extension API {
             urlRequest.allHTTPHeaderFields = headers
             if let urlBody = body {
                 guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
-                    return .failure(ParseError(code: .unknownError,
+                    return .failure(ParseError(code: .otherCause,
                                                    message: "Could not encode body \(urlBody)"))
                 }
                 urlRequest.httpBody = bodyData
@@ -128,7 +128,7 @@ internal extension API.NonParseBodyCommand {
     // MARK: Deleting
     static func delete<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, NoBody> where T: ParseObject {
         guard object.isSaved else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Cannot delete an object without an objectId")
         }
 
@@ -192,19 +192,19 @@ internal extension API.NonParseBodyCommand {
                     let response = responses[object.offset]
                     if let success = response.success {
                         guard let successfulResponse = try? object.element.mapper(success) else {
-                            return.failure(ParseError(code: .unknownError, message: "unknown error"))
+                            return.failure(ParseError(code: .otherCause, message: "unknown error"))
                         }
                         return .success(successfulResponse)
                     } else {
                         guard let parseError = response.error else {
-                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
+                            return .failure(ParseError(code: .otherCause, message: "unknown error"))
                         }
                         return .failure(parseError)
                     }
                 })
             } catch {
                 guard let parseError = error as? ParseError else {
-                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
+                    return [(.failure(ParseError(code: .otherCause, message: "decoding error: \(error)")))]
                 }
                 return [(.failure(parseError))]
             }

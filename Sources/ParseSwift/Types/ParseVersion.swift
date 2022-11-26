@@ -48,7 +48,7 @@ public struct ParseVersion: ParseTypeable, Comparable {
 
     init(_ string: String?) throws {
         guard let newString = string else {
-            throw ParseError(code: .unknownError,
+            throw ParseError(code: .otherCause,
                              message: "Cannot initialize with nil value.")
         }
         self.string = newString

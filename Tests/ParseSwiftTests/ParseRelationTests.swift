@@ -431,14 +431,14 @@ class ParseRelationTests: XCTestCase {
             let _: Query<Level> = try relation.query()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.containedIn([.unknownError]))
+            XCTAssertTrue(error.containedIn([.otherCause]))
         }
 
         do {
             let _: Query<GameScore> = try relation.query()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.containedIn([.unknownError]))
+            XCTAssertTrue(error.containedIn([.otherCause]))
         }
 
         // Wrong child for the relation, should throw
@@ -447,7 +447,7 @@ class ParseRelationTests: XCTestCase {
             let _: Query<GameScore> = try relation.query()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.containedIn([.unknownError]))
+            XCTAssertTrue(error.containedIn([.otherCause]))
         }
 
         relation.key = "levels"
@@ -497,13 +497,13 @@ class ParseRelationTests: XCTestCase {
             let _: Query<Level> = try relation.query()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.containedIn([.unknownError]))
+            XCTAssertTrue(error.containedIn([.otherCause]))
         }
         do {
             let _: Query<Level> = try relation.query("yolo")
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.containedIn([.unknownError]))
+            XCTAssertTrue(error.containedIn([.otherCause]))
         }
     }
 

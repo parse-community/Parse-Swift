@@ -56,7 +56,7 @@ class ParseCloudViewModelTests: XCTestCase {
         }
         let viewModel = Cloud(functionJobName: "test")
             .viewModel
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.runFunction()
 
         let expectation = XCTestExpectation(description: "Run Function")
@@ -69,7 +69,7 @@ class ParseCloudViewModelTests: XCTestCase {
     }
 
     func testFunctionError() {
-        let response = ParseError(code: .unknownError, message: "Custom error")
+        let response = ParseError(code: .otherCause, message: "Custom error")
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -106,7 +106,7 @@ class ParseCloudViewModelTests: XCTestCase {
         }
         let viewModel = Cloud(functionJobName: "test")
             .viewModel
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.startJob()
 
         let expectation = XCTestExpectation(description: "Start Job")
@@ -131,7 +131,7 @@ class ParseCloudViewModelTests: XCTestCase {
         }
         let cloud = Cloud(functionJobName: "test")
         let viewModel = Cloud.viewModel(cloud)
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.startJob()
 
         let expectation = XCTestExpectation(description: "Start Job")
@@ -144,7 +144,7 @@ class ParseCloudViewModelTests: XCTestCase {
     }
 
     func testJobError() {
-        let response = ParseError(code: .unknownError, message: "Custom error")
+        let response = ParseError(code: .otherCause, message: "Custom error")
 
         MockURLProtocol.mockRequests { _ in
             do {

@@ -35,7 +35,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
                               testing: true)
 
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         try fileManager.createDirectoryIfNeeded(temporaryDirectory)
     }
@@ -50,7 +50,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         try ParseStorage.shared.deleteAll()
 
         guard let fileManager = ParseFileManager() else {
-            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+            throw ParseError(code: .otherCause, message: "Should have initialized file manage")
         }
         let directory = URL(fileURLWithPath: temporaryDirectory, isDirectory: true)
         let expectation1 = XCTestExpectation(description: "Delete files1")
@@ -154,7 +154,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testLocalUUID() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
         let localId = parseFile.id
@@ -166,12 +166,12 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFileEquality() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
 
         guard let url1 = URL(string: "https://parseplatform.org/img/logo.svg"),
               let url2 = URL(string: "https://parseplatform.org/img/logo2.svg") else {
-            throw ParseError(code: .unknownError, message: "Should have created urls")
+            throw ParseError(code: .otherCause, message: "Should have created urls")
         }
 
         var parseFile1 = ParseFile(name: "sampleData.txt", data: sampleData)
@@ -193,7 +193,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDebugString() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt",
                                   data: sampleData,
@@ -207,7 +207,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDebugStringWithFolderInName() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "myFolder/sampleData.txt",
                                   data: sampleData,
@@ -221,7 +221,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSave() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt",
                                   data: sampleData,
@@ -252,7 +252,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSaveWithSpecifyingMime() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(data: sampleData, mimeType: "application/txt")
 
@@ -281,7 +281,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSaveLocalFile() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.txt")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
 
@@ -313,7 +313,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSaveFileStream() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
 
@@ -337,7 +337,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         guard let stream = InputStream(fileAtPath: tempFilePath.relativePath) else {
-            throw ParseError(code: .unknownError, message: "Should have created file stream")
+            throw ParseError(code: .otherCause, message: "Should have created file stream")
         }
         try parseFile.save(options: [], stream: stream, progress: nil)
     }
@@ -345,7 +345,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSaveFileStreamProgress() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
 
@@ -369,7 +369,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         guard let stream = InputStream(fileAtPath: tempFilePath.relativePath) else {
-            throw ParseError(code: .unknownError, message: "Should have created file stream")
+            throw ParseError(code: .otherCause, message: "Should have created file stream")
         }
 
         try parseFile.save(stream: stream) { (_, _, totalWritten, totalExpected) in
@@ -381,7 +381,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSaveFileStreamCancel() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
 
@@ -405,7 +405,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         guard let stream = InputStream(fileAtPath: tempFilePath.relativePath) else {
-            throw ParseError(code: .unknownError, message: "Should have created file stream")
+            throw ParseError(code: .otherCause, message: "Should have created file stream")
         }
 
         try parseFile.save(stream: stream) { (task, _, totalWritten, totalExpected) in
@@ -418,7 +418,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testUpdateFileError() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         var parseFile = ParseFile(name: "sampleData.txt",
                                   data: sampleData,
@@ -432,7 +432,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testFetchFileStream() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
 
@@ -456,7 +456,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         guard let stream = InputStream(fileAtPath: tempFilePath.relativePath) else {
-            throw ParseError(code: .unknownError, message: "Should have created file stream")
+            throw ParseError(code: .otherCause, message: "Should have created file stream")
         }
         try parseFile.fetch(stream: stream)
     }
@@ -464,7 +464,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSaveAysnc() throws {
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
 
@@ -503,7 +503,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSaveFileProgressAsync() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
 
@@ -545,7 +545,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSaveFileCancelAsync() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
 
@@ -590,7 +590,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSaveWithSpecifyingMimeAysnc() throws {
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         let parseFile = ParseFile(data: sampleData, mimeType: "application/txt")
 
@@ -631,7 +631,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.txt")
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         try sampleData.write(to: tempFilePath)
 
@@ -673,7 +673,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testUpdateErrorAysnc() throws {
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Should have converted to data")
+            throw ParseError(code: .otherCause, message: "Should have converted to data")
         }
         var parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
         parseFile.url = URL(string: "http://localhost/")

@@ -99,7 +99,7 @@ class ParseErrorTests: XCTestCase {
             return
         }
         let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
-        XCTAssertEqual(decoded.code, .unknownError)
+        XCTAssertEqual(decoded.code, .otherCause)
         XCTAssertEqual(decoded.message, message)
         XCTAssertNil(decoded.error)
         XCTAssertEqual(decoded.debugDescription,
@@ -135,5 +135,10 @@ class ParseErrorTests: XCTestCase {
 
         XCTAssertNotNil(error.containedIn([.objectNotFound, .invalidQuery]))
         XCTAssertNil(error.containedIn([.operationForbidden, .invalidQuery]))
+    }
+
+    func testErrorCount() throws {
+        let errorCodes = ParseError.Code.allCases
+        XCTAssertGreaterThan(errorCodes.count, 50)
     }
 }

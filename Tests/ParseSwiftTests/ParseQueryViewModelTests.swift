@@ -70,7 +70,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query
             .viewModel
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.find()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -90,7 +90,7 @@ class ParseQueryViewModelTests: XCTestCase {
 
     func testFindError() {
 
-        let results = ParseError(code: .unknownError, message: "Custom error")
+        let results = ParseError(code: .otherCause, message: "Custom error")
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(results)
@@ -133,7 +133,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let query = GameScore.query
         let viewModel = Query.viewModel(query)
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.find()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -169,7 +169,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query
             .viewModel
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.findAll()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -189,7 +189,7 @@ class ParseQueryViewModelTests: XCTestCase {
 
     func testFindAllError() {
 
-        let results = ParseError(code: .unknownError, message: "Custom error")
+        let results = ParseError(code: .otherCause, message: "Custom error")
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(results)
@@ -232,7 +232,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query
             .viewModel
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.first()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -252,7 +252,7 @@ class ParseQueryViewModelTests: XCTestCase {
 
     func testFirstError() {
 
-        let results = ParseError(code: .unknownError, message: "Custom error")
+        let results = ParseError(code: .otherCause, message: "Custom error")
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(results)
@@ -310,7 +310,7 @@ class ParseQueryViewModelTests: XCTestCase {
 
     func testCountError() {
 
-        let results = ParseError(code: .unknownError, message: "Custom error")
+        let results = ParseError(code: .otherCause, message: "Custom error")
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(results)
@@ -353,7 +353,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query
             .viewModel
-        viewModel.error = ParseError(code: .unknownError, message: "error")
+        viewModel.error = ParseError(code: .otherCause, message: "error")
         viewModel.aggregate([["hello": "world"]])
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -373,7 +373,7 @@ class ParseQueryViewModelTests: XCTestCase {
 
     func testAggregateError() {
 
-        let results = ParseError(code: .unknownError, message: "Custom error")
+        let results = ParseError(code: .otherCause, message: "Custom error")
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(results)

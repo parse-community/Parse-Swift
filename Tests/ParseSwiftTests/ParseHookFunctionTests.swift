@@ -93,7 +93,7 @@ class ParseHookFunctionTests: XCTestCase {
             _ = try await hookFunction.create()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.equalsTo(.unknownError))
+            XCTAssertTrue(error.equalsTo(.otherCause))
         }
     }
 
@@ -141,7 +141,7 @@ class ParseHookFunctionTests: XCTestCase {
             _ = try await hookFunction.update()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.equalsTo(.unknownError))
+            XCTAssertTrue(error.equalsTo(.otherCause))
         }
     }
 
@@ -189,7 +189,7 @@ class ParseHookFunctionTests: XCTestCase {
             _ = try await hookFunction.fetch()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.equalsTo(.unknownError))
+            XCTAssertTrue(error.equalsTo(.otherCause))
         }
     }
 
@@ -270,7 +270,7 @@ class ParseHookFunctionTests: XCTestCase {
             _ = try await hookFunction.delete()
             XCTFail("Should have thrown error")
         } catch {
-            XCTAssertTrue(error.equalsTo(.unknownError))
+            XCTAssertTrue(error.equalsTo(.otherCause))
         }
     }
 }
