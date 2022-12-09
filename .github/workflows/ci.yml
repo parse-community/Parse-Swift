@@ -252,6 +252,22 @@ jobs:
         env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
 
+  cocoapods:
+    needs: xcode-build-watchos
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use multiple cores
+        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+      - name: Update Framework Version
+        run: ./Scripts/update_build
+        env:
+          BUILD_VERSION: '4.16.2'
+      - name: CocoaPods
+        run: pod lib lint --allow-warnings
+        env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_LATEST }}
+
   carthage:
    timeout-minutes: 25
    needs: xcode-build-watchos
