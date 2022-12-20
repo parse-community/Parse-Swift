@@ -538,10 +538,33 @@ extension Query: Queryable {
         if limit == 0 {
             return [U]()
         }
-        if !usingMongoDB {
-            return try findExplainCommand().execute(options: options)
+        if useLocalStore {
+            do {
+                if !usingMongoDB {
+                    let objects = try findExplainCommand().execute(options: options)
+                    try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                    
+                    return objects
+                } else {
+                    let objects = try findExplainMongoCommand().execute(options: options)
+                    try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                    
+                    return objects
+                }
+            } catch let parseError {
+                if parseError.equalsTo(.connectionFailed),
+                   let localObjects = try? LocalStorage.get(U.self, queryIdentifier: self.where.queryIdentifier) {
+                    return localObjects
+                } else {
+                    throw parseError
+                }
+            }
         } else {
-            return try findExplainMongoCommand().execute(options: options)
+            if !usingMongoDB {
+                return try findExplainCommand().execute(options: options)
+            } else {
+                return try findExplainMongoCommand().execute(options: options)
+            }
         }
     }
 
@@ -621,7 +644,24 @@ extension Query: Queryable {
             do {
                 try findExplainCommand().executeAsync(options: options,
                                                       callbackQueue: callbackQueue) { result in
-                    completion(result)
+                    if useLocalStore {
+                        switch result {
+                        case .success(let objects):
+                            try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                            
+                            completion(result)
+                        case .failure(let failure):
+                            if failure.equalsTo(.connectionFailed),
+                               let localObjects = LocalStorage.get([U].self,
+                                                                   queryIdentifier: self.where.queryIdentifier) {
+                                completion(.success(localObjects))
+                            } else {
+                                completion(.failure(failure))
+                            }
+                        }
+                    } else {
+                        completion(result)
+                    }
                 }
             } catch {
                 let parseError = ParseError(code: .unknownError,
@@ -634,7 +674,24 @@ extension Query: Queryable {
             do {
                 try findExplainMongoCommand().executeAsync(options: options,
                                                            callbackQueue: callbackQueue) { result in
-                    completion(result)
+                    if useLocalStore {
+                        switch result {
+                        case .success(let objects):
+                            try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                            
+                            completion(result)
+                        case .failure(let failure):
+                            if failure.equalsTo(.connectionFailed),
+                               let localObjects = LocalStorage.get([U].self,
+                                                                   queryIdentifier: self.where.queryIdentifier) {
+                                completion(.success(localObjects))
+                            } else {
+                                completion(.failure(failure))
+                            }
+                        }
+                    } else {
+                        completion(result)
+                    }
                 }
             } catch {
                 let parseError = ParseError(code: .unknownError,
