@@ -32,6 +32,16 @@ public struct QueryWhere: ParseTypeable {
             }
         }
     }
+    
+    internal var queryIdentifier: String {
+        guard let jsonData = try? ParseCoding.jsonEncoder().encode(self),
+              let descriptionString = String(data: jsonData, encoding: .utf8) else {
+            return ""
+        }
+        return descriptionString.replacingOccurrences(of: "[^A-Za-z0-9]+",
+                                                      with: "",
+                                                      options: [.regularExpression])
+    }
 }
 
 public extension QueryWhere {

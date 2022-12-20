@@ -39,6 +39,9 @@ public struct ParseConfiguration {
 
     /// The live query server URL to connect to Parse Server.
     public internal(set) var liveQuerysServerURL: URL?
+    
+    /// Determines wheter or not objects need to be saved locally.
+    public internal(set) var offlinePolicy: OfflinePolicy
 
     /// Requires `objectId`'s to be created on the client.
     public internal(set) var isRequiringCustomObjectIds = false
@@ -123,6 +126,7 @@ public struct ParseConfiguration {
      specified when using the SDK on a server.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
+     - parameter OfflinePolicy: When enabled, objects will be stored locally for offline usage.
      - parameter requiringCustomObjectIds: Requires `objectId`'s to be created on the client
      side for each object. Must be enabled on the server to work.
      - parameter usingTransactions: Use transactions when saving/updating multiple objects.
@@ -166,6 +170,7 @@ public struct ParseConfiguration {
                 webhookKey: String? = nil,
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
+                offlinePolicy: OfflinePolicy = .disabled,
                 requiringCustomObjectIds: Bool = false,
                 usingTransactions: Bool = false,
                 usingEqualQueryConstraint: Bool = false,
@@ -187,6 +192,7 @@ public struct ParseConfiguration {
         self.masterKey = masterKey
         self.serverURL = serverURL
         self.liveQuerysServerURL = liveQueryServerURL
+        self.offlinePolicy = offlinePolicy
         self.isRequiringCustomObjectIds = requiringCustomObjectIds
         self.isUsingTransactions = usingTransactions
         self.isUsingEqualQueryConstraint = usingEqualQueryConstraint
@@ -388,5 +394,35 @@ public struct ParseConfiguration {
                   parseFileTransfer: parseFileTransfer ?? ParseFileDefaultTransfer(),
                   authentication: authentication)
         self.isMigratingFromObjcSDK = migratingFromObjcSDK
+    }
+    
+    public enum OfflinePolicy {
+        
+        /**
+         When using the `create` Policy, you can get, create and save objects when offline.
+         - warning: Using this Policy requires you to enable `allowingCustomObjectIds`.
+         */
+        case create
+        
+        /**
+         When using the `save` Policy, you can get and save objects when offline.
+         */
+        case save
+        
+        /**
+         When using the `disabled` Policy, offline usage is disabled.
+         */
+        case disabled
+    }
+}
+
+extension ParseConfiguration.OfflinePolicy {
+    
+    var canCreate: Bool {
+        return self == .create
+    }
+    
+    var enabled: Bool {
+        return self == .create || self == .save
     }
 }

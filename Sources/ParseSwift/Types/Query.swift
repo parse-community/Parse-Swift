@@ -20,6 +20,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     internal var keys: Set<String>?
     internal var include: Set<String>?
     internal var order: [Order]?
+    internal var useLocalStore: Bool = false
     internal var isCount: Bool?
     internal var explain: Bool?
     internal var hint: AnyCodable?
@@ -498,7 +499,23 @@ extension Query: Queryable {
         if limit == 0 {
             return [ResultType]()
         }
-        return try findCommand().execute(options: options)
+        if useLocalStore {
+            do {
+                let objects = try findCommand().execute(options: options)
+                try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                
+                return objects
+            } catch let parseError {
+                if parseError.equalsTo(.connectionFailed),
+                   let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: self.where.queryIdentifier) {
+                    return localObjects
+                } else {
+                    throw parseError
+                }
+            }
+        } else {
+            return try findCommand().execute(options: options)
+        }
     }
 
     /**
@@ -548,7 +565,23 @@ extension Query: Queryable {
         do {
             try findCommand().executeAsync(options: options,
                                            callbackQueue: callbackQueue) { result in
-                completion(result)
+                if useLocalStore {
+                    switch result {
+                    case .success(let objects):
+                        try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                        
+                        completion(result)
+                    case .failure(let failure):
+                        if failure.equalsTo(.connectionFailed),
+                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: self.where.queryIdentifier) {
+                            completion(.success(localObjects))
+                        } else {
+                            completion(.failure(failure))
+                        }
+                    }
+                } else {
+                    completion(result)
+                }
             }
         } catch {
             let parseError = ParseError(code: .unknownError,

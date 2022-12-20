@@ -1209,10 +1209,12 @@ extension ParseObject {
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
+                try? saveLocally(method: method)
                 let object = try await command(method: method,
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
+                
                 completion(.success(object))
             } catch {
                 let defaultError = ParseError(code: .unknownError,
@@ -1224,6 +1226,7 @@ extension ParseObject {
             }
         }
         #else
+        try? saveLocally(method: method)
         command(method: method,
                 ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                 options: options,
@@ -1249,6 +1252,7 @@ extension ParseObject {
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
+                try? saveLocally(method: method)
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
@@ -1263,6 +1267,7 @@ extension ParseObject {
             }
         }
         #else
+        try? saveLocally(method: method)
         command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
@@ -1287,6 +1292,7 @@ extension ParseObject {
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
+                try? saveLocally(method: method)
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
@@ -1301,6 +1307,7 @@ extension ParseObject {
             }
         }
         #else
+        try? saveLocally(method: method)
         command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
@@ -1325,6 +1332,7 @@ extension ParseObject {
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         Task {
             do {
+                try? saveLocally(method: method)
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
@@ -1339,6 +1347,7 @@ extension ParseObject {
             }
         }
         #else
+        try? saveLocally(method: method)
         command(method: method,
                 options: options,
                 callbackQueue: callbackQueue,
