@@ -57,6 +57,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
             return className
         }
         
+        //Sets need to be sorted to maintain the same queryIdentifier
         let sortedKeys = (keys?.count == 0 ? [] : ["keys"]) + (keys?.sorted(by: { $0 < $1 }) ?? [])
         let sortedInclude = (include?.count == 0 ? [] : ["include"]) + (include?.sorted(by: { $0 < $1 }) ?? [])
         let sortedExcludeKeys = (excludeKeys?.count == 0 ? [] : ["excludeKeys"]) + (excludeKeys?.sorted(by: { $0 < $1 }) ?? [])
@@ -65,7 +66,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
             sortedKeys +
             sortedInclude +
             sortedExcludeKeys
-        ).joined(separator: "") //Sets need to be sorted to maintain the same queryIdentifier
+        ).joined(separator: "")
         
         return (
             className +
