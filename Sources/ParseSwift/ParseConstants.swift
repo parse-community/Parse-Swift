@@ -16,6 +16,7 @@ enum ParseConstants {
     static let fileManagementLibraryDirectory = "Library/"
     static let fileDownloadsDirectory = "Downloads"
     static let fileObjectsDirectory = "Objects"
+    static let queryObjectsFile = "QueryObjects"
     static let bundlePrefix = "com.parse.ParseSwift"
     static let batchLimit = 50
     static let includeAllKey = "*"

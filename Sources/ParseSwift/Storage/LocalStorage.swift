@@ -91,7 +91,7 @@ internal struct LocalStorage {
         let fileManager = FileManager.default
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent("QueryObjects.json")
+        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile)
         
         var queryObjects = try getQueryObjects()
         queryObjects[queryIdentifier] = try objects.map({ try QueryObject($0) })
@@ -109,7 +109,7 @@ internal struct LocalStorage {
         let fileManager = FileManager.default
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent("QueryObjects.json")
+        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile)
         
         if fileManager.fileExists(atPath: queryObjectsPath.path) {
             let jsonData = try Data(contentsOf: queryObjectsPath)
