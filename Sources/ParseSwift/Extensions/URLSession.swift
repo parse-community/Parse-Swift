@@ -67,12 +67,12 @@ internal extension URLSession {
                        mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
             if responseError._code == NSURLErrorNotConnectedToInternet {
-                return .failure(ParseError(code: .unknownError,
-                                           message: "Unable to connect with parse-server: \(responseError)"))
+                return .failure(ParseError(code: .notConnectedToInternet,
+                                           message: "Unable to connect with the internet: \(responseError)"))
             } else {
                 guard let parseError = responseError as? ParseError else {
-                    return .failure(ParseError(code: .notConnectedToInternet,
-                                               message: "Unable to connect with the internet: \(responseError)"))
+                    return .failure(ParseError(code: .unknownError,
+                                               message: "Unable to connect with parse-server: \(responseError)"))
                 }
                 return .failure(parseError)
             }
