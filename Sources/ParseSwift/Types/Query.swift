@@ -45,6 +45,16 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     public var className: String {
         Self.className
     }
+    
+    internal var queryIdentifier: String {
+        guard let jsonData = try? ParseCoding.jsonEncoder().encode(self),
+              let descriptionString = String(data: jsonData, encoding: .utf8) else {
+            return className
+        }
+        return descriptionString.replacingOccurrences(of: "[^A-Za-z0-9]+",
+                                                      with: "",
+                                                      options: [.regularExpression])
+    }
 
     struct AggregateBody<T>: Codable where T: ParseObject {
         let pipeline: [[String: AnyCodable]]?
