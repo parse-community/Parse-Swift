@@ -609,12 +609,12 @@ extension Query: Queryable {
                         
                         completion(result)
                     case .failure(let failure):
-                        //if failure.equalsTo(.connectionFailed),
-                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) //{
-                        completion(.success(localObjects ?? []))
-                        /*} else {
+                        if failure.equalsTo(.connectionFailed),
+                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                            completion(.success(localObjects))
+                        } else {
                             completion(.failure(failure))
-                        }*/
+                        }
                     }
                 } else {
                     completion(result)
