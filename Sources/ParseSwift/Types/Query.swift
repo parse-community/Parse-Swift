@@ -51,9 +51,9 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
               let descriptionString = String(data: jsonData, encoding: .utf8) else {
             return className
         }
-        return descriptionString.replacingOccurrences(of: "[^A-Za-z0-9]+",
-                                                      with: "",
-                                                      options: [.regularExpression])
+        return className + descriptionString.replacingOccurrences(of: "[^A-Za-z0-9]+",
+                                                                  with: "",
+                                                                  options: [.regularExpression])
     }
 
     struct AggregateBody<T>: Codable where T: ParseObject {
