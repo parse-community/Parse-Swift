@@ -11,6 +11,7 @@ internal struct LocalStorage {
     
     static func save<T: ParseObject>(_ object: T,
                                      queryIdentifier: String?) throws {
+        print("[LocalStorage] save object")
         let fileManager = FileManager.default
         let objectData = try ParseCoding.jsonEncoder().encode(object)
         
@@ -20,6 +21,7 @@ internal struct LocalStorage {
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory(className: object.className)
         let objectPath = objectsDirectoryPath.appendingPathComponent(objectId)
+        print("[LocalStorage] objectPath: \(objectPath)")
         
         if fileManager.fileExists(atPath: objectPath.path) {
             try objectData.write(to: objectPath)
@@ -34,6 +36,7 @@ internal struct LocalStorage {
     
     static func save<T: ParseObject>(_ objects: [T],
                                      queryIdentifier: String?) throws {
+        print("[LocalStorage] save objects")
         let fileManager = FileManager.default
         
         var successObjects: [T] = []
@@ -45,6 +48,7 @@ internal struct LocalStorage {
             
             let objectsDirectoryPath = try ParseFileManager.objectsDirectory(className: object.className)
             let objectPath = objectsDirectoryPath.appendingPathComponent(objectId)
+            print("[LocalStorage] objectPath: \(objectPath)")
             
             if fileManager.fileExists(atPath: objectPath.path) {
                 try objectData.write(to: objectPath)
@@ -80,8 +84,21 @@ internal struct LocalStorage {
     
     static func saveQueryObjects<T: ParseObject>(_ objects: [T],
                                                  queryIdentifier: String) throws {
+        let fileManager = FileManager.default
+        
+        let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
+        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent("QueryObjects.json")
+        
         var queryObjects = try getQueryObjects()
         queryObjects[queryIdentifier] = try objects.map({ try QueryObject($0) })
+        
+        let jsonData = try ParseCoding.jsonEncoder().encode(queryObjects)
+        
+        if fileManager.fileExists(atPath: queryObjectsPath.path) {
+            try jsonData.write(to: queryObjectsPath)
+        } else {
+            fileManager.createFile(atPath: queryObjectsPath.path, contents: jsonData, attributes: nil)
+        }
     }
     
     static func getQueryObjects() throws -> [String : [QueryObject]] {
@@ -92,8 +109,7 @@ internal struct LocalStorage {
         
         if fileManager.fileExists(atPath: queryObjectsPath.path) {
             let jsonData = try Data(contentsOf: queryObjectsPath)
-            let queryObjects = try? ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
-            return queryObjects ?? [:]
+            return try ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
         } else {
             return [:]
         }
