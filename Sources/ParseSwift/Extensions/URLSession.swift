@@ -176,8 +176,6 @@ internal extension URLSession {
     ) {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
-            print("responseError")
-            print(responseError)
             guard let httpResponse = urlResponse as? HTTPURLResponse else {
                 completion(self.makeResult(request: request,
                                            responseData: responseData,
