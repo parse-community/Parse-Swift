@@ -551,7 +551,7 @@ extension Query: Queryable {
                 
                 return objects
             } catch let parseError {
-                if parseError.equalsTo(.connectionFailed),
+                if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
                    let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
                     return localObjects
                 } else {
@@ -617,7 +617,7 @@ extension Query: Queryable {
                         
                         completion(result)
                     case .failure(let failure):
-                        if failure.equalsTo(.connectionFailed),
+                        if failure.equalsTo(.notConnectedToInternet) || failure.equalsTo(.connectionFailed),
                            let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
                         } else {
