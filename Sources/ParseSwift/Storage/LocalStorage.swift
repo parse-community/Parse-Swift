@@ -29,6 +29,7 @@ internal struct LocalStorage {
             fileManager.createFile(atPath: objectPath.path, contents: objectData, attributes: nil)
         }
         
+        print("[LocalStorage] queryIdentifier: \(String(describing: queryIdentifier))")
         if let queryIdentifier = queryIdentifier {
             try self.saveQueryObjects([object], queryIdentifier: queryIdentifier)
         }
@@ -59,6 +60,7 @@ internal struct LocalStorage {
             successObjects.append(object)
         }
         
+        print("[LocalStorage] queryIdentifier: \(String(describing: queryIdentifier))")
         if let queryIdentifier = queryIdentifier {
             try self.saveQueryObjects(successObjects, queryIdentifier: queryIdentifier)
         }
@@ -66,6 +68,8 @@ internal struct LocalStorage {
     
     static func get<U: Decodable>(_ type: U.Type,
                                   queryIdentifier: String) throws -> [U]? {
+        print("[LocalStorage] get objects")
+        print("[LocalStorage] queryIdentifier: \(String(describing: queryIdentifier))")
         guard let queryObjects = try getQueryObjects()[queryIdentifier] else { return nil }
         
         var allObjects: [U] = []
