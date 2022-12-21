@@ -436,6 +436,17 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
         mutableQuery.order = keys
         return mutableQuery
     }
+    
+    /**
+     Sort the results of the query based on the `Order` enum.
+      - parameter keys: An array of keys to order by.
+      - returns: The mutated instance of query for easy chaining.
+    */
+    public func useLocalStore(_ state: Bool = true) -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.useLocalStore = state
+        return mutableQuery
+    }
 
     /**
      A variadic list of selected fields to receive updates on when the `Query` is used as a
