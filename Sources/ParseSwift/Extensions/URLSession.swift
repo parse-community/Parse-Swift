@@ -66,7 +66,8 @@ internal extension URLSession {
                        responseError: Error?,
                        mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
-            if let err = responseError as? URLError, err.code == URLError.Code.notConnectedToInternet {
+            if let urlError = responseError as? URLError,
+                urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed {
                 return .failure(ParseError(code: .notConnectedToInternet,
                                            message: "Unable to connect with the internet: \(responseError)"))
             } else {
