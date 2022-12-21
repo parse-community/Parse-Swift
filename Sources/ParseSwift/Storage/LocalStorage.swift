@@ -120,7 +120,12 @@ internal struct LocalStorage {
         if fileManager.fileExists(atPath: queryObjectsPath.path) {
             let jsonData = try Data(contentsOf: queryObjectsPath)
             print("[LocalStorage] jsonData: \(jsonData)")
-            return try ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
+            do {
+                return try ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
+            } catch {
+                print("[LocalStorage] error: \(error)")
+                throw error
+            }
         } else {
             return [:]
         }
