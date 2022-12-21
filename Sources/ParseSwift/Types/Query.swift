@@ -66,10 +66,10 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
         return (
             className +
             sortedSets +
-            descriptionString.replacingOccurrences(of: "[^A-Za-z0-9]+",
-                                                   with: "",
-                                                   options: [.regularExpression])
-        )
+            descriptionString
+        ).replacingOccurrences(of: "[^A-Za-z0-9]+",
+                               with: "",
+                               options: [.regularExpression])
     }
 
     struct AggregateBody<T>: Codable where T: ParseObject {
