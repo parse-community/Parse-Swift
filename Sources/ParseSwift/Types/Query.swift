@@ -47,13 +47,29 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     }
     
     internal var queryIdentifier: String {
-        guard let jsonData = try? ParseCoding.jsonEncoder().encode(self),
+        var mutableQuery = self
+        mutableQuery.keys = nil
+        mutableQuery.include = nil
+        mutableQuery.excludeKeys = nil
+        
+        guard let jsonData = try? ParseCoding.jsonEncoder().encode(mutableQuery),
               let descriptionString = String(data: jsonData, encoding: .utf8) else {
             return className
         }
-        return className + descriptionString.replacingOccurrences(of: "[^A-Za-z0-9]+",
-                                                                  with: "",
-                                                                  options: [.regularExpression])
+        
+        let sortedSets = (
+            (keys?.sorted(by: { $0 < $1 }) ?? []) +
+            (include?.sorted(by: { $0 < $1 }) ?? []) +
+            (excludeKeys?.sorted(by: { $0 < $1 }) ?? [])
+        ).joined(separator: "") //Sets need to be sorted to maintain the same queryIdentifier
+        
+        return (
+            className +
+            sortedSets +
+            descriptionString.replacingOccurrences(of: "[^A-Za-z0-9]+",
+                                                   with: "",
+                                                   options: [.regularExpression])
+        )
     }
 
     struct AggregateBody<T>: Codable where T: ParseObject {
