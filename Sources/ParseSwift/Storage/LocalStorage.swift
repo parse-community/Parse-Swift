@@ -70,7 +70,9 @@ internal struct LocalStorage {
                                   queryIdentifier: String) throws -> [U]? {
         print("[LocalStorage] get objects")
         print("[LocalStorage] queryIdentifier: \(String(describing: queryIdentifier))")
-        guard let queryObjects = try getQueryObjects()[queryIdentifier] else { return nil }
+        let queryIdentifiers = try getQueryObjects()
+        print("[LocalStorage] queryIdentifiers: \(queryIdentifiers)")
+        guard let queryObjects = queryIdentifiers[queryIdentifier] else { return nil }
         print("[LocalStorage] queryObjects: \(queryObjects)")
         
         var allObjects: [U] = []
@@ -115,17 +117,10 @@ internal struct LocalStorage {
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile)
-        print("[LocalStorage] queryObjectsPath: \(queryObjectsPath)")
         
         if fileManager.fileExists(atPath: queryObjectsPath.path) {
             let jsonData = try Data(contentsOf: queryObjectsPath)
-            print("[LocalStorage] jsonData: \(jsonData)")
-            do {
-                return try ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
-            } catch {
-                print("[LocalStorage] error: \(error)")
-                throw error
-            }
+            return try ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
         } else {
             return [:]
         }
