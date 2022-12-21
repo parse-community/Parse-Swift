@@ -523,12 +523,12 @@ extension Query: Queryable {
         if useLocalStore {
             do {
                 let objects = try findCommand().execute(options: options)
-                try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                try? LocalStorage.save(objects, queryIdentifier: queryIdentifier)
                 
                 return objects
             } catch let parseError {
                 if parseError.equalsTo(.connectionFailed),
-                   let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: self.where.queryIdentifier) {
+                   let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
                     return localObjects
                 } else {
                     throw parseError
@@ -589,12 +589,12 @@ extension Query: Queryable {
                 if useLocalStore {
                     switch result {
                     case .success(let objects):
-                        try? LocalStorage.save(objects, queryIdentifier: self.where.queryIdentifier)
+                        try? LocalStorage.save(objects, queryIdentifier: queryIdentifier)
                         
                         completion(result)
                     case .failure(let failure):
                         //if failure.equalsTo(.connectionFailed),
-                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: self.where.queryIdentifier) //{
+                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) //{
                         completion(.success(localObjects ?? []))
                         /*} else {
                             completion(.failure(failure))
