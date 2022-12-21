@@ -74,11 +74,15 @@ internal struct LocalStorage {
         
         var allObjects: [U] = []
         for queryObject in queryObjects {
+            print("[LocalStorage] \(queryObject.objectId)")
             let objectsDirectoryPath = try ParseFileManager.objectsDirectory(className: queryObject.className)
             let objectPath = objectsDirectoryPath.appendingPathComponent(queryObject.objectId)
+            print("[LocalStorage] \(objectPath)")
             
             let objectData = try Data(contentsOf: objectPath)
+            print("[LocalStorage] objectData: \(objectData)")
             if let object = try? ParseCoding.jsonDecoder().decode(U.self, from: objectData) {
+                print("[LocalStorage] object: \(object)")
                 allObjects.append(object)
             }
         }
@@ -123,6 +127,7 @@ internal struct LocalStorage {
 internal struct QueryObject: Codable {
     let objectId: String
     let className: String
+    let queryDate: Date
     
     init<T : ParseObject>(_ object : T) throws {
         guard let objectId = object.objectId else {
@@ -130,6 +135,7 @@ internal struct QueryObject: Codable {
         }
         self.objectId = objectId
         self.className = object.className
+        self.queryDate = Date()
     }
 }
 
