@@ -800,10 +800,12 @@ transactions for this call.
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
+                                try? saveLocally(method: method)
                                 completion(.success(returnBatch))
                             }
                             completed += 1
                         case .failure(let error):
+                            try? saveLocally(method: method, error: error)
                             completion(.failure(error))
                             return
                         }

@@ -462,11 +462,15 @@ internal extension Sequence where Element: ParseObject {
                                       childFiles: childFiles)
                 returnBatch.append(contentsOf: saved)
             }
+            
+            try? saveLocally(method: method)
             return returnBatch
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
+            
+            try? saveLocally(method: method, error: parseError)
             throw parseError
         }
     }

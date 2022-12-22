@@ -563,3 +563,15 @@ public extension Error {
         containedIn(errorCodes)
     }
 }
+
+internal extension Error {
+
+    /**
+     Validates if the given `ParseError` codes contains the error codes for no internet connection.
+     
+     - returns: A boolean indicating whether or not the `Error` is an internet connection error.
+     */
+    var hasNoInternetConnection: Bool {
+        return self.equalsTo(.notConnectedToInternet) || self.equalsTo(.connectionFailed)
+    }
+}
