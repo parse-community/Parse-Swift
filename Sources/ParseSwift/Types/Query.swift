@@ -552,7 +552,7 @@ extension Query: Queryable {
                 return objects
             } catch let parseError {
                 if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
-                   let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                   let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                     return localObjects
                 } else {
                     throw parseError
@@ -618,7 +618,7 @@ extension Query: Queryable {
                         completion(result)
                     case .failure(let failure):
                         if failure.equalsTo(.notConnectedToInternet) || failure.equalsTo(.connectionFailed),
-                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                           let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
                         } else {
                             completion(.failure(failure))
@@ -748,7 +748,7 @@ extension Query: Queryable {
                     }
                 } catch {
                     if let urlError = error as? URLError,
-                       urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed,                        let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                       urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed,                        let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                         completion(.success(localObjects))
                     } else {
                         let defaultError = ParseError(code: .unknownError,
@@ -756,7 +756,7 @@ extension Query: Queryable {
                         let parseError = error as? ParseError ?? defaultError
                         
                         if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
-                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                           let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
                         } else {
                             callbackQueue.async {
@@ -791,7 +791,23 @@ extension Query: Queryable {
             throw ParseError(code: .objectNotFound,
                              message: "Object not found on the server.")
         }
-        return try firstCommand().execute(options: options)
+        if useLocalStore {
+            do {
+                let objects = try firstCommand().execute(options: options)
+                try? objects.saveLocally(queryIdentifier: queryIdentifier)
+                
+                return objects
+            } catch let parseError {
+                if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
+                   let localObject = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                    return localObject
+                } else {
+                    throw parseError
+                }
+            }
+        } else {
+            return try firstCommand().execute(options: options)
+        }
     }
 
     /**
@@ -846,8 +862,24 @@ extension Query: Queryable {
         }
         do {
             try firstCommand().executeAsync(options: options,
-                                            callbackQueue: callbackQueue) { result in
-                completion(result)
+                                           callbackQueue: callbackQueue) { result in
+                if useLocalStore {
+                    switch result {
+                    case .success(let object):
+                        try? object.saveLocally(queryIdentifier: queryIdentifier)
+                        
+                        completion(result)
+                    case .failure(let failure):
+                        if failure.equalsTo(.notConnectedToInternet) || failure.equalsTo(.connectionFailed),
+                           let localObject = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                            completion(.success(localObject))
+                        } else {
+                            completion(.failure(failure))
+                        }
+                    }
+                } else {
+                    completion(result)
+                }
             }
         } catch {
             let parseError = ParseError(code: .unknownError,

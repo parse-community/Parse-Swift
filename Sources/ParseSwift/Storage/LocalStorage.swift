@@ -33,7 +33,7 @@ internal struct LocalStorage {
         }
     }
     
-    static func save<T: ParseObject>(_ objects: [T],
+    static func saveAll<T: ParseObject>(_ objects: [T],
                                      queryIdentifier: String?) throws {
         let fileManager = FileManager.default
         print("[LocalStorage] save objects")
@@ -63,14 +63,24 @@ internal struct LocalStorage {
     }
     
     static func get<U: Decodable>(_ type: U.Type,
+                                  queryIdentifier: String) throws -> U? {
+        guard let queryObjects = try getQueryObjects()[queryIdentifier],
+                let queryObject = queryObjects.first else { return nil }
+        
+        let objectsDirectoryPath = try ParseFileManager.objectsDirectory(className: queryObject.className)
+        let objectPath = objectsDirectoryPath.appendingPathComponent(queryObject.objectId)
+        
+        let objectData = try Data(contentsOf: objectPath)
+        
+        return try ParseCoding.jsonDecoder().decode(U.self, from: objectData)
+    }
+    
+    static func getAll<U: Decodable>(_ type: U.Type,
                                   queryIdentifier: String) throws -> [U]? {
-        print("[LocalStorage] get objects")
-        print("[LocalStorage] queryIdentifier: \(String(describing: queryIdentifier))")
         guard let queryObjects = try getQueryObjects()[queryIdentifier] else { return nil }
         
         var allObjects: [U] = []
         for queryObject in queryObjects {
-            print("[LocalStorage] get id: \(queryObject.objectId)")
             let objectsDirectoryPath = try ParseFileManager.objectsDirectory(className: queryObject.className)
             let objectPath = objectsDirectoryPath.appendingPathComponent(queryObject.objectId)
             
@@ -177,24 +187,24 @@ internal extension Sequence where Element: ParseObject {
             switch method {
             case .save:
                 if Parse.configuration.offlinePolicy.enabled {
-                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                    try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                 }
             case .create:
                 if Parse.configuration.offlinePolicy.canCreate {
-                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                    try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                 }
             case .replace:
                 if Parse.configuration.offlinePolicy.enabled {
-                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                    try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                 }
             case .update:
                 if Parse.configuration.offlinePolicy.enabled {
-                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                    try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                 }
             }
         } else {
             if Parse.configuration.offlinePolicy.enabled {
-                try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
             }
         }
     }
