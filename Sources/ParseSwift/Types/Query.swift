@@ -547,7 +547,7 @@ extension Query: Queryable {
         if useLocalStore {
             do {
                 let objects = try findCommand().execute(options: options)
-                try? LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                try? objects.saveLocally(queryIdentifier: queryIdentifier)
                 
                 return objects
             } catch let parseError {
@@ -613,7 +613,7 @@ extension Query: Queryable {
                 if useLocalStore {
                     switch result {
                     case .success(let objects):
-                        try? LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                        try? objects.saveLocally(queryIdentifier: queryIdentifier)
                         
                         completion(result)
                     case .failure(let failure):

@@ -12,6 +12,7 @@ internal struct LocalStorage {
     static func save<T: ParseObject>(_ object: T,
                                      queryIdentifier: String?) throws {
         let fileManager = FileManager.default
+        print("[LocalStorage] save object")
         let objectData = try ParseCoding.jsonEncoder().encode(object)
         
         guard let objectId = object.objectId else {
@@ -35,6 +36,7 @@ internal struct LocalStorage {
     static func save<T: ParseObject>(_ objects: [T],
                                      queryIdentifier: String?) throws {
         let fileManager = FileManager.default
+        print("[LocalStorage] save objects")
         
         var successObjects: [T] = []
         for object in objects {
@@ -132,26 +134,32 @@ internal struct QueryObject: Codable {
 
 internal extension ParseObject {
     
-    func saveLocally(method: Method,
+    func saveLocally(method: Method? = nil,
                      queryIdentifier: String? = nil) throws {
-        switch method {
-        case .save:
-            if Parse.configuration.offlinePolicy.enabled {
-                try LocalStorage.save(self, queryIdentifier: queryIdentifier)
-            }
-        case .create:
-            if Parse.configuration.offlinePolicy.canCreate {
-                if Parse.configuration.isRequiringCustomObjectIds {
+        if let method = method {
+            switch method {
+            case .save:
+                if Parse.configuration.offlinePolicy.enabled {
                     try LocalStorage.save(self, queryIdentifier: queryIdentifier)
-                } else {
-                    throw ParseError(code: .unknownError, message: "Enable custom objectIds")
+                }
+            case .create:
+                if Parse.configuration.offlinePolicy.canCreate {
+                    if Parse.configuration.isRequiringCustomObjectIds {
+                        try LocalStorage.save(self, queryIdentifier: queryIdentifier)
+                    } else {
+                        throw ParseError(code: .unknownError, message: "Enable custom objectIds")
+                    }
+                }
+            case .replace:
+                if Parse.configuration.offlinePolicy.enabled {
+                    try LocalStorage.save(self, queryIdentifier: queryIdentifier)
+                }
+            case .update:
+                if Parse.configuration.offlinePolicy.enabled {
+                    try LocalStorage.save(self, queryIdentifier: queryIdentifier)
                 }
             }
-        case .replace:
-            if Parse.configuration.offlinePolicy.enabled {
-                try LocalStorage.save(self, queryIdentifier: queryIdentifier)
-            }
-        case .update:
+        } else {
             if Parse.configuration.offlinePolicy.enabled {
                 try LocalStorage.save(self, queryIdentifier: queryIdentifier)
             }
@@ -161,24 +169,30 @@ internal extension ParseObject {
 
 internal extension Sequence where Element: ParseObject {
     
-    func saveLocally(method: Method,
+    func saveLocally(method: Method? = nil,
                      queryIdentifier: String? = nil) throws {
         let objects = map { $0 }
         
-        switch method {
-        case .save:
-            if Parse.configuration.offlinePolicy.enabled {
-                try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+        if let method = method {
+            switch method {
+            case .save:
+                if Parse.configuration.offlinePolicy.enabled {
+                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                }
+            case .create:
+                if Parse.configuration.offlinePolicy.canCreate {
+                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                }
+            case .replace:
+                if Parse.configuration.offlinePolicy.enabled {
+                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                }
+            case .update:
+                if Parse.configuration.offlinePolicy.enabled {
+                    try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
+                }
             }
-        case .create:
-            if Parse.configuration.offlinePolicy.canCreate {
-                try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
-            }
-        case .replace:
-            if Parse.configuration.offlinePolicy.enabled {
-                try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
-            }
-        case .update:
+        } else {
             if Parse.configuration.offlinePolicy.enabled {
                 try LocalStorage.save(objects, queryIdentifier: queryIdentifier)
             }
