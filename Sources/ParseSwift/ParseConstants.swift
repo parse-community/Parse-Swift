@@ -16,6 +16,7 @@ enum ParseConstants {
     static let fileManagementLibraryDirectory = "Library/"
     static let fileDownloadsDirectory = "Downloads"
     static let fileObjectsDirectory = "Objects"
+    static let fetchObjectsFile = "FetchObjects"
     static let queryObjectsFile = "QueryObjects"
     static let bundlePrefix = "com.parse.ParseSwift"
     static let batchLimit = 50
@@ -37,7 +38,7 @@ enum ParseConstants {
     #endif
 }
 
-enum Method: String {
+enum Method: String, Codable {
     case save, create, replace, update
 }
 

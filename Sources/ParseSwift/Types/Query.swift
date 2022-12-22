@@ -862,7 +862,7 @@ extension Query: Queryable {
         }
         do {
             try firstCommand().executeAsync(options: options,
-                                           callbackQueue: callbackQueue) { result in
+                                            callbackQueue: callbackQueue) { result in
                 if useLocalStore {
                     switch result {
                     case .success(let object):

@@ -91,6 +91,39 @@ internal struct LocalStorage {
         return (allObjects.isEmpty ? nil : allObjects)
     }
     
+    static func saveFetchObjects<T: ParseObject>(_ objects: [T],
+                                                 method: Method) throws {
+        let fileManager = FileManager.default
+        
+        let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
+        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile)
+        
+        var fetchObjects = try getFetchObjects()
+        fetchObjects.append(contentsOf: try objects.map({ try FetchObject($0, method: method) }))
+        
+        let jsonData = try ParseCoding.jsonEncoder().encode(fetchObjects)
+        
+        if fileManager.fileExists(atPath: fetchObjectsPath.path) {
+            try jsonData.write(to: fetchObjectsPath)
+        } else {
+            fileManager.createFile(atPath: fetchObjectsPath.path, contents: jsonData, attributes: nil)
+        }
+    }
+    
+    static func getFetchObjects() throws -> [FetchObject] {
+        let fileManager = FileManager.default
+        
+        let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
+        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile)
+        
+        if fileManager.fileExists(atPath: fetchObjectsPath.path) {
+            let jsonData = try Data(contentsOf: fetchObjectsPath)
+            return try ParseCoding.jsonDecoder().decode([FetchObject].self, from: jsonData)
+        } else {
+            return []
+        }
+    }
+    
     static func saveQueryObjects<T: ParseObject>(_ objects: [T],
                                                  queryIdentifier: String) throws {
         let fileManager = FileManager.default
@@ -125,6 +158,23 @@ internal struct LocalStorage {
     }
 }
 
+internal struct FetchObject: Codable {
+    let objectId: String
+    let className: String
+    let updatedAt: Date
+    let method: Method
+    
+    init<T : ParseObject>(_ object : T, method: Method) throws {
+        guard let objectId = object.objectId else {
+            throw ParseError(code: .missingObjectId, message: "Object has no valid objectId")
+        }
+        self.objectId = objectId
+        self.className = object.className
+        self.updatedAt = object.updatedAt ?? Date()
+        self.method = method
+    }
+}
+
 internal struct QueryObject: Codable {
     let objectId: String
     let className: String
@@ -132,7 +182,7 @@ internal struct QueryObject: Codable {
     
     init<T : ParseObject>(_ object : T) throws {
         guard let objectId = object.objectId else {
-            throw ParseError(code: .unknownError, message: "Object has no valid objectId")
+            throw ParseError(code: .missingObjectId, message: "Object has no valid objectId")
         }
         self.objectId = objectId
         self.className = object.className
@@ -173,6 +223,10 @@ internal extension ParseObject {
                 try LocalStorage.save(self, queryIdentifier: queryIdentifier)
             }
         }
+        
+        if let method = method, let error = error, error.hasNoInternetConnection {
+            try LocalStorage.saveFetchObjects([self], method: method)
+        }
     }
 }
 
@@ -206,6 +260,10 @@ internal extension Sequence where Element: ParseObject {
             if Parse.configuration.offlinePolicy.enabled {
                 try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
             }
+        }
+        
+        if let method = method, let error = error, error.hasNoInternetConnection {
+            try LocalStorage.saveFetchObjects(objects, method: method)
         }
     }
 }
