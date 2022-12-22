@@ -378,6 +378,8 @@ or disable transactions for this call.
             case .update:
                 command = try self.updateCommand()
             }
+            
+            try? saveLocally(method: method)
             return try await command
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
@@ -387,6 +389,8 @@ or disable transactions for this call.
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
+            
+            try? saveLocally(method: method, error: parseError)
             throw parseError
         }
     }

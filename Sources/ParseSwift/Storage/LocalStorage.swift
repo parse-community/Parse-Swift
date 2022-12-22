@@ -12,7 +12,6 @@ internal struct LocalStorage {
     static func save<T: ParseObject>(_ object: T,
                                      queryIdentifier: String?) throws {
         let fileManager = FileManager.default
-        print("[LocalStorage] save object")
         let objectData = try ParseCoding.jsonEncoder().encode(object)
         
         guard let objectId = object.objectId else {
@@ -36,7 +35,6 @@ internal struct LocalStorage {
     static func saveAll<T: ParseObject>(_ objects: [T],
                                      queryIdentifier: String?) throws {
         let fileManager = FileManager.default
-        print("[LocalStorage] save objects")
         
         var successObjects: [T] = []
         for object in objects {
@@ -145,7 +143,8 @@ internal struct QueryObject: Codable {
 internal extension ParseObject {
     
     func saveLocally(method: Method? = nil,
-                     queryIdentifier: String? = nil) throws {
+                     queryIdentifier: String? = nil,
+                     error: ParseError? = nil) throws {
         if let method = method {
             switch method {
             case .save:
@@ -180,7 +179,8 @@ internal extension ParseObject {
 internal extension Sequence where Element: ParseObject {
     
     func saveLocally(method: Method? = nil,
-                     queryIdentifier: String? = nil) throws {
+                     queryIdentifier: String? = nil,
+                     error: ParseError? = nil) throws {
         let objects = map { $0 }
         
         if let method = method {
