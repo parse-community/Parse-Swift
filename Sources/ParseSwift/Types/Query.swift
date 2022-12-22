@@ -747,16 +747,30 @@ extension Query: Queryable {
                         finished = true
                     }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
-                                                  message: error.localizedDescription)
-                    let parseError = error as? ParseError ?? defaultError
-                    callbackQueue.async {
-                        completion(.failure(parseError))
+                    if let urlError = error as? URLError,
+                       urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed,                        let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                        completion(.success(localObjects))
+                    } else {
+                        let defaultError = ParseError(code: .unknownError,
+                                                      message: error.localizedDescription)
+                        let parseError = error as? ParseError ?? defaultError
+                        
+                        if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
+                           let localObjects = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                            completion(.success(localObjects))
+                        } else {
+                            callbackQueue.async {
+                                completion(.failure(parseError))
+                            }
+                        }
                     }
                     return
                 }
             }
-
+            
+            if useLocalStore {
+                try? results.saveLocally(queryIdentifier: queryIdentifier)
+            }
             callbackQueue.async {
                 completion(.success(results))
             }
