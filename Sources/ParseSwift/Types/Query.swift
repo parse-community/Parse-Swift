@@ -551,7 +551,7 @@ extension Query: Queryable {
                 
                 return objects
             } catch let parseError {
-                if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
+                if parseError.hasNoInternetConnection,
                    let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                     return localObjects
                 } else {
@@ -617,7 +617,7 @@ extension Query: Queryable {
                         
                         completion(result)
                     case .failure(let failure):
-                        if failure.equalsTo(.notConnectedToInternet) || failure.equalsTo(.connectionFailed),
+                        if failure.hasNoInternetConnection,
                            let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
                         } else {
@@ -755,7 +755,7 @@ extension Query: Queryable {
                                                       message: error.localizedDescription)
                         let parseError = error as? ParseError ?? defaultError
                         
-                        if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
+                        if parseError.hasNoInternetConnection,
                            let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
                         } else {
@@ -798,7 +798,7 @@ extension Query: Queryable {
                 
                 return objects
             } catch let parseError {
-                if parseError.equalsTo(.notConnectedToInternet) || parseError.equalsTo(.connectionFailed),
+                if parseError.hasNoInternetConnection,
                    let localObject = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
                     return localObject
                 } else {
@@ -870,7 +870,7 @@ extension Query: Queryable {
                         
                         completion(result)
                     case .failure(let failure):
-                        if failure.equalsTo(.notConnectedToInternet) || failure.equalsTo(.connectionFailed),
+                        if failure.hasNoInternetConnection,
                            let localObject = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
                             completion(.success(localObject))
                         } else {
