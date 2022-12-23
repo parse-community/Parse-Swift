@@ -96,6 +96,7 @@ internal struct LocalStorage {
         
         var fetchObjects = try getFetchObjects()
         fetchObjects.append(contentsOf: try objects.map({ try FetchObject($0, method: method) }))
+        fetchObjects = fetchObjects.uniqueObjectsById
         
         let jsonData = try ParseCoding.jsonEncoder().encode(fetchObjects)
         
@@ -298,6 +299,9 @@ fileprivate extension String {
 
 fileprivate extension Sequence where Element == FetchObject {
     
+    /**
+     Returns a unique array of `FetchObject`'s where each element is the most recent version of itself.
+     */
     var uniqueObjectsById: [Element] {
         let objects = map { $0 }.sorted(by: { $0.updatedAt > $1.updatedAt })
         
