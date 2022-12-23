@@ -8,10 +8,10 @@
 import Foundation
 
 internal struct LocalStorage {
+    static let fileManager = FileManager.default
     
     static func save<T: ParseObject>(_ object: T,
                                      queryIdentifier: String?) throws {
-        let fileManager = FileManager.default
         let objectData = try ParseCoding.jsonEncoder().encode(object)
         
         guard let objectId = object.objectId else {
@@ -34,8 +34,6 @@ internal struct LocalStorage {
     
     static func saveAll<T: ParseObject>(_ objects: [T],
                                      queryIdentifier: String?) throws {
-        let fileManager = FileManager.default
-        
         var successObjects: [T] = []
         for object in objects {
             let objectData = try ParseCoding.jsonEncoder().encode(object)
@@ -93,8 +91,6 @@ internal struct LocalStorage {
     
     static func saveFetchObjects<T: ParseObject>(_ objects: [T],
                                                  method: Method) throws {
-        let fileManager = FileManager.default
-        
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
         
@@ -111,8 +107,6 @@ internal struct LocalStorage {
     }
     
     static func getFetchObjects() throws -> [FetchObject] {
-        let fileManager = FileManager.default
-        
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
         
@@ -126,8 +120,6 @@ internal struct LocalStorage {
     
     static func saveQueryObjects<T: ParseObject>(_ objects: [T],
                                                  queryIdentifier: String) throws {
-        let fileManager = FileManager.default
-        
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
         
@@ -144,8 +136,6 @@ internal struct LocalStorage {
     }
     
     static func getQueryObjects() throws -> [String : [QueryObject]] {
-        let fileManager = FileManager.default
-        
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
         
