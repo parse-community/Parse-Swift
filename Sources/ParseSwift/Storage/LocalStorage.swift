@@ -148,16 +148,6 @@ internal struct LocalStorage {
     }
 }
 
-fileprivate extension String {
-    
-    /**
-     Creates a hidden file
-     */
-    var hiddenFile: Self {
-        return "." + self
-    }
-}
-
 internal struct FetchObject: Codable {
     let objectId: String
     let className: String
@@ -293,6 +283,16 @@ internal extension Sequence where Element: ParseObject {
                 try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
             }
         }
+    }
+}
+
+fileprivate extension String {
+    
+    /**
+     Creates a hidden file
+     */
+    var hiddenFile: Self {
+        return "." + self
     }
 }
 
