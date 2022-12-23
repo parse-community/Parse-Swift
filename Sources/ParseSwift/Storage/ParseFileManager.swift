@@ -230,6 +230,7 @@ public extension ParseFileManager {
     
     /**
      The default directory for all `ParseObject`'s.
+     - parameter className: An optional value, that if set returns the objects directory for a specific class
      - returns: The objects directory.
      - throws: An error of type `ParseError`.
      */
