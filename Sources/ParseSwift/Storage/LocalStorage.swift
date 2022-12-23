@@ -96,7 +96,7 @@ internal struct LocalStorage {
         let fileManager = FileManager.default
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile)
+        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
         
         var fetchObjects = try getFetchObjects()
         fetchObjects.append(contentsOf: try objects.map({ try FetchObject($0, method: method) }))
@@ -114,7 +114,7 @@ internal struct LocalStorage {
         let fileManager = FileManager.default
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile)
+        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
         
         if fileManager.fileExists(atPath: fetchObjectsPath.path) {
             let jsonData = try Data(contentsOf: fetchObjectsPath)
@@ -129,7 +129,7 @@ internal struct LocalStorage {
         let fileManager = FileManager.default
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile)
+        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
         
         var queryObjects = try getQueryObjects()
         queryObjects[queryIdentifier] = try objects.map({ try QueryObject($0) })
@@ -147,7 +147,7 @@ internal struct LocalStorage {
         let fileManager = FileManager.default
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile)
+        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
         
         if fileManager.fileExists(atPath: queryObjectsPath.path) {
             let jsonData = try Data(contentsOf: queryObjectsPath)
@@ -155,6 +155,16 @@ internal struct LocalStorage {
         } else {
             return [:]
         }
+    }
+}
+
+fileprivate extension String {
+    
+    /**
+     Creates a hidden file
+     */
+    var hiddenFile: Self {
+        return "." + self
     }
 }
 
