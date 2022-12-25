@@ -48,7 +48,7 @@ internal struct LocalStorage {
     }
     
     static func saveAll<T: ParseObject>(_ objects: [T],
-                                     queryIdentifier: String?) throws {
+                                        queryIdentifier: String?) throws {
         var successObjects: [T] = []
         for object in objects {
             let objectData = try ParseCoding.jsonEncoder().encode(object)
@@ -87,7 +87,7 @@ internal struct LocalStorage {
     }
     
     static func getAll<U: Decodable>(_ type: U.Type,
-                                  queryIdentifier: String) throws -> [U]? {
+                                     queryIdentifier: String) throws -> [U]? {
         guard let queryObjects = try getQueryObjects()[queryIdentifier] else { return nil }
         
         var allObjects: [U] = []
