@@ -30,7 +30,7 @@ internal struct LocalStorage {
         let objectData = try ParseCoding.jsonEncoder().encode(object)
         
         guard let objectId = object.objectId else {
-            throw ParseError(code: .unknownError, message: "Object has no valid objectId")
+            throw ParseError(code: .missingObjectId, message: "Object has no valid objectId")
         }
         
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory(className: object.className)
@@ -53,7 +53,7 @@ internal struct LocalStorage {
         for object in objects {
             let objectData = try ParseCoding.jsonEncoder().encode(object)
             guard let objectId = object.objectId else {
-                throw ParseError(code: .unknownError, message: "Object has no valid objectId")
+                throw ParseError(code: .missingObjectId, message: "Object has no valid objectId")
             }
             
             let objectsDirectoryPath = try ParseFileManager.objectsDirectory(className: object.className)
