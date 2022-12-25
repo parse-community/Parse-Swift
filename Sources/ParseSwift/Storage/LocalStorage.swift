@@ -104,7 +104,7 @@ internal struct LocalStorage {
         return (allObjects.isEmpty ? nil : allObjects)
     }
     
-    static func saveFetchObjects<T: ParseObject>(_ objects: [T],
+    static fileprivate func saveFetchObjects<T: ParseObject>(_ objects: [T],
                                                  method: Method) throws {
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
@@ -113,53 +113,95 @@ internal struct LocalStorage {
         fetchObjects.append(contentsOf: try objects.map({ try FetchObject($0, method: method) }))
         fetchObjects = fetchObjects.uniqueObjectsById
         
-        let jsonData = try ParseCoding.jsonEncoder().encode(fetchObjects)
-        
-        if fileManager.fileExists(atPath: fetchObjectsPath.path) {
-            try jsonData.write(to: fetchObjectsPath)
-        } else {
-            fileManager.createFile(atPath: fetchObjectsPath.path, contents: jsonData, attributes: nil)
-        }
+        try self.writeFetchObjects(fetchObjects)
     }
     
-    static func getFetchObjects() throws -> [FetchObject] {
+    static fileprivate func removeFetchObjects<T: ParseObject>(_ objects: [T]) throws {
+        var fetchObjects = try getFetchObjects()
+        let objectIds = objects.compactMap({ $0.objectId })
+        fetchObjects.removeAll(where: { removableObject in
+            objectIds.contains(where: { currentObjectId in
+                removableObject.objectId == currentObjectId
+            })
+        })
+        fetchObjects = fetchObjects.uniqueObjectsById
+        
+        try self.writeFetchObjects(fetchObjects)
+    }
+    
+    static fileprivate func getFetchObjects() throws -> [FetchObject] {
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
         
         if fileManager.fileExists(atPath: fetchObjectsPath.path) {
             let jsonData = try Data(contentsOf: fetchObjectsPath)
-            return try ParseCoding.jsonDecoder().decode([FetchObject].self, from: jsonData).uniqueObjectsById
+            do {
+                return try ParseCoding.jsonDecoder().decode([FetchObject].self, from: jsonData).uniqueObjectsById
+            } catch {
+                try fileManager.removeItem(at: fetchObjectsPath)
+                return []
+            }
         } else {
             return []
         }
     }
     
-    static func saveQueryObjects<T: ParseObject>(_ objects: [T],
-                                                 queryIdentifier: String) throws {
+    static private func writeFetchObjects(_ fetchObjects: [FetchObject]) throws {
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
+        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
         
-        var queryObjects = try getQueryObjects()
-        queryObjects[queryIdentifier] = try objects.map({ try QueryObject($0) })
-        
-        let jsonData = try ParseCoding.jsonEncoder().encode(queryObjects)
-        
-        if fileManager.fileExists(atPath: queryObjectsPath.path) {
-            try jsonData.write(to: queryObjectsPath)
+        if fetchObjects.isEmpty {
+            try fileManager.removeItem(at: fetchObjectsPath)
         } else {
-            fileManager.createFile(atPath: queryObjectsPath.path, contents: jsonData, attributes: nil)
+            let jsonData = try ParseCoding.jsonEncoder().encode(fetchObjects)
+            
+            if fileManager.fileExists(atPath: fetchObjectsPath.path) {
+                try jsonData.write(to: fetchObjectsPath)
+            } else {
+                fileManager.createFile(atPath: fetchObjectsPath.path, contents: jsonData, attributes: nil)
+            }
         }
     }
     
-    static func getQueryObjects() throws -> [String : [QueryObject]] {
+    static fileprivate func saveQueryObjects<T: ParseObject>(_ objects: [T],
+                                                 queryIdentifier: String) throws {
+        var queryObjects = try getQueryObjects()
+        queryObjects[queryIdentifier] = try objects.map({ try QueryObject($0) })
+        
+        try self.writeQueryObjects(queryObjects)
+    }
+    
+    static fileprivate func getQueryObjects() throws -> [String : [QueryObject]] {
         let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
         let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
         
         if fileManager.fileExists(atPath: queryObjectsPath.path) {
             let jsonData = try Data(contentsOf: queryObjectsPath)
-            return try ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
+            do {
+                return try ParseCoding.jsonDecoder().decode([String : [QueryObject]].self, from: jsonData)
+            } catch {
+                try fileManager.removeItem(at: queryObjectsPath)
+                return [:]
+            }
         } else {
             return [:]
+        }
+    }
+    
+    static private func writeQueryObjects(_ queryObjects: [String : [QueryObject]]) throws {
+        let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
+        let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
+        
+        if queryObjects.isEmpty {
+            try fileManager.removeItem(at: queryObjectsPath)
+        } else {
+            let jsonData = try ParseCoding.jsonEncoder().encode(queryObjects)
+            
+            if fileManager.fileExists(atPath: queryObjectsPath.path) {
+                try jsonData.write(to: queryObjectsPath)
+            } else {
+                fileManager.createFile(atPath: queryObjectsPath.path, contents: jsonData, attributes: nil)
+            }
         }
     }
     
@@ -249,6 +291,8 @@ internal struct LocalStorage {
         case .update:
             _ = try await objects.updateAll(ignoringLocalStore: true)
         }
+        
+        try self.removeFetchObjects(objects)
     }
 }
 
