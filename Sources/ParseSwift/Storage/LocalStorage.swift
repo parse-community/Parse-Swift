@@ -17,8 +17,8 @@ public extension ParseObject {
      - note: You will need to run this on every `ParseObject` that needs to fetch it's local objects
      after creating offline objects.
      */
-    @discardableResult static func fetchLocalStore<T : ParseObject>(_ type: T.Type) async throws -> [T]? {
-        return try await LocalStorage.fetchLocalObjects(type)
+    @discardableResult static func fetchLocalStore<T : ParseObject>() async throws -> [T]? {
+        return try await LocalStorage.fetchLocalObjects()
     }
 }
 
@@ -168,7 +168,7 @@ internal struct LocalStorage {
      
      - returns: If objects are more recent on the database, it will replace the local objects and return them.
      */
-    @discardableResult static func fetchLocalObjects<T : ParseObject>(_ type: T.Type) async throws -> [T]? {
+    @discardableResult static func fetchLocalObjects<T : ParseObject>() async throws -> [T]? {
         let fetchObjects = try getFetchObjects()
         if fetchObjects.isEmpty {
             return nil
@@ -176,16 +176,16 @@ internal struct LocalStorage {
         
         var saveObjects = try fetchObjects
             .filter({ $0.method == .save })
-            .asParseObjects(type)
+            .asParseObjects(T.self)
         var createObjects = try fetchObjects
             .filter({ $0.method == .create })
-            .asParseObjects(type)
+            .asParseObjects(T.self)
         var replaceObjects = try fetchObjects
             .filter({ $0.method == .replace })
-            .asParseObjects(type)
+            .asParseObjects(T.self)
         var updateObjects = try fetchObjects
             .filter({ $0.method == .update })
-            .asParseObjects(type)
+            .asParseObjects(T.self)
         
         var cloudObjects: [T] = []
         
