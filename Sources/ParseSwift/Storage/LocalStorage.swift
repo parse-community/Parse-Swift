@@ -106,9 +106,6 @@ internal struct LocalStorage {
     
     static fileprivate func saveFetchObjects<T: ParseObject>(_ objects: [T],
                                                  method: Method) throws {
-        let objectsDirectoryPath = try ParseFileManager.objectsDirectory()
-        let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
-        
         var fetchObjects = try getFetchObjects()
         fetchObjects.append(contentsOf: try objects.map({ try FetchObject($0, method: method) }))
         fetchObjects = fetchObjects.uniqueObjectsById
@@ -151,7 +148,7 @@ internal struct LocalStorage {
         let fetchObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.fetchObjectsFile.hiddenFile)
         
         if fetchObjects.isEmpty {
-            try fileManager.removeItem(at: fetchObjectsPath)
+            try? fileManager.removeItem(at: fetchObjectsPath)
         } else {
             let jsonData = try ParseCoding.jsonEncoder().encode(fetchObjects)
             
@@ -193,7 +190,7 @@ internal struct LocalStorage {
         let queryObjectsPath = objectsDirectoryPath.appendingPathComponent(ParseConstants.queryObjectsFile.hiddenFile)
         
         if queryObjects.isEmpty {
-            try fileManager.removeItem(at: queryObjectsPath)
+            try? fileManager.removeItem(at: queryObjectsPath)
         } else {
             let jsonData = try ParseCoding.jsonEncoder().encode(queryObjects)
             
