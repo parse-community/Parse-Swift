@@ -388,19 +388,25 @@ internal extension Sequence where Element: ParseObject {
             switch method {
             case .save:
                 if Parse.configuration.offlinePolicy.enabled {
-                    try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
-                    
-                    if let error = error, error.hasNoInternetConnection {
-                        try LocalStorage.saveFetchObjects(objects, method: method)
+                    if let error = error {
+                        if error.hasNoInternetConnection {
+                            try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
+                            try LocalStorage.saveFetchObjects(objects, method: method)
+                        }
+                    } else {
+                        try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                     }
                 }
             case .create:
                 if Parse.configuration.offlinePolicy.canCreate {
                     if Parse.configuration.isRequiringCustomObjectIds {
-                        try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
-                        
-                        if let error = error, error.hasNoInternetConnection {
-                            try LocalStorage.saveFetchObjects(objects, method: method)
+                        if let error = error {
+                            if error.hasNoInternetConnection {
+                                try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
+                                try LocalStorage.saveFetchObjects(objects, method: method)
+                            }
+                        } else {
+                            try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                         }
                     } else {
                         assertionFailure("Enable custom objectIds")
@@ -408,18 +414,24 @@ internal extension Sequence where Element: ParseObject {
                 }
             case .replace:
                 if Parse.configuration.offlinePolicy.enabled {
-                    try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
-                    
-                    if let error = error, error.hasNoInternetConnection {
-                        try LocalStorage.saveFetchObjects(objects, method: method)
+                    if let error = error {
+                        if error.hasNoInternetConnection {
+                            try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
+                            try LocalStorage.saveFetchObjects(objects, method: method)
+                        }
+                    } else {
+                        try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                     }
                 }
             case .update:
                 if Parse.configuration.offlinePolicy.enabled {
-                    try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
-                    
-                    if let error = error, error.hasNoInternetConnection {
-                        try LocalStorage.saveFetchObjects(objects, method: method)
+                    if let error = error {
+                        if error.hasNoInternetConnection {
+                            try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
+                            try LocalStorage.saveFetchObjects(objects, method: method)
+                        }
+                    } else {
+                        try LocalStorage.saveAll(objects, queryIdentifier: queryIdentifier)
                     }
                 }
             }
