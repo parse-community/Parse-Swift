@@ -42,9 +42,11 @@ public extension ParseObject {
      - throws: An error of type `ParseError`.
     */
     @discardableResult func save(ignoringCustomObjectIdConfig: Bool = false,
+                                 ignoringLocalStore: Bool = false,
                                  options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                      ignoringLocalStore: ignoringLocalStore,
                       options: options,
                       completion: continuation.resume)
         }
@@ -56,9 +58,11 @@ public extension ParseObject {
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
     */
-    @discardableResult func create(options: API.Options = []) async throws -> Self {
+    @discardableResult func create(ignoringLocalStore: Bool = false,
+                                   options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.create(options: options,
+            self.create(ignoringLocalStore: ignoringLocalStore,
+                        options: options,
                         completion: continuation.resume)
         }
     }
@@ -69,9 +73,11 @@ public extension ParseObject {
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
     */
-    @discardableResult func replace(options: API.Options = []) async throws -> Self {
+    @discardableResult func replace(ignoringLocalStore: Bool = false,
+                                    options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.replace(options: options,
+            self.replace(ignoringLocalStore: ignoringLocalStore,
+                         options: options,
                          completion: continuation.resume)
         }
     }
@@ -81,10 +87,12 @@ public extension ParseObject {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
-    */
-    @discardableResult internal func update(options: API.Options = []) async throws -> Self {
+     */
+    @discardableResult internal func update(ignoringLocalStore: Bool = false,
+                                            options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.update(options: options,
+            self.update(ignoringLocalStore: ignoringLocalStore,
+                        options: options,
                         completion: continuation.resume)
         }
     }
@@ -159,11 +167,13 @@ public extension Sequence where Element: ParseObject {
     @discardableResult func saveAll(batchLimit limit: Int? = nil,
                                     transaction: Bool = configuration.isUsingTransactions,
                                     ignoringCustomObjectIdConfig: Bool = false,
+                                    ignoringLocalStore: Bool = false,
                                     options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
                          ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                         ignoringLocalStore: ignoringLocalStore,
                          options: options,
                          completion: continuation.resume)
         }
@@ -188,10 +198,12 @@ public extension Sequence where Element: ParseObject {
     */
     @discardableResult func createAll(batchLimit limit: Int? = nil,
                                       transaction: Bool = configuration.isUsingTransactions,
+                                      ignoringLocalStore: Bool = false,
                                       options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.createAll(batchLimit: limit,
                            transaction: transaction,
+                           ignoringLocalStore: ignoringLocalStore,
                            options: options,
                            completion: continuation.resume)
         }
@@ -216,10 +228,12 @@ public extension Sequence where Element: ParseObject {
     */
     @discardableResult func replaceAll(batchLimit limit: Int? = nil,
                                        transaction: Bool = configuration.isUsingTransactions,
+                                       ignoringLocalStore: Bool = false,
                                        options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.replaceAll(batchLimit: limit,
                             transaction: transaction,
+                            ignoringLocalStore: ignoringLocalStore,
                             options: options,
                             completion: continuation.resume)
         }
@@ -244,10 +258,12 @@ public extension Sequence where Element: ParseObject {
     */
     internal func updateAll(batchLimit limit: Int? = nil,
                             transaction: Bool = configuration.isUsingTransactions,
+                            ignoringLocalStore: Bool = false,
                             options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.updateAll(batchLimit: limit,
                            transaction: transaction,
+                           ignoringLocalStore: ignoringLocalStore,
                            options: options,
                            completion: continuation.resume)
         }
@@ -363,6 +379,7 @@ or disable transactions for this call.
 
     func command(method: Method,
                  ignoringCustomObjectIdConfig: Bool = false,
+                 ignoringLocalStore: Bool = false,
                  options: API.Options,
                  callbackQueue: DispatchQueue) async throws -> Self {
         let (savedChildObjects, savedChildFiles) = try await self.ensureDeepSave(options: options)
@@ -378,15 +395,23 @@ or disable transactions for this call.
             case .update:
                 command = try self.updateCommand()
             }
-            return try await command
+            let commandResult = try await command
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
                               childObjects: savedChildObjects,
                               childFiles: savedChildFiles)
+            if !ignoringLocalStore {
+                try? saveLocally(method: method)
+            }
+            return commandResult
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
+            
+            if !ignoringLocalStore {
+                try? saveLocally(method: method, error: parseError)
+            }
             throw parseError
         }
     }
@@ -398,6 +423,7 @@ internal extension Sequence where Element: ParseObject {
                       batchLimit limit: Int?,
                       transaction: Bool,
                       ignoringCustomObjectIdConfig: Bool = false,
+                      ignoringLocalStore: Bool = false,
                       options: API.Options,
                       callbackQueue: DispatchQueue) async throws -> [(Result<Element, ParseError>)] {
         var options = options
@@ -458,11 +484,19 @@ internal extension Sequence where Element: ParseObject {
                                       childFiles: childFiles)
                 returnBatch.append(contentsOf: saved)
             }
+            
+            if !ignoringLocalStore {
+                try? saveLocally(method: method)
+            }
             return returnBatch
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
+            
+            if !ignoringLocalStore {
+                try? saveLocally(method: method, error: parseError)
+            }
             throw parseError
         }
     }

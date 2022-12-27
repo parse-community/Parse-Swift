@@ -20,6 +20,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     internal var keys: Set<String>?
     internal var include: Set<String>?
     internal var order: [Order]?
+    internal var useLocalStore: Bool = false
     internal var isCount: Bool?
     internal var explain: Bool?
     internal var hint: AnyCodable?
@@ -43,6 +44,40 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     /// The className of the `ParseObject` to query.
     public var className: String {
         Self.className
+    }
+    
+    internal var queryIdentifier: String {
+        var mutableQuery = self
+        mutableQuery.keys = nil
+        mutableQuery.include = nil
+        mutableQuery.excludeKeys = nil
+        mutableQuery.fields = nil
+        
+        guard let jsonData = try? ParseCoding.jsonEncoder().encode(mutableQuery),
+              let descriptionString = String(data: jsonData, encoding: .utf8) else {
+            return className
+        }
+        
+        //Sets need to be sorted to maintain the same queryIdentifier
+        let sortedKeys = (keys?.count == 0 ? [] : ["keys"]) + (keys?.sorted(by: { $0 < $1 }) ?? [])
+        let sortedInclude = (include?.count == 0 ? [] : ["include"]) + (include?.sorted(by: { $0 < $1 }) ?? [])
+        let sortedExcludeKeys = (excludeKeys?.count == 0 ? [] : ["excludeKeys"]) + (excludeKeys?.sorted(by: { $0 < $1 }) ?? [])
+        let sortedFieldsKeys = (fields?.count == 0 ? [] : ["fields"]) + (fields?.sorted(by: { $0 < $1 }) ?? [])
+        
+        let sortedSets = (
+            sortedKeys +
+            sortedInclude +
+            sortedExcludeKeys +
+            sortedFieldsKeys
+        ).joined(separator: "")
+        
+        return (
+            className +
+            sortedSets +
+            descriptionString
+        ).replacingOccurrences(of: "[^A-Za-z0-9]+",
+                               with: "",
+                               options: [.regularExpression])
     }
 
     struct AggregateBody<T>: Codable where T: ParseObject {
@@ -435,6 +470,17 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
         mutableQuery.order = keys
         return mutableQuery
     }
+    
+    /**
+     Sort the results of the query based on the `Order` enum.
+      - parameter keys: An array of keys to order by.
+      - returns: The mutated instance of query for easy chaining.
+    */
+    public func useLocalStore(_ state: Bool = true) -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.useLocalStore = state
+        return mutableQuery
+    }
 
     /**
      A variadic list of selected fields to receive updates on when the `Query` is used as a
@@ -498,7 +544,23 @@ extension Query: Queryable {
         if limit == 0 {
             return [ResultType]()
         }
-        return try findCommand().execute(options: options)
+        if useLocalStore {
+            do {
+                let objects = try findCommand().execute(options: options)
+                try? objects.saveLocally(queryIdentifier: queryIdentifier)
+                
+                return objects
+            } catch let parseError {
+                if parseError.hasNoInternetConnection,
+                   let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                    return localObjects
+                } else {
+                    throw parseError
+                }
+            }
+        } else {
+            return try findCommand().execute(options: options)
+        }
     }
 
     /**
@@ -548,7 +610,23 @@ extension Query: Queryable {
         do {
             try findCommand().executeAsync(options: options,
                                            callbackQueue: callbackQueue) { result in
-                completion(result)
+                if useLocalStore {
+                    switch result {
+                    case .success(let objects):
+                        try? objects.saveLocally(queryIdentifier: queryIdentifier)
+                        
+                        completion(result)
+                    case .failure(let failure):
+                        if failure.hasNoInternetConnection,
+                           let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                            completion(.success(localObjects))
+                        } else {
+                            completion(.failure(failure))
+                        }
+                    }
+                } else {
+                    completion(result)
+                }
             }
         } catch {
             let parseError = ParseError(code: .unknownError,
@@ -669,16 +747,30 @@ extension Query: Queryable {
                         finished = true
                     }
                 } catch {
-                    let defaultError = ParseError(code: .unknownError,
-                                                  message: error.localizedDescription)
-                    let parseError = error as? ParseError ?? defaultError
-                    callbackQueue.async {
-                        completion(.failure(parseError))
+                    if let urlError = error as? URLError,
+                       urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed,                        let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                        completion(.success(localObjects))
+                    } else {
+                        let defaultError = ParseError(code: .unknownError,
+                                                      message: error.localizedDescription)
+                        let parseError = error as? ParseError ?? defaultError
+                        
+                        if parseError.hasNoInternetConnection,
+                           let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                            completion(.success(localObjects))
+                        } else {
+                            callbackQueue.async {
+                                completion(.failure(parseError))
+                            }
+                        }
                     }
                     return
                 }
             }
-
+            
+            if useLocalStore {
+                try? results.saveLocally(queryIdentifier: queryIdentifier)
+            }
             callbackQueue.async {
                 completion(.success(results))
             }
@@ -699,7 +791,23 @@ extension Query: Queryable {
             throw ParseError(code: .objectNotFound,
                              message: "Object not found on the server.")
         }
-        return try firstCommand().execute(options: options)
+        if useLocalStore {
+            do {
+                let objects = try firstCommand().execute(options: options)
+                try? objects.saveLocally(queryIdentifier: queryIdentifier)
+                
+                return objects
+            } catch let parseError {
+                if parseError.hasNoInternetConnection,
+                   let localObject = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                    return localObject
+                } else {
+                    throw parseError
+                }
+            }
+        } else {
+            return try firstCommand().execute(options: options)
+        }
     }
 
     /**
@@ -755,7 +863,23 @@ extension Query: Queryable {
         do {
             try firstCommand().executeAsync(options: options,
                                             callbackQueue: callbackQueue) { result in
-                completion(result)
+                if useLocalStore {
+                    switch result {
+                    case .success(let object):
+                        try? object.saveLocally(queryIdentifier: queryIdentifier)
+                        
+                        completion(result)
+                    case .failure(let failure):
+                        if failure.hasNoInternetConnection,
+                           let localObject = try? LocalStorage.get(ResultType.self, queryIdentifier: queryIdentifier) {
+                            completion(.success(localObject))
+                        } else {
+                            completion(.failure(failure))
+                        }
+                    }
+                } else {
+                    completion(result)
+                }
             }
         } catch {
             let parseError = ParseError(code: .unknownError,
