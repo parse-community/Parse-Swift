@@ -1415,16 +1415,16 @@ extension ParseObject {
                     case .update:
                         command = try self.updateCommand()
                     }
-                    
-                    if !ignoringLocalStore {
-                        try? saveLocally(method: method)
-                    }
                     command
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles,
                                       completion: completion)
+                    
+                    if !ignoringLocalStore {
+                        try? saveLocally(method: method)
+                    }
                 } catch {
                     let defaultError = ParseError(code: .unknownError,
                                                   message: error.localizedDescription)

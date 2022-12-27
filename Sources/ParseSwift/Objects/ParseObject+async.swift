@@ -396,17 +396,17 @@ or disable transactions for this call.
             case .update:
                 command = try self.updateCommand()
             }
-            
+            let commandResult = try await command
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue,
+                              childObjects: savedChildObjects,
+                              childFiles: savedChildFiles)
             print("2")
             if !ignoringLocalStore {
                 print("3")
                 try? saveLocally(method: method)
             }
-            return try await command
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              childObjects: savedChildObjects,
-                              childFiles: savedChildFiles)
+            return commandResult
         } catch {
             print("4")
             let defaultError = ParseError(code: .unknownError,
