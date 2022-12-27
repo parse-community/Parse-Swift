@@ -383,7 +383,6 @@ or disable transactions for this call.
                  options: API.Options,
                  callbackQueue: DispatchQueue) async throws -> Self {
         let (savedChildObjects, savedChildFiles) = try await self.ensureDeepSave(options: options)
-        print("1")
         do {
             let command: API.Command<Self, Self>!
             switch method {
@@ -401,20 +400,16 @@ or disable transactions for this call.
                               callbackQueue: callbackQueue,
                               childObjects: savedChildObjects,
                               childFiles: savedChildFiles)
-            print("2")
             if !ignoringLocalStore {
-                print("3")
                 try? saveLocally(method: method)
             }
             return commandResult
         } catch {
-            print("4")
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
             
             if !ignoringLocalStore {
-                print("5")
                 try? saveLocally(method: method, error: parseError)
             }
             throw parseError
