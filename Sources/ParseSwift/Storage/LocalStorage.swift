@@ -334,6 +334,8 @@ internal extension ParseObject {
             switch method {
             case .save:
                 if Parse.configuration.offlinePolicy.enabled {
+                    print("error")
+                    print(error)
                     if let error = error {
                         if error.hasNoInternetConnection {
                             try LocalStorage.save(self, queryIdentifier: queryIdentifier)
