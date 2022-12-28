@@ -1180,7 +1180,9 @@ extension ParseObject {
     */
     @discardableResult
     public func save(ignoringCustomObjectIdConfig: Bool = false,
+                     ignoringLocalStore: Bool = false,
                      options: API.Options = []) throws -> Self {
+        let method = Method.save
         var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
@@ -1197,13 +1199,27 @@ extension ParseObject {
         group.wait()
 
         if let error = error {
+            if !ignoringLocalStore {
+                try? saveLocally(method: method, error: error)
+            }
             throw error
         }
 
-        return try saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
-            .execute(options: options,
-                     childObjects: childObjects,
-                     childFiles: childFiles)
+        do {
+            let commandResult = try saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+                .execute(options: options,
+                         childObjects: childObjects,
+                         childFiles: childFiles)
+            if !ignoringLocalStore {
+                try? saveLocally(method: method)
+            }
+            return commandResult
+        } catch {
+            if !ignoringLocalStore {
+                try? saveLocally(method: method, error: error)
+            }
+            throw error
+        }
     }
 
     /**

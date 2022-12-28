@@ -329,7 +329,7 @@ internal extension ParseObject {
     
     func saveLocally(method: Method? = nil,
                      queryIdentifier: String? = nil,
-                     error: ParseError? = nil) throws {
+                     error: Error? = nil) throws {
         if let method = method {
             switch method {
             case .save:
