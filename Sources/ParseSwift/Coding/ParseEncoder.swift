@@ -5,8 +5,7 @@
 //  Created by Pranjal Satija on 7/20/20.
 //  Copyright © 2020 Parse. All rights reserved.
 //
-
-//===----------------------------------------------------------------------===//
+// ===----------------------------------------------------------------------===//
 //
 // This source file is part of the Swift.org open source project
 //
@@ -16,10 +15,10 @@
 // See https://swift.org/LICENSE.txt for license information
 // See https://swift.org/CONTRIBUTORS.txt for the list of Swift project authors
 //
-//===----------------------------------------------------------------------===//
-
+// ===----------------------------------------------------------------------===//
 import Foundation
 
+// swiftlint:disable type_name
 /// A marker protocol used to determine whether a value is a `String`-keyed `Dictionary`
 /// containing `Encodable` values (in which case it should be exempt from key conversion strategies).
 ///

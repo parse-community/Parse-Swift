@@ -38,8 +38,7 @@ struct AnyEncodable: Encodable {
 }
 
 @usableFromInline
-protocol _AnyEncodable {
-
+protocol _AnyEncodable { // swiftlint:disable:this type_name
     var value: Any { get }
     init<T>(_ value: T?)
 }
@@ -47,7 +46,6 @@ protocol _AnyEncodable {
 extension AnyEncodable: _AnyEncodable {}
 
 // MARK: - Encodable
-
 extension _AnyEncodable {
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func encode(to encoder: Encoder) throws {
@@ -110,6 +108,7 @@ extension _AnyEncodable {
     }
 
     #if canImport(Foundation)
+    // swiftlint:disable:next cyclomatic_complexity
     private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws {
         switch Character(Unicode.Scalar(UInt8(nsnumber.objCType.pointee))) {
         case "c", "C":

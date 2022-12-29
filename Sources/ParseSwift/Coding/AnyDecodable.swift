@@ -35,7 +35,7 @@ struct AnyDecodable: Decodable {
     }
 }
 
-protocol _AnyDecodable {
+protocol _AnyDecodable { // swiftlint:disable:this type_name
     var value: Any { get }
     init<T>(_ value: T?)
 }
@@ -74,6 +74,7 @@ extension _AnyDecodable {
 }
 
 extension AnyDecodable: Equatable {
+    // swiftlint:disable:next cyclomatic_complexity
     static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {
         switch (lhs.value, rhs.value) {
 #if canImport(Foundation)
