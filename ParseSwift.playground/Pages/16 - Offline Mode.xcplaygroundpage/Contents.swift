@@ -11,7 +11,6 @@ import Foundation
 import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 
-
 //: In order to enable offline mode you need to set offlinePolicy to either `create` or `save`
 //: `save` will allow you to save and fetch objects.
 //: `create` will allow you to create, save and fetch objects.

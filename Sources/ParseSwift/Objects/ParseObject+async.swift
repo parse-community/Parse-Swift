@@ -408,7 +408,7 @@ or disable transactions for this call.
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            
+
             if !ignoringLocalStore {
                 try? saveLocally(method: method, error: parseError)
             }
@@ -484,7 +484,7 @@ internal extension Sequence where Element: ParseObject {
                                       childFiles: childFiles)
                 returnBatch.append(contentsOf: saved)
             }
-            
+
             if !ignoringLocalStore {
                 try? saveLocally(method: method)
             }
@@ -493,7 +493,7 @@ internal extension Sequence where Element: ParseObject {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            
+
             if !ignoringLocalStore {
                 try? saveLocally(method: method, error: parseError)
             }

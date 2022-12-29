@@ -227,7 +227,7 @@ public extension ParseFileManager {
             .appendingPathComponent(ParseConstants.fileDownloadsDirectory,
                                     isDirectory: true)
     }
-    
+
     /**
      The default directory for all `ParseObject`'s.
      - parameter className: An optional value, that if set returns the objects directory for a specific class
@@ -243,13 +243,13 @@ public extension ParseFileManager {
             .appendingPathComponent(ParseConstants.fileObjectsDirectory,
                                     isDirectory: true)
         try fileManager.createDirectoryIfNeeded(objectsDirectory.path)
-        
+
         if let className = className {
             let classDirectory = objectsDirectory
                 .appendingPathComponent(className,
                                         isDirectory: true)
             try fileManager.createDirectoryIfNeeded(classDirectory.path)
-            
+
             return classDirectory
         } else {
             return objectsDirectory

@@ -1260,7 +1260,7 @@ extension ParseObject {
                                                ignoringLocalStore: ignoringLocalStore,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                
+
                 completion(.success(object))
             } catch {
                 let defaultError = ParseError(code: .unknownError,
@@ -1436,7 +1436,7 @@ extension ParseObject {
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles,
                                       completion: completion)
-                    
+
                     if !ignoringLocalStore {
                         try? saveLocally(method: method)
                     }
@@ -1444,7 +1444,7 @@ extension ParseObject {
                     let defaultError = ParseError(code: .unknownError,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
-                    
+
                     if !ignoringLocalStore {
                         try? saveLocally(method: method, error: parseError)
                     }
@@ -1454,7 +1454,7 @@ extension ParseObject {
                 }
                 return
             }
-            
+
             if !ignoringLocalStore {
                 try? saveLocally(method: method, error: parseError)
             }

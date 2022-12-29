@@ -39,7 +39,7 @@ public struct ParseConfiguration {
 
     /// The live query server URL to connect to Parse Server.
     public internal(set) var liveQuerysServerURL: URL?
-    
+
     /// Determines wheter or not objects need to be saved locally.
     public internal(set) var offlinePolicy: OfflinePolicy
 
@@ -395,20 +395,20 @@ public struct ParseConfiguration {
                   authentication: authentication)
         self.isMigratingFromObjcSDK = migratingFromObjcSDK
     }
-    
+
     public enum OfflinePolicy {
-        
+
         /**
          When using the `create` Policy, you can get, create and save objects when offline.
          - warning: Using this Policy requires you to enable `allowingCustomObjectIds`.
          */
         case create
-        
+
         /**
          When using the `save` Policy, you can get and save objects when offline.
          */
         case save
-        
+
         /**
          When using the `disabled` Policy, offline usage is disabled.
          */
@@ -417,11 +417,11 @@ public struct ParseConfiguration {
 }
 
 extension ParseConfiguration.OfflinePolicy {
-    
+
     var canCreate: Bool {
         return self == .create
     }
-    
+
     var enabled: Bool {
         return self == .create || self == .save
     }

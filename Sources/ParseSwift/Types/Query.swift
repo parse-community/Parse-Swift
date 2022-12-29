@@ -45,32 +45,32 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
     public var className: String {
         Self.className
     }
-    
+
     internal var queryIdentifier: String {
         var mutableQuery = self
         mutableQuery.keys = nil
         mutableQuery.include = nil
         mutableQuery.excludeKeys = nil
         mutableQuery.fields = nil
-        
+
         guard let jsonData = try? ParseCoding.jsonEncoder().encode(mutableQuery),
               let descriptionString = String(data: jsonData, encoding: .utf8) else {
             return className
         }
-        
+
         //Sets need to be sorted to maintain the same queryIdentifier
         let sortedKeys = (keys?.count == 0 ? [] : ["keys"]) + (keys?.sorted(by: { $0 < $1 }) ?? [])
         let sortedInclude = (include?.count == 0 ? [] : ["include"]) + (include?.sorted(by: { $0 < $1 }) ?? [])
         let sortedExcludeKeys = (excludeKeys?.count == 0 ? [] : ["excludeKeys"]) + (excludeKeys?.sorted(by: { $0 < $1 }) ?? [])
         let sortedFieldsKeys = (fields?.count == 0 ? [] : ["fields"]) + (fields?.sorted(by: { $0 < $1 }) ?? [])
-        
+
         let sortedSets = (
             sortedKeys +
             sortedInclude +
             sortedExcludeKeys +
             sortedFieldsKeys
         ).joined(separator: "")
-        
+
         return (
             className +
             sortedSets +
@@ -470,7 +470,7 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
         mutableQuery.order = keys
         return mutableQuery
     }
-    
+
     /**
      Sort the results of the query based on the `Order` enum.
       - parameter keys: An array of keys to order by.
@@ -548,7 +548,7 @@ extension Query: Queryable {
             do {
                 let objects = try findCommand().execute(options: options)
                 try? objects.saveLocally(queryIdentifier: queryIdentifier)
-                
+
                 return objects
             } catch let parseError {
                 if parseError.hasNoInternetConnection,
@@ -614,7 +614,7 @@ extension Query: Queryable {
                     switch result {
                     case .success(let objects):
                         try? objects.saveLocally(queryIdentifier: queryIdentifier)
-                        
+
                         completion(result)
                     case .failure(let failure):
                         if failure.hasNoInternetConnection,
@@ -748,13 +748,13 @@ extension Query: Queryable {
                     }
                 } catch {
                     if let urlError = error as? URLError,
-                       urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed,                        let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                       urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed, let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                         completion(.success(localObjects))
                     } else {
                         let defaultError = ParseError(code: .unknownError,
                                                       message: error.localizedDescription)
                         let parseError = error as? ParseError ?? defaultError
-                        
+
                         if parseError.hasNoInternetConnection,
                            let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
@@ -767,7 +767,7 @@ extension Query: Queryable {
                     return
                 }
             }
-            
+
             if useLocalStore {
                 try? results.saveLocally(queryIdentifier: queryIdentifier)
             }
@@ -795,7 +795,7 @@ extension Query: Queryable {
             do {
                 let objects = try firstCommand().execute(options: options)
                 try? objects.saveLocally(queryIdentifier: queryIdentifier)
-                
+
                 return objects
             } catch let parseError {
                 if parseError.hasNoInternetConnection,
@@ -867,7 +867,7 @@ extension Query: Queryable {
                     switch result {
                     case .success(let object):
                         try? object.saveLocally(queryIdentifier: queryIdentifier)
-                        
+
                         completion(result)
                     case .failure(let failure):
                         if failure.hasNoInternetConnection,
