@@ -105,7 +105,7 @@ internal struct LocalStorage {
     }
 
     static fileprivate func saveFetchObjects<T: ParseObject>(_ objects: [T],
-                                                 method: Method) throws {
+                                                             method: Method) throws {
         var fetchObjects = try getFetchObjects()
         fetchObjects.append(contentsOf: try objects.map({ try FetchObject($0, method: method) }))
         fetchObjects = fetchObjects.uniqueObjectsById
@@ -161,7 +161,7 @@ internal struct LocalStorage {
     }
 
     static fileprivate func saveQueryObjects<T: ParseObject>(_ objects: [T],
-                                                 queryIdentifier: String) throws {
+                                                             queryIdentifier: String) throws {
         var queryObjects = try getQueryObjects()
         queryObjects[queryIdentifier] = try objects.map({ try QueryObject($0) })
 
@@ -256,7 +256,9 @@ internal struct LocalStorage {
         }
     }
 
-    private static func fetchLocalStore<T: ParseObject>(_ method: Method, objects: inout [T], cloudObjects: inout [T]) async throws {
+    private static func fetchLocalStore<T: ParseObject>(_ method: Method,
+                                                        objects: inout [T],
+                                                        cloudObjects: inout [T]) async throws {
         let queryObjects = T.query()
             .where(containedIn(key: "objectId", array: objects.map({ $0.objectId })))
             .useLocalStore(false)
@@ -491,26 +493,26 @@ fileprivate extension Sequence where Element == FetchObject {
 
         var objects: [T] = []
 
-        for directoryObjectId in directoryObjectIds {
-            if fetchObjectIds.contains(directoryObjectId) {
-                if #available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *) {
-                    let contentPath = objectsDirectoryPath.appending(component: directoryObjectId, directoryHint: .notDirectory)
+        for directoryObjectId in directoryObjectIds where fetchObjectIds.contains(directoryObjectId) {
+            if #available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *) {
+                let contentPath = objectsDirectoryPath.appending(component: directoryObjectId,
+                                                                 directoryHint: .notDirectory)
 
-                    if fileManager.fileExists(atPath: contentPath.path) {
-                        let jsonData = try Data(contentsOf: contentPath)
-                        let object = try ParseCoding.jsonDecoder().decode(T.self, from: jsonData)
+                if fileManager.fileExists(atPath: contentPath.path) {
+                    let jsonData = try Data(contentsOf: contentPath)
+                    let object = try ParseCoding.jsonDecoder().decode(T.self, from: jsonData)
 
-                        objects.append(object)
-                    }
-                } else {
-                    let contentPath = objectsDirectoryPath.appendingPathComponent(directoryObjectId, isDirectory: false)
+                    objects.append(object)
+                }
+            } else {
+                let contentPath = objectsDirectoryPath.appendingPathComponent(directoryObjectId,
+                                                                              isDirectory: false)
 
-                    if fileManager.fileExists(atPath: contentPath.path) {
-                        let jsonData = try Data(contentsOf: contentPath)
-                        let object = try ParseCoding.jsonDecoder().decode(T.self, from: jsonData)
+                if fileManager.fileExists(atPath: contentPath.path) {
+                    let jsonData = try Data(contentsOf: contentPath)
+                    let object = try ParseCoding.jsonDecoder().decode(T.self, from: jsonData)
 
-                        objects.append(object)
-                    }
+                    objects.append(object)
                 }
             }
         }

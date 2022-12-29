@@ -59,10 +59,14 @@ public struct Query<T>: ParseTypeable where T: ParseObject {
         }
 
         //Sets need to be sorted to maintain the same queryIdentifier
-        let sortedKeys = (keys?.count == 0 ? [] : ["keys"]) + (keys?.sorted(by: { $0 < $1 }) ?? [])
-        let sortedInclude = (include?.count == 0 ? [] : ["include"]) + (include?.sorted(by: { $0 < $1 }) ?? [])
-        let sortedExcludeKeys = (excludeKeys?.count == 0 ? [] : ["excludeKeys"]) + (excludeKeys?.sorted(by: { $0 < $1 }) ?? [])
-        let sortedFieldsKeys = (fields?.count == 0 ? [] : ["fields"]) + (fields?.sorted(by: { $0 < $1 }) ?? [])
+        let sortedKeys = ((keys?.count == 0 ? [] : ["keys"]) +
+                          (keys?.sorted(by: { $0 < $1 }) ?? []))
+        let sortedInclude = ((include?.count == 0 ? [] : ["include"]) +
+                             (include?.sorted(by: { $0 < $1 }) ?? []))
+        let sortedExcludeKeys = ((excludeKeys?.count == 0 ? [] : ["excludeKeys"]) +
+                                 (excludeKeys?.sorted(by: { $0 < $1 }) ?? []))
+        let sortedFieldsKeys = ((fields?.count == 0 ? [] : ["fields"]) +
+                                (fields?.sorted(by: { $0 < $1 }) ?? []))
 
         let sortedSets = (
             sortedKeys +
@@ -618,7 +622,8 @@ extension Query: Queryable {
                         completion(result)
                     case .failure(let failure):
                         if failure.hasNoInternetConnection,
-                           let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                           let localObjects = try? LocalStorage.getAll(ResultType.self,
+                                                                       queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
                         } else {
                             completion(.failure(failure))
@@ -748,7 +753,10 @@ extension Query: Queryable {
                     }
                 } catch {
                     if let urlError = error as? URLError,
-                       urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed, let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                       (urlError.code == URLError.Code.notConnectedToInternet ||
+                        urlError.code == URLError.Code.dataNotAllowed),
+                       let localObjects = try? LocalStorage.getAll(ResultType.self,
+                                                                   queryIdentifier: queryIdentifier) {
                         completion(.success(localObjects))
                     } else {
                         let defaultError = ParseError(code: .unknownError,
@@ -756,7 +764,8 @@ extension Query: Queryable {
                         let parseError = error as? ParseError ?? defaultError
 
                         if parseError.hasNoInternetConnection,
-                           let localObjects = try? LocalStorage.getAll(ResultType.self, queryIdentifier: queryIdentifier) {
+                           let localObjects = try? LocalStorage.getAll(ResultType.self,
+                                                                       queryIdentifier: queryIdentifier) {
                             completion(.success(localObjects))
                         } else {
                             callbackQueue.async {
