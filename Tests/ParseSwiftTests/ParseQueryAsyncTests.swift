@@ -102,6 +102,37 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
         XCTAssert(object.hasSameObjectId(as: scoreOnServer))
     }
+    
+    @MainActor
+    func testLocalFind() async throws {
+
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.points = 11
+        scoreOnServer.objectId = "yolo"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query
+            .useLocalStore()
+
+        let found = try await query.find()
+        guard let object = found.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+    }
 
     @MainActor
     func testWithCount() async throws {
@@ -195,6 +226,35 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let found = try await GameScore.query.findAll()
+        guard let object = found.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+    }
+    
+    @MainActor
+    func testLocalFindAll() async throws {
+
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = AnyResultsResponse(results: [scoreOnServer])
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let found = try await GameScore.query
+            .useLocalStore()
+            .findAll()
         guard let object = found.first else {
             XCTFail("Should have unwrapped")
             return
