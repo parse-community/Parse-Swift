@@ -22,6 +22,8 @@ public extension ParseObject {
     }
 }
 
+internal var MockLocalStorage: [any ParseObject]?
+
 internal struct LocalStorage {
     static let fileManager = FileManager.default
 
@@ -133,12 +135,15 @@ internal struct LocalStorage {
         if fileManager.fileExists(atPath: fetchObjectsPath.path) {
             let jsonData = try Data(contentsOf: fetchObjectsPath)
             do {
+                if MockLocalStorage != nil { return mockedFetchObjects }
                 return try ParseCoding.jsonDecoder().decode([FetchObject].self, from: jsonData).uniqueObjectsById
             } catch {
                 try fileManager.removeItem(at: fetchObjectsPath)
+                if MockLocalStorage != nil { return mockedFetchObjects }
                 return []
             }
         } else {
+            if MockLocalStorage != nil { return mockedFetchObjects }
             return []
         }
     }
@@ -158,6 +163,11 @@ internal struct LocalStorage {
                 fileManager.createFile(atPath: fetchObjectsPath.path, contents: jsonData, attributes: nil)
             }
         }
+    }
+
+    static private var mockedFetchObjects: [FetchObject] {
+        guard let mockLocalStorage = MockLocalStorage else { return [] }
+        return mockLocalStorage.compactMap({ try? FetchObject($0, method: .save) })
     }
 
     static fileprivate func saveQueryObjects<T: ParseObject>(_ objects: [T],

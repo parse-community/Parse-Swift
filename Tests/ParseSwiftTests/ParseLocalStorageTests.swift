@@ -51,9 +51,26 @@ final class ParseLocalStorageTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              offlinePolicy: .save,
+                              offlinePolicy: .create,
+                              requiringCustomObjectIds: true,
                               usingPostForQuery: true,
                               testing: true)
+
+        var score1 = GameScore(points: 10)
+        score1.points = 11
+        score1.objectId = "yolo1"
+        score1.createdAt = Date()
+        score1.updatedAt = score1.createdAt
+        score1.ACL = nil
+
+        var score2 = GameScore(points: 10)
+        score2.points = 22
+        score2.objectId = "yolo2"
+        score2.createdAt = Date()
+        score2.updatedAt = score2.createdAt
+        score2.ACL = nil
+
+        MockLocalStorage = [score1, score2]
     }
 
     override func tearDownWithError() throws {
@@ -62,7 +79,7 @@ final class ParseLocalStorageTests: XCTestCase {
 
     @MainActor
     func testFetchLocalStore() async throws {
-        try await GameScore.fetchLocalStore(GameScore.self)
+        try? await GameScore.fetchLocalStore(GameScore.self)
     }
 
     func testSave() throws {
@@ -141,10 +158,14 @@ final class ParseLocalStorageTests: XCTestCase {
         try score1.saveLocally(method: .save,
                                queryIdentifier: query1.queryIdentifier,
                                error: ParseError(code: .notConnectedToInternet, message: ""))
+        try score1.saveLocally(method: .save,
+                               queryIdentifier: query1.queryIdentifier)
 
         try [score1, score2].saveLocally(method: .save,
                                          queryIdentifier: query2.queryIdentifier,
                                          error: ParseError(code: .notConnectedToInternet, message: ""))
+        try [score1, score2].saveLocally(method: .save,
+                                         queryIdentifier: query2.queryIdentifier)
     }
 }
 #endif
