@@ -64,6 +64,11 @@ final class ParseLocalStorageTests: XCTestCase {
         #endif
         try ParseStorage.shared.deleteAll()
     }
+    
+    @MainActor
+    func testFetchLocalStore() async throws {
+        try await GameScore.fetchLocalStore(GameScore.self)
+    }
 
     func testSave() throws {
         var score = GameScore(points: 10)
