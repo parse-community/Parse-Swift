@@ -58,13 +58,8 @@ final class ParseLocalStorageTests: XCTestCase {
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android) && !os(Windows)
-        try KeychainStore.shared.deleteAll()
-        #endif
-        try ParseStorage.shared.deleteAll()
     }
-    
+
     @MainActor
     func testFetchLocalStore() async throws {
         try await GameScore.fetchLocalStore(GameScore.self)
@@ -116,6 +111,14 @@ final class ParseLocalStorageTests: XCTestCase {
     }
 
     func testGetAll() throws {
+        let query = GameScore.query(containedIn(key: "objectId", array: ["yolo1", "yolo2"]))
+            .useLocalStore()
+        XCTAssertNotEqual(query.queryIdentifier, "")
+
+        XCTAssertNoThrow(try LocalStorage.getAll(GameScore.self, queryIdentifier: query.queryIdentifier))
+    }
+
+    func testSaveLocally() throws {
         var score1 = GameScore(points: 10)
         score1.points = 11
         score1.objectId = "yolo1"
@@ -130,11 +133,18 @@ final class ParseLocalStorageTests: XCTestCase {
         score2.updatedAt = score2.createdAt
         score2.ACL = nil
 
-        let query = GameScore.query(containedIn(key: "objectId", array: ["yolo1", "yolo2"]))
+        let query1 = GameScore.query("objectId" == "yolo1")
             .useLocalStore()
-        XCTAssertNotEqual(query.queryIdentifier, "")
+        let query2 = GameScore.query("objectId" == ["yolo1", "yolo2"])
+            .useLocalStore()
 
-        XCTAssertNoThrow(try LocalStorage.getAll(GameScore.self, queryIdentifier: query.queryIdentifier))
+        try score1.saveLocally(method: .save,
+                               queryIdentifier: query1.queryIdentifier,
+                               error: ParseError(code: .notConnectedToInternet, message: ""))
+
+        try [score1, score2].saveLocally(method: .save,
+                                         queryIdentifier: query2.queryIdentifier,
+                                         error: ParseError(code: .notConnectedToInternet, message: ""))
     }
 }
 #endif
