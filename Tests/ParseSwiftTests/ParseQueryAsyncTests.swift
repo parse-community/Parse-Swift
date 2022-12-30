@@ -102,7 +102,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
         XCTAssert(object.hasSameObjectId(as: scoreOnServer))
     }
-    
+
     @MainActor
     func testLocalFind() async throws {
 
@@ -232,7 +232,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
         XCTAssert(object.hasSameObjectId(as: scoreOnServer))
     }
-    
+
     @MainActor
     func testLocalFindAll() async throws {
 
