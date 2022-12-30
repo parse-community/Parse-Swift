@@ -290,15 +290,17 @@ internal struct LocalStorage {
             }
         }
 
-        switch method {
-        case .save:
-            try await objects.saveAll(ignoringLocalStore: true)
-        case .create:
-            try await objects.createAll(ignoringLocalStore: true)
-        case .replace:
-            try await objects.replaceAll(ignoringLocalStore: true)
-        case .update:
-            _ = try await objects.updateAll(ignoringLocalStore: true)
+        if MockLocalStorage == nil {
+            switch method {
+            case .save:
+                try await objects.saveAll(ignoringLocalStore: true)
+            case .create:
+                try await objects.createAll(ignoringLocalStore: true)
+            case .replace:
+                try await objects.replaceAll(ignoringLocalStore: true)
+            case .update:
+                _ = try await objects.updateAll(ignoringLocalStore: true)
+            }
         }
 
         try self.removeFetchObjects(objects)

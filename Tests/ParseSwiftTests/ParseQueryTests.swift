@@ -463,6 +463,38 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
     }
+    
+    func testLocalFind() {
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+            .useLocalStore()
+        do {
+
+            guard let score = try query.find(options: []).first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+    }
 
     func testFindLimit() {
         let query = GameScore.query()
@@ -614,6 +646,44 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         let query = GameScore.query()
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.findAll { result in
+
+            switch result {
+
+            case .success(let found):
+                guard let score = found.first else {
+                    XCTFail("Should unwrap score count")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+    
+    func testLocalFindAllAsync() {
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = AnyResultsResponse(results: [scoreOnServer])
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let query = GameScore.query()
+            .useLocalStore()
         let expectation = XCTestExpectation(description: "Count object1")
         query.findAll { result in
 

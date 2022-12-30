@@ -79,7 +79,7 @@ final class ParseLocalStorageTests: XCTestCase {
 
     @MainActor
     func testFetchLocalStore() async throws {
-        try? await GameScore.fetchLocalStore(GameScore.self)
+        try await GameScore.fetchLocalStore(GameScore.self)
     }
 
     func testSave() throws {
