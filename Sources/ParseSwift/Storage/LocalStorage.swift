@@ -494,26 +494,14 @@ fileprivate extension Sequence where Element == FetchObject {
         var objects: [T] = []
 
         for directoryObjectId in directoryObjectIds where fetchObjectIds.contains(directoryObjectId) {
-            if #available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *) {
-                let contentPath = objectsDirectoryPath.appending(component: directoryObjectId,
-                                                                 directoryHint: .notDirectory)
+            let contentPath = objectsDirectoryPath.appendingPathComponent(directoryObjectId,
+                                                                          isDirectory: false)
 
-                if fileManager.fileExists(atPath: contentPath.path) {
-                    let jsonData = try Data(contentsOf: contentPath)
-                    let object = try ParseCoding.jsonDecoder().decode(T.self, from: jsonData)
+            if fileManager.fileExists(atPath: contentPath.path) {
+                let jsonData = try Data(contentsOf: contentPath)
+                let object = try ParseCoding.jsonDecoder().decode(T.self, from: jsonData)
 
-                    objects.append(object)
-                }
-            } else {
-                let contentPath = objectsDirectoryPath.appendingPathComponent(directoryObjectId,
-                                                                              isDirectory: false)
-
-                if fileManager.fileExists(atPath: contentPath.path) {
-                    let jsonData = try Data(contentsOf: contentPath)
-                    let object = try ParseCoding.jsonDecoder().decode(T.self, from: jsonData)
-
-                    objects.append(object)
-                }
+                objects.append(object)
             }
         }
 
