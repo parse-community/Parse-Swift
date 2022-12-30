@@ -65,6 +65,7 @@ class ParseQueryCacheTests: XCTestCase { // swiftlint:disable:this type_body_len
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
+                              offlinePolicy: .save,
                               usingEqualQueryConstraint: false,
                               usingPostForQuery: false,
                               testing: true)

@@ -44,6 +44,7 @@ class ParseQueryViewModelTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
+                              offlinePolicy: .save,
                               usingPostForQuery: true,
                               testing: true)
     }
