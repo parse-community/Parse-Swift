@@ -463,7 +463,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
     }
-    
+
     func testLocalFind() {
         var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
@@ -665,7 +665,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         wait(for: [expectation], timeout: 20.0)
     }
-    
+
     func testLocalFindAllAsync() {
         var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"

@@ -185,12 +185,15 @@ internal struct LocalStorage {
         if fileManager.fileExists(atPath: queryObjectsPath.path) {
             let jsonData = try Data(contentsOf: queryObjectsPath)
             do {
+                if MockLocalStorage != nil { return mockedQueryObjects }
                 return try ParseCoding.jsonDecoder().decode([String: [QueryObject]].self, from: jsonData)
             } catch {
                 try fileManager.removeItem(at: queryObjectsPath)
+                if MockLocalStorage != nil { return mockedQueryObjects }
                 return [:]
             }
         } else {
+            if MockLocalStorage != nil { return mockedQueryObjects }
             return [:]
         }
     }
@@ -210,6 +213,11 @@ internal struct LocalStorage {
                 fileManager.createFile(atPath: queryObjectsPath.path, contents: jsonData, attributes: nil)
             }
         }
+    }
+
+    static private var mockedQueryObjects: [String: [QueryObject]] {
+        guard let mockLocalStorage = MockLocalStorage else { return [:] }
+        return ["queryIdentifierMock": mockLocalStorage.compactMap({ try? QueryObject($0) })]
     }
 
     /**
