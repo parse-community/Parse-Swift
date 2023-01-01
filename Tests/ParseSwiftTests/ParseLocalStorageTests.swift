@@ -154,18 +154,68 @@ final class ParseLocalStorageTests: XCTestCase {
             .useLocalStore()
         let query2 = GameScore.query("objectId" == ["yolo1", "yolo2"])
             .useLocalStore()
-
-        try score1.saveLocally(method: .save,
-                               queryIdentifier: query1.queryIdentifier,
-                               error: ParseError(code: .notConnectedToInternet, message: ""))
-        try score1.saveLocally(method: .save,
-                               queryIdentifier: query1.queryIdentifier)
-
-        try [score1, score2].saveLocally(method: .save,
-                                         queryIdentifier: query2.queryIdentifier,
-                                         error: ParseError(code: .notConnectedToInternet, message: ""))
-        try [score1, score2].saveLocally(method: .save,
-                                         queryIdentifier: query2.queryIdentifier)
+        
+        XCTAssertNoThrow(try score1.saveLocally(method: .save,
+                                                queryIdentifier: query1.queryIdentifier,
+                                                error: ParseError(code: .notConnectedToInternet,
+                                                                  message: "")))
+        XCTAssertNoThrow(try score1.saveLocally(method: .save,
+                                                queryIdentifier: query1.queryIdentifier))
+        
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .save,
+                                                          queryIdentifier: query2.queryIdentifier,
+                                                          error: ParseError(code: .notConnectedToInternet,
+                                                                            message: "")))
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .save,
+                                                          queryIdentifier: query2.queryIdentifier))
+        
+        
+        
+        XCTAssertNoThrow(try score1.saveLocally(method: .create,
+                                                queryIdentifier: query1.queryIdentifier,
+                                                error: ParseError(code: .notConnectedToInternet,
+                                                                  message: "")))
+        XCTAssertNoThrow(try score1.saveLocally(method: .create,
+                                                queryIdentifier: query1.queryIdentifier))
+        
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .create,
+                                                          queryIdentifier: query2.queryIdentifier,
+                                                          error: ParseError(code: .notConnectedToInternet,
+                                                                            message: "")))
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .create,
+                                                          queryIdentifier: query2.queryIdentifier))
+        
+        
+        
+        XCTAssertNoThrow(try score1.saveLocally(method: .replace,
+                                                queryIdentifier: query1.queryIdentifier,
+                                                error: ParseError(code: .notConnectedToInternet,
+                                                                  message: "")))
+        XCTAssertNoThrow(try score1.saveLocally(method: .replace,
+                                                queryIdentifier: query1.queryIdentifier))
+        
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .replace,
+                                                          queryIdentifier: query2.queryIdentifier,
+                                                          error: ParseError(code: .notConnectedToInternet,
+                                                                            message: "")))
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .replace,
+                                                          queryIdentifier: query2.queryIdentifier))
+        
+        
+        
+        XCTAssertNoThrow(try score1.saveLocally(method: .update,
+                                                queryIdentifier: query1.queryIdentifier,
+                                                error: ParseError(code: .notConnectedToInternet,
+                                                                  message: "")))
+        XCTAssertNoThrow(try score1.saveLocally(method: .update,
+                                                queryIdentifier: query1.queryIdentifier))
+        
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .update,
+                                                          queryIdentifier: query2.queryIdentifier,
+                                                          error: ParseError(code: .notConnectedToInternet,
+                                                                            message: "")))
+        XCTAssertNoThrow(try [score1, score2].saveLocally(method: .update,
+                                                          queryIdentifier: query2.queryIdentifier))
     }
 }
 #endif
