@@ -68,14 +68,16 @@ internal extension URLSession {
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "Unable to connect with parse-server: \(responseError)"))
+                                           message: "Unable to connect with parse-server: \(responseError)",
+										   originalError: responseError))
             }
             return .failure(parseError)
         }
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
-                                           message: "No response from server"))
+				return .failure(ParseError(code: .unknownError,
+										   message: "No response from server",
+										   originalError: responseError))
             }
             return .failure(parseError)
         }
