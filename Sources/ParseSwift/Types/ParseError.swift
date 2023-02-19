@@ -448,6 +448,7 @@ extension ParseError {
             message = try values.decode(String.self, forKey: .error)
         }
         self.error = nil
+		self.originalError = nil
     }
 }
 
