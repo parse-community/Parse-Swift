@@ -68,14 +68,16 @@ internal extension URLSession {
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "Unable to connect with parse-server: \(responseError)"))
+                                           message: "Unable to connect with parse-server: \(responseError)",
+										   originalError: responseError))
             }
             return .failure(parseError)
         }
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
-                                           message: "No response from server"))
+				return .failure(ParseError(code: .unknownError,
+										   message: "No response from server",
+										   originalError: responseError))
             }
             return .failure(parseError)
         }
@@ -116,11 +118,13 @@ internal extension URLSession {
                         }
                         return .failure(ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length
-                                                   message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
+                                                   message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: responseData, encoding: .utf8)))",
+												   originalError: nsError))
                     }
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
+                                               message: "Error decoding parse-server response: \(response) with error: \(String(describing: error)) Format: \(String(describing: String(data: json, encoding: .utf8)))",
+											   originalError: error))
                 }
                 return .failure(parseError)
             }
@@ -138,14 +142,16 @@ internal extension URLSession {
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "No response from server"))
+                                           message: "No response from server",
+										  originalError: responseError))
             }
             return .failure(parseError)
         }
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "Unable to connect with parse-server: \(responseError)"))
+                                           message: "Unable to connect with parse-server: \(responseError)",
+										  originalError: responseError))
             }
             return .failure(parseError)
         }
@@ -157,7 +163,8 @@ internal extension URLSession {
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               // swiftlint:disable:next line_length
-                                              message: "Error decoding parse-server response: \(response) with error: \(String(describing: error))")
+                                              message: "Error decoding parse-server response: \(response) with error: \(String(describing: error))",
+											  originalError: error)
                 let parseError = error as? ParseError ?? defaultError
                 return .failure(parseError)
             }
