@@ -9,7 +9,7 @@
 struct ParseStorage {
     public static var shared = ParseStorage()
 
-    private var backingStore: ParsePrimitiveStorable!
+    private var backingStore: ParsePrimitiveStorable?
 
     mutating func use(_ store: ParsePrimitiveStorable) {
         self.backingStore = store
@@ -39,20 +39,20 @@ struct ParseStorage {
 extension ParseStorage: ParsePrimitiveStorable {
     public mutating func delete(valueFor key: String) throws {
         requireBackingStore()
-        return try backingStore.delete(valueFor: key)
+        try backingStore?.delete(valueFor: key)
     }
 
     public mutating func deleteAll() throws {
         requireBackingStore()
-        return try backingStore.deleteAll()
+        try backingStore?.deleteAll()
     }
     public mutating func get<T>(valueFor key: String) throws -> T? where T: Decodable {
         requireBackingStore()
-        return try backingStore.get(valueFor: key)
+        return try backingStore?.get(valueFor: key)
     }
 
     public mutating func set<T>(_ object: T, for key: String) throws where T: Encodable {
         requireBackingStore()
-        return try backingStore.set(object, for: key)
+        try backingStore?.set(object, for: key)
     }
 }
