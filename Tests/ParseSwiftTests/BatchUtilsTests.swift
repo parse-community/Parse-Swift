@@ -11,13 +11,6 @@ import XCTest
 @testable import ParseSwift
 
 class BatchUtilsTests: XCTestCase {
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-    }
-
-    override func tearDownWithError() throws {
-        try super.tearDownWithError()
-    }
 
     func testSplitArrayLessSegments() throws {
         let array = [1, 2]

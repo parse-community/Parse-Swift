@@ -24,9 +24,7 @@ struct AnyCodable: Codable {
     }
 }
 
-// swiftlint:disable type_name
 extension AnyCodable: _AnyEncodable, _AnyDecodable {}
-// swiftlint:enable type_name
 
 extension AnyCodable: Equatable {
     static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool { // swiftlint:disable:this cyclomatic_complexity line_length

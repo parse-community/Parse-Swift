@@ -21,7 +21,6 @@
 // This rule does not allow types with underscores in their names.
 // swiftlint:disable type_name
 // swiftlint:disable colon
-// swiftlint:disable force_cast
 // swiftlint:disable line_length
 // swiftlint:disable return_arrow_whitespace
 // swiftlint:disable file_length
@@ -549,6 +548,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                 existingContainer is NSMutableDictionary,
                 "Attempt to re-encode into nested KeyedEncodingContainer<\(Key.self)> for key \"\(containerKey)\" is invalid: non-keyed container already encoded for this key"
             )
+            // swiftlint:disable:next force_cast
             dictionary = existingContainer as! NSMutableDictionary
         } else {
             dictionary = NSMutableDictionary()
@@ -571,6 +571,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                 existingContainer is NSMutableArray,
                 "Attempt to re-encode into nested UnkeyedEncodingContainer for key \"\(containerKey)\" is invalid: keyed container/single value already encoded for this key"
             )
+            // swiftlint:disable:next force_cast
             array = existingContainer as! NSMutableArray
         } else {
             array = NSMutableArray()
@@ -761,10 +762,8 @@ extension _ParseEncoder : SingleValueEncodingContainer {
         try self.storage.push(container: self.box(value))
     }
 }
-// swiftlint:enable force_cast
 
 // MARK: - Concrete Value Representations
-// swiftlint:disable force_cast
 extension _ParseEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
     func box(_ value: Bool)   -> NSObject { return NSNumber(value: value) }
@@ -851,7 +850,6 @@ extension _ParseEncoder {
             } catch {
                 // If the value pushed a container before throwing, pop it back off to restore state.
                 if self.storage.count > depth {
-                    // swiftlint:disable:next unused_optional_binding
                     let _ = self.storage.popContainer()
                 }
 
@@ -881,7 +879,6 @@ extension _ParseEncoder {
                 // If the value pushed a container before throwing, pop it back off to restore state.
                 // This should not be possible for Data (which encodes as an array of bytes), but it cannot hurt to catch a failure.
                 if self.storage.count > depth {
-                    // swiftlint:disable:next unused_optional_binding
                     let _ = self.storage.popContainer()
                 }
 
@@ -900,7 +897,6 @@ extension _ParseEncoder {
             } catch {
                 // If the value pushed a container before throwing, pop it back off to restore state.
                 if self.storage.count > depth {
-                    // swiftlint:disable:next unused_optional_binding
                     let _ = self.storage.popContainer()
                 }
 
@@ -931,7 +927,6 @@ extension _ParseEncoder {
         } catch {
             // If the value pushed a container before throwing, pop it back off to restore state.
             if self.storage.count > depth {
-                // swiftlint:disable:next unused_optional_binding
                 let _ = self.storage.popContainer()
             }
 
@@ -950,7 +945,6 @@ extension _ParseEncoder {
         return try self.box_(value) ?? NSDictionary()
     }
 
-    // swiftlint:disable:next line_length
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.
     func box_(_ value: Encodable) throws -> NSObject? {
         // Disambiguation between variable and function is required due to
@@ -958,6 +952,7 @@ extension _ParseEncoder {
         let type = Swift.type(of: value)
         if type == Date.self || type == NSDate.self {
             // Respect Date encoding strategy
+            // swiftlint:disable:next force_cast
             return try self.box((value as! Date))
         } else if type == Data.self || type == NSData.self {
             // Respect Data encoding strategy
@@ -987,7 +982,6 @@ extension _ParseEncoder {
         } catch {
             // If the value pushed a container before throwing, pop it back off to restore state.
             if self.storage.count > depth {
-                // swiftlint:disable:next unused_optional_binding
                 let _ = self.storage.popContainer()
             }
 
@@ -1184,7 +1178,6 @@ private struct _JSONKey : CodingKey {
 //===----------------------------------------------------------------------===//
 // Shared ISO8601 Date Formatter
 //===----------------------------------------------------------------------===//
-// swiftlint:disable:next line_length
 // NOTE: This value is implicitly lazy and _must_ be lazy. We're compiled against the latest SDK (w/ ISO8601DateFormatter), but linked against whichever Foundation the user has. ISO8601DateFormatter might not exist, so we better not hit this code path on an older OS.
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 private var _iso8601Formatter: ISO8601DateFormatter = {
@@ -1195,7 +1188,6 @@ private var _iso8601Formatter: ISO8601DateFormatter = {
 
 // swiftlint:enable type_name
 // swiftlint:enable colon
-// swiftlint:enable force_cast
 // swiftlint:enable line_length
 // swiftlint:enable return_arrow_whitespace
 // swiftlint:enable file_length

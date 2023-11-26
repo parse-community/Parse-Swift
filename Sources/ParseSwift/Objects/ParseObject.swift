@@ -415,7 +415,6 @@ transactions for this call.
             let group = DispatchGroup()
             group.enter()
             object.ensureDeepSave(options: options,
-                                  // swiftlint:disable:next line_length
                                   isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                 // If an error occurs, everything should be skipped
                 if parseError != nil {
@@ -720,7 +719,6 @@ transactions for this call.
                 let group = DispatchGroup()
                 group.enter()
                 object.ensureDeepSave(options: options,
-                                      // swiftlint:disable:next line_length
                                       isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                     // If an error occurs, everything should be skipped
                     if let parseError = parseError {
@@ -851,7 +849,6 @@ transactions for this call.
                     fetchedObjectsToReturn.append(.success(fetchedObject))
                 } else {
                     fetchedObjectsToReturn.append(.failure(ParseError(code: .objectNotFound,
-                                                                      // swiftlint:disable:next line_length
                                                                       message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                 }
             }
@@ -897,7 +894,6 @@ transactions for this call.
                             fetchedObjectsToReturn.append(.success(fetchedObject))
                         } else {
                             fetchedObjectsToReturn.append(.failure(ParseError(code: .objectNotFound,
-                                                                              // swiftlint:disable:next line_length
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }

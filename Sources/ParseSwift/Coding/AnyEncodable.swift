@@ -234,7 +234,6 @@ extension AnyEncodable: ExpressibleByStringInterpolation {}
 extension AnyEncodable: ExpressibleByArrayLiteral {}
 extension AnyEncodable: ExpressibleByDictionaryLiteral {}
 
-// swiftlint:disable type_name
 extension _AnyEncodable {
     init(nilLiteral _: ()) {
         self.init(nil as Any?)
@@ -267,5 +266,3 @@ extension _AnyEncodable {
         self.init([AnyHashable: Any](elements, uniquingKeysWith: { (first, _) in first }))
     }
 }
-
-// swiftlint:enable type_name

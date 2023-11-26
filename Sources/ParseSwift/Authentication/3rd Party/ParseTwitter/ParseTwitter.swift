@@ -211,3 +211,4 @@ public extension ParseUser {
 }
 
 // swiftlint:enable line_length
+// swiftlint:enable function_parameter_count
