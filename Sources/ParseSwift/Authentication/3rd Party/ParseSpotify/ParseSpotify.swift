@@ -184,3 +184,5 @@ public extension ParseUser {
         Self.spotify
     }
 }
+
+// swiftlint:enable line_length

@@ -157,3 +157,5 @@ public extension ParseUser {
         Self.github
     }
 }
+
+// swiftlint:enable line_length

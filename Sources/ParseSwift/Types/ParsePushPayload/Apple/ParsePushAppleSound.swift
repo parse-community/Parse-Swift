@@ -32,3 +32,5 @@ public struct ParsePushAppleSound: ParseTypeable {
      */
     var volume: Double?
 }
+
+// swiftlint:enable line_length

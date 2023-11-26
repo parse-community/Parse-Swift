@@ -1577,3 +1577,5 @@ extension ParseObject {
         try API.NonParseBodyCommand<NoBody, NoBody>.delete(self)
     }
 } // swiftlint:disable:this file_length
+
+// swiftlint:enable line_length

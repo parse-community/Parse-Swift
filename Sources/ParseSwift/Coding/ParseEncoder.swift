@@ -18,6 +18,16 @@
 //
 //===----------------------------------------------------------------------===//
 
+// This rule does not allow types with underscores in their names.
+// swiftlint:disable type_name
+// swiftlint:disable colon
+// swiftlint:disable force_cast
+// swiftlint:disable line_length
+// swiftlint:disable return_arrow_whitespace
+// swiftlint:disable file_length
+// swiftlint:disable redundant_discardable_let
+// swiftlint:disable cyclomatic_complexity
+
 import Foundation
 
 /// A marker protocol used to determine whether a value is a `String`-keyed `Dictionary`
@@ -33,16 +43,6 @@ internal protocol _JSONStringDictionaryEncodableMarker { }
 private protocol _JSONStringDictionaryEncodableMarker { }
 #endif
 extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, Value: Encodable { }
-
-// This rule does not allow types with underscores in their names.
-// swiftlint:disable type_name
-// swiftlint:disable colon
-// swiftlint:disable force_cast
-// swiftlint:disable line_length
-// swiftlint:disable return_arrow_whitespace
-// swiftlint:disable file_length
-// swiftlint:disable redundant_discardable_let
-// swiftlint:disable cyclomatic_complexity
 
 // MARK: ParseEncoder
 /** An object that encodes Parse instances of a data type as JSON objects.
@@ -170,6 +170,7 @@ public struct ParseEncoder {
                                         objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
                                         filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
+    // swiftlint:enable large_tuple
 
     // swiftlint:disable large_tuple
     internal func encode(_ value: ParseEncodable,
@@ -197,6 +198,7 @@ public struct ParseEncoder {
                                         objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
                                         filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
+    // swiftlint:enable large_tuple
 }
 
 // MARK: _ParseEncoder
@@ -260,6 +262,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                          message: "This method should not be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
+    // swiftlint:disable large_tuple
     func encodeObject(_ value: Encodable,
                       batching: Bool = false,
                       collectChildren: Bool,
@@ -294,6 +297,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                                              EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to JSON.", underlyingError: error))
         }
     }
+    // swiftlint:enable large_tuple
 
     func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key: CodingKey {
 
@@ -757,6 +761,7 @@ extension _ParseEncoder : SingleValueEncodingContainer {
         try self.storage.push(container: self.box(value))
     }
 }
+// swiftlint:enable force_cast
 
 // MARK: - Concrete Value Representations
 // swiftlint:disable force_cast
@@ -846,6 +851,7 @@ extension _ParseEncoder {
             } catch {
                 // If the value pushed a container before throwing, pop it back off to restore state.
                 if self.storage.count > depth {
+                    // swiftlint:disable:next unused_optional_binding
                     let _ = self.storage.popContainer()
                 }
 
@@ -875,6 +881,7 @@ extension _ParseEncoder {
                 // If the value pushed a container before throwing, pop it back off to restore state.
                 // This should not be possible for Data (which encodes as an array of bytes), but it cannot hurt to catch a failure.
                 if self.storage.count > depth {
+                    // swiftlint:disable:next unused_optional_binding
                     let _ = self.storage.popContainer()
                 }
 
@@ -893,6 +900,7 @@ extension _ParseEncoder {
             } catch {
                 // If the value pushed a container before throwing, pop it back off to restore state.
                 if self.storage.count > depth {
+                    // swiftlint:disable:next unused_optional_binding
                     let _ = self.storage.popContainer()
                 }
 
@@ -923,6 +931,7 @@ extension _ParseEncoder {
         } catch {
             // If the value pushed a container before throwing, pop it back off to restore state.
             if self.storage.count > depth {
+                // swiftlint:disable:next unused_optional_binding
                 let _ = self.storage.popContainer()
             }
 
@@ -978,6 +987,7 @@ extension _ParseEncoder {
         } catch {
             // If the value pushed a container before throwing, pop it back off to restore state.
             if self.storage.count > depth {
+                // swiftlint:disable:next unused_optional_binding
                 let _ = self.storage.popContainer()
             }
 
@@ -992,6 +1002,7 @@ extension _ParseEncoder {
         return self.storage.popContainer()
     }
 }
+// swiftlint:enable line_length
 
 // MARK: - _ParseReferencingEncoder
 // swiftlint:disable line_length
@@ -1181,3 +1192,12 @@ private var _iso8601Formatter: ISO8601DateFormatter = {
     formatter.formatOptions = .withInternetDateTime
     return formatter
 }()
+
+// swiftlint:enable type_name
+// swiftlint:enable colon
+// swiftlint:enable force_cast
+// swiftlint:enable line_length
+// swiftlint:enable return_arrow_whitespace
+// swiftlint:enable file_length
+// swiftlint:enable redundant_discardable_let
+// swiftlint:enable cyclomatic_complexity

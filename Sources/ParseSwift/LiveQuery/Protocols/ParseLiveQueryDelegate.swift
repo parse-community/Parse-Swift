@@ -79,3 +79,5 @@ public extension ParseLiveQueryDelegate {
     func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) { }
 }
 #endif
+
+// swiftlint:enable line_length

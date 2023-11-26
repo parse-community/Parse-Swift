@@ -236,3 +236,5 @@ public extension ParseUser {
         Self.facebook
     }
 }
+
+// swiftlint:enable line_length

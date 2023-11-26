@@ -771,3 +771,5 @@ class ParseQueryCacheTests: XCTestCase { // swiftlint:disable:this type_body_len
     }
 #endif
 }
+
+// swiftlint:enable line_length

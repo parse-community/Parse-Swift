@@ -160,3 +160,5 @@ class ParsePushPayloadAppleTests: XCTestCase {
         XCTAssertEqual(decodedAlert, applePayload)
     }
 }
+
+// swiftlint:enable line_length

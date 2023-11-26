@@ -390,3 +390,5 @@ public struct ParseConfiguration {
         self.isMigratingFromObjcSDK = migratingFromObjcSDK
     }
 }
+
+// swiftlint:enable line_length

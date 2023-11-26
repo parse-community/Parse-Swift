@@ -531,3 +531,5 @@ public func deleteObjectiveCKeychain() throws {
     return true
 }
 #endif
+
+// swiftlint:enable line_length
