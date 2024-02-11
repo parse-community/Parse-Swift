@@ -841,113 +841,118 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         scores.saveAll(transaction: transaction,
                        callbackQueue: callbackQueue) { result in
+            DispatchQueue.main.async {
+                //calling result back on main thread after one test being processed in background
+                switch result {
 
-            switch result {
-
-            case .success(let saved):
-                XCTAssertEqual(saved.count, 2)
-                guard let firstObject = saved.first,
-                    let secondObject = saved.last else {
-                        XCTFail("Should unwrap")
-                        expectation1.fulfill()
-                        return
-                }
-
-                switch firstObject {
-
-                case .success(let first):
-                    XCTAssert(first.hasSameObjectId(as: scoreOnServer))
-                    guard let savedCreatedAt = first.createdAt,
-                        let savedUpdatedAt = first.updatedAt else {
-                            XCTFail("Should unwrap dates")
+                case .success(let saved):
+                    XCTAssertEqual(saved.count, 2)
+                    guard let firstObject = saved.first,
+                        let secondObject = saved.last else {
+                            XCTFail("Should unwrap")
                             expectation1.fulfill()
                             return
                     }
-                    XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
-                    XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
-                    XCTAssertNil(first.ACL)
+
+                    switch firstObject {
+
+                    case .success(let first):
+                        XCTAssert(first.hasSameObjectId(as: scoreOnServer))
+                        guard let savedCreatedAt = first.createdAt,
+                            let savedUpdatedAt = first.updatedAt else {
+                                XCTFail("Should unwrap dates")
+                                expectation1.fulfill()
+                                return
+                        }
+                        XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
+                        XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
+                        XCTAssertNil(first.ACL)
+
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    }
+
+                    switch secondObject {
+
+                    case .success(let second):
+                        XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
+                        guard let savedCreatedAt = second.createdAt,
+                            let savedUpdatedAt = second.updatedAt else {
+                                XCTFail("Should unwrap dates")
+                                expectation1.fulfill()
+                                return
+                        }
+                        XCTAssertEqual(savedCreatedAt, scoreOnServer2.createdAt)
+                        XCTAssertEqual(savedUpdatedAt, scoreOnServer2.createdAt)
+                        XCTAssertNil(second.ACL)
+
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
+                    }
 
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
-
-                switch secondObject {
-
-                case .success(let second):
-                    XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
-                    guard let savedCreatedAt = second.createdAt,
-                        let savedUpdatedAt = second.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
-                    }
-                    XCTAssertEqual(savedCreatedAt, scoreOnServer2.createdAt)
-                    XCTAssertEqual(savedUpdatedAt, scoreOnServer2.createdAt)
-                    XCTAssertNil(second.ACL)
-
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                }
-
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+                expectation1.fulfill()
             }
-            expectation1.fulfill()
+            
         }
 
         let expectation2 = XCTestExpectation(description: "Save object2")
         scores.saveAll(transaction: true,
                        options: [.useMasterKey],
                        callbackQueue: callbackQueue) { result in
-
-            switch result {
-
-            case .success(let saved):
-                XCTAssertEqual(saved.count, 2)
-
-                guard let firstObject = saved.first,
-                    let secondObject = saved.last else {
+            DispatchQueue.main.async {
+                //calling result back on main thread after one test being processed in background
+                switch result {
+                    
+                case .success(let saved):
+                    XCTAssertEqual(saved.count, 2)
+                    
+                    guard let firstObject = saved.first,
+                          let secondObject = saved.last else {
                         XCTFail("Should unwrap")
                         expectation2.fulfill()
                         return
-                }
-
-                switch firstObject {
-
-                case .success(let first):
-                    guard let savedCreatedAt = first.createdAt,
-                        let savedUpdatedAt = first.updatedAt else {
+                    }
+                    
+                    switch firstObject {
+                        
+                    case .success(let first):
+                        guard let savedCreatedAt = first.createdAt,
+                              let savedUpdatedAt = first.updatedAt else {
                             XCTFail("Should unwrap dates")
                             expectation2.fulfill()
                             return
+                        }
+                        XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
+                        XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
+                        XCTAssertNil(first.ACL)
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
                     }
-                    XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
-                    XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
-                    XCTAssertNil(first.ACL)
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                }
-
-                switch secondObject {
-
-                case .success(let second):
-                    guard let savedCreatedAt = second.createdAt,
-                        let savedUpdatedAt = second.updatedAt else {
+                    
+                    switch secondObject {
+                        
+                    case .success(let second):
+                        guard let savedCreatedAt = second.createdAt,
+                              let savedUpdatedAt = second.updatedAt else {
                             XCTFail("Should unwrap dates")
                             expectation2.fulfill()
                             return
+                        }
+                        XCTAssertEqual(savedCreatedAt, scoreOnServer2.createdAt)
+                        XCTAssertEqual(savedUpdatedAt, scoreOnServer2.createdAt)
+                        XCTAssertNil(second.ACL)
+                    case .failure(let error):
+                        XCTFail(error.localizedDescription)
                     }
-                    XCTAssertEqual(savedCreatedAt, scoreOnServer2.createdAt)
-                    XCTAssertEqual(savedUpdatedAt, scoreOnServer2.createdAt)
-                    XCTAssertNil(second.ACL)
+                    
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
-
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+                expectation2.fulfill()
             }
-            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
