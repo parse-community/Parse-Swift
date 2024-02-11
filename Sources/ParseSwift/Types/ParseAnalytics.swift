@@ -128,11 +128,13 @@ public struct ParseAnalytics: ParseTypeable, Hashable {
                                         at: date)
         appOppened.saveCommand().executeAsync(options: options,
                                               callbackQueue: callbackQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(error))
+            callbackQueue.async {
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
     }
@@ -164,11 +166,13 @@ public struct ParseAnalytics: ParseTypeable, Hashable {
                                         at: date)
         appOppened.saveCommand().executeAsync(options: options,
                                               callbackQueue: callbackQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(error))
+            callbackQueue.async {
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
     }
@@ -190,11 +194,13 @@ public struct ParseAnalytics: ParseTypeable, Hashable {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         self.saveCommand().executeAsync(options: options,
                                         callbackQueue: callbackQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(error))
+            callbackQueue.async {
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
     }
@@ -224,11 +230,13 @@ public struct ParseAnalytics: ParseTypeable, Hashable {
         self.date = date
         self.saveCommand().executeAsync(options: options,
                                         callbackQueue: callbackQueue) { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(error))
+            callbackQueue.async {
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
     }

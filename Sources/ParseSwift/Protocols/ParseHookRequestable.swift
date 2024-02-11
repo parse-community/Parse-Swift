@@ -78,7 +78,9 @@ extension ParseHookRequestable {
         guard let user = user else {
             let error = ParseError(code: .unknownError,
                                    message: "Resquest does not contain a user.")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
         let request = self
@@ -87,12 +89,14 @@ extension ParseHookRequestable {
         options.forEach { updatedOptions.insert($0) }
         user.fetch(options: updatedOptions,
                    callbackQueue: callbackQueue) { result in
-            switch result {
-            case .success(let fetchedUser):
-                let updatedRequest = request.applyUser(fetchedUser)
-                completion(.success(updatedRequest))
-            case .failure(let error):
-                completion(.failure(error))
+            callbackQueue.async {
+                switch result {
+                case .success(let fetchedUser):
+                    let updatedRequest = request.applyUser(fetchedUser)
+                    completion(.success(updatedRequest))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
     }

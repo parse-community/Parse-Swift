@@ -514,7 +514,9 @@ transactions for this call.
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -568,7 +570,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -621,7 +625,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -674,7 +680,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -798,11 +806,15 @@ transactions for this call.
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
-                                completion(.success(returnBatch))
+                                callbackQueue.async {
+                                    completion(.success(returnBatch))
+                                }
                             }
                             completed += 1
                         case .failure(let error):
-                            completion(.failure(error))
+                            callbackQueue.async {
+                                completion(.failure(error))
+                            }
                             return
                         }
                     }
@@ -897,7 +909,9 @@ transactions for this call.
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    completion(.success(fetchedObjectsToReturn))
+                    callbackQueue.async {
+                        completion(.success(fetchedObjectsToReturn))
+                    }
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -1007,11 +1021,15 @@ transactions for this call.
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            completion(.success(returnBatch))
+                            callbackQueue.async {
+                                completion(.success(returnBatch))
+                            }
                         }
                         completed += 1
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                         return
                     }
                 }
@@ -1550,12 +1568,13 @@ extension ParseObject {
          do {
             try deleteCommand().executeAsync(options: options,
                                              callbackQueue: callbackQueue) { result in
-                switch result {
-
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
+                callbackQueue.async {
+                    switch result {
+                    case .success:
+                        completion(.success(()))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
             }
          } catch let error as ParseError {

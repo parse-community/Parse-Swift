@@ -71,13 +71,17 @@ extension ParseHookFunctionable {
         do {
             try fetchCommand().executeAsync(options: options,
                                             callbackQueue: callbackQueue) { result in
-                completion(result)
+                callbackQueue.async {
+                    completion(result)
+                }
             }
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -158,13 +162,17 @@ extension ParseHookFunctionable {
         do {
             try createCommand().executeAsync(options: options,
                                              callbackQueue: callbackQueue) { result in
-                completion(result)
+                callbackQueue.async {
+                    completion(result)
+                }
             }
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -200,13 +208,17 @@ extension ParseHookFunctionable {
         do {
             try updateCommand().executeAsync(options: options,
                                              callbackQueue: callbackQueue) { result in
-                completion(result)
+                callbackQueue.async {
+                    completion(result)
+                }
             }
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -241,19 +253,22 @@ extension ParseHookFunctionable {
         do {
             try deleteCommand().executeAsync(options: options,
                                              callbackQueue: callbackQueue) { result in
-                switch result {
-
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
+                callbackQueue.async {
+                    switch result {
+                    case .success:
+                        completion(.success(()))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
             }
         } catch {
             let defaultError = ParseError(code: .unknownError,
                                           message: error.localizedDescription)
             let parseError = error as? ParseError ?? defaultError
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 

@@ -334,10 +334,12 @@ extension ParseUser {
             try newUser.meCommand(sessionToken: sessionToken)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
-                if case .success(let foundResult) = result {
-                    completion(.success(foundResult))
-                } else {
-                    completion(result)
+                callbackQueue.async {
+                    if case .success(let foundResult) = result {
+                        completion(.success(foundResult))
+                    } else {
+                        completion(result)
+                    }
                 }
             }
         } catch let error as ParseError {
@@ -478,16 +480,17 @@ extension ParseUser {
             // Always let user logout locally, no matter the error.
             deleteCurrentKeychain()
 
-            switch result {
-
-            case .success(let error):
-                if let error = error {
+            callbackQueue.async {
+                switch result {
+                case .success(let error):
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
+                case .failure(let error):
                     completion(.failure(error))
-                } else {
-                    completion(.success(()))
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
     }
@@ -541,16 +544,17 @@ extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         passwordResetCommand(email: email).executeAsync(options: options,
                                                         callbackQueue: callbackQueue) { result in
-            switch result {
-
-            case .success(let error):
-                if let error = error {
+            callbackQueue.async {
+                switch result {
+                case .success(let error):
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
+                case .failure(let error):
                     completion(.failure(error))
-                } else {
-                    completion(.success(()))
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
     }
@@ -670,8 +674,8 @@ extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         verificationEmailCommand(email: email)
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
+            callbackQueue.async {
                 switch result {
-
                 case .success(let error):
                     if let error = error {
                         completion(.failure(error))
@@ -681,6 +685,7 @@ extension ParseUser {
                 case .failure(let error):
                     completion(.failure(error))
                 }
+            }
         }
     }
 
@@ -965,6 +970,7 @@ extension ParseUser {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
+                callbackQueue.async {
                     if case .success(let foundResult) = result {
                         do {
                             try Self.updateKeychainIfNeeded([foundResult])
@@ -978,6 +984,7 @@ extension ParseUser {
                     } else {
                         completion(result)
                     }
+                }
                 }
          } catch {
             callbackQueue.async {
@@ -1645,7 +1652,9 @@ public extension Sequence where Element: ParseUser {
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1699,7 +1708,9 @@ public extension Sequence where Element: ParseUser {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1753,7 +1764,9 @@ public extension Sequence where Element: ParseUser {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1807,7 +1820,9 @@ public extension Sequence where Element: ParseUser {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1934,11 +1949,15 @@ public extension Sequence where Element: ParseUser {
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
                                 try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
-                                completion(.success(returnBatch))
+                                callbackQueue.async {
+                                    completion(.success(returnBatch))
+                                }
                             }
                             completed += 1
                         case .failure(let error):
-                            completion(.failure(error))
+                            callbackQueue.async {
+                                completion(.failure(error))
+                            }
                             return
                         }
                     }
@@ -2038,7 +2057,9 @@ public extension Sequence where Element: ParseUser {
                         }
                     }
                     try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
-                    completion(.success(fetchedObjectsToReturn))
+                    callbackQueue.async {
+                        completion(.success(fetchedObjectsToReturn))
+                    }
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -2153,11 +2174,15 @@ public extension Sequence where Element: ParseUser {
                         if completed == (batches.count - 1) {
                             try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
                                                                      deleting: true)
-                            completion(.success(returnBatch))
+                            callbackQueue.async {
+                                completion(.success(returnBatch))
+                            }
                         }
                         completed += 1
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                         return
                     }
                 }

@@ -176,13 +176,17 @@ extension ParsePush {
         if expirationTime != nil && expirationInterval != nil {
             let error =  ParseError(code: .unknownError,
                                     message: "expirationTime and expirationInterval cannot both be set.")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
         if `where` != nil && channels != nil {
             let error =  ParseError(code: .unknownError,
                                     message: "query and channels cannot both be set.")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
         var options = options
