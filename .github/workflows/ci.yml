@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: '*'
 env:
-  CI_XCODE_OLDEST: '/Applications/Xcode_12.5.1.app/Contents/Developer'
+  CI_XCODE_OLDEST: '/Applications/Xcode_13.1.app/Contents/Developer'
   CI_XCODE_13: '/Applications/Xcode_13.4.1.app/Contents/Developer'
   CI_XCODE_LATEST: '/Applications/Xcode_14.0.1.app/Contents/Developer'
 
