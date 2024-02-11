@@ -177,11 +177,13 @@ internal extension URLSession {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
             guard let httpResponse = urlResponse as? HTTPURLResponse else {
-                completion(self.makeResult(request: request,
-                                           responseData: responseData,
-                                           urlResponse: urlResponse,
-                                           responseError: responseError,
-                                           mapper: mapper))
+                callbackQueue.async {
+                    completion(self.makeResult(request: request,
+                                               responseData: responseData,
+                                               urlResponse: urlResponse,
+                                               responseError: responseError,
+                                               mapper: mapper))
+                }
                 return
             }
             let statusCode = httpResponse.statusCode
@@ -207,11 +209,13 @@ internal extension URLSession {
                 }
                 return
             }
-            completion(self.makeResult(request: request,
-                                       responseData: responseData,
-                                       urlResponse: urlResponse,
-                                       responseError: responseError,
-                                       mapper: mapper))
+            callbackQueue.async {
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError,
+                                           mapper: mapper))
+            }
         }.resume()
     }
 }
