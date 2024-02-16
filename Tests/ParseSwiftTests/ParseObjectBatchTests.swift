@@ -895,7 +895,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                 }
                 expectation1.fulfill()
             }
-            
         }
 
         let expectation2 = XCTestExpectation(description: "Save object2")
@@ -905,19 +904,15 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             DispatchQueue.main.async {
                 //calling result back on main thread after one test being processed in background
                 switch result {
-                    
                 case .success(let saved):
                     XCTAssertEqual(saved.count, 2)
-                    
                     guard let firstObject = saved.first,
                           let secondObject = saved.last else {
                         XCTFail("Should unwrap")
                         expectation2.fulfill()
                         return
                     }
-                    
                     switch firstObject {
-                        
                     case .success(let first):
                         guard let savedCreatedAt = first.createdAt,
                               let savedUpdatedAt = first.updatedAt else {
@@ -931,9 +926,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     }
-                    
                     switch secondObject {
-                        
                     case .success(let second):
                         guard let savedCreatedAt = second.createdAt,
                               let savedUpdatedAt = second.updatedAt else {
@@ -947,7 +940,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     case .failure(let error):
                         XCTFail(error.localizedDescription)
                     }
-                    
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
