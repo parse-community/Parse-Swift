@@ -11,8 +11,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-class ParseURLSessionDelegate: NSObject
-{
+class ParseURLSessionDelegate: NSObject {
     var callbackQueue: DispatchQueue
     var authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,

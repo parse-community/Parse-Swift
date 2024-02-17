@@ -8,6 +8,8 @@
 
 import UIKit
 
+// swiftlint:disable unneeded_override
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -16,3 +18,5 @@ class ViewController: UIViewController {
     }
 
 }
+
+// swiftlint:enable unneeded_override

@@ -209,3 +209,6 @@ public extension ParseUser {
         Self.twitter
     }
 }
+
+// swiftlint:enable line_length
+// swiftlint:enable function_parameter_count

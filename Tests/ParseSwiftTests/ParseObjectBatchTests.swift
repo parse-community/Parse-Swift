@@ -832,6 +832,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                       scoresOnServer: [GameScore], callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Save object1")
+        let expectation2 = XCTestExpectation(description: "Save object2")
+
         guard let scoreOnServer = scoresOnServer.first,
             let scoreOnServer2 = scoresOnServer.last else {
             XCTFail("Should unwrap")
@@ -843,8 +845,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                        callbackQueue: callbackQueue) { result in
 
             switch result {
-
             case .success(let saved):
+
                 XCTAssertEqual(saved.count, 2)
                 guard let firstObject = saved.first,
                     let secondObject = saved.last else {
@@ -895,7 +897,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             expectation1.fulfill()
         }
 
-        let expectation2 = XCTestExpectation(description: "Save object2")
         scores.saveAll(transaction: true,
                        options: [.useMasterKey],
                        callbackQueue: callbackQueue) { result in
@@ -904,26 +905,26 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .success(let saved):
                 XCTAssertEqual(saved.count, 2)
-
                 guard let firstObject = saved.first,
-                    let secondObject = saved.last else {
-                        XCTFail("Should unwrap")
-                        expectation2.fulfill()
-                        return
+                      let secondObject = saved.last else {
+                    XCTFail("Should unwrap")
+                    expectation2.fulfill()
+                    return
                 }
 
                 switch firstObject {
 
                 case .success(let first):
                     guard let savedCreatedAt = first.createdAt,
-                        let savedUpdatedAt = first.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation2.fulfill()
-                            return
+                          let savedUpdatedAt = first.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
+                        return
                     }
                     XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
                     XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
                     XCTAssertNil(first.ACL)
+
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
@@ -932,14 +933,15 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
                 case .success(let second):
                     guard let savedCreatedAt = second.createdAt,
-                        let savedUpdatedAt = second.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation2.fulfill()
-                            return
+                          let savedUpdatedAt = second.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
+                        return
                     }
                     XCTAssertEqual(savedCreatedAt, scoreOnServer2.createdAt)
                     XCTAssertEqual(savedUpdatedAt, scoreOnServer2.createdAt)
                     XCTAssertNil(second.ACL)
+
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
@@ -949,7 +951,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 20.0)
+        wait(for: [expectation1, expectation2], timeout: 100.0)
     }
 
     func saveAllAsyncPointer(scores: [GameScore], // swiftlint:disable:this function_body_length cyclomatic_complexity

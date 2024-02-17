@@ -172,3 +172,5 @@ public extension ParseUser {
         Self.google
     }
 }
+
+// swiftlint:enable line_length

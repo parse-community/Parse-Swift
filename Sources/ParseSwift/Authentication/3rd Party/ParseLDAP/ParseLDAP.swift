@@ -146,3 +146,5 @@ public extension ParseUser {
         Self.ldap
     }
 }
+
+// swiftlint:enable line_length

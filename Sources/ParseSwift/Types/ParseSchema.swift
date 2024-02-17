@@ -387,7 +387,9 @@ extension ParseSchema {
             switch result {
 
             case .success:
-                completion(.success(()))
+                callbackQueue.async {
+                    completion(.success(()))
+                }
             case .failure(let error):
                 callbackQueue.async {
                     completion(.failure(error))
@@ -425,7 +427,9 @@ extension ParseSchema {
             switch result {
 
             case .success:
-                completion(.success(()))
+                callbackQueue.async {
+                    completion(.success(()))
+                }
             case .failure(let error):
                 callbackQueue.async {
                     completion(.failure(error))

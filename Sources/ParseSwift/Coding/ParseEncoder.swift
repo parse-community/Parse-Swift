@@ -18,6 +18,15 @@
 //
 //===----------------------------------------------------------------------===//
 
+// This rule does not allow types with underscores in their names.
+// swiftlint:disable type_name
+// swiftlint:disable colon
+// swiftlint:disable line_length
+// swiftlint:disable return_arrow_whitespace
+// swiftlint:disable file_length
+// swiftlint:disable redundant_discardable_let
+// swiftlint:disable cyclomatic_complexity
+
 import Foundation
 
 /// A marker protocol used to determine whether a value is a `String`-keyed `Dictionary`
@@ -33,16 +42,6 @@ internal protocol _JSONStringDictionaryEncodableMarker { }
 private protocol _JSONStringDictionaryEncodableMarker { }
 #endif
 extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, Value: Encodable { }
-
-// This rule does not allow types with underscores in their names.
-// swiftlint:disable type_name
-// swiftlint:disable colon
-// swiftlint:disable force_cast
-// swiftlint:disable line_length
-// swiftlint:disable return_arrow_whitespace
-// swiftlint:disable file_length
-// swiftlint:disable redundant_discardable_let
-// swiftlint:disable cyclomatic_complexity
 
 // MARK: ParseEncoder
 /** An object that encodes Parse instances of a data type as JSON objects.
@@ -170,6 +169,7 @@ public struct ParseEncoder {
                                         objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
                                         filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
+    // swiftlint:enable large_tuple
 
     // swiftlint:disable large_tuple
     internal func encode(_ value: ParseEncodable,
@@ -197,6 +197,7 @@ public struct ParseEncoder {
                                         objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
                                         filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
+    // swiftlint:enable large_tuple
 }
 
 // MARK: _ParseEncoder
@@ -260,6 +261,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                          message: "This method should not be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
+    // swiftlint:disable large_tuple
     func encodeObject(_ value: Encodable,
                       batching: Bool = false,
                       collectChildren: Bool,
@@ -294,6 +296,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
                                              EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to JSON.", underlyingError: error))
         }
     }
+    // swiftlint:enable large_tuple
 
     func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key: CodingKey {
 
@@ -545,6 +548,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                 existingContainer is NSMutableDictionary,
                 "Attempt to re-encode into nested KeyedEncodingContainer<\(Key.self)> for key \"\(containerKey)\" is invalid: non-keyed container already encoded for this key"
             )
+            // swiftlint:disable:next force_cast
             dictionary = existingContainer as! NSMutableDictionary
         } else {
             dictionary = NSMutableDictionary()
@@ -567,6 +571,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                 existingContainer is NSMutableArray,
                 "Attempt to re-encode into nested UnkeyedEncodingContainer for key \"\(containerKey)\" is invalid: keyed container/single value already encoded for this key"
             )
+            // swiftlint:disable:next force_cast
             array = existingContainer as! NSMutableArray
         } else {
             array = NSMutableArray()
@@ -759,7 +764,6 @@ extension _ParseEncoder : SingleValueEncodingContainer {
 }
 
 // MARK: - Concrete Value Representations
-// swiftlint:disable force_cast
 extension _ParseEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
     func box(_ value: Bool)   -> NSObject { return NSNumber(value: value) }
@@ -941,7 +945,6 @@ extension _ParseEncoder {
         return try self.box_(value) ?? NSDictionary()
     }
 
-    // swiftlint:disable:next line_length
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.
     func box_(_ value: Encodable) throws -> NSObject? {
         // Disambiguation between variable and function is required due to
@@ -949,6 +952,7 @@ extension _ParseEncoder {
         let type = Swift.type(of: value)
         if type == Date.self || type == NSDate.self {
             // Respect Date encoding strategy
+            // swiftlint:disable:next force_cast
             return try self.box((value as! Date))
         } else if type == Data.self || type == NSData.self {
             // Respect Data encoding strategy
@@ -992,6 +996,7 @@ extension _ParseEncoder {
         return self.storage.popContainer()
     }
 }
+// swiftlint:enable line_length
 
 // MARK: - _ParseReferencingEncoder
 // swiftlint:disable line_length
@@ -1173,7 +1178,6 @@ private struct _JSONKey : CodingKey {
 //===----------------------------------------------------------------------===//
 // Shared ISO8601 Date Formatter
 //===----------------------------------------------------------------------===//
-// swiftlint:disable:next line_length
 // NOTE: This value is implicitly lazy and _must_ be lazy. We're compiled against the latest SDK (w/ ISO8601DateFormatter), but linked against whichever Foundation the user has. ISO8601DateFormatter might not exist, so we better not hit this code path on an older OS.
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 private var _iso8601Formatter: ISO8601DateFormatter = {
@@ -1181,3 +1185,11 @@ private var _iso8601Formatter: ISO8601DateFormatter = {
     formatter.formatOptions = .withInternetDateTime
     return formatter
 }()
+
+// swiftlint:enable type_name
+// swiftlint:enable colon
+// swiftlint:enable line_length
+// swiftlint:enable return_arrow_whitespace
+// swiftlint:enable file_length
+// swiftlint:enable redundant_discardable_let
+// swiftlint:enable cyclomatic_complexity

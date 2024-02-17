@@ -550,7 +550,9 @@ extension ParseInstallation {
                     if case .success(let foundResult) = result {
                         do {
                             try Self.updateKeychainIfNeeded([foundResult])
-                            completion(.success(foundResult))
+                            callbackQueue.async {
+                                completion(.success(foundResult))
+                            }
                         } catch {
                             let defaultError = ParseError(code: .unknownError,
                                                           message: error.localizedDescription)
@@ -560,7 +562,9 @@ extension ParseInstallation {
                             }
                         }
                     } else {
-                        completion(result)
+                        callbackQueue.async {
+                            completion(result)
+                        }
                     }
                 }
          } catch {
@@ -700,7 +704,9 @@ extension ParseInstallation {
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -741,7 +747,9 @@ extension ParseInstallation {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -782,7 +790,9 @@ extension ParseInstallation {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -823,7 +833,9 @@ extension ParseInstallation {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1012,7 +1024,9 @@ extension ParseInstallation {
                      case .success:
                          do {
                              try Self.updateKeychainIfNeeded([self], deleting: true)
-                             completion(.success(()))
+                             callbackQueue.async {
+                                 completion(.success(()))
+                             }
                          } catch {
                              let defaultError = ParseError(code: .unknownError,
                                                            message: error.localizedDescription)
@@ -1022,7 +1036,9 @@ extension ParseInstallation {
                              }
                          }
                      case .failure(let error):
-                         completion(.failure(error))
+                         callbackQueue.async {
+                             completion(.failure(error))
+                         }
                      }
                 }
          } catch let error as ParseError {
@@ -1207,7 +1223,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1261,7 +1279,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1315,7 +1335,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1369,7 +1391,9 @@ public extension Sequence where Element: ParseInstallation {
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1499,7 +1523,9 @@ public extension Sequence where Element: ParseInstallation {
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
                                 try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
-                                completion(.success(returnBatch))
+                                callbackQueue.async {
+                                    completion(.success(returnBatch))
+                                }
                             }
                             completed += 1
                         case .failure(let error):
@@ -1608,7 +1634,9 @@ public extension Sequence where Element: ParseInstallation {
                         }
                     }
                     try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
-                    completion(.success(fetchedObjectsToReturn))
+                    callbackQueue.async {
+                        completion(.success(fetchedObjectsToReturn))
+                    }
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -1724,11 +1752,15 @@ public extension Sequence where Element: ParseInstallation {
                         if completed == (batches.count - 1) {
                             try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
                                                                      deleting: true)
-                            completion(.success(returnBatch))
+                            callbackQueue.async {
+                                completion(.success(returnBatch))
+                            }
                         }
                         completed += 1
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                         return
                     }
                 }

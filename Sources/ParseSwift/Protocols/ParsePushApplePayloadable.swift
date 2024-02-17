@@ -83,3 +83,5 @@ public protocol ParsePushApplePayloadable: ParsePushPayloadable {
      */
     var mdm: String? { get set }
 }
+
+// swiftlint:enable line_length
