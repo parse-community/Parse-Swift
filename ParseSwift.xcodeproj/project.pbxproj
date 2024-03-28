@@ -973,6 +973,13 @@
 		91F346C3269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
 		91F346C4269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
 		91F346C5269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
+		CBEF514C295E40CB0052E598 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF514B295E40CB0052E598 /* LocalStorage.swift */; };
+		CBEF514D295E40CB0052E598 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF514B295E40CB0052E598 /* LocalStorage.swift */; };
+		CBEF514E295E40CB0052E598 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF514B295E40CB0052E598 /* LocalStorage.swift */; };
+		CBEF514F295E40CB0052E598 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF514B295E40CB0052E598 /* LocalStorage.swift */; };
+		CBEF5152295EF5DA0052E598 /* ParseLocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF5151295EF5DA0052E598 /* ParseLocalStorageTests.swift */; };
+		CBEF5153295EF5E20052E598 /* ParseLocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF5151295EF5DA0052E598 /* ParseLocalStorageTests.swift */; };
+		CBEF5154295EF5E30052E598 /* ParseLocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF5151295EF5DA0052E598 /* ParseLocalStorageTests.swift */; };
 		F971F4F624DE381A006CB79B /* ParseEncoderExtraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971F4F524DE381A006CB79B /* ParseEncoderExtraTests.swift */; };
 		F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
 		F97B45CF24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
@@ -1449,6 +1456,8 @@
 		91F346B8269B766C005727B6 /* CloudViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudViewModel.swift; sourceTree = "<group>"; };
 		91F346BD269B77B5005727B6 /* CloudObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudObservable.swift; sourceTree = "<group>"; };
 		91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloudViewModelTests.swift; sourceTree = "<group>"; };
+		CBEF514B295E40CB0052E598 /* LocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		CBEF5151295EF5DA0052E598 /* ParseLocalStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLocalStorageTests.swift; sourceTree = "<group>"; };
 		F971F4F524DE381A006CB79B /* ParseEncoderExtraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoderExtraTests.swift; sourceTree = "<group>"; };
 		F97B45B424D9C6F200F4A88B /* ParseCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCoding.swift; sourceTree = "<group>"; };
 		F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
@@ -1686,6 +1695,7 @@
 				70385E6328563FD10084D306 /* ParsePushPayloadFirebaseTests.swift */,
 				70212D172855256F00386163 /* ParsePushTests.swift */,
 				917BA4252703DB4600F8D747 /* ParseQueryAsyncTests.swift */,
+				CBEF5151295EF5DA0052E598 /* ParseLocalStorageTests.swift */,
 				700AFE02289C3508006C1CD9 /* ParseQueryCacheTests.swift */,
 				7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
@@ -2225,6 +2235,7 @@
 		F97B45CB24D9C6F200F4A88B /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				CBEF514B295E40CB0052E598 /* LocalStorage.swift */,
 				F97B465E24D9C7B500F4A88B /* KeychainStore.swift */,
 				70572670259033A700F0ADD5 /* ParseFileManager.swift */,
 				F97B45CC24D9C6F200F4A88B /* ParseStorage.swift */,
@@ -2815,6 +2826,7 @@
 				F97B462F24D9C74400F4A88B /* BatchUtils.swift in Sources */,
 				70385E802858EAA90084D306 /* ParseHookFunctionRequest.swift in Sources */,
 				70CE0AAD28595FDE00DAEA86 /* ParseHookRequestable+combine.swift in Sources */,
+				CBEF514C295E40CB0052E598 /* LocalStorage.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
 				F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460224D9C6F200F4A88B /* NoBody.swift in Sources */,
@@ -2925,6 +2937,7 @@
 				703B092326BDFAB2005A112F /* ParseUserAsyncTests.swift in Sources */,
 				70E6B016286120E00043EC4A /* ParseHookFunctionTests.swift in Sources */,
 				70C5504625B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
+				CBEF5152295EF5DA0052E598 /* ParseLocalStorageTests.swift in Sources */,
 				70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */,
 				70F03A562780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
 				7C4C0947285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
@@ -3129,6 +3142,7 @@
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
 				70385E812858EAA90084D306 /* ParseHookFunctionRequest.swift in Sources */,
 				70CE0AAE28595FDE00DAEA86 /* ParseHookRequestable+combine.swift in Sources */,
+				CBEF514D295E40CB0052E598 /* LocalStorage.swift in Sources */,
 				F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460324D9C6F200F4A88B /* NoBody.swift in Sources */,
 				703B093126BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
@@ -3248,6 +3262,7 @@
 				703B092526BDFAB2005A112F /* ParseUserAsyncTests.swift in Sources */,
 				70E6B018286120E00043EC4A /* ParseHookFunctionTests.swift in Sources */,
 				70C5504825B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
+				CBEF5154295EF5E30052E598 /* ParseLocalStorageTests.swift in Sources */,
 				709B98572556ECAA00507778 /* ParseACLTests.swift in Sources */,
 				70F03A582780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
 				7C4C0949285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
@@ -3372,6 +3387,7 @@
 				703B092426BDFAB2005A112F /* ParseUserAsyncTests.swift in Sources */,
 				70E6B017286120E00043EC4A /* ParseHookFunctionTests.swift in Sources */,
 				70C5504725B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
+				CBEF5153295EF5E20052E598 /* ParseLocalStorageTests.swift in Sources */,
 				70F2E2BC254F283000B2EA5C /* ParseObjectTests.swift in Sources */,
 				70F03A572780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
 				7C4C0948285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
@@ -3576,6 +3592,7 @@
 				F97B465924D9C78C00F4A88B /* Remove.swift in Sources */,
 				70385E832858EAA90084D306 /* ParseHookFunctionRequest.swift in Sources */,
 				70CE0AB028595FDE00DAEA86 /* ParseHookRequestable+combine.swift in Sources */,
+				CBEF514F295E40CB0052E598 /* LocalStorage.swift in Sources */,
 				70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F924D9C6F200F4A88B /* ParseError.swift in Sources */,
 				703B093326BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
@@ -3766,6 +3783,7 @@
 				F97B465824D9C78C00F4A88B /* Remove.swift in Sources */,
 				70385E822858EAA90084D306 /* ParseHookFunctionRequest.swift in Sources */,
 				70CE0AAF28595FDE00DAEA86 /* ParseHookRequestable+combine.swift in Sources */,
+				CBEF514E295E40CB0052E598 /* LocalStorage.swift in Sources */,
 				70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F824D9C6F200F4A88B /* ParseError.swift in Sources */,
 				703B093226BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,

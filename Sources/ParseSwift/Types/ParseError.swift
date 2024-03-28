@@ -350,6 +350,11 @@ public struct ParseError: ParseTypeable, Swift.Error {
         case xDomainRequest = 602
 
         /**
+         Error code indicating that the device is not connected to the internet.
+         */
+        case notConnectedToInternet = 1009
+
+        /**
          Error code indicating any other custom error sent from the Parse Server.
          */
         case other
@@ -556,5 +561,17 @@ public extension Error {
      */
     func containedIn(_ errorCodes: ParseError.Code...) -> Bool {
         containedIn(errorCodes)
+    }
+}
+
+internal extension Error {
+
+    /**
+     Validates if the given `ParseError` codes contains the error codes for no internet connection.
+     
+     - returns: A boolean indicating whether or not the `Error` is an internet connection error.
+     */
+    var hasNoInternetConnection: Bool {
+        return self.equalsTo(.notConnectedToInternet) || self.equalsTo(.connectionFailed)
     }
 }

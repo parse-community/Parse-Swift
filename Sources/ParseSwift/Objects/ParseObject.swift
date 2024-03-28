@@ -478,6 +478,8 @@ transactions for this call.
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -501,6 +503,7 @@ transactions for this call.
         batchLimit limit: Int? = nil,
         transaction: Bool = configuration.isUsingTransactions,
         ignoringCustomObjectIdConfig: Bool = false,
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -513,6 +516,7 @@ transactions for this call.
                                                      batchLimit: limit,
                                                      transaction: transaction,
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                                                     ignoringLocalStore: ignoringLocalStore,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
                 completion(.success(objects))
@@ -530,6 +534,7 @@ transactions for this call.
                      batchLimit: limit,
                      transaction: transaction,
                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                     ignoringLocalStore: ignoringLocalStore,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
@@ -543,6 +548,8 @@ transactions for this call.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -556,6 +563,7 @@ transactions for this call.
     func createAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
         transaction: Bool = configuration.isUsingTransactions,
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -567,6 +575,7 @@ transactions for this call.
                 let objects = try await batchCommand(method: method,
                                                      batchLimit: limit,
                                                      transaction: transaction,
+                                                     ignoringLocalStore: ignoringLocalStore,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
                 completion(.success(objects))
@@ -583,6 +592,7 @@ transactions for this call.
         batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
+                     ignoringLocalStore: ignoringLocalStore,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
@@ -596,6 +606,8 @@ transactions for this call.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -609,6 +621,7 @@ transactions for this call.
     func replaceAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
         transaction: Bool = configuration.isUsingTransactions,
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -620,6 +633,7 @@ transactions for this call.
                 let objects = try await batchCommand(method: method,
                                                      batchLimit: limit,
                                                      transaction: transaction,
+                                                     ignoringLocalStore: ignoringLocalStore,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
                 completion(.success(objects))
@@ -636,6 +650,7 @@ transactions for this call.
         batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
+                     ignoringLocalStore: ignoringLocalStore,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
@@ -649,6 +664,8 @@ transactions for this call.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -662,6 +679,7 @@ transactions for this call.
     internal func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
         transaction: Bool = configuration.isUsingTransactions,
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -673,6 +691,7 @@ transactions for this call.
                 let objects = try await batchCommand(method: method,
                                                      batchLimit: limit,
                                                      transaction: transaction,
+                                                     ignoringLocalStore: ignoringLocalStore,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
                 completion(.success(objects))
@@ -689,6 +708,7 @@ transactions for this call.
         batchCommand(method: method,
                      batchLimit: limit,
                      transaction: transaction,
+                     ignoringLocalStore: ignoringLocalStore,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
@@ -699,6 +719,7 @@ transactions for this call.
                                batchLimit limit: Int?,
                                transaction: Bool,
                                ignoringCustomObjectIdConfig: Bool = false,
+                               ignoringLocalStore: Bool = false,
                                options: API.Options,
                                callbackQueue: DispatchQueue,
                                completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void) {
@@ -800,10 +821,16 @@ transactions for this call.
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
+                                if !ignoringLocalStore {
+                                    try? saveLocally(method: method)
+                                }
                                 completion(.success(returnBatch))
                             }
                             completed += 1
                         case .failure(let error):
+                            if !ignoringLocalStore {
+                                try? saveLocally(method: method, error: error)
+                            }
                             completion(.failure(error))
                             return
                         }
@@ -1153,7 +1180,9 @@ extension ParseObject {
     */
     @discardableResult
     public func save(ignoringCustomObjectIdConfig: Bool = false,
+                     ignoringLocalStore: Bool = false,
                      options: API.Options = []) throws -> Self {
+        let method = Method.save
         var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
@@ -1170,13 +1199,27 @@ extension ParseObject {
         group.wait()
 
         if let error = error {
+            if !ignoringLocalStore {
+                try? saveLocally(method: method, error: error)
+            }
             throw error
         }
 
-        return try saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
-            .execute(options: options,
-                     childObjects: childObjects,
-                     childFiles: childFiles)
+        do {
+            let commandResult = try saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
+                .execute(options: options,
+                         childObjects: childObjects,
+                         childFiles: childFiles)
+            if !ignoringLocalStore {
+                try? saveLocally(method: method)
+            }
+            return commandResult
+        } catch {
+            if !ignoringLocalStore {
+                try? saveLocally(method: method, error: error)
+            }
+            throw error
+        }
     }
 
     /**
@@ -1185,6 +1228,8 @@ extension ParseObject {
      - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isRequiringCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -1201,6 +1246,7 @@ extension ParseObject {
     */
     public func save(
         ignoringCustomObjectIdConfig: Bool = false,
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
@@ -1211,8 +1257,10 @@ extension ParseObject {
             do {
                 let object = try await command(method: method,
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                                               ignoringLocalStore: ignoringLocalStore,
                                                options: options,
                                                callbackQueue: callbackQueue)
+
                 completion(.success(object))
             } catch {
                 let defaultError = ParseError(code: .unknownError,
@@ -1226,6 +1274,7 @@ extension ParseObject {
         #else
         command(method: method,
                 ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
+                ignoringLocalStore: ignoringLocalStore,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
@@ -1234,13 +1283,16 @@ extension ParseObject {
 
     /**
      Creates the `ParseObject` *asynchronously* and executes the given callback block.
-
+     
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func create(
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
@@ -1250,6 +1302,7 @@ extension ParseObject {
         Task {
             do {
                 let object = try await command(method: method,
+                                               ignoringLocalStore: ignoringLocalStore,
                                                options: options,
                                                callbackQueue: callbackQueue)
                 completion(.success(object))
@@ -1264,6 +1317,7 @@ extension ParseObject {
         }
         #else
         command(method: method,
+                ignoringLocalStore: ignoringLocalStore,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
@@ -1272,13 +1326,16 @@ extension ParseObject {
 
     /**
      Replaces the `ParseObject` *asynchronously* and executes the given callback block.
-
+     
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func replace(
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
@@ -1288,6 +1345,7 @@ extension ParseObject {
         Task {
             do {
                 let object = try await command(method: method,
+                                               ignoringLocalStore: ignoringLocalStore,
                                                options: options,
                                                callbackQueue: callbackQueue)
                 completion(.success(object))
@@ -1302,6 +1360,7 @@ extension ParseObject {
         }
         #else
         command(method: method,
+                ignoringLocalStore: ignoringLocalStore,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
@@ -1310,13 +1369,16 @@ extension ParseObject {
 
     /**
      Updates the `ParseObject` *asynchronously* and executes the given callback block.
-
+     
+     - parameter ignoringLocalStore: Ignore storing objects to the local store. Mainly used for internal use
+     since default use should be set via policy on initialize. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     func update(
+        ignoringLocalStore: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
@@ -1326,6 +1388,7 @@ extension ParseObject {
         Task {
             do {
                 let object = try await command(method: method,
+                                               ignoringLocalStore: ignoringLocalStore,
                                                options: options,
                                                callbackQueue: callbackQueue)
                 completion(.success(object))
@@ -1340,6 +1403,7 @@ extension ParseObject {
         }
         #else
         command(method: method,
+                ignoringLocalStore: ignoringLocalStore,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
@@ -1348,6 +1412,7 @@ extension ParseObject {
 
     func command(method: Method,
                  ignoringCustomObjectIdConfig: Bool = false,
+                 ignoringLocalStore: Bool = false,
                  options: API.Options,
                  callbackQueue: DispatchQueue,
                  completion: @escaping (Result<Self, ParseError>) -> Void) {
@@ -1371,15 +1436,27 @@ extension ParseObject {
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles,
                                       completion: completion)
+
+                    if !ignoringLocalStore {
+                        try? saveLocally(method: method)
+                    }
                 } catch {
                     let defaultError = ParseError(code: .unknownError,
                                                   message: error.localizedDescription)
                     let parseError = error as? ParseError ?? defaultError
+
+                    if !ignoringLocalStore {
+                        try? saveLocally(method: method, error: parseError)
+                    }
                     callbackQueue.async {
                         completion(.failure(parseError))
                     }
                 }
                 return
+            }
+
+            if !ignoringLocalStore {
+                try? saveLocally(method: method, error: parseError)
             }
             callbackQueue.async {
                 completion(.failure(parseError))

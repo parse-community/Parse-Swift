@@ -8,6 +8,8 @@
 
 import Foundation
 
+// swiftlint:disable large_tuple
+
 /**
  `ParseACL` is used to control which users can access or modify a particular `ParseObject`.
  Each `ParseObject` has its own ACL. You can grant read and write permissions separately 

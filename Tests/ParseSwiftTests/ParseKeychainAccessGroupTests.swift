@@ -11,6 +11,8 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
+// swiftlint:disable unused_optional_binding function_body_length type_body_length
+
 class ParseKeychainAccessGroupTests: XCTestCase {
 
     struct User: ParseUser {
@@ -261,6 +263,7 @@ class ParseKeychainAccessGroupTests: XCTestCase {
         XCTAssertEqual(acl, otherAcl)
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func testRemoveOldObjectsFromKeychain() throws {
         try userLogin()
         Config.current = .init(welcomeMessage: "yolo", winningNumber: 1)
@@ -299,15 +302,15 @@ class ParseKeychainAccessGroupTests: XCTestCase {
         let deleted = KeychainStore.shared.removeOldObjects(accessGroup: ParseSwift.configuration.keychainAccessGroup)
         XCTAssertTrue(deleted)
         if let _: CurrentUserContainer<User> =
-                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
+            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
             XCTFail("Should be nil")
         }
         if let _: CurrentConfigContainer<Config> =
-                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) {
+            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) {
             XCTFail("Should be nil")
         }
         if let _: DefaultACL =
-                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
+            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
             XCTFail("Should be nil")
         }
         guard let _: CurrentInstallationContainer<Installation> =

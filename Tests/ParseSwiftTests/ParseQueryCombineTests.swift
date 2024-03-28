@@ -57,6 +57,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
+                              offlinePolicy: .save,
                               usingPostForQuery: true,
                               testing: true)
     }

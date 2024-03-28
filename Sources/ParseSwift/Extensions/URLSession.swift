@@ -66,11 +66,17 @@ internal extension URLSession {
                        responseError: Error?,
                        mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
-            guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
-                                           message: "Unable to connect with parse-server: \(responseError)"))
+            if let urlError = responseError as? URLError,
+                urlError.code == URLError.Code.notConnectedToInternet || urlError.code == URLError.Code.dataNotAllowed {
+                return .failure(ParseError(code: .notConnectedToInternet,
+                                           message: "Unable to connect with the internet: \(responseError)"))
+            } else {
+                guard let parseError = responseError as? ParseError else {
+                    return .failure(ParseError(code: .unknownError,
+                                               message: "Unable to connect with parse-server: \(responseError)"))
+                }
+                return .failure(parseError)
             }
-            return .failure(parseError)
         }
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
