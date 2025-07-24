@@ -42,23 +42,33 @@ struct InMemoryKeyValueStore: ParsePrimitiveStorable {
     var decoder = ParseCoding.jsonDecoder()
     var encoder = ParseCoding.jsonEncoder()
     var storage = [String: Data]()
+    /// A serial queue to make in-memory storage thread-safe.
+    private let queue = DispatchQueue(label: "com.empac.ParseInMemoryKeyValueStore")
 
     mutating func delete(valueFor key: String) throws {
-        storage[key] = nil
+        queue.sync {
+            storage[key] = nil
+        }
     }
 
     mutating func deleteAll() throws {
-        storage.removeAll()
+        queue.sync {
+            storage.removeAll()
+        }
     }
 
     mutating func get<T>(valueFor key: String) throws -> T? where T: Decodable {
-        guard let data = storage[key] else { return nil }
-        return try decoder.decode(T.self, from: data)
+        return try queue.sync {
+            guard let data = storage[key] else { return nil }
+            return try decoder.decode(T.self, from: data)
+        }
     }
 
     mutating func set<T>(_ object: T, for key: String) throws where T: Encodable {
         let data = try encoder.encode(object)
-        storage[key] = data
+        queue.sync {
+            storage[key] = data
+        }
     }
 }
 
