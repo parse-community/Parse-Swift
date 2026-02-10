@@ -4,7 +4,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.2...main), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/main/documentation/parseswift)
 
 __New features__
-- Add `ParseObjectObservable` to support SwiftUI's Observation framework (iOS 17+/macOS 14+), thanks to [Craig Spell](https://github.com/cspell2k5/Parse-Swift)
+- Add `ParseObjectObservable` to support SwiftUI's Observation framework (iOS 17+/macOS 14+), thanks to [Craig Spell](https://github.com/cspell2k5/Parse-Swift) 
 
 ### 4.14.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.1...4.14.2), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.14.2/documentation/parseswift)
