@@ -639,7 +639,9 @@ extension Query: Queryable {
         if order != nil || skip > 0 || self.limit != 100 {
             let error = ParseError(code: .unknownError,
                              message: "Cannot iterate on a query with sort, skip, or limit.")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
         let uuid = UUID()
@@ -755,7 +757,9 @@ extension Query: Queryable {
         do {
             try firstCommand().executeAsync(options: options,
                                             callbackQueue: callbackQueue) { result in
-                completion(result)
+                callbackQueue.async {
+                    completion(result)
+                }
             }
         } catch {
             let parseError = ParseError(code: .unknownError,

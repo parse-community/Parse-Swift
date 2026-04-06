@@ -37,6 +37,7 @@ struct AnyEncodable: Encodable {
     }
 }
 
+// swiftlint:disable type_name
 @usableFromInline
 protocol _AnyEncodable {
 
@@ -49,6 +50,7 @@ extension AnyEncodable: _AnyEncodable {}
 // MARK: - Encodable
 
 extension _AnyEncodable {
+    // swiftlint:enable type_name
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func encode(to encoder: Encoder) throws {
 

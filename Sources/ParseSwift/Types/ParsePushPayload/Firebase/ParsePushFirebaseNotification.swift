@@ -171,3 +171,5 @@ public struct ParsePushFirebaseNotification: ParseTypeable {
         self.image = image
     }
 }
+
+// swiftlint:enable line_length

@@ -416,6 +416,7 @@ extension ParseACL {
 
 // Encoding and decoding
 extension ParseACL {
+    // swiftlint:disable large_tuple
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: RawCodingKey.self)
         try container.allKeys.lazy.map { (scope) -> (String, KeyedDecodingContainer<ParseACL.Access>) in
@@ -433,6 +434,7 @@ extension ParseACL {
                 set($0, access: $1, value: $2)
             }
     }
+    // swiftlint:enable large_tuple
 
     public func encode(to encoder: Encoder) throws {
         guard let acl = acl else { return } // only encode if acl is present

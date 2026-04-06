@@ -234,3 +234,5 @@ class ParsePushPayloadAnyTests: XCTestCase {
         #endif
     }
 }
+
+// swiftlint:enable line_length

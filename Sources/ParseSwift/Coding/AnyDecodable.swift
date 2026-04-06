@@ -35,6 +35,7 @@ struct AnyDecodable: Decodable {
     }
 }
 
+// swiftlint:disable type_name
 protocol _AnyDecodable {
     var value: Any { get }
     init<T>(_ value: T?)
@@ -72,6 +73,7 @@ extension _AnyDecodable {
         }
     }
 }
+// swiftlint:enable type_name
 
 extension AnyDecodable: Equatable {
     static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {

@@ -254,3 +254,5 @@ public struct API {
         ParseConstants.sdk+ParseConstants.version
     }
 }
+
+// swiftlint:enable line_length

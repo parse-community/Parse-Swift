@@ -77,3 +77,5 @@ class ParsePushPayloadFirebaseTests: XCTestCase {
         #endif
     }
 }
+
+// swiftlint:enable line_length

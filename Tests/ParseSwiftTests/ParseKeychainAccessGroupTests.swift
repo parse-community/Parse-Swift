@@ -261,6 +261,7 @@ class ParseKeychainAccessGroupTests: XCTestCase {
         XCTAssertEqual(acl, otherAcl)
     }
 
+    // swiftlint:disable unused_optional_binding
     func testRemoveOldObjectsFromKeychain() throws {
         try userLogin()
         Config.current = .init(welcomeMessage: "yolo", winningNumber: 1)
@@ -326,6 +327,7 @@ class ParseKeychainAccessGroupTests: XCTestCase {
             return
         }
     }
+    // swiftlint:enable unused_optional_binding
 
     func testNoUserNoAccessGroupNoSync() throws {
         XCTAssertNil(KeychainStore.shared.data(forKey: ParseStorage.Keys.currentUser,

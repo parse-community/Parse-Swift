@@ -104,3 +104,5 @@ public struct ParsePushAppleAlert: ParseTypeable {
         case title, subtitle, body, action
     }
 }
+
+// swiftlint:enable line_length

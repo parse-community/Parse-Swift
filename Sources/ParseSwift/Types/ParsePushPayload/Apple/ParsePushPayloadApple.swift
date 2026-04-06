@@ -207,3 +207,5 @@ public struct ParsePushPayloadApple: ParsePushApplePayloadable {
         return mutablePayload
     }
 }
+
+// swiftlint:enable line_length

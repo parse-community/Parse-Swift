@@ -165,3 +165,5 @@ public extension ParseUser {
         Self.linkedin
     }
 }
+
+// swiftlint:enable line_length

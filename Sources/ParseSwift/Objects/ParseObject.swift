@@ -415,7 +415,6 @@ transactions for this call.
             let group = DispatchGroup()
             group.enter()
             object.ensureDeepSave(options: options,
-                                  // swiftlint:disable:next line_length
                                   isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                 // If an error occurs, everything should be skipped
                 if parseError != nil {
@@ -515,7 +514,9 @@ transactions for this call.
                                                      ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -569,7 +570,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -622,7 +625,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -675,7 +680,9 @@ transactions for this call.
                                                      transaction: transaction,
                                                      options: options,
                                                      callbackQueue: callbackQueue)
-                completion(.success(objects))
+                callbackQueue.async {
+                    completion(.success(objects))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -720,7 +727,6 @@ transactions for this call.
                 let group = DispatchGroup()
                 group.enter()
                 object.ensureDeepSave(options: options,
-                                      // swiftlint:disable:next line_length
                                       isShouldReturnIfChildObjectsFound: transaction) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                     // If an error occurs, everything should be skipped
                     if let parseError = parseError {
@@ -800,11 +806,15 @@ transactions for this call.
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
-                                completion(.success(returnBatch))
+                                callbackQueue.async {
+                                    completion(.success(returnBatch))
+                                }
                             }
                             completed += 1
                         case .failure(let error):
-                            completion(.failure(error))
+                            callbackQueue.async {
+                                completion(.failure(error))
+                            }
                             return
                         }
                     }
@@ -851,7 +861,6 @@ transactions for this call.
                     fetchedObjectsToReturn.append(.success(fetchedObject))
                 } else {
                     fetchedObjectsToReturn.append(.failure(ParseError(code: .objectNotFound,
-                                                                      // swiftlint:disable:next line_length
                                                                       message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                 }
             }
@@ -897,11 +906,12 @@ transactions for this call.
                             fetchedObjectsToReturn.append(.success(fetchedObject))
                         } else {
                             fetchedObjectsToReturn.append(.failure(ParseError(code: .objectNotFound,
-                                                                              // swiftlint:disable:next line_length
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    completion(.success(fetchedObjectsToReturn))
+                    callbackQueue.async {
+                        completion(.success(fetchedObjectsToReturn))
+                    }
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -1011,11 +1021,15 @@ transactions for this call.
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            completion(.success(returnBatch))
+                            callbackQueue.async {
+                                completion(.success(returnBatch))
+                            }
                         }
                         completed += 1
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                         return
                     }
                 }
@@ -1213,7 +1227,9 @@ extension ParseObject {
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1252,7 +1268,9 @@ extension ParseObject {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1290,7 +1308,9 @@ extension ParseObject {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1328,7 +1348,9 @@ extension ParseObject {
                 let object = try await command(method: method,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)
@@ -1546,12 +1568,13 @@ extension ParseObject {
          do {
             try deleteCommand().executeAsync(options: options,
                                              callbackQueue: callbackQueue) { result in
-                switch result {
-
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
+                callbackQueue.async {
+                    switch result {
+                    case .success:
+                        completion(.success(()))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
             }
          } catch let error as ParseError {
@@ -1569,3 +1592,5 @@ extension ParseObject {
         try API.NonParseBodyCommand<NoBody, NoBody>.delete(self)
     }
 } // swiftlint:disable:this file_length
+
+// swiftlint:enable line_length

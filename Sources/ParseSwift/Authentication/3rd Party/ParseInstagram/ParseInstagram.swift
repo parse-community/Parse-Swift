@@ -171,3 +171,5 @@ public extension ParseUser {
         Self.instagram
     }
 }
+
+// swiftlint:enable line_length

@@ -19,7 +19,7 @@ typealias RESTBatchCommandNoBodyType<T> = API.NonParseBodyCommand<ParseObjectBat
 
 typealias ParseObjectBatchCommandEncodablePointer<T> = BatchChildCommand<T, PointerType> where T: Encodable
 typealias ParseObjectBatchResponseEncodablePointer<U> = [(Result<PointerType, ParseError>)]
-// swiftlint:disable line_length
+
 typealias RESTBatchCommandTypeEncodablePointer<T> = API.NonParseBodyCommand<ParseObjectBatchCommandEncodablePointer<T>, ParseObjectBatchResponseEncodablePointer<Encodable>> where T: Encodable
  // swiftlint:enable line_length
 
