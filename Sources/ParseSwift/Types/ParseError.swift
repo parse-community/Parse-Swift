@@ -12,12 +12,25 @@ import Foundation
  An object with a Parse code and message.
  */
 public struct ParseError: ParseTypeable, Swift.Error {
+	
+	public static func == (lhs: ParseError, rhs: ParseError) -> Bool {
+		if let lhsE = lhs.originalError as? NSError,
+			let rhsE = rhs.originalError as? NSError
+		{
+			return lhsE.code == rhsE.code
+		}
+		
+		return lhs.code == rhs.code
+	}
+	
     /// The value representing the error from the Parse Server.
     public let code: Code
     /// The text representing the error from the Parse Server.
     public let message: String
     /// An error value representing a custom error from the Parse Server.
     public let otherCode: Int?
+	/// The original error
+	public let originalError: Swift.Error?
     let error: String?
 
     enum CodingKeys: String, CodingKey {
@@ -379,7 +392,22 @@ public extension ParseError {
         self.message = message
         self.otherCode = nil
         self.error = nil
+		self.originalError = nil
     }
+	
+	/**
+	 Create an error with a known code and custom message.
+	 - parameter code: The known Parse code.
+	 - parameter message: The custom message.
+	 - parameter originalError: The original Error.
+	 */
+	init(code: Code, message: String, originalError: Error? = nil) {
+		self.code = code
+		self.message = message
+		self.otherCode = nil
+		self.error = nil
+		self.originalError = originalError
+	}
 
     /**
      Create an error with a custom code and custom message.
@@ -391,6 +419,7 @@ public extension ParseError {
         self.message = message
         self.otherCode = otherCode
         self.error = nil
+		self.originalError = nil
     }
 }
 
@@ -419,6 +448,7 @@ extension ParseError {
             message = try values.decode(String.self, forKey: .error)
         }
         self.error = nil
+		self.originalError = nil
     }
 }
 
