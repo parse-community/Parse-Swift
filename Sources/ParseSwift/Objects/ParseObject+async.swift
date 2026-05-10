@@ -329,7 +329,12 @@ or disable transactions for this call.
                             //If this ParseObject has no additional children, it can be saved now
                             savableObjects.append(parseObject)
                         } else {
-                            //Else this ParseObject needs to wait until it is children are saved
+                            //Else this ParseObject needs to wait until its children are saved
+                            waitingObjectInfo.unsavedChildren.forEach {
+                                if let parseEncodable = $0 as? ParseEncodable {
+                                    nextBatch.append(parseEncodable)
+                                }
+                            }
                             nextBatch.append(parseObject)
                         }
                     }

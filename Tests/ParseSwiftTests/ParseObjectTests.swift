@@ -134,6 +134,18 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var profilePicture: ParseFile?
     }
 
+    struct GameWithNestedFile: ParseObject {
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var originalData: Data?
+
+        //: Your own properties
+        var child = Game2()
+    }
+
     final class GameScoreClass: ParseObject {
 
         //: These are required by ParseObject
@@ -2055,6 +2067,52 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
             XCTAssertEqual(savedGame.updatedAt, gameOnServer.createdAt)
             XCTAssertEqual(savedGame.profilePicture, gameOnServer.profilePicture)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testDeepSaveNestedObjectWithFile() throws {
+        var child = Game2()
+        var game = GameWithNestedFile()
+
+        guard let cloudPath = URL(string: "https://parseplatform.org/img/logo.svg"),
+              // swiftlint:disable:next line_length
+              let parseURL = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+
+        let parseFile = ParseFile(name: "profile.svg", cloudURL: cloudPath)
+        child.profilePicture = parseFile
+        game.child = child
+
+        let fileResponse = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)",
+                                              url: parseURL)
+        var childOnServer = child
+        childOnServer.objectId = "nested"
+        childOnServer.createdAt = Date()
+        let childPointer = try childOnServer.toPointer()
+        let objectResponse = [BatchResponseItem<Pointer<Game2>>(success: childPointer, error: nil)]
+
+        let encodedFile = try ParseCoding.jsonEncoder().encode(fileResponse)
+        let encodedObject = try ParseCoding.jsonEncoder().encode(objectResponse)
+
+        MockURLProtocol.mockRequestsPassing({ $0.url?.path.contains("/files/") == true }) { _ in
+            return MockURLResponse(data: encodedFile, statusCode: 200, delay: 0.0)
+        }
+        MockURLProtocol.mockRequestsPassing({ $0.url?.path.contains("/batch") == true }) { _ in
+            return MockURLResponse(data: encodedObject, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Deep save")
+        game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
+            XCTAssertNil(parseError)
+            XCTAssertEqual(savedChildFiles.count, 1)
+            XCTAssertEqual(savedChildren.count, 1)
+            XCTAssertEqual(savedChildren.first?.value.className, "Game2")
+            XCTAssertEqual(savedChildren.first?.value.objectId, "nested")
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
