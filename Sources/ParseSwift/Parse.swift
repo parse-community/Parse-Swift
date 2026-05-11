@@ -158,14 +158,37 @@ public func initialize(configuration: ParseConfiguration) {
     BaseParseInstallation.createNewInstallationIfNeeded()
 
     #if !os(Linux) && !os(Android) && !os(Windows)
-    if configuration.isMigratingFromObjcSDK {
-        if let objcParseKeychain = KeychainStore.objectiveC {
-            guard let installationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId"),
-                  BaseParseInstallation.current?.installationId != installationId else {
+    if configuration.isMigratingFromObjcSDK,
+       let objcParseKeychain = KeychainStore.objectiveC,
+       let installationId: String = objcParseKeychain.objectObjectiveC(forKey: "installationId") {
+        let shouldMigrateInstallation = BaseParseInstallation.current?.installationId != installationId
+            || BaseParseInstallation.current?.objectId == nil
+
+        if shouldMigrateInstallation {
+            var updatedInstallation = BaseParseInstallation.current
+            do {
+                var foundInstallation = try BaseParseInstallation
+                    .query("installationId" == installationId)
+                    .first(options: [.cachePolicy(.reloadIgnoringLocalCacheData)])
+                foundInstallation.installationId = installationId
+                foundInstallation.updateAutomaticInfo()
+                updatedInstallation = foundInstallation
+            } catch let error as ParseError where error.code == .objectNotFound {
+                switch updatedInstallation {
+                case .some(let installation) where installation.objectId != nil:
+                    updatedInstallation = BaseParseInstallation()
+                case .none:
+                    updatedInstallation = BaseParseInstallation()
+                case .some:
+                    break
+                }
+                updatedInstallation?.installationId = installationId
+                updatedInstallation?.updateAutomaticInfo()
+            } catch {
+                // initialize is non-throwing; keep the current installation untouched on lookup failures.
                 return
             }
-            var updatedInstallation = BaseParseInstallation.current
-            updatedInstallation?.installationId = installationId
+
             BaseParseInstallation.currentContainer.installationId = installationId
             BaseParseInstallation.currentContainer.currentInstallation = updatedInstallation
             BaseParseInstallation.saveCurrentContainerToKeychain()
