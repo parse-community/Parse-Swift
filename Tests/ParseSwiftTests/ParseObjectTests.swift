@@ -952,6 +952,52 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(decoded2, expected2)
     }
 
+    func testSaveUpdateCommandDirectPropertyMutation() throws {
+        var score = GameScore(points: 10)
+        score.objectId = "yarr"
+        score.createdAt = Date()
+        score.updatedAt = score.createdAt
+        score = score.storingOriginalDataSnapshot()
+        score.player = "Jennifer"
+
+        let command = try score.saveCommand()
+        guard let body = command.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+
+        let expected = "{\"player\":\"Jennifer\"}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testSaveUpdateCommandDirectNilPropertyMutation() throws {
+        var score = GameScore(points: 10)
+        score.objectId = "yarr"
+        score.createdAt = Date()
+        score.updatedAt = score.createdAt
+        score = score.storingOriginalDataSnapshot()
+        score.player = nil
+
+        let command = try score.saveCommand()
+        guard let body = command.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+
+        let expected = "{\"player\":{\"__op\":\"Delete\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
     func testCreateCommand() throws {
         let score = GameScore(points: 10)
 

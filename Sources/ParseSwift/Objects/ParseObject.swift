@@ -16,12 +16,11 @@ import Foundation
 
  The Swift SDK is designed for your `ParseObject`s to be **value types (structures)**.
  Since you are using value types the compiler will assist you with conforming to the `ParseObject` protocol.
- After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct any updates on a
- `mergeable` copy of your `ParseObject`. This can be accomplished by calling the `mergeable` property
- of your `ParseObject` or by calling the `set()` method on your `ParseObject`. This allows a subset
- of the fields to be updated (PATCH) of an object as oppose to replacing all of the fields of an object (PUT).
- This reduces the amount of data sent between client and server when using `save`, `saveAll`, `update`,
- `updateAll`, `replace`, `replaceAll`, to update objects.
+ After a `ParseObject` is saved, created, fetched, or queried from a Parse Server, the SDK stores a snapshot
+ of the object. Direct property mutations can then send only changed fields instead of replacing all fields.
+ Setting an optional property to `nil` sends a Parse `Delete` operation for that field.
+ Developers can still call the `mergeable` property or `set()` method explicitly when they want an empty
+ update copy.
  
  - important: It is required that all of your `ParseObject`'s be **value types (structures)** and all added
  properties be optional so they can eventually be used as Parse `Pointer`'s. If a developer really wants to
@@ -29,8 +28,8 @@ import Foundation
  on the client-side before saving objects. See
  [here](https://github.com/parse-community/Parse-Swift/pull/315#issuecomment-1014701003)
  for more information on the reasons why. See the [Playgrounds](https://github.com/parse-community/Parse-Swift/blob/c119033f44b91570997ad24f7b4b5af8e4d47b64/ParseSwift.playground/Pages/1%20-%20Your%20first%20Object.xcplaygroundpage/Contents.swift#L32-L66) for an example.
- - important: A developer can take advantage of `mergeable` updates in two ways: 1) By calling the `set()` method when starting
- to mutate a saved `ParseObject`, or 2) implement the `merge` method in each of your`ParseObject` models.
+ - important: A developer can take advantage of mergeable updates by directly mutating a saved or fetched
+ `ParseObject`, calling the `set()` method, or implementing the `merge` method in each `ParseObject` model.
  - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
  `ACL` to your `ParseObject`'s `CodingKeys`.
  - warning: This SDK is not designed to use **reference types(classes)** for `ParseObject`'s. Doing so is at your
@@ -48,8 +47,7 @@ public protocol ParseObject: ParseTypeable,
                              Hashable {
 
     /**
-     A JSON encoded version of this `ParseObject` before `mergeable` was called and
-     properties were changed.
+     A JSON encoded version of this `ParseObject` before properties were changed.
      - warning: This property is not intended to be set or modified by the developer.
     */
     var originalData: Data? { get set }
@@ -161,14 +159,13 @@ public extension ParseObject {
     }
 
     var mergeable: Self {
-        guard isSaved,
-            originalData == nil else {
+        guard isSaved else {
             return self
         }
         var object = Self()
         object.objectId = objectId
         object.createdAt = createdAt
-        object.originalData = try? ParseCoding.jsonEncoder().encode(self)
+        object.originalData = originalData ?? originalDataSnapshot
         return object
     }
 
@@ -218,6 +215,18 @@ public extension ParseObject {
 
 // MARK: Default Implementations (Internal)
 extension ParseObject {
+    var originalDataSnapshot: Data? {
+        var object = self
+        object.originalData = nil
+        return try? ParseCoding.jsonEncoder().encode(object)
+    }
+
+    func storingOriginalDataSnapshot() -> Self {
+        var object = self
+        object.originalData = object.originalDataSnapshot
+        return object
+    }
+
     func shouldRevertKey<W>(_ key: KeyPath<Self, W?>,
                             original: Self) -> Bool where W: Equatable {
         original[keyPath: key] != self[keyPath: key]
@@ -321,8 +330,8 @@ public extension ParseObject {
      may perform slower than implementing `merge()` after saving the updated `ParseObject` to a Parse Server.
      This is due to neccesary overhead required to determine what keys have been updated. If a developer finds decoding
      updated `ParseObjects`'s to be slow, implementing `merge()` may speed up the process.
-     - warning: This method should always be used when making the very first update/mutation to your `ParseObject`.
-     Any subsequent mutations can modify the `ParseObject` property directly or use the `set()` method.
+     - warning: This method is optional for saved, created, fetched, or queried `ParseObject`s because direct
+     property mutations can also be encoded as partial updates.
      */
     func set<W>(_ keyPath: WritableKeyPath<Self, W?>, to value: W) -> Self where W: Equatable {
         var updated = self.mergeable

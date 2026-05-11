@@ -472,7 +472,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(saved.player, original.player)
             XCTAssertEqual(saved.createdAt, response.createdAt)
             XCTAssertEqual(saved.updatedAt, response.updatedAt)
-            XCTAssertNil(saved.originalData)
+            XCTAssertNotNil(saved.originalData)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -727,7 +727,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(saved.player, original.player)
             XCTAssertEqual(saved.createdAt, response.createdAt)
             XCTAssertEqual(saved.updatedAt, response.updatedAt)
-            XCTAssertNil(saved.originalData)
+            XCTAssertNotNil(saved.originalData)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -763,7 +763,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertTrue(saved.hasSameObjectId(as: response))
             XCTAssertEqual(saved.createdAt, response.createdAt)
             XCTAssertEqual(saved.updatedAt, response.updatedAt)
-            XCTAssertNil(saved.originalData)
+            XCTAssertNotNil(saved.originalData)
         } catch {
             XCTFail(error.localizedDescription)
         }

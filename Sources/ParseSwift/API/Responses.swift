@@ -115,6 +115,17 @@ internal struct BatchResponse: Codable {
 internal struct QueryResponse<T>: Codable where T: ParseObject {
     let results: [T]
     let count: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case results, count
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        results = try container.decode([T].self, forKey: .results)
+            .map { $0.storingOriginalDataSnapshot() }
+        count = try container.decodeIfPresent(Int.self, forKey: .count)
+    }
 }
 
 // MARK: ParseUser

@@ -34,6 +34,26 @@ private protocol _JSONStringDictionaryEncodableMarker { }
 #endif
 extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, Value: Encodable { }
 
+private final class ParseOriginalDataEncodingCache {
+    private let queue = DispatchQueue(label: "com.parse.encoder.originalDataEncodingCache")
+    private var cache = [String: Data]()
+
+    func data(for key: String) -> Data? {
+        queue.sync {
+            cache[key]
+        }
+    }
+
+    func store(_ data: Data, for key: String) {
+        queue.sync {
+            if cache.count > 128 {
+                cache.removeAll(keepingCapacity: true)
+            }
+            cache[key] = data
+        }
+    }
+}
+
 // This rule does not allow types with underscores in their names.
 // swiftlint:disable type_name
 // swiftlint:disable colon
@@ -55,6 +75,7 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 public struct ParseEncoder {
     let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy?
     let outputFormatting: JSONEncoder.OutputFormatting?
+    private static let originalDataEncodingCache = ParseOriginalDataEncodingCache()
 
     /// Keys to skip during encoding.
     public enum SkipKeys {
@@ -164,15 +185,23 @@ public struct ParseEncoder {
         if let outputFormatting = outputFormatting {
             encoder.outputFormatting = outputFormatting
         }
-        return try encoder.encodeObject(value,
-                                        collectChildren: true,
-                                        uniquePointer: try? value.toPointer(),
-                                        objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
-                                        filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+        let uniquePointer = try? PointerType(value)
+        let encoded = try encoder.encodeObject(value,
+                                               collectChildren: true,
+                                               uniquePointer: uniquePointer,
+                                               objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                               filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+        return try encodeOnlyChangedKeysIfNeeded(encoded,
+                                                 for: value,
+                                                 batching: false,
+                                                 collectChildren: true,
+                                                 objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                                 filesSavedBeforeThisOne: filesSavedBeforeThisOne,
+                                                 skippingKeys: keysToSkip)
     }
 
     // swiftlint:disable large_tuple
-    internal func encode(_ value: ParseEncodable,
+    internal func encode<T: ParseEncodable>(_ value: T,
                          batching: Bool = false,
                          collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
@@ -190,12 +219,166 @@ public struct ParseEncoder {
         if let outputFormatting = outputFormatting {
             encoder.outputFormatting = outputFormatting
         }
-        return try encoder.encodeObject(value,
-                                        batching: batching,
-                                        collectChildren: collectChildren,
-                                        uniquePointer: nil,
-                                        objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
-                                        filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+        let encoded = try encoder.encodeObject(value,
+                                               batching: batching,
+                                               collectChildren: collectChildren,
+                                               uniquePointer: nil,
+                                               objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                               filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+        return try encodeOnlyChangedKeysIfNeeded(encoded,
+                                                 for: value,
+                                                 batching: batching,
+                                                 collectChildren: collectChildren,
+                                                 objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                                 filesSavedBeforeThisOne: filesSavedBeforeThisOne,
+                                                 skippingKeys: keysToSkip)
+    }
+
+    private func encodeOnlyChangedKeysIfNeeded(
+        _ encoded: (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]),
+        for object: Encodable,
+        batching: Bool,
+        collectChildren: Bool,
+        objectsSavedBeforeThisOne: [String: PointerType]?,
+        filesSavedBeforeThisOne: [UUID: ParseFile]?,
+        skippingKeys keysToSkip: Set<String>
+    ) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
+        guard let objectable = object as? Objectable,
+              objectable.isSaved,
+              let originalData = Self.originalData(from: object) else {
+            return encoded
+        }
+        let cacheKey = originalDataEncodingCacheKey(for: originalData,
+                                                    batching: batching,
+                                                    collectChildren: collectChildren,
+                                                    objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                                    filesSavedBeforeThisOne: filesSavedBeforeThisOne,
+                                                    skippingKeys: keysToSkip)
+        let originalEncodedData: Data
+        if let cacheKey = cacheKey,
+           let cachedOriginalEncodedData = Self.originalDataEncodingCache.data(for: cacheKey) {
+            originalEncodedData = cachedOriginalEncodedData
+        } else {
+            let objectType = type(of: objectable)
+            guard let originalObject = try? ParseCoding
+                .jsonDecoder()
+                .decode(objectType, from: originalData) else {
+                return encoded
+            }
+
+            let originalEncoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
+            if let dateEncodingStrategy = dateEncodingStrategy {
+                originalEncoder.dateEncodingStrategy = dateEncodingStrategy
+            }
+            if let outputFormatting = outputFormatting {
+                originalEncoder.outputFormatting = outputFormatting
+            }
+            do {
+                let originalEncoded = try originalEncoder.encodeObject(originalObject,
+                                                                       batching: batching,
+                                                                       collectChildren: collectChildren,
+                                                                       uniquePointer: try? PointerType(objectable),
+                                                                       objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                                                       filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+                originalEncodedData = originalEncoded.encoded
+                if let cacheKey = cacheKey {
+                    Self.originalDataEncodingCache.store(originalEncodedData, for: cacheKey)
+                }
+            } catch {
+                return encoded
+            }
+        }
+        let changedKeys = try removeUnchangedKeys(from: encoded.encoded,
+                                                  original: originalEncodedData)
+        return (changedKeys, encoded.unique, encoded.unsavedChildren)
+    }
+
+    private func originalDataEncodingCacheKey(for originalData: Data,
+                                              batching: Bool,
+                                              collectChildren: Bool,
+                                              objectsSavedBeforeThisOne: [String: PointerType]?,
+                                              filesSavedBeforeThisOne: [UUID: ParseFile]?,
+                                              skippingKeys keysToSkip: Set<String>) -> String? {
+        guard objectsSavedBeforeThisOne == nil,
+              filesSavedBeforeThisOne == nil else {
+            return nil
+        }
+        return [
+            originalData.base64EncodedString(),
+            String(batching),
+            String(collectChildren),
+            keysToSkip.sorted().joined(separator: ","),
+            String(describing: dateEncodingStrategy),
+            String(describing: outputFormatting?.rawValue)
+        ].joined(separator: "|")
+    }
+
+    private static func originalData(from object: Encodable) -> Data? {
+        for child in Mirror(reflecting: object).children where child.label == "originalData" {
+            if let data = child.value as? Data {
+                return data
+            }
+            let mirror = Mirror(reflecting: child.value)
+            if mirror.displayStyle == .optional,
+               let data = mirror.children.first?.value as? Data {
+                return data
+            }
+        }
+        return nil
+    }
+
+    private func removeUnchangedKeys(from currentData: Data,
+                                     original originalData: Data) throws -> Data {
+        let currentObject = try JSONSerialization.jsonObject(with: currentData, options: [.fragmentsAllowed])
+        let originalObject = try JSONSerialization.jsonObject(with: originalData, options: [.fragmentsAllowed])
+        guard var current = currentObject as? [String: Any],
+              let original = originalObject as? [String: Any] else {
+            return currentData
+        }
+
+        let encodedCurrentKeys = Set(current.keys)
+        current = current.filter { key, value in
+            guard let originalValue = original[key] else {
+                return true
+            }
+            return !Self.jsonValue(value, isEqualTo: originalValue)
+        }
+        original.keys.forEach { key in
+            if !encodedCurrentKeys.contains(key) {
+                current[key] = ["__op": Operation.delete.rawValue]
+            }
+        }
+
+        let writingOptions = JSONSerialization.WritingOptions(
+            rawValue: outputFormatting?.rawValue ?? JSONEncoder.OutputFormatting.sortedKeys.rawValue
+        ).union(.fragmentsAllowed)
+        return try JSONSerialization.data(withJSONObject: current, options: writingOptions)
+    }
+
+    private static func jsonValue(_ lhs: Any, isEqualTo rhs: Any) -> Bool {
+        switch (lhs, rhs) {
+        case (_ as NSNull, _ as NSNull):
+            return true
+        case let (lhs as [String: Any], rhs as [String: Any]):
+            guard lhs.keys == rhs.keys else {
+                return false
+            }
+            return lhs.allSatisfy { key, value in
+                guard let rhsValue = rhs[key] else {
+                    return false
+                }
+                return jsonValue(value, isEqualTo: rhsValue)
+            }
+        case let (lhs as [Any], rhs as [Any]):
+            guard lhs.count == rhs.count else {
+                return false
+            }
+            return zip(lhs, rhs).allSatisfy { jsonValue($0, isEqualTo: $1) }
+        case let (lhs as NSObject, rhs as NSObject):
+            return lhs.isEqual(rhs)
+        default:
+            return false
+        }
     }
 }
 

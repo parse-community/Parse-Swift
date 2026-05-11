@@ -427,7 +427,10 @@ internal extension API.Command {
             object.ACL = acl
         }
         let mapper = { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(CreateResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder()
+                .decode(CreateResponse.self, from: data)
+                .apply(to: object)
+                .storingOriginalDataSnapshot()
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint(.POST),
@@ -452,9 +455,9 @@ internal extension API.Command {
                   let original = try? ParseCoding.jsonDecoder().decode(T.self,
                                                                        from: originalData),
                   original.hasSameObjectId(as: updatedObject) else {
-                      return updatedObject
+                      return updatedObject.storingOriginalDataSnapshot()
                   }
-            return try updatedObject.merge(with: original)
+            return try updatedObject.merge(with: original).storingOriginalDataSnapshot()
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -479,9 +482,9 @@ internal extension API.Command {
                   let original = try? ParseCoding.jsonDecoder().decode(T.self,
                                                                        from: originalData),
                   original.hasSameObjectId(as: updatedObject) else {
-                      return updatedObject
+                      return updatedObject.storingOriginalDataSnapshot()
                   }
-            return try updatedObject.merge(with: original)
+            return try updatedObject.merge(with: original).storingOriginalDataSnapshot()
         }
         return API.Command<T, T>(method: .PATCH,
                                  path: object.endpoint,
@@ -506,7 +509,9 @@ internal extension API.Command {
             path: object.endpoint,
             params: params
         ) { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(T.self, from: data)
+            try ParseCoding.jsonDecoder()
+                .decode(T.self, from: data)
+                .storingOriginalDataSnapshot()
         }
     }
 }
