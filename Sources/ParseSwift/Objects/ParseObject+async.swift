@@ -316,7 +316,10 @@ or disable transactions for this call.
                 try waitingToBeSaved.forEach { parseType in
                     if let parseFile = parseType as? ParseFile {
                         // ParseFiles can be saved now
-                        savableFiles.append(parseFile)
+                        if filesFinishedSaving[parseFile.id] == nil
+                            && !savableFiles.contains(where: { $0.id == parseFile.id }) {
+                            savableFiles.append(parseFile)
+                        }
                     } else if let parseObject = parseType as? Objectable {
                         // This is a ParseObject
                         let waitingObjectInfo = try ParseCoding

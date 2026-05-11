@@ -2110,6 +2110,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
             XCTAssertNil(parseError)
             XCTAssertEqual(savedChildFiles.count, 1)
+            XCTAssertEqual(savedChildFiles.first?.value.name, fileResponse.name)
+            XCTAssertEqual(savedChildFiles.first?.value.url, fileResponse.url)
             XCTAssertEqual(savedChildren.count, 1)
             XCTAssertEqual(savedChildren.first?.value.className, "Game2")
             XCTAssertEqual(savedChildren.first?.value.objectId, "nested")

@@ -1890,6 +1890,8 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let (savedChildren, savedChildFiles) = try await game.ensureDeepSave()
         XCTAssertEqual(savedChildFiles.count, 1)
+        XCTAssertEqual(savedChildFiles.first?.value.name, fileResponse.name)
+        XCTAssertEqual(savedChildFiles.first?.value.url, fileResponse.url)
         XCTAssertEqual(savedChildren.count, 1)
         XCTAssertEqual(savedChildren.first?.value.className, "Game2")
         XCTAssertEqual(savedChildren.first?.value.objectId, "nested")
