@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.2...main), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/main/documentation/parseswift)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Add ParseWeibo authentication ([#466](https://github.com/parse-community/Parse-Swift/pull/466)), thanks to [Moe Kanan](https://github.com/mohkg1017).
+
 ### 4.14.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.14.1...4.14.2), [Documentation](https://swiftpackageindex.com/parse-community/Parse-Swift/4.14.2/documentation/parseswift)
 
