@@ -824,6 +824,39 @@
 		7C995D2D2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */; };
 		7C995D2E2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */; };
 		7C995D2F2861FAE40077805A /* ParseSpotifyCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */; };
+		A55E13000000000000000012 /* ParseJanrainCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000003 /* ParseJanrainCapture.swift */; };
+		A55E13000000000000000013 /* ParseJanrainCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000003 /* ParseJanrainCapture.swift */; };
+		A55E13000000000000000014 /* ParseJanrainCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000003 /* ParseJanrainCapture.swift */; };
+		A55E13000000000000000015 /* ParseJanrainCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000003 /* ParseJanrainCapture.swift */; };
+		A55E13000000000000000016 /* ParseJanrainCapture+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000004 /* ParseJanrainCapture+async.swift */; };
+		A55E13000000000000000017 /* ParseJanrainCapture+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000004 /* ParseJanrainCapture+async.swift */; };
+		A55E13000000000000000018 /* ParseJanrainCapture+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000004 /* ParseJanrainCapture+async.swift */; };
+		A55E13000000000000000019 /* ParseJanrainCapture+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000004 /* ParseJanrainCapture+async.swift */; };
+		A55E13000000000000000020 /* ParseJanrainCapture+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000005 /* ParseJanrainCapture+combine.swift */; };
+		A55E13000000000000000021 /* ParseJanrainCapture+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000005 /* ParseJanrainCapture+combine.swift */; };
+		A55E13000000000000000022 /* ParseJanrainCapture+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000005 /* ParseJanrainCapture+combine.swift */; };
+		A55E13000000000000000023 /* ParseJanrainCapture+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000005 /* ParseJanrainCapture+combine.swift */; };
+		A55E13000000000000000024 /* ParseJanrainEngage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000006 /* ParseJanrainEngage.swift */; };
+		A55E13000000000000000025 /* ParseJanrainEngage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000006 /* ParseJanrainEngage.swift */; };
+		A55E13000000000000000026 /* ParseJanrainEngage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000006 /* ParseJanrainEngage.swift */; };
+		A55E13000000000000000027 /* ParseJanrainEngage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000006 /* ParseJanrainEngage.swift */; };
+		A55E13000000000000000028 /* ParseJanrainEngage+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000007 /* ParseJanrainEngage+async.swift */; };
+		A55E13000000000000000029 /* ParseJanrainEngage+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000007 /* ParseJanrainEngage+async.swift */; };
+		A55E13000000000000000030 /* ParseJanrainEngage+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000007 /* ParseJanrainEngage+async.swift */; };
+		A55E13000000000000000031 /* ParseJanrainEngage+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000007 /* ParseJanrainEngage+async.swift */; };
+		A55E13000000000000000032 /* ParseJanrainEngage+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000008 /* ParseJanrainEngage+combine.swift */; };
+		A55E13000000000000000033 /* ParseJanrainEngage+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000008 /* ParseJanrainEngage+combine.swift */; };
+		A55E13000000000000000034 /* ParseJanrainEngage+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000008 /* ParseJanrainEngage+combine.swift */; };
+		A55E13000000000000000035 /* ParseJanrainEngage+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000008 /* ParseJanrainEngage+combine.swift */; };
+		A55E13000000000000000036 /* ParseJanrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000009 /* ParseJanrainTests.swift */; };
+		A55E13000000000000000037 /* ParseJanrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000009 /* ParseJanrainTests.swift */; };
+		A55E13000000000000000038 /* ParseJanrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000009 /* ParseJanrainTests.swift */; };
+		A55E13000000000000000039 /* ParseJanrainAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000010 /* ParseJanrainAsyncTests.swift */; };
+		A55E13000000000000000040 /* ParseJanrainAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000010 /* ParseJanrainAsyncTests.swift */; };
+		A55E13000000000000000041 /* ParseJanrainAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000010 /* ParseJanrainAsyncTests.swift */; };
+		A55E13000000000000000042 /* ParseJanrainCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000011 /* ParseJanrainCombineTests.swift */; };
+		A55E13000000000000000043 /* ParseJanrainCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000011 /* ParseJanrainCombineTests.swift */; };
+		A55E13000000000000000044 /* ParseJanrainCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E13000000000000000011 /* ParseJanrainCombineTests.swift */; };
 		7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */; };
 		7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */; };
 		7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */; };
@@ -1393,6 +1426,15 @@
 		7C995D242861F8330077805A /* ParseSpotifyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseSpotifyTests.swift; sourceTree = "<group>"; };
 		7C995D282861FA0B0077805A /* ParseSpotifyAsyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseSpotifyAsyncTests.swift; sourceTree = "<group>"; };
 		7C995D2C2861FAE40077805A /* ParseSpotifyCombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseSpotifyCombineTests.swift; sourceTree = "<group>"; };
+		A55E13000000000000000003 /* ParseJanrainCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseJanrainCapture.swift; sourceTree = "<group>"; };
+		A55E13000000000000000004 /* ParseJanrainCapture+async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseJanrainCapture+async.swift"; sourceTree = "<group>"; };
+		A55E13000000000000000005 /* ParseJanrainCapture+combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseJanrainCapture+combine.swift"; sourceTree = "<group>"; };
+		A55E13000000000000000006 /* ParseJanrainEngage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseJanrainEngage.swift; sourceTree = "<group>"; };
+		A55E13000000000000000007 /* ParseJanrainEngage+async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseJanrainEngage+async.swift"; sourceTree = "<group>"; };
+		A55E13000000000000000008 /* ParseJanrainEngage+combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParseJanrainEngage+combine.swift"; sourceTree = "<group>"; };
+		A55E13000000000000000009 /* ParseJanrainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseJanrainTests.swift; sourceTree = "<group>"; };
+		A55E13000000000000000010 /* ParseJanrainAsyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseJanrainAsyncTests.swift; sourceTree = "<group>"; };
+		A55E13000000000000000011 /* ParseJanrainCombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseJanrainCombineTests.swift; sourceTree = "<group>"; };
 		7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodableTests.swift; sourceTree = "<group>"; };
 		7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableTests.swift; sourceTree = "<group>"; };
@@ -1662,6 +1704,9 @@
 				917BA4552703F75E00F8D747 /* ParseLDAPAsyncTests.swift */,
 				70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */,
 				70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */,
+				A55E13000000000000000010 /* ParseJanrainAsyncTests.swift */,
+				A55E13000000000000000011 /* ParseJanrainCombineTests.swift */,
+				A55E13000000000000000009 /* ParseJanrainTests.swift */,
 				70F03A612780EADD00E5AFB4 /* ParseLinkedInCombineTests.swift */,
 				70F03A652780EAFA00E5AFB4 /* ParseLinkedInTests.swift */,
 				917BA4412703EAC700F8D747 /* ParseLiveQueryAsyncTests.swift */,
@@ -1999,6 +2044,8 @@
 				70F03A212780B8D000E5AFB4 /* ParseGoogle */,
 				703B096226BF486C005A112F /* ParseLDAP */,
 				70F03A322780C7EB00E5AFB4 /* ParseLinkedIn */,
+				A55E13000000000000000001 /* ParseJanrainCapture */,
+				A55E13000000000000000002 /* ParseJanrainEngage */,
 				7C55F9E52860CD48002A352D /* ParseSpotify */,
 				703B096326BF487E005A112F /* ParseTwitter */,
 			);
@@ -2079,6 +2126,26 @@
 				7C55F9F02860CEEF002A352D /* ParseSpotify+combine.swift */,
 			);
 			path = ParseSpotify;
+			sourceTree = "<group>";
+		};
+		A55E13000000000000000001 /* ParseJanrainCapture */ = {
+			isa = PBXGroup;
+			children = (
+				A55E13000000000000000003 /* ParseJanrainCapture.swift */,
+				A55E13000000000000000004 /* ParseJanrainCapture+async.swift */,
+				A55E13000000000000000005 /* ParseJanrainCapture+combine.swift */,
+			);
+			path = ParseJanrainCapture;
+			sourceTree = "<group>";
+		};
+		A55E13000000000000000002 /* ParseJanrainEngage */ = {
+			isa = PBXGroup;
+			children = (
+				A55E13000000000000000006 /* ParseJanrainEngage.swift */,
+				A55E13000000000000000007 /* ParseJanrainEngage+async.swift */,
+				A55E13000000000000000008 /* ParseJanrainEngage+combine.swift */,
+			);
+			path = ParseJanrainEngage;
 			sourceTree = "<group>";
 		};
 		7FFF552A2217E729007C3B4E /* AnyCodableTests */ = {
@@ -2873,6 +2940,12 @@
 				7044C18325C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3225C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091626BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
+				A55E13000000000000000012 /* ParseJanrainCapture.swift in Sources */,
+				A55E13000000000000000016 /* ParseJanrainCapture+async.swift in Sources */,
+				A55E13000000000000000020 /* ParseJanrainCapture+combine.swift in Sources */,
+				A55E13000000000000000024 /* ParseJanrainEngage.swift in Sources */,
+				A55E13000000000000000028 /* ParseJanrainEngage+async.swift in Sources */,
+				A55E13000000000000000032 /* ParseJanrainEngage+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2997,6 +3070,9 @@
 				917BA44A2703F10400F8D747 /* ParseAppleAsyncTests.swift in Sources */,
 				705025A5284407C4008D6624 /* ParseSchemaTests.swift in Sources */,
 				708CADCF2872263D0066C279 /* ParseKeychainAccessGroupTests.swift in Sources */,
+				A55E13000000000000000036 /* ParseJanrainTests.swift in Sources */,
+				A55E13000000000000000039 /* ParseJanrainAsyncTests.swift in Sources */,
+				A55E13000000000000000042 /* ParseJanrainCombineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3187,6 +3263,12 @@
 				7044C18425C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3325C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091726BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
+				A55E13000000000000000013 /* ParseJanrainCapture.swift in Sources */,
+				A55E13000000000000000017 /* ParseJanrainCapture+async.swift in Sources */,
+				A55E13000000000000000021 /* ParseJanrainCapture+combine.swift in Sources */,
+				A55E13000000000000000025 /* ParseJanrainEngage.swift in Sources */,
+				A55E13000000000000000029 /* ParseJanrainEngage+async.swift in Sources */,
+				A55E13000000000000000033 /* ParseJanrainEngage+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3320,6 +3402,9 @@
 				917BA44C2703F10400F8D747 /* ParseAppleAsyncTests.swift in Sources */,
 				705025A7284407C4008D6624 /* ParseSchemaTests.swift in Sources */,
 				708CADD12872263D0066C279 /* ParseKeychainAccessGroupTests.swift in Sources */,
+				A55E13000000000000000037 /* ParseJanrainTests.swift in Sources */,
+				A55E13000000000000000040 /* ParseJanrainAsyncTests.swift in Sources */,
+				A55E13000000000000000043 /* ParseJanrainCombineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3444,6 +3529,9 @@
 				917BA44B2703F10400F8D747 /* ParseAppleAsyncTests.swift in Sources */,
 				705025A6284407C4008D6624 /* ParseSchemaTests.swift in Sources */,
 				708CADD02872263D0066C279 /* ParseKeychainAccessGroupTests.swift in Sources */,
+				A55E13000000000000000038 /* ParseJanrainTests.swift in Sources */,
+				A55E13000000000000000041 /* ParseJanrainAsyncTests.swift in Sources */,
+				A55E13000000000000000044 /* ParseJanrainCombineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3634,6 +3722,12 @@
 				7044C18625C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3525C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091926BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
+				A55E13000000000000000014 /* ParseJanrainCapture.swift in Sources */,
+				A55E13000000000000000018 /* ParseJanrainCapture+async.swift in Sources */,
+				A55E13000000000000000022 /* ParseJanrainCapture+combine.swift in Sources */,
+				A55E13000000000000000026 /* ParseJanrainEngage.swift in Sources */,
+				A55E13000000000000000030 /* ParseJanrainEngage+async.swift in Sources */,
+				A55E13000000000000000034 /* ParseJanrainEngage+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3824,6 +3918,12 @@
 				7044C18525C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3425C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091826BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
+				A55E13000000000000000015 /* ParseJanrainCapture.swift in Sources */,
+				A55E13000000000000000019 /* ParseJanrainCapture+async.swift in Sources */,
+				A55E13000000000000000023 /* ParseJanrainCapture+combine.swift in Sources */,
+				A55E13000000000000000027 /* ParseJanrainEngage.swift in Sources */,
+				A55E13000000000000000031 /* ParseJanrainEngage+async.swift in Sources */,
+				A55E13000000000000000035 /* ParseJanrainEngage+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
