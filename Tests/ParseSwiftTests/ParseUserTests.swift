@@ -1330,6 +1330,54 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
     #endif
 
+    func testSaveAsyncUsesCallbackQueueOnSuccess() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        user.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.ACL = nil
+
+        var userOnServer = user
+        userOnServer.updatedAt = Date()
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let callbackQueue = DispatchQueue(label: "com.parse.tests.userSaveCallback")
+        let queueKey = DispatchSpecificKey<String>()
+        let queueValue = "user-save-callback"
+        callbackQueue.setSpecific(key: queueKey, value: queueValue)
+        let expectation1 = XCTestExpectation(description: "Save user on callback queue")
+
+        user.save(callbackQueue: callbackQueue) { result in
+            XCTAssertEqual(DispatchQueue.getSpecific(key: queueKey), queueValue)
+            switch result {
+            case .success(let saved):
+                guard let savedUpdatedAt = saved.updatedAt,
+                      let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(saved.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testSignupCommandWithBody() throws {
         let body = SignupLoginBody(username: "test", password: "user")
         let command = try User.signupCommand(body: body)

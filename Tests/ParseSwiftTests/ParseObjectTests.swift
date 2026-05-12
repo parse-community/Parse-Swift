@@ -1287,6 +1287,47 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.saveAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
+    func testSaveAsyncUsesCallbackQueueOnSuccess() {
+        let score = GameScore(points: 10)
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should have encoded/decoded: Error: \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let callbackQueue = DispatchQueue(label: "com.parse.tests.objectSaveCallback")
+        let queueKey = DispatchSpecificKey<String>()
+        let queueValue = "object-save-callback"
+        callbackQueue.setSpecific(key: queueKey, value: queueValue)
+        let expectation1 = XCTestExpectation(description: "Save object on callback queue")
+
+        score.save(callbackQueue: callbackQueue) { result in
+            XCTAssertEqual(DispatchQueue.getSpecific(key: queueKey), queueValue)
+            switch result {
+            case .success(let saved):
+                XCTAssertEqual(saved.objectId, scoreOnServer.objectId)
+                XCTAssertEqual(saved.createdAt, scoreOnServer.createdAt)
+                XCTAssertNil(saved.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func updateAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
