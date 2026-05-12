@@ -713,6 +713,24 @@
 		70F03A2E2780BE2C00E5AFB4 /* ParseGoogle+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A242780BDF700E5AFB4 /* ParseGoogle+async.swift */; };
 		70F03A2F2780BE2C00E5AFB4 /* ParseGoogle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A222780BDE200E5AFB4 /* ParseGoogle.swift */; };
 		70F03A302780BE2C00E5AFB4 /* ParseGoogle+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A262780BE0F00E5AFB4 /* ParseGoogle+combine.swift */; };
+		A1B2C3D40000000000000007 /* ParseQQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000002 /* ParseQQ.swift */; };
+		A1B2C3D40000000000000008 /* ParseQQ+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000003 /* ParseQQ+async.swift */; };
+		A1B2C3D40000000000000009 /* ParseQQ+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000004 /* ParseQQ+combine.swift */; };
+		A1B2C3D4000000000000000A /* ParseQQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000002 /* ParseQQ.swift */; };
+		A1B2C3D4000000000000000B /* ParseQQ+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000003 /* ParseQQ+async.swift */; };
+		A1B2C3D4000000000000000C /* ParseQQ+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000004 /* ParseQQ+combine.swift */; };
+		A1B2C3D4000000000000000D /* ParseQQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000002 /* ParseQQ.swift */; };
+		A1B2C3D4000000000000000E /* ParseQQ+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000003 /* ParseQQ+async.swift */; };
+		A1B2C3D4000000000000000F /* ParseQQ+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000004 /* ParseQQ+combine.swift */; };
+		A1B2C3D40000000000000010 /* ParseQQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000002 /* ParseQQ.swift */; };
+		A1B2C3D40000000000000011 /* ParseQQ+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000003 /* ParseQQ+async.swift */; };
+		A1B2C3D40000000000000012 /* ParseQQ+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000004 /* ParseQQ+combine.swift */; };
+		A1B2C3D40000000000000013 /* ParseQQTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000005 /* ParseQQTests.swift */; };
+		A1B2C3D40000000000000014 /* ParseQQTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000005 /* ParseQQTests.swift */; };
+		A1B2C3D40000000000000015 /* ParseQQTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000005 /* ParseQQTests.swift */; };
+		A1B2C3D40000000000000016 /* ParseQQCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000006 /* ParseQQCombineTests.swift */; };
+		A1B2C3D40000000000000017 /* ParseQQCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000006 /* ParseQQCombineTests.swift */; };
+		A1B2C3D40000000000000018 /* ParseQQCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000006 /* ParseQQCombineTests.swift */; };
 		70F03A342780CA4300E5AFB4 /* ParseGitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A332780CA4300E5AFB4 /* ParseGitHub.swift */; };
 		70F03A352780CA4D00E5AFB4 /* ParseGitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A332780CA4300E5AFB4 /* ParseGitHub.swift */; };
 		70F03A362780CA4D00E5AFB4 /* ParseGitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A332780CA4300E5AFB4 /* ParseGitHub.swift */; };
@@ -1363,6 +1381,9 @@
 		70F03A222780BDE200E5AFB4 /* ParseGoogle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGoogle.swift; sourceTree = "<group>"; };
 		70F03A242780BDF700E5AFB4 /* ParseGoogle+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseGoogle+async.swift"; sourceTree = "<group>"; };
 		70F03A262780BE0F00E5AFB4 /* ParseGoogle+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseGoogle+combine.swift"; sourceTree = "<group>"; };
+		A1B2C3D40000000000000002 /* ParseQQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseQQ.swift; sourceTree = "<group>"; };
+		A1B2C3D40000000000000003 /* ParseQQ+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseQQ+async.swift"; sourceTree = "<group>"; };
+		A1B2C3D40000000000000004 /* ParseQQ+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseQQ+combine.swift"; sourceTree = "<group>"; };
 		70F03A332780CA4300E5AFB4 /* ParseGitHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGitHub.swift; sourceTree = "<group>"; };
 		70F03A382780CA6F00E5AFB4 /* ParseGitHub+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseGitHub+async.swift"; sourceTree = "<group>"; };
 		70F03A3D2780CA8F00E5AFB4 /* ParseGitHub+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseGitHub+combine.swift"; sourceTree = "<group>"; };
@@ -1371,6 +1392,8 @@
 		70F03A4C2780D28A00E5AFB4 /* ParseLinkedIn+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseLinkedIn+combine.swift"; sourceTree = "<group>"; };
 		70F03A512780DA9200E5AFB4 /* ParseGoogleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGoogleTests.swift; sourceTree = "<group>"; };
 		70F03A552780E8E300E5AFB4 /* ParseGoogleCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGoogleCombineTests.swift; sourceTree = "<group>"; };
+		A1B2C3D40000000000000005 /* ParseQQTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseQQTests.swift; sourceTree = "<group>"; };
+		A1B2C3D40000000000000006 /* ParseQQCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseQQCombineTests.swift; sourceTree = "<group>"; };
 		70F03A592780EAB000E5AFB4 /* ParseGitHubCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGitHubCombineTests.swift; sourceTree = "<group>"; };
 		70F03A5D2780EAC700E5AFB4 /* ParseGitHubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGitHubTests.swift; sourceTree = "<group>"; };
 		70F03A612780EADD00E5AFB4 /* ParseLinkedInCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLinkedInCombineTests.swift; sourceTree = "<group>"; };
@@ -1640,6 +1663,8 @@
 				70F03A5D2780EAC700E5AFB4 /* ParseGitHubTests.swift */,
 				70F03A552780E8E300E5AFB4 /* ParseGoogleCombineTests.swift */,
 				70F03A512780DA9200E5AFB4 /* ParseGoogleTests.swift */,
+				A1B2C3D40000000000000006 /* ParseQQCombineTests.swift */,
+				A1B2C3D40000000000000005 /* ParseQQTests.swift */,
 				917BA4392703E6D800F8D747 /* ParseHealthAsyncTests.swift */,
 				70F79A662639DE9700731C46 /* ParseHealthCombineTests.swift */,
 				70F79A4F2639DE6900731C46 /* ParseHealthTests.swift */,
@@ -1997,6 +2022,7 @@
 				703B096426BF4896005A112F /* ParseFacebook */,
 				70F03A312780C7DD00E5AFB4 /* ParseGithub */,
 				70F03A212780B8D000E5AFB4 /* ParseGoogle */,
+				A1B2C3D40000000000000001 /* ParseQQ */,
 				703B096226BF486C005A112F /* ParseLDAP */,
 				70F03A322780C7EB00E5AFB4 /* ParseLinkedIn */,
 				7C55F9E52860CD48002A352D /* ParseSpotify */,
@@ -2023,6 +2049,16 @@
 				70F03A262780BE0F00E5AFB4 /* ParseGoogle+combine.swift */,
 			);
 			path = ParseGoogle;
+			sourceTree = "<group>";
+		};
+		A1B2C3D40000000000000001 /* ParseQQ */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D40000000000000002 /* ParseQQ.swift */,
+				A1B2C3D40000000000000003 /* ParseQQ+async.swift */,
+				A1B2C3D40000000000000004 /* ParseQQ+combine.swift */,
+			);
+			path = ParseQQ;
 			sourceTree = "<group>";
 		};
 		70F03A312780C7DD00E5AFB4 /* ParseGithub */ = {
@@ -2735,6 +2771,9 @@
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FCF2690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				70F03A232780BDE200E5AFB4 /* ParseGoogle.swift in Sources */,
+				A1B2C3D40000000000000007 /* ParseQQ.swift in Sources */,
+				A1B2C3D40000000000000008 /* ParseQQ+async.swift in Sources */,
+				A1B2C3D40000000000000009 /* ParseQQ+combine.swift in Sources */,
 				705025E628514F36008D6624 /* ParsePushPayloadAny.swift in Sources */,
 				709A148228395ED100BF85E5 /* ParseSchema+async.swift in Sources */,
 				705025D1284CFCDE008D6624 /* ParsePushAppleAlert.swift in Sources */,
@@ -2927,6 +2966,7 @@
 				70C5504625B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */,
 				70F03A562780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
+				A1B2C3D40000000000000016 /* ParseQQCombineTests.swift in Sources */,
 				7C4C0947285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
 				917BA4422703EAC700F8D747 /* ParseLiveQueryAsyncTests.swift in Sources */,
 				7C995D252861F8330077805A /* ParseSpotifyTests.swift in Sources */,
@@ -2942,6 +2982,7 @@
 				705025992842FD3B008D6624 /* ParseCLPTests.swift in Sources */,
 				705A99F9259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
 				70F03A522780DA9200E5AFB4 /* ParseGoogleTests.swift in Sources */,
+				A1B2C3D40000000000000013 /* ParseQQTests.swift in Sources */,
 				7044C20625C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508525B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				7023800F2747FCCD00EFC443 /* ExtensionsTests.swift in Sources */,
@@ -3143,6 +3184,9 @@
 				70170A4A2656E2FE0070C905 /* ParseAnalytics+combine.swift in Sources */,
 				703B092C26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				70F03A292780BE2900E5AFB4 /* ParseGoogle.swift in Sources */,
+				A1B2C3D4000000000000000A /* ParseQQ.swift in Sources */,
+				A1B2C3D4000000000000000B /* ParseQQ+async.swift in Sources */,
+				A1B2C3D4000000000000000C /* ParseQQ+combine.swift in Sources */,
 				70CE0AB8285A83B100DAEA86 /* ParseHookable.swift in Sources */,
 				F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */,
 				7045769E26BD934000F86F71 /* ParseFile+async.swift in Sources */,
@@ -3250,6 +3294,7 @@
 				70C5504825B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				709B98572556ECAA00507778 /* ParseACLTests.swift in Sources */,
 				70F03A582780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
+				A1B2C3D40000000000000018 /* ParseQQCombineTests.swift in Sources */,
 				7C4C0949285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
 				917BA4442703EAC700F8D747 /* ParseLiveQueryAsyncTests.swift in Sources */,
 				7C995D272861F8330077805A /* ParseSpotifyTests.swift in Sources */,
@@ -3265,6 +3310,7 @@
 				7050259B2842FD3B008D6624 /* ParseCLPTests.swift in Sources */,
 				705A99FB259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
 				70F03A542780DA9200E5AFB4 /* ParseGoogleTests.swift in Sources */,
+				A1B2C3D40000000000000015 /* ParseQQTests.swift in Sources */,
 				7044C20825C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508725B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				702380112747FCCD00EFC443 /* ExtensionsTests.swift in Sources */,
@@ -3374,6 +3420,7 @@
 				70C5504725B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70F2E2BC254F283000B2EA5C /* ParseObjectTests.swift in Sources */,
 				70F03A572780E8E300E5AFB4 /* ParseGoogleCombineTests.swift in Sources */,
+				A1B2C3D40000000000000017 /* ParseQQCombineTests.swift in Sources */,
 				7C4C0948285EA60E00F202C6 /* ParseInstagramAsyncTests.swift in Sources */,
 				917BA4432703EAC700F8D747 /* ParseLiveQueryAsyncTests.swift in Sources */,
 				7C995D262861F8330077805A /* ParseSpotifyTests.swift in Sources */,
@@ -3389,6 +3436,7 @@
 				7050259A2842FD3B008D6624 /* ParseCLPTests.swift in Sources */,
 				705A99FA259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
 				70F03A532780DA9200E5AFB4 /* ParseGoogleTests.swift in Sources */,
+				A1B2C3D40000000000000014 /* ParseQQTests.swift in Sources */,
 				7044C20725C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508625B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				702380102747FCCD00EFC443 /* ExtensionsTests.swift in Sources */,
@@ -3590,6 +3638,9 @@
 				70170A4C2656E2FE0070C905 /* ParseAnalytics+combine.swift in Sources */,
 				703B092E26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				70F03A2F2780BE2C00E5AFB4 /* ParseGoogle.swift in Sources */,
+				A1B2C3D4000000000000000D /* ParseQQ.swift in Sources */,
+				A1B2C3D4000000000000000E /* ParseQQ+async.swift in Sources */,
+				A1B2C3D4000000000000000F /* ParseQQ+combine.swift in Sources */,
 				70CE0ABA285A83B100DAEA86 /* ParseHookable.swift in Sources */,
 				F97B460124D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				704576A026BD934000F86F71 /* ParseFile+async.swift in Sources */,
@@ -3780,6 +3831,9 @@
 				70170A4B2656E2FE0070C905 /* ParseAnalytics+combine.swift in Sources */,
 				703B092D26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				70F03A2C2780BE2B00E5AFB4 /* ParseGoogle.swift in Sources */,
+				A1B2C3D40000000000000010 /* ParseQQ.swift in Sources */,
+				A1B2C3D40000000000000011 /* ParseQQ+async.swift in Sources */,
+				A1B2C3D40000000000000012 /* ParseQQ+combine.swift in Sources */,
 				70CE0AB9285A83B100DAEA86 /* ParseHookable.swift in Sources */,
 				F97B460024D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				7045769F26BD934000F86F71 /* ParseFile+async.swift in Sources */,
