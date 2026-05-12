@@ -1213,7 +1213,9 @@ extension ParseObject {
                                                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                                                options: options,
                                                callbackQueue: callbackQueue)
-                completion(.success(object))
+                callbackQueue.async {
+                    completion(.success(object))
+                }
             } catch {
                 let defaultError = ParseError(code: .unknownError,
                                               message: error.localizedDescription)

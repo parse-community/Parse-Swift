@@ -720,6 +720,63 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         self.updateAsync(installation: installation, installationOnServer: installationOnServer, callbackQueue: .main)
     }
 
+    func testSaveAsyncUsesCallbackQueueOnSuccess() {
+        var installation = Installation()
+        installation.objectId = testInstallationObjectId
+        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.ACL = nil
+        installation.installationId = "hello"
+
+        var installationOnServer = installation
+        installationOnServer.createdAt = nil
+        installationOnServer.updatedAt = Date()
+        let encoded: Data!
+        do {
+            let encodedOriginal = try ParseCoding.jsonEncoder().encode(installation)
+            //Get dates in correct format from ParseDecoding strategy
+            installation = try installation.getDecoder().decode(Installation.self, from: encodedOriginal)
+
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let callbackQueue = DispatchQueue(label: "com.parse.tests.installationSaveCallback")
+        let queueKey = DispatchSpecificKey<String>()
+        let queueValue = "installation-save-callback"
+        callbackQueue.setSpecific(key: queueKey, value: queueValue)
+        let expectation1 = XCTestExpectation(description: "Save installation on callback queue")
+
+        installation.save(callbackQueue: callbackQueue) { result in
+            XCTAssertEqual(DispatchQueue.getSpecific(key: queueKey), queueValue)
+            switch result {
+            case .success(let saved):
+                XCTAssertTrue(saved.hasSameObjectId(as: installation))
+                XCTAssertTrue(saved.hasSameInstallationId(as: installation))
+                guard let savedUpdatedAt = saved.updatedAt,
+                      let originalUpdatedAt = installation.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(saved.ACL)
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     // swiftlint:disable:next function_body_length
     func saveCurrentAsync(installation: Installation,
                           installationOnServer: Installation,
