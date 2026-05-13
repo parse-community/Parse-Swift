@@ -1007,6 +1007,52 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testSaveAsyncCallbackQueueOnSuccess() throws {
+        XCTAssertNil(User.current?.objectId)
+        try userSignUp()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        var userOnServer = user
+        userOnServer.createdAt = nil
+        userOnServer.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let callbackKey = DispatchSpecificKey<String>()
+        let callbackValue = "parse-user-save-success"
+        let callbackQueue = DispatchQueue(label: "com.parse.tests.user.save.success")
+        callbackQueue.setSpecific(key: callbackKey, value: callbackValue)
+
+        let expectation1 = XCTestExpectation(description: "Save user on callbackQueue")
+        user.save(options: [], callbackQueue: callbackQueue) { result in
+            XCTAssertEqual(DispatchQueue.getSpecific(key: callbackKey), callbackValue)
+            switch result {
+
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: userOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testSaveAsyncAndUpdateCurrentUserModifiedEmail() throws { // swiftlint:disable:this function_body_length
         XCTAssertNil(User.current?.objectId)
         try userSignUp()

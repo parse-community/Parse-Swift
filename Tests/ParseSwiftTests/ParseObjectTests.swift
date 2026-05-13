@@ -1287,6 +1287,46 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.saveAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
+    func testSaveAsyncCallbackQueueOnSuccess() {
+        let score = GameScore(points: 10)
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should have encoded/decoded: Error: \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let callbackKey = DispatchSpecificKey<String>()
+        let callbackValue = "parse-object-save-success"
+        let callbackQueue = DispatchQueue(label: "com.parse.tests.object.save.success")
+        callbackQueue.setSpecific(key: callbackKey, value: callbackValue)
+
+        let expectation1 = XCTestExpectation(description: "Save object on callbackQueue")
+        score.save(options: [], callbackQueue: callbackQueue) { result in
+            XCTAssertEqual(DispatchQueue.getSpecific(key: callbackKey), callbackValue)
+            switch result {
+
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func updateAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
