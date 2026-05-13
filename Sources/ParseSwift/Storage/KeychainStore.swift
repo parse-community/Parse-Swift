@@ -395,6 +395,17 @@ extension KeychainStore {
         }
     }
 
+    func unarchivedObjectiveCObject(forKey key: String) -> Any? {
+        guard let data = synchronizationQueue.sync(execute: { () -> Data? in
+            return self.data(forKey: key,
+                             useObjectiveCKeychain: true,
+                             accessGroup: Parse.configuration.keychainAccessGroup)
+        }) else {
+            return nil
+        }
+        return try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)
+    }
+
     func removeObjectObjectiveC(forKey key: String) -> Bool {
         return synchronizationQueue.sync {
             return removeObject(forKey: key,

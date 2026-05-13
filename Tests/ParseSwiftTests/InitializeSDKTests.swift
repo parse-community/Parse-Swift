@@ -36,6 +36,13 @@ class InitializeSDKTests: XCTestCase {
         var winningNumber: Int?
     }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    struct ObjectiveCInstallationPayload<T: ParseInstallation>: Encodable {
+        let classname = T.className
+        let data: T
+    }
+    #endif
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -53,10 +60,56 @@ class InitializeSDKTests: XCTestCase {
         try KeychainStore.shared.deleteAll()
         try KeychainStore.objectiveC?.deleteAllObjectiveC()
         try KeychainStore.old.deleteAll()
+        try removeObjectiveCInstallationFiles()
         URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
         #endif
         try ParseStorage.shared.deleteAll()
     }
+
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    func objectiveCParseDirectoryURL() -> URL? {
+        #if os(macOS)
+        guard let directory = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
+                                                                  .userDomainMask,
+                                                                  true).first else {
+            return nil
+        }
+        return URL(fileURLWithPath: directory, isDirectory: true)
+            .appendingPathComponent("Parse", isDirectory: true)
+            .appendingPathComponent(Parse.configuration.applicationId, isDirectory: true)
+        #else
+        return URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+            .appendingPathComponent("Library", isDirectory: true)
+            .appendingPathComponent("Private Documents", isDirectory: true)
+            .appendingPathComponent("Parse", isDirectory: true)
+        #endif
+    }
+
+    func writeObjectiveCInstallation(_ installation: Installation) throws {
+        guard let directory = objectiveCParseDirectoryURL() else {
+            XCTFail("Should create Objective-C Parse directory URL")
+            return
+        }
+        try FileManager.default.createDirectory(at: directory,
+                                                withIntermediateDirectories: true,
+                                                attributes: nil)
+        let payload = ObjectiveCInstallationPayload(data: installation)
+        let data = try ParseCoding.jsonEncoder().encode(payload)
+        try data.write(to: directory.appendingPathComponent("currentInstallation"))
+        if let installationId = installation.installationId {
+            let installationIdData = try XCTUnwrap(installationId.data(using: .utf8))
+            try installationIdData.write(to: directory.appendingPathComponent("installationId"))
+        }
+    }
+
+    func removeObjectiveCInstallationFiles() throws {
+        guard let directory = objectiveCParseDirectoryURL() else {
+            return
+        }
+        try? FileManager.default.removeItem(at: directory.appendingPathComponent("currentInstallation"))
+        try? FileManager.default.removeItem(at: directory.appendingPathComponent("installationId"))
+    }
+    #endif
 
     func testDeprecatedInitializers() {
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -594,6 +647,53 @@ class InitializeSDKTests: XCTestCase {
         }
         XCTAssertEqual(installation.installationId, objcInstallationId)
         XCTAssertEqual(Installation.currentContainer.installationId, objcInstallationId)
+    }
+
+    func testMigrateObjcSDKUsesCurrentInstallationObject() throws {
+        let objcInstallationId = "helloWorld"
+        let objcInstallationObjectId = "existingInstallation"
+        var objcInstallation = Installation()
+        objcInstallation.installationId = objcInstallationId
+        objcInstallation.objectId = objcInstallationObjectId
+        objcInstallation.channels = ["global"]
+        objcInstallation.deviceToken = "deviceToken"
+        objcInstallation.appVersion = "objcAppVersion"
+        objcInstallation.localeIdentifier = "fr-FR"
+        objcInstallation.timeZone = "Europe/Paris"
+        objcInstallation.createdAt = Date(timeIntervalSince1970: 10)
+        objcInstallation.updatedAt = Date(timeIntervalSince1970: 20)
+        try writeObjectiveCInstallation(objcInstallation)
+
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              migratingFromObjcSDK: true,
+                              testing: true)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertEqual(installation.objectId, objcInstallationObjectId)
+        XCTAssertEqual(installation.installationId, objcInstallationId)
+        XCTAssertEqual(installation.channels, objcInstallation.channels)
+        XCTAssertEqual(installation.deviceToken, objcInstallation.deviceToken)
+        XCTAssertEqual(installation.appVersion, objcInstallation.appVersion)
+        XCTAssertEqual(installation.localeIdentifier, objcInstallation.localeIdentifier)
+        XCTAssertEqual(installation.timeZone, objcInstallation.timeZone)
+        XCTAssertEqual(Installation.currentContainer.installationId, objcInstallationId)
+
+        guard let keychainInstallation: CurrentInstallationContainer<Installation>
+            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+            XCTFail("Should get object from Keychain")
+            return
+        }
+        XCTAssertEqual(keychainInstallation.currentInstallation?.objectId, objcInstallationObjectId)
+        XCTAssertEqual(keychainInstallation.currentInstallation?.installationId, objcInstallationId)
     }
 
     #if !os(macOS)
