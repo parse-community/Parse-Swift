@@ -1470,6 +1470,7 @@ extension ParseObject {
                                 savableObjects.append(parseObject)
                             } else {
                                 //Else this ParseObject needs to wait until its children are saved
+                                // unsavedChildren should only contain ParseEncodable ParseObjects or ParseFiles.
                                 waitingObjectInfo.unsavedChildren.forEach {
                                     if let parseEncodable = $0 as? ParseEncodable {
                                         nextBatch.append(parseEncodable)
