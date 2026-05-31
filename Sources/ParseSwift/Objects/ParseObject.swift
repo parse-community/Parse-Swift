@@ -1452,7 +1452,10 @@ extension ParseObject {
 
                         if let parseFile = parseType as? ParseFile {
                             // ParseFiles can be saved now
-                            savableFiles.append(parseFile)
+                            if filesFinishedSaving[parseFile.id] == nil
+                                && !savableFiles.contains(where: { $0.id == parseFile.id }) {
+                                savableFiles.append(parseFile)
+                            }
                         } else if let parseObject = parseType as? Objectable {
                             // This is a ParseObject
                             let waitingObjectInfo = try ParseCoding
@@ -1466,7 +1469,13 @@ extension ParseObject {
                                 //If this ParseObject has no additional children, it can be saved now
                                 savableObjects.append(parseObject)
                             } else {
-                                //Else this ParseObject needs to wait until it is children are saved
+                                //Else this ParseObject needs to wait until its children are saved
+                                // unsavedChildren should only contain ParseEncodable ParseObjects or ParseFiles.
+                                waitingObjectInfo.unsavedChildren.forEach {
+                                    if let parseEncodable = $0 as? ParseEncodable {
+                                        nextBatch.append(parseEncodable)
+                                    }
+                                }
                                 nextBatch.append(parseObject)
                             }
                         }
